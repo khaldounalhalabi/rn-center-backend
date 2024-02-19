@@ -6,8 +6,8 @@ use App\Enums\BloodGroupEnum;
 use App\Enums\GenderEnum;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Str;
 
 class UserFactory extends Factory
 {
@@ -28,6 +28,22 @@ class UserFactory extends Factory
             'image' => $this->faker->word(),
             'email_verified_at' => Carbon::now(),
             'password' => '123456789',
+            'is_blocked' => false,
+            'is_archived' => false
         ];
+    }
+
+    public function allRelations(): UserFactory
+    {
+        return $this->withMedia();
+    }
+
+    public function withMedia(): UserFactory
+    {
+        return $this->afterCreating(function (User $user) {
+            if (app()->environment('testing')) {
+                $user->addMedia(UploadedFile::fake()->image('fake-image.png'));
+            } else$user->addMedia(fake()->image);
+        });
     }
 }

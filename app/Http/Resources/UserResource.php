@@ -22,9 +22,9 @@ class UserResource extends BaseResource
             'blood_group' => $this->blood_group,
             'is_blocked' => $this->is_blocked,
             'tags' => $this->tags,
-            'image' => $this->image,
             'fcm_token' => $this->fcm_token,
             'is_archived' => $this->is_archived,
+            'image' => new MediaResource($this->whenLoaded('media', $this->getFirstMedia())),
         ];
     }
 }

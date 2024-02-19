@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Contracts;
 
+use App\Enums\MediaTypeEnum;
 use App\Traits\FileHandler;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -75,6 +76,11 @@ abstract class BaseRepository implements IBaseRepository
         return $this->globalQuery($relationships)->get();
     }
 
+    /**
+     * @template T of Model<T>
+     * @param array $relations
+     * @return Builder<T>
+     */
     public function globalQuery(array $relations = []): Builder
     {
         $query = $this->model->with($relations);
@@ -89,9 +95,9 @@ abstract class BaseRepository implements IBaseRepository
     }
 
     /**
-     * @noinspection PhpUndefinedMethodInspection
+     * @param $query
+     * @return mixed
      */
-
     private function addSearch($query): mixed
     {
         if (request()->has('search')) {
@@ -119,10 +125,6 @@ abstract class BaseRepository implements IBaseRepository
 
         return $query;
     }
-
-    /**
-     * @noinspection PhpUndefinedMethodInspection
-     */
 
     /**
      * this function implement already defined filters in the model
@@ -168,6 +170,10 @@ abstract class BaseRepository implements IBaseRepository
         return $query;
     }
 
+    /**
+     * @param $query
+     * @return mixed
+     */
     private function orderQueryBy($query): mixed
     {
         $sortColumns = request()->sort_col;
@@ -204,6 +210,10 @@ abstract class BaseRepository implements IBaseRepository
         return null;
     }
 
+    /**
+     * @param $data
+     * @return array
+     */
     #[ArrayShape(['currentPage' => 'int', 'from' => 'int', 'to' => 'int', 'total' => 'int', 'per_page' => 'int'])]
     public function formatPaginateData($data): array
     {
@@ -218,68 +228,87 @@ abstract class BaseRepository implements IBaseRepository
         ];
     }
 
+    /**
+     * @template T of Model<T>
+     * @param array $data
+     * @param array $relationships
+     * @return T|null
+     */
     public function create(array $data, array $relationships = []): mixed
     {
-        $received_data = $data;
-        $fileCols = $this->fileColName($data);
+        $receivedData = $data;
+        $colNames = $this->fileColName($data);
 
-        foreach ($fileCols as $col) {
-            $path = $this->storeUpdateFileIfExist($col, $data);
-            if ($path != '') {
-                $data["$col"] = $path;
+        if (count($colNames)) {
+            foreach ($colNames as $colName) {
+                unset($receivedData[$colName]);
             }
         }
 
-        $result = $this->model->create($data);
+        $result = $this->model->create($receivedData);
+
+        if (count($colNames)) {
+            $this->handleFiles($result, $data, $colNames);
+        }
+
         $result->refresh();
 
         return $result->load($relationships);
     }
 
-    private function fileColName($data): array
+    /**
+     * @param Model $object
+     * @param array $data
+     * @param array $fileKeys
+     * @return void
+     */
+    public function handleFiles(Model $object, array $data, array $fileKeys): void
     {
-        $cols = [];
-        foreach ($data as $key => $value) {
-            if (in_array($key, $this->fileColumnsName)) {
-                $cols[] = $key;
-            }
-        }
+        foreach ($fileKeys as $fileKey) {
+            if ($this->fileColumnsName[$fileKey]['type'] == MediaTypeEnum::MULTIPLE->value) {
+                foreach ($data[$fileKey] as $file) {
+                    $object->addMedia($file)
+                        ->toMediaCollection($this->fileColumnsName[$fileKey]['collection'] ?? 'default');
+                }
 
-        return $cols;
-    }
+            } elseif ($this->fileColumnsName[$fileKey]['type'] == MediaTypeEnum::SINGLE->value || $this->fileColumnsName[$fileKey]['type'] == null) {
 
-    private function storeUpdateFileIfExist(string $col_name, &$data, bool $is_store = true, $item = null): string
-    {
-        $image = '';
-        if ($col_name != '') {
-            if (array_key_exists($col_name, $data)) {
-                $this->fileSystem = new Filesystem();
-                if ($is_store) {
-                    $this->makeDirectory(storage_path('app/public/' . $this->model->getTable()));
-                    $image = $this->storeFile($data["{$col_name}"], $this->model->getTable());
-                } else {
-                    if ($item->{"{$col_name}"}) {
-                        $image = $this->updateFile($data["{$col_name}"], $item->{"{$col_name}"}, $this->model->getTable());
-                    } else {
-                        $image = $this->storeFile($data["{$col_name}"], $this->model->getTable());
+                $oldMedia = $object->getMedia();
+
+                if (count($oldMedia)) {
+                    foreach ($oldMedia as $media) {
+                        $media->delete();
                     }
                 }
-                unset($data["{$col_name}"]);
+
+                if (isset($data[$fileKey])) {
+                    $object->addMedia($data[$fileKey])
+                        ->toMediaCollection($this->fileColumnsName[$fileKey]['collection'] ?? 'default');
+                }
             }
-
-            return $image;
         }
-
-        return '';
     }
 
-    private function makeDirectory($path): mixed
+
+    /**
+     * @param        $data
+     * @return array
+     */
+    private function fileColName($data): array
     {
-        $this->fileSystem->makeDirectory($path, 0777, true, true);
-
-        return $path;
+        $keys = [];
+        foreach ($data as $key => $value) {
+            if (in_array($key, array_keys($this->fileColumnsName))) {
+                $keys[] = $key;
+            }
+        }
+        return $keys;
     }
 
+    /**
+     * @param $id
+     * @return bool|null
+     */
     public function delete($id): ?bool
     {
         $result = $this->model->where('id', '=', $id)->first();
@@ -293,9 +322,10 @@ abstract class BaseRepository implements IBaseRepository
     }
 
     /**
-     * @return Builder|Builder[]|Collection|Model|null
+     * @template T of Model<T>
+     * @return T|null
      */
-    public function find($id, array $relationships = []): Model|Collection|Builder|array|null
+    public function find($id, array $relationships = []): ?Model
     {
         $result = $this->model->with($relationships)->find($id);
 
@@ -307,41 +337,41 @@ abstract class BaseRepository implements IBaseRepository
     }
 
     /**
-     * @return mixed|null
-     *
-     * @noinspection PhpUndefinedMethodInspection
+     * @template T of Model<T>
+     * @param array $data
+     * @param $id
+     * @param array $relationships
+     * @return T
      */
     public function update(array $data, $id, array $relationships = []): mixed
     {
-        $item = $this->model->where('id', '=', $id)->first();
+        $receivedData = $data;
+
+        if ($id instanceof Model) {
+            $item = $id;
+        } else {
+            $item = $this->model->where('id', '=', $id)->first();
+        }
 
         if ($item) {
-            $fileCols = $this->fileColName($data);
-            foreach ($fileCols as $col) {
-                $path = $this->storeUpdateFileIfExist($col, $data, false, $item);
-                if ($path != '') {
-                    $data["$col"] = $path;
+            $colNames = $this->fileColName($data);
+
+            if (count($colNames)) {
+                foreach ($colNames as $colName) {
+                    unset($receivedData[$colName]);
                 }
             }
 
-            $item->fill($data);
+            $item->fill($receivedData);
             $item->save();
+
+            if (count($colNames)) {
+                $this->handleFiles($item, $data, $colNames);
+            }
 
             return $item->load($relationships);
         }
 
         return null;
-    }
-
-    private function addFileToModel($file, $model, $data, $col_name): mixed
-    {
-        if ($col_name != '') {
-            if (array_key_exists($col_name, $data)) {
-                $model->{"{$col_name}"} = $file;
-                $model->save();
-            }
-        }
-
-        return $model;
     }
 }

@@ -5,11 +5,12 @@ namespace App\Http\Controllers\API\v1;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\User\StoreUpdateUserRequest;
 use App\Http\Resources\UserResource;
+use App\Models\User;
 use App\Services\User\IUserService;
 
 class UserController extends ApiController
 {
-    private $userService;
+    private IUserService $userService;
 
     public function __construct(IUserService $userService)
     {
@@ -17,7 +18,7 @@ class UserController extends ApiController
         $this->userService = $userService;
 
         // place the relations you want to return them within the response
-        $this->relations = [] ;
+        $this->relations = ['media'];
     }
 
     public function index()

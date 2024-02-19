@@ -23,7 +23,7 @@ return new class extends Migration {
             $table->enum('gender', GenderEnum::getAllValues());
             $table->enum('blood_group', BloodGroupEnum::getAllValues());
             $table->boolean('is_blocked')->default(false);
-            $table->text('tags');
+            $table->text('tags')->nullable();
             $table->string('image')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

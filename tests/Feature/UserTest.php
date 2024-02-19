@@ -1,9 +1,11 @@
 <?php
 
-namespace Tests\Feature ;
+namespace Tests\Feature;
 
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Http\UploadedFile;
 use Tests\Contracts\MainTestCase;
 
 class UserTest extends MainTestCase
@@ -20,7 +22,13 @@ class UserTest extends MainTestCase
     protected string $baseUrl = 'api.users.';
 
     // if your endpoints return the model with its relation put the relations in the array
-    protected $relations = [];
+    protected $relations = ['media'];
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->user->delete();
+    }
 
     public function test_user_can_index_User()
     {
@@ -31,21 +39,31 @@ class UserTest extends MainTestCase
     public function test_user_can_show_a_User()
     {
         $this->requestPathHook($this->baseUrl . 'show');
-        $this->showTest();
+        $this->showTest([
+                'image' => UploadedFile::fake()->image('image.jpg'),]
+        );
     }
 
     public function test_user_can_create_a_User()
     {
         $this->requestPathHook($this->baseUrl . 'store');
-        $this->storeTest(['image' => \Illuminate\Http\UploadedFile::fake()->image('image.jpg'),
-        ]);
+        $this->storeTest([
+            'image' => UploadedFile::fake()->image('image.jpg'),
+            'phone_number' => '12345678910',
+            'password_confirmation' => '123456789',
+            'birth_date' => Carbon::now()->format('Y-m-d'),
+        ], [], false);
     }
 
     public function test_user_can_update_User()
     {
         $this->requestPathHook($this->baseUrl . 'update');
-        $this->updateTest(['image' => \Illuminate\Http\UploadedFile::fake()->image('image.jpg'),
-        ]);
+        $this->updateTest([
+            'image' => UploadedFile::fake()->image('image.jpg'),
+            'phone_number' => '12345678910',
+            'password_confirmation' => '123456789',
+            'birth_date' => Carbon::now()->format('Y-m-d'),
+        ], [], false, false);
     }
 
     public function test_user_can_delete_a_User()
