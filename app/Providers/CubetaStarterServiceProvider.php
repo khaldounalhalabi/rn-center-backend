@@ -21,12 +21,7 @@ class CubetaStarterServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Blade::anonymousComponentPath(base_path('resources/views/components/form'));
-        Blade::anonymousComponentPath(base_path('resources/views/components/form/checkboxes'));
-        Blade::anonymousComponentPath(base_path('resources/views/components/form/fields'));
-        Blade::anonymousComponentPath(base_path('resources/views/components/form/validation'));
-        Blade::anonymousComponentPath(base_path('resources/views/components/show/'));
-        Blade::anonymousComponentPath(base_path('resources/views/components/images'));
+
     }
 
     /**
@@ -63,17 +58,6 @@ class CubetaStarterServiceProvider extends ServiceProvider
                 $path = str_replace('/', '\\', app_path() . '/Services/' . $modelName . '/' . $iService . '.php');
 
                 if (in_array($service, $services)) {
-                    continue;
-                }
-
-                if ($service == 'UserWebService' && request()->acceptsHtml()) {
-                    $modelName = "User";
-                    $iService = "IUserService";
-                    $this->app->bind(
-                        'App\Services\\' . $modelName . '\\' . $iService,
-                        'App\Services\\' . $modelName . '\\' . $service
-                    );
-                    $services[] = $service;
                     continue;
                 }
 
