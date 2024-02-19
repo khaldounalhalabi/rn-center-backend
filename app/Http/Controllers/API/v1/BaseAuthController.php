@@ -1,0 +1,130 @@
+<?php
+
+namespace App\Http\Controllers\API\v1;
+
+use App\Http\Controllers\ApiController;
+use App\Http\Requests\AuthRequests\AuthLoginRequest;
+use App\Http\Requests\AuthRequests\AuthRegisterRequest;
+use App\Http\Requests\AuthRequests\CheckPasswordResetRequest;
+use App\Http\Requests\AuthRequests\RequestResetPasswordRequest;
+use App\Http\Requests\AuthRequests\ResetPasswordRequest;
+use App\Http\Requests\AuthRequests\UpdateUserRequest;
+use App\Http\Resources\UserResource;
+use App\Services\User\IUserService;
+use Illuminate\Http\Request;
+
+
+class BaseAuthController extends ApiController
+{
+    private IUserService $userService;
+    private ?string $role = null;
+
+    public function __construct(IUserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
+    public function roleHook(string $role)
+    {
+        $this->role = $role;
+    }
+
+    public function login(AuthLoginRequest $request)
+    {
+        //you can pass additional data as an array for the third parameter in the
+        //login method and this data will be stored in the users table
+        [$user, $token, $refresh_token] = $this->userService->login($request->validated(), $this->role, []);
+        if (!$user) {
+            return $this->apiResponse(null, self::STATUS_NOT_FOUND, __('site.credentials_not_match_records'));
+        }
+
+        return $this->apiResponse([
+            "user" => new UserResource($user),
+            'token' => $token,
+            "refresh_token" => $refresh_token
+        ], self::STATUS_OK, __('site.successfully_logged_in'));
+    }
+
+    public function logout()
+    {
+        $this->userService->logout();
+
+        return $this->apiResponse(null, self::STATUS_OK, __('site.logout_success'));
+    }
+
+    public function refresh(Request $request)
+    {
+        [$user, $token, $refresh_token] = $this->userService->refresh_token();
+        if ($result) {
+            return $this->apiResponse($result, self::STATUS_OK, __('site.token_refreshed_successfully'));
+        }
+
+        return $this->apiResponse([
+            "user" => new UserResource($user),
+            'token' => $token,
+            "refresh_token" => $refresh_token
+        ], self::STATUS_UNAUTHORIZED, __('site.token_refreshed_failed'));
+    }
+
+    public function register(AuthRegisterRequest $request)
+    {
+        [$user, $token, $refresh_token] = $this->userService->register($request->validated(), $this->role);
+
+        return $this->apiResponse([
+            "user" => new UserResource($user),
+            'token' => $token,
+            "refresh_token" => $refresh_token
+        ], self::STATUS_OK, __('site.registered_successfully'));
+    }
+
+    public function passwordResetRequest(RequestResetPasswordRequest $request)
+    {
+        $result = $this->userService->passwordResetRequest($request->email);
+        if ($result) {
+            return $this->apiResponse(null, self::STATUS_OK, __('site.password_reset_code_sent'));
+        }
+
+        return $this->apiResponse(null, self::STATUS_OK, __('site.wrong_email'));
+    }
+
+    public function checkPasswordResetCode(CheckPasswordResetRequest $request)
+    {
+        return $this->apiResponse(null, self::STATUS_OK, __('site.code_correct'));
+    }
+
+    public function passwordReset(ResetPasswordRequest $request)
+    {
+        $result = $this->userService->passwordReset($request->reset_password_code, $request->password);
+        if ($result) {
+            return $this->apiResponse(true, self::STATUS_OK, __('site.password_reset_successful'));
+        }
+
+        return $this->apiResponse(null, self::STATUS_BAD_REQUEST, __('site.code_incorrect'));
+    }
+
+    public function updateUserDetails(UpdateUserRequest $request)
+    {
+        [$user, $token, $refresh_token] = $this->userService->updateUserDetails($request->validated(), $this->role);
+
+        if ($user) {
+            return $this->apiResponse([
+                "user" => new UserResource($user),
+                'token' => $token,
+                "refresh_token" => $refresh_token
+            ], self::STATUS_OK, __('site.update_successfully'));
+        }
+
+        return $this->apiResponse(null, self::STATUS_BAD_REQUEST, __('site.unauthorized_user'));
+    }
+
+    public function userDetails()
+    {
+        $user = $this->userService->userDetails($this->role);
+
+        if ($user) {
+            return $this->apiResponse(new UserResource($user), self::STATUS_OK, __('site.get_successfully'));
+        } else {
+            return $this->apiResponse(null, self::STATUS_BAD_REQUEST, __('site.unauthorized_user'));
+        }
+    }
+}

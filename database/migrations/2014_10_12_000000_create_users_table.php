@@ -1,11 +1,12 @@
 <?php
 
+use App\Enums\BloodGroupEnum;
+use App\Enums\GenderEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,10 +14,23 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('first_name');
+            $table->string('middle_name');
+            $table->string('last_name');
             $table->string('email')->unique();
+            $table->string('phone_number')->unique();
+            $table->date('birth_date');
+            $table->enum('gender', GenderEnum::getAllValues());
+            $table->enum('blood_group', BloodGroupEnum::getAllValues());
+            $table->boolean('is_blocked')->default(false);
+            $table->text('tags');
+            $table->string('image')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('fcm_token')->nullable();
+            $table->string('reset_password_code')->nullable();
+            $table->boolean('is_archived')->default(false);
+
             $table->rememberToken();
             $table->timestamps();
         });

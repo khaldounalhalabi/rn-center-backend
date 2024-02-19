@@ -2,44 +2,123 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Traits\HasRolesPermissions;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+/**
+ * Class User
+ *
+ * @mixin Builder
+ */
+class User extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRolesPermissions, SoftDeletes;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    protected $guarded = ['id'];
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'first_name', 'middle_name', 'last_name',
+        'email', 'phone_number', 'birth_date',
+        'gender', 'blood_group', 'is_blocked',
+        'tags', 'image', 'email_verified_at',
+        'password', 'fcm_token', 'reset_password_code',
+        'is_archived', 'remember_token',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
+        'id' => 'integer',
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        'birth_date' => 'datetime',
+        'is_blocked' => 'boolean',
+        'is_archived' => 'boolean',
+        'created_at' => 'datetime:Y-m-d H:i:s',
+        'updated_at' => 'datetime:Y-m-d H:i:s',
     ];
+
+    /**
+     * add your searchable columns, so you can search within them in the
+     * index method
+     */
+    public static function searchableArray(): array
+    {
+        return [
+            'first_name', 'middle_name', 'last_name',
+            'email', 'phone_number', 'birth_date',
+            'gender', 'blood_group', 'is_blocked',
+            'tags', 'image', 'is_archived',
+        ];
+    }
+
+    /**
+     * add your relations and their searchable columns,
+     * so you can search within them in the index method
+     */
+    public static function relationsSearchableArray(): array
+    {
+        return [
+
+        ];
+    }
+
+    public function scopeBlocked(Builder $query): Builder
+    {
+        return $query->where('is_blocked', true);
+    }
+
+    public function scopeArchived(Builder $query): Builder
+    {
+        return $query->where('is_archived', true);
+    }
+
+    /**
+     * return the full path of the stored Image
+     * @return string|null
+     */
+    public function getImagePath(): ?string
+    {
+        return $this->image != null ? asset('storage/' . $this->image) : null;
+    }
+
+    /**
+     * define your columns which you want to treat them as files
+     * so the base repository can store them in the storage without
+     * any additional files procedures
+     */
+    public function filesKeys(): array
+    {
+        return [
+            'image',
+
+            //filesKeys
+        ];
+    }
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+
+    protected function password(): Attribute
+    {
+        return Attribute::make(
+            set: fn(string $value) => Hash::make($value)
+        );
+    }
 }

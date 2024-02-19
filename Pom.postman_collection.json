@@ -1,0 +1,308 @@
+{
+    "info": {
+        "_postman_id": "2876ce15-b05c-44cd-b53e-17d1fc51d81f",
+        "name": "Pom",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "_exporter_id": "25683379"
+    },
+    "item": [
+        {
+            "name": "User",
+            "item": [
+                {
+                    "name": "index",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "{{locale}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}/users?search&sort_col&sort_dir",
+                            "host": [
+                                "{{local}}/users"
+                            ],
+                            "query": [
+                                {
+                                    "key": "search",
+                                    "value": null
+                                },
+                                {
+                                    "key": "sort_col",
+                                    "value": null
+                                },
+                                {
+                                    "key": "sort_dir",
+                                    "value": null
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "show",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}/users/1",
+                            "host": [
+                                "{{local}}/users/1"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "store",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "first_name",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "middle_name",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "last_name",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "phone_number",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "email",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "password",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "birth_date",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "gender",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "blood_group",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "is_blocked",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "tags",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "image",
+                                    "type": "file"
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{local}}/users",
+                            "host": [
+                                "{{local}}/users"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "update",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "urlencoded",
+                            "urlencoded": [
+                                {
+                                    "key": "first_name",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "middle_name",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "last_name",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "phone_number",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "email",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "password",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "birth_date",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "gender",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "blood_group",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "is_blocked",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "tags",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "image",
+                                    "type": "file"
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{local}}/users/1",
+                            "host": [
+                                "{{local}}/users/1"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}/users/1",
+                            "host": [
+                                "{{local}}/users/1"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        "// add-your-cruds-here"
+    ],
+    "variable": [
+        {
+            "key": "local",
+            "value": "http://localhost/pom-back/public/api",
+            "type": "string"
+        },
+        {
+            "key": "locale",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "token",
+            "value": "",
+            "type": "string"
+        }
+    ]
+}
