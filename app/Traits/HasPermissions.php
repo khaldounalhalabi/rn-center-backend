@@ -1,0 +1,79 @@
+<?php
+
+namespace App\Traits;
+
+use App\Models\ModelHasPermission;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
+
+/**
+ * @mixin Model
+ */
+trait HasPermissions
+{
+    /**
+     * this method assign a permission to access given model
+     * it returns true when the permission created successfully
+     * and false when the permission is already exist for the current user on this model or in one of the user roles
+     * @param string|array{string} $permission
+     * @param class-string $model
+     * @return bool
+     */
+    public function assignPermission(string|array $permission, string $model): bool
+    {
+        /** @var ModelHasPermission|null $ownerPermission */
+        $ownerPermission = $this->permissions()
+            ->firstWhere('model_name', $model);
+
+        if (!is_array($permission)) {
+            $permission = Arr::wrap($permission);
+        }
+
+        if (isset($ownerPermission)) {
+            $ownerPermission->update(array_merge($ownerPermission->permissions, $permission));
+        } else {
+            $this->permissions()->create([
+                'model_name' => $model,
+                'permissions' => $permission
+            ]);
+
+        }
+
+        return true;
+    }
+
+    /**
+     * @return Collection<ModelHasPermission>
+     */
+    public function permissions(): MorphMany
+    {
+        return $this->morphMany(ModelHasPermission::class, 'model');
+    }
+
+    /**
+     * @param string $permissionName
+     * @param class-string $model
+     * @return void
+     */
+    public function removePermission(string $permissionName, string $model): void
+    {
+        if (!$this->hasPermission($permissionName, $model)) {
+            return;
+        }
+
+        /** @var ModelHasPermission $permission */
+        $permission = $this->permissions()
+            ->firstWhere('model_name', $model);
+
+        if (!$permission) return;
+
+        $permission->permissions = collect($permission->permissions)
+            ->filter(fn($value) => ($value != $permissionName))
+            ->values()
+            ->toArray();
+
+        $permission->save();
+    }
+}

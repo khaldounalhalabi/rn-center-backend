@@ -1,0 +1,67 @@
+<?php
+
+namespace App\Models;
+
+use App\Traits\HasPermissions;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+
+class Role extends Model
+{
+    use HasPermissions;
+
+    public $timestamps = true;
+    protected $table = 'roles';
+    protected $guarded = ['id'];
+    protected $fillable = ['name'];
+
+    /**
+     * @param string $name
+     * @return Role|null
+     */
+    public static function getByName(string $name): ?Role
+    {
+        return self::firstWhere('name', $name);
+    }
+
+    /**
+     * @param class-string $model
+     * @return MorphToMany
+     */
+    public function ownersByModel(string $model): MorphToMany
+    {
+        return $this->morphedByMany($model, 'roleable', 'model_has_roles');
+    }
+
+
+    /**
+     * if the provided permission isn't in the authorizedActions() returned array in the provided model the method will return true .
+     * @param string $permission
+     * @param class-string $model
+     * @return bool
+     */
+    public function hasPermission(string $permission, string $model): bool
+    {
+        if (!method_exists($model, 'authorizedActions')) {
+            return true;
+        }
+
+        if (!in_array($permission, $model::authorizedActions())) {
+            return true;
+        }
+
+        $rolePermissions = $this->permissions()
+            ->where('model_name', $model)
+            ->first();
+
+        if (!$rolePermissions) {
+            return false;
+        }
+
+        if (in_array($permission, $rolePermissions->permissions)) {
+            return true;
+        }
+
+        return false;
+    }
+}
