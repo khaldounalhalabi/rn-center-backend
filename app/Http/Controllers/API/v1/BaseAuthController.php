@@ -2,26 +2,30 @@
 
 namespace App\Http\Controllers\API\v1;
 
-use App\Http\Controllers\ApiController;
-use App\Http\Requests\AuthRequests\AuthLoginRequest;
-use App\Http\Requests\AuthRequests\AuthRegisterRequest;
-use App\Http\Requests\AuthRequests\CheckPasswordResetRequest;
 use App\Http\Requests\AuthRequests\RequestResetPasswordRequest;
+use App\Http\Requests\AuthRequests\CheckPasswordResetRequest;
 use App\Http\Requests\AuthRequests\ResetPasswordRequest;
+use App\Http\Requests\AuthRequests\AuthRegisterRequest;
 use App\Http\Requests\AuthRequests\UpdateUserRequest;
-use App\Http\Resources\UserResource;
+use App\Http\Requests\AuthRequests\AuthLoginRequest;
 use App\Services\User\IUserService;
+use App\Http\Controllers\ApiController;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
-
+use Exception;
 
 class BaseAuthController extends ApiController
 {
     private IUserService $userService;
     private ?string $role = null;
 
+   /**
+    * @throws Exception
+    */
     public function __construct(IUserService $userService)
     {
         $this->userService = $userService;
+        $this->userService->setGuard();
     }
 
     public function roleHook(string $role)
@@ -39,9 +43,9 @@ class BaseAuthController extends ApiController
         }
 
         return $this->apiResponse([
-            "user" => new UserResource($user),
+            'user' => new UserResource($user),
             'token' => $token,
-            "refresh_token" => $refresh_token
+            'refresh_token' => $refresh_token
         ], self::STATUS_OK, __('site.successfully_logged_in'));
     }
 
@@ -55,25 +59,25 @@ class BaseAuthController extends ApiController
     public function refresh(Request $request)
     {
         [$user, $token, $refresh_token] = $this->userService->refresh_token();
-        if ($result) {
-            return $this->apiResponse($result, self::STATUS_OK, __('site.token_refreshed_successfully'));
+        if ($user) {
+            return $this->apiResponse([
+                'user' => new UserResource($user),
+                'token' => $token,
+                'refresh_token' => $refresh_token
+            ], self::STATUS_OK, __('site.token_refreshed_successfully'));
         }
 
-        return $this->apiResponse([
-            "user" => new UserResource($user),
-            'token' => $token,
-            "refresh_token" => $refresh_token
-        ], self::STATUS_UNAUTHORIZED, __('site.token_refreshed_failed'));
+        return $this->apiResponse(null, self::STATUS_UNAUTHORIZED, __('site.token_refreshed_failed'));
     }
 
     public function register(AuthRegisterRequest $request)
     {
-        [$user, $token, $refresh_token] = $this->userService->register($request->validated(), $this->role);
+        [$user , $token, $refresh_token] = $this->userService->register($request->validated(), $this->role);
 
         return $this->apiResponse([
-            "user" => new UserResource($user),
-            'token' => $token,
-            "refresh_token" => $refresh_token
+            'user' => new UserResource($user) ,
+            'token' => $token ,
+            'refresh_token' => $refresh_token
         ], self::STATUS_OK, __('site.registered_successfully'));
     }
 
@@ -108,9 +112,9 @@ class BaseAuthController extends ApiController
 
         if ($user) {
             return $this->apiResponse([
-                "user" => new UserResource($user),
+                'user' => new UserResource($user),
                 'token' => $token,
-                "refresh_token" => $refresh_token
+                'refresh_token' => $refresh_token
             ], self::STATUS_OK, __('site.update_successfully'));
         }
 
