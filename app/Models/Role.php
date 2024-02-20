@@ -25,43 +25,11 @@ class Role extends Model
     }
 
     /**
-     * @param class-string $model
+     * @param class-string<Model> $model
      * @return MorphToMany
-     */
-    public function ownersByModel(string $model): MorphToMany
+    */
+    public function modelsHasRole(string $model): MorphToMany
     {
-        return $this->morphedByMany($model, 'roleable', 'model_has_roles');
-    }
-
-
-    /**
-     * if the provided permission isn't in the authorizedActions() returned array in the provided model the method will return true .
-     * @param string $permission
-     * @param class-string $model
-     * @return bool
-     */
-    public function hasPermission(string $permission, string $model): bool
-    {
-        if (!method_exists($model, 'authorizedActions')) {
-            return true;
-        }
-
-        if (!in_array($permission, $model::authorizedActions())) {
-            return true;
-        }
-
-        $rolePermissions = $this->permissions()
-            ->where('model_name', $model)
-            ->first();
-
-        if (!$rolePermissions) {
-            return false;
-        }
-
-        if (in_array($permission, $rolePermissions->permissions)) {
-            return true;
-        }
-
-        return false;
+        return $this->morphedByMany($model, 'modelsHasRole', 'model_has_roles');
     }
 }
