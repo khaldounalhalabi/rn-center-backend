@@ -27,22 +27,22 @@ class UserService extends BaseService implements IUserService
     }
 
     /**
-     * @param string $guard
+     * @param  string    $guard
      * @return void
      * @throws Exception
      */
     public function setGuard(string $guard = 'api'): void
     {
         if (!in_array($guard, array_keys(config('auth.guards')))) {
-            throw new Exception("Undefined Guard : [$guard]");
+            throw new Exception("Undefined Guard : [{$guard}]");
         }
 
         $this->guard = $guard;
     }
 
     /**
-     * @param array $data
-     * @param string|null $role
+     * @param  array                                                            $data
+     * @param  string|null                                                      $role
      * @return array{user:User , token:string , refresh_token:string}|User|null
      */
     public function updateUserDetails(array $data, ?string $role = null): array|User|null
@@ -72,9 +72,9 @@ class UserService extends BaseService implements IUserService
     }
 
     /**
-     * @param array $data
-     * @param string|null $role
-     * @param array $additionalData
+     * @param  array                                                                            $data
+     * @param  string|null                                                                      $role
+     * @param  array                                                                            $additionalData
      * @return User|Authenticatable|array{user:User , token:string , refresh_token:string}|null
      */
     public function login(array $data, ?string $role = null, array $additionalData = []): User|Authenticatable|array|null
@@ -115,7 +115,7 @@ class UserService extends BaseService implements IUserService
     }
 
     /**
-     * @param $fcm_token
+     * @param       $fcm_token
      * @return void
      */
     public function clearFcmTokenFromOtherUsers($fcm_token): void
@@ -155,8 +155,8 @@ class UserService extends BaseService implements IUserService
     }
 
     /**
-     * @param array $data
-     * @param string|null $role
+     * @param  array                                                       $data
+     * @param  string|null                                                 $role
      * @return array{user:User , token:string , refresh_token:string}|User
      */
     public function register(array $data, ?string $role = null): array|User
@@ -179,7 +179,7 @@ class UserService extends BaseService implements IUserService
     }
 
     /**
-     * @param string $email
+     * @param  string    $email
      * @return bool|null
      */
     public function passwordResetRequest(string $email): ?bool
@@ -208,7 +208,7 @@ class UserService extends BaseService implements IUserService
     }
 
     /**
-     * @param $email
+     * @param            $email
      * @return User|null
      */
     public function getUserByEmail($email): ?User
@@ -217,7 +217,7 @@ class UserService extends BaseService implements IUserService
     }
 
     /**
-     * @param $token
+     * @param            $token
      * @return User|null
      */
     public function getUserByPasswordResetCode($token): ?User
@@ -226,8 +226,8 @@ class UserService extends BaseService implements IUserService
     }
 
     /**
-     * @param string $reset_password_code
-     * @param string $password
+     * @param  string $reset_password_code
+     * @param  string $password
      * @return bool
      */
     public function passwordReset(string $reset_password_code, string $password): bool
@@ -246,7 +246,7 @@ class UserService extends BaseService implements IUserService
     }
 
     /**
-     * @param string|null $role
+     * @param  string|null               $role
      * @return User|Authenticatable|null
      */
     public function userDetails(?string $role = null): User|Authenticatable|null

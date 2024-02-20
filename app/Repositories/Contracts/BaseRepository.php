@@ -68,7 +68,7 @@ abstract class BaseRepository implements IBaseRepository
 
     /**
      * @template T of Model<T>
-     * @param array $relationships
+     * @param  array                                    $relationships
      * @return Collection<T>|RegularCollection<T>|array
      */
     public function all(array $relationships = []): Collection|array|RegularCollection
@@ -78,7 +78,7 @@ abstract class BaseRepository implements IBaseRepository
 
     /**
      * @template T of Model<T>
-     * @param array $relations
+     * @param  array      $relations
      * @return Builder<T>
      */
     public function globalQuery(array $relations = []): Builder
@@ -95,7 +95,7 @@ abstract class BaseRepository implements IBaseRepository
     }
 
     /**
-     * @param $query
+     * @param        $query
      * @return mixed
      */
     private function addSearch($query): mixed
@@ -128,7 +128,7 @@ abstract class BaseRepository implements IBaseRepository
 
     /**
      * this function implement already defined filters in the model
-     * @param Builder $query
+     * @param  Builder $query
      * @return Builder
      */
     private function filterFields(Builder $query): Builder
@@ -163,7 +163,9 @@ abstract class BaseRepository implements IBaseRepository
                     $query = $query->whereBetween($field, $value);
                 } elseif ($operator == 'like') {
                     $query = $query->{$method}($field, $operator, "%" . $value . "%");
-                } else $query = $query->{$method}($field, $operator, $value);
+                } else {
+                    $query = $query->{$method}($field, $operator, $value);
+                }
             }
         }
 
@@ -171,7 +173,7 @@ abstract class BaseRepository implements IBaseRepository
     }
 
     /**
-     * @param $query
+     * @param        $query
      * @return mixed
      */
     private function orderQueryBy($query): mixed
@@ -196,8 +198,8 @@ abstract class BaseRepository implements IBaseRepository
 
     /**
      * @template T of Model<T>
-     * @param array $relationships
-     * @param int $per_page
+     * @param  array                                                                             $relationships
+     * @param  int                                                                               $per_page
      * @return array{data:Collection<T>|array|RegularCollection<T> , pagination_data:array}|null
      */
     public function all_with_pagination(array $relationships = [], int $per_page = 10): ?array
@@ -211,7 +213,7 @@ abstract class BaseRepository implements IBaseRepository
     }
 
     /**
-     * @param $data
+     * @param        $data
      * @return array
      */
     #[ArrayShape(['currentPage' => 'int', 'from' => 'int', 'to' => 'int', 'total' => 'int', 'per_page' => 'int'])]
@@ -230,8 +232,8 @@ abstract class BaseRepository implements IBaseRepository
 
     /**
      * @template T of Model<T>
-     * @param array $data
-     * @param array $relationships
+     * @param  array  $data
+     * @param  array  $relationships
      * @return T|null
      */
     public function create(array $data, array $relationships = []): mixed
@@ -257,9 +259,9 @@ abstract class BaseRepository implements IBaseRepository
     }
 
     /**
-     * @param Model $object
-     * @param array $data
-     * @param array $fileKeys
+     * @param  Model $object
+     * @param  array $data
+     * @param  array $fileKeys
      * @return void
      */
     public function handleFiles(Model $object, array $data, array $fileKeys): void
@@ -306,7 +308,7 @@ abstract class BaseRepository implements IBaseRepository
     }
 
     /**
-     * @param $id
+     * @param            $id
      * @return bool|null
      */
     public function delete($id): ?bool
@@ -338,9 +340,9 @@ abstract class BaseRepository implements IBaseRepository
 
     /**
      * @template T of Model<T>
-     * @param array $data
-     * @param $id
-     * @param array $relationships
+     * @param  array $data
+     * @param        $id
+     * @param  array $relationships
      * @return T
      */
     public function update(array $data, $id, array $relationships = []): mixed

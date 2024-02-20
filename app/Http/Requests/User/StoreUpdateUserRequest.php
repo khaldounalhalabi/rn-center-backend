@@ -32,7 +32,7 @@ class StoreUpdateUserRequest extends FormRequest
             'password' => 'required|string|max:255|min:6|confirmed',
             'birth_date' => 'required|date_format:Y-m-d',
             'gender' => 'required|string',
-            'blood_group' => 'required|string|'.Rule::in(BloodGroupEnum::getAllValues()),
+            'blood_group' => 'required|string|' . Rule::in(BloodGroupEnum::getAllValues()),
             'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ];
     }

@@ -20,7 +20,7 @@ class BaseResource extends JsonResource
     {
         return collect()
             ->wrap($data)
-            ->map(fn($item) => self::makeWithExtra($item, $extra))
+            ->map(fn ($item) => self::makeWithExtra($item, $extra))
             ->values()
             ->merge(self::getFilters(get_class($data->first())));
     }
@@ -37,7 +37,7 @@ class BaseResource extends JsonResource
     }
 
     /**
-     * @param string $class
+     * @param  string     $class
      * @return Collection
      */
     protected static function getFilters(string $class): Collection
@@ -46,8 +46,9 @@ class BaseResource extends JsonResource
 
         if (method_exists($class, self::FilterMethod)) {
             $filterCols = collect(call_user_func([$class, self::FilterMethod]));
-            $filters = $filters->merge([
-                    "filters" => $filterCols->map(fn($item) => [
+            $filters = $filters->merge(
+                [
+                    "filters" => $filterCols->map(fn ($item) => [
                         "field" => isset($item["relation"]) ? $item["relation"] . '.' . ($item["field"] ?? $item["name"]) : ($item["field"] ?? $item["name"]),
                         "operator" => $item['operator'] ?? '='
                     ])
@@ -59,29 +60,29 @@ class BaseResource extends JsonResource
 
     /**
      * @template T of Model<T>
-     * @param DBCollection|LengthAwarePaginator $data
-     * @param array $itemAbilities
-     * @param array $generalAbilities
-     * @param array|null $extra
-     * @param bool $withFilters
+     * @param  DBCollection|LengthAwarePaginator $data
+     * @param  array                             $itemAbilities
+     * @param  array                             $generalAbilities
+     * @param  array|null                        $extra
+     * @param  bool                              $withFilters
      * @return Collection<T>
      */
     public static function collectionWithAbilities(DBCollection|LengthAwarePaginator $data, array $itemAbilities = [], array $generalAbilities = [], ?array $extra = null, bool $withFilters = false): Collection
     {
-        $collection = $data->map(function ($item) use ($extra, $itemAbilities, $generalAbilities) {
+        $collection = $data->map(function ($item) use ($itemAbilities) {
             $itemAbs = [];
             $class = get_class($item);
 
             if (count($itemAbilities)) {
                 foreach ($itemAbilities as $itemAbility) {
-                    $itemAbs["$itemAbility"] = self::getAbilityValue($itemAbility, $class, $item);
+                    $itemAbs["{$itemAbility}"] = self::getAbilityValue($itemAbility, $class, $item);
                 }
             }
 
             if (!count($itemAbilities) && method_exists($class, self::AuthorizedActions)) {
                 foreach (call_user_func([$class, self::AuthorizedActions]) as $action) {
                     if (in_array($action, ["update", "delete", "show"])) {
-                        $itemAbs["$action"] = self::getAbilityValue($action, $class, $item);
+                        $itemAbs["{$action}"] = self::getAbilityValue($action, $class, $item);
                     }
                 }
             }
@@ -95,7 +96,7 @@ class BaseResource extends JsonResource
         $class = get_class($data->first());
         if (count($generalAbilities)) {
             foreach ($generalAbilities as $generalAbility) {
-                $genAbs["$generalAbility"] = self::getAbilityValue($generalAbility, $class);
+                $genAbs["{$generalAbility}"] = self::getAbilityValue($generalAbility, $class);
             }
         } else {
             if (method_exists($class, self::AuthorizedActions) && in_array("create", call_user_func([$class, self::AuthorizedActions]))) {
@@ -114,19 +115,21 @@ class BaseResource extends JsonResource
     {
         if (auth()->user()) {
             return auth()->user()?->hasPermission($ability, $class, $modelInstance);
-        } else if (!method_exists($class, self::AuthorizedActions)) {
+        }
+        if (!method_exists($class, self::AuthorizedActions)) {
             return true;
-        } elseif (!in_array($ability, call_user_func([$class, self::AuthorizedActions]))) {
-            return true;
-        } else
-            return false;
+        }
+        return (bool) (!in_array($ability, call_user_func([$class, self::AuthorizedActions])))
+
+
+        ;
     }
 
     public static function collectionWithDetail(DBCollection|LengthAwarePaginator $data, array $extra = null, bool $withFilters = false): Collection
     {
         return collect()
             ->wrap($data)
-            ->map(fn($item) => self::makeWithDetail($item, $extra))
+            ->map(fn ($item) => self::makeWithDetail($item, $extra))
             ->values()
             ->merge(self::getFilters(get_class($data->first())));
     }
@@ -143,10 +146,10 @@ class BaseResource extends JsonResource
     }
 
     /**
-     * @param Model $data
-     * @param array $itemAbilities
-     * @param array $generalAbilities
-     * @param array|null $extra
+     * @param  Model              $data
+     * @param  array              $itemAbilities
+     * @param  array              $generalAbilities
+     * @param  array|null         $extra
      * @return BaseResource|array
      */
     public static function makeWithAbilities(Model $data, array $itemAbilities = [], array $generalAbilities = [], ?array $extra = null): array|BaseResource
@@ -156,20 +159,20 @@ class BaseResource extends JsonResource
 
         if (count($itemAbilities)) {
             foreach ($itemAbilities as $ability) {
-                $abilities["$ability"] = self::getAbilityValue($ability, $class, $data);
+                $abilities["{$ability}"] = self::getAbilityValue($ability, $class, $data);
             }
         }
 
         if (count($generalAbilities)) {
             foreach ($generalAbilities as $genAbility) {
-                $abilities["$genAbility"] = self::getAbilityValue($genAbility, $class, $data);
+                $abilities["{$genAbility}"] = self::getAbilityValue($genAbility, $class, $data);
             }
         }
 
         if (!count($generalAbilities) && !count($itemAbilities) && method_exists($class, self::AuthorizedActions)) {
             foreach (call_user_func([$class, self::AuthorizedActions]) as $action) {
                 if (!in_array($action, ['create', 'index'])) {
-                    $abilities["$action"] = self::getAbilityValue($action, $class, $data);
+                    $abilities["{$action}"] = self::getAbilityValue($action, $class, $data);
                 }
             }
         }

@@ -28,6 +28,6 @@ class Translatable implements CastsAttributes
     {
         if (is_array($value)) {
             return json_encode($value);
-        } else return $value;
+        }  return $value;
     }
 }

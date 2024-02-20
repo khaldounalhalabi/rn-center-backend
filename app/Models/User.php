@@ -23,7 +23,11 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  */
 class User extends Authenticatable implements JWTSubject, HasMedia
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, InteractsWithMedia;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
+    use HasRoles;
+    use InteractsWithMedia;
 
     protected $guarded = ['id'];
     protected $fillable = [
@@ -125,7 +129,7 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     protected function password(): Attribute
     {
         return Attribute::make(
-            set: fn(string $value) => Hash::make($value)
+            set: fn (string $value) => Hash::make($value)
         );
     }
 }

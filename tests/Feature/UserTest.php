@@ -39,7 +39,8 @@ class UserTest extends MainTestCase
     public function test_user_can_show_a_User()
     {
         $this->requestPathHook($this->baseUrl . 'show');
-        $this->showTest([
+        $this->showTest(
+            [
                 'image' => UploadedFile::fake()->image('image.jpg'),]
         );
     }

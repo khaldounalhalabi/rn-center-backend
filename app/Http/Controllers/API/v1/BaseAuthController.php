@@ -19,9 +19,9 @@ class BaseAuthController extends ApiController
     private IUserService $userService;
     private ?string $role = null;
 
-   /**
-    * @throws Exception
-    */
+    /**
+     * @throws Exception
+     */
     public function __construct(IUserService $userService)
     {
         $this->userService = $userService;
@@ -127,8 +127,8 @@ class BaseAuthController extends ApiController
 
         if ($user) {
             return $this->apiResponse(new UserResource($user), self::STATUS_OK, __('site.get_successfully'));
-        } else {
-            return $this->apiResponse(null, self::STATUS_BAD_REQUEST, __('site.unauthorized_user'));
         }
+        return $this->apiResponse(null, self::STATUS_BAD_REQUEST, __('site.unauthorized_user'));
+
     }
 }

@@ -12,7 +12,7 @@ class SetLocaleController extends Controller
         $lang = $request->lang;
 
         if (!in_array($lang, config('cubeta-starter.available_locales'))) {
-            return response()->json(['message' => 'failed'] , 404);
+            return response()->json(['message' => 'failed'], 404);
         }
 
         session()->put('locale', $lang);

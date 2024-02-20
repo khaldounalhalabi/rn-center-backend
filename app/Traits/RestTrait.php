@@ -65,7 +65,7 @@ trait RestTrait
     }
 
     /**
-     * @param mixed $response
+     * @param  mixed        $response
      * @return JsonResponse
      */
     public function noData(mixed $response): JsonResponse

@@ -15,7 +15,7 @@ trait FileHandler
      * this function takes image(DB name) and deletes it from the filesystem ,
      * returns true if deleted and false if not found
      *
-     * @param $file
+     * @param       $file
      * @return bool
      */
     public function deleteFile($file): bool
@@ -33,11 +33,11 @@ trait FileHandler
      * this function takes a base64 encoded image and store it in the filesystem and return the name of it
      * (ex. 12546735.png) that will be stored in DB
      *
-     * @param $file
-     * @param $dir
-     * @param bool $to_compress
-     * @param bool $is_base_64
-     * @param int $width
+     * @param         $file
+     * @param         $dir
+     * @param  bool   $to_compress
+     * @param  bool   $is_base_64
+     * @param  int    $width
      * @return string
      */
     public function storeFile($file, $dir, bool $to_compress = true, bool $is_base_64 = false, int $width = 300): string
@@ -61,8 +61,8 @@ trait FileHandler
     }
 
     /**
-     * @param string $url image URL
-     * @param string $dir the rest of the storage path where you want to store
+     * @param  string $url image URL
+     * @param  string $dir the rest of the storage path where you want to store
      * @return array
      */
     public function storeImageFromUrl(string $url, string $dir = ''): array
@@ -78,7 +78,7 @@ trait FileHandler
     /**
      * this function can store any file
      *
-     * @param string $key key as sent in the request
+     * @param  string $key key as sent in the request
      * @return string
      */
     public function storeNormalFile(string $key): string
@@ -101,12 +101,12 @@ trait FileHandler
      * this function takes $newImage(base64 encoded) and $oldImage(DB name) ,
      * it deletes the $oldImage from the filesystem and store the $newImage and return its name that will be stored in DB
      *
-     * @param $new_file
-     * @param $old_file
-     * @param $dir
-     * @param bool $to_compress
-     * @param bool $is_base_64
-     * @param int $width
+     * @param         $new_file
+     * @param         $old_file
+     * @param         $dir
+     * @param  bool   $to_compress
+     * @param  bool   $is_base_64
+     * @param  int    $width
      * @return string
      */
     public function updateFile($new_file, $old_file, $dir, bool $to_compress = true, bool $is_base_64 = false, int $width = 300): string
@@ -121,7 +121,7 @@ trait FileHandler
     /**
      * make directory for files
      *
-     * @param $path
+     * @param        $path
      * @return mixed
      */
     private function makeDirectory($path): mixed
@@ -134,13 +134,13 @@ trait FileHandler
     /**
      * store requested keys as files
      *
-     * @param array $data
-     * @param array $filesKeys
-     * @param bool $is_store
-     * @param null $item
-     * @param bool $to_compress
-     * @param bool $is_base_64
-     * @param int $width
+     * @param  array $data
+     * @param  array $filesKeys
+     * @param  bool  $is_store
+     * @param  null  $item
+     * @param  bool  $to_compress
+     * @param  bool  $is_base_64
+     * @param  int   $width
      * @return array
      */
     private function storeOrUpdateRequestedFiles(array $data, array $filesKeys = [], bool $is_store = true, $item = null, bool $to_compress = true, bool $is_base_64 = false, int $width = 300): array
@@ -150,11 +150,11 @@ trait FileHandler
             foreach ($filesKeys as $file) {
                 if (in_array($file, $data)) {
                     if ($is_store) {
-                        $model_files["$file"] = $this->storeFile($data["$file"], $this->model->getTable(), $to_compress, $is_base_64, $width);
+                        $model_files["{$file}"] = $this->storeFile($data["{$file}"], $this->model->getTable(), $to_compress, $is_base_64, $width);
                     } else {
-                        $model_files["$file"] = $this->updateFile($data["$file"], $item->{"$file"}, $this->model->getTable(), $to_compress, $is_base_64, $width);
+                        $model_files["{$file}"] = $this->updateFile($data["{$file}"], $item->{"{$file}"}, $this->model->getTable(), $to_compress, $is_base_64, $width);
                     }
-                    unset($data["$file"]);
+                    unset($data["{$file}"]);
                 }
             }
             $data = array_merge($data, $model_files);

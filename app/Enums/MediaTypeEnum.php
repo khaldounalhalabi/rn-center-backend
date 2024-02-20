@@ -14,7 +14,7 @@ enum MediaTypeEnum: string
     case MULTIPLE = 'multiple';
 
     /**
-     * @param string $key
+     * @param  string $key
      * @return string
      */
     public static function getType(string $key): string
