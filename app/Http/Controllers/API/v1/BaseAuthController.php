@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers\API\v1;
 
-use App\Http\Requests\AuthRequests\RequestResetPasswordRequest;
-use App\Http\Requests\AuthRequests\CheckPasswordResetRequest;
-use App\Http\Requests\AuthRequests\ResetPasswordRequest;
-use App\Http\Requests\AuthRequests\AuthRegisterRequest;
-use App\Http\Requests\AuthRequests\UpdateUserRequest;
-use App\Http\Requests\AuthRequests\AuthLoginRequest;
-use App\Services\User\IUserService;
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\AuthRequests\AuthLoginRequest;
+use App\Http\Requests\AuthRequests\AuthRegisterRequest;
+use App\Http\Requests\AuthRequests\CheckPasswordResetRequest;
+use App\Http\Requests\AuthRequests\RequestResetPasswordRequest;
+use App\Http\Requests\AuthRequests\ResetPasswordRequest;
+use App\Http\Requests\AuthRequests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
-use Illuminate\Http\Request;
+use App\Services\User\IUserService;
 use Exception;
 
 class BaseAuthController extends ApiController
@@ -25,7 +24,6 @@ class BaseAuthController extends ApiController
     public function __construct(IUserService $userService)
     {
         $this->userService = $userService;
-        $this->userService->setGuard();
     }
 
     public function roleHook(string $role)
@@ -37,7 +35,7 @@ class BaseAuthController extends ApiController
     {
         //you can pass additional data as an array for the third parameter in the
         //login method and this data will be stored in the users table
-        [$user, $token, $refresh_token] = $this->userService->login($request->validated(), $this->role, []);
+        [$user, $token, $refresh_token] = $this->userService->login($request->validated(), $this->role, $this->relations);
         if (!$user) {
             return $this->apiResponse(null, self::STATUS_NOT_FOUND, __('site.credentials_not_match_records'));
         }
@@ -56,9 +54,9 @@ class BaseAuthController extends ApiController
         return $this->apiResponse(null, self::STATUS_OK, __('site.logout_success'));
     }
 
-    public function refresh(Request $request)
+    public function refresh()
     {
-        [$user, $token, $refresh_token] = $this->userService->refresh_token();
+        [$user, $token, $refresh_token] = $this->userService->refreshToken($this->relations);
         if ($user) {
             return $this->apiResponse([
                 'user' => new UserResource($user),
@@ -72,11 +70,11 @@ class BaseAuthController extends ApiController
 
     public function register(AuthRegisterRequest $request)
     {
-        [$user , $token, $refresh_token] = $this->userService->register($request->validated(), $this->role);
+        [$user, $token, $refresh_token] = $this->userService->register($request->validated(), $this->role, $this->relations);
 
         return $this->apiResponse([
-            'user' => new UserResource($user) ,
-            'token' => $token ,
+            'user' => new UserResource($user),
+            'token' => $token,
             'refresh_token' => $refresh_token
         ], self::STATUS_OK, __('site.registered_successfully'));
     }
@@ -108,7 +106,7 @@ class BaseAuthController extends ApiController
 
     public function updateUserDetails(UpdateUserRequest $request)
     {
-        [$user, $token, $refresh_token] = $this->userService->updateUserDetails($request->validated(), $this->role);
+        [$user, $token, $refresh_token] = $this->userService->updateUserDetails($request->validated(), $this->role, $this->relations);
 
         if ($user) {
             return $this->apiResponse([
@@ -123,7 +121,7 @@ class BaseAuthController extends ApiController
 
     public function userDetails()
     {
-        $user = $this->userService->userDetails($this->role);
+        $user = $this->userService->userDetails($this->role,$this->relations);
 
         if ($user) {
             return $this->apiResponse(new UserResource($user), self::STATUS_OK, __('site.get_successfully'));

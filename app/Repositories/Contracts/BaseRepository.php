@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Schema;
 use JetBrains\PhpStorm\ArrayShape;
 
 /**
+ * @template T of Model
+ * @implements IBaseRepository<T>
  * Class BaseRepository
  */
 abstract class BaseRepository implements IBaseRepository
@@ -21,7 +23,6 @@ abstract class BaseRepository implements IBaseRepository
     use FileHandler;
 
     /**
-     * @template T of Model<T>
      * @var T
      */
     protected Model $model;
@@ -67,8 +68,7 @@ abstract class BaseRepository implements IBaseRepository
     }
 
     /**
-     * @template T of Model<T>
-     * @param  array                                    $relationships
+     * @param array $relationships
      * @return Collection<T>|RegularCollection<T>|array
      */
     public function all(array $relationships = []): Collection|array|RegularCollection
@@ -77,8 +77,7 @@ abstract class BaseRepository implements IBaseRepository
     }
 
     /**
-     * @template T of Model<T>
-     * @param  array      $relations
+     * @param array $relations
      * @return Builder<T>
      */
     public function globalQuery(array $relations = []): Builder
@@ -128,7 +127,7 @@ abstract class BaseRepository implements IBaseRepository
 
     /**
      * this function implement already defined filters in the model
-     * @param  Builder $query
+     * @param Builder $query
      * @return Builder
      */
     private function filterFields(Builder $query): Builder
@@ -197,9 +196,8 @@ abstract class BaseRepository implements IBaseRepository
     }
 
     /**
-     * @template T of Model<T>
-     * @param  array                                                                             $relationships
-     * @param  int                                                                               $per_page
+     * @param array $relationships
+     * @param int $per_page
      * @return array{data:Collection<T>|array|RegularCollection<T> , pagination_data:array}|null
      */
     public function all_with_pagination(array $relationships = [], int $per_page = 10): ?array
@@ -231,12 +229,11 @@ abstract class BaseRepository implements IBaseRepository
     }
 
     /**
-     * @template T of Model<T>
-     * @param  array  $data
-     * @param  array  $relationships
+     * @param array $data
+     * @param array $relationships
      * @return T|null
      */
-    public function create(array $data, array $relationships = []): mixed
+    public function create(array $data, array $relationships = []): ?Model
     {
         $receivedData = $data;
         $colNames = $this->fileColName($data);
@@ -259,9 +256,24 @@ abstract class BaseRepository implements IBaseRepository
     }
 
     /**
-     * @param  Model $object
-     * @param  array $data
-     * @param  array $fileKeys
+     * @param        $data
+     * @return array
+     */
+    private function fileColName($data): array
+    {
+        $keys = [];
+        foreach ($data as $key => $value) {
+            if (in_array($key, array_keys($this->fileColumnsName))) {
+                $keys[] = $key;
+            }
+        }
+        return $keys;
+    }
+
+    /**
+     * @param Model $object
+     * @param array $data
+     * @param array $fileKeys
      * @return void
      */
     public function handleFiles(Model $object, array $data, array $fileKeys): void
@@ -277,7 +289,7 @@ abstract class BaseRepository implements IBaseRepository
 
                 $oldMedia = $object->getMedia();
 
-                if (count($oldMedia)) {
+                if (count($oldMedia) and isset($data[$fileKey])) {
                     foreach ($oldMedia as $media) {
                         $media->delete();
                     }
@@ -289,22 +301,6 @@ abstract class BaseRepository implements IBaseRepository
                 }
             }
         }
-    }
-
-
-    /**
-     * @param        $data
-     * @return array
-     */
-    private function fileColName($data): array
-    {
-        $keys = [];
-        foreach ($data as $key => $value) {
-            if (in_array($key, array_keys($this->fileColumnsName))) {
-                $keys[] = $key;
-            }
-        }
-        return $keys;
     }
 
     /**
@@ -324,7 +320,6 @@ abstract class BaseRepository implements IBaseRepository
     }
 
     /**
-     * @template T of Model<T>
      * @return T|null
      */
     public function find($id, array $relationships = []): ?Model
@@ -339,10 +334,9 @@ abstract class BaseRepository implements IBaseRepository
     }
 
     /**
-     * @template T of Model<T>
-     * @param  array $data
-     * @param        $id
-     * @param  array $relationships
+     * @param array $data
+     * @param T|mixed $id
+     * @param array $relationships
      * @return T
      */
     public function update(array $data, $id, array $relationships = []): mixed

@@ -136,12 +136,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cubeta-io/cubeta-starter.git",
-                "reference": "992d28cd9f74a8af58acc7598f713cf4dbdf5087"
+                "reference": "f81c68566f3e28256ffc7cc3765f0ec4462e3c63"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cubeta-io/cubeta-starter/zipball/992d28cd9f74a8af58acc7598f713cf4dbdf5087",
-                "reference": "992d28cd9f74a8af58acc7598f713cf4dbdf5087",
+                "url": "https://api.github.com/repos/cubeta-io/cubeta-starter/zipball/f81c68566f3e28256ffc7cc3765f0ec4462e3c63",
+                "reference": "f81c68566f3e28256ffc7cc3765f0ec4462e3c63",
                 "shasum": ""
             },
             "require": {
@@ -187,7 +187,7 @@
                 "issues": "https://github.com/cubeta-io/cubeta-starter/issues",
                 "source": "https://github.com/cubeta-io/cubeta-starter/tree/roles"
             },
-            "time": "2024-02-20T13:43:58+00:00"
+            "time": "2024-02-20T18:38:22+00:00"
         },
         {
             "name": "dflydev/dot-access-data",

@@ -25,7 +25,6 @@ class UserFactory extends Factory
             'gender' => $this->faker->randomElement(GenderEnum::getAllValues()),
             'blood_group' => $this->faker->randomElement(BloodGroupEnum::getAllValues()),
             'tags' => $this->faker->text(),
-            'image' => $this->faker->word(),
             'email_verified_at' => Carbon::now(),
             'password' => '123456789',
             'is_blocked' => false,
@@ -48,4 +47,9 @@ class UserFactory extends Factory
             }
         });
     }
+public function withCustomers($count = 1)
+{
+	 return $this->has(\App\Models\Customer::factory($count));
+}
+
 }

@@ -2,52 +2,49 @@
 
 namespace App\Services\User;
 
+use App\Enums\RolesPermissionEnum;
+use App\Exceptions\RoleDoesNotExistException;
 use App\Models\User;
 use App\Notifications\ResetPasswordCodeEmail;
+use App\Repositories\CustomerRepository;
 use App\Repositories\UserRepository;
 use App\Services\Contracts\BaseService;
 use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Support\Facades\DB;
 
 /**
+ * @implements IUserService
  * Class UserService
  */
 class UserService extends BaseService implements IUserService
 {
-    private string $guard = 'web';
+    /**
+     * @var CustomerRepository
+     */
+    private CustomerRepository $customerRepository;
 
     /**
      * UserService constructor.
      *
      * @param UserRepository $repository
+     * @param CustomerRepository $customerRepository
      */
-    public function __construct(UserRepository $repository)
+    public function __construct(UserRepository $repository, CustomerRepository $customerRepository)
     {
         parent::__construct($repository);
+        $this->customerRepository = $customerRepository;
     }
 
     /**
-     * @param  string    $guard
-     * @return void
-     * @throws Exception
+     * @param array $data
+     * @param string|null $role
+     * @param array $relations
+     * @return array{User , string , string}|User|null
      */
-    public function setGuard(string $guard = 'api'): void
+    public function updateUserDetails(array $data, ?string $role = null, array $relations = []): array|User|null
     {
-        if (!in_array($guard, array_keys(config('auth.guards')))) {
-            throw new Exception("Undefined Guard : [{$guard}]");
-        }
-
-        $this->guard = $guard;
-    }
-
-    /**
-     * @param  array                                                            $data
-     * @param  string|null                                                      $role
-     * @return array{user:User , token:string , refresh_token:string}|User|null
-     */
-    public function updateUserDetails(array $data, ?string $role = null): array|User|null
-    {
-        $user = auth($this->guard)->user();
+        $user = auth()->user();
 
         if (!$user) {
             return null;
@@ -60,26 +57,24 @@ class UserService extends BaseService implements IUserService
         /** @var User $user */
         $user = $this->repository->update($data, $user->id);
 
-        $token = auth($this->guard)->login($user);
+        $token = auth()->login($user);
 
-        if (!request()->acceptsHtml()) {
-            $refresh_token = auth($this->guard)->setTTL(ttl: env('JWT_REFRESH_TTL', 20160))->refresh();
+        $refresh_token = auth()->setTTL(ttl: env('JWT_REFRESH_TTL', 20160))->refresh();
 
-            return [$user, $token, $refresh_token,];
-        }
+        return [$user->load($relations), $token, $refresh_token,];
 
-        return $user;
     }
 
     /**
-     * @param  array                                                                            $data
-     * @param  string|null                                                                      $role
-     * @param  array                                                                            $additionalData
-     * @return User|Authenticatable|array{user:User , token:string , refresh_token:string}|null
+     * @param array $data
+     * @param string|null $role
+     * @param array $relations
+     * @param array $additionalData
+     * @return User|Authenticatable|array{User , string , string}|null
      */
-    public function login(array $data, ?string $role = null, array $additionalData = []): User|Authenticatable|array|null
+    public function login(array $data, ?string $role = null, array $relations = [], array $additionalData = []): User|Authenticatable|array|null
     {
-        $token = auth($this->guard)->attempt([
+        $token = auth()->attempt([
             'email' => $data['email'],
             'password' => $data['password'],
         ]);
@@ -88,7 +83,7 @@ class UserService extends BaseService implements IUserService
             return null;
         }
 
-        $user = auth($this->guard)->user();
+        $user = auth()->user();
 
         if ($role && !$user->hasRole($role)) {
             return null;
@@ -105,13 +100,9 @@ class UserService extends BaseService implements IUserService
             $user->save();
         }
 
-        if (!request()->acceptsHtml()) {
-            $refresh_token = auth($this->guard)->setTTL(ttl: env('JWT_REFRESH_TTL', 20160))->refresh();
+        $refresh_token = auth()->setTTL(ttl: env('JWT_REFRESH_TTL', 20160))->refresh();
 
-            return [$user, $token, $refresh_token,];
-        }
-
-        return $user;
+        return [$user->load($relations), $token, $refresh_token,];
     }
 
     /**
@@ -132,54 +123,65 @@ class UserService extends BaseService implements IUserService
      */
     public function logout(): void
     {
-        $user = auth($this->guard)->user();
-        auth($this->guard)->logout();
+        $user = auth()->user();
+        auth()->logout();
         $user->fcm_token = null;
         $user->save();
     }
 
     /**
-     * @return array{user:User , token:string , refresh_token:string}|null
+     * @return array{User , string , string}|null
      */
-    public function refresh_token(): ?array
+    public function refreshToken(array $relations = []): ?array
     {
         try {
-            $user = auth($this->guard)->user();
-            $token = auth($this->guard)->setTTL(env('JWT_TTL', 10080))->refresh();
-            $refresh_token = auth($this->guard)->setTTL(env('JWT_REFRESH_TTL', 20160))->refresh();
+            $user = auth()->user();
+            $token = auth()->setTTL(env('JWT_TTL', 10080))->refresh();
+            $refresh_token = auth()->setTTL(env('JWT_REFRESH_TTL', 20160))->refresh();
 
-            return ['user' => $user, 'token' => $token, 'refresh_token' => $refresh_token];
+            return [$user->load($relations), $token, $refresh_token];
         } catch (Exception) {
             return null;
         }
     }
 
     /**
-     * @param  array                                                       $data
-     * @param  string|null                                                 $role
-     * @return array{user:User , token:string , refresh_token:string}|User
+     * @param array $data
+     * @param string|null $role
+     * @param array $relations
+     * @return array{User , string , string}|User
+     * @throws RoleDoesNotExistException
      */
-    public function register(array $data, ?string $role = null): array|User
+    public function register(array $data, ?string $role = null, array $relations = []): array|User
     {
-        $user = $this->repository->create($data);
+        try {
+            DB::beginTransaction();
+            /** @var User $user */
+            $user = $this->repository->create($data);
 
-        if ($role) {
-            $user->assignRole($role);
+            if ($role) {
+                $user->assignRole($role);
+            }
+
+            if ($role and $role == RolesPermissionEnum::CUSTOMER['role']) {
+                $data = array_merge($data, ['user_id' => $user->id]);
+                $this->customerRepository->create($data);
+            }
+
+            $token = auth()->login($user);
+
+            $refresh_token = auth()->setTTL(ttl: env('JWT_REFRESH_TTL', 20160))->refresh();
+
+            DB::commit();
+            return [$user->load($relations), $token, $refresh_token,];
+        } catch (Exception $exception) {
+            DB::rollBack();
+            throw $exception;
         }
-
-        $token = auth($this->guard)->login($user);
-
-        if (!request()->acceptsHtml()) {
-            $refresh_token = auth($this->guard)->setTTL(ttl: env('JWT_REFRESH_TTL', 20160))->refresh();
-
-            return [$user, $token, $refresh_token,];
-        }
-
-        return $user;
     }
 
     /**
-     * @param  string    $email
+     * @param string $email
      * @return bool|null
      */
     public function passwordResetRequest(string $email): ?bool
@@ -226,8 +228,8 @@ class UserService extends BaseService implements IUserService
     }
 
     /**
-     * @param  string $reset_password_code
-     * @param  string $password
+     * @param string $reset_password_code
+     * @param string $password
      * @return bool
      */
     public function passwordReset(string $reset_password_code, string $password): bool
@@ -246,12 +248,13 @@ class UserService extends BaseService implements IUserService
     }
 
     /**
-     * @param  string|null               $role
+     * @param string|null $role
+     * @param array $relations
      * @return User|Authenticatable|null
      */
-    public function userDetails(?string $role = null): User|Authenticatable|null
+    public function userDetails(?string $role = null , array $relations = []): User|Authenticatable|null
     {
-        $user = auth($this->guard)->user();
+        $user = auth()->user();
 
         if (!$user) {
             return null;
@@ -261,6 +264,6 @@ class UserService extends BaseService implements IUserService
             return null;
         }
 
-        return $user;
+        return $user->load($relations);
     }
 }

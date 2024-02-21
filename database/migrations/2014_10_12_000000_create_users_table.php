@@ -19,12 +19,11 @@ return new class () extends Migration {
             $table->string('last_name');
             $table->string('email')->unique();
             $table->string('phone_number')->unique();
-            $table->date('birth_date');
+            $table->date('birth_date')->nullable();
             $table->enum('gender', GenderEnum::getAllValues());
-            $table->enum('blood_group', BloodGroupEnum::getAllValues());
+            $table->enum('blood_group', BloodGroupEnum::getAllValues())->nullable();
             $table->boolean('is_blocked')->default(false);
             $table->text('tags')->nullable();
-            $table->string('image')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('fcm_token')->nullable();

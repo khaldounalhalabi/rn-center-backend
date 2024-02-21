@@ -78,6 +78,49 @@
                 }
             ],
             "relations": []
+        },
+        {
+            "model_name": "Customer",
+            "table_name": "customers",
+            "attributes": [
+                {
+                    "name": "mother_full_name",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "medical_condition",
+                    "type": "text",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "user_id",
+                    "type": "foreign_key",
+                    "nullable": false,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "belongsTo": [
+                    {
+                        "type": "belongsTo",
+                        "model_name": "User",
+                        "key": "user_id"
+                    }
+                ],
+                "hasMany": [
+                    {
+                        "type": "hasMany",
+                        "model_name": "PatientProfile"
+                    },
+                    {
+                        "type": "hasMany",
+                        "model_name": "Appointment"
+                    }
+                ]
+            }
         }
     ]
 }

@@ -7,6 +7,8 @@ use App\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
@@ -106,7 +108,7 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     public function filesKeys(): array
     {
         return [
-            'image' => ['type' => MediaTypeEnum::SINGLE],
+            'image' => ['type' => MediaTypeEnum::SINGLE->value],
             //filesKeys
         ];
     }
@@ -126,10 +128,17 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         return $this->getFirstMedia();
     }
 
+    public function customer(): HasOne
+    {
+        return $this->hasOne(Customer::class);
+    }
+
     protected function password(): Attribute
     {
         return Attribute::make(
-            set: fn (string $value) => Hash::make($value)
+            set: fn(string $value) => Hash::make($value)
         );
     }
+
+
 }

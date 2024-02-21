@@ -33,7 +33,6 @@ class UserController extends ApiController
 
     public function show($userId)
     {
-        /** @var User|null $item */
         $item = $this->userService->view($userId, $this->relations);
         if ($item) {
             return $this->apiResponse(new UserResource($item), self::STATUS_OK, __('site.get_successfully'));

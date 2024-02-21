@@ -9,7 +9,8 @@ use Illuminate\Support\Collection as RegularCollection;
 use JetBrains\PhpStorm\ArrayShape;
 
 /**
- *
+ * @template T of Model
+ * @class BaseService
  */
 abstract class BaseService implements IBaseService
 {
@@ -46,8 +47,7 @@ abstract class BaseService implements IBaseService
     }
 
     /**
-     * @template T of Model<T>
-     * @param  array                                    $relations
+     * @param array $relations
      * @return Collection<T>|RegularCollection<T>|array
      */
     public function index(array $relations = []): RegularCollection|Collection|array
@@ -56,9 +56,8 @@ abstract class BaseService implements IBaseService
     }
 
     /**
-     * @template T of Model<T>
-     * @param  array                                                                             $relations
-     * @param  int                                                                               $per_page
+     * @param array $relations
+     * @param int $per_page
      * @return array{data:Collection<T>|array|RegularCollection<T> , pagination_data:array}|null
      */
     public function indexWithPagination(array $relations = [], int $per_page = 10): ?array
@@ -67,9 +66,8 @@ abstract class BaseService implements IBaseService
     }
 
     /**
-     * @template T of Model<T>
-     * @param  array  $data
-     * @param  array  $relationships
+     * @param array $data
+     * @param array $relationships
      * @return T|null
      */
     public function store(array $data, array $relationships = []): ?Model
@@ -78,10 +76,9 @@ abstract class BaseService implements IBaseService
     }
 
     /**
-     * @template T of Model<T>
-     * @param  array $data
+     * @param array $data
      * @param        $id
-     * @param  array $relationships
+     * @param array $relationships
      * @return T
      */
     public function update(array $data, $id, array $relationships = []): ?Model
@@ -90,7 +87,8 @@ abstract class BaseService implements IBaseService
     }
 
     /**
-     * @template T of Model<T>
+     * @param $id
+     * @param array $relationships
      * @return T|null
      */
     public function view($id, array $relationships = []): ?Model

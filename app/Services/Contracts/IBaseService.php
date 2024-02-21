@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection as RegularCollection;
 use JetBrains\PhpStorm\ArrayShape;
 
+/**
+ * @template T of Model
+ */
 interface IBaseService
 {
     /**
@@ -23,22 +26,19 @@ interface IBaseService
     public function formatPaginationData($data): array;
 
     /**
-     * @template T of Model<T>
      * @param  array                                    $relations
      * @return Collection<T>|RegularCollection<T>|array
      */
     public function index(array $relations = []): RegularCollection|Collection|array;
 
     /**
-     * @template T of Model<T>
      * @param  array                                                                             $relations
      * @param  int                                                                               $per_page
-     * @return array{data:Collection<T>|array|RegularCollection<T> , pagination_data:array}|null
+     * @return array{data:Collection<T>|array<T>|RegularCollection<T> , pagination_data:array}|null
      */
     public function indexWithPagination(array $relations = [], int $per_page = 10): ?array;
 
     /**
-     * @template T of Model<T>
      * @param  array  $data
      * @param  array  $relationships
      * @return T|null
@@ -46,16 +46,14 @@ interface IBaseService
     public function store(array $data, array $relationships = []): ?Model;
 
     /**
-     * @template T of Model<T>
      * @param  array $data
-     * @param        $id
+     * @param  T|int      $id
      * @param  array $relationships
-     * @return T
+     * @return T|null
      */
     public function update(array $data, $id, array $relationships = []): ?Model;
 
     /**
-     * @template T of Model<T>
      * @return T|null
      */
     public function view($id, array $relationships = []): ?Model;

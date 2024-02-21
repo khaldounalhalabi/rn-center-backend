@@ -8,31 +8,27 @@ use App\Services\Contracts\IBaseService;
 use Illuminate\Contracts\Auth\Authenticatable;
 
 /**
+ * @extends IBaseService<User>
  * Interface IUserService
  */
 interface IUserService extends IBaseService
 {
     /**
-     * @param  string    $guard
-     * @return void
-     * @throws Exception
-     */
-    public function setGuard(string $guard = 'api'): void;
-
-    /**
-     * @param  array                                                            $data
-     * @param  string|null                                                      $role
+     * @param array $data
+     * @param string|null $role
+     * @param array $relations
      * @return array{user:User , token:string , refresh_token:string}|User|null
      */
-    public function updateUserDetails(array $data, ?string $role = null): array|User|null;
+    public function updateUserDetails(array $data, ?string $role = null , array $relations =[]): array|User|null;
 
     /**
-     * @param  array                                                                            $data
-     * @param  string|null                                                                      $role
-     * @param  array                                                                            $additionalData
+     * @param array $data
+     * @param string|null $role
+     * @param array $relations
+     * @param array $additionalData
      * @return User|Authenticatable|array{user:User , token:string , refresh_token:string}|null
      */
-    public function login(array $data, ?string $role = null, array $additionalData = []): User|Authenticatable|array|null;
+    public function login(array $data, ?string $role = null , array $relations = [], array $additionalData = []): User|Authenticatable|array|null;
 
     /**
      * @param       $fcm_token
@@ -46,16 +42,18 @@ interface IUserService extends IBaseService
     public function logout(): void;
 
     /**
+     * @param array $relations
      * @return array{user:User , token:string , refresh_token:string}|null
      */
-    public function refresh_token(): ?array;
+    public function refreshToken(array $relations = []): ?array;
 
     /**
-     * @param  array                                                       $data
-     * @param  string|null                                                 $role
+     * @param array $data
+     * @param string|null $role
+     * @param array $relations
      * @return array{user:User , token:string , refresh_token:string}|User
      */
-    public function register(array $data, ?string $role = null): array|User;
+    public function register(array $data, ?string $role = null , array $relations = []): array|User;
 
     /**
      * @param  string    $email
@@ -83,8 +81,9 @@ interface IUserService extends IBaseService
     public function passwordReset(string $reset_password_code, string $password): bool;
 
     /**
-     * @param  string|null               $role
+     * @param string|null $role
+     * @param array $relations
      * @return User|Authenticatable|null
      */
-    public function userDetails(?string $role = null): User|Authenticatable|null;
+    public function userDetails(?string $role = null , array $relations = []): User|Authenticatable|null;
 }
