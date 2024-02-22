@@ -5,10 +5,10 @@
       <meta name="viewport"
             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
       <meta http-equiv="X-UA-Compatible" content="ie=edge">
-      <title>POM - Reset Password</title>
+      <title>{{$title}}</title>
   </head>
   <body>
-    <p>Your Reset Password Code is :</p>
+    <p>{{$body}}</p>
     <p><strong>{{$code}}</strong></p>
   </body>
 </html>

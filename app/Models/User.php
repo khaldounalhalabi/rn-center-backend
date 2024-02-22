@@ -7,7 +7,6 @@ use App\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -38,7 +37,7 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         'gender', 'blood_group', 'is_blocked',
         'tags', 'image', 'email_verified_at',
         'password', 'fcm_token', 'reset_password_code',
-        'is_archived', 'remember_token',
+        'is_archived', 'remember_token', 'verification_code',
     ];
 
     protected $hidden = [

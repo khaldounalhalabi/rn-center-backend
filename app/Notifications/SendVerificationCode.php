@@ -6,29 +6,35 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ResetPasswordCodeEmail extends Notification
+class SendVerificationCode extends Notification
 {
     use Queueable;
 
-    public $code;
+    public string $code;
+    public string $title;
+    public string $body;
 
     /**
      * Create a new notification instance.
      *
-     * @param $code
+     * @param string $code
+     * @param string $title
+     * @param string $body
      */
-    public function __construct($code)
+    public function __construct(string $code, string $title, string $body)
     {
         $this->code = $code;
+        $this->title = $title;
+        $this->body = $body;
     }
 
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed $notifiable
+     * @param mixed $notifiable
      * @return array
      */
-    public function via($notifiable)
+    public function via($notifiable): array
     {
         return ['mail'];
     }
@@ -36,20 +42,20 @@ class ResetPasswordCodeEmail extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed       $notifiable
+     * @param mixed $notifiable
      * @return MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail($notifiable): MailMessage
     {
         return (new MailMessage())
-            ->subject('Ecommerce - Reset Password')
-            ->view('emails.reset-password-email', ['code' => $this->code]);
+            ->subject('POM - ' . $this->title)
+            ->view('emails.verification-code', ['code' => $this->code, 'title' => $this->title, 'body' => $this->body]);
     }
 
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed $notifiable
+     * @param mixed $notifiable
      * @return array
      */
     public function toArray($notifiable)

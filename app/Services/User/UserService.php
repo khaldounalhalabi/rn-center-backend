@@ -5,7 +5,7 @@ namespace App\Services\User;
 use App\Enums\RolesPermissionEnum;
 use App\Exceptions\RoleDoesNotExistException;
 use App\Models\User;
-use App\Notifications\ResetPasswordCodeEmail;
+use App\Notifications\SendVerificationCode;
 use App\Repositories\CustomerRepository;
 use App\Repositories\UserRepository;
 use App\Services\Contracts\BaseService;
@@ -149,10 +149,10 @@ class UserService extends BaseService implements IUserService
      * @param array $data
      * @param string|null $role
      * @param array $relations
-     * @return array{User , string , string}|User
+     * @return array{User , string , string}
      * @throws RoleDoesNotExistException
      */
-    public function register(array $data, ?string $role = null, array $relations = []): array|User
+    public function register(array $data, ?string $role = null, array $relations = []): array
     {
         try {
             DB::beginTransaction();
@@ -166,6 +166,11 @@ class UserService extends BaseService implements IUserService
             if ($role and $role == RolesPermissionEnum::CUSTOMER['role']) {
                 $data = array_merge($data, ['user_id' => $user->id]);
                 $this->customerRepository->create($data);
+
+                $this->requestVerificationCode($user);
+
+                DB::commit();
+                return [$user->load($relations), null, null];
             }
 
             $token = auth()->login($user);
@@ -181,6 +186,47 @@ class UserService extends BaseService implements IUserService
     }
 
     /**
+     * @return string
+     */
+    public function generateUserVerificationCode(): string
+    {
+        do {
+            $code = sprintf('%06d', mt_rand(1, 999999));
+            $temp_user = $this->getUserByPasswordResetCode($code);
+        } while ($temp_user != null);
+        return $code;
+    }
+
+    /**
+     * @param            $token
+     * @return User|null
+     */
+    public function getUserByPasswordResetCode($token): ?User
+    {
+        return $this->repository->getUserByPasswordResetCode($token);
+    }
+
+    /**
+     * @param $verificationCode
+     * @return bool
+     */
+    public function verifyCustomerEmail($verificationCode): bool
+    {
+        /** @var User $user */
+        $user = $this->repository->getUserByVerificationCode($verificationCode);
+
+        if (!$user) return false;
+
+        if ($user->verification_code != $verificationCode) return false;
+
+        $user->email_verified_at = now();
+        $user->verification_code = null;
+        $user->save();
+
+        return true;
+    }
+
+    /**
      * @param string $email
      * @return bool|null
      */
@@ -189,16 +235,17 @@ class UserService extends BaseService implements IUserService
         $user = $this->getUserByEmail($email);
 
         if ($user) {
-            do {
-                $code = sprintf('%06d', mt_rand(1, 999999));
-                $temp_user = $this->getUserByPasswordResetCode($code);
-            } while ($temp_user != null);
+            $code = $this->generateUserVerificationCode();
 
             $user->reset_password_code = $code;
             $user->save();
 
             try {
-                $user->notify(new ResetPasswordCodeEmail($code));
+                $user->notify(new SendVerificationCode(
+                    $code,
+                    'Reset Password Verification Code',
+                    'Your Password Reset Code Is : '
+                ));
             } catch (Exception) {
                 return null;
             }
@@ -219,15 +266,6 @@ class UserService extends BaseService implements IUserService
     }
 
     /**
-     * @param            $token
-     * @return User|null
-     */
-    public function getUserByPasswordResetCode($token): ?User
-    {
-        return $this->repository->getUserByPasswordResetCode($token);
-    }
-
-    /**
      * @param string $reset_password_code
      * @param string $password
      * @return bool
@@ -235,6 +273,10 @@ class UserService extends BaseService implements IUserService
     public function passwordReset(string $reset_password_code, string $password): bool
     {
         $user = $this->getUserByPasswordResetCode($reset_password_code);
+
+        if ($user->updated_at->addMinutes(10)->equalTo(now())) {
+            return false;
+        }
 
         if ($user) {
             $user->password = $password;
@@ -252,7 +294,7 @@ class UserService extends BaseService implements IUserService
      * @param array $relations
      * @return User|Authenticatable|null
      */
-    public function userDetails(?string $role = null , array $relations = []): User|Authenticatable|null
+    public function userDetails(?string $role = null, array $relations = []): User|Authenticatable|null
     {
         $user = auth()->user();
 
@@ -265,5 +307,22 @@ class UserService extends BaseService implements IUserService
         }
 
         return $user->load($relations);
+    }
+
+    /**
+     * @param User $user
+     * @return void
+     */
+    public function requestVerificationCode(User $user): void
+    {
+        $code = $this->generateUserVerificationCode();
+        $user->notify(new SendVerificationCode(
+            $code,
+            'Verify Your Email',
+            'Your Email Verification Code Is : '
+        ));
+
+        $user->verification_code = $code;
+        $user->save();
     }
 }

@@ -15,7 +15,7 @@ use Exception;
 
 class BaseAuthController extends ApiController
 {
-    private IUserService $userService;
+    protected IUserService $userService;
     private ?string $role = null;
 
     /**
