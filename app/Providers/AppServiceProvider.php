@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Channels\DataBaseChannel;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Notifications\Channels\DatabaseChannel as LaravelDatabaseChannel;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +22,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->app->instance(LaravelDatabaseChannel::class, new DataBaseChannel());
     }
 }
