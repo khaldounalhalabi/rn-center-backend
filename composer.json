@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
-        "cubeta/cubeta-starter": "dev-roles",
+        "cubeta/cubeta-starter": "dev-dev",
         "guzzlehttp/guzzle": "^7.2",
         "laravel-notification-channels/fcm": "^4.1",
         "laravel/framework": "^10.10",
