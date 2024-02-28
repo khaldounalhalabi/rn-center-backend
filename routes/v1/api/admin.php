@@ -9,3 +9,4 @@ Route::post('/admin/logout', [v1\AdminAuthController::class, 'logout'])->middlew
 Route::post('/admin/update-user-data', [v1\AdminAuthController::class, 'updateUserDetails'])->name('update-user-data');
 
 Route::apiResource("/customers", v1\CustomerController::class)->names("api.admin.customers");
+Route::apiResource("/clinics", v1\ClinicController::class)->names("api.admin.clinics") ;

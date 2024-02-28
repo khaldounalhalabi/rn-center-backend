@@ -26,6 +26,7 @@ class UserResource extends BaseResource
             'is_archived' => $this->is_archived,
             'image' => new MediaResource($this->whenLoaded('media', $this->getFirstMedia())),
             'customer' => new CustomerResource($this->whenLoaded('customer')),
+            'clinics' => new ClinicResource($this->whenLoaded('clinic')),
         ];
     }
 }

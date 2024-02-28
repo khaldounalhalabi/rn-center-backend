@@ -7,6 +7,7 @@ use App\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -130,6 +131,11 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     public function customer(): HasOne
     {
         return $this->hasOne(Customer::class);
+    }
+
+    public function clinic(): HasOne
+    {
+        return $this->hasOne(Clinic::class);
     }
 
     protected function password(): Attribute

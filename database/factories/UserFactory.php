@@ -4,6 +4,8 @@ namespace Database\Factories;
 
 use App\Enums\BloodGroupEnum;
 use App\Enums\GenderEnum;
+use App\Models\Clinic;
+use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Http\UploadedFile;
@@ -47,9 +49,15 @@ class UserFactory extends Factory
             }
         });
     }
-public function withCustomers($count = 1)
-{
-	 return $this->has(\App\Models\Customer::factory($count));
-}
+
+    public function withCustomer(): UserFactory
+    {
+        return $this->has(Customer::factory());
+    }
+
+    public function withClinics(): UserFactory
+    {
+        return $this->has(Clinic::factory());
+    }
 
 }

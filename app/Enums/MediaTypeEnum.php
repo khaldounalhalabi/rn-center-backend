@@ -2,12 +2,14 @@
 
 namespace App\Enums;
 
+use App\Models\Clinic;
 use App\Models\User;
 
 enum MediaTypeEnum: string
 {
     public const TYPES = [
         User::class => 'user',
+        Clinic::class => 'clinic',
     ];
 
     case SINGLE = 'single';

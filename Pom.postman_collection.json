@@ -1,9 +1,7 @@
 {
     "info": {
-        "_postman_id": "2876ce15-b05c-44cd-b53e-17d1fc51d81f",
         "name": "Pom",
-        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-        "_exporter_id": "25683379"
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
     },
     "item": [
         {
@@ -11,15 +9,18 @@
             "item": [
                 {
                     "name": "index",
+                    "events": [],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "GET",
@@ -36,39 +37,29 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{local}}/users?search&sort_col&sort_dir",
+                            "raw": "{{local}}v1/{{local}}/users?search&sort_col&sort_dir",
                             "host": [
-                                "{{local}}/users"
-                            ],
-                            "query": [
-                                {
-                                    "key": "search",
-                                    "value": null
-                                },
-                                {
-                                    "key": "sort_col",
-                                    "value": null
-                                },
-                                {
-                                    "key": "sort_dir",
-                                    "value": null
-                                }
+                                "{{local}}v1/{{local}}/users?search&sort_col&sort_dir"
                             ]
-                        }
+                        },
+                        "body": null
                     },
                     "response": []
                 },
                 {
                     "name": "show",
+                    "events": [],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "GET",
@@ -80,25 +71,29 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{local}}/users/1",
+                            "raw": "{{local}}v1/{{local}}/users/1",
                             "host": [
-                                "{{local}}/users/1"
+                                "{{local}}v1/{{local}}/users/1"
                             ]
-                        }
+                        },
+                        "body": null
                     },
                     "response": []
                 },
                 {
                     "name": "store",
+                    "events": [],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "POST",
@@ -109,63 +104,87 @@
                                 "type": "text"
                             }
                         ],
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/users",
+                            "host": [
+                                "{{local}}v1/{{local}}/users"
+                            ]
+                        },
                         "body": {
                             "mode": "formdata",
                             "formdata": [
                                 {
                                     "key": "first_name",
-                                    "type": "text"
+                                    "value": "",
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "middle_name",
-                                    "type": "text"
+                                    "value": "",
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "last_name",
-                                    "type": "text"
+                                    "value": "",
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "phone_number",
-                                    "type": "text"
+                                    "value": "",
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "email",
-                                    "type": "text"
+                                    "value": "",
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "password",
-                                    "type": "text"
+                                    "value": "",
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "birth_date",
-                                    "type": "text"
+                                    "value": "",
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "gender",
-                                    "type": "text"
+                                    "value": "",
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "blood_group",
-                                    "type": "text"
+                                    "value": "",
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "is_blocked",
-                                    "type": "text"
+                                    "value": "",
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "tags",
-                                    "type": "text"
+                                    "value": "",
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "image",
-                                    "type": "file"
+                                    "value": "",
+                                    "type": "file",
+                                    "description": ""
                                 }
-                            ]
-                        },
-                        "url": {
-                            "raw": "{{local}}/users",
-                            "host": [
-                                "{{local}}/users"
                             ]
                         }
                     },
@@ -173,15 +192,18 @@
                 },
                 {
                     "name": "update",
+                    "events": [],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "PUT",
@@ -192,79 +214,33 @@
                                 "type": "text"
                             }
                         ],
-                        "body": {
-                            "mode": "urlencoded",
-                            "urlencoded": [
-                                {
-                                    "key": "first_name",
-                                    "type": "text"
-                                },
-                                {
-                                    "key": "middle_name",
-                                    "type": "text"
-                                },
-                                {
-                                    "key": "last_name",
-                                    "type": "text"
-                                },
-                                {
-                                    "key": "phone_number",
-                                    "type": "text"
-                                },
-                                {
-                                    "key": "email",
-                                    "type": "text"
-                                },
-                                {
-                                    "key": "password",
-                                    "type": "text"
-                                },
-                                {
-                                    "key": "birth_date",
-                                    "type": "text"
-                                },
-                                {
-                                    "key": "gender",
-                                    "type": "text"
-                                },
-                                {
-                                    "key": "blood_group",
-                                    "type": "text"
-                                },
-                                {
-                                    "key": "is_blocked",
-                                    "type": "text"
-                                },
-                                {
-                                    "key": "tags",
-                                    "type": "text"
-                                },
-                                {
-                                    "key": "image",
-                                    "type": "file"
-                                }
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/users/1",
+                            "host": [
+                                "{{local}}v1/{{local}}/users/1"
                             ]
                         },
-                        "url": {
-                            "raw": "{{local}}/users/1",
-                            "host": [
-                                "{{local}}/users/1"
-                            ]
+                        "body": {
+                            "mode": "urlencoded",
+                            "urlencoded": []
                         }
                     },
                     "response": []
                 },
                 {
                     "name": "delete",
+                    "events": [],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "DELETE",
@@ -276,11 +252,12 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{local}}/users/1",
+                            "raw": "{{local}}v1/{{local}}/users/1",
                             "host": [
-                                "{{local}}/users/1"
+                                "{{local}}v1/{{local}}/users/1"
                             ]
-                        }
+                        },
+                        "body": null
                     },
                     "response": []
                 }
@@ -291,36 +268,38 @@
             "item": [
                 {
                     "name": "register",
-                    "event": [
+                    "events": [
                         {
-                            "listen": "prerequest",
                             "script": {
                                 "exec": [
                                     ""
                                 ],
                                 "type": "text/javascript"
-                            }
+                            },
+                            "listen": "prerequest"
                         },
                         {
-                            "listen": "test",
                             "script": {
                                 "exec": [
                                     "var jsonData = JSON.parse(responseBody);\r",
                                     "pm.collectionVariables.set(\"token\", jsonData.data.token);"
                                 ],
                                 "type": "text/javascript"
-                            }
+                            },
+                            "listen": "test"
                         }
                     ],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "POST",
@@ -336,43 +315,45 @@
                                 "type": "text"
                             }
                         ],
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/admin/register",
+                            "host": [
+                                "{{local}}v1/{{local}}/admin/register"
+                            ]
+                        },
                         "body": {
                             "mode": "formdata",
                             "formdata": [
                                 {
                                     "key": "first_name",
                                     "value": "admin",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "last_name",
                                     "value": "admin",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "email",
                                     "value": "admin@email.com",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "password",
                                     "value": "123456789",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "password_confirmation",
                                     "value": "123456789",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 }
-                            ]
-                        },
-                        "url": {
-                            "raw": "{{local}}/admin/register",
-                            "host": [
-                                "{{local}}/admin"
-                            ],
-                            "path": [
-                                "register"
                             ]
                         }
                     },
@@ -380,36 +361,38 @@
                 },
                 {
                     "name": "update info",
-                    "event": [
+                    "events": [
                         {
-                            "listen": "prerequest",
                             "script": {
                                 "exec": [
                                     ""
                                 ],
                                 "type": "text/javascript"
-                            }
+                            },
+                            "listen": "prerequest"
                         },
                         {
-                            "listen": "admin",
                             "script": {
                                 "exec": [
                                     "var jsonData = JSON.parse(responseBody);\r",
                                     "pm.collectionVariables.set(\"token\", jsonData.data.token);"
                                 ],
                                 "type": "text/javascript"
-                            }
+                            },
+                            "listen": "admin"
                         }
                     ],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "POST",
@@ -425,48 +408,51 @@
                                 "type": "text"
                             }
                         ],
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/admin/update-user-data",
+                            "host": [
+                                "{{local}}v1/{{local}}/admin/update-user-data"
+                            ]
+                        },
                         "body": {
                             "mode": "formdata",
                             "formdata": [
                                 {
                                     "key": "first_name",
                                     "value": "admin",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "last_name",
                                     "value": "admin",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "email",
                                     "value": "admin@email.com",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "password",
                                     "value": "123456789",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "password_confirmation",
                                     "value": "123456789",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "fcm_token",
                                     "value": "",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 }
-                            ]
-                        },
-                        "url": {
-                            "raw": "{{local}}/admin/update-user-data",
-                            "host": [
-                                "{{local}}/admin"
-                            ],
-                            "path": [
-                                "update-user-data"
                             ]
                         }
                     },
@@ -474,36 +460,38 @@
                 },
                 {
                     "name": "login",
-                    "event": [
+                    "events": [
                         {
-                            "listen": "prerequest",
                             "script": {
                                 "exec": [
                                     ""
                                 ],
                                 "type": "text/javascript"
-                            }
+                            },
+                            "listen": "prerequest"
                         },
                         {
-                            "listen": "test",
                             "script": {
                                 "exec": [
                                     "var jsonData = JSON.parse(responseBody);\r",
                                     "pm.collectionVariables.set(\"token\", jsonData.data.token);"
                                 ],
                                 "type": "text/javascript"
-                            }
+                            },
+                            "listen": "test"
                         }
                     ],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "POST",
@@ -514,26 +502,27 @@
                                 "type": "text"
                             }
                         ],
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/admin/login",
+                            "host": [
+                                "{{local}}v1/{{local}}/admin/login"
+                            ]
+                        },
                         "body": {
                             "mode": "formdata",
                             "formdata": [
                                 {
                                     "key": "email",
-                                    "value": "admin@email.com"
+                                    "value": "admin@email.com",
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "password",
-                                    "value": "123456789"
+                                    "value": "123456789",
+                                    "type": "text",
+                                    "description": ""
                                 }
-                            ]
-                        },
-                        "url": {
-                            "raw": "{{local}}/admin/login",
-                            "host": [
-                                "{{local}}/admin"
-                            ],
-                            "path": [
-                                "login"
                             ]
                         }
                     },
@@ -541,15 +530,18 @@
                 },
                 {
                     "name": "refresh",
+                    "events": [],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "POST",
@@ -560,33 +552,33 @@
                                 "type": "text"
                             }
                         ],
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/admin/refresh",
+                            "host": [
+                                "{{local}}v1/{{local}}/admin/refresh"
+                            ]
+                        },
                         "body": {
                             "mode": "formdata",
                             "formdata": []
-                        },
-                        "url": {
-                            "raw": "{{local}}/admin/refresh",
-                            "host": [
-                                "{{local}}/admin"
-                            ],
-                            "path": [
-                                "refresh"
-                            ]
                         }
                     },
                     "response": []
                 },
                 {
                     "name": "reset password request",
+                    "events": [],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "POST",
@@ -597,39 +589,33 @@
                                 "type": "text"
                             }
                         ],
-                        "body": {
-                            "mode": "urlencoded",
-                            "urlencoded": [
-                                {
-                                    "key": "email",
-                                    "value": "admin@email.com",
-                                    "type": "text"
-                                }
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/admin/password-reset-request",
+                            "host": [
+                                "{{local}}v1/{{local}}/admin/password-reset-request"
                             ]
                         },
-                        "url": {
-                            "raw": "{{local}}/admin/password-reset-request",
-                            "host": [
-                                "{{local}}/admin"
-                            ],
-                            "path": [
-                                "password-reset-request"
-                            ]
+                        "body": {
+                            "mode": "urlencoded",
+                            "urlencoded": []
                         }
                     },
                     "response": []
                 },
                 {
                     "name": "check reset password code",
+                    "events": [],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "POST",
@@ -640,22 +626,21 @@
                                 "type": "text"
                             }
                         ],
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/admin/check-reset-password-code",
+                            "host": [
+                                "{{local}}v1/{{local}}/admin/check-reset-password-code"
+                            ]
+                        },
                         "body": {
                             "mode": "formdata",
                             "formdata": [
                                 {
                                     "key": "reset_password_code",
-                                    "value": ""
+                                    "value": "",
+                                    "type": "text",
+                                    "description": ""
                                 }
-                            ]
-                        },
-                        "url": {
-                            "raw": "{{local}}/admin/check-reset-password-code",
-                            "host": [
-                                "{{local}}/admin"
-                            ],
-                            "path": [
-                                "check-reset-password-code"
                             ]
                         }
                     },
@@ -663,15 +648,18 @@
                 },
                 {
                     "name": "reset password",
+                    "events": [],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "POST",
@@ -682,33 +670,33 @@
                                 "type": "text"
                             }
                         ],
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/admin/reset-password",
+                            "host": [
+                                "{{local}}v1/{{local}}/admin/reset-password"
+                            ]
+                        },
                         "body": {
                             "mode": "formdata",
                             "formdata": [
                                 {
                                     "key": "reset_password_code",
                                     "value": "",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "password",
                                     "value": "12345678",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "password_confirmation",
                                     "value": "12345678",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 }
-                            ]
-                        },
-                        "url": {
-                            "raw": "{{local}}/admin/reset-password",
-                            "host": [
-                                "{{local}}/admin"
-                            ],
-                            "path": [
-                                "reset-password"
                             ]
                         }
                     },
@@ -716,15 +704,18 @@
                 },
                 {
                     "name": "logout",
+                    "events": [],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "POST",
@@ -735,18 +726,15 @@
                                 "type": "text"
                             }
                         ],
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/admin/logout",
+                            "host": [
+                                "{{local}}v1/{{local}}/admin/logout"
+                            ]
+                        },
                         "body": {
                             "mode": "formdata",
                             "formdata": []
-                        },
-                        "url": {
-                            "raw": "{{local}}/admin/logout",
-                            "host": [
-                                "{{local}}/admin"
-                            ],
-                            "path": [
-                                "logout"
-                            ]
                         }
                     },
                     "response": []
@@ -758,36 +746,38 @@
             "item": [
                 {
                     "name": "register",
-                    "event": [
+                    "events": [
                         {
-                            "listen": "prerequest",
                             "script": {
                                 "exec": [
                                     ""
                                 ],
                                 "type": "text/javascript"
-                            }
+                            },
+                            "listen": "prerequest"
                         },
                         {
-                            "listen": "test",
                             "script": {
                                 "exec": [
                                     "var jsonData = JSON.parse(responseBody);\r",
                                     "pm.collectionVariables.set(\"token\", jsonData.data.token);"
                                 ],
                                 "type": "text/javascript"
-                            }
+                            },
+                            "listen": "test"
                         }
                     ],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "POST",
@@ -803,43 +793,45 @@
                                 "type": "text"
                             }
                         ],
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/doctor/register",
+                            "host": [
+                                "{{local}}v1/{{local}}/doctor/register"
+                            ]
+                        },
                         "body": {
                             "mode": "formdata",
                             "formdata": [
                                 {
                                     "key": "first_name",
                                     "value": "doctor",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "last_name",
                                     "value": "doctor",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "email",
                                     "value": "doctor@email.com",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "password",
                                     "value": "123456789",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "password_confirmation",
                                     "value": "123456789",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 }
-                            ]
-                        },
-                        "url": {
-                            "raw": "{{local}}/doctor/register",
-                            "host": [
-                                "{{local}}/doctor"
-                            ],
-                            "path": [
-                                "register"
                             ]
                         }
                     },
@@ -847,36 +839,38 @@
                 },
                 {
                     "name": "update info",
-                    "event": [
+                    "events": [
                         {
-                            "listen": "prerequest",
                             "script": {
                                 "exec": [
                                     ""
                                 ],
                                 "type": "text/javascript"
-                            }
+                            },
+                            "listen": "prerequest"
                         },
                         {
-                            "listen": "doctor",
                             "script": {
                                 "exec": [
                                     "var jsonData = JSON.parse(responseBody);\r",
                                     "pm.collectionVariables.set(\"token\", jsonData.data.token);"
                                 ],
                                 "type": "text/javascript"
-                            }
+                            },
+                            "listen": "doctor"
                         }
                     ],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "POST",
@@ -892,48 +886,51 @@
                                 "type": "text"
                             }
                         ],
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/doctor/update-user-data",
+                            "host": [
+                                "{{local}}v1/{{local}}/doctor/update-user-data"
+                            ]
+                        },
                         "body": {
                             "mode": "formdata",
                             "formdata": [
                                 {
                                     "key": "first_name",
                                     "value": "doctor",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "last_name",
                                     "value": "doctor",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "email",
                                     "value": "doctor@email.com",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "password",
                                     "value": "123456789",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "password_confirmation",
                                     "value": "123456789",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "fcm_token",
                                     "value": "",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 }
-                            ]
-                        },
-                        "url": {
-                            "raw": "{{local}}/doctor/update-user-data",
-                            "host": [
-                                "{{local}}/doctor"
-                            ],
-                            "path": [
-                                "update-user-data"
                             ]
                         }
                     },
@@ -941,36 +938,38 @@
                 },
                 {
                     "name": "login",
-                    "event": [
+                    "events": [
                         {
-                            "listen": "prerequest",
                             "script": {
                                 "exec": [
                                     ""
                                 ],
                                 "type": "text/javascript"
-                            }
+                            },
+                            "listen": "prerequest"
                         },
                         {
-                            "listen": "test",
                             "script": {
                                 "exec": [
                                     "var jsonData = JSON.parse(responseBody);\r",
                                     "pm.collectionVariables.set(\"token\", jsonData.data.token);"
                                 ],
                                 "type": "text/javascript"
-                            }
+                            },
+                            "listen": "test"
                         }
                     ],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "POST",
@@ -981,26 +980,27 @@
                                 "type": "text"
                             }
                         ],
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/doctor/login",
+                            "host": [
+                                "{{local}}v1/{{local}}/doctor/login"
+                            ]
+                        },
                         "body": {
                             "mode": "formdata",
                             "formdata": [
                                 {
                                     "key": "email",
-                                    "value": "doctor@email.com"
+                                    "value": "doctor@email.com",
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "password",
-                                    "value": "123456789"
+                                    "value": "123456789",
+                                    "type": "text",
+                                    "description": ""
                                 }
-                            ]
-                        },
-                        "url": {
-                            "raw": "{{local}}/doctor/login",
-                            "host": [
-                                "{{local}}/doctor"
-                            ],
-                            "path": [
-                                "login"
                             ]
                         }
                     },
@@ -1008,15 +1008,18 @@
                 },
                 {
                     "name": "refresh",
+                    "events": [],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "POST",
@@ -1027,33 +1030,33 @@
                                 "type": "text"
                             }
                         ],
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/doctor/refresh",
+                            "host": [
+                                "{{local}}v1/{{local}}/doctor/refresh"
+                            ]
+                        },
                         "body": {
                             "mode": "formdata",
                             "formdata": []
-                        },
-                        "url": {
-                            "raw": "{{local}}/doctor/refresh",
-                            "host": [
-                                "{{local}}/doctor"
-                            ],
-                            "path": [
-                                "refresh"
-                            ]
                         }
                     },
                     "response": []
                 },
                 {
                     "name": "reset password request",
+                    "events": [],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "POST",
@@ -1064,39 +1067,33 @@
                                 "type": "text"
                             }
                         ],
-                        "body": {
-                            "mode": "urlencoded",
-                            "urlencoded": [
-                                {
-                                    "key": "email",
-                                    "value": "doctor@email.com",
-                                    "type": "text"
-                                }
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/doctor/password-reset-request",
+                            "host": [
+                                "{{local}}v1/{{local}}/doctor/password-reset-request"
                             ]
                         },
-                        "url": {
-                            "raw": "{{local}}/doctor/password-reset-request",
-                            "host": [
-                                "{{local}}/doctor"
-                            ],
-                            "path": [
-                                "password-reset-request"
-                            ]
+                        "body": {
+                            "mode": "urlencoded",
+                            "urlencoded": []
                         }
                     },
                     "response": []
                 },
                 {
                     "name": "check reset password code",
+                    "events": [],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "POST",
@@ -1107,22 +1104,21 @@
                                 "type": "text"
                             }
                         ],
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/doctor/check-reset-password-code",
+                            "host": [
+                                "{{local}}v1/{{local}}/doctor/check-reset-password-code"
+                            ]
+                        },
                         "body": {
                             "mode": "formdata",
                             "formdata": [
                                 {
                                     "key": "reset_password_code",
-                                    "value": ""
+                                    "value": "",
+                                    "type": "text",
+                                    "description": ""
                                 }
-                            ]
-                        },
-                        "url": {
-                            "raw": "{{local}}/doctor/check-reset-password-code",
-                            "host": [
-                                "{{local}}/doctor"
-                            ],
-                            "path": [
-                                "check-reset-password-code"
                             ]
                         }
                     },
@@ -1130,15 +1126,18 @@
                 },
                 {
                     "name": "reset password",
+                    "events": [],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "POST",
@@ -1149,33 +1148,33 @@
                                 "type": "text"
                             }
                         ],
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/doctor/reset-password",
+                            "host": [
+                                "{{local}}v1/{{local}}/doctor/reset-password"
+                            ]
+                        },
                         "body": {
                             "mode": "formdata",
                             "formdata": [
                                 {
                                     "key": "reset_password_code",
                                     "value": "",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "password",
                                     "value": "12345678",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "password_confirmation",
                                     "value": "12345678",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 }
-                            ]
-                        },
-                        "url": {
-                            "raw": "{{local}}/doctor/reset-password",
-                            "host": [
-                                "{{local}}/doctor"
-                            ],
-                            "path": [
-                                "reset-password"
                             ]
                         }
                     },
@@ -1183,15 +1182,18 @@
                 },
                 {
                     "name": "logout",
+                    "events": [],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "POST",
@@ -1202,18 +1204,15 @@
                                 "type": "text"
                             }
                         ],
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/doctor/logout",
+                            "host": [
+                                "{{local}}v1/{{local}}/doctor/logout"
+                            ]
+                        },
                         "body": {
                             "mode": "formdata",
                             "formdata": []
-                        },
-                        "url": {
-                            "raw": "{{local}}/doctor/logout",
-                            "host": [
-                                "{{local}}/doctor"
-                            ],
-                            "path": [
-                                "logout"
-                            ]
                         }
                     },
                     "response": []
@@ -1225,36 +1224,38 @@
             "item": [
                 {
                     "name": "register",
-                    "event": [
+                    "events": [
                         {
-                            "listen": "prerequest",
                             "script": {
                                 "exec": [
                                     ""
                                 ],
                                 "type": "text/javascript"
-                            }
+                            },
+                            "listen": "prerequest"
                         },
                         {
-                            "listen": "test",
                             "script": {
                                 "exec": [
                                     "var jsonData = JSON.parse(responseBody);\r",
                                     "pm.collectionVariables.set(\"token\", jsonData.data.token);"
                                 ],
                                 "type": "text/javascript"
-                            }
+                            },
+                            "listen": "test"
                         }
                     ],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "POST",
@@ -1270,43 +1271,45 @@
                                 "type": "text"
                             }
                         ],
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/customer/register",
+                            "host": [
+                                "{{local}}v1/{{local}}/customer/register"
+                            ]
+                        },
                         "body": {
                             "mode": "formdata",
                             "formdata": [
                                 {
                                     "key": "first_name",
                                     "value": "customer",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "last_name",
                                     "value": "customer",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "email",
                                     "value": "customer@email.com",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "password",
                                     "value": "123456789",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "password_confirmation",
                                     "value": "123456789",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 }
-                            ]
-                        },
-                        "url": {
-                            "raw": "{{local}}/customer/register",
-                            "host": [
-                                "{{local}}/customer"
-                            ],
-                            "path": [
-                                "register"
                             ]
                         }
                     },
@@ -1314,36 +1317,38 @@
                 },
                 {
                     "name": "update info",
-                    "event": [
+                    "events": [
                         {
-                            "listen": "prerequest",
                             "script": {
                                 "exec": [
                                     ""
                                 ],
                                 "type": "text/javascript"
-                            }
+                            },
+                            "listen": "prerequest"
                         },
                         {
-                            "listen": "customer",
                             "script": {
                                 "exec": [
                                     "var jsonData = JSON.parse(responseBody);\r",
                                     "pm.collectionVariables.set(\"token\", jsonData.data.token);"
                                 ],
                                 "type": "text/javascript"
-                            }
+                            },
+                            "listen": "customer"
                         }
                     ],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "POST",
@@ -1359,48 +1364,51 @@
                                 "type": "text"
                             }
                         ],
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/customer/update-user-data",
+                            "host": [
+                                "{{local}}v1/{{local}}/customer/update-user-data"
+                            ]
+                        },
                         "body": {
                             "mode": "formdata",
                             "formdata": [
                                 {
                                     "key": "first_name",
                                     "value": "customer",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "last_name",
                                     "value": "customer",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "email",
                                     "value": "customer@email.com",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "password",
                                     "value": "123456789",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "password_confirmation",
                                     "value": "123456789",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "fcm_token",
                                     "value": "",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 }
-                            ]
-                        },
-                        "url": {
-                            "raw": "{{local}}/customer/update-user-data",
-                            "host": [
-                                "{{local}}/customer"
-                            ],
-                            "path": [
-                                "update-user-data"
                             ]
                         }
                     },
@@ -1408,36 +1416,38 @@
                 },
                 {
                     "name": "login",
-                    "event": [
+                    "events": [
                         {
-                            "listen": "prerequest",
                             "script": {
                                 "exec": [
                                     ""
                                 ],
                                 "type": "text/javascript"
-                            }
+                            },
+                            "listen": "prerequest"
                         },
                         {
-                            "listen": "test",
                             "script": {
                                 "exec": [
                                     "var jsonData = JSON.parse(responseBody);\r",
                                     "pm.collectionVariables.set(\"token\", jsonData.data.token);"
                                 ],
                                 "type": "text/javascript"
-                            }
+                            },
+                            "listen": "test"
                         }
                     ],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "POST",
@@ -1448,26 +1458,27 @@
                                 "type": "text"
                             }
                         ],
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/customer/login",
+                            "host": [
+                                "{{local}}v1/{{local}}/customer/login"
+                            ]
+                        },
                         "body": {
                             "mode": "formdata",
                             "formdata": [
                                 {
                                     "key": "email",
-                                    "value": "customer@email.com"
+                                    "value": "customer@email.com",
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "password",
-                                    "value": "123456789"
+                                    "value": "123456789",
+                                    "type": "text",
+                                    "description": ""
                                 }
-                            ]
-                        },
-                        "url": {
-                            "raw": "{{local}}/customer/login",
-                            "host": [
-                                "{{local}}/customer"
-                            ],
-                            "path": [
-                                "login"
                             ]
                         }
                     },
@@ -1475,15 +1486,18 @@
                 },
                 {
                     "name": "refresh",
+                    "events": [],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "POST",
@@ -1494,33 +1508,33 @@
                                 "type": "text"
                             }
                         ],
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/customer/refresh",
+                            "host": [
+                                "{{local}}v1/{{local}}/customer/refresh"
+                            ]
+                        },
                         "body": {
                             "mode": "formdata",
                             "formdata": []
-                        },
-                        "url": {
-                            "raw": "{{local}}/customer/refresh",
-                            "host": [
-                                "{{local}}/customer"
-                            ],
-                            "path": [
-                                "refresh"
-                            ]
                         }
                     },
                     "response": []
                 },
                 {
                     "name": "reset password request",
+                    "events": [],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "POST",
@@ -1531,39 +1545,33 @@
                                 "type": "text"
                             }
                         ],
-                        "body": {
-                            "mode": "urlencoded",
-                            "urlencoded": [
-                                {
-                                    "key": "email",
-                                    "value": "customer@email.com",
-                                    "type": "text"
-                                }
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/customer/password-reset-request",
+                            "host": [
+                                "{{local}}v1/{{local}}/customer/password-reset-request"
                             ]
                         },
-                        "url": {
-                            "raw": "{{local}}/customer/password-reset-request",
-                            "host": [
-                                "{{local}}/customer"
-                            ],
-                            "path": [
-                                "password-reset-request"
-                            ]
+                        "body": {
+                            "mode": "urlencoded",
+                            "urlencoded": []
                         }
                     },
                     "response": []
                 },
                 {
                     "name": "check reset password code",
+                    "events": [],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "POST",
@@ -1574,22 +1582,21 @@
                                 "type": "text"
                             }
                         ],
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/customer/check-reset-password-code",
+                            "host": [
+                                "{{local}}v1/{{local}}/customer/check-reset-password-code"
+                            ]
+                        },
                         "body": {
                             "mode": "formdata",
                             "formdata": [
                                 {
                                     "key": "reset_password_code",
-                                    "value": ""
+                                    "value": "",
+                                    "type": "text",
+                                    "description": ""
                                 }
-                            ]
-                        },
-                        "url": {
-                            "raw": "{{local}}/customer/check-reset-password-code",
-                            "host": [
-                                "{{local}}/customer"
-                            ],
-                            "path": [
-                                "check-reset-password-code"
                             ]
                         }
                     },
@@ -1597,15 +1604,18 @@
                 },
                 {
                     "name": "reset password",
+                    "events": [],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "POST",
@@ -1616,33 +1626,33 @@
                                 "type": "text"
                             }
                         ],
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/customer/reset-password",
+                            "host": [
+                                "{{local}}v1/{{local}}/customer/reset-password"
+                            ]
+                        },
                         "body": {
                             "mode": "formdata",
                             "formdata": [
                                 {
                                     "key": "reset_password_code",
                                     "value": "",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "password",
                                     "value": "12345678",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
                                     "key": "password_confirmation",
                                     "value": "12345678",
-                                    "type": "text"
+                                    "type": "text",
+                                    "description": ""
                                 }
-                            ]
-                        },
-                        "url": {
-                            "raw": "{{local}}/customer/reset-password",
-                            "host": [
-                                "{{local}}/customer"
-                            ],
-                            "path": [
-                                "reset-password"
                             ]
                         }
                     },
@@ -1650,15 +1660,18 @@
                 },
                 {
                     "name": "logout",
+                    "events": [],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "POST",
@@ -1669,18 +1682,15 @@
                                 "type": "text"
                             }
                         ],
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/customer/logout",
+                            "host": [
+                                "{{local}}v1/{{local}}/customer/logout"
+                            ]
+                        },
                         "body": {
                             "mode": "formdata",
                             "formdata": []
-                        },
-                        "url": {
-                            "raw": "{{local}}/customer/logout",
-                            "host": [
-                                "{{local}}/customer"
-                            ],
-                            "path": [
-                                "logout"
-                            ]
                         }
                     },
                     "response": []
@@ -1692,15 +1702,18 @@
             "item": [
                 {
                     "name": "index",
+                    "events": [],
                     "request": {
                         "auth": {
                             "type": "bearer",
                             "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
                             ]
                         },
                         "method": "GET",
@@ -1717,22 +1730,99 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{local}}/customers?search&sort_col&sort_dir",
+                            "raw": "{{local}}v1/{{local}}/customers?search&sort_col&sort_dir",
                             "host": [
-                                "{{local}}/customers"
-                            ],
-                            "query": [
+                                "{{local}}v1/{{local}}/customers?search&sort_col&sort_dir"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "show",
+                    "events": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/customers/1",
+                            "host": [
+                                "{{local}}v1/{{local}}/customers/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "store",
+                    "events": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/customers",
+                            "host": [
+                                "{{local}}v1/{{local}}/customers"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
                                 {
-                                    "key": "search",
-                                    "value": null
+                                    "key": "mother_full_name",
+                                    "value": "",
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
-                                    "key": "sort_col",
-                                    "value": null
+                                    "key": "medical_condition",
+                                    "value": "",
+                                    "type": "text",
+                                    "description": ""
                                 },
                                 {
-                                    "key": "sort_dir",
-                                    "value": null
+                                    "key": "user_id",
+                                    "value": "",
+                                    "type": "text",
+                                    "description": ""
                                 }
                             ]
                         }
@@ -1740,7 +1830,84 @@
                     "response": []
                 },
                 {
-                    "name": "show",
+                    "name": "update",
+                    "events": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/customers/1",
+                            "host": [
+                                "{{local}}v1/{{local}}/customers/1"
+                            ]
+                        },
+                        "body": {
+                            "mode": "urlencoded",
+                            "urlencoded": []
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete",
+                    "events": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/{{local}}/customers/1",
+                            "host": [
+                                "{{local}}v1/{{local}}/customers/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Clinic",
+            "item": [
+                {
+                    "name": "index",
+                    "events": [],
                     "request": {
                         "auth": {
                             "type": "bearer",
@@ -1761,16 +1928,50 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{local}}/customers/1",
+                            "raw": "{{local}}v1/clinics",
                             "host": [
-                                "{{local}}/customers/1"
+                                "{{local}}v1/clinics"
                             ]
-                        }
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "show",
+                    "events": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/clinics/1",
+                            "host": [
+                                "{{local}}v1/clinics/1"
+                            ]
+                        },
+                        "body": null
                     },
                     "response": []
                 },
                 {
                     "name": "store",
+                    "events": [],
                     "request": {
                         "auth": {
                             "type": "bearer",
@@ -1790,27 +1991,69 @@
                                 "type": "text"
                             }
                         ],
+                        "url": {
+                            "raw": "{{local}}v1/clinics",
+                            "host": [
+                                "{{local}}v1/clinics"
+                            ]
+                        },
                         "body": {
                             "mode": "formdata",
                             "formdata": [
                                 {
-                                    "key": "mother_full_name",
-                                    "type": "text"
+                                    "key": "name",
+                                    "value": "{\"ar\":\"et\",\"en\":\"cumque\"}",
+                                    "type": "text",
+                                    "description": null
                                 },
                                 {
-                                    "key": "medical_condition",
-                                    "type": "text"
+                                    "key": "appointment_cost",
+                                    "value": "quis",
+                                    "type": "text",
+                                    "description": null
                                 },
                                 {
                                     "key": "user_id",
-                                    "type": "text"
+                                    "value": "1",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "working_start_year",
+                                    "value": "2024-02-28",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "max_appointments",
+                                    "value": "id",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "appointment_day_range",
+                                    "value": "voluptatem",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "about_us",
+                                    "value": "{\"ar\":\"est\",\"en\":\"accusantium\"}",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "experience",
+                                    "value": "{\"ar\":\"ea\",\"en\":\"sed\"}",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "work_gellery",
+                                    "value": "ex",
+                                    "type": "text",
+                                    "description": null
                                 }
-                            ]
-                        },
-                        "url": {
-                            "raw": "{{local}}/customers",
-                            "host": [
-                                "{{local}}/customers"
                             ]
                         }
                     },
@@ -1818,6 +2061,7 @@
                 },
                 {
                     "name": "update",
+                    "events": [],
                     "request": {
                         "auth": {
                             "type": "bearer",
@@ -1837,27 +2081,69 @@
                                 "type": "text"
                             }
                         ],
+                        "url": {
+                            "raw": "{{local}}v1/clinics",
+                            "host": [
+                                "{{local}}v1/clinics"
+                            ]
+                        },
                         "body": {
-                            "mode": "urlencoded",
-                            "urlencoded": [
+                            "mode": "formdata",
+                            "formdata": [
                                 {
-                                    "key": "mother_full_name",
-                                    "type": "text"
+                                    "key": "name",
+                                    "value": "{\"ar\":\"culpa\",\"en\":\"cumque\"}",
+                                    "type": "text",
+                                    "description": null
                                 },
                                 {
-                                    "key": "medical_condition",
-                                    "type": "text"
+                                    "key": "appointment_cost",
+                                    "value": "tempore",
+                                    "type": "text",
+                                    "description": null
                                 },
                                 {
                                     "key": "user_id",
-                                    "type": "text"
+                                    "value": "1",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "working_start_year",
+                                    "value": "2024-02-28",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "max_appointments",
+                                    "value": "qui",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "appointment_day_range",
+                                    "value": "vitae",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "about_us",
+                                    "value": "{\"ar\":\"ducimus\",\"en\":\"quisquam\"}",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "experience",
+                                    "value": "{\"ar\":\"suscipit\",\"en\":\"quo\"}",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "work_gellery",
+                                    "value": "est",
+                                    "type": "text",
+                                    "description": null
                                 }
-                            ]
-                        },
-                        "url": {
-                            "raw": "{{local}}/customers/1",
-                            "host": [
-                                "{{local}}/customers/1"
                             ]
                         }
                     },
@@ -1865,6 +2151,7 @@
                 },
                 {
                     "name": "delete",
+                    "events": [],
                     "request": {
                         "auth": {
                             "type": "bearer",
@@ -1885,18 +2172,19 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{local}}/customers/1",
+                            "raw": "{{local}}v1/clinics",
                             "host": [
-                                "{{local}}/customers/1"
+                                "{{local}}v1/clinics"
                             ]
-                        }
+                        },
+                        "body": null
                     },
                     "response": []
                 }
             ]
-        },
-        "// add-your-cruds-here"
+        }
     ],
+    "event": [],
     "variable": [
         {
             "key": "local",

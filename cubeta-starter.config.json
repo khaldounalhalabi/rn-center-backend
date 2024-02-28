@@ -121,6 +121,115 @@
                     }
                 ]
             }
+        },
+        {
+            "model_name": "Clinic",
+            "table_name": "clinics",
+            "attributes": [
+                {
+                    "name": "name",
+                    "type": "translatable",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "appointment_cost",
+                    "type": "float",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "user_id",
+                    "type": "foreign_key",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "working_start_year",
+                    "type": "date",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "max_appointments",
+                    "type": "integer",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "appointment_day_range",
+                    "type": "integer",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "about_us",
+                    "type": "translatable",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "experience",
+                    "type": "translatable",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "work_gallery",
+                    "type": "file",
+                    "nullable": false,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "belongsTo": [
+                    {
+                        "type": "belongsTo",
+                        "model_name": "User",
+                        "key": "user_id"
+                    }
+                ],
+                "hasMany": [
+                    {
+                        "type": "hasMany",
+                        "model_name": "Department"
+                    },
+                    {
+                        "type": "hasMany",
+                        "model_name": "Offer"
+                    },
+                    {
+                        "type": "hasMany",
+                        "model_name": "Transaction"
+                    },
+                    {
+                        "type": "hasMany",
+                        "model_name": "Appointment"
+                    },
+                    {
+                        "type": "hasMany",
+                        "model_name": "PatientProfile"
+                    },
+                    {
+                        "type": "hasMany",
+                        "model_name": "Specialty"
+                    },
+                    {
+                        "type": "hasMany",
+                        "model_name": "Prescription"
+                    },
+                    {
+                        "type": "hasMany",
+                        "model_name": "Service"
+                    }
+                ],
+                "manyToMany": [
+                    {
+                        "type": "manyToMany",
+                        "model_name": "Subscription"
+                    }
+                ]
+            }
         }
     ]
 }
