@@ -30,7 +30,6 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property integer appointment_day_range
  * @property string about_us
  * @property string experience
- * @property string work_gallery
  */
 class Clinic extends Model implements HasMedia
 {

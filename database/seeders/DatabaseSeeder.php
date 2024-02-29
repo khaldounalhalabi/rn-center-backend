@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         //fake data
         $this->call([
             UserSeeder::class,
+            ClinicSeeder::class,
         ]);
     }
 }

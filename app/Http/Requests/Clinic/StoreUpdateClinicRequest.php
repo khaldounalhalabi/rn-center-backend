@@ -24,17 +24,31 @@ class StoreUpdateClinicRequest extends FormRequest
      */
     public function rules(): array
     {
+        if (request()->method() == "POST") {
+            return [
+                'name' => ['required', 'json', new LanguageShape()],
+                'appointment_cost' => 'required|numeric',
+                'user_id' => 'required|numeric|exists:users,id',
+                'working_start_year' => 'required|date',
+                'max_appointments' => 'required|numeric',
+                'appointment_day_range' => 'required|numeric',
+                'about_us' => ['required', 'json', new LanguageShape()],
+                'experience' => ['required', 'json', new LanguageShape()],
+                'work_gallery' => 'array|nullable',
+                'work_gallery.*' => 'required|image|mimes:jpeg,png,jpg|max:2048'
+            ];
+        }
+
         return [
-            'name' => ['required', 'json', new LanguageShape()],
-            'appointment_cost' => 'required|numeric',
-            'user_id' => 'required|numeric|exists:users,id',
-            'working_start_year' => 'required|date',
-            'max_appointments' => 'required|numeric',
-            'appointment_day_range' => 'required|numeric',
-            'about_us' => ['required', 'json', new LanguageShape()],
-            'experience' => ['required', 'json', new LanguageShape()],
+            'name' => ['json', new LanguageShape() , 'nullable'],
+            'appointment_cost' => 'nullable|numeric',
+            'working_start_year' => 'nullable|date',
+            'max_appointments' => 'nullable|numeric',
+            'appointment_day_range' => 'nullable|numeric',
+            'about_us' => ['json', new LanguageShape() , 'nullable'],
+            'experience' => ['json', new LanguageShape() , 'nullable'],
             'work_gallery' => 'array|nullable',
-            'work_gallery.*' => 'required|image|mimes:jpeg,png,jpg|max:2048'
+            'work_gallery.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ];
     }
 
