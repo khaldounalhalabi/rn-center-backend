@@ -1,494 +1,1707 @@
 {
 	"info": {
-		"_postman_id": "e88f79e0-af88-4f7c-9145-dfb528cc95be",
+		"_postman_id": "5d3c013b-9ae9-4d4d-8002-b21183c1d7c5",
 		"name": "Pom",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "25683379",
-		"_collection_link": "https://cubetateam.postman.co/workspace/Cubeta-Team~4016c81c-3e58-442d-8450-8ead3e1f46aa/collection/25683379-e88f79e0-af88-4f7c-9145-dfb528cc95be?action=share&source=collection_link&creator=25683379"
+		"_exporter_id": "18516967",
+		"_collection_link": "https://cloudy-meteor-190968.postman.co/workspace/My-Workspace~1ac63804-e843-4346-84ef-9671458c2700/collection/18516967-5d3c013b-9ae9-4d4d-8002-b21183c1d7c5?action=share&source=collection_link&creator=18516967"
 	},
 	"item": [
 		{
-			"name": "User",
+			"name": "Admin",
 			"item": [
 				{
-					"name": "index",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Accept-Language",
-								"value": "{{locale}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{local}}users?search&sort_col&sort_dir",
-							"host": [
-								"{{local}}users"
-							],
-							"query": [
-								{
-									"key": "search",
-									"value": null
-								},
-								{
-									"key": "sort_col",
-									"value": null
-								},
-								{
-									"key": "sort_dir",
-									"value": null
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "show",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{local}}users/1",
-							"host": [
-								"{{local}}users"
-							],
-							"path": [
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "store",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "first_name",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "middle_name",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "last_name",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "phone_number",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "email",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "birth_date",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "gender",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "blood_group",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "is_blocked",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "tags",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "image",
-									"value": "",
-									"type": "file"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{local}}users",
-							"host": [
-								"{{local}}users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": []
-						},
-						"url": {
-							"raw": "{{local}}users/1",
-							"host": [
-								"{{local}}users"
-							],
-							"path": [
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{local}}users/1",
-							"host": [
-								"{{local}}users"
-							],
-							"path": [
-								"1"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "admin auth",
-			"item": [
-				{
-					"name": "register",
-					"event": [
+					"name": "User",
+					"item": [
 						{
-							"script": {
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);\r",
-									"pm.collectionVariables.set(\"token\", jsonData.data.token);"
+							"name": "index",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "{{locale}}",
+										"type": "text"
+									}
 								],
-								"type": "text/javascript"
-							},
-							"listen": "test"
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
+								"url": {
+									"raw": "{{local}}/users?search&sort_col&sort_dir",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": null
+										},
+										{
+											"key": "sort_col",
+											"value": null
+										},
+										{
+											"key": "sort_dir",
+											"value": null
+										}
+									]
 								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
 							},
-							{
-								"key": "Accept-Language",
-								"value": "{{locale}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "first_name",
-									"value": "admin",
-									"type": "text"
-								},
-								{
-									"key": "last_name",
-									"value": "admin",
-									"type": "text"
-								},
-								{
-									"key": "email",
-									"value": "admin@email.com",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "123456789",
-									"type": "text"
-								},
-								{
-									"key": "password_confirmation",
-									"value": "123456789",
-									"type": "text"
-								}
-							]
+							"response": []
 						},
-						"url": {
-							"raw": "{{local}}admin/register",
-							"host": [
-								"{{local}}admin"
-							],
-							"path": [
-								"register"
-							]
+						{
+							"name": "show",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{local}}/users/19",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"users",
+										"19"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "store",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "first_name",
+											"type": "text"
+										},
+										{
+											"key": "middle_name",
+											"type": "text"
+										},
+										{
+											"key": "last_name",
+											"type": "text"
+										},
+										{
+											"key": "phone_number",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"type": "text"
+										},
+										{
+											"key": "birth_date",
+											"type": "text"
+										},
+										{
+											"key": "gender",
+											"type": "text"
+										},
+										{
+											"key": "blood_group",
+											"type": "text"
+										},
+										{
+											"key": "is_blocked",
+											"type": "text"
+										},
+										{
+											"key": "tags",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": []
+										}
+									]
+								},
+								"url": {
+									"raw": "{{local}}/users",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "first_name",
+											"type": "text"
+										},
+										{
+											"key": "middle_name",
+											"type": "text"
+										},
+										{
+											"key": "last_name",
+											"type": "text"
+										},
+										{
+											"key": "phone_number",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"type": "text"
+										},
+										{
+											"key": "birth_date",
+											"type": "text"
+										},
+										{
+											"key": "gender",
+											"type": "text"
+										},
+										{
+											"key": "blood_group",
+											"type": "text"
+										},
+										{
+											"key": "is_blocked",
+											"type": "text"
+										},
+										{
+											"key": "tags",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"value": null,
+											"type": "file"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{local}}/users/1",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"users",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{local}}/users/1",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"users",
+										"1"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "update info",
-					"event": [
+					"name": "Clinic",
+					"item": [
 						{
-							"script": {
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);\r",
-									"pm.collectionVariables.set(\"token\", jsonData.data.token);"
+							"name": "index",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
 								],
-								"type": "text/javascript"
+								"url": {
+									"raw": "{{local}}admin/clinics",
+									"host": [
+										"{{local}}admin"
+									],
+									"path": [
+										"clinics"
+									]
+								}
 							},
-							"listen": "admin"
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
+							"response": [
 								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
+									"name": "succes",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{local}}admin/clinics",
+											"host": [
+												"{{local}}admin"
+											],
+											"path": [
+												"clinics"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 29 Feb 2024 00:08:11 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/8.2.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        {\n            \"id\": 2,\n            \"name\": \"consequatur\",\n            \"appointment_cost\": 586.47,\n            \"user_id\": 13,\n            \"working_start_year\": \"1979-11-03\",\n            \"max_appointments\": 121,\n            \"appointment_day_range\": 1896,\n            \"about_us\": \"sunt\",\n            \"experience\": \"labore\",\n            \"work_gallery\": [],\n            \"user\": {\n                \"id\": 13,\n                \"first_name\": \"Halie\",\n                \"middle_name\": \"Lurline Braun\",\n                \"last_name\": \"Larkin\",\n                \"email\": \"johnston.baylee@example.com\",\n                \"phone_number\": \"+1-443-549-0897\",\n                \"birth_date\": \"2004-02-29T00:00:00.000000Z\",\n                \"gender\": \"female\",\n                \"blood_group\": \"AB-\",\n                \"is_blocked\": false,\n                \"tags\": \"Occaecati minus beatae et neque cumque. Esse voluptates nisi qui. Velit eum numquam est eveniet omnis eum.\",\n                \"fcm_token\": null,\n                \"is_archived\": false,\n                \"image\": null\n            }\n        },\n        {\n            \"id\": 3,\n            \"name\": \"ea\",\n            \"appointment_cost\": 220.44,\n            \"user_id\": 14,\n            \"working_start_year\": \"1983-01-11\",\n            \"max_appointments\": 950,\n            \"appointment_day_range\": 788,\n            \"about_us\": \"eos\",\n            \"experience\": \"voluptas\",\n            \"work_gallery\": [],\n            \"user\": {\n                \"id\": 14,\n                \"first_name\": \"Orland\",\n                \"middle_name\": \"Prof. Nathan VonRueden\",\n                \"last_name\": \"Pagac\",\n                \"email\": \"bconsidine@example.com\",\n                \"phone_number\": \"956-506-4911\",\n                \"birth_date\": \"2004-02-29T00:00:00.000000Z\",\n                \"gender\": \"male\",\n                \"blood_group\": \"B-\",\n                \"is_blocked\": false,\n                \"tags\": \"Quam magnam voluptatum soluta molestiae ut nam quasi. Nulla neque quia provident est. Perferendis qui ut cum cupiditate illo non. Eos quia vel inventore. Aliquid ut quam illum est ut.\",\n                \"fcm_token\": null,\n                \"is_archived\": false,\n                \"image\": null\n            }\n        },\n        {\n            \"id\": 4,\n            \"name\": \"quidem\",\n            \"appointment_cost\": 568.3,\n            \"user_id\": 15,\n            \"working_start_year\": \"1975-03-27\",\n            \"max_appointments\": 1065,\n            \"appointment_day_range\": 676,\n            \"about_us\": \"id\",\n            \"experience\": \"ea\",\n            \"work_gallery\": [],\n            \"user\": {\n                \"id\": 15,\n                \"first_name\": \"Magdalen\",\n                \"middle_name\": \"Mr. Nathan Bartell V\",\n                \"last_name\": \"Bartell\",\n                \"email\": \"stracke.weston@example.org\",\n                \"phone_number\": \"1-609-381-5661\",\n                \"birth_date\": \"2004-02-29T00:00:00.000000Z\",\n                \"gender\": \"male\",\n                \"blood_group\": \"B-\",\n                \"is_blocked\": false,\n                \"tags\": \"Quis expedita omnis nihil aut eos amet. Est tempore et laboriosam magni.\",\n                \"fcm_token\": null,\n                \"is_archived\": false,\n                \"image\": null\n            }\n        },\n        {\n            \"id\": 5,\n            \"name\": \"est\",\n            \"appointment_cost\": 294.57,\n            \"user_id\": 16,\n            \"working_start_year\": \"1987-02-28\",\n            \"max_appointments\": 948,\n            \"appointment_day_range\": 148,\n            \"about_us\": \"provident\",\n            \"experience\": \"quisquam\",\n            \"work_gallery\": [],\n            \"user\": {\n                \"id\": 16,\n                \"first_name\": \"Lelia\",\n                \"middle_name\": \"Juliana Langosh\",\n                \"last_name\": \"Ward\",\n                \"email\": \"samanta57@example.net\",\n                \"phone_number\": \"+14695522818\",\n                \"birth_date\": \"2004-02-29T00:00:00.000000Z\",\n                \"gender\": \"male\",\n                \"blood_group\": \"A-\",\n                \"is_blocked\": false,\n                \"tags\": \"Maiores facilis voluptatem suscipit expedita et distinctio. Natus quam quam distinctio nam itaque aut assumenda vel. Voluptatibus dolores quos molestias ut iste corrupti.\",\n                \"fcm_token\": null,\n                \"is_archived\": false,\n                \"image\": null\n            }\n        },\n        {\n            \"id\": 6,\n            \"name\": \"accusantium\",\n            \"appointment_cost\": 790.99,\n            \"user_id\": 17,\n            \"working_start_year\": \"2017-03-09\",\n            \"max_appointments\": 812,\n            \"appointment_day_range\": 715,\n            \"about_us\": \"blanditiis\",\n            \"experience\": \"eius\",\n            \"work_gallery\": [],\n            \"user\": {\n                \"id\": 17,\n                \"first_name\": \"Tom\",\n                \"middle_name\": \"Arely Toy\",\n                \"last_name\": \"Gutkowski\",\n                \"email\": \"dax38@example.com\",\n                \"phone_number\": \"+1.219.539.9674\",\n                \"birth_date\": \"2004-02-29T00:00:00.000000Z\",\n                \"gender\": \"female\",\n                \"blood_group\": \"AB-\",\n                \"is_blocked\": false,\n                \"tags\": \"Dolorem sunt repellat dicta occaecati alias rerum fugiat. Doloremque ad a quae commodi. Adipisci illum in cum numquam labore. Ipsum quam dolorem itaque illum aliquam itaque vel.\",\n                \"fcm_token\": null,\n                \"is_archived\": false,\n                \"image\": null\n            }\n        },\n        {\n            \"id\": 7,\n            \"name\": \"aut\",\n            \"appointment_cost\": 551.44,\n            \"user_id\": 18,\n            \"working_start_year\": \"1996-12-16\",\n            \"max_appointments\": 643,\n            \"appointment_day_range\": 168,\n            \"about_us\": \"facere\",\n            \"experience\": \"sed\",\n            \"work_gallery\": [],\n            \"user\": {\n                \"id\": 18,\n                \"first_name\": \"Frederic\",\n                \"middle_name\": \"Raleigh Kuhlman\",\n                \"last_name\": \"Lakin\",\n                \"email\": \"veum.deion@example.org\",\n                \"phone_number\": \"828.589.1265\",\n                \"birth_date\": \"2004-02-29T00:00:00.000000Z\",\n                \"gender\": \"male\",\n                \"blood_group\": \"A-\",\n                \"is_blocked\": false,\n                \"tags\": \"Ut fugit quo et illum eum voluptatem iste est. Et numquam enim in consequatur quis pariatur qui. Eos assumenda rem quia soluta minima facere.\",\n                \"fcm_token\": null,\n                \"is_archived\": false,\n                \"image\": null\n            }\n        },\n        {\n            \"id\": 8,\n            \"name\": \"natus\",\n            \"appointment_cost\": 256.3,\n            \"user_id\": 19,\n            \"working_start_year\": \"2004-03-13\",\n            \"max_appointments\": 912,\n            \"appointment_day_range\": 430,\n            \"about_us\": \"commodi\",\n            \"experience\": \"eius\",\n            \"work_gallery\": [],\n            \"user\": {\n                \"id\": 19,\n                \"first_name\": \"Forest\",\n                \"middle_name\": \"Jo Pfannerstill\",\n                \"last_name\": \"Krajcik\",\n                \"email\": \"kiana.runolfsdottir@example.net\",\n                \"phone_number\": \"+1.559.820.9862\",\n                \"birth_date\": \"2004-02-29T00:00:00.000000Z\",\n                \"gender\": \"male\",\n                \"blood_group\": \"B+\",\n                \"is_blocked\": false,\n                \"tags\": \"Sunt illum sunt tempore dolorem qui voluptatibus. Aut autem magnam asperiores ut voluptatum facere.\",\n                \"fcm_token\": null,\n                \"is_archived\": false,\n                \"image\": null\n            }\n        },\n        {\n            \"id\": 9,\n            \"name\": \"nihil\",\n            \"appointment_cost\": 62.12,\n            \"user_id\": 20,\n            \"working_start_year\": \"2015-02-25\",\n            \"max_appointments\": 714,\n            \"appointment_day_range\": 640,\n            \"about_us\": \"aperiam\",\n            \"experience\": \"aspernatur\",\n            \"work_gallery\": [],\n            \"user\": {\n                \"id\": 20,\n                \"first_name\": \"Adelbert\",\n                \"middle_name\": \"Prof. Nicholas Wunsch\",\n                \"last_name\": \"Johnston\",\n                \"email\": \"therese24@example.org\",\n                \"phone_number\": \"(724) 367-0053\",\n                \"birth_date\": \"2004-02-29T00:00:00.000000Z\",\n                \"gender\": \"female\",\n                \"blood_group\": \"AB-\",\n                \"is_blocked\": false,\n                \"tags\": \"Natus doloribus ea consequatur. Et qui dicta sapiente ut provident sit odio. Quaerat optio laboriosam debitis molestiae est autem unde. Voluptatem pariatur et et deserunt laboriosam ea rerum aut.\",\n                \"fcm_token\": null,\n                \"is_archived\": false,\n                \"image\": null\n            }\n        },\n        {\n            \"id\": 10,\n            \"name\": \"sit\",\n            \"appointment_cost\": 799.61,\n            \"user_id\": 21,\n            \"working_start_year\": \"1998-11-12\",\n            \"max_appointments\": 620,\n            \"appointment_day_range\": 405,\n            \"about_us\": \"asperiores\",\n            \"experience\": \"impedit\",\n            \"work_gallery\": [],\n            \"user\": {\n                \"id\": 21,\n                \"first_name\": \"Clement\",\n                \"middle_name\": \"Elian Nicolas\",\n                \"last_name\": \"Kertzmann\",\n                \"email\": \"lacey.goyette@example.com\",\n                \"phone_number\": \"+1 (254) 570-2149\",\n                \"birth_date\": \"2004-02-29T00:00:00.000000Z\",\n                \"gender\": \"female\",\n                \"blood_group\": \"A+\",\n                \"is_blocked\": false,\n                \"tags\": \"Adipisci ipsa facere sapiente velit molestiae omnis eius. Repellat enim dolores earum recusandae mollitia cupiditate omnis. Quia expedita quibusdam ea sed ut beatae.\",\n                \"fcm_token\": null,\n                \"is_archived\": false,\n                \"image\": null\n            }\n        },\n        {\n            \"id\": 1,\n            \"name\": \"error\",\n            \"appointment_cost\": 844.22,\n            \"user_id\": 12,\n            \"working_start_year\": \"1981-01-28\",\n            \"max_appointments\": 1575,\n            \"appointment_day_range\": 570,\n            \"about_us\": \"delectus\",\n            \"experience\": \"cum\",\n            \"work_gallery\": [],\n            \"user\": {\n                \"id\": 12,\n                \"first_name\": \"Garrison\",\n                \"middle_name\": \"Rae Corkery DVM\",\n                \"last_name\": \"Davis\",\n                \"email\": \"schultz.saige@example.com\",\n                \"phone_number\": \"704.778.2676\",\n                \"birth_date\": \"2004-02-29T00:00:00.000000Z\",\n                \"gender\": \"female\",\n                \"blood_group\": \"B-\",\n                \"is_blocked\": false,\n                \"tags\": \"Sint earum ut sed illo ut ut voluptatibus odio. Quas magni cupiditate sint similique incidunt ratione. Accusantium maxime iste quia id saepe. Quos voluptas quia vero et ipsa quo veritatis.\",\n                \"fcm_token\": null,\n                \"is_archived\": false,\n                \"image\": null\n            }\n        }\n    ],\n    \"status\": true,\n    \"message\": \"Data Retrieved Successfully\",\n    \"code\": 200,\n    \"paginate\": {\n        \"currentPage\": 1,\n        \"from\": 1,\n        \"to\": 10,\n        \"total\": 10,\n        \"per_page\": 10\n    }\n}"
 								}
 							]
 						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
+						{
+							"name": "show",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{local}}admin/clinics/100",
+									"host": [
+										"{{local}}admin"
+									],
+									"path": [
+										"clinics",
+										"100"
+									]
+								}
 							},
-							{
-								"key": "Accept-Language",
-								"value": "{{locale}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
+							"response": [
 								{
-									"key": "first_name",
-									"value": "admin",
-									"type": "text"
+									"name": "success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{local}}admin/clinics/1",
+											"host": [
+												"{{local}}admin"
+											],
+											"path": [
+												"clinics",
+												"1"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 29 Feb 2024 00:08:32 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/8.2.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "58"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"name\": \"error\",\n        \"appointment_cost\": 844.22,\n        \"user_id\": 12,\n        \"working_start_year\": \"1981-01-28\",\n        \"max_appointments\": 1575,\n        \"appointment_day_range\": 570,\n        \"about_us\": \"delectus\",\n        \"experience\": \"cum\",\n        \"work_gallery\": [],\n        \"user\": {\n            \"id\": 12,\n            \"first_name\": \"Garrison\",\n            \"middle_name\": \"Rae Corkery DVM\",\n            \"last_name\": \"Davis\",\n            \"email\": \"schultz.saige@example.com\",\n            \"phone_number\": \"704.778.2676\",\n            \"birth_date\": \"2004-02-29T00:00:00.000000Z\",\n            \"gender\": \"female\",\n            \"blood_group\": \"B-\",\n            \"is_blocked\": false,\n            \"tags\": \"Sint earum ut sed illo ut ut voluptatibus odio. Quas magni cupiditate sint similique incidunt ratione. Accusantium maxime iste quia id saepe. Quos voluptas quia vero et ipsa quo veritatis.\",\n            \"fcm_token\": null,\n            \"is_archived\": false,\n            \"image\": null\n        }\n    },\n    \"status\": true,\n    \"message\": \"Data Retrieved Successfully\",\n    \"code\": 200,\n    \"paginate\": null\n}"
 								},
 								{
-									"key": "last_name",
-									"value": "admin",
-									"type": "text"
-								},
-								{
-									"key": "email",
-									"value": "admin@email.com",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "123456789",
-									"type": "text"
-								},
-								{
-									"key": "password_confirmation",
-									"value": "123456789",
-									"type": "text"
-								},
-								{
-									"key": "fcm_token",
-									"value": "",
-									"type": "text"
+									"name": "no data",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{local}}admin/clinics/100",
+											"host": [
+												"{{local}}admin"
+											],
+											"path": [
+												"clinics",
+												"100"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 29 Feb 2024 00:08:55 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/8.2.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "57"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": null,\n    \"status\": true,\n    \"message\": \"There is no data\",\n    \"code\": 200,\n    \"paginate\": null\n}"
 								}
 							]
 						},
-						"url": {
-							"raw": "{{local}}admin/update-user-data",
-							"host": [
-								"{{local}}admin"
-							],
-							"path": [
-								"update-user-data"
+						{
+							"name": "store",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "{\"ar\":\"et\",\"en\":\"cumque\"}",
+											"description": "'required', 'json', new LanguageShape()",
+											"type": "text"
+										},
+										{
+											"key": "appointment_cost",
+											"value": "100",
+											"description": "required|numeric",
+											"type": "text"
+										},
+										{
+											"key": "user_id",
+											"value": "2",
+											"description": "required|numeric|exists:users,id",
+											"type": "text"
+										},
+										{
+											"key": "working_start_year",
+											"value": "2024-02-28",
+											"description": "required|date",
+											"type": "text"
+										},
+										{
+											"key": "max_appointments",
+											"value": "5",
+											"description": "required|numeric",
+											"type": "text"
+										},
+										{
+											"key": "appointment_day_range",
+											"value": "5",
+											"description": "required|numeric",
+											"type": "text"
+										},
+										{
+											"key": "about_us",
+											"value": "{\"ar\":\"est\",\"en\":\"accusantium\"}",
+											"description": "['required', 'json', new LanguageShape()]",
+											"type": "text"
+										},
+										{
+											"key": "experience",
+											"value": "{\"ar\":\"ea\",\"en\":\"sed\"}",
+											"description": "['required', 'json', new LanguageShape()]",
+											"type": "text"
+										},
+										{
+											"key": "work_gellery",
+											"value": "ex",
+											"description": "array|nullable",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{local}}admin/clinics",
+									"host": [
+										"{{local}}admin"
+									],
+									"path": [
+										"clinics"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "name",
+													"value": "{\"ar\":\"et\",\"en\":\"cumque\"}",
+													"type": "text"
+												},
+												{
+													"key": "appointment_cost",
+													"value": "10",
+													"type": "text"
+												},
+												{
+													"key": "user_id",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "working_start_year",
+													"value": "2024-02-28",
+													"type": "text"
+												},
+												{
+													"key": "max_appointments",
+													"value": "5",
+													"type": "text"
+												},
+												{
+													"key": "appointment_day_range",
+													"value": "5",
+													"type": "text"
+												},
+												{
+													"key": "about_us",
+													"value": "{\"ar\":\"est\",\"en\":\"accusantium\"}",
+													"type": "text"
+												},
+												{
+													"key": "experience",
+													"value": "{\"ar\":\"ea\",\"en\":\"sed\"}",
+													"type": "text"
+												},
+												{
+													"key": "work_gellery",
+													"value": "ex",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{local}}admin/clinics",
+											"host": [
+												"{{local}}admin"
+											],
+											"path": [
+												"clinics"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 29 Feb 2024 00:09:59 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/8.2.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "56"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 11,\n        \"name\": \"cumque\",\n        \"appointment_cost\": 10,\n        \"user_id\": 1,\n        \"working_start_year\": \"2024-02-28\",\n        \"max_appointments\": 5,\n        \"appointment_day_range\": 5,\n        \"about_us\": \"accusantium\",\n        \"experience\": \"sed\",\n        \"work_gallery\": [],\n        \"user\": {\n            \"id\": 1,\n            \"first_name\": \"Unique\",\n            \"middle_name\": \"Adrienne Keebler\",\n            \"last_name\": \"Schneider\",\n            \"email\": \"admin@pom.com\",\n            \"phone_number\": \"(774) 918-0247\",\n            \"birth_date\": \"2004-02-29T00:00:00.000000Z\",\n            \"gender\": \"male\",\n            \"blood_group\": \"AB-\",\n            \"is_blocked\": false,\n            \"tags\": \"Corrupti voluptates officiis quis non. Impedit et voluptatem ea ut enim qui. Non ut necessitatibus aut perferendis tenetur consectetur qui enim.\",\n            \"fcm_token\": null,\n            \"is_archived\": false,\n            \"image\": null\n        }\n    },\n    \"status\": true,\n    \"message\": \"Your data has been saved\",\n    \"code\": 200,\n    \"paginate\": null\n}"
+								}
+							]
+						},
+						{
+							"name": "update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "{\"ar\":\"culpa\",\"en\":\"cumque\"}",
+											"description": "['json', new LanguageShape() , nullable]",
+											"type": "text"
+										},
+										{
+											"key": "appointment_cost",
+											"value": "11",
+											"description": "numeric|nullable",
+											"type": "text"
+										},
+										{
+											"key": "working_start_year",
+											"value": "2024-02-28",
+											"description": "nullable|date",
+											"type": "text"
+										},
+										{
+											"key": "max_appointments",
+											"value": "11",
+											"description": "nullable|numeric",
+											"type": "text"
+										},
+										{
+											"key": "appointment_day_range",
+											"value": "11",
+											"description": "nullable|numeric",
+											"type": "text"
+										},
+										{
+											"key": "about_us",
+											"value": "{\"ar\":\"ducimus\",\"en\":\"quisquam\"}",
+											"description": "['json', new LanguageShape() , 'nullable']",
+											"type": "text"
+										},
+										{
+											"key": "experience",
+											"value": "{\"ar\":\"suscipit\",\"en\":\"quo\"}",
+											"description": "['json', new LanguageShape() , 'nullable']",
+											"type": "text"
+										},
+										{
+											"key": "work_gallery[1]",
+											"description": "nullable|image|mimes:jpeg,png,jpg|max:2048",
+											"type": "file",
+											"src": "/C:/Users/Khaldoun Alhalabi/OneDrive/Private/cover.jpg"
+										},
+										{
+											"key": "_method",
+											"value": "PUT",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{local}}admin/clinics/100",
+									"host": [
+										"{{local}}admin"
+									],
+									"path": [
+										"clinics",
+										"100"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "name",
+													"value": "{\"ar\":\"culpa\",\"en\":\"cumque\"}",
+													"type": "text"
+												},
+												{
+													"key": "appointment_cost",
+													"value": "11",
+													"type": "text"
+												},
+												{
+													"key": "user_id",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "working_start_year",
+													"value": "2024-02-28",
+													"type": "text"
+												},
+												{
+													"key": "max_appointments",
+													"value": "11",
+													"type": "text"
+												},
+												{
+													"key": "appointment_day_range",
+													"value": "11",
+													"type": "text"
+												},
+												{
+													"key": "about_us",
+													"value": "{\"ar\":\"ducimus\",\"en\":\"quisquam\"}",
+													"type": "text"
+												},
+												{
+													"key": "experience",
+													"value": "{\"ar\":\"suscipit\",\"en\":\"quo\"}",
+													"type": "text"
+												},
+												{
+													"key": "work_gallery[1]",
+													"type": "file",
+													"src": "/C:/Users/Khaldoun Alhalabi/OneDrive/Private/cover.jpg"
+												},
+												{
+													"key": "_method",
+													"value": "PUT",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{local}}admin/clinics/1",
+											"host": [
+												"{{local}}admin"
+											],
+											"path": [
+												"clinics",
+												"1"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 29 Feb 2024 00:12:01 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/8.2.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "57"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"name\": \"cumque\",\n        \"appointment_cost\": \"11\",\n        \"user_id\": \"1\",\n        \"working_start_year\": \"2024-02-28\",\n        \"max_appointments\": \"11\",\n        \"appointment_day_range\": \"11\",\n        \"about_us\": \"quisquam\",\n        \"experience\": \"quo\",\n        \"work_gallery\": [\n            {\n                \"id\": 3,\n                \"model_id\": 1,\n                \"model_type\": \"clinic\",\n                \"file_name\": \"cover.jpg\",\n                \"file_type\": \"image/jpeg\",\n                \"file_url\": \"http://localhost/pom-back/public/storage/3/cover.jpg\",\n                \"size\": 62416,\n                \"collection\": \"default\"\n            }\n        ],\n        \"user\": {\n            \"id\": 1,\n            \"first_name\": \"Unique\",\n            \"middle_name\": \"Adrienne Keebler\",\n            \"last_name\": \"Schneider\",\n            \"email\": \"admin@pom.com\",\n            \"phone_number\": \"(774) 918-0247\",\n            \"birth_date\": \"2004-02-29T00:00:00.000000Z\",\n            \"gender\": \"male\",\n            \"blood_group\": \"AB-\",\n            \"is_blocked\": false,\n            \"tags\": \"Corrupti voluptates officiis quis non. Impedit et voluptatem ea ut enim qui. Non ut necessitatibus aut perferendis tenetur consectetur qui enim.\",\n            \"fcm_token\": null,\n            \"is_archived\": false,\n            \"image\": null\n        }\n    },\n    \"status\": true,\n    \"message\": \"Your changes has been saved\",\n    \"code\": 200,\n    \"paginate\": null\n}"
+								},
+								{
+									"name": "no data",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "name",
+													"value": "{\"ar\":\"culpa\",\"en\":\"cumque\"}",
+													"type": "text"
+												},
+												{
+													"key": "appointment_cost",
+													"value": "11",
+													"type": "text"
+												},
+												{
+													"key": "user_id",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "working_start_year",
+													"value": "2024-02-28",
+													"type": "text"
+												},
+												{
+													"key": "max_appointments",
+													"value": "11",
+													"type": "text"
+												},
+												{
+													"key": "appointment_day_range",
+													"value": "11",
+													"type": "text"
+												},
+												{
+													"key": "about_us",
+													"value": "{\"ar\":\"ducimus\",\"en\":\"quisquam\"}",
+													"type": "text"
+												},
+												{
+													"key": "experience",
+													"value": "{\"ar\":\"suscipit\",\"en\":\"quo\"}",
+													"type": "text"
+												},
+												{
+													"key": "work_gallery[1]",
+													"type": "file",
+													"src": "/C:/Users/Khaldoun Alhalabi/OneDrive/Private/cover.jpg"
+												},
+												{
+													"key": "_method",
+													"value": "PUT",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{local}}admin/clinics/100",
+											"host": [
+												"{{local}}admin"
+											],
+											"path": [
+												"clinics",
+												"100"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 29 Feb 2024 00:12:21 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/8.2.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "56"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": null,\n    \"status\": true,\n    \"message\": \"There is no data\",\n    \"code\": 200,\n    \"paginate\": null\n}"
+								}
+							]
+						},
+						{
+							"name": "delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{local}}admin/clinics/100",
+									"host": [
+										"{{local}}admin"
+									],
+									"path": [
+										"clinics",
+										"100"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{local}}admin/clinics/1",
+											"host": [
+												"{{local}}admin"
+											],
+											"path": [
+												"clinics",
+												"1"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 29 Feb 2024 00:12:45 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/8.2.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": true,\n    \"status\": true,\n    \"message\": \"Item deleted successfully\",\n    \"code\": 200,\n    \"paginate\": null\n}"
+								},
+								{
+									"name": "no data",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{local}}admin/clinics/100",
+											"host": [
+												"{{local}}admin"
+											],
+											"path": [
+												"clinics",
+												"100"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 29 Feb 2024 00:13:00 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/8.2.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "57"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=99"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": false,\n    \"status\": true,\n    \"message\": \"There is no data\",\n    \"code\": 200,\n    \"paginate\": null\n}"
+								}
 							]
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "login",
-					"event": [
+					"name": "Customer",
+					"item": [
 						{
-							"script": {
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);\r",
-									"pm.collectionVariables.set(\"token\", jsonData.data.token);"
+							"name": "index",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "undefined",
+											"type": "any"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "{{locale}}",
+										"type": "text"
+									}
 								],
-								"type": "text/javascript"
-							},
-							"listen": "test"
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
+								"url": {
+									"raw": "{{local}}v1/{{local}}/customers?search&sort_col&sort_dir",
+									"host": [
+										"{{local}}v1"
+									],
+									"path": [
+										"{{local}}",
+										"customers"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": null
+										},
+										{
+											"key": "sort_col",
+											"value": null
+										},
+										{
+											"key": "sort_dir",
+											"value": null
+										}
+									]
 								}
-							]
+							},
+							"response": []
 						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
+						{
+							"name": "show",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "undefined",
+											"type": "any"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{local}}v1/{{local}}/customers/1",
+									"host": [
+										"{{local}}v1"
+									],
+									"path": [
+										"{{local}}",
+										"customers",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "store",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "undefined",
+											"type": "any"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "mother_full_name",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "medical_condition",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "user_id",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{local}}v1/{{local}}/customers",
+									"host": [
+										"{{local}}v1"
+									],
+									"path": [
+										"{{local}}",
+										"customers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "undefined",
+											"type": "any"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "{{local}}v1/{{local}}/customers/1",
+									"host": [
+										"{{local}}v1"
+									],
+									"path": [
+										"{{local}}",
+										"customers",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "undefined",
+											"type": "any"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{local}}v1/{{local}}/customers/1",
+									"host": [
+										"{{local}}v1"
+									],
+									"path": [
+										"{{local}}",
+										"customers",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "update info",
+							"event": [
 								{
-									"key": "email",
-									"value": "admin@email.com",
-									"type": "text"
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
 								},
 								{
-									"key": "password",
-									"value": "123456789",
-									"type": "text"
+									"listen": "admin",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"pm.collectionVariables.set(\"token\", jsonData.data.token);"
+										],
+										"type": "text/javascript"
+									}
 								}
-							]
-						},
-						"url": {
-							"raw": "{{local}}admin/login",
-							"host": [
-								"{{local}}admin"
 							],
-							"path": [
-								"login"
-							]
-						}
-					},
-					"response": [
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "{{locale}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "first_name",
+											"value": "admin",
+											"type": "text"
+										},
+										{
+											"key": "last_name",
+											"value": "admin",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "admin@email.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456789",
+											"type": "text"
+										},
+										{
+											"key": "password_confirmation",
+											"value": "123456789",
+											"type": "text"
+										},
+										{
+											"key": "fcm_token",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{server}}admin/update-user-data",
+									"host": [
+										"{{server}}admin"
+									],
+									"path": [
+										"update-user-data"
+									]
+								}
+							},
+							"response": []
+						},
 						{
-							"name": "validation error",
-							"originalRequest": {
+							"name": "login",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"pm.collectionVariables.set(\"token\", jsonData.data.token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [
 									{
@@ -502,1164 +1715,774 @@
 									"formdata": [
 										{
 											"key": "email",
-											"value": "admin@email.com",
-											"type": "text"
+											"value": "admin@pom.com"
 										},
 										{
 											"key": "password",
-											"value": "123456789",
-											"type": "text"
+											"value": "12345678"
 										}
 									]
 								},
 								"url": {
-									"raw": "{{local}}admin/login",
+									"raw": "{{server}}admin/login",
 									"host": [
-										"{{local}}admin"
+										"{{server}}admin"
 									],
 									"path": [
 										"login"
 									]
 								}
 							},
-							"status": "Method Not Allowed",
-							"code": 405,
-							"_postman_previewlanguage": "json",
-							"header": [
+							"response": [
 								{
-									"key": "Date",
-									"value": "Thu, 29 Feb 2024 07:49:58 GMT"
-								},
-								{
-									"key": "Server",
-									"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/8.2.0"
-								},
-								{
-									"key": "Vary",
-									"value": "Authorization"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.0"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "59"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5, max=100"
-								},
-								{
-									"key": "Connection",
-									"value": "Keep-Alive"
-								},
-								{
-									"key": "Transfer-Encoding",
-									"value": "chunked"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
+									"name": "success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "email",
+													"value": "admin@pom.com"
+												},
+												{
+													"key": "password",
+													"value": "12345678"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{local}}/admin/login",
+											"host": [
+												"{{local}}"
+											],
+											"path": [
+												"admin",
+												"login"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 22 Feb 2024 23:18:43 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/8.2.0"
+										},
+										{
+											"key": "Vary",
+											"value": "Authorization"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"user\": {\n            \"id\": 12,\n            \"first_name\": \"Wilson\",\n            \"middle_name\": \"Ressie Reichert\",\n            \"last_name\": \"Bernier\",\n            \"email\": \"admin@pom.com\",\n            \"phone_number\": \"845.918.8601\",\n            \"birth_date\": \"2004-02-22T00:00:00.000000Z\",\n            \"gender\": \"male\",\n            \"blood_group\": \"O-\",\n            \"is_blocked\": false,\n            \"tags\": \"Ullam doloribus repudiandae quaerat quia minima dignissimos sit. Magnam perferendis omnis similique. Dicta omnis perferendis qui ratione quis. Asperiores odio iusto sapiente ex.\",\n            \"fcm_token\": null,\n            \"is_archived\": false,\n            \"image\": null\n        },\n        \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0L3BvbS1iYWNrL3B1YmxpYy9hcGkvYWRtaW4vbG9naW4iLCJpYXQiOjE3MDg2NDM5MjQsImV4cCI6MTcwODY0NzUyNCwibmJmIjoxNzA4NjQzOTI0LCJqdGkiOiI1YndLbzNENjF0NlFJVVVpIiwic3ViIjoiMTIiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.fpV5LAk42GfiI6-BdUpzaZx_ys7uCme8LsEHdr-boJg\",\n        \"refresh_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0L3BvbS1iYWNrL3B1YmxpYy9hcGkvYWRtaW4vbG9naW4iLCJpYXQiOjE3MDg2NDM5MjQsImV4cCI6MTcwOTg1MzUyNCwibmJmIjoxNzA4NjQzOTI0LCJqdGkiOiJ5YnYybEQ1cDZCTENZaXVuIiwic3ViIjoiMTIiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.18z7ZpIZsU6oddlPkBX0Ww6GNwgwNNEe47E4JLdcT3c\"\n    },\n    \"status\": true,\n    \"message\": \"Successfully logged in\",\n    \"code\": 200,\n    \"paginate\": null\n}"
 								}
-							],
-							"cookie": [],
-							"body": "{\n    \"data\": \"\",\n    \"status\": false,\n    \"message\": {\n        \"text\": \"The selected email is invalid.\",\n        \"errors\": {\n            \"email\": [\n                \"The selected email is invalid.\"\n            ]\n        }\n    },\n    \"code\": 405,\n    \"paginate\": null\n}"
+							]
+						},
+						{
+							"name": "refresh",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{server}}admin/refresh",
+									"host": [
+										"{{server}}admin"
+									],
+									"path": [
+										"refresh"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": []
+										},
+										"url": {
+											"raw": "{{local}}/admin/refresh",
+											"host": [
+												"{{local}}"
+											],
+											"path": [
+												"admin",
+												"refresh"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 22 Feb 2024 23:19:07 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/8.2.0"
+										},
+										{
+											"key": "Vary",
+											"value": "Authorization"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"user\": {\n            \"id\": 12,\n            \"first_name\": \"Wilson\",\n            \"middle_name\": \"Ressie Reichert\",\n            \"last_name\": \"Bernier\",\n            \"email\": \"admin@pom.com\",\n            \"phone_number\": \"845.918.8601\",\n            \"birth_date\": \"2004-02-22T00:00:00.000000Z\",\n            \"gender\": \"male\",\n            \"blood_group\": \"O-\",\n            \"is_blocked\": false,\n            \"tags\": \"Ullam doloribus repudiandae quaerat quia minima dignissimos sit. Magnam perferendis omnis similique. Dicta omnis perferendis qui ratione quis. Asperiores odio iusto sapiente ex.\",\n            \"fcm_token\": null,\n            \"is_archived\": false,\n            \"image\": null\n        },\n        \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0L3BvbS1iYWNrL3B1YmxpYy9hcGkvYWRtaW4vcmVmcmVzaCIsImlhdCI6MTcwODY0MzkyNCwiZXhwIjoxNzA5MjQ4NzQ3LCJuYmYiOjE3MDg2NDM5NDcsImp0aSI6IjhvRmZnRFlCc0dGRFc4YWciLCJzdWIiOiIxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.Eol3hBk7wKrYEWU4untS8Nw6jnewwWoKYEAXuJPWmLk\",\n        \"refresh_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0L3BvbS1iYWNrL3B1YmxpYy9hcGkvYWRtaW4vcmVmcmVzaCIsImlhdCI6MTcwODY0MzkyNCwiZXhwIjoxNzA5ODUzNTQ3LCJuYmYiOjE3MDg2NDM5NDcsImp0aSI6ImdrN1BmaUd4TzRZS2V0RnUiLCJzdWIiOiIxMiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.Y7cSNkVMEhXxmkuOlMFVbTdnPIbRWeUhiNmXzGmOVqE\"\n    },\n    \"status\": true,\n    \"message\": \"Token refreshed successfully\",\n    \"code\": 200,\n    \"paginate\": null\n}"
+								}
+							]
+						},
+						{
+							"name": "reset password request",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "admin@pom.com",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{server}}admin/password-reset-request",
+									"host": [
+										"{{server}}admin"
+									],
+									"path": [
+										"password-reset-request"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "email",
+													"value": "admin@pom.com",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{local}}/admin/password-reset-request",
+											"host": [
+												"{{local}}"
+											],
+											"path": [
+												"admin",
+												"password-reset-request"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 22 Feb 2024 23:19:26 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/8.2.0"
+										},
+										{
+											"key": "Vary",
+											"value": "Authorization"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "57"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": null,\n    \"status\": true,\n    \"message\": \"Password reset code sent\",\n    \"code\": 200,\n    \"paginate\": null\n}"
+								}
+							]
+						},
+						{
+							"name": "check reset password code",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "reset_password_code",
+											"value": "0000"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{server}}admin/check-reset-password-code",
+									"host": [
+										"{{server}}admin"
+									],
+									"path": [
+										"check-reset-password-code"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "reset_password_code",
+													"value": "127379"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{local}}/admin/check-reset-password-code",
+											"host": [
+												"{{local}}"
+											],
+											"path": [
+												"admin",
+												"check-reset-password-code"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 22 Feb 2024 23:19:53 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/8.2.0"
+										},
+										{
+											"key": "Vary",
+											"value": "Authorization"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "56"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": null,\n    \"status\": true,\n    \"message\": \"Code correct\",\n    \"code\": 200,\n    \"paginate\": null\n}"
+								}
+							]
+						},
+						{
+							"name": "reset password",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "reset_password_code",
+											"value": "0000",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "12345678",
+											"type": "text"
+										},
+										{
+											"key": "password_confirmation",
+											"value": "12345678",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{server}}admin/reset-password",
+									"host": [
+										"{{server}}admin"
+									],
+									"path": [
+										"reset-password"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "reset_password_code",
+													"value": "127379",
+													"type": "text"
+												},
+												{
+													"key": "password",
+													"value": "12345678",
+													"type": "text"
+												},
+												{
+													"key": "password_confirmation",
+													"value": "12345678",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{local}}/admin/reset-password",
+											"host": [
+												"{{local}}"
+											],
+											"path": [
+												"admin",
+												"reset-password"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 22 Feb 2024 23:20:12 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/8.2.0"
+										},
+										{
+											"key": "Vary",
+											"value": "Authorization"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": true,\n    \"status\": true,\n    \"message\": \"Password reset successfully\",\n    \"code\": 200,\n    \"paginate\": null\n}"
+								}
+							]
+						},
+						{
+							"name": "logout",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{local}}/admin/logout",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"admin",
+										"logout"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": []
+										},
+										"url": {
+											"raw": "{{local}}/admin/logout",
+											"host": [
+												"{{local}}"
+											],
+											"path": [
+												"admin",
+												"logout"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 22 Feb 2024 23:20:26 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/8.2.0"
+										},
+										{
+											"key": "Vary",
+											"value": "Authorization"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "58"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": null,\n    \"status\": true,\n    \"message\": \"Logout successfully\",\n    \"code\": 200,\n    \"paginate\": null\n}"
+								}
+							]
 						}
 					]
-				},
-				{
-					"name": "refresh",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": []
-						},
-						"url": {
-							"raw": "{{local}}admin/refresh",
-							"host": [
-								"{{local}}admin"
-							],
-							"path": [
-								"refresh"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "reset password request",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": []
-						},
-						"url": {
-							"raw": "{{local}}admin/password-reset-request",
-							"host": [
-								"{{local}}admin"
-							],
-							"path": [
-								"password-reset-request"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "check reset password code",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "reset_password_code",
-									"value": "",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{local}}admin/check-reset-password-code",
-							"host": [
-								"{{local}}admin"
-							],
-							"path": [
-								"check-reset-password-code"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "reset password",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "reset_password_code",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "12345678",
-									"type": "text"
-								},
-								{
-									"key": "password_confirmation",
-									"value": "12345678",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{local}}admin/reset-password",
-							"host": [
-								"{{local}}admin"
-							],
-							"path": [
-								"reset-password"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "logout",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": []
-						},
-						"url": {
-							"raw": "{{local}}admin/logout",
-							"host": [
-								"{{local}}admin"
-							],
-							"path": [
-								"logout"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "doctor auth",
-			"item": [
-				{
-					"name": "register",
-					"event": [
-						{
-							"script": {
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);\r",
-									"pm.collectionVariables.set(\"token\", jsonData.data.token);"
-								],
-								"type": "text/javascript"
-							},
-							"listen": "test"
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Accept-Language",
-								"value": "{{locale}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "first_name",
-									"value": "doctor",
-									"type": "text"
-								},
-								{
-									"key": "last_name",
-									"value": "doctor",
-									"type": "text"
-								},
-								{
-									"key": "email",
-									"value": "doctor@email.com",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "123456789",
-									"type": "text"
-								},
-								{
-									"key": "password_confirmation",
-									"value": "123456789",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{local}}doctor/register",
-							"host": [
-								"{{local}}doctor"
-							],
-							"path": [
-								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update info",
-					"event": [
-						{
-							"script": {
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);\r",
-									"pm.collectionVariables.set(\"token\", jsonData.data.token);"
-								],
-								"type": "text/javascript"
-							},
-							"listen": "doctor"
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Accept-Language",
-								"value": "{{locale}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "first_name",
-									"value": "doctor",
-									"type": "text"
-								},
-								{
-									"key": "last_name",
-									"value": "doctor",
-									"type": "text"
-								},
-								{
-									"key": "email",
-									"value": "doctor@email.com",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "123456789",
-									"type": "text"
-								},
-								{
-									"key": "password_confirmation",
-									"value": "123456789",
-									"type": "text"
-								},
-								{
-									"key": "fcm_token",
-									"value": "",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{local}}doctor/update-user-data",
-							"host": [
-								"{{local}}doctor"
-							],
-							"path": [
-								"update-user-data"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "login",
-					"event": [
-						{
-							"script": {
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);\r",
-									"pm.collectionVariables.set(\"token\", jsonData.data.token);"
-								],
-								"type": "text/javascript"
-							},
-							"listen": "test"
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "email",
-									"value": "doctor@email.com",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "123456789",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{local}}doctor/login",
-							"host": [
-								"{{local}}doctor"
-							],
-							"path": [
-								"login"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "refresh",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": []
-						},
-						"url": {
-							"raw": "{{local}}doctor/refresh",
-							"host": [
-								"{{local}}doctor"
-							],
-							"path": [
-								"refresh"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "reset password request",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": []
-						},
-						"url": {
-							"raw": "{{local}}doctor/password-reset-request",
-							"host": [
-								"{{local}}doctor"
-							],
-							"path": [
-								"password-reset-request"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "check reset password code",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "reset_password_code",
-									"value": "",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{local}}doctor/check-reset-password-code",
-							"host": [
-								"{{local}}doctor"
-							],
-							"path": [
-								"check-reset-password-code"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "reset password",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "reset_password_code",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "12345678",
-									"type": "text"
-								},
-								{
-									"key": "password_confirmation",
-									"value": "12345678",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{local}}doctor/reset-password",
-							"host": [
-								"{{local}}doctor"
-							],
-							"path": [
-								"reset-password"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "logout",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": []
-						},
-						"url": {
-							"raw": "{{local}}doctor/logout",
-							"host": [
-								"{{local}}doctor"
-							],
-							"path": [
-								"logout"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "customer auth",
-			"item": [
-				{
-					"name": "register",
-					"event": [
-						{
-							"script": {
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);\r",
-									"pm.collectionVariables.set(\"token\", jsonData.data.token);"
-								],
-								"type": "text/javascript"
-							},
-							"listen": "test"
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Accept-Language",
-								"value": "{{locale}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "first_name",
-									"value": "customer",
-									"type": "text"
-								},
-								{
-									"key": "last_name",
-									"value": "customer",
-									"type": "text"
-								},
-								{
-									"key": "email",
-									"value": "customer@email.com",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "123456789",
-									"type": "text"
-								},
-								{
-									"key": "password_confirmation",
-									"value": "123456789",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{local}}customer/register",
-							"host": [
-								"{{local}}customer"
-							],
-							"path": [
-								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update info",
-					"event": [
-						{
-							"script": {
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);\r",
-									"pm.collectionVariables.set(\"token\", jsonData.data.token);"
-								],
-								"type": "text/javascript"
-							},
-							"listen": "customer"
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Accept-Language",
-								"value": "{{locale}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "first_name",
-									"value": "customer",
-									"type": "text"
-								},
-								{
-									"key": "last_name",
-									"value": "customer",
-									"type": "text"
-								},
-								{
-									"key": "email",
-									"value": "customer@email.com",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "123456789",
-									"type": "text"
-								},
-								{
-									"key": "password_confirmation",
-									"value": "123456789",
-									"type": "text"
-								},
-								{
-									"key": "fcm_token",
-									"value": "",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{local}}customer/update-user-data",
-							"host": [
-								"{{local}}customer"
-							],
-							"path": [
-								"update-user-data"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "login",
-					"event": [
-						{
-							"script": {
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);\r",
-									"pm.collectionVariables.set(\"token\", jsonData.data.token);"
-								],
-								"type": "text/javascript"
-							},
-							"listen": "test"
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "email",
-									"value": "customer@email.com",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "123456789",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{local}}customer/login",
-							"host": [
-								"{{local}}customer"
-							],
-							"path": [
-								"login"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "refresh",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": []
-						},
-						"url": {
-							"raw": "{{local}}customer/refresh",
-							"host": [
-								"{{local}}customer"
-							],
-							"path": [
-								"refresh"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "reset password request",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": []
-						},
-						"url": {
-							"raw": "{{local}}customer/password-reset-request",
-							"host": [
-								"{{local}}customer"
-							],
-							"path": [
-								"password-reset-request"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "check reset password code",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "reset_password_code",
-									"value": "",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{local}}customer/check-reset-password-code",
-							"host": [
-								"{{local}}customer"
-							],
-							"path": [
-								"check-reset-password-code"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "reset password",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "reset_password_code",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "12345678",
-									"type": "text"
-								},
-								{
-									"key": "password_confirmation",
-									"value": "12345678",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{local}}customer/reset-password",
-							"host": [
-								"{{local}}customer"
-							],
-							"path": [
-								"reset-password"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "logout",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": []
-						},
-						"url": {
-							"raw": "{{local}}customer/logout",
-							"host": [
-								"{{local}}customer"
-							],
-							"path": [
-								"logout"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -1667,477 +2490,1969 @@
 			"name": "Customer",
 			"item": [
 				{
-					"name": "index",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
+					"name": "Auth",
+					"item": [
+						{
+							"name": "login",
+							"event": [
 								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"pm.collectionVariables.set(\"token\", jsonData.data.token);"
+										],
+										"type": "text/javascript"
+									}
 								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "customer22@email.com"
+										},
+										{
+											"key": "password",
+											"value": "123456789"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{local}}/customer/login",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"customer",
+										"login"
+									]
+								}
 							},
-							{
-								"key": "Accept-Language",
-								"value": "{{locale}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{local}}customers?search&sort_col&sort_dir",
-							"host": [
-								"{{local}}customers"
-							],
-							"query": [
+							"response": [
 								{
-									"key": "search",
-									"value": null
+									"name": "wrong credentials",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "email",
+													"value": "customer2@email.com"
+												},
+												{
+													"key": "password",
+													"value": "12345678910"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{local}}/customer/login",
+											"host": [
+												"{{local}}"
+											],
+											"path": [
+												"customer",
+												"login"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Tue, 20 Feb 2024 20:58:20 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/8.2.0"
+										},
+										{
+											"key": "Vary",
+											"value": "Authorization"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "57"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": null,\n    \"status\": false,\n    \"message\": \"Credentials not match records\",\n    \"code\": 404,\n    \"paginate\": null\n}"
 								},
 								{
-									"key": "sort_col",
-									"value": null
+									"name": "success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "email",
+													"value": "customer33@email.com"
+												},
+												{
+													"key": "password",
+													"value": "123456789"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{local}}/customer/login",
+											"host": [
+												"{{local}}"
+											],
+											"path": [
+												"customer",
+												"login"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Tue, 20 Feb 2024 21:16:45 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/8.2.0"
+										},
+										{
+											"key": "Vary",
+											"value": "Authorization"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"user\": {\n            \"id\": 15,\n            \"first_name\": \"customer\",\n            \"middle_name\": \"maher\",\n            \"last_name\": \"customer\",\n            \"email\": \"customer33@email.com\",\n            \"phone_number\": \"0936955533\",\n            \"birth_date\": null,\n            \"gender\": \"male\",\n            \"blood_group\": null,\n            \"is_blocked\": false,\n            \"tags\": null,\n            \"fcm_token\": null,\n            \"is_archived\": false,\n            \"image\": {\n                \"id\": 1,\n                \"model_id\": 15,\n                \"model_type\": \"user\",\n                \"file_name\": \"Untitled-Diagram.drawio.png\",\n                \"file_type\": \"image/png\",\n                \"file_url\": \"http://localhost/pom-back/public/storage/1/Untitled-Diagram.drawio.png\",\n                \"size\": 210371,\n                \"collection\": \"default\"\n            },\n            \"customer\": {\n                \"id\": 3,\n                \"mother_full_name\": \"fatima\",\n                \"medical_condition\": null,\n                \"user_id\": 15\n            }\n        },\n        \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0L3BvbS1iYWNrL3B1YmxpYy9hcGkvY3VzdG9tZXIvbG9naW4iLCJpYXQiOjE3MDg0NjM4MDYsImV4cCI6MTcwODQ2NzQwNiwibmJmIjoxNzA4NDYzODA2LCJqdGkiOiJadmN4cXg5bEJQMmxDNXpXIiwic3ViIjoiMTUiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.inwyC6isadnMo9oBx8Kib8ITsM9myPEVmZDwS09M_B4\",\n        \"refresh_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0L3BvbS1iYWNrL3B1YmxpYy9hcGkvY3VzdG9tZXIvbG9naW4iLCJpYXQiOjE3MDg0NjM4MDYsImV4cCI6MTcwOTY3MzQwNiwibmJmIjoxNzA4NDYzODA2LCJqdGkiOiJnWDJGWFR2OVdvUUZGM0c0Iiwic3ViIjoiMTUiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.sORdsAYmwbeaT680JkKslfg4oe4CTlQRyfdVaIKkDL4\"\n    },\n    \"status\": true,\n    \"message\": \"Successfully logged in\",\n    \"code\": 200,\n    \"paginate\": null\n}"
+								}
+							]
+						},
+						{
+							"name": "register",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
 								},
 								{
-									"key": "sort_dir",
-									"value": null
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"pm.collectionVariables.set(\"token\", jsonData.data.token);"
+										],
+										"type": "text/javascript"
+									}
 								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "show",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{local}}customers/1",
-							"host": [
-								"{{local}}customers"
 							],
-							"path": [
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "store",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "{{locale}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "first_name",
+											"value": "customer",
+											"description": "required|string|max:255|min:3",
+											"type": "text"
+										},
+										{
+											"key": "last_name",
+											"value": "customer",
+											"description": "required|string|max:255|min:3",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "customer22@email.com",
+											"description": "required|email|unique:users,email|min:3|max:255",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456789",
+											"description": "required|min:8|confirmed|max:255",
+											"type": "text"
+										},
+										{
+											"key": "password_confirmation",
+											"value": "123456789",
+											"description": "required|min:8|confirmed|max:255",
+											"type": "text"
+										},
+										{
+											"key": "middle_name",
+											"value": "maher",
+											"description": "required|string|max:255|min:3",
+											"type": "text"
+										},
+										{
+											"key": "phone_number",
+											"value": "0936955535",
+											"description": "required|min:10|max:11|unique:users,phone_number",
+											"type": "text"
+										},
+										{
+											"key": "gender",
+											"value": "male",
+											"description": "required|string|in:male,female",
+											"type": "text"
+										},
+										{
+											"key": "city",
+											"value": "damascus",
+											"description": "string|max:255|min:3|required",
+											"type": "text"
+										},
+										{
+											"key": "mother_full_name",
+											"value": "fatima",
+											"description": "required|string|min:3|max:255",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"description": "image|max:50000|mimes:jpg,png|nullable",
+											"type": "file",
+											"src": "/C:/Users/Khaldoun Alhalabi/Desktop/Untitled Diagram.drawio.png"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{local}}/customer/register",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"customer",
+										"register"
+									]
+								}
+							},
+							"response": [
 								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
+									"name": "success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Accept-Language",
+												"value": "{{locale}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "first_name",
+													"value": "customer",
+													"description": "required|string|max:255|min:3",
+													"type": "text"
+												},
+												{
+													"key": "last_name",
+													"value": "customer",
+													"description": "required|string|max:255|min:3",
+													"type": "text"
+												},
+												{
+													"key": "email",
+													"value": "customer22@email.com",
+													"description": "required|email|unique:users,email|min:3|max:255",
+													"type": "text"
+												},
+												{
+													"key": "password",
+													"value": "123456789",
+													"description": "required|min:8|confirmed|max:255",
+													"type": "text"
+												},
+												{
+													"key": "password_confirmation",
+													"value": "123456789",
+													"description": "required|min:8|confirmed|max:255",
+													"type": "text"
+												},
+												{
+													"key": "middle_name",
+													"value": "maher",
+													"description": "required|string|max:255|min:3",
+													"type": "text"
+												},
+												{
+													"key": "phone_number",
+													"value": "0936955535",
+													"description": "required|min:10|max:11|unique:users,phone_number",
+													"type": "text"
+												},
+												{
+													"key": "gender",
+													"value": "male",
+													"description": "required|string|in:male,female",
+													"type": "text"
+												},
+												{
+													"key": "city",
+													"value": "damascus",
+													"description": "string|max:255|min:3|required",
+													"type": "text"
+												},
+												{
+													"key": "mother_full_name",
+													"value": "fatima",
+													"description": "required|string|min:3|max:255",
+													"type": "text"
+												},
+												{
+													"key": "image",
+													"description": "image|max:50000|mimes:jpg,png|nullable",
+													"type": "file",
+													"src": "/C:/Users/Khaldoun Alhalabi/Desktop/Untitled Diagram.drawio.png"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{local}}/customer/register",
+											"host": [
+												"{{local}}"
+											],
+											"path": [
+												"customer",
+												"register"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Tue, 20 Feb 2024 21:16:29 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/8.2.0"
+										},
+										{
+											"key": "Vary",
+											"value": "Authorization"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"user\": {\n            \"id\": 16,\n            \"first_name\": \"customer\",\n            \"middle_name\": \"maher\",\n            \"last_name\": \"customer\",\n            \"email\": \"customer22@email.com\",\n            \"phone_number\": \"0936955535\",\n            \"birth_date\": null,\n            \"gender\": \"male\",\n            \"blood_group\": null,\n            \"is_blocked\": false,\n            \"tags\": null,\n            \"fcm_token\": null,\n            \"is_archived\": false,\n            \"image\": {\n                \"id\": 2,\n                \"model_id\": 16,\n                \"model_type\": \"user\",\n                \"file_name\": \"Untitled-Diagram.drawio.png\",\n                \"file_type\": \"image/png\",\n                \"file_url\": \"http://localhost/pom-back/public/storage/2/Untitled-Diagram.drawio.png\",\n                \"size\": 210371,\n                \"collection\": \"default\"\n            },\n            \"customer\": {\n                \"id\": 4,\n                \"mother_full_name\": \"fatima\",\n                \"medical_condition\": null,\n                \"user_id\": 16\n            }\n        },\n        \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0L3BvbS1iYWNrL3B1YmxpYy9hcGkvY3VzdG9tZXIvcmVnaXN0ZXIiLCJpYXQiOjE3MDg0NjM3OTEsImV4cCI6MTcwODQ2NzM5MSwibmJmIjoxNzA4NDYzNzkxLCJqdGkiOiJ2VmlzSEwyOXZjenlCMDFPIiwic3ViIjoiMTYiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.AKI6n0aafVzr5-CZ5xRmARyXmCLyoVAK21890KW6iV8\",\n        \"refresh_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0L3BvbS1iYWNrL3B1YmxpYy9hcGkvY3VzdG9tZXIvcmVnaXN0ZXIiLCJpYXQiOjE3MDg0NjM3OTEsImV4cCI6MTcwOTY3MzM5MSwibmJmIjoxNzA4NDYzNzkxLCJqdGkiOiIzWWw3VDFNR0JOdjVRb0NYIiwic3ViIjoiMTYiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.79AU-Qz7RiCPtoxJC9HFOSTlozdfW-r7JLsuKg_2hVI\"\n    },\n    \"status\": true,\n    \"message\": \"Registered successfully\",\n    \"code\": 200,\n    \"paginate\": null\n}"
 								}
 							]
 						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
+						{
+							"name": "reset password request",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "customer@email.com",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{local}}/customer/password-reset-request",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"customer",
+										"password-reset-request"
+									]
+								}
+							},
+							"response": [
 								{
-									"key": "mother_full_name",
-									"value": "",
-									"type": "text"
+									"name": "success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "email",
+													"value": "customer@email.com",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{local}}/customer/password-reset-request",
+											"host": [
+												"{{local}}"
+											],
+											"path": [
+												"customer",
+												"password-reset-request"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Tue, 20 Feb 2024 21:19:56 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/8.2.0"
+										},
+										{
+											"key": "Vary",
+											"value": "Authorization"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": null,\n    \"status\": true,\n    \"message\": \"Password reset code sent\",\n    \"code\": 200,\n    \"paginate\": null\n}"
+								}
+							]
+						},
+						{
+							"name": "reset password",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "reset_password_code",
+											"value": "558038",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "12345678",
+											"type": "text"
+										},
+										{
+											"key": "password_confirmation",
+											"value": "12345678",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{local}}/customer/reset-password",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"customer",
+										"reset-password"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "reset_password_code",
+													"value": "558038",
+													"type": "text"
+												},
+												{
+													"key": "password",
+													"value": "12345678",
+													"type": "text"
+												},
+												{
+													"key": "password_confirmation",
+													"value": "12345678",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{local}}/customer/reset-password",
+											"host": [
+												"{{local}}"
+											],
+											"path": [
+												"customer",
+												"reset-password"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Tue, 20 Feb 2024 21:20:57 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/8.2.0"
+										},
+										{
+											"key": "Vary",
+											"value": "Authorization"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": true,\n    \"status\": true,\n    \"message\": \"Password reset successfully\",\n    \"code\": 200,\n    \"paginate\": null\n}"
+								}
+							]
+						},
+						{
+							"name": "check reset password code",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "reset_password_code",
+											"value": "558038"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{local}}/customer/check-reset-password-code",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"customer",
+										"check-reset-password-code"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "reset_password_code",
+													"value": "558038"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{local}}/customer/check-reset-password-code",
+											"host": [
+												"{{local}}"
+											],
+											"path": [
+												"customer",
+												"check-reset-password-code"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Tue, 20 Feb 2024 21:20:32 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/8.2.0"
+										},
+										{
+											"key": "Vary",
+											"value": "Authorization"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "58"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": null,\n    \"status\": true,\n    \"message\": \"Code correct\",\n    \"code\": 200,\n    \"paginate\": null\n}"
+								}
+							]
+						},
+						{
+							"name": "request verification code",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "customer22@email.com",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{local}}/customer/request-verification-code",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"customer",
+										"request-verification-code"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "email",
+													"value": "customer22@email.com",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{local}}/customer/request-verification-code",
+											"host": [
+												"{{local}}"
+											],
+											"path": [
+												"customer",
+												"request-verification-code"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 22 Feb 2024 23:12:50 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/8.2.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": true,\n    \"status\": true,\n    \"message\": \"An email with a verification code has been sent to your email\",\n    \"code\": 200,\n    \"paginate\": null\n}"
+								}
+							]
+						},
+						{
+							"name": "verify email",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "verification_code",
+											"value": "24631222",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{local}}/customer/verify-email",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"customer",
+										"verify-email"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "verification_code",
+													"value": "847710",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{local}}/customer/verify-email",
+											"host": [
+												"{{local}}"
+											],
+											"path": [
+												"customer",
+												"verify-email"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 22 Feb 2024 23:02:44 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/8.2.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "58"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": true,\n    \"status\": true,\n    \"message\": \"Code correct\",\n    \"code\": 200,\n    \"paginate\": null\n}"
 								},
 								{
-									"key": "medical_condition",
-									"value": "",
-									"type": "text"
+									"name": "failed",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "verification_code",
+													"value": "24631222",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{local}}/customer/verify-email",
+											"host": [
+												"{{local}}"
+											],
+											"path": [
+												"customer",
+												"verify-email"
+											]
+										}
+									},
+									"status": "Method Not Allowed",
+									"code": 405,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 22 Feb 2024 23:13:06 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/8.2.0"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "58"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": \"\",\n    \"status\": false,\n    \"message\": {\n        \"text\": \"The selected verification code is invalid.\",\n        \"errors\": {\n            \"verification_code\": [\n                \"The selected verification code is invalid.\"\n            ]\n        }\n    },\n    \"code\": 405,\n    \"paginate\": null\n}"
+								}
+							]
+						},
+						{
+							"name": "refresh",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{local}}/customer/refresh",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"customer",
+										"refresh"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": []
+										},
+										"url": {
+											"raw": "{{local}}/customer/refresh",
+											"host": [
+												"{{local}}"
+											],
+											"path": [
+												"customer",
+												"refresh"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Tue, 20 Feb 2024 21:17:00 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/8.2.0"
+										},
+										{
+											"key": "Vary",
+											"value": "Authorization"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "58"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"user\": {\n            \"id\": 15,\n            \"first_name\": \"customer\",\n            \"middle_name\": \"maher\",\n            \"last_name\": \"customer\",\n            \"email\": \"customer33@email.com\",\n            \"phone_number\": \"0936955533\",\n            \"birth_date\": null,\n            \"gender\": \"male\",\n            \"blood_group\": null,\n            \"is_blocked\": false,\n            \"tags\": null,\n            \"fcm_token\": null,\n            \"is_archived\": false,\n            \"image\": {\n                \"id\": 1,\n                \"model_id\": 15,\n                \"model_type\": \"user\",\n                \"file_name\": \"Untitled-Diagram.drawio.png\",\n                \"file_type\": \"image/png\",\n                \"file_url\": \"http://localhost/pom-back/public/storage/1/Untitled-Diagram.drawio.png\",\n                \"size\": 210371,\n                \"collection\": \"default\"\n            },\n            \"customer\": {\n                \"id\": 3,\n                \"mother_full_name\": \"fatima\",\n                \"medical_condition\": null,\n                \"user_id\": 15\n            }\n        },\n        \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0L3BvbS1iYWNrL3B1YmxpYy9hcGkvY3VzdG9tZXIvcmVmcmVzaCIsImlhdCI6MTcwODQ2MzgwNiwiZXhwIjoxNzA5MDY4NjIxLCJuYmYiOjE3MDg0NjM4MjEsImp0aSI6IlNyOTNXanRsR28wTHBraHgiLCJzdWIiOiIxNSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.vIIxkOpyfYTYehf4w0B1ybV2h0XyRoYfjpahJbA8rkI\",\n        \"refresh_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0L3BvbS1iYWNrL3B1YmxpYy9hcGkvY3VzdG9tZXIvcmVmcmVzaCIsImlhdCI6MTcwODQ2MzgwNiwiZXhwIjoxNzA5NjczNDIxLCJuYmYiOjE3MDg0NjM4MjEsImp0aSI6IktKZXJzbzhISEp2ZWNBNUciLCJzdWIiOiIxNSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.-6i-CqCGon-LqHs01bSRjvcZr6kqVkeW6X8OE8jBkEE\"\n    },\n    \"status\": true,\n    \"message\": \"Token refreshed successfully\",\n    \"code\": 200,\n    \"paginate\": null\n}"
 								},
 								{
-									"key": "user_id",
-									"value": "",
-									"type": "text"
+									"name": "un verified email",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": []
+										},
+										"url": {
+											"raw": "{{local}}/customer/refresh",
+											"host": [
+												"{{local}}"
+											],
+											"path": [
+												"customer",
+												"refresh"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 22 Feb 2024 22:48:23 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/8.2.0"
+										},
+										{
+											"key": "Vary",
+											"value": "Authorization"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": null,\n    \"status\": false,\n    \"message\": \"Your email address is not verified.\",\n    \"code\": 401,\n    \"paginate\": null\n}"
 								}
 							]
 						},
-						"url": {
-							"raw": "{{local}}customers",
-							"host": [
-								"{{local}}customers"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
+						{
+							"name": "logout",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{local}}/customer/logout",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"customer",
+										"logout"
+									]
+								}
+							},
+							"response": [
 								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
+									"name": "success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": []
+										},
+										"url": {
+											"raw": "{{local}}/customer/logout",
+											"host": [
+												"{{local}}"
+											],
+											"path": [
+												"customer",
+												"logout"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Tue, 20 Feb 2024 21:21:16 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/8.2.0"
+										},
+										{
+											"key": "Vary",
+											"value": "Authorization"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "58"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": null,\n    \"status\": true,\n    \"message\": \"Logout successfully\",\n    \"code\": 200,\n    \"paginate\": null\n}"
 								}
 							]
-						},
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": []
-						},
-						"url": {
-							"raw": "{{local}}customers/1",
-							"host": [
-								"{{local}}customers"
-							],
-							"path": [
-								"1"
-							]
 						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{local}}customers/1",
-							"host": [
-								"{{local}}customers"
-							],
-							"path": [
-								"1"
-							]
-						}
-					},
-					"response": []
+					]
 				}
 			]
 		},
 		{
-			"name": "Clinic",
+			"name": "Doctor",
 			"item": [
 				{
-					"name": "index",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
+					"name": "Auth",
+					"item": [
+						{
+							"name": "update info",
+							"event": [
 								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "doctor",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"pm.collectionVariables.set(\"token\", jsonData.data.token);"
+										],
+										"type": "text/javascript"
+									}
 								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{local}}v1/clinics",
-							"host": [
-								"{{local}}v1"
 							],
-							"path": [
-								"clinics"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "show",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "{{locale}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "first_name",
+											"value": "doctor",
+											"type": "text"
+										},
+										{
+											"key": "last_name",
+											"value": "doctor",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "doctor@email.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456789",
+											"type": "text"
+										},
+										{
+											"key": "password_confirmation",
+											"value": "123456789",
+											"type": "text"
+										},
+										{
+											"key": "fcm_token",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{local}}/doctor/update-user-data",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"doctor",
+										"update-user-data"
+									]
 								}
-							]
+							},
+							"response": []
 						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{local}}v1/clinics/1",
-							"host": [
-								"{{local}}v1"
+						{
+							"name": "login",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"pm.collectionVariables.set(\"token\", jsonData.data.token);"
+										],
+										"type": "text/javascript"
+									}
+								}
 							],
-							"path": [
-								"clinics",
-								"1"
-							]
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "doctor@email.com"
+										},
+										{
+											"key": "password",
+											"value": "123456789"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{local}}/doctor/login",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"doctor",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "refresh",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{local}}/doctor/refresh",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"doctor",
+										"refresh"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "reset password request",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "doctor@email.com",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{local}}/doctor/password-reset-request",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"doctor",
+										"password-reset-request"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "check reset password code",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "reset_password_code",
+											"value": ""
+										}
+									]
+								},
+								"url": {
+									"raw": "{{local}}/doctor/check-reset-password-code",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"doctor",
+										"check-reset-password-code"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "reset password",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "reset_password_code",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "12345678",
+											"type": "text"
+										},
+										{
+											"key": "password_confirmation",
+											"value": "12345678",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{local}}/doctor/reset-password",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"doctor",
+										"reset-password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "logout",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{local}}/doctor/logout",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"doctor",
+										"logout"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
-				},
-				{
-					"name": "store",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "name",
-									"value": "{\"ar\":\"et\",\"en\":\"cumque\"}",
-									"type": "text"
-								},
-								{
-									"key": "appointment_cost",
-									"value": "quis",
-									"type": "text"
-								},
-								{
-									"key": "user_id",
-									"value": "1",
-									"type": "text"
-								},
-								{
-									"key": "working_start_year",
-									"value": "2024-02-28",
-									"type": "text"
-								},
-								{
-									"key": "max_appointments",
-									"value": "id",
-									"type": "text"
-								},
-								{
-									"key": "appointment_day_range",
-									"value": "voluptatem",
-									"type": "text"
-								},
-								{
-									"key": "about_us",
-									"value": "{\"ar\":\"est\",\"en\":\"accusantium\"}",
-									"type": "text"
-								},
-								{
-									"key": "experience",
-									"value": "{\"ar\":\"ea\",\"en\":\"sed\"}",
-									"type": "text"
-								},
-								{
-									"key": "work_gellery",
-									"value": "ex",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{local}}v1/clinics",
-							"host": [
-								"{{local}}v1"
-							],
-							"path": [
-								"clinics"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "name",
-									"value": "{\"ar\":\"culpa\",\"en\":\"cumque\"}",
-									"type": "text"
-								},
-								{
-									"key": "appointment_cost",
-									"value": "tempore",
-									"type": "text"
-								},
-								{
-									"key": "user_id",
-									"value": "1",
-									"type": "text"
-								},
-								{
-									"key": "working_start_year",
-									"value": "2024-02-28",
-									"type": "text"
-								},
-								{
-									"key": "max_appointments",
-									"value": "qui",
-									"type": "text"
-								},
-								{
-									"key": "appointment_day_range",
-									"value": "vitae",
-									"type": "text"
-								},
-								{
-									"key": "about_us",
-									"value": "{\"ar\":\"ducimus\",\"en\":\"quisquam\"}",
-									"type": "text"
-								},
-								{
-									"key": "experience",
-									"value": "{\"ar\":\"suscipit\",\"en\":\"quo\"}",
-									"type": "text"
-								},
-								{
-									"key": "work_gellery",
-									"value": "est",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{local}}v1/clinics",
-							"host": [
-								"{{local}}v1"
-							],
-							"path": [
-								"clinics"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{local}}v1/clinics",
-							"host": [
-								"{{local}}v1"
-							],
-							"path": [
-								"clinics"
-							]
-						}
-					},
-					"response": []
+					]
 				}
 			]
 		}
@@ -2176,6 +4491,11 @@
 		{
 			"key": "token",
 			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "server",
+			"value": "https://planetofmedicine.com/api/",
 			"type": "string"
 		}
 	]
