@@ -186,10 +186,34 @@ class UserService extends BaseService implements IUserService
     }
 
     /**
+     * @param User $user
+     * @return void
+     */
+    public function requestVerificationCode(User $user): void
+    {
+        $code = $this->generateUserVerificationCode();
+
+        if (!app()->environment('locale')) {
+            $user->notify(new SendVerificationCode(
+                $code,
+                'Verify Your Email',
+                'Your Email Verification Code Is : '
+            ));
+        }
+
+        $user->verification_code = $code;
+        $user->save();
+    }
+
+    /**
      * @return string
      */
     public function generateUserVerificationCode(): string
     {
+        if (app()->environment('local')) {
+            return "0000";
+        }
+
         do {
             $code = sprintf('%06d', mt_rand(1, 999999));
             $temp_user = $this->getUserByPasswordResetCode($code);
@@ -241,11 +265,13 @@ class UserService extends BaseService implements IUserService
             $user->save();
 
             try {
-                $user->notify(new SendVerificationCode(
-                    $code,
-                    'Reset Password Verification Code',
-                    'Your Password Reset Code Is : '
-                ));
+                if (!app()->environment('locale')) {
+                    $user->notify(new SendVerificationCode(
+                        $code,
+                        'Reset Password Verification Code',
+                        'Your Password Reset Code Is : '
+                    ));
+                }
             } catch (Exception) {
                 return null;
             }
@@ -307,22 +333,5 @@ class UserService extends BaseService implements IUserService
         }
 
         return $user->load($relations);
-    }
-
-    /**
-     * @param User $user
-     * @return void
-     */
-    public function requestVerificationCode(User $user): void
-    {
-        $code = $this->generateUserVerificationCode();
-        $user->notify(new SendVerificationCode(
-            $code,
-            'Verify Your Email',
-            'Your Email Verification Code Is : '
-        ));
-
-        $user->verification_code = $code;
-        $user->save();
     }
 }
