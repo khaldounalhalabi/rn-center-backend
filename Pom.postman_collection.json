@@ -1,2205 +1,2182 @@
 {
-    "info": {
-        "name": "Pom",
-        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-    },
-    "item": [
-        {
-            "name": "User",
-            "item": [
-                {
-                    "name": "index",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            },
-                            {
-                                "key": "Accept-Language",
-                                "value": "{{locale}}",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/users?search&sort_col&sort_dir",
-                            "host": [
-                                "{{local}}v1/{{local}}/users?search&sort_col&sort_dir"
-                            ]
-                        },
-                        "body": null
-                    },
-                    "response": []
-                },
-                {
-                    "name": "show",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/users/1",
-                            "host": [
-                                "{{local}}v1/{{local}}/users/1"
-                            ]
-                        },
-                        "body": null
-                    },
-                    "response": []
-                },
-                {
-                    "name": "store",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/users",
-                            "host": [
-                                "{{local}}v1/{{local}}/users"
-                            ]
-                        },
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": [
-                                {
-                                    "key": "first_name",
-                                    "value": "",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "middle_name",
-                                    "value": "",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "last_name",
-                                    "value": "",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "phone_number",
-                                    "value": "",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "email",
-                                    "value": "",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "password",
-                                    "value": "",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "birth_date",
-                                    "value": "",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "gender",
-                                    "value": "",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "blood_group",
-                                    "value": "",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "is_blocked",
-                                    "value": "",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "tags",
-                                    "value": "",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "image",
-                                    "value": "",
-                                    "type": "file",
-                                    "description": ""
-                                }
-                            ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "update",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "PUT",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/users/1",
-                            "host": [
-                                "{{local}}v1/{{local}}/users/1"
-                            ]
-                        },
-                        "body": {
-                            "mode": "urlencoded",
-                            "urlencoded": []
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "delete",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "DELETE",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/users/1",
-                            "host": [
-                                "{{local}}v1/{{local}}/users/1"
-                            ]
-                        },
-                        "body": null
-                    },
-                    "response": []
-                }
-            ]
-        },
-        {
-            "name": "admin auth",
-            "item": [
-                {
-                    "name": "register",
-                    "events": [
-                        {
-                            "script": {
-                                "exec": [
-                                    ""
-                                ],
-                                "type": "text/javascript"
-                            },
-                            "listen": "prerequest"
-                        },
-                        {
-                            "script": {
-                                "exec": [
-                                    "var jsonData = JSON.parse(responseBody);\r",
-                                    "pm.collectionVariables.set(\"token\", jsonData.data.token);"
-                                ],
-                                "type": "text/javascript"
-                            },
-                            "listen": "test"
-                        }
-                    ],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            },
-                            {
-                                "key": "Accept-Language",
-                                "value": "{{locale}}",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/admin/register",
-                            "host": [
-                                "{{local}}v1/{{local}}/admin/register"
-                            ]
-                        },
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": [
-                                {
-                                    "key": "first_name",
-                                    "value": "admin",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "last_name",
-                                    "value": "admin",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "email",
-                                    "value": "admin@email.com",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "password",
-                                    "value": "123456789",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "password_confirmation",
-                                    "value": "123456789",
-                                    "type": "text",
-                                    "description": ""
-                                }
-                            ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "update info",
-                    "events": [
-                        {
-                            "script": {
-                                "exec": [
-                                    ""
-                                ],
-                                "type": "text/javascript"
-                            },
-                            "listen": "prerequest"
-                        },
-                        {
-                            "script": {
-                                "exec": [
-                                    "var jsonData = JSON.parse(responseBody);\r",
-                                    "pm.collectionVariables.set(\"token\", jsonData.data.token);"
-                                ],
-                                "type": "text/javascript"
-                            },
-                            "listen": "admin"
-                        }
-                    ],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            },
-                            {
-                                "key": "Accept-Language",
-                                "value": "{{locale}}",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/admin/update-user-data",
-                            "host": [
-                                "{{local}}v1/{{local}}/admin/update-user-data"
-                            ]
-                        },
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": [
-                                {
-                                    "key": "first_name",
-                                    "value": "admin",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "last_name",
-                                    "value": "admin",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "email",
-                                    "value": "admin@email.com",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "password",
-                                    "value": "123456789",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "password_confirmation",
-                                    "value": "123456789",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "fcm_token",
-                                    "value": "",
-                                    "type": "text",
-                                    "description": ""
-                                }
-                            ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "login",
-                    "events": [
-                        {
-                            "script": {
-                                "exec": [
-                                    ""
-                                ],
-                                "type": "text/javascript"
-                            },
-                            "listen": "prerequest"
-                        },
-                        {
-                            "script": {
-                                "exec": [
-                                    "var jsonData = JSON.parse(responseBody);\r",
-                                    "pm.collectionVariables.set(\"token\", jsonData.data.token);"
-                                ],
-                                "type": "text/javascript"
-                            },
-                            "listen": "test"
-                        }
-                    ],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/admin/login",
-                            "host": [
-                                "{{local}}v1/{{local}}/admin/login"
-                            ]
-                        },
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": [
-                                {
-                                    "key": "email",
-                                    "value": "admin@email.com",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "password",
-                                    "value": "123456789",
-                                    "type": "text",
-                                    "description": ""
-                                }
-                            ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "refresh",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/admin/refresh",
-                            "host": [
-                                "{{local}}v1/{{local}}/admin/refresh"
-                            ]
-                        },
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": []
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "reset password request",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/admin/password-reset-request",
-                            "host": [
-                                "{{local}}v1/{{local}}/admin/password-reset-request"
-                            ]
-                        },
-                        "body": {
-                            "mode": "urlencoded",
-                            "urlencoded": []
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "check reset password code",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/admin/check-reset-password-code",
-                            "host": [
-                                "{{local}}v1/{{local}}/admin/check-reset-password-code"
-                            ]
-                        },
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": [
-                                {
-                                    "key": "reset_password_code",
-                                    "value": "",
-                                    "type": "text",
-                                    "description": ""
-                                }
-                            ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "reset password",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/admin/reset-password",
-                            "host": [
-                                "{{local}}v1/{{local}}/admin/reset-password"
-                            ]
-                        },
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": [
-                                {
-                                    "key": "reset_password_code",
-                                    "value": "",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "password",
-                                    "value": "12345678",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "password_confirmation",
-                                    "value": "12345678",
-                                    "type": "text",
-                                    "description": ""
-                                }
-                            ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "logout",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/admin/logout",
-                            "host": [
-                                "{{local}}v1/{{local}}/admin/logout"
-                            ]
-                        },
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": []
-                        }
-                    },
-                    "response": []
-                }
-            ]
-        },
-        {
-            "name": "doctor auth",
-            "item": [
-                {
-                    "name": "register",
-                    "events": [
-                        {
-                            "script": {
-                                "exec": [
-                                    ""
-                                ],
-                                "type": "text/javascript"
-                            },
-                            "listen": "prerequest"
-                        },
-                        {
-                            "script": {
-                                "exec": [
-                                    "var jsonData = JSON.parse(responseBody);\r",
-                                    "pm.collectionVariables.set(\"token\", jsonData.data.token);"
-                                ],
-                                "type": "text/javascript"
-                            },
-                            "listen": "test"
-                        }
-                    ],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            },
-                            {
-                                "key": "Accept-Language",
-                                "value": "{{locale}}",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/doctor/register",
-                            "host": [
-                                "{{local}}v1/{{local}}/doctor/register"
-                            ]
-                        },
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": [
-                                {
-                                    "key": "first_name",
-                                    "value": "doctor",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "last_name",
-                                    "value": "doctor",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "email",
-                                    "value": "doctor@email.com",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "password",
-                                    "value": "123456789",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "password_confirmation",
-                                    "value": "123456789",
-                                    "type": "text",
-                                    "description": ""
-                                }
-                            ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "update info",
-                    "events": [
-                        {
-                            "script": {
-                                "exec": [
-                                    ""
-                                ],
-                                "type": "text/javascript"
-                            },
-                            "listen": "prerequest"
-                        },
-                        {
-                            "script": {
-                                "exec": [
-                                    "var jsonData = JSON.parse(responseBody);\r",
-                                    "pm.collectionVariables.set(\"token\", jsonData.data.token);"
-                                ],
-                                "type": "text/javascript"
-                            },
-                            "listen": "doctor"
-                        }
-                    ],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            },
-                            {
-                                "key": "Accept-Language",
-                                "value": "{{locale}}",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/doctor/update-user-data",
-                            "host": [
-                                "{{local}}v1/{{local}}/doctor/update-user-data"
-                            ]
-                        },
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": [
-                                {
-                                    "key": "first_name",
-                                    "value": "doctor",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "last_name",
-                                    "value": "doctor",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "email",
-                                    "value": "doctor@email.com",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "password",
-                                    "value": "123456789",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "password_confirmation",
-                                    "value": "123456789",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "fcm_token",
-                                    "value": "",
-                                    "type": "text",
-                                    "description": ""
-                                }
-                            ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "login",
-                    "events": [
-                        {
-                            "script": {
-                                "exec": [
-                                    ""
-                                ],
-                                "type": "text/javascript"
-                            },
-                            "listen": "prerequest"
-                        },
-                        {
-                            "script": {
-                                "exec": [
-                                    "var jsonData = JSON.parse(responseBody);\r",
-                                    "pm.collectionVariables.set(\"token\", jsonData.data.token);"
-                                ],
-                                "type": "text/javascript"
-                            },
-                            "listen": "test"
-                        }
-                    ],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/doctor/login",
-                            "host": [
-                                "{{local}}v1/{{local}}/doctor/login"
-                            ]
-                        },
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": [
-                                {
-                                    "key": "email",
-                                    "value": "doctor@email.com",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "password",
-                                    "value": "123456789",
-                                    "type": "text",
-                                    "description": ""
-                                }
-                            ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "refresh",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/doctor/refresh",
-                            "host": [
-                                "{{local}}v1/{{local}}/doctor/refresh"
-                            ]
-                        },
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": []
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "reset password request",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/doctor/password-reset-request",
-                            "host": [
-                                "{{local}}v1/{{local}}/doctor/password-reset-request"
-                            ]
-                        },
-                        "body": {
-                            "mode": "urlencoded",
-                            "urlencoded": []
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "check reset password code",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/doctor/check-reset-password-code",
-                            "host": [
-                                "{{local}}v1/{{local}}/doctor/check-reset-password-code"
-                            ]
-                        },
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": [
-                                {
-                                    "key": "reset_password_code",
-                                    "value": "",
-                                    "type": "text",
-                                    "description": ""
-                                }
-                            ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "reset password",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/doctor/reset-password",
-                            "host": [
-                                "{{local}}v1/{{local}}/doctor/reset-password"
-                            ]
-                        },
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": [
-                                {
-                                    "key": "reset_password_code",
-                                    "value": "",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "password",
-                                    "value": "12345678",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "password_confirmation",
-                                    "value": "12345678",
-                                    "type": "text",
-                                    "description": ""
-                                }
-                            ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "logout",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/doctor/logout",
-                            "host": [
-                                "{{local}}v1/{{local}}/doctor/logout"
-                            ]
-                        },
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": []
-                        }
-                    },
-                    "response": []
-                }
-            ]
-        },
-        {
-            "name": "customer auth",
-            "item": [
-                {
-                    "name": "register",
-                    "events": [
-                        {
-                            "script": {
-                                "exec": [
-                                    ""
-                                ],
-                                "type": "text/javascript"
-                            },
-                            "listen": "prerequest"
-                        },
-                        {
-                            "script": {
-                                "exec": [
-                                    "var jsonData = JSON.parse(responseBody);\r",
-                                    "pm.collectionVariables.set(\"token\", jsonData.data.token);"
-                                ],
-                                "type": "text/javascript"
-                            },
-                            "listen": "test"
-                        }
-                    ],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            },
-                            {
-                                "key": "Accept-Language",
-                                "value": "{{locale}}",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/customer/register",
-                            "host": [
-                                "{{local}}v1/{{local}}/customer/register"
-                            ]
-                        },
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": [
-                                {
-                                    "key": "first_name",
-                                    "value": "customer",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "last_name",
-                                    "value": "customer",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "email",
-                                    "value": "customer@email.com",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "password",
-                                    "value": "123456789",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "password_confirmation",
-                                    "value": "123456789",
-                                    "type": "text",
-                                    "description": ""
-                                }
-                            ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "update info",
-                    "events": [
-                        {
-                            "script": {
-                                "exec": [
-                                    ""
-                                ],
-                                "type": "text/javascript"
-                            },
-                            "listen": "prerequest"
-                        },
-                        {
-                            "script": {
-                                "exec": [
-                                    "var jsonData = JSON.parse(responseBody);\r",
-                                    "pm.collectionVariables.set(\"token\", jsonData.data.token);"
-                                ],
-                                "type": "text/javascript"
-                            },
-                            "listen": "customer"
-                        }
-                    ],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            },
-                            {
-                                "key": "Accept-Language",
-                                "value": "{{locale}}",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/customer/update-user-data",
-                            "host": [
-                                "{{local}}v1/{{local}}/customer/update-user-data"
-                            ]
-                        },
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": [
-                                {
-                                    "key": "first_name",
-                                    "value": "customer",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "last_name",
-                                    "value": "customer",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "email",
-                                    "value": "customer@email.com",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "password",
-                                    "value": "123456789",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "password_confirmation",
-                                    "value": "123456789",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "fcm_token",
-                                    "value": "",
-                                    "type": "text",
-                                    "description": ""
-                                }
-                            ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "login",
-                    "events": [
-                        {
-                            "script": {
-                                "exec": [
-                                    ""
-                                ],
-                                "type": "text/javascript"
-                            },
-                            "listen": "prerequest"
-                        },
-                        {
-                            "script": {
-                                "exec": [
-                                    "var jsonData = JSON.parse(responseBody);\r",
-                                    "pm.collectionVariables.set(\"token\", jsonData.data.token);"
-                                ],
-                                "type": "text/javascript"
-                            },
-                            "listen": "test"
-                        }
-                    ],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/customer/login",
-                            "host": [
-                                "{{local}}v1/{{local}}/customer/login"
-                            ]
-                        },
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": [
-                                {
-                                    "key": "email",
-                                    "value": "customer@email.com",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "password",
-                                    "value": "123456789",
-                                    "type": "text",
-                                    "description": ""
-                                }
-                            ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "refresh",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/customer/refresh",
-                            "host": [
-                                "{{local}}v1/{{local}}/customer/refresh"
-                            ]
-                        },
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": []
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "reset password request",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/customer/password-reset-request",
-                            "host": [
-                                "{{local}}v1/{{local}}/customer/password-reset-request"
-                            ]
-                        },
-                        "body": {
-                            "mode": "urlencoded",
-                            "urlencoded": []
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "check reset password code",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/customer/check-reset-password-code",
-                            "host": [
-                                "{{local}}v1/{{local}}/customer/check-reset-password-code"
-                            ]
-                        },
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": [
-                                {
-                                    "key": "reset_password_code",
-                                    "value": "",
-                                    "type": "text",
-                                    "description": ""
-                                }
-                            ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "reset password",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/customer/reset-password",
-                            "host": [
-                                "{{local}}v1/{{local}}/customer/reset-password"
-                            ]
-                        },
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": [
-                                {
-                                    "key": "reset_password_code",
-                                    "value": "",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "password",
-                                    "value": "12345678",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "password_confirmation",
-                                    "value": "12345678",
-                                    "type": "text",
-                                    "description": ""
-                                }
-                            ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "logout",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/customer/logout",
-                            "host": [
-                                "{{local}}v1/{{local}}/customer/logout"
-                            ]
-                        },
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": []
-                        }
-                    },
-                    "response": []
-                }
-            ]
-        },
-        {
-            "name": "Customer",
-            "item": [
-                {
-                    "name": "index",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            },
-                            {
-                                "key": "Accept-Language",
-                                "value": "{{locale}}",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/customers?search&sort_col&sort_dir",
-                            "host": [
-                                "{{local}}v1/{{local}}/customers?search&sort_col&sort_dir"
-                            ]
-                        },
-                        "body": null
-                    },
-                    "response": []
-                },
-                {
-                    "name": "show",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/customers/1",
-                            "host": [
-                                "{{local}}v1/{{local}}/customers/1"
-                            ]
-                        },
-                        "body": null
-                    },
-                    "response": []
-                },
-                {
-                    "name": "store",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/customers",
-                            "host": [
-                                "{{local}}v1/{{local}}/customers"
-                            ]
-                        },
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": [
-                                {
-                                    "key": "mother_full_name",
-                                    "value": "",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "medical_condition",
-                                    "value": "",
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "user_id",
-                                    "value": "",
-                                    "type": "text",
-                                    "description": ""
-                                }
-                            ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "update",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "PUT",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/customers/1",
-                            "host": [
-                                "{{local}}v1/{{local}}/customers/1"
-                            ]
-                        },
-                        "body": {
-                            "mode": "urlencoded",
-                            "urlencoded": []
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "delete",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
-                                ]
-                            ]
-                        },
-                        "method": "DELETE",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/{{local}}/customers/1",
-                            "host": [
-                                "{{local}}v1/{{local}}/customers/1"
-                            ]
-                        },
-                        "body": null
-                    },
-                    "response": []
-                }
-            ]
-        },
-        {
-            "name": "Clinic",
-            "item": [
-                {
-                    "name": "index",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
-                            ]
-                        },
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/clinics",
-                            "host": [
-                                "{{local}}v1/clinics"
-                            ]
-                        },
-                        "body": null
-                    },
-                    "response": []
-                },
-                {
-                    "name": "show",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
-                            ]
-                        },
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/clinics/1",
-                            "host": [
-                                "{{local}}v1/clinics/1"
-                            ]
-                        },
-                        "body": null
-                    },
-                    "response": []
-                },
-                {
-                    "name": "store",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
-                            ]
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/clinics",
-                            "host": [
-                                "{{local}}v1/clinics"
-                            ]
-                        },
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": [
-                                {
-                                    "key": "name",
-                                    "value": "{\"ar\":\"et\",\"en\":\"cumque\"}",
-                                    "type": "text",
-                                    "description": null
-                                },
-                                {
-                                    "key": "appointment_cost",
-                                    "value": "quis",
-                                    "type": "text",
-                                    "description": null
-                                },
-                                {
-                                    "key": "user_id",
-                                    "value": "1",
-                                    "type": "text",
-                                    "description": null
-                                },
-                                {
-                                    "key": "working_start_year",
-                                    "value": "2024-02-28",
-                                    "type": "text",
-                                    "description": null
-                                },
-                                {
-                                    "key": "max_appointments",
-                                    "value": "id",
-                                    "type": "text",
-                                    "description": null
-                                },
-                                {
-                                    "key": "appointment_day_range",
-                                    "value": "voluptatem",
-                                    "type": "text",
-                                    "description": null
-                                },
-                                {
-                                    "key": "about_us",
-                                    "value": "{\"ar\":\"est\",\"en\":\"accusantium\"}",
-                                    "type": "text",
-                                    "description": null
-                                },
-                                {
-                                    "key": "experience",
-                                    "value": "{\"ar\":\"ea\",\"en\":\"sed\"}",
-                                    "type": "text",
-                                    "description": null
-                                },
-                                {
-                                    "key": "work_gellery",
-                                    "value": "ex",
-                                    "type": "text",
-                                    "description": null
-                                }
-                            ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "update",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
-                            ]
-                        },
-                        "method": "PUT",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/clinics",
-                            "host": [
-                                "{{local}}v1/clinics"
-                            ]
-                        },
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": [
-                                {
-                                    "key": "name",
-                                    "value": "{\"ar\":\"culpa\",\"en\":\"cumque\"}",
-                                    "type": "text",
-                                    "description": null
-                                },
-                                {
-                                    "key": "appointment_cost",
-                                    "value": "tempore",
-                                    "type": "text",
-                                    "description": null
-                                },
-                                {
-                                    "key": "user_id",
-                                    "value": "1",
-                                    "type": "text",
-                                    "description": null
-                                },
-                                {
-                                    "key": "working_start_year",
-                                    "value": "2024-02-28",
-                                    "type": "text",
-                                    "description": null
-                                },
-                                {
-                                    "key": "max_appointments",
-                                    "value": "qui",
-                                    "type": "text",
-                                    "description": null
-                                },
-                                {
-                                    "key": "appointment_day_range",
-                                    "value": "vitae",
-                                    "type": "text",
-                                    "description": null
-                                },
-                                {
-                                    "key": "about_us",
-                                    "value": "{\"ar\":\"ducimus\",\"en\":\"quisquam\"}",
-                                    "type": "text",
-                                    "description": null
-                                },
-                                {
-                                    "key": "experience",
-                                    "value": "{\"ar\":\"suscipit\",\"en\":\"quo\"}",
-                                    "type": "text",
-                                    "description": null
-                                },
-                                {
-                                    "key": "work_gellery",
-                                    "value": "est",
-                                    "type": "text",
-                                    "description": null
-                                }
-                            ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "delete",
-                    "events": [],
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "{{token}}",
-                                    "type": "string"
-                                }
-                            ]
-                        },
-                        "method": "DELETE",
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "url": {
-                            "raw": "{{local}}v1/clinics",
-                            "host": [
-                                "{{local}}v1/clinics"
-                            ]
-                        },
-                        "body": null
-                    },
-                    "response": []
-                }
-            ]
-        }
-    ],
-    "event": [],
-    "variable": [
-        {
-            "key": "local",
-            "value": "http://localhost/pom-back/public/api",
-            "type": "string"
-        },
-        {
-            "key": "locale",
-            "value": "",
-            "type": "string"
-        },
-        {
-            "key": "token",
-            "value": "",
-            "type": "string"
-        }
-    ]
+	"info": {
+		"_postman_id": "e88f79e0-af88-4f7c-9145-dfb528cc95be",
+		"name": "Pom",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25683379",
+		"_collection_link": "https://cubetateam.postman.co/workspace/Cubeta-Team~4016c81c-3e58-442d-8450-8ead3e1f46aa/collection/25683379-e88f79e0-af88-4f7c-9145-dfb528cc95be?action=share&source=collection_link&creator=25683379"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "index",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "{{locale}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{local}}users?search&sort_col&sort_dir",
+							"host": [
+								"{{local}}users"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": null
+								},
+								{
+									"key": "sort_col",
+									"value": null
+								},
+								{
+									"key": "sort_dir",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{local}}users/1",
+							"host": [
+								"{{local}}users"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "store",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "first_name",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "middle_name",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "phone_number",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "birth_date",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "gender",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "blood_group",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "is_blocked",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "tags",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"value": "",
+									"type": "file"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}users",
+							"host": [
+								"{{local}}users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{local}}users/1",
+							"host": [
+								"{{local}}users"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{local}}users/1",
+							"host": [
+								"{{local}}users"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "admin auth",
+			"item": [
+				{
+					"name": "register",
+					"event": [
+						{
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"token\", jsonData.data.token);"
+								],
+								"type": "text/javascript"
+							},
+							"listen": "test"
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "{{locale}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "first_name",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "admin@email.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456789",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "123456789",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}admin/register",
+							"host": [
+								"{{local}}admin"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update info",
+					"event": [
+						{
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"token\", jsonData.data.token);"
+								],
+								"type": "text/javascript"
+							},
+							"listen": "admin"
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "{{locale}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "first_name",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "admin@email.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456789",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "123456789",
+									"type": "text"
+								},
+								{
+									"key": "fcm_token",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}admin/update-user-data",
+							"host": [
+								"{{local}}admin"
+							],
+							"path": [
+								"update-user-data"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"token\", jsonData.data.token);"
+								],
+								"type": "text/javascript"
+							},
+							"listen": "test"
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "admin@email.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456789",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}admin/login",
+							"host": [
+								"{{local}}admin"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "validation error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "admin@email.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456789",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{local}}admin/login",
+									"host": [
+										"{{local}}admin"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "Method Not Allowed",
+							"code": 405,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 29 Feb 2024 07:49:58 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/8.2.0"
+								},
+								{
+									"key": "Vary",
+									"value": "Authorization"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.2.0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": \"\",\n    \"status\": false,\n    \"message\": {\n        \"text\": \"The selected email is invalid.\",\n        \"errors\": {\n            \"email\": [\n                \"The selected email is invalid.\"\n            ]\n        }\n    },\n    \"code\": 405,\n    \"paginate\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "refresh",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{local}}admin/refresh",
+							"host": [
+								"{{local}}admin"
+							],
+							"path": [
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reset password request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{local}}admin/password-reset-request",
+							"host": [
+								"{{local}}admin"
+							],
+							"path": [
+								"password-reset-request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check reset password code",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "reset_password_code",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}admin/check-reset-password-code",
+							"host": [
+								"{{local}}admin"
+							],
+							"path": [
+								"check-reset-password-code"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reset password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "reset_password_code",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}admin/reset-password",
+							"host": [
+								"{{local}}admin"
+							],
+							"path": [
+								"reset-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{local}}admin/logout",
+							"host": [
+								"{{local}}admin"
+							],
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "doctor auth",
+			"item": [
+				{
+					"name": "register",
+					"event": [
+						{
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"token\", jsonData.data.token);"
+								],
+								"type": "text/javascript"
+							},
+							"listen": "test"
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "{{locale}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "first_name",
+									"value": "doctor",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "doctor",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "doctor@email.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456789",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "123456789",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}doctor/register",
+							"host": [
+								"{{local}}doctor"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update info",
+					"event": [
+						{
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"token\", jsonData.data.token);"
+								],
+								"type": "text/javascript"
+							},
+							"listen": "doctor"
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "{{locale}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "first_name",
+									"value": "doctor",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "doctor",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "doctor@email.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456789",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "123456789",
+									"type": "text"
+								},
+								{
+									"key": "fcm_token",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}doctor/update-user-data",
+							"host": [
+								"{{local}}doctor"
+							],
+							"path": [
+								"update-user-data"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"token\", jsonData.data.token);"
+								],
+								"type": "text/javascript"
+							},
+							"listen": "test"
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "doctor@email.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456789",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}doctor/login",
+							"host": [
+								"{{local}}doctor"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refresh",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{local}}doctor/refresh",
+							"host": [
+								"{{local}}doctor"
+							],
+							"path": [
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reset password request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{local}}doctor/password-reset-request",
+							"host": [
+								"{{local}}doctor"
+							],
+							"path": [
+								"password-reset-request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check reset password code",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "reset_password_code",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}doctor/check-reset-password-code",
+							"host": [
+								"{{local}}doctor"
+							],
+							"path": [
+								"check-reset-password-code"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reset password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "reset_password_code",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}doctor/reset-password",
+							"host": [
+								"{{local}}doctor"
+							],
+							"path": [
+								"reset-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{local}}doctor/logout",
+							"host": [
+								"{{local}}doctor"
+							],
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "customer auth",
+			"item": [
+				{
+					"name": "register",
+					"event": [
+						{
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"token\", jsonData.data.token);"
+								],
+								"type": "text/javascript"
+							},
+							"listen": "test"
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "{{locale}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "first_name",
+									"value": "customer",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "customer",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "customer@email.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456789",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "123456789",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}customer/register",
+							"host": [
+								"{{local}}customer"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update info",
+					"event": [
+						{
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"token\", jsonData.data.token);"
+								],
+								"type": "text/javascript"
+							},
+							"listen": "customer"
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "{{locale}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "first_name",
+									"value": "customer",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "customer",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "customer@email.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456789",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "123456789",
+									"type": "text"
+								},
+								{
+									"key": "fcm_token",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}customer/update-user-data",
+							"host": [
+								"{{local}}customer"
+							],
+							"path": [
+								"update-user-data"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"token\", jsonData.data.token);"
+								],
+								"type": "text/javascript"
+							},
+							"listen": "test"
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "customer@email.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456789",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}customer/login",
+							"host": [
+								"{{local}}customer"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refresh",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{local}}customer/refresh",
+							"host": [
+								"{{local}}customer"
+							],
+							"path": [
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reset password request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{local}}customer/password-reset-request",
+							"host": [
+								"{{local}}customer"
+							],
+							"path": [
+								"password-reset-request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check reset password code",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "reset_password_code",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}customer/check-reset-password-code",
+							"host": [
+								"{{local}}customer"
+							],
+							"path": [
+								"check-reset-password-code"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reset password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "reset_password_code",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}customer/reset-password",
+							"host": [
+								"{{local}}customer"
+							],
+							"path": [
+								"reset-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{local}}customer/logout",
+							"host": [
+								"{{local}}customer"
+							],
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Customer",
+			"item": [
+				{
+					"name": "index",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "{{locale}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{local}}customers?search&sort_col&sort_dir",
+							"host": [
+								"{{local}}customers"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": null
+								},
+								{
+									"key": "sort_col",
+									"value": null
+								},
+								{
+									"key": "sort_dir",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{local}}customers/1",
+							"host": [
+								"{{local}}customers"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "store",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "mother_full_name",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "medical_condition",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "user_id",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}customers",
+							"host": [
+								"{{local}}customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{local}}customers/1",
+							"host": [
+								"{{local}}customers"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{local}}customers/1",
+							"host": [
+								"{{local}}customers"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Clinic",
+			"item": [
+				{
+					"name": "index",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{local}}v1/clinics",
+							"host": [
+								"{{local}}v1"
+							],
+							"path": [
+								"clinics"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{local}}v1/clinics/1",
+							"host": [
+								"{{local}}v1"
+							],
+							"path": [
+								"clinics",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "store",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "{\"ar\":\"et\",\"en\":\"cumque\"}",
+									"type": "text"
+								},
+								{
+									"key": "appointment_cost",
+									"value": "quis",
+									"type": "text"
+								},
+								{
+									"key": "user_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "working_start_year",
+									"value": "2024-02-28",
+									"type": "text"
+								},
+								{
+									"key": "max_appointments",
+									"value": "id",
+									"type": "text"
+								},
+								{
+									"key": "appointment_day_range",
+									"value": "voluptatem",
+									"type": "text"
+								},
+								{
+									"key": "about_us",
+									"value": "{\"ar\":\"est\",\"en\":\"accusantium\"}",
+									"type": "text"
+								},
+								{
+									"key": "experience",
+									"value": "{\"ar\":\"ea\",\"en\":\"sed\"}",
+									"type": "text"
+								},
+								{
+									"key": "work_gellery",
+									"value": "ex",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}v1/clinics",
+							"host": [
+								"{{local}}v1"
+							],
+							"path": [
+								"clinics"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "{\"ar\":\"culpa\",\"en\":\"cumque\"}",
+									"type": "text"
+								},
+								{
+									"key": "appointment_cost",
+									"value": "tempore",
+									"type": "text"
+								},
+								{
+									"key": "user_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "working_start_year",
+									"value": "2024-02-28",
+									"type": "text"
+								},
+								{
+									"key": "max_appointments",
+									"value": "qui",
+									"type": "text"
+								},
+								{
+									"key": "appointment_day_range",
+									"value": "vitae",
+									"type": "text"
+								},
+								{
+									"key": "about_us",
+									"value": "{\"ar\":\"ducimus\",\"en\":\"quisquam\"}",
+									"type": "text"
+								},
+								{
+									"key": "experience",
+									"value": "{\"ar\":\"suscipit\",\"en\":\"quo\"}",
+									"type": "text"
+								},
+								{
+									"key": "work_gellery",
+									"value": "est",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}v1/clinics",
+							"host": [
+								"{{local}}v1"
+							],
+							"path": [
+								"clinics"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{local}}v1/clinics",
+							"host": [
+								"{{local}}v1"
+							],
+							"path": [
+								"clinics"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "local",
+			"value": "http://localhost/pom-back/public/api/",
+			"type": "string"
+		},
+		{
+			"key": "locale",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	]
 }

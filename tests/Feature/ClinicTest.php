@@ -1,9 +1,10 @@
 <?php
 
-namespace Tests\Feature ;
+namespace Tests\Feature;
 
 use App\Http\Resources\ClinicResource;
 use App\Models\Clinic;
+use Illuminate\Http\UploadedFile;
 use Tests\Contracts\MainTestCase;
 
 class ClinicTest extends MainTestCase
@@ -37,15 +38,13 @@ class ClinicTest extends MainTestCase
     public function test_user_can_create_a_Clinic()
     {
         $this->requestPathHook($this->baseUrl . 'store');
-        $this->storeTest(['work_gallery' => [\Illuminate\Http\UploadedFile::fake()->image('image.jpg')],
-        ]);
+        $this->storeTest(['work_gallery' => [UploadedFile::fake()->image('image.jpg')],]);
     }
 
     public function test_user_can_update_Clinic()
     {
         $this->requestPathHook($this->baseUrl . 'update');
-        $this->updateTest(['work_gallery' => [\Illuminate\Http\UploadedFile::fake()->image('image.jpg')],
-        ]);
+        $this->updateTest(['work_gallery' => [UploadedFile::fake()->image('image.jpg')],]);
     }
 
     public function test_user_can_delete_a_Clinic()
