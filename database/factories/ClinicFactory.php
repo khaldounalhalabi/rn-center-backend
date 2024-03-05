@@ -3,12 +3,11 @@
 namespace Database\Factories;
 
 use App\Models\Clinic;
-use App\Models\User;
+use App\Models\Schedule;
 use App\Traits\FileHandler;
 use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Str;
 
 /**
  * @extends Factory
@@ -28,7 +27,7 @@ class ClinicFactory extends Factory
         return [
             'name' => $this->fakeTranslation('word'),
             'appointment_cost' => fake()->randomFloat(2, 0, 1000),
-            'user_id' => \App\Models\User::factory() ,
+            'user_id' => \App\Models\User::factory(),
             'working_start_year' => fake()->date(),
             'max_appointments' => fake()->numberBetween(1, 2000),
             'appointment_day_range' => fake()->numberBetween(1, 2000),
@@ -46,5 +45,10 @@ class ClinicFactory extends Factory
                 $clinic->addMedia(fake()->image);
             }
         });
+    }
+
+    public function withSchedules($count = 1): ClinicFactory
+    {
+        return $this->has(Schedule::factory($count));
     }
 }

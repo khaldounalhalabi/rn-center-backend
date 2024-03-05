@@ -221,12 +221,66 @@
                     {
                         "type": "hasMany",
                         "model_name": "Service"
+                    },
+                    {
+                        "type": "hasMany",
+                        "model_name": "Schedule"
                     }
                 ],
                 "manyToMany": [
                     {
                         "type": "manyToMany",
                         "model_name": "Subscription"
+                    }
+                ]
+            }
+        },
+        {
+            "model_name": "Schedule",
+            "table_name": "schedules",
+            "attributes": [
+                {
+                    "name": "clinic_id",
+                    "type": "foreign_key",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "day_of_week",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "start_time",
+                    "type": "time",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "end_time",
+                    "type": "time",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "hospital_id",
+                    "type": "foreign_key",
+                    "nullable": false,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "belongsTo": [
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Clinic",
+                        "key": "clinic_id"
+                    },
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Hospital",
+                        "key": "hospital_id"
                     }
                 ]
             }
