@@ -2,34 +2,31 @@
 
 namespace App\Models;
 
-use App\Casts\Translatable;
-use App\Enums\MediaTypeEnum;
-use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property Address addresses
  * @property string name
- * @property string phone_numbers
- * @property string available_departments
- * @property string images
+ * @property string description
+ * @property integer hospital_id
  */
-class Hospital extends Model implements HasMedia
+class AvailableDepartment extends Model
 {
     use HasFactory;
-    use Translations;
-    use InteractsWithMedia;
+    use \App\Traits\Translations;
+
 
     protected $fillable = [
         'name',
+        'description',
+        'hospital_id',
+
     ];
 
     protected $casts = [
-        'name' => Translatable::class,
+        'name' => \App\Casts\Translatable::class,
+        'description' => \App\Casts\Translatable::class,
     ];
 
     /**
@@ -40,6 +37,8 @@ class Hospital extends Model implements HasMedia
     {
         return [
             'name',
+            'description',
+
         ];
     }
 
@@ -50,11 +49,16 @@ class Hospital extends Model implements HasMedia
     public static function relationsSearchableArray(): array
     {
         return [
-            'addresses' => [
-                //add your addresses desired column to be search within
+            'hospital_id' => [
+                //add your hospital_id desired column to be search within
             ],
 
         ];
+    }
+
+    public function hospital(): belongsTo
+    {
+        return $this->belongsTo(Hospital::class);
     }
 
     /**
@@ -65,19 +69,9 @@ class Hospital extends Model implements HasMedia
     public function filesKeys(): array
     {
         return [
-            'images' => ["type" => MediaTypeEnum::MULTIPLE->value],
             //filesKeys
         ];
     }
 
 
-    public function phoneNumbers(): HasMany
-    {
-        return $this->hasMany(PhoneNumber::class);
-    }
-
-    public function availableDepartments(): HasMany
-    {
-        return $this->hasMany(AvailableDepartment::class);
-    }
 }

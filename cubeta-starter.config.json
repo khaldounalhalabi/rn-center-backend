@@ -377,6 +377,39 @@
                     }
                 ]
             }
+        },
+        {
+            "model_name": "AvailableDepartment",
+            "table_name": "available_departments",
+            "attributes": [
+                {
+                    "name": "name",
+                    "type": "translatable",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "description",
+                    "type": "translatable",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "hospital_id",
+                    "type": "foreign_key",
+                    "nullable": false,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "belongsTo": [
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Hospital",
+                        "key": "hospital_id"
+                    }
+                ]
+            }
         }
     ]
 }

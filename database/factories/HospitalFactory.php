@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\AvailableDepartment;
 use App\Models\Hospital;
 use App\Models\PhoneNumber;
 use App\Traits\FileHandler;
@@ -44,4 +45,10 @@ class HospitalFactory extends Factory
     {
         return $this->has(PhoneNumber::factory($count));
     }
+
+    public function withAvailableDepartments($count = 1): HospitalFactory
+    {
+        return $this->has(AvailableDepartment::factory($count));
+    }
+
 }

@@ -20,11 +20,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -63,11 +65,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -101,11 +105,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -215,11 +221,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -256,11 +264,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -299,11 +309,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -411,11 +423,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -598,11 +612,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -818,11 +834,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -1173,11 +1191,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -1365,10 +1385,12 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "undefined",
-                                                        "type": "any"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "undefined",
+                                                            "type": "any"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -1407,10 +1429,12 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "undefined",
-                                                        "type": "any"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "undefined",
+                                                            "type": "any"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -1444,10 +1468,12 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "undefined",
-                                                        "type": "any"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "undefined",
+                                                            "type": "any"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -1503,10 +1529,12 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "undefined",
-                                                        "type": "any"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "undefined",
+                                                            "type": "any"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -1543,10 +1571,12 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "undefined",
-                                                        "type": "any"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "undefined",
+                                                            "type": "any"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -1605,11 +1635,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -1708,11 +1740,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -1854,11 +1888,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -1978,11 +2014,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -2108,11 +2146,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -2244,11 +2284,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -2403,11 +2445,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -2557,11 +2601,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -2814,11 +2860,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -3082,11 +3130,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -3212,11 +3262,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -3371,11 +3423,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -3797,11 +3851,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -4003,11 +4059,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -4157,11 +4215,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -4260,11 +4320,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -4314,11 +4376,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -4355,11 +4419,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -4396,11 +4462,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -4444,11 +4512,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -4504,11 +4574,13 @@
                                         [
                                             [
                                                 [
-                                                    {
-                                                        "key": "token",
-                                                        "value": "{{token}}",
-                                                        "type": "string"
-                                                    }
+                                                    [
+                                                        {
+                                                            "key": "token",
+                                                            "value": "{{token}}",
+                                                            "type": "string"
+                                                        }
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -4551,11 +4623,13 @@
                             "bearer": [
                                 [
                                     [
-                                        {
-                                            "key": "token",
-                                            "value": "{{token}}",
-                                            "type": "string"
-                                        }
+                                        [
+                                            {
+                                                "key": "token",
+                                                "value": "{{token}}",
+                                                "type": "string"
+                                            }
+                                        ]
                                     ]
                                 ]
                             ]
@@ -4587,11 +4661,13 @@
                             "bearer": [
                                 [
                                     [
-                                        {
-                                            "key": "token",
-                                            "value": "{{token}}",
-                                            "type": "string"
-                                        }
+                                        [
+                                            {
+                                                "key": "token",
+                                                "value": "{{token}}",
+                                                "type": "string"
+                                            }
+                                        ]
                                     ]
                                 ]
                             ]
@@ -4623,11 +4699,13 @@
                             "bearer": [
                                 [
                                     [
-                                        {
-                                            "key": "token",
-                                            "value": "{{token}}",
-                                            "type": "string"
-                                        }
+                                        [
+                                            {
+                                                "key": "token",
+                                                "value": "{{token}}",
+                                                "type": "string"
+                                            }
+                                        ]
                                     ]
                                 ]
                             ]
@@ -4693,11 +4771,13 @@
                             "bearer": [
                                 [
                                     [
-                                        {
-                                            "key": "token",
-                                            "value": "{{token}}",
-                                            "type": "string"
-                                        }
+                                        [
+                                            {
+                                                "key": "token",
+                                                "value": "{{token}}",
+                                                "type": "string"
+                                            }
+                                        ]
                                     ]
                                 ]
                             ]
@@ -4763,11 +4843,13 @@
                             "bearer": [
                                 [
                                     [
-                                        {
-                                            "key": "token",
-                                            "value": "{{token}}",
-                                            "type": "string"
-                                        }
+                                        [
+                                            {
+                                                "key": "token",
+                                                "value": "{{token}}",
+                                                "type": "string"
+                                            }
+                                        ]
                                     ]
                                 ]
                             ]
@@ -4803,11 +4885,13 @@
                             "type": "bearer",
                             "bearer": [
                                 [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
+                                    [
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
+                                    ]
                                 ]
                             ]
                         },
@@ -4837,11 +4921,13 @@
                             "type": "bearer",
                             "bearer": [
                                 [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
+                                    [
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
+                                    ]
                                 ]
                             ]
                         },
@@ -4871,11 +4957,13 @@
                             "type": "bearer",
                             "bearer": [
                                 [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
+                                    [
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
+                                    ]
                                 ]
                             ]
                         },
@@ -4933,11 +5021,13 @@
                             "type": "bearer",
                             "bearer": [
                                 [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
+                                    [
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
+                                    ]
                                 ]
                             ]
                         },
@@ -4995,11 +5085,13 @@
                             "type": "bearer",
                             "bearer": [
                                 [
-                                    {
-                                        "key": "token",
-                                        "value": "{{token}}",
-                                        "type": "string"
-                                    }
+                                    [
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
+                                    ]
                                 ]
                             ]
                         },
@@ -5033,6 +5125,225 @@
                         "auth": {
                             "type": "bearer",
                             "bearer": [
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/phone-numbers",
+                            "host": [
+                                "{{local}}v1/phone-numbers"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "show",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/phone-numbers/1",
+                            "host": [
+                                "{{local}}v1/phone-numbers/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "store",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/phone-numbers",
+                            "host": [
+                                "{{local}}v1/phone-numbers"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "phone",
+                                    "value": "voluptatibus",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "user_id",
+                                    "value": "1",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "hospital_id",
+                                    "value": "1",
+                                    "type": "text",
+                                    "description": ""
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "update",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/phone-numbers/1",
+                            "host": [
+                                "{{local}}v1/phone-numbers/1"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "phone",
+                                    "value": "vero",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "user_id",
+                                    "value": "1",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "hospital_id",
+                                    "value": "1",
+                                    "type": "text",
+                                    "description": ""
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/phone-numbers/1",
+                            "host": [
+                                "{{local}}v1/phone-numbers/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "AvailableDepartment",
+            "item": [
+                {
+                    "name": "index",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
                                 {
                                     "key": "token",
                                     "value": "{{token}}",
@@ -5049,9 +5360,9 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{local}}v1/phone-numbers",
+                            "raw": "{{local}}v1/available-departments",
                             "host": [
-                                "{{local}}v1/phone-numbers"
+                                "{{local}}v1/available-departments"
                             ]
                         },
                         "body": null
@@ -5081,9 +5392,9 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{local}}v1/phone-numbers/1",
+                            "raw": "{{local}}v1/available-departments/1",
                             "host": [
-                                "{{local}}v1/phone-numbers/1"
+                                "{{local}}v1/available-departments/1"
                             ]
                         },
                         "body": null
@@ -5113,23 +5424,23 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{local}}v1/phone-numbers",
+                            "raw": "{{local}}v1/available-departments",
                             "host": [
-                                "{{local}}v1/phone-numbers"
+                                "{{local}}v1/available-departments"
                             ]
                         },
                         "body": {
                             "mode": "formdata",
                             "formdata": [
                                 {
-                                    "key": "phone",
-                                    "value": "voluptatibus",
+                                    "key": "name",
+                                    "value": "{\"ar\":\"porro\",\"en\":\"quasi\"}",
                                     "type": "text",
                                     "description": null
                                 },
                                 {
-                                    "key": "user_id",
-                                    "value": "1",
+                                    "key": "description",
+                                    "value": "{\"ar\":\"nam\",\"en\":\"quaerat\"}",
                                     "type": "text",
                                     "description": null
                                 },
@@ -5167,23 +5478,23 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{local}}v1/phone-numbers/1",
+                            "raw": "{{local}}v1/available-departments/1",
                             "host": [
-                                "{{local}}v1/phone-numbers/1"
+                                "{{local}}v1/available-departments/1"
                             ]
                         },
                         "body": {
                             "mode": "formdata",
                             "formdata": [
                                 {
-                                    "key": "phone",
-                                    "value": "vero",
+                                    "key": "name",
+                                    "value": "{\"ar\":\"magni\",\"en\":\"dicta\"}",
                                     "type": "text",
                                     "description": null
                                 },
                                 {
-                                    "key": "user_id",
-                                    "value": "1",
+                                    "key": "description",
+                                    "value": "{\"ar\":\"consequuntur\",\"en\":\"velit\"}",
                                     "type": "text",
                                     "description": null
                                 },
@@ -5221,9 +5532,9 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{local}}v1/phone-numbers/1",
+                            "raw": "{{local}}v1/available-departments/1",
                             "host": [
-                                "{{local}}v1/phone-numbers/1"
+                                "{{local}}v1/available-departments/1"
                             ]
                         },
                         "body": null

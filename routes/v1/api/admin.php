@@ -13,3 +13,4 @@ Route::apiResource("/clinics", v1\ClinicController::class)->names("api.admin.cli
 Route::apiResource("/schedules", v1\ScheduleController::class)->names("api.admin.schedules") ;
 Route::apiResource("/hospitals", v1\HospitalController::class)->names("api.admin.hospitals") ;
 Route::apiResource("/phone-numbers", v1\PhoneNumberController::class)->names("api.admin.phone.numbers") ;
+Route::apiResource("/available-departments", v1\AvailableDepartmentController::class)->names("api.admin.available.departments") ;
