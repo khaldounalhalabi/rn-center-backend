@@ -24,7 +24,7 @@ class ClinicResource extends BaseResource
             'appointment_day_range' => $this->appointment_day_range,
             'about_us' => $this->about_us,
             'experience' => $this->experience,
-            'work_gallery' => MediaResource::collection($this->whenLoaded('media', $this->getMedia())),
+            'work_gallery' => MediaResource::collection($this->whenLoaded('media')),
             'user' => new UserResource($this->whenLoaded('user')),
             'schedules' => ScheduleResource::collection($this->whenLoaded('schedules')),
         ];

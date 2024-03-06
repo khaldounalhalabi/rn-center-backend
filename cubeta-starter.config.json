@@ -77,7 +77,14 @@
                     "unique": false
                 }
             ],
-            "relations": []
+            "relations": {
+                "hasMany": [
+                    {
+                        "type": "hasMany",
+                        "model_name": "PhoneNumber"
+                    }
+                ]
+            }
         },
         {
             "model_name": "Customer",
@@ -232,6 +239,12 @@
                         "type": "manyToMany",
                         "model_name": "Subscription"
                     }
+                ],
+                "hasOne": [
+                    {
+                        "type": "hasOne",
+                        "model_name": "Address"
+                    }
                 ]
             }
         },
@@ -281,6 +294,48 @@
                         "type": "belongsTo",
                         "model_name": "Hospital",
                         "key": "hospital_id"
+                    }
+                ]
+            }
+        },
+        {
+            "model_name": "Hospital",
+            "table_name": "hospitals",
+            "attributes": [
+                {
+                    "name": "name",
+                    "type": "translatable",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "phone_numbers",
+                    "type": "json",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "images",
+                    "type": "file",
+                    "nullable": false,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "hasOne": [
+                    {
+                        "type": "hasOne",
+                        "model_name": "Address"
+                    }
+                ],
+                "hasMany": [
+                    {
+                        "type": "hasMany",
+                        "model_name": "PhoneNumber"
+                    },
+                    {
+                        "type": "hasMany",
+                        "model_name": "AvailableDepartment"
                     }
                 ]
             }

@@ -24,7 +24,7 @@ class UserResource extends BaseResource
             'tags' => $this->tags,
             'fcm_token' => $this->fcm_token,
             'is_archived' => $this->is_archived,
-            'image' => new MediaResource($this->whenLoaded('media', $this->getFirstMedia())),
+            'image' => MediaResource::collection($this->whenLoaded('media')),
             'customer' => new CustomerResource($this->whenLoaded('customer')),
             'clinics' => new ClinicResource($this->whenLoaded('clinic')),
         ];

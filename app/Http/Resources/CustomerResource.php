@@ -20,7 +20,6 @@ class CustomerResource extends BaseResource
             'medical_condition' => $this->medical_condition,
             'user_id' => $this->user_id,
             'user' =>  new UserResource($this->whenLoaded('user')) ,
-
         ];
     }
 }

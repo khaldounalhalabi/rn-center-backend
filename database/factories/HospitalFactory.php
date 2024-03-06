@@ -1,0 +1,42 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Models\Hospital;
+use App\Traits\FileHandler;
+use App\Traits\Translations;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Http\UploadedFile;
+
+/**
+ * @extends Factory
+ */
+class HospitalFactory extends Factory
+{
+    use FileHandler;
+    use Translations;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            'name' => $this->fakeTranslation('word'),
+        ];
+    }
+
+    public function withMedia(): HospitalFactory
+    {
+        return $this->afterCreating(function (Hospital $h) {
+            $h->addMedia(
+                app()->environment('testing')
+                    ? UploadedFile::fake()->image('test.png')
+                    : fake()->image
+            )->toMediaCollection();
+        });
+    }
+
+}

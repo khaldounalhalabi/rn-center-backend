@@ -18,11 +18,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -57,11 +59,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -91,11 +95,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -201,11 +207,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -238,11 +246,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -277,11 +287,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -385,11 +397,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -568,11 +582,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -784,11 +800,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -1135,11 +1153,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -1323,10 +1343,12 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "undefined",
-                                                "type": "any"
-                                            }
+                                            [
+                                                {
+                                                    "key": "undefined",
+                                                    "type": "any"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -1361,10 +1383,12 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "undefined",
-                                                "type": "any"
-                                            }
+                                            [
+                                                {
+                                                    "key": "undefined",
+                                                    "type": "any"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -1394,10 +1418,12 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "undefined",
-                                                "type": "any"
-                                            }
+                                            [
+                                                {
+                                                    "key": "undefined",
+                                                    "type": "any"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -1449,10 +1475,12 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "undefined",
-                                                "type": "any"
-                                            }
+                                            [
+                                                {
+                                                    "key": "undefined",
+                                                    "type": "any"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -1485,10 +1513,12 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "undefined",
-                                                "type": "any"
-                                            }
+                                            [
+                                                {
+                                                    "key": "undefined",
+                                                    "type": "any"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -1543,11 +1573,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -1642,11 +1674,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -1784,11 +1818,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -1904,11 +1940,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -2030,11 +2068,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -2162,11 +2202,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -2317,11 +2359,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -2467,11 +2511,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -2720,11 +2766,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -2984,11 +3032,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -3110,11 +3160,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -3265,11 +3317,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -3687,11 +3741,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -3889,11 +3945,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -4039,11 +4097,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -4138,11 +4198,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -4188,11 +4250,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -4225,11 +4289,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -4262,11 +4328,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -4306,11 +4374,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -4362,11 +4432,13 @@
                                     "type": "bearer",
                                     "bearer": [
                                         [
-                                            {
-                                                "key": "token",
-                                                "value": "{{token}}",
-                                                "type": "string"
-                                            }
+                                            [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{token}}",
+                                                    "type": "string"
+                                                }
+                                            ]
                                         ]
                                     ]
                                 },
@@ -4405,6 +4477,249 @@
                         "auth": {
                             "type": "bearer",
                             "bearer": [
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/schedules",
+                            "host": [
+                                "{{local}}v1/schedules"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "show",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/schedules/1",
+                            "host": [
+                                "{{local}}v1/schedules/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "store",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/schedules",
+                            "host": [
+                                "{{local}}v1/schedules"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "clinic_id",
+                                    "value": "1",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "day_of_week",
+                                    "value": "blanditiis",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "start_time",
+                                    "value": "23:28:32",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "end_time",
+                                    "value": "23:28:32",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "hospital_id",
+                                    "value": "1",
+                                    "type": "text",
+                                    "description": ""
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "update",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/schedules/1",
+                            "host": [
+                                "{{local}}v1/schedules/1"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "clinic_id",
+                                    "value": "1",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "day_of_week",
+                                    "value": "omnis",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "start_time",
+                                    "value": "23:28:32",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "end_time",
+                                    "value": "23:28:32",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "hospital_id",
+                                    "value": "1",
+                                    "type": "text",
+                                    "description": ""
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                [
+                                    {
+                                        "key": "token",
+                                        "value": "{{token}}",
+                                        "type": "string"
+                                    }
+                                ]
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/schedules/1",
+                            "host": [
+                                "{{local}}v1/schedules/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Hospital",
+            "item": [
+                {
+                    "name": "index",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
                                 {
                                     "key": "token",
                                     "value": "{{token}}",
@@ -4421,9 +4736,9 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{local}}v1/schedules",
+                            "raw": "{{local}}v1/hospitals",
                             "host": [
-                                "{{local}}v1/schedules"
+                                "{{local}}v1/hospitals"
                             ]
                         },
                         "body": null
@@ -4453,9 +4768,9 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{local}}v1/schedules/1",
+                            "raw": "{{local}}v1/hospitals/1",
                             "host": [
-                                "{{local}}v1/schedules/1"
+                                "{{local}}v1/hospitals/1"
                             ]
                         },
                         "body": null
@@ -4485,41 +4800,35 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{local}}v1/schedules",
+                            "raw": "{{local}}v1/hospitals",
                             "host": [
-                                "{{local}}v1/schedules"
+                                "{{local}}v1/hospitals"
                             ]
                         },
                         "body": {
                             "mode": "formdata",
                             "formdata": [
                                 {
-                                    "key": "clinic_id",
-                                    "value": "1",
+                                    "key": "name",
+                                    "value": "{\"ar\":\"maxime\",\"en\":\"et\"}",
                                     "type": "text",
                                     "description": null
                                 },
                                 {
-                                    "key": "day_of_week",
-                                    "value": "blanditiis",
+                                    "key": "phone_numbers",
+                                    "value": "{\"dolor\":\"impedit\"}",
                                     "type": "text",
                                     "description": null
                                 },
                                 {
-                                    "key": "start_time",
-                                    "value": "23:28:32",
+                                    "key": "available_departments",
+                                    "value": "{\"temporibus\":\"cum\"}",
                                     "type": "text",
                                     "description": null
                                 },
                                 {
-                                    "key": "end_time",
-                                    "value": "23:28:32",
-                                    "type": "text",
-                                    "description": null
-                                },
-                                {
-                                    "key": "hospital_id",
-                                    "value": "1",
+                                    "key": "images",
+                                    "value": "distinctio",
                                     "type": "text",
                                     "description": null
                                 }
@@ -4551,41 +4860,35 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{local}}v1/schedules/1",
+                            "raw": "{{local}}v1/hospitals/1",
                             "host": [
-                                "{{local}}v1/schedules/1"
+                                "{{local}}v1/hospitals/1"
                             ]
                         },
                         "body": {
                             "mode": "formdata",
                             "formdata": [
                                 {
-                                    "key": "clinic_id",
-                                    "value": "1",
+                                    "key": "name",
+                                    "value": "{\"ar\":\"sit\",\"en\":\"ipsum\"}",
                                     "type": "text",
                                     "description": null
                                 },
                                 {
-                                    "key": "day_of_week",
-                                    "value": "omnis",
+                                    "key": "phone_numbers",
+                                    "value": "{\"temporibus\":\"dolore\"}",
                                     "type": "text",
                                     "description": null
                                 },
                                 {
-                                    "key": "start_time",
-                                    "value": "23:28:32",
+                                    "key": "available_departments",
+                                    "value": "{\"repellat\":\"repellat\"}",
                                     "type": "text",
                                     "description": null
                                 },
                                 {
-                                    "key": "end_time",
-                                    "value": "23:28:32",
-                                    "type": "text",
-                                    "description": null
-                                },
-                                {
-                                    "key": "hospital_id",
-                                    "value": "1",
+                                    "key": "images",
+                                    "value": "debitis",
                                     "type": "text",
                                     "description": null
                                 }
@@ -4617,9 +4920,9 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{local}}v1/schedules/1",
+                            "raw": "{{local}}v1/hospitals/1",
                             "host": [
-                                "{{local}}v1/schedules/1"
+                                "{{local}}v1/hospitals/1"
                             ]
                         },
                         "body": null

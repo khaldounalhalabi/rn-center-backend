@@ -11,3 +11,4 @@ Route::post('/update-user-data', [v1\AdminAuthController::class, 'updateUserDeta
 Route::apiResource("/customers", v1\CustomerController::class)->names("api.admin.customers");
 Route::apiResource("/clinics", v1\ClinicController::class)->names("api.admin.clinics");
 Route::apiResource("/schedules", v1\ScheduleController::class)->names("api.admin.schedules") ;
+Route::apiResource("/hospitals", v1\HospitalController::class)->names("api.admin.hospitals") ;
