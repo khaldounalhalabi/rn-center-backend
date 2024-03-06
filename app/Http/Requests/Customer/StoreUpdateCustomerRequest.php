@@ -26,7 +26,6 @@ class StoreUpdateCustomerRequest extends FormRequest
             'mother_full_name' => '|required|string',
             'medical_condition' => '|nullable|string',
             'user_id' => 'required|numeric|exists:users,id',
-
         ];
     }
 

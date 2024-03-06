@@ -77,7 +77,14 @@
                     "unique": false
                 }
             ],
-            "relations": []
+            "relations": {
+                "hasMany": [
+                    {
+                        "type": "hasMany",
+                        "model_name": "PhoneNumber"
+                    }
+                ]
+            }
         },
         {
             "model_name": "Customer",
@@ -118,6 +125,288 @@
                     {
                         "type": "hasMany",
                         "model_name": "Appointment"
+                    }
+                ]
+            }
+        },
+        {
+            "model_name": "Clinic",
+            "table_name": "clinics",
+            "attributes": [
+                {
+                    "name": "name",
+                    "type": "translatable",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "appointment_cost",
+                    "type": "float",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "user_id",
+                    "type": "foreign_key",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "working_start_year",
+                    "type": "date",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "max_appointments",
+                    "type": "integer",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "appointment_day_range",
+                    "type": "integer",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "about_us",
+                    "type": "translatable",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "experience",
+                    "type": "translatable",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "work_gallery",
+                    "type": "file",
+                    "nullable": false,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "belongsTo": [
+                    {
+                        "type": "belongsTo",
+                        "model_name": "User",
+                        "key": "user_id"
+                    }
+                ],
+                "hasMany": [
+                    {
+                        "type": "hasMany",
+                        "model_name": "Department"
+                    },
+                    {
+                        "type": "hasMany",
+                        "model_name": "Offer"
+                    },
+                    {
+                        "type": "hasMany",
+                        "model_name": "Transaction"
+                    },
+                    {
+                        "type": "hasMany",
+                        "model_name": "Appointment"
+                    },
+                    {
+                        "type": "hasMany",
+                        "model_name": "PatientProfile"
+                    },
+                    {
+                        "type": "hasMany",
+                        "model_name": "Specialty"
+                    },
+                    {
+                        "type": "hasMany",
+                        "model_name": "Prescription"
+                    },
+                    {
+                        "type": "hasMany",
+                        "model_name": "Service"
+                    },
+                    {
+                        "type": "hasMany",
+                        "model_name": "Schedule"
+                    }
+                ],
+                "manyToMany": [
+                    {
+                        "type": "manyToMany",
+                        "model_name": "Subscription"
+                    }
+                ],
+                "hasOne": [
+                    {
+                        "type": "hasOne",
+                        "model_name": "Address"
+                    }
+                ]
+            }
+        },
+        {
+            "model_name": "Schedule",
+            "table_name": "schedules",
+            "attributes": [
+                {
+                    "name": "clinic_id",
+                    "type": "foreign_key",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "day_of_week",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "start_time",
+                    "type": "time",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "end_time",
+                    "type": "time",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "hospital_id",
+                    "type": "foreign_key",
+                    "nullable": false,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "belongsTo": [
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Clinic",
+                        "key": "clinic_id"
+                    },
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Hospital",
+                        "key": "hospital_id"
+                    }
+                ]
+            }
+        },
+        {
+            "model_name": "Hospital",
+            "table_name": "hospitals",
+            "attributes": [
+                {
+                    "name": "name",
+                    "type": "translatable",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "phone_numbers",
+                    "type": "json",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "images",
+                    "type": "file",
+                    "nullable": false,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "hasOne": [
+                    {
+                        "type": "hasOne",
+                        "model_name": "Address"
+                    }
+                ],
+                "hasMany": [
+                    {
+                        "type": "hasMany",
+                        "model_name": "PhoneNumber"
+                    },
+                    {
+                        "type": "hasMany",
+                        "model_name": "AvailableDepartment"
+                    }
+                ]
+            }
+        },
+        {
+            "model_name": "PhoneNumber",
+            "table_name": "phone_numbers",
+            "attributes": [
+                {
+                    "name": "phone",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "user_id",
+                    "type": "foreign_key",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "hospital_id",
+                    "type": "foreign_key",
+                    "nullable": false,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "belongsTo": [
+                    {
+                        "type": "belongsTo",
+                        "model_name": "User",
+                        "key": "user_id"
+                    },
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Hospital",
+                        "key": "hospital_id"
+                    }
+                ]
+            }
+        },
+        {
+            "model_name": "AvailableDepartment",
+            "table_name": "available_departments",
+            "attributes": [
+                {
+                    "name": "name",
+                    "type": "translatable",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "description",
+                    "type": "translatable",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "hospital_id",
+                    "type": "foreign_key",
+                    "nullable": false,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "belongsTo": [
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Hospital",
+                        "key": "hospital_id"
                     }
                 ]
             }

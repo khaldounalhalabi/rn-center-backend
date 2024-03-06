@@ -4,6 +4,9 @@ namespace Database\Factories;
 
 use App\Enums\BloodGroupEnum;
 use App\Enums\GenderEnum;
+use App\Models\Clinic;
+use App\Models\Customer;
+use App\Models\PhoneNumber;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Http\UploadedFile;
@@ -41,15 +44,26 @@ class UserFactory extends Factory
     {
         return $this->afterCreating(function (User $user) {
             if (app()->environment('testing')) {
-                $user->addMedia(UploadedFile::fake()->image('fake-image.png'));
+                $user->addMedia(UploadedFile::fake()->image('fake-image.png'))->toMediaCollection();
             } else {
-                $user->addMedia(fake()->image);
+                $user->addMedia(fake()->image)->toMediaCollection();
             }
         });
     }
-public function withCustomers($count = 1)
-{
-	 return $this->has(\App\Models\Customer::factory($count));
-}
+
+    public function withCustomer(): UserFactory
+    {
+        return $this->has(Customer::factory());
+    }
+
+    public function withClinics(): UserFactory
+    {
+        return $this->has(Clinic::factory());
+    }
+
+    public function withPhoneNumbers($count = 1)
+    {
+        return $this->has(PhoneNumber::factory($count));
+    }
 
 }

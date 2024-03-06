@@ -46,8 +46,6 @@ trait TestHelpers
         parent::setUp();
 
         if (isset($this->userType) && $this->userType != 'none') {
-            $this->app->make(\Spatie\Permission\PermissionRegistrar::class)->registerPermissions();
-            Artisan::call('db:seed PermissionSeeder');
             Artisan::call('db:seed RoleSeeder');
         }
 

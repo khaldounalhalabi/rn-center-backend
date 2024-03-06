@@ -24,6 +24,7 @@ class BaseAuthController extends ApiController
     public function __construct(IUserService $userService)
     {
         $this->userService = $userService;
+        $this->relations = ['media'];
     }
 
     public function roleHook(string $role)
