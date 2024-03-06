@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature ;
+namespace Tests\Feature;
 
 use App\Http\Resources\HospitalResource;
 use App\Models\Hospital;
@@ -38,7 +38,7 @@ class HospitalTest extends MainTestCase
     public function test_user_can_create_a_Hospital()
     {
         $this->requestPathHook($this->baseUrl . 'store');
-        $this->storeTest(['images' => [UploadedFile::fake()->image('image.jpg')],]);
+        $this->storeTest(['images' => [UploadedFile::fake()->image('image.jpg')],],[], true);
     }
 
     public function test_user_can_update_Hospital()

@@ -44,9 +44,9 @@ class UserFactory extends Factory
     {
         return $this->afterCreating(function (User $user) {
             if (app()->environment('testing')) {
-                $user->addMedia(UploadedFile::fake()->image('fake-image.png'));
+                $user->addMedia(UploadedFile::fake()->image('fake-image.png'))->toMediaCollection();
             } else {
-                $user->addMedia(fake()->image);
+                $user->addMedia(fake()->image)->toMediaCollection();
             }
         });
     }

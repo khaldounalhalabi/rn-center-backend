@@ -39,10 +39,7 @@ class UserTest extends MainTestCase
     public function test_user_can_show_a_User()
     {
         $this->requestPathHook($this->baseUrl . 'show');
-        $this->showTest(
-            [
-                'image' => UploadedFile::fake()->image('image.jpg'),]
-        );
+        $this->showTest();
     }
 
     public function test_user_can_create_a_User()
@@ -50,10 +47,10 @@ class UserTest extends MainTestCase
         $this->requestPathHook($this->baseUrl . 'store');
         $this->storeTest([
             'image' => UploadedFile::fake()->image('image.jpg'),
-            'phone_number' => '12345678910',
+            'phone_number' => ["00964728925489"],
             'password_confirmation' => '123456789',
             'birth_date' => Carbon::now()->format('Y-m-d'),
-        ], [], false);
+        ], [], true);
     }
 
     public function test_user_can_update_User()

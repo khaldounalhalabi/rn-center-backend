@@ -28,7 +28,7 @@ class StoreUpdateUserRequest extends FormRequest
             'middle_name' => 'required|string|min:3|max:255',
             'last_name' => 'required|string|min:3|max:255',
             'phone_number' => 'array|required',
-            'phone_number.*' => 'required|string|min:10|max:11|unique:phone_numbers,phone|phone:IQ',
+            'phone_number.*' => 'required|string|unique:phone_numbers,phone|phone:IQ',
             'email' => 'unique:users,email|required|string|max:255|email',
             'password' => 'required|string|max:255|min:6|confirmed',
             'birth_date' => 'required|date_format:Y-m-d',

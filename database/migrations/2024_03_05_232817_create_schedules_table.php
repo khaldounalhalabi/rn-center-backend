@@ -17,8 +17,8 @@ return new class () extends Migration {
             $table->string('day_of_week');
             $table->time('start_time');
             $table->time('end_time');
-            $table->foreignIdFor(Clinic::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Hospital::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Clinic::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Hospital::class)->nullable()->constrained()->cascadeOnDelete();
 
             $table->timestamps();
         });
