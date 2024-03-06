@@ -15,11 +15,10 @@ class HospitalResource extends BaseResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            //TODO::fix
-            'phone_numbers' => $this->phone_numbers,
             //TODO:fix
-            'available_departments' => $this->available_departments,
+//            'available_departments' => $this->available_departments,
             'images' => MediaResource::collection($this->whenLoaded('media')),
+            'phoneNumbers' => PhoneNumberResource::collection($this->whenLoaded('phoneNumbers')),
         ];
     }
 }

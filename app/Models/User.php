@@ -16,7 +16,6 @@ use Laravel\Sanctum\HasApiTokens;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * Class User
@@ -34,7 +33,7 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     protected $guarded = ['id'];
     protected $fillable = [
         'first_name', 'middle_name', 'last_name',
-        'email', 'phone_number', 'birth_date',
+        'email', 'birth_date',
         'gender', 'blood_group', 'is_blocked',
         'tags', 'image', 'email_verified_at',
         'password', 'fcm_token', 'reset_password_code',
@@ -64,7 +63,7 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     {
         return [
             'first_name', 'middle_name', 'last_name',
-            'email', 'phone_number', 'birth_date',
+            'email', 'birth_date',
             'gender', 'blood_group', 'is_blocked',
             'tags', 'image', 'is_archived',
         ];
@@ -92,15 +91,6 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     }
 
     /**
-     * return the full path of the stored Image
-     * @return string|null
-     */
-    public function getImagePath(): ?string
-    {
-        return $this->image != null ? asset('storage/' . $this->image) : null;
-    }
-
-    /**
      * define your columns which you want to treat them as files
      * so the base repository can store them in the storage without
      * any additional files procedures
@@ -118,14 +108,9 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         return $this->getKey();
     }
 
-    public function getJWTCustomClaims()
+    public function getJWTCustomClaims(): array
     {
         return [];
-    }
-
-    public function getImage(): ?Media
-    {
-        return $this->getFirstMedia();
     }
 
     public function customer(): HasOne
@@ -138,12 +123,15 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         return $this->hasOne(Clinic::class);
     }
 
+    public function phoneNumbers(): HasMany
+    {
+        return $this->hasMany(PhoneNumber::class);
+    }
+
     protected function password(): Attribute
     {
         return Attribute::make(
             set: fn(string $value) => Hash::make($value)
         );
     }
-
-
 }

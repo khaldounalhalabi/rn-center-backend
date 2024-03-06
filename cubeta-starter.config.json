@@ -339,6 +339,44 @@
                     }
                 ]
             }
+        },
+        {
+            "model_name": "PhoneNumber",
+            "table_name": "phone_numbers",
+            "attributes": [
+                {
+                    "name": "phone",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "user_id",
+                    "type": "foreign_key",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "hospital_id",
+                    "type": "foreign_key",
+                    "nullable": false,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "belongsTo": [
+                    {
+                        "type": "belongsTo",
+                        "model_name": "User",
+                        "key": "user_id"
+                    },
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Hospital",
+                        "key": "hospital_id"
+                    }
+                ]
+            }
         }
     ]
 }

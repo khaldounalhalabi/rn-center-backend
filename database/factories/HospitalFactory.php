@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Hospital;
+use App\Models\PhoneNumber;
 use App\Traits\FileHandler;
 use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -39,4 +40,8 @@ class HospitalFactory extends Factory
         });
     }
 
+    public function withPhoneNumbers($count = 1): HospitalFactory
+    {
+        return $this->has(PhoneNumber::factory($count));
+    }
 }

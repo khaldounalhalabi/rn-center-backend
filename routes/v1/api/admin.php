@@ -12,3 +12,4 @@ Route::apiResource("/customers", v1\CustomerController::class)->names("api.admin
 Route::apiResource("/clinics", v1\ClinicController::class)->names("api.admin.clinics");
 Route::apiResource("/schedules", v1\ScheduleController::class)->names("api.admin.schedules") ;
 Route::apiResource("/hospitals", v1\HospitalController::class)->names("api.admin.hospitals") ;
+Route::apiResource("/phone-numbers", v1\PhoneNumberController::class)->names("api.admin.phone.numbers") ;

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Customer;
+namespace App\Http\Requests\PhoneNumber;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreUpdateCustomerRequest extends FormRequest
+class StoreUpdatePhoneNumberRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,13 +23,9 @@ class StoreUpdateCustomerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'mother_full_name' => '|required|string',
-            'medical_condition' => '|nullable|string',
-            'user_id' => 'required|numeric|exists:users,id',
+            'phone' => 'unique:phone_numbers,phone|required|string|max:255|min:6',
+            'user_id' => 'nullable|numeric|exists:users,id',
+            'hospital_id' => 'nullable|numeric|exists:hospitals,id',
         ];
     }
-
-
-
-
 }

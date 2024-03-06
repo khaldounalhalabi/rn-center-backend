@@ -27,6 +27,7 @@ class UserResource extends BaseResource
             'image' => MediaResource::collection($this->whenLoaded('media')),
             'customer' => new CustomerResource($this->whenLoaded('customer')),
             'clinics' => new ClinicResource($this->whenLoaded('clinic')),
+            'phoneNumbers' => PhoneNumberResource::collection($this->whenLoaded('phoneNumbers')),
         ];
     }
 }

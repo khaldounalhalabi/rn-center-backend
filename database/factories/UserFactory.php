@@ -6,6 +6,7 @@ use App\Enums\BloodGroupEnum;
 use App\Enums\GenderEnum;
 use App\Models\Clinic;
 use App\Models\Customer;
+use App\Models\PhoneNumber;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Http\UploadedFile;
@@ -58,6 +59,11 @@ class UserFactory extends Factory
     public function withClinics(): UserFactory
     {
         return $this->has(Clinic::factory());
+    }
+
+    public function withPhoneNumbers($count = 1)
+    {
+        return $this->has(PhoneNumber::factory($count));
     }
 
 }
