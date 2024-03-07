@@ -17,19 +17,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "GET",
@@ -62,19 +54,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "GET",
@@ -102,19 +86,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "POST",
@@ -218,19 +194,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "PUT",
@@ -261,19 +229,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "DELETE",
@@ -306,19 +266,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "GET",
@@ -420,19 +372,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "GET",
@@ -609,19 +553,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "POST",
@@ -831,19 +767,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "POST",
@@ -1188,19 +1116,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "DELETE",
@@ -1382,18 +1302,10 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "undefined",
-                                                            "type": "any"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "undefined",
+                                            "type": "any"
+                                        }
                                     ]
                                 },
                                 "method": "GET",
@@ -1426,18 +1338,10 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "undefined",
-                                                            "type": "any"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "undefined",
+                                            "type": "any"
+                                        }
                                     ]
                                 },
                                 "method": "GET",
@@ -1465,18 +1369,10 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "undefined",
-                                                            "type": "any"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "undefined",
+                                            "type": "any"
+                                        }
                                     ]
                                 },
                                 "method": "POST",
@@ -1526,18 +1422,10 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "undefined",
-                                                            "type": "any"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "undefined",
+                                            "type": "any"
+                                        }
                                     ]
                                 },
                                 "method": "PUT",
@@ -1568,18 +1456,10 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "undefined",
-                                                            "type": "any"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "undefined",
+                                            "type": "any"
+                                        }
                                     ]
                                 },
                                 "method": "DELETE",
@@ -1632,19 +1512,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "POST",
@@ -1737,19 +1609,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "POST",
@@ -1885,19 +1749,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "POST",
@@ -2011,19 +1867,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "POST",
@@ -2143,19 +1991,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "POST",
@@ -2281,19 +2121,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "POST",
@@ -2442,19 +2274,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "POST",
@@ -2598,19 +2422,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "POST",
@@ -2857,19 +2673,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "POST",
@@ -3127,19 +2935,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "POST",
@@ -3259,19 +3059,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "POST",
@@ -3420,19 +3212,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "POST",
@@ -3848,19 +3632,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "POST",
@@ -4056,19 +3832,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "POST",
@@ -4212,19 +3980,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "POST",
@@ -4317,19 +4077,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "POST",
@@ -4373,19 +4125,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "POST",
@@ -4416,19 +4160,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "POST",
@@ -4459,19 +4195,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "POST",
@@ -4509,19 +4237,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "POST",
@@ -4571,19 +4291,11 @@
                                 "auth": {
                                     "type": "bearer",
                                     "bearer": [
-                                        [
-                                            [
-                                                [
-                                                    [
-                                                        {
-                                                            "key": "token",
-                                                            "value": "{{token}}",
-                                                            "type": "string"
-                                                        }
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
+                                        {
+                                            "key": "token",
+                                            "value": "{{token}}",
+                                            "type": "string"
+                                        }
                                     ]
                                 },
                                 "method": "POST",
