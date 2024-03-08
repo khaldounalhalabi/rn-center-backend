@@ -4,22 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
-/**
- * @property string phone
- * @property integer user_id
- * @property integer hospital_id
- */
 class PhoneNumber extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'phone',
-        'user_id',
-        'hospital_id',
-
+        'label', 'phone', 'phoneable_id', 'phoneable_type',
     ];
 
     protected $casts = [
@@ -34,7 +26,7 @@ class PhoneNumber extends Model
     {
         return [
             'phone',
-
+            'label',
         ];
     }
 
@@ -45,24 +37,12 @@ class PhoneNumber extends Model
     public static function relationsSearchableArray(): array
     {
         return [
-            'user_id' => [
-                //add your user_id desired column to be search within
-            ],
-            'hospital_id' => [
-                //add your hospital_id desired column to be search within
-            ],
-
         ];
     }
 
-    public function user(): belongsTo
+    public function phoneable(): MorphTo
     {
-        return $this->belongsTo(User::class);
-    }
-
-    public function hospital(): belongsTo
-    {
-        return $this->belongsTo(Hospital::class);
+        return $this->morphTo();
     }
 
     /**

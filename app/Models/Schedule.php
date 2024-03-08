@@ -19,12 +19,11 @@ class Schedule extends Model
     use HasFactory;
 
     protected $fillable = [
-        'clinic_id',
+        'schedulable_type',
+        'schedulable_id',
         'day_of_week',
         'start_time',
         'end_time',
-        'hospital_id',
-
     ];
 
     protected $casts = [
@@ -39,7 +38,8 @@ class Schedule extends Model
     {
         return [
             'day_of_week',
-
+            'start_time',
+            'end_time',
         ];
     }
 
@@ -50,19 +50,12 @@ class Schedule extends Model
     public static function relationsSearchableArray(): array
     {
         return [
-            'clinic_id' => [
-                //add your clinic_id desired column to be search within
-            ],
-            'hospital_id' => [
-                //add your hospital_id desired column to be search within
-            ],
-
         ];
     }
 
-    public function clinic(): belongsTo
+    public function schedulable(): belongsTo
     {
-        return $this->belongsTo(Clinic::class);
+        return $this->morphTo();
     }
 
     /**

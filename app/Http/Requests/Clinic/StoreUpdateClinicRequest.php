@@ -51,16 +51,4 @@ class StoreUpdateClinicRequest extends FormRequest
             'work_gallery.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ];
     }
-
-
-    protected function prepareForValidation(): void
-    {
-        if (request()->acceptsHtml()) {
-            $this->merge([
-                'name' => json_encode($this->name),
-                'about_us' => json_encode($this->about_us),
-                'experience' => json_encode($this->experience),
-            ]);
-        }
-    }
 }

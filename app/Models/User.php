@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
@@ -123,9 +124,9 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         return $this->hasOne(Clinic::class);
     }
 
-    public function phoneNumbers(): HasMany
+    public function phones(): MorphMany
     {
-        return $this->hasMany(PhoneNumber::class);
+        return $this->morphMany(PhoneNumber::class, 'phoneable');
     }
 
     protected function password(): Attribute

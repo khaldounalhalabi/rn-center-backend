@@ -9,7 +9,7 @@ use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -129,8 +129,8 @@ class Clinic extends Model implements HasMedia
         ];
     }
 
-    public function schedules(): HasMany
+    public function schedules(): MorphMany
     {
-        return $this->hasMany(Schedule::class);
+        return $this->morphMany(Schedule::class, 'schedulable');
     }
 }

@@ -38,7 +38,6 @@ class AvailableDepartment extends Model
         return [
             'name',
             'description',
-
         ];
     }
 

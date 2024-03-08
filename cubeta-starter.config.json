@@ -410,6 +410,31 @@
                     }
                 ]
             }
+        },
+        {
+            "model_name": "Speciality",
+            "table_name": "specialities",
+            "attributes": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "nullable": true,
+                    "unique": false
+                },
+                {
+                    "name": "description",
+                    "type": "string",
+                    "nullable": true,
+                    "unique": true
+                },
+                {
+                    "name": "tags",
+                    "type": "string",
+                    "nullable": true,
+                    "unique": true
+                }
+            ],
+            "relations": []
         }
     ]
 }

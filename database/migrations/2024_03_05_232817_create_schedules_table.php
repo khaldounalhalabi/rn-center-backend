@@ -14,11 +14,11 @@ return new class () extends Migration {
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
+            $table->string("schedulable_type");
+            $table->unsignedBigInteger("schedulable_id");
             $table->string('day_of_week');
             $table->time('start_time');
             $table->time('end_time');
-            $table->foreignIdFor(Clinic::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Hospital::class)->nullable()->constrained()->cascadeOnDelete();
 
             $table->timestamps();
         });

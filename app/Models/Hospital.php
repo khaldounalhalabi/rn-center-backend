@@ -8,6 +8,7 @@ use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -79,5 +80,15 @@ class Hospital extends Model implements HasMedia
     public function availableDepartments(): HasMany
     {
         return $this->hasMany(AvailableDepartment::class);
+    }
+
+    public function schedules(): MorphMany
+    {
+        return $this->morphMany(Schedule::class, 'schedulable');
+    }
+
+    public function phones(): MorphMany
+    {
+        return $this->morphMany(PhoneNumber::class, 'phoneable');
     }
 }

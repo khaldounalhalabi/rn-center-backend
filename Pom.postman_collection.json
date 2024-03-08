@@ -5148,19 +5148,19 @@
                                     "key": "name",
                                     "value": "{\"ar\":\"porro\",\"en\":\"quasi\"}",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "description",
                                     "value": "{\"ar\":\"nam\",\"en\":\"quaerat\"}",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "hospital_id",
                                     "value": "1",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 }
                             ]
                         }
@@ -5202,19 +5202,19 @@
                                     "key": "name",
                                     "value": "{\"ar\":\"magni\",\"en\":\"dicta\"}",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "description",
                                     "value": "{\"ar\":\"consequuntur\",\"en\":\"velit\"}",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "hospital_id",
                                     "value": "1",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 }
                             ]
                         }
@@ -5247,6 +5247,167 @@
                             "raw": "{{local}}v1/available-departments/1",
                             "host": [
                                 "{{local}}v1/available-departments/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Speciality",
+            "item": [
+                {
+                    "name": "index",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/specialities",
+                            "host": [
+                                "{{local}}v1/specialities"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "show",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/specialities/1",
+                            "host": [
+                                "{{local}}v1/specialities/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "store",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/specialities",
+                            "host": [
+                                "{{local}}v1/specialities"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": []
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "update",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/specialities/1",
+                            "host": [
+                                "{{local}}v1/specialities/1"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": []
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/specialities/1",
+                            "host": [
+                                "{{local}}v1/specialities/1"
                             ]
                         },
                         "body": null

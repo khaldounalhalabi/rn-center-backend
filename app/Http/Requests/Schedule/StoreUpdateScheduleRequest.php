@@ -22,16 +22,21 @@ class StoreUpdateScheduleRequest extends FormRequest
      */
     public function rules(): array
     {
+        if (request()->method() == 'POST') {
+            return [
+                'clinic_id' => 'nullable|numeric|exists:clinics,id',
+                'day_of_week' => 'required|string',
+                'start_time' => 'required|date_format:H:i',
+                'end_time' => 'required|date_format:H:i',
+                'hospital_id' => 'nullable|numeric|exists:hospitals,id',
+            ];
+        }
         return [
             'clinic_id' => 'nullable|numeric|exists:clinics,id',
-            'day_of_week' => 'required|string',
-            'start_time' => 'required|date_format:H:i',
-            'end_time' => 'required|date_format:H:i',
+            'day_of_week' => 'nullable|string',
+            'start_time' => 'nullable|date_format:H:i',
+            'end_time' => 'nullable|date_format:H:i',
             'hospital_id' => 'nullable|numeric|exists:hospitals,id',
         ];
     }
-
-
-
-
 }
