@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use App\Casts\Translatable;
 use App\Enums\MediaTypeEnum;
 use App\Traits\Translations;
 use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -48,12 +48,6 @@ class Clinic extends Model implements HasMedia
         'appointment_day_range',
         'about_us',
         'experience',
-    ];
-
-    protected $casts = [
-        'name' => Translatable::class,
-        'about_us' => Translatable::class,
-        'experience' => Translatable::class,
     ];
 
     /**
@@ -132,5 +126,10 @@ class Clinic extends Model implements HasMedia
     public function schedules(): MorphMany
     {
         return $this->morphMany(Schedule::class, 'schedulable');
+    }
+
+    public function specialities(): BelongsToMany
+    {
+        return $this->belongsToMany(Speciality::class);
     }
 }

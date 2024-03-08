@@ -135,7 +135,7 @@
             "attributes": [
                 {
                     "name": "name",
-                    "type": "translatable",
+                    "type": "string",
                     "nullable": false,
                     "unique": false
                 },
@@ -171,13 +171,13 @@
                 },
                 {
                     "name": "about_us",
-                    "type": "translatable",
+                    "type": "string",
                     "nullable": false,
                     "unique": false
                 },
                 {
                     "name": "experience",
-                    "type": "translatable",
+                    "type": "string",
                     "nullable": false,
                     "unique": false
                 },
@@ -219,10 +219,6 @@
                     },
                     {
                         "type": "hasMany",
-                        "model_name": "Specialty"
-                    },
-                    {
-                        "type": "hasMany",
                         "model_name": "Prescription"
                     },
                     {
@@ -235,6 +231,10 @@
                     }
                 ],
                 "manyToMany": [
+                    {
+                        "type": "manyToMany",
+                        "model_name": "Specialty"
+                    },
                     {
                         "type": "manyToMany",
                         "model_name": "Subscription"
@@ -418,23 +418,30 @@
                 {
                     "name": "name",
                     "type": "string",
+                    "nullable": false,
+                    "unique": true
+                },
+                {
+                    "name": "description",
+                    "type": "text",
                     "nullable": true,
                     "unique": false
                 },
                 {
-                    "name": "description",
-                    "type": "string",
-                    "nullable": true,
-                    "unique": true
-                },
-                {
                     "name": "tags",
-                    "type": "string",
+                    "type": "text",
                     "nullable": true,
-                    "unique": true
+                    "unique": false
                 }
             ],
-            "relations": []
+            "relations": {
+                "manyToMany": [
+                    {
+                        "type": "manyToMany",
+                        "model_name": "Clinic"
+                    }
+                ]
+            }
         }
     ]
 }

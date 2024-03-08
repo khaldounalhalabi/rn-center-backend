@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Clinic;
 use App\Models\Schedule;
+use App\Models\Speciality;
 use App\Traits\FileHandler;
 use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -49,6 +50,10 @@ class ClinicFactory extends Factory
 
     public function withSchedules($count = 1): ClinicFactory
     {
-        return $this->has(Schedule::factory($count));
+        return $this->has(Schedule::factory($count)->clinic());
+    }
+    public function withSpecialities($count = 1): ClinicFactory
+    {
+        return $this->has(Speciality::factory($count));
     }
 }

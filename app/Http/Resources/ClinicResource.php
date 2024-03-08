@@ -27,6 +27,7 @@ class ClinicResource extends BaseResource
             'work_gallery' => MediaResource::collection($this->whenLoaded('media')),
             'user' => new UserResource($this->whenLoaded('user')),
             'schedules' => ScheduleResource::collection($this->whenLoaded('schedules')),
+            'specialities' => SpecialityResource::collection($this->whenLoaded('specialities')),
         ];
     }
 }

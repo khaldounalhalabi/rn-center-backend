@@ -13,13 +13,13 @@ return new class () extends Migration {
     {
         Schema::create('clinics', function (Blueprint $table) {
             $table->id();
-            $table->json('name');
+            $table->string('name');
             $table->float('appointment_cost');
             $table->date('working_start_year');
             $table->integer('max_appointments');
             $table->integer('appointment_day_range');
-            $table->json('about_us');
-            $table->json('experience');
+            $table->string('about_us');
+            $table->string('experience');
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
 
             $table->timestamps();

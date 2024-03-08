@@ -28,5 +28,19 @@ class ScheduleFactory extends Factory
         ];
     }
 
+    public function clinic(): ScheduleFactory
+    {
+        return $this->state([
+            'schedulable_id' => Clinic::factory(),
+            'schedulable_type' => Clinic::class
+        ]);
+    }
 
+    public function hospital(): ScheduleFactory
+    {
+        return $this->state([
+            'schedulable_id' => Hospital::factory(),
+            'schedulable_type' => Hospital::class
+        ]);
+    }
 }
