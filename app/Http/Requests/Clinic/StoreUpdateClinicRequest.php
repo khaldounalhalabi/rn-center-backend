@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests\Clinic;
 
-use App\Rules\LanguageShape;
+use App\Enums\ClinicStatusEnum;
+use App\Enums\GenderEnum;
+use App\Models\Clinic;
+use App\Rules\ArabicOnly;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -26,41 +29,64 @@ class StoreUpdateClinicRequest extends FormRequest
     {
         if (request()->method() == "POST") {
             return [
-                'name' => ['required', 'json', new LanguageShape()],
+                'name' => ['required', 'string', 'min:3', 'max:255'],
                 'appointment_cost' => 'required|numeric',
-                'user_id' => 'required|numeric|exists:users,id',
-                'working_start_year' => 'required|date',
                 'max_appointments' => 'required|numeric',
-                'appointment_day_range' => 'required|numeric',
-                'about_us' => ['required', 'json', new LanguageShape()],
-                'experience' => ['required', 'json', new LanguageShape()],
-                'work_gallery' => 'array|nullable',
-                'work_gallery.*' => 'required|image|mimes:jpeg,png,jpg|max:2048'
+                'phone_numbers' => 'array|required',
+                //TODO::resolve the IQ phone issue
+                'phone_numbers.*' => 'required|string|unique:phone_numbers,phone',
+                'hospital_id' => 'numeric|nullable|exists:hospitals,id',
+                'status' => 'required|string|' . Rule::in(ClinicStatusEnum::getAllValues()),
+
+                'user' => 'array|required',
+                'user.first_name' => ['string', 'required', new ArabicOnly(), 'min:3', 'max:30'],
+                'user.middle_name' => ['string', 'required', new ArabicOnly(), 'min:3', 'max:30'],
+                'user.last_name' => ['string', 'required', new ArabicOnly(), 'min:3', 'max:30'],
+                'user.email' => 'required|email|max:255|min:3|string|unique:users,email',
+                'user.password' => 'string|min:8|max:20|required|confirmed',
+                'user.birth_date' => 'date_format:Y-m-d|date|before:20 years ago|required',
+                'user.gender' => ['required', 'string', Rule::in(GenderEnum::getAllValues())],
+                'user.image' => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
+
+                'address' => 'array|required',
+                'address.name' => 'required|string|min:3',
+                'address.city' => 'required|string|min:3',
+                'address.lat' => 'required|string',
+                'address.lng' => 'required|string',
+
+                'speciality_ids' => 'array|nullable',
+                'speciality_ids.*' => 'required|numeric|exists:specialities,id',
             ];
         }
-
+        $userId = Clinic::find(request()->route('clinic'))?->user_id;
         return [
-            'name' => ['json', new LanguageShape() , 'nullable'],
+            'name' => ['nullable', 'string', 'min:3', 'max:255'],
             'appointment_cost' => 'nullable|numeric',
-            'working_start_year' => 'nullable|date',
             'max_appointments' => 'nullable|numeric',
-            'appointment_day_range' => 'nullable|numeric',
-            'about_us' => ['json', new LanguageShape() , 'nullable'],
-            'experience' => ['json', new LanguageShape() , 'nullable'],
-            'work_gallery' => 'array|nullable',
-            'work_gallery.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+            'phone_numbers' => 'array|nullable',
+            //TODO::resolve the IQ phone issue
+            'phone_numbers.*' => 'nullable|string|unique:phone_numbers,phone',
+            'hospital_id' => 'numeric|nullable|exists:hospitals,id',
+            'status' => 'nullable|string|' . Rule::in(ClinicStatusEnum::getAllValues()),
+
+            'user' => 'array|nullable',
+            'user.first_name' => ['string', 'nullable', new ArabicOnly(), 'min:3', 'max:30'],
+            'user.middle_name' => ['string', 'nullable', new ArabicOnly(), 'min:3', 'max:30'],
+            'user.last_name' => ['string', 'nullable', new ArabicOnly(), 'min:3', 'max:30'],
+            'user.email' => 'nullable|email|max:255|min:3|string|unique:users,email,' . $userId,
+            'user.password' => 'string|min:8|max:20|nullable|confirmed',
+            'user.birth_date' => 'date_format:Y-m-d|date|before:20 years ago|nullable',
+            'user.gender' => ['nullable', 'string', Rule::in(GenderEnum::getAllValues())],
+            'user.image' => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
+
+            'address' => 'array|nullable',
+            'address.name' => 'nullable|string|min:3',
+            'address.city' => 'nullable|string|min:3',
+            'address.lat' => 'nullable|string',
+            'address.lng' => 'nullable|string',
+
+            'speciality_ids' => 'array|nullable',
+            'speciality_ids.*' => 'nullable|numeric|exists:specialities,id',
         ];
-    }
-
-
-    protected function prepareForValidation(): void
-    {
-        if (request()->acceptsHtml()) {
-            $this->merge([
-                'name' => json_encode($this->name),
-                'about_us' => json_encode($this->about_us),
-                'experience' => json_encode($this->experience),
-            ]);
-        }
     }
 }

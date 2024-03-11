@@ -135,7 +135,7 @@
             "attributes": [
                 {
                     "name": "name",
-                    "type": "translatable",
+                    "type": "string",
                     "nullable": false,
                     "unique": false
                 },
@@ -171,13 +171,13 @@
                 },
                 {
                     "name": "about_us",
-                    "type": "translatable",
+                    "type": "string",
                     "nullable": false,
                     "unique": false
                 },
                 {
                     "name": "experience",
-                    "type": "translatable",
+                    "type": "string",
                     "nullable": false,
                     "unique": false
                 },
@@ -219,10 +219,6 @@
                     },
                     {
                         "type": "hasMany",
-                        "model_name": "Specialty"
-                    },
-                    {
-                        "type": "hasMany",
                         "model_name": "Prescription"
                     },
                     {
@@ -235,6 +231,10 @@
                     }
                 ],
                 "manyToMany": [
+                    {
+                        "type": "manyToMany",
+                        "model_name": "Specialty"
+                    },
                     {
                         "type": "manyToMany",
                         "model_name": "Subscription"
@@ -410,6 +410,87 @@
                     }
                 ]
             }
+        },
+        {
+            "model_name": "Speciality",
+            "table_name": "specialities",
+            "attributes": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": true
+                },
+                {
+                    "name": "description",
+                    "type": "text",
+                    "nullable": true,
+                    "unique": false
+                },
+                {
+                    "name": "tags",
+                    "type": "text",
+                    "nullable": true,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "manyToMany": [
+                    {
+                        "type": "manyToMany",
+                        "model_name": "Clinic"
+                    }
+                ]
+            }
+        },
+        {
+            "model_name": "Address",
+            "table_name": "addresses",
+            "attributes": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "city",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "lat",
+                    "type": "text",
+                    "nullable": true,
+                    "unique": false
+                },
+                {
+                    "name": "lng",
+                    "type": "text",
+                    "nullable": true,
+                    "unique": false
+                },
+                {
+                    "name": "country",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "addressable_id",
+                    "type": "unsignedBigInteger",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "addressable_type",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": false
+                }
+            ],
+            "relations": []
         }
     ]
 }

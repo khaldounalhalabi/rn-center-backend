@@ -5,8 +5,8 @@ namespace App\Http\Controllers\API\v1;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\Clinic\StoreUpdateClinicRequest;
 use App\Http\Resources\ClinicResource;
-use App\Services\Clinic\IClinicService;
 use App\Models\Clinic;
+use App\Services\Clinic\IClinicService;
 
 class ClinicController extends ApiController
 {
@@ -17,12 +17,14 @@ class ClinicController extends ApiController
 
         $this->clinicService = $clinicService;
         // place the relations you want to return them within the response
-        $this->relations = ['user'] ;
+        $this->relations = ['user', 'user.address', 'user.phones', 'specialities', 'hospital'];
+
+        $this->indexRelations = ['user'];
     }
 
     public function index()
     {
-        $items = $this->clinicService->indexWithPagination($this->relations);
+        $items = $this->clinicService->indexWithPagination($this->indexRelations);
         if ($items) {
             return $this->apiResponse(ClinicResource::collection($items['data']), self::STATUS_OK, __('site.get_successfully'), $items['pagination_data']);
         }

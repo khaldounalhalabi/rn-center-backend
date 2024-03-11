@@ -263,12 +263,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cubeta-io/cubeta-starter.git",
-                "reference": "16411b9e823a157ee1830436e83b60b9b52a7337"
+                "reference": "cf9069241dae4860bafee19ea436e816d0f24a19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cubeta-io/cubeta-starter/zipball/16411b9e823a157ee1830436e83b60b9b52a7337",
-                "reference": "16411b9e823a157ee1830436e83b60b9b52a7337",
+                "url": "https://api.github.com/repos/cubeta-io/cubeta-starter/zipball/cf9069241dae4860bafee19ea436e816d0f24a19",
+                "reference": "cf9069241dae4860bafee19ea436e816d0f24a19",
                 "shasum": ""
             },
             "require": {
@@ -290,11 +290,6 @@
                 }
             },
             "autoload": {
-                "files": [
-                    "src/Helpers/NamingHelpers.php",
-                    "src/Helpers/FilesHelper.php",
-                    "src/Helpers/ClassesHelper.php"
-                ],
                 "psr-4": {
                     "Cubeta\\CubetaStarter\\": "src/"
                 }
@@ -314,7 +309,7 @@
                 "issues": "https://github.com/cubeta-io/cubeta-starter/issues",
                 "source": "https://github.com/cubeta-io/cubeta-starter/tree/dev"
             },
-            "time": "2024-02-29T07:57:03+00:00"
+            "time": "2024-03-09T13:45:43+00:00"
         },
         {
             "name": "dflydev/dot-access-data",

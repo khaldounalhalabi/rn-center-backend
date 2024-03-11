@@ -24,7 +24,6 @@ class AvailableDepartmentFactory extends Factory
             'name' => $this->fakeTranslation('word'),
             'description' => $this->fakeTranslation('word'),
             'hospital_id' => Hospital::factory() ,
-
         ];
     }
 }

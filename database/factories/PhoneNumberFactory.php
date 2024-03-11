@@ -5,7 +5,6 @@ namespace Database\Factories;
 use App\Models\Hospital;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
  * @extends Factory
@@ -19,10 +18,11 @@ class PhoneNumberFactory extends Factory
      */
     public function definition(): array
     {
+        $userChance = fake()->boolean;
         return [
             'phone' => fake()->unique()->phoneNumber(),
-            'user_id' => User::factory() ,
-            'hospital_id' => Hospital::factory() ,
+            'phoneable_id' => $userChance ? User::factory()->create()->id : Hospital::factory()->create()->id,
+            'phoneable_type' => $userChance ? User::class : Hospital::class,
         ];
     }
 }

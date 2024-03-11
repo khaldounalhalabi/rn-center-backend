@@ -7,6 +7,7 @@ use App\Exceptions\RoleDoesNotExistException;
 use App\Models\User;
 use App\Notifications\SendVerificationCode;
 use App\Repositories\CustomerRepository;
+use App\Repositories\PhoneNumberRepository;
 use App\Repositories\UserRepository;
 use App\Services\Contracts\BaseService;
 use Exception;
@@ -24,16 +25,20 @@ class UserService extends BaseService implements IUserService
      */
     private CustomerRepository $customerRepository;
 
+    private PhoneNumberRepository $phoneNumberRepository;
+
     /**
      * UserService constructor.
      *
      * @param UserRepository $repository
      * @param CustomerRepository $customerRepository
+     * @param PhoneNumberRepository $phoneNumberRepository
      */
-    public function __construct(UserRepository $repository, CustomerRepository $customerRepository)
+    public function __construct(UserRepository $repository, CustomerRepository $customerRepository, PhoneNumberRepository $phoneNumberRepository)
     {
         parent::__construct($repository);
         $this->customerRepository = $customerRepository;
+        $this->phoneNumberRepository = $phoneNumberRepository;
     }
 
     /**
@@ -166,7 +171,7 @@ class UserService extends BaseService implements IUserService
             if ($role and $role == RolesPermissionEnum::CUSTOMER['role']) {
                 $data = array_merge($data, ['user_id' => $user->id]);
                 $this->customerRepository->create($data);
-
+                $this->phoneNumberRepository->insert($data['phone_number'] ?? [], User::class, $user->id);
                 $this->requestVerificationCode($user);
 
                 DB::commit();

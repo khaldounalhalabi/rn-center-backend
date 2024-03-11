@@ -8,6 +8,7 @@ use App\Models\PhoneNumber;
 use App\Traits\FileHandler;
 use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
 
 /**
@@ -34,21 +35,26 @@ class HospitalFactory extends Factory
     {
         return $this->afterCreating(function (Hospital $h) {
             $h->addMedia(
-                app()->environment('testing')
-                    ? UploadedFile::fake()->image('test.png')
-                    : fake()->image
-            )->toMediaCollection();
+                new File(storage_path('/app/required/download.png'))
+            )->preservingOriginal()->toMediaCollection();
         });
     }
 
     public function withPhoneNumbers($count = 1): HospitalFactory
     {
-        return $this->has(PhoneNumber::factory($count));
+        return $this->has(PhoneNumber::factory($count) , 'phones');
     }
 
     public function withAvailableDepartments($count = 1): HospitalFactory
     {
         return $this->has(AvailableDepartment::factory($count));
+    }
+
+    public function allRelations()
+    {
+        return $this->withMedia()
+            ->withAvailableDepartments()
+            ->withPhoneNumbers();
     }
 
 }
