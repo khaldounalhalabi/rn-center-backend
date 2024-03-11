@@ -15,7 +15,7 @@ return new class () extends Migration {
         Schema::create('clinics', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->float('appointment_cost');
+            $table->float('appointment_cost' , 15 , 4);
             $table->date('working_start_year')->default(now());
             $table->integer('max_appointments');
             $table->integer('appointment_day_range')->default(7);

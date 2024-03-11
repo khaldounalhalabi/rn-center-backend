@@ -29,7 +29,7 @@ class ClinicFactory extends Factory
     {
         return [
             'name' => fake()->name,
-            'appointment_cost' => fake()->randomFloat(2, 0, 1000),
+            'appointment_cost' => fake()->numberBetween(1, 100),
             'user_id' => User::factory(),
             'working_start_year' => fake()->date(),
             'max_appointments' => fake()->numberBetween(1, 2000),
