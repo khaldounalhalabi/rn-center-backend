@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -20,13 +21,7 @@ class CustomerFactory extends Factory
         return [
             'mother_full_name' => fake()->sentence(),
             'medical_condition' => fake()->text(),
-            'user_id' => \App\Models\User::factory() ,
-
+            'user_id' => User::factory() ,
         ];
     }
-
-
-
-
-
 }

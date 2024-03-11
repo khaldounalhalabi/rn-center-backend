@@ -20,6 +20,13 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             ClinicSeeder::class,
+            AddressSeeder::class ,
+            AvailableDepartmentSeeder::class,
+            CustomerSeeder::class,
+            HospitalSeeder::class ,
+            PhoneNumberSeeder::class,
+            ScheduleSeeder::class,
+            SpecialitySeeder::class
         ]);
     }
 }

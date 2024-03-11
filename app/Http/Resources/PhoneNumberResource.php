@@ -2,9 +2,11 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\BaseResource;
+use App\Models\Hospital;
+use App\Models\PhoneNumber;
+use App\Models\User;
 
-/** @mixin \App\Models\PhoneNumber */
+/** @mixin PhoneNumber */
 class PhoneNumberResource extends BaseResource
 {
     /**
@@ -17,10 +19,21 @@ class PhoneNumberResource extends BaseResource
         return [
             'id' => $this->id,
             'phone' => $this->phone,
-            'user_id' => $this->user_id,
-            'hospital_id' => $this->hospital_id,
-            'user' =>  new UserResource($this->whenLoaded('user')) ,
-            'hospital' =>  new HospitalResource($this->whenLoaded('hospital')) ,
+            'label' => $this->label,
+            'phoneable_id' => $this->phoneable_id,
+            'phoneable_type' => $this->getPhoneableType($this->phoneable_type)
         ];
+    }
+
+    /**
+     * @param class-string $className
+     * @return string
+     */
+    private function getPhoneableType(string $className): string
+    {
+        return match ($className) {
+            User::class => "user",
+            Hospital::class => "hospital",
+        };
     }
 }

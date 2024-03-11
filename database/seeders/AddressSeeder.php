@@ -2,17 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Models\Speciality;
+use App\Models\Address;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class SpecialitySeeder extends Seeder
+class AddressSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Speciality::factory(10)->allRelations()->create() ;
+        Address::factory(10)->create() ;
     }
 }

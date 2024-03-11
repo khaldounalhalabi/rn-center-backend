@@ -18,7 +18,6 @@ return new class () extends Migration {
             $table->string('middle_name');
             $table->string('last_name');
             $table->string('email')->unique();
-            $table->string('phone_number')->unique();
             $table->date('birth_date')->nullable();
             $table->enum('gender', GenderEnum::getAllValues());
             $table->enum('blood_group', BloodGroupEnum::getAllValues())->nullable();

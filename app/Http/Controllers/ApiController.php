@@ -11,7 +11,9 @@ class ApiController extends Controller
 {
     use RestTrait;
 
-    public array $relations = [];
+    protected array $relations = [];
+
+    protected array $indexRelations = [];
 
     //Exception
     public const STATUS_BAD_REQUEST = 400;

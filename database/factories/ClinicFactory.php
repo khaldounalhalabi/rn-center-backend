@@ -5,9 +5,11 @@ namespace Database\Factories;
 use App\Models\Clinic;
 use App\Models\Schedule;
 use App\Models\Speciality;
+use App\Models\User;
 use App\Traits\FileHandler;
 use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
 
 /**
@@ -26,34 +28,40 @@ class ClinicFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->fakeTranslation('word'),
+            'name' => fake()->name,
             'appointment_cost' => fake()->randomFloat(2, 0, 1000),
-            'user_id' => \App\Models\User::factory(),
+            'user_id' => User::factory(),
             'working_start_year' => fake()->date(),
             'max_appointments' => fake()->numberBetween(1, 2000),
             'appointment_day_range' => fake()->numberBetween(1, 2000),
-            'about_us' => $this->fakeTranslation('word'),
-            'experience' => $this->fakeTranslation('word'),
+            'about_us' => fake()->sentence,
+            'experience' => fake()->sentence,
         ];
     }
 
-    public function withMedia(): ClinicFactory
+    public function allRelations(): ClinicFactory
     {
-        return $this->afterCreating(function (Clinic $clinic) {
-            if (app()->environment('testing')) {
-                $clinic->addMedia(UploadedFile::fake()->image('fake-image.png'));
-            } else {
-                $clinic->addMedia(fake()->image);
-            }
-        });
+        return $this->withMedia()
+            ->withSchedules()
+            ->withSpecialities();
+    }
+
+    public function withSpecialities($count = 1): ClinicFactory
+    {
+        return $this->has(Speciality::factory($count));
     }
 
     public function withSchedules($count = 1): ClinicFactory
     {
         return $this->has(Schedule::factory($count)->clinic());
     }
-    public function withSpecialities($count = 1): ClinicFactory
+
+    public function withMedia(): ClinicFactory
     {
-        return $this->has(Speciality::factory($count));
+        return $this->afterCreating(function (Clinic $clinic) {
+            $clinic->addMedia(
+                new File(storage_path('/app/required/download.png'))
+            )->preservingOriginal()->toMediaCollection();
+        });
     }
 }

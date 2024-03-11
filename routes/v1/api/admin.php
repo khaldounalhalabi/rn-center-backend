@@ -15,3 +15,4 @@ Route::apiResource("/hospitals", v1\HospitalController::class)->names("api.admin
 Route::apiResource("/phone-numbers", v1\PhoneNumberController::class)->names("api.admin.phone.numbers") ;
 Route::apiResource("/available-departments", v1\AvailableDepartmentController::class)->names("api.admin.available.departments") ;
 Route::apiResource("/specialities", v1\SpecialityController::class)->names("api.admin.specialities") ;
+Route::apiResource("/addresses", v1\AddressController::class)->names("api.admin.addresses") ;

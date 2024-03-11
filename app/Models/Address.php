@@ -6,12 +6,27 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
-class PhoneNumber extends Model
+/**
+ * @property string name
+ * @property string city
+ * @property string lat
+ * @property string lng
+ * @property string country
+ * @property numeric addressable_id
+ * @property string addressable_type
+ */
+class Address extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'label', 'phone', 'phoneable_id', 'phoneable_type',
+        'name',
+        'city',
+        'lat',
+        'lng',
+        'country',
+        'addressable_id',
+        'addressable_type',
     ];
 
     protected $casts = [
@@ -25,8 +40,12 @@ class PhoneNumber extends Model
     public static function searchableArray(): array
     {
         return [
-            'phone',
-            'label',
+            'name',
+            'city',
+            'lat',
+            'lng',
+            'country',
+            'addressable_type',
         ];
     }
 
@@ -37,12 +56,8 @@ class PhoneNumber extends Model
     public static function relationsSearchableArray(): array
     {
         return [
-        ];
-    }
 
-    public function phoneable(): MorphTo
-    {
-        return $this->morphTo('phoneable');
+        ];
     }
 
     /**
@@ -55,5 +70,10 @@ class PhoneNumber extends Model
         return [
             //filesKeys
         ];
+    }
+
+    public function addressable(): MorphTo
+    {
+        return $this->morphTo();
     }
 }

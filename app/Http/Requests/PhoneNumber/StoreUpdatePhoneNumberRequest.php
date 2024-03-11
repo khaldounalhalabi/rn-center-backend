@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\PhoneNumber;
 
+use App\Models\Hospital;
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -22,10 +24,19 @@ class StoreUpdatePhoneNumberRequest extends FormRequest
      */
     public function rules(): array
     {
+        if (request()->method() == 'PUT') {
+            return [
+                'phone' => 'nullable|string|max:255|min:6|unique:phone_numbers,phone,' . request()->route('phone_number'),
+                'label' => 'string|nullable|min:3'
+            ];
+        }
+
+        //TODO::check if we need for store a phone
         return [
-            'phone' => 'unique:phone_numbers,phone|required|string|max:255|min:6',
-            'user_id' => 'nullable|numeric|exists:users,id',
-            'hospital_id' => 'nullable|numeric|exists:hospitals,id',
+            'phone' => 'nullable|string|max:255|min:6|unique:phone_numbers,phone,' . request()->route('phone_number'),
+            'label' => 'string|nullable|min:3',
+            'phoneable_type' => 'required|string' . Rule::in([User::class, Hospital::class]),
+            'phoneable_id' => 'required|numeric',
         ];
     }
 }

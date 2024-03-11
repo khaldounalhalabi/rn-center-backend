@@ -29,4 +29,9 @@ class SpecialityFactory extends Factory
     {
         return $this->has(Clinic::factory($count));
     }
+
+    public function allRelations(): SpecialityFactory
+    {
+        return $this->withClinics();
+    }
 }
