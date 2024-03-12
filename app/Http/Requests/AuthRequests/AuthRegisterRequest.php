@@ -30,8 +30,8 @@ class AuthRegisterRequest extends FormRequest
             'first_name' => 'required|string|max:255|min:3',
             'middle_name' => 'required|string|max:255|min:3',
             'last_name' => 'required|string|max:255|min:3',
-            'mother_full_name' => 'required|string|min:3|max:255',
             'phone_number' => 'array|required',
+            //TODO::fix phone validation
             'phone_number.*' => 'required|string|unique:phone_numbers,phone',
             'email' => 'required|email|unique:users,email|min:3|max:255',
             'password' => 'required|min:8|confirmed|max:255',
