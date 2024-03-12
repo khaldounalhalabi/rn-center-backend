@@ -32,7 +32,7 @@ class AuthRegisterRequest extends FormRequest
             'last_name' => 'required|string|max:255|min:3',
             'mother_full_name' => 'required|string|min:3|max:255',
             'phone_number' => 'array|required',
-            'phone_number.*' => 'required|string|unique:phone_numbers,phone|phone:IQ',
+            'phone_number.*' => 'required|string|unique:phone_numbers,phone',
             'email' => 'required|email|unique:users,email|min:3|max:255',
             'password' => 'required|min:8|confirmed|max:255',
             'fcm_token' => 'nullable|string|min:3|max:1000',
