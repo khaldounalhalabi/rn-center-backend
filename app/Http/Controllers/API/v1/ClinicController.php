@@ -19,7 +19,7 @@ class ClinicController extends ApiController
         // place the relations you want to return them within the response
         $this->relations = ['user', 'user.address', 'user.phones', 'specialities', 'hospital'];
 
-        $this->indexRelations = ['user'];
+        $this->indexRelations = ['user' , 'user.phones' , 'user.address'];
     }
 
     public function index()

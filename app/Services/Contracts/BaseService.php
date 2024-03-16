@@ -6,7 +6,6 @@ use App\Repositories\Contracts\IBaseRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection as RegularCollection;
-use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * @template T of Model
@@ -40,7 +39,6 @@ abstract class BaseService implements IBaseService
      * @param        $data
      * @return array
      */
-    #[ArrayShape(['currentPage' => 'int', 'from' => 'int', 'to' => 'int', 'total' => 'int', 'per_page' => 'int'])]
     public function formatPaginationData($data): array
     {
         return $this->repository->formatPaginateData($data);

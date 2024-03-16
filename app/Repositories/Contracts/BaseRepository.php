@@ -7,11 +7,12 @@ use App\Traits\FileHandler;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection as RegularCollection;
 use Illuminate\Support\Facades\Schema;
-use JetBrains\PhpStorm\ArrayShape;
+use Illuminate\Support\Str;
 
 /**
  * @template T of Model
@@ -29,7 +30,7 @@ abstract class BaseRepository implements IBaseRepository
     private Filesystem $fileSystem;
     private array $filterKeys = [];
     private array $fileColumnsName = [];
-    private array $modelTableColumns = [];
+    private array $modelTableColumns;
     private array $orderableKeys = [];
     private array $relationSearchableKeys = [];
     private array $searchableKeys = [];
@@ -94,17 +95,17 @@ abstract class BaseRepository implements IBaseRepository
     }
 
     /**
-     * @param        $query
-     * @return mixed
+     * @param Builder $query
+     * @return Builder
      */
-    private function addSearch($query): mixed
+    private function addSearch(Builder $query): Builder
     {
         if (request()->has('search')) {
             $keyword = request()->search;
 
             if (count($this->searchableKeys) > 0) {
                 foreach ($this->searchableKeys as $search_attribute) {
-                    $query->orWhere($search_attribute, 'REGEXP', "(?i).*{$keyword}.*");
+                    $query->orWhere($search_attribute, 'REGEXP', "(?i).*$keyword.*");
                 }
             }
 
@@ -112,9 +113,9 @@ abstract class BaseRepository implements IBaseRepository
 
                 foreach ($this->relationSearchableKeys as $relation => $values) {
 
-                    foreach ($values as $key => $search_attribute) {
+                    foreach ($values as $search_attribute) {
                         $query->orWhereHas($relation, function ($q) use ($keyword, $search_attribute) {
-                            $q->where($search_attribute, 'REGEXP', "(?i).*{$keyword}.*");
+                            $q->where($search_attribute, 'REGEXP', "(?i).*$keyword.*");
                         });
                     }
                 }
@@ -172,27 +173,42 @@ abstract class BaseRepository implements IBaseRepository
     }
 
     /**
-     * @param        $query
-     * @return mixed
+     * @param Builder $query
+     * @return Builder
      */
-    private function orderQueryBy($query): mixed
+    private function orderQueryBy(Builder $query): Builder
     {
-        $sortColumns = request()->sort_col;
-        if (isset($sortColumns)) {
-            if (is_array(request()->sort_col)) {
-                foreach ($sortColumns as $col => $dir) {
-                    if (in_array($col, $this->modelTableColumns)) {
-                        $query->orderBy($col, $dir);
-                    }
-                }
-            } elseif (in_array(request()->sort_col, $this->modelTableColumns)) {
-                $query->orderBy(request()->sort_col, request()->sort_dir ?? 'asc');
-            }
+        $sortCol = request()->sort_col;
+        $sortDir = request()->sort_dir;
 
-            return $query;
+        if (isset($sortCol)) {
+            if (str_contains($sortCol, '.')) {
+                [$relationName, $relatedColumn] = explode('.', $sortCol);
+
+                if (method_exists($this->model, $relationName)) {
+                    $relationMethod = $this->model->{$relationName}();
+
+                    if ($relationMethod instanceof BelongsTo) {
+                        $foreignKey = $relationMethod->getForeignKeyName();
+                        $relatedTable = Str::plural(Str::snake($relationName));
+
+                        $query->orderBy(function (QueryBuilder $q) use ($foreignKey, $relatedColumn, $relatedTable) {
+                            $currentTable = $this->model->getTable();
+                            return $q->from($relatedTable)
+                                ->whereRaw("`$relatedTable`.id = `$currentTable`.$foreignKey")
+                                ->select($relatedColumn);
+                        }, $sortDir ?? 'asc');
+                    }
+
+                }
+            } else {
+                if (in_array($sortCol, $this->modelTableColumns)) {
+                    $query->orderBy($sortCol, $sortDir ?? 'asc');
+                }
+            }
         }
 
-        return $query->orderBy('created_at', 'desc');
+        return $query;
     }
 
     /**
@@ -214,7 +230,6 @@ abstract class BaseRepository implements IBaseRepository
      * @param        $data
      * @return array
      */
-    #[ArrayShape(['currentPage' => 'int', 'from' => 'int', 'to' => 'int', 'total' => 'int', 'per_page' => 'int'])]
     public function formatPaginateData($data): array
     {
         $paginated_arr = $data->toArray();
@@ -225,6 +240,9 @@ abstract class BaseRepository implements IBaseRepository
             'to' => $paginated_arr['to'],
             'total' => $paginated_arr['total'],
             'per_page' => $paginated_arr['per_page'],
+            'total_pages' => ceil($paginated_arr['total'] / $paginated_arr['per_page']),
+            'isFirst' => $paginated_arr['current_page'] == 1,
+            'isLast' => $paginated_arr['current_page'] == ceil($paginated_arr['total'] / $paginated_arr['per_page']),
         ];
     }
 

@@ -38,8 +38,10 @@ class Clinic extends Model implements HasMedia
     {
         return [
             'name',
-            'about_us',
-            'experience',
+            'appointment_cost',
+            'working_start_year',
+            'max_appointments',
+            'appointment_day_range',
         ];
     }
 
@@ -77,10 +79,11 @@ class Clinic extends Model implements HasMedia
             'services' => [
                 //add your services desired column to be search within
             ],
-            'user_id' => [
-                //add your user_id desired column to be search within
+            'user' => [
+                "first_name",
+                "middle_name",
+                "last_name",
             ],
-
         ];
     }
 
@@ -109,7 +112,7 @@ class Clinic extends Model implements HasMedia
 
     public function specialities(): BelongsToMany
     {
-        return $this->belongsToMany(Speciality::class , 'clinic_specialities');
+        return $this->belongsToMany(Speciality::class, 'clinic_specialities');
     }
 
     public function hospital(): BelongsTo

@@ -4,13 +4,13 @@ namespace Database\Factories;
 
 use App\Enums\BloodGroupEnum;
 use App\Enums\GenderEnum;
+use App\Models\Address;
 use App\Models\Clinic;
 use App\Models\Customer;
 use App\Models\PhoneNumber;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Http\File;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
 
 class UserFactory extends Factory
@@ -31,7 +31,7 @@ class UserFactory extends Factory
             'email_verified_at' => Carbon::now(),
             'password' => '123456789',
             'is_blocked' => false,
-            'is_archived' => false
+            'is_archived' => false,
         ];
     }
 
@@ -56,7 +56,12 @@ class UserFactory extends Factory
 
     public function withPhoneNumbers($count = 1): UserFactory
     {
-        return $this->has(PhoneNumber::factory($count) , 'phones');
+        return $this->has(PhoneNumber::factory($count), 'phones');
+    }
+
+    public function withAddress()
+    {
+        return $this->has(Address::factory(), 'address');
     }
 
     public function allRelations(): UserFactory
