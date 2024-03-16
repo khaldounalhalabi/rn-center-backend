@@ -4,11 +4,13 @@ namespace App\Models;
 
 use App\Enums\MediaTypeEnum;
 use App\Traits\Translations;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -102,6 +104,23 @@ class Clinic extends Model implements HasMedia
         return [
             'work_gallery' => ['type' => MediaTypeEnum::MULTIPLE->value],
             //filesKeys
+        ];
+    }
+
+    public function customOrders(): array
+    {
+        return [
+            'address.city' => function (Builder $query) {
+                return $query->orderBy(function (QueryBuilder $q) {
+                    return $q->from('users')
+                        ->whereRaw('`users`.id = clinics.user_id')
+                        ->orderBy(function (QueryBuilder $builder) {
+                            return $builder->from('addresses')
+                                ->whereRaw('`addresses`.addressable_id = `users`.id && `addresses`.addressable_type = ' . User::class)
+                                ->select('city');
+                        });
+                });
+            }
         ];
     }
 

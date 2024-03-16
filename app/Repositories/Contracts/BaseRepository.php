@@ -34,6 +34,7 @@ abstract class BaseRepository implements IBaseRepository
     private array $orderableKeys = [];
     private array $relationSearchableKeys = [];
     private array $searchableKeys = [];
+    private array $customOrders = [];
 
     /**
      * BaseRepository Constructor
@@ -58,6 +59,10 @@ abstract class BaseRepository implements IBaseRepository
             $this->filterKeys = $this->model->filterArray();
         }
 
+        if (method_exists($this->model, 'customOrders')) {
+            $this->customOrders = $this->model->customOrders();
+        }
+
         $this->modelTableColumns = $this->getTableColumns();
     }
 
@@ -72,7 +77,7 @@ abstract class BaseRepository implements IBaseRepository
      * @param array $relationships
      * @return Collection<T>|RegularCollection<T>|array
      */
-    public function all(array $relationships = []): Collection|array|RegularCollection
+    public function all(array $relationships = []): Collection | array | RegularCollection
     {
         return $this->globalQuery($relationships)->get();
     }
@@ -182,7 +187,9 @@ abstract class BaseRepository implements IBaseRepository
         $sortDir = request()->sort_dir;
 
         if (isset($sortCol)) {
-            if (str_contains($sortCol, '.')) {
+            if (in_array($sortCol, $this->customOrders)) {
+                $query = $this->customOrders[$sortCol]($query);
+            } elseif (str_contains($sortCol, '.')) {
                 [$relationName, $relatedColumn] = explode('.', $sortCol);
 
                 if (method_exists($this->model, $relationName)) {
