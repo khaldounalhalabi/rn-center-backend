@@ -12,7 +12,9 @@ return new class () extends Migration {
     {
         Schema::create('specialities', function (Blueprint $table) {
             $table->id();
-            $table->json('name')->unique();
+            $table->json('name'); // Keep the JSON column as-is
+            $table->string('en')->virtualAs('JSON_UNQUOTE(JSON_EXTRACT(name, "$.en"))')->unique();
+            $table->string('ar')->virtualAs('JSON_UNQUOTE(JSON_EXTRACT(name, "$.ar"))')->unique();
             $table->text('description')->nullable();
             $table->text('tags')->nullable();
 
