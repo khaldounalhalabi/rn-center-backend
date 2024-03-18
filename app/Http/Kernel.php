@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AcceptedLanguagesMiddleware;
 use App\Http\Middleware\AdminOnly;
 use App\Http\Middleware\CustomerMustVerifyEmail;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -44,6 +45,7 @@ class Kernel extends HttpKernel
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            AcceptedLanguagesMiddleware::class,
         ],
     ];
 
