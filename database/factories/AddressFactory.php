@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Hospital;
 use App\Models\User;
+use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -11,6 +12,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class AddressFactory extends Factory
 {
+    use Translations;
+
     /**
      * Define the model's default state.
      *
@@ -20,8 +23,8 @@ class AddressFactory extends Factory
     {
         $userChance = fake()->boolean;
         return [
-            'name' => fake()->unique()->firstName(),
-            'city' => fake()->unique()->city(),
+            'name' => $this->fakeTranslation('address'),
+            'city' => $this->fakeTranslation('city'),
             'lat' => fake()->unique()->text(),
             'lng' => fake()->unique()->text(),
             'country' => fake()->unique()->country(),

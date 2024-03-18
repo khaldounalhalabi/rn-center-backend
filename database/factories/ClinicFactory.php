@@ -28,7 +28,7 @@ class ClinicFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name,
+            'name' => $this->fakeTranslation('name'),
             'appointment_cost' => fake()->numberBetween(1, 100),
             'user_id' => User::factory()->withPhoneNumbers()->withAddress(),
             'working_start_year' => fake()->date(),

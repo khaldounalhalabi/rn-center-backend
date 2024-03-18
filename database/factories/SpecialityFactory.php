@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Clinic;
+use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class SpecialityFactory extends Factory
 {
+    use Translations;
     /**
      * Define the model's default state.
      *
@@ -18,7 +20,7 @@ class SpecialityFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->unique()->firstName(),
+            'name' => $this->fakeTranslation('name'),
             'description' => fake()->unique()->text(),
             'tags' => fake()->unique()->text(),
         ];
