@@ -94,6 +94,28 @@ class Clinic extends Model implements HasMedia
         ];
     }
 
+    public function filterArray()
+    {
+        return [
+            [
+                'name' => 'phone',
+                'relation' => 'user.phones',
+                'operator' => 'like',
+            ],
+//            [
+//                'name' => 'subscription_status',
+//                'query' => function (Builder $query) {
+//                    //TODO::handle it when you create the subscriptions table
+//                    return $query;
+//                }
+//            ] ,
+            [
+                'name' => 'is_archived' ,
+                'relation' => 'user',
+            ]
+        ];
+    }
+
     public function user(): belongsTo
     {
         return $this->belongsTo(User::class);

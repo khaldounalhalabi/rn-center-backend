@@ -77,7 +77,7 @@ abstract class BaseRepository implements IBaseRepository
      * @param array $relationships
      * @return Collection<T>|RegularCollection<T>|array
      */
-    public function all(array $relationships = []): Collection | array | RegularCollection
+    public function all(array $relationships = []): Collection|array|RegularCollection
     {
         return $this->globalQuery($relationships)->get();
     }
@@ -144,7 +144,7 @@ abstract class BaseRepository implements IBaseRepository
             $relation = $filterFields['relation'] ?? null;
             $method = $filterFields['method'] ?? "where";
             $callback = $filterFields['query'] ?? null;
-            $value = request($relation ?? $field);
+            $value = request($field ?? $relation);
             $range = is_array($value);
 
             if (!$value) {
@@ -152,7 +152,7 @@ abstract class BaseRepository implements IBaseRepository
             }
 
             if ($relation) {
-                $query = $query->whereHas($relation, function (QueryBuilder $q) use ($range, $field, $method, $operator, $value) {
+                $query = $query->whereHas($relation, function (Builder $q) use ($range, $field, $method, $operator, $value) {
                     if ($range) {
                         return $q->whereBetween($field, $value);
                     }
