@@ -12,8 +12,8 @@ return new class () extends Migration {
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('city');
+            $table->json('name');
+            $table->json('city');
             $table->text('lat')->nullable();
             $table->text('lng')->nullable();
             $table->string('country')->default('Iraq');

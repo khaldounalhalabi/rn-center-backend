@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\Translatable;
 use App\Enums\MediaTypeEnum;
 use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Builder;
@@ -30,6 +31,10 @@ class Clinic extends Model implements HasMedia
         'experience',
         'user_id',
         'hospital_id',
+    ];
+
+    protected $casts = [
+        'name' => Translatable::class,
     ];
 
     /**

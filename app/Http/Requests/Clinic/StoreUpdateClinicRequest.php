@@ -5,7 +5,7 @@ namespace App\Http\Requests\Clinic;
 use App\Enums\ClinicStatusEnum;
 use App\Enums\GenderEnum;
 use App\Models\Clinic;
-use App\Rules\ArabicOnly;
+use App\Rules\LanguageShape;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -29,7 +29,7 @@ class StoreUpdateClinicRequest extends FormRequest
     {
         if (request()->method() == "POST") {
             return [
-                'name' => ['required', 'string', 'min:3', 'max:255'],
+                'name' => ['required', 'string', 'min:3', 'max:255', new LanguageShape()],
                 'appointment_cost' => 'required|numeric',
                 'max_appointments' => 'required|numeric',
                 'phone_numbers' => 'array|required',
@@ -39,9 +39,9 @@ class StoreUpdateClinicRequest extends FormRequest
                 'status' => 'required|string|' . Rule::in(ClinicStatusEnum::getAllValues()),
 
                 'user' => 'array|required',
-                'user.first_name' => ['string', 'required', new ArabicOnly(), 'min:3', 'max:30'],
-                'user.middle_name' => ['string', 'required', new ArabicOnly(), 'min:3', 'max:30'],
-                'user.last_name' => ['string', 'required', new ArabicOnly(), 'min:3', 'max:30'],
+                'user.first_name' => ['string', 'required', new LanguageShape(), 'min:3', 'max:30'],
+                'user.middle_name' => ['string', 'required', new LanguageShape(), 'min:3', 'max:30'],
+                'user.last_name' => ['string', 'required', new LanguageShape(), 'min:3', 'max:30'],
                 'user.email' => 'required|email|max:255|min:3|string|unique:users,email',
                 'user.password' => 'string|min:8|max:20|required|confirmed',
                 'user.birth_date' => 'date_format:Y-m-d|date|before:20 years ago|required',
@@ -49,7 +49,7 @@ class StoreUpdateClinicRequest extends FormRequest
                 'user.image' => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
 
                 'address' => 'array|required',
-                'address.name' => 'required|string|min:3',
+                'address.name' => ['required', 'string', 'min:3', new LanguageShape()],
                 'address.city' => 'required|string|min:3',
                 'address.lat' => 'required|string',
                 'address.lng' => 'required|string',
@@ -60,7 +60,7 @@ class StoreUpdateClinicRequest extends FormRequest
         }
         $userId = Clinic::find(request()->route('clinic'))?->user_id;
         return [
-            'name' => ['nullable', 'string', 'min:3', 'max:255'],
+            'name' => ['nullable', 'string', 'min:3', 'max:255', new LanguageShape()],
             'appointment_cost' => 'nullable|numeric',
             'max_appointments' => 'nullable|numeric',
             'phone_numbers' => 'array|nullable',
@@ -70,9 +70,9 @@ class StoreUpdateClinicRequest extends FormRequest
             'status' => 'nullable|string|' . Rule::in(ClinicStatusEnum::getAllValues()),
 
             'user' => 'array|nullable',
-            'user.first_name' => ['string', 'nullable', new ArabicOnly(), 'min:3', 'max:30'],
-            'user.middle_name' => ['string', 'nullable', new ArabicOnly(), 'min:3', 'max:30'],
-            'user.last_name' => ['string', 'nullable', new ArabicOnly(), 'min:3', 'max:30'],
+            'user.first_name' => ['string', 'nullable', new LanguageShape(), 'min:3', 'max:30'],
+            'user.middle_name' => ['string', 'nullable', new LanguageShape(), 'min:3', 'max:30'],
+            'user.last_name' => ['string', 'nullable', new LanguageShape(), 'min:3', 'max:30'],
             'user.email' => 'nullable|email|max:255|min:3|string|unique:users,email,' . $userId,
             'user.password' => 'string|min:8|max:20|nullable|confirmed',
             'user.birth_date' => 'date_format:Y-m-d|date|before:20 years ago|nullable',
@@ -80,7 +80,7 @@ class StoreUpdateClinicRequest extends FormRequest
             'user.image' => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
 
             'address' => 'array|nullable',
-            'address.name' => 'nullable|string|min:3',
+            'address.name' => ['nullable' . 'string' . 'min:3', new LanguageShape()],
             'address.city' => 'nullable|string|min:3',
             'address.lat' => 'nullable|string',
             'address.lng' => 'nullable|string',

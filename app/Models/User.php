@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\Translatable;
 use App\Enums\MediaTypeEnum;
 use App\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Builder;
@@ -54,6 +55,9 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         'is_archived' => 'boolean',
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
+        'first_name' => Translatable::class,
+        'middle_name' => Translatable::class,
+        'last_name' => Translatable::class,
     ];
 
     /**

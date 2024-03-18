@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\Translatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -30,7 +31,8 @@ class Address extends Model
     ];
 
     protected $casts = [
-
+        'name' => Translatable::class,
+        'city' => Translatable::class,
     ];
 
     /**
