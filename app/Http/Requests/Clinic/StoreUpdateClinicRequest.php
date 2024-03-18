@@ -50,7 +50,7 @@ class StoreUpdateClinicRequest extends FormRequest
 
                 'address' => 'array|required',
                 'address.name' => ['required', 'string', 'min:3', new LanguageShape()],
-                'address.city' => 'required|string|min:3',
+                'address.city' => ['required', 'string', 'min:3', new LanguageShape()],
                 'address.lat' => 'required|string',
                 'address.lng' => 'required|string',
 
@@ -81,7 +81,7 @@ class StoreUpdateClinicRequest extends FormRequest
 
             'address' => 'array|nullable',
             'address.name' => ['nullable' . 'string' . 'min:3', new LanguageShape()],
-            'address.city' => 'nullable|string|min:3',
+            'address.city' => ['nullable', 'string', 'min:3', new LanguageShape()],
             'address.lat' => 'nullable|string',
             'address.lng' => 'nullable|string',
 
