@@ -23,9 +23,9 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'first_name' => $this->fakeTranslation('first_name'),
-            'middle_name' => $this->fakeTranslation('last_name'),
-            'last_name' => $this->fakeTranslation('last_name'),
+            'first_name' => $this->fakeTranslation('firstName'),
+            'middle_name' => $this->fakeTranslation('lastName'),
+            'last_name' => $this->fakeTranslation('lastName'),
             'email' => $this->faker->unique()->safeEmail(),
             'birth_date' => Carbon::now()->subYear(20),
             'gender' => $this->faker->randomElement(GenderEnum::getAllValues()),
