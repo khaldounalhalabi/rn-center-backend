@@ -4,6 +4,7 @@ namespace App\Services\Schedule;
 
 use App\Services\Contracts\IBaseService;
 use App\Models\Schedule;
+use Illuminate\Support\Collection;
 
 /**
  * @extends IBaseService<Schedule>
@@ -11,5 +12,9 @@ use App\Models\Schedule;
  */
 interface IScheduleService extends IBaseService
 {
-    //
+    /**
+     * @param int $clinicId
+     * @return Collection<Schedule>|array<Schedule>
+     */
+    public function getClinicSchedule(int $clinicId): Collection|array;
 }

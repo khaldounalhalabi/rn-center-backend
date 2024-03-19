@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Clinic;
 use App\Models\Schedule;
 
 /** @mixin Schedule */
@@ -14,14 +15,21 @@ class ScheduleResource extends BaseResource
      */
     public function toArray($request): array
     {
+        $loaded = $this->schedulable_type == Clinic::class
+            ? [
+                'clinic_id' => $this->schedulable_id,
+                'clinic' => new ClinicResource($this->whenLoaded('schedulable')),
+            ] : [
+                'hospital_id' => $this->schedulable_id,
+                'clinic' => new HospitalResource($this->whenLoaded('schedulable')),
+            ];
+
         return [
             'id' => $this->id,
-            'clinic_id' => $this->clinic_id,
             'day_of_week' => $this->day_of_week,
-            'start_time' => $this->start_time,
-            'end_time' => $this->end_time,
-            'hospital_id' => $this->hospital_id,
-            'clinic' =>  new ClinicResource($this->whenLoaded('clinic')) ,
+            'start_time' => $this->start_time->format('H:i'),
+            'end_time' => $this->end_time->format('H:i'),
+            ...$loaded
         ];
     }
 }

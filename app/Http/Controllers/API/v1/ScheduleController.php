@@ -21,6 +21,16 @@ class ScheduleController extends ApiController
         $this->relations = [];
     }
 
+    public function clinicSchedules($clinicId)
+    {
+        $data = $this->scheduleService->getClinicSchedule($clinicId);
+        if (count($data)) {
+            return $this->apiResponse(ScheduleResource::collection($data), self::STATUS_OK, __('site.get_successfully'));
+        }
+
+        return $this->noData([]);
+    }
+
     public function index()
     {
         $items = $this->scheduleService->indexWithPagination($this->relations);

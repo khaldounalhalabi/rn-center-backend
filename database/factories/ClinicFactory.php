@@ -42,8 +42,8 @@ class ClinicFactory extends Factory
     public function allRelations(): ClinicFactory
     {
         return $this->withMedia()
-            ->withSchedules()
-            ->withSpecialities();
+            ->withSchedules(5)
+            ->withSpecialities(5);
     }
 
     public function withSpecialities($count = 1): ClinicFactory
@@ -53,7 +53,7 @@ class ClinicFactory extends Factory
 
     public function withSchedules($count = 1): ClinicFactory
     {
-        return $this->has(Schedule::factory($count)->clinic());
+        return $this->has(Schedule::factory($count) , 'schedules');
     }
 
     public function withMedia(): ClinicFactory

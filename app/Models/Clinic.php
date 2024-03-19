@@ -94,7 +94,7 @@ class Clinic extends Model implements HasMedia
         ];
     }
 
-    public function filterArray()
+    public function filterArray(): array
     {
         return [
             [

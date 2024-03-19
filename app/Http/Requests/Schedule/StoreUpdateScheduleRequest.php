@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Schedule;
 
+use App\Enums\WeekDayEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -24,19 +25,17 @@ class StoreUpdateScheduleRequest extends FormRequest
     {
         if (request()->method() == 'POST') {
             return [
-                'clinic_id' => 'nullable|numeric|exists:clinics,id',
-                'day_of_week' => 'required|string',
+                'clinic_id' => 'nullable|numeric|exists:clinics,id|required_without:hospital_id',
+                'day_of_week' => 'required|string|' . Rule::in(WeekDayEnum::getAllValues()),
                 'start_time' => 'required|date_format:H:i',
                 'end_time' => 'required|date_format:H:i',
-                'hospital_id' => 'nullable|numeric|exists:hospitals,id',
+                'hospital_id' => 'nullable|numeric|exists:hospitals,id|required_without:clinic_id',
             ];
         }
         return [
-            'clinic_id' => 'nullable|numeric|exists:clinics,id',
             'day_of_week' => 'nullable|string',
             'start_time' => 'nullable|date_format:H:i',
             'end_time' => 'nullable|date_format:H:i',
-            'hospital_id' => 'nullable|numeric|exists:hospitals,id',
         ];
     }
 }

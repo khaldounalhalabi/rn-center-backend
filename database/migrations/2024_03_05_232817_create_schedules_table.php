@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Clinic;
-use App\Models\Hospital;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,8 +15,8 @@ return new class () extends Migration {
             $table->string("schedulable_type");
             $table->unsignedBigInteger("schedulable_id");
             $table->string('day_of_week');
-            $table->time('start_time');
-            $table->time('end_time');
+            $table->time('start_time')->default(now()->format('H:i'));
+            $table->time('end_time')->default(now()->format('H:i'));
 
             $table->timestamps();
         });
