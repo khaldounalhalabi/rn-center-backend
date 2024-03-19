@@ -18,6 +18,14 @@ return new class () extends Migration {
             $table->time('start_time')->default(now()->format('H:i'));
             $table->time('end_time')->default(now()->format('H:i'));
 
+            $table->unique([
+                'schedulable_type',
+                'schedulable_id',
+                'day_of_week',
+                'start_time',
+                'end_time'
+            ], 'unique_schedule');
+            
             $table->timestamps();
         });
     }

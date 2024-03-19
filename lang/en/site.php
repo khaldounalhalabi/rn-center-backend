@@ -35,6 +35,10 @@ return [
 
     /****** general error ******/
     'something_went_wrong' => 'Some thing went wong process failed',
-    'server_error' => "Sorry we can't handle your request we have faced a problem" ,
+    'server_error' => "Sorry we can't handle your request we have faced a problem",
+
+
+    'duplicated_schedule' => 'The Provided Schedule Data Already Defined',
+    'uncompleted_schedule_data' => 'Uncompleted Schedule Data',
 
 ];
