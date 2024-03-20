@@ -15,6 +15,7 @@ class CorsMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        //TODO::never forget to check on this
          return $next($request)
         ->header('Access-Control-Allow-Origin', '*')
         ->header('Access-Control-Allow-Methods', '*')
