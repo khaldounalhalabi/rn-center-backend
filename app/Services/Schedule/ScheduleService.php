@@ -37,9 +37,9 @@ class ScheduleService extends BaseService implements IScheduleService
     /**
      * @param array $data
      * @param array $relationships
-     * @return Schedule|null
+     * @return bool
      */
-    public function store(array $data, array $relationships = []): ?Schedule
+    public function storeUpdateSchedules(array $data, array $relationships = []): bool
     {
         if (isset($data['clinic_id'])) {
             $data['schedulable_id'] = $data['clinic_id'];
@@ -47,8 +47,24 @@ class ScheduleService extends BaseService implements IScheduleService
         } elseif (isset($data['hospital_id'])) {
             $data['schedulable_id'] = $data['hospital_id'];
             $data['schedulable_type'] = Hospital::class;
-        } else return null;
+        } else return false;
 
-        return $this->repository->create($data, $relationships);
+        $this->repository->deleteAll($data['schedulable_id'], $data['schedulable_type']);
+
+        $schedules = collect();
+
+        foreach ($data['schedules'] as $schedule) {
+            $schedules->push([
+                'day_of_week' => $schedule['day_of_week'],
+                'start_time' => $schedule['start_time'],
+                'end_time' => $schedule['end_time'],
+                'schedulable_id' => $data['schedulable_id'],
+                'schedulable_type' => $data['schedulable_type'],
+                'created_at' => now()->format('Y-m-d H:i:s'),
+                'updated_at' => now()->format('Y-m-d H:i:s')
+            ]);
+        }
+
+        return $this->repository->insert($schedules->unique()->toArray());
     }
 }

@@ -52,26 +52,14 @@ class ScheduleController extends ApiController
         return $this->noData(null);
     }
 
-    public function store(StoreUpdateScheduleRequest $request)
+    public function storeUpdateSchedules(StoreUpdateScheduleRequest $request)
     {
-        /** @var Schedule|null $item */
-        $item = $this->scheduleService->store($request->validated(), $this->relations);
+        $item = $this->scheduleService->storeUpdateSchedules($request->validated(), $this->relations);
         if ($item) {
-            return $this->apiResponse(new ScheduleResource($item), self::STATUS_OK, __('site.stored_successfully'));
+            return $this->apiResponse(true, self::STATUS_OK, __('site.stored_successfully'));
         }
 
-        return $this->apiResponse(null, self::STATUS_OK, __('site.something_went_wrong'));
-    }
-
-    public function update($scheduleId, StoreUpdateScheduleRequest $request)
-    {
-        /** @var Schedule|null $item */
-        $item = $this->scheduleService->update($request->validated(), $scheduleId, $this->relations);
-        if ($item) {
-            return $this->apiResponse(new ScheduleResource($item), self::STATUS_OK, __('site.update_successfully'));
-        }
-
-        return $this->noData(null);
+        return $this->noData([]);
     }
 
     public function destroy($scheduleId)
