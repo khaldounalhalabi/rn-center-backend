@@ -491,6 +491,26 @@
                 }
             ],
             "relations": []
+        },
+        {
+            "model_name": "City",
+            "table_name": "cities",
+            "attributes": [
+                {
+                    "name": "name",
+                    "type": "translatable",
+                    "nullable": true,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "hasMany": [
+                    {
+                        "type": "hasMany",
+                        "model_name": "Address"
+                    }
+                ]
+            }
         }
     ]
 }

@@ -26,7 +26,7 @@ class StoreUpdateAddressRequest extends FormRequest
         if (request()->method() == 'POST') {
             return [
                 'name' => 'required|string|min:3|max:255',
-                'city' => 'required|string|min:3|max:255',
+                'city_id' => 'required|numeric|exists:cities,id',
                 'lat' => 'nullable|string',
                 'lng' => 'nullable|string',
                 'country' => 'required|string|min:3|max:255',
@@ -37,7 +37,7 @@ class StoreUpdateAddressRequest extends FormRequest
 
         return [
             'name' => 'nullable|string|min:3|max:255',
-            'city' => 'nullable|string|min:3|max:255',
+            'city' => 'nullable|numeric|exists:cities,id',
             'lat' => 'nullable|string',
             'lng' => 'nullable|string',
             'country' => 'nullable|string|min:3|max:255',

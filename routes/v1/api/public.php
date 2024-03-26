@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\API\v1;
 
 
@@ -41,7 +42,7 @@ Route::prefix('doctor')
         Route::post('/reset-password', 'passwordReset')->name("password-reset");
     });
 
-//add-your-routes-here
+Route::get('/cities', [v1\CityController::class, 'index'])->name('cities.index');
 
 Route::get('check-role', function () {
     return response()->json([

@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Services\City;
+
+use App\Models\City;
+use App\Services\Contracts\BaseService;
+use App\Repositories\CityRepository;
+
+/**
+ * @implements ICityService<City>
+ * Class UserService
+ */
+class CityService extends BaseService implements ICityService
+{
+    /**
+     * CityService constructor.
+     *
+     * @param CityRepository $repository
+     */
+    public function __construct(CityRepository $repository)
+    {
+        parent::__construct($repository);
+    }
+}

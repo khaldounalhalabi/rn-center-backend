@@ -27,7 +27,8 @@ class Translatable implements CastsAttributes
     public function set(Model $model, string $key, mixed $value, array $attributes): mixed
     {
         if (is_array($value)) {
-            return json_encode($value);
-        }  return $value;
+            return json_encode($value, JSON_UNESCAPED_SLASHES);
+        }
+        return $value;
     }
 }

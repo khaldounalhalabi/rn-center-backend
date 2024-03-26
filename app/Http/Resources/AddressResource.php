@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\BaseResource;
 use App\Models\Address;
 
 /** @mixin Address */
@@ -18,13 +17,14 @@ class AddressResource extends BaseResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'city' => $this->city,
+            'city_id' => $this->city_id,
             'lat' => $this->lat,
             'lng' => $this->lng,
             'country' => $this->country,
             'addressable_id' => $this->addressable_id,
             'addressable_type' => $this->addressable_type,
-            'addressable' => $this->whenLoaded('addressable')
+            'addressable' => $this->whenLoaded('addressable'),
+            'city' => new CityResource($this->whenLoaded('city')),
         ];
     }
 }

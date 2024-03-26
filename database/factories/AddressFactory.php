@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\City;
 use App\Models\Hospital;
 use App\Models\User;
 use App\Traits\Translations;
@@ -24,9 +25,9 @@ class AddressFactory extends Factory
         $userChance = fake()->boolean;
         return [
             'name' => $this->fakeTranslation('address'),
-            'city' => $this->fakeTranslation('city'),
-            'lat' => fake()->unique()->text(),
-            'lng' => fake()->unique()->text(),
+            'city_id' => City::inRandomOrder()->first()->id,
+            'lat' => fake()->unique()->latitude(),
+            'lng' => fake()->unique()->longitude(),
             'country' => fake()->unique()->country(),
             'addressable_id' => $userChance ? User::factory() : Hospital::factory(),
             'addressable_type' => $userChance ? User::class : Hospital::class,

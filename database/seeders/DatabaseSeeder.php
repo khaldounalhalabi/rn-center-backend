@@ -14,16 +14,17 @@ class DatabaseSeeder extends Seeder
         // needed data
         $this->call([
             RoleSeeder::class,
+            CitySeeder::class,
         ]);
 
         //fake data
         $this->call([
             UserSeeder::class,
             ClinicSeeder::class,
-            AddressSeeder::class ,
+            AddressSeeder::class,
             AvailableDepartmentSeeder::class,
             CustomerSeeder::class,
-            HospitalSeeder::class ,
+            HospitalSeeder::class,
             PhoneNumberSeeder::class,
             ScheduleSeeder::class,
             SpecialitySeeder::class
