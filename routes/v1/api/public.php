@@ -43,3 +43,8 @@ Route::prefix('doctor')
 
 //add-your-routes-here
 
+Route::get('check-role', function () {
+    return response()->json([
+        "role" => auth()->user()?->roles()->first()->name,
+    ]);
+});

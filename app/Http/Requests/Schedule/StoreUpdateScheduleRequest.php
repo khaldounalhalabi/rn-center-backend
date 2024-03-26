@@ -35,17 +35,20 @@ class StoreUpdateScheduleRequest extends FormRequest
 
         if (request()->method() == 'POST') {
             return [
+                'schedules' => 'array|required' , 
+                'schedules.*.day_of_week' => 'required|string|' . Rule::in(WeekDayEnum::getAllValues()),
+                'schedules.*.start_time' => 'required|date_format:H:i',
+                'schedules.*.end_time' => ['required', 'date_format:H:i', 'after:start_time', new UniqueSchedule($scheduleData)],
                 'clinic_id' => 'nullable|numeric|exists:clinics,id|required_without:hospital_id',
-                'day_of_week' => 'required|string|' . Rule::in(WeekDayEnum::getAllValues()),
-                'start_time' => 'required|date_format:H:i',
-                'end_time' => ['required', 'date_format:H:i', 'after:start_time', new UniqueSchedule($scheduleData)],
                 'hospital_id' => 'nullable|numeric|exists:hospitals,id|required_without:clinic_id',
             ];
         }
         return [
-            'day_of_week' => 'nullable|string',
-            'start_time' => 'nullable|date_format:H:i',
-            'end_time' => ['nullable', 'date_format:H:i', new UniqueSchedule($scheduleData)],
+            'schedules' => 'array|nullable' , 
+            'schedules.*.day_of_week' => 'nullable|string',
+            'schedules.*.start_time' => 'nullable|date_format:H:i',
+            'schedules.*.end_time' => ['nullable', 'date_format:H:i', new UniqueSchedule($scheduleData)],
+            'schedules.*.schedule_id' => ['required' , 'exists:schedules,id' , 'numeric']
         ];
     }
 }
