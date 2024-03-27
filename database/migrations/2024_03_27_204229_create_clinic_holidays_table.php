@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Clinic;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -10,12 +11,12 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('specialities', function (Blueprint $table) {
+        Schema::create('clinic_holidays', function (Blueprint $table) {
             $table->id();
-            $table->text('name');
-            $table->text('description')->nullable();
-            $table->text('tags')->nullable();
-
+            $table->dateTime('start_date');
+            $table->dateTime('end_date');
+            $table->json('reason');
+            $table->foreignIdFor(Clinic::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('specialities');
+        Schema::dropIfExists('clinic_holidays');
     }
 };

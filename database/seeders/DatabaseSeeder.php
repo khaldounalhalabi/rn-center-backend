@@ -27,7 +27,8 @@ class DatabaseSeeder extends Seeder
             HospitalSeeder::class,
             PhoneNumberSeeder::class,
             ScheduleSeeder::class,
-            SpecialitySeeder::class
+            SpecialitySeeder::class,
+            ClinicHolidaySeeder::class,
         ]);
     }
 }

@@ -6626,6 +6626,217 @@
                     "response": []
                 }
             ]
+        },
+        {
+            "name": "ClinicHoliday",
+            "item": [
+                {
+                    "name": "index",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/clinic-holidays",
+                            "host": [
+                                "{{local}}admin/clinic-holidays"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "show",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/clinic-holidays/1",
+                            "host": [
+                                "{{local}}admin/clinic-holidays/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "store",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/clinic-holidays",
+                            "host": [
+                                "{{local}}admin/clinic-holidays"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "clinic_id",
+                                    "value": "1",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "start_date",
+                                    "value": "2024-03-27 20:42:47",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "end_date",
+                                    "value": "2024-03-27 20:42:47",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "reason",
+                                    "value": "{\"ar\":\"enim\",\"en\":\"consequuntur\"}",
+                                    "type": "text",
+                                    "description": null
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "update",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/clinic-holidays/1",
+                            "host": [
+                                "{{local}}admin/clinic-holidays/1"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "clinic_id",
+                                    "value": "1",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "start_date",
+                                    "value": "2024-03-27 20:42:48",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "end_date",
+                                    "value": "2024-03-27 20:42:48",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "reason",
+                                    "value": "{\"ar\":\"sit\",\"en\":\"qui\"}",
+                                    "type": "text",
+                                    "description": null
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/clinic-holidays/1",
+                            "host": [
+                                "{{local}}admin/clinic-holidays/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                }
+            ]
         }
     ],
     "event": [

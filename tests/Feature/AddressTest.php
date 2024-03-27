@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature ;
+namespace Tests\Feature;
 
 use App\Http\Resources\AddressResource;
 use App\Models\Address;
@@ -8,19 +8,19 @@ use Tests\Contracts\MainTestCase;
 
 class AddressTest extends MainTestCase
 {
-    protected $model = Address::class;
+    protected string $model = Address::class;
 
-    protected $resource = AddressResource::class;
+    protected string $resource = AddressResource::class;
 
     // define the actor
-    protected $userType = "admin";
+    protected string $userType = "admin";
 
     // the named route eg: 'user.products.'
     //!!! Note: the dot "." in the end of the baseUrl is important !!!
     protected string $baseUrl = 'api.admin.addresses.';
 
     // if your endpoints return the model with its relation put the relations in the array
-    protected $relations = [];
+    protected array $relations = [];
 
     public function test_user_can_index_Address()
     {

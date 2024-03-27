@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Clinic;
+use App\Models\ClinicHoliday;
 use App\Models\Schedule;
 use App\Models\Speciality;
 use App\Models\User;
@@ -53,7 +54,7 @@ class ClinicFactory extends Factory
 
     public function withSchedules($count = 1): ClinicFactory
     {
-        return $this->has(Schedule::factory($count) , 'schedules');
+        return $this->has(Schedule::factory($count), 'schedules');
     }
 
     public function withMedia(): ClinicFactory
@@ -64,4 +65,10 @@ class ClinicFactory extends Factory
             )->preservingOriginal()->toMediaCollection();
         });
     }
+
+    public function withClinicHolidays($count = 1): ClinicFactory
+    {
+        return $this->has(ClinicHoliday::factory($count));
+    }
+
 }

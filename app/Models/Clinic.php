@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Spatie\MediaLibrary\HasMedia;
@@ -91,6 +92,7 @@ class Clinic extends Model implements HasMedia
                 "middle_name",
                 "last_name",
             ],
+            'clinicHolidays' => ['reason']
         ];
     }
 
@@ -102,15 +104,15 @@ class Clinic extends Model implements HasMedia
                 'relation' => 'user.phones',
                 'operator' => 'like',
             ],
-//            [
-//                'name' => 'subscription_status',
-//                'query' => function (Builder $query) {
-//                    //TODO::handle it when you create the subscriptions table
-//                    return $query;
-//                }
-//            ] ,
+            //            [
+            //                'name' => 'subscription_status',
+            //                'query' => function (Builder $query) {
+            //                    //TODO::handle it when you create the subscriptions table
+            //                    return $query;
+            //                }
+            //            ] ,
             [
-                'name' => 'is_archived' ,
+                'name' => 'is_archived',
                 'relation' => 'user',
             ]
         ];
@@ -164,5 +166,10 @@ class Clinic extends Model implements HasMedia
     public function hospital(): BelongsTo
     {
         return $this->belongsTo(Hospital::class);
+    }
+
+    public function clinicHolidays(): HasMany
+    {
+        return $this->hasMany(ClinicHoliday::class);
     }
 }

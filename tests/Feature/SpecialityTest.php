@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature ;
+namespace Tests\Feature;
 
 use App\Http\Resources\SpecialityResource;
 use App\Models\Speciality;
@@ -8,19 +8,19 @@ use Tests\Contracts\MainTestCase;
 
 class SpecialityTest extends MainTestCase
 {
-    protected $model = Speciality::class;
+    protected string $model = Speciality::class;
 
-    protected $resource = SpecialityResource::class;
+    protected string $resource = SpecialityResource::class;
 
     // define the actor
-    protected $userType = "admin";
+    protected string $userType = "admin";
 
     // the named route eg: 'user.products.'
     //!!! Note: the dot "." in the end of the baseUrl is important !!!
     protected string $baseUrl = 'api.admin.specialities.';
 
     // if your endpoints return the model with its relation put the relations in the array
-    protected $relations = [];
+    protected array $relations = [];
 
     public function test_user_can_index_Speciality()
     {

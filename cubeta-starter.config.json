@@ -228,6 +228,10 @@
                     {
                         "type": "hasMany",
                         "model_name": "Schedule"
+                    },
+                    {
+                        "type": "hasMany",
+                        "model_name": "ClinicHoliday"
                     }
                 ],
                 "manyToMany": [
@@ -508,6 +512,45 @@
                     {
                         "type": "hasMany",
                         "model_name": "Address"
+                    }
+                ]
+            }
+        },
+        {
+            "model_name": "ClinicHoliday",
+            "table_name": "clinic_holidays",
+            "attributes": [
+                {
+                    "name": "clinic_id",
+                    "type": "key",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "start_date",
+                    "type": "dateTime",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "end_date",
+                    "type": "dateTime",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "reason",
+                    "type": "translatable",
+                    "nullable": false,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "belongsTo": [
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Clinic",
+                        "key": "clinic_id"
                     }
                 ]
             }

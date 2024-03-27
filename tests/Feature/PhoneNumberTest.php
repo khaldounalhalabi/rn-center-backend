@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature ;
+namespace Tests\Feature;
 
 use App\Http\Resources\PhoneNumberResource;
 use App\Models\PhoneNumber;
@@ -8,19 +8,19 @@ use Tests\Contracts\MainTestCase;
 
 class PhoneNumberTest extends MainTestCase
 {
-    protected $model = PhoneNumber::class;
+    protected string $model = PhoneNumber::class;
 
-    protected $resource = PhoneNumberResource::class;
+    protected string $resource = PhoneNumberResource::class;
 
     // define the actor
-    protected $userType = "admin";
+    protected string $userType = "admin";
 
     // the named route eg: 'user.products.'
     //!!! Note: the dot "." in the end of the baseUrl is important !!!
     protected string $baseUrl = 'api.admin.phone.numbers.';
 
     // if your endpoints return the model with its relation put the relations in the array
-    protected $relations = [];
+    protected array $relations = [];
 
     public function test_user_can_index_PhoneNumber()
     {

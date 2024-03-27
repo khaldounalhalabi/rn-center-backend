@@ -24,3 +24,4 @@ Route::apiResource("/available-departments", v1\AvailableDepartmentController::c
 Route::apiResource("/specialities", v1\SpecialityController::class)->names("specialities");
 Route::apiResource("/addresses", v1\AddressController::class)->names("addresses");
 Route::apiResource('/cities', v1\CityController::class)->names('cities');
+Route::apiResource('/clinic-holidays', v1\ClinicHolidayController::class)->names('clinic.holidays') ;

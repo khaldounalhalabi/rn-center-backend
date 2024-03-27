@@ -28,9 +28,9 @@ class LanguageShape implements ValidationRule
 
             if (!is_array($value)) {
                 $translationArray = json_decode($value, true);
-                if (app()->environment(['testing'])) {
-                    $translationArray = json_decode($translationArray, true);
-                }
+//                if (app()->environment(['testing'])) {
+//                    $translationArray = json_decode($translationArray, true);
+//                }
             } else {
                 $translationArray = $value;
             }

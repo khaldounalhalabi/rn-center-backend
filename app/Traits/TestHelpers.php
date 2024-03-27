@@ -3,6 +3,8 @@
 namespace App\Traits;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -11,24 +13,29 @@ trait TestHelpers
 {
     use RefreshDatabase;
 
-    protected $model;
+    /** @var class-string<Model> */
+    protected string $model;
 
-    protected $relations = [];
+    protected array $relations = [];
 
-    protected $requestPath;
+    protected string $requestPath;
 
-    protected $resource;
+    /** @var class-string<JsonResource> */
+    protected string $resource;
 
-    protected $user;
+    protected ?User $user;
 
-    protected $userType;
+    protected string $userType;
 
     protected array $pagination = [
-        'currentPage' => 1,
-        'from' => 1,
-        'to' => 5,
-        'total' => 5,
-        'per_page' => 10,
+        "currentPage" => 1,
+        "from" => 1,
+        "isFirst" => true,
+        "isLast" => true,
+        "per_page" => 10,
+        "to" => 5,
+        "total" => 5,
+        "total_pages" => 1
     ];
 
     protected array $responseBody = [
@@ -47,6 +54,7 @@ trait TestHelpers
 
         if (isset($this->userType) && $this->userType != 'none') {
             Artisan::call('db:seed RoleSeeder');
+            Artisan::call('db:seed CitySeeder');
         }
 
         $this->signIn($this->userType);
@@ -66,8 +74,8 @@ trait TestHelpers
     /**
      * this function is for converting the return value of a resource as an array
      *
-     * @param mixed $data     the data that  has to be converted
-     * @param bool  $multiple if you want to return an array of data
+     * @param mixed $data the data that  has to be converted
+     * @param bool $multiple if you want to return an array of data
      */
     public function convertResourceToArray(mixed $data, bool $multiple = false): array
     {
@@ -116,7 +124,7 @@ trait TestHelpers
     }
 
     /**
-     * @param  string $routeName the route name
+     * @param string $routeName the route name
      * @return void
      */
     public function requestPathHook(string $routeName = ''): void

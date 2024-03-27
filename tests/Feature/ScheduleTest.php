@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature ;
+namespace Tests\Feature;
 
 use App\Http\Resources\ScheduleResource;
 use App\Models\Schedule;
@@ -8,19 +8,19 @@ use Tests\Contracts\MainTestCase;
 
 class ScheduleTest extends MainTestCase
 {
-    protected $model = Schedule::class;
+    protected string $model = Schedule::class;
 
-    protected $resource = ScheduleResource::class;
+    protected string $resource = ScheduleResource::class;
 
     // define the actor
-    protected $userType = "admin";
+    protected string $userType = "admin";
 
     // the named route eg: 'user.products.'
     //!!! Note: the dot "." in the end of the baseUrl is important !!!
     protected string $baseUrl = 'api.admin.schedules.';
 
     // if your endpoints return the model with its relation put the relations in the array
-    protected $relations = [];
+    protected array $relations = [];
 
     public function test_user_can_index_Schedule()
     {

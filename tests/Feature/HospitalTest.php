@@ -9,19 +9,19 @@ use Tests\Contracts\MainTestCase;
 
 class HospitalTest extends MainTestCase
 {
-    protected $model = Hospital::class;
+    protected string $model = Hospital::class;
 
-    protected $resource = HospitalResource::class;
+    protected string $resource = HospitalResource::class;
 
     // define the actor
-    protected $userType = "admin";
+    protected string $userType = "admin";
 
     // the named route eg: 'user.products.'
     //!!! Note: the dot "." in the end of the baseUrl is important !!!
     protected string $baseUrl = 'api.admin.hospitals.';
 
     // if your endpoints return the model with its relation put the relations in the array
-    protected $relations = [];
+    protected array $relations = [];
 
     public function test_user_can_index_Hospital()
     {
@@ -38,7 +38,7 @@ class HospitalTest extends MainTestCase
     public function test_user_can_create_a_Hospital()
     {
         $this->requestPathHook($this->baseUrl . 'store');
-        $this->storeTest(['images' => [UploadedFile::fake()->image('image.jpg')],],[], true);
+        $this->storeTest(['images' => [UploadedFile::fake()->image('image.jpg')],], []);
     }
 
     public function test_user_can_update_Hospital()

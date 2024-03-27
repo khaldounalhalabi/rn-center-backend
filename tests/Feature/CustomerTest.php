@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature ;
+namespace Tests\Feature;
 
 use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
@@ -8,19 +8,19 @@ use Tests\Contracts\MainTestCase;
 
 class CustomerTest extends MainTestCase
 {
-    protected $model = Customer::class;
+    protected string $model = Customer::class;
 
-    protected $resource = CustomerResource::class;
+    protected string $resource = CustomerResource::class;
 
     // define the actor
-    protected $userType = "admin";
+    protected string $userType = "admin";
 
     // the named route eg: 'user.products.'
     //!!! Note: the dot "." in the end of the baseUrl is important !!!
     protected string $baseUrl = 'api.admin.customers.';
 
     // if your endpoints return the model with its relation put the relations in the array
-    protected $relations = [];
+    protected array $relations = [];
 
     public function test_user_can_index_Customer()
     {

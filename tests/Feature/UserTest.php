@@ -10,19 +10,19 @@ use Tests\Contracts\MainTestCase;
 
 class UserTest extends MainTestCase
 {
-    protected $model = User::class;
+    protected string $model = User::class;
 
-    protected $resource = UserResource::class;
+    protected string $resource = UserResource::class;
 
     // define the actor
-    protected $userType = "none";
+    protected string $userType = "none";
 
     // the named route eg: 'user.products.'
     //!!! Note: the dot "." in the end of the baseUrl is important !!!
     protected string $baseUrl = 'api.users.';
 
     // if your endpoints return the model with its relation put the relations in the array
-    protected $relations = ['media'];
+    protected array $relations = ['media'];
 
     public function setUp(): void
     {
