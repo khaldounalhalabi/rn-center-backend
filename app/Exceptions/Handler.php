@@ -64,8 +64,7 @@ class Handler extends ExceptionHandler
 
         if ($exception instanceof ValidationException) {
             $msg = [
-                'text' => $exception->getMessage(),
-                'errors' => $exception->errors(),
+                'errors' => collect($exception->errors())->map(fn($error) => $error[0]),
             ];
 
             return $this->apiResponse('', ApiController::STATUS_VALIDATION, $msg);
