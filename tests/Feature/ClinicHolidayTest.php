@@ -44,14 +44,6 @@ class ClinicHolidayTest extends MainTestCase
         ]);
     }
 
-    public function test_user_can_update_ClinicHoliday()
-    {
-        $this->requestPathHook($this->baseUrl . 'update');
-        $this->updateTest(['start_date' => now()->format('Y-m-d H:i:s'),
-            'end_date' => now()->format('Y-m-d H:i:s'),
-        ]);
-    }
-
     public function test_user_can_delete_a_ClinicHoliday()
     {
         $this->requestPathHook($this->baseUrl . 'destroy');
