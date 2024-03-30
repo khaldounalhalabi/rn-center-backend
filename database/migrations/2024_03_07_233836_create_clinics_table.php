@@ -23,6 +23,7 @@ return new class () extends Migration {
             $table->text('experience')->nullable();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Hospital::class)->nullable()->constrained();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

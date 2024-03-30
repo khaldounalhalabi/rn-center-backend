@@ -16,7 +16,6 @@ class UserResource extends BaseResource
             'middle_name' => $this->middle_name,
             'last_name' => $this->last_name,
             'email' => $this->email,
-            'phone_number' => $this->phone_number,
             'birth_date' => $this->birth_date,
             'gender' => $this->gender,
             'blood_group' => $this->blood_group,

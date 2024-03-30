@@ -38,9 +38,14 @@ class UserFactory extends Factory
         ];
     }
 
-    public function withAddress()
+    public function withAddress(): UserFactory
     {
-        return $this->has(Address::factory(), 'address');
+        return $this->afterCreating(function (User $user) {
+            Address::factory()->create([
+                "addressable_id" => $user->id,
+                "addressable_type" => User::class,
+            ]);
+        });
     }
 
     public function allRelations(): UserFactory

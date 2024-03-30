@@ -23,7 +23,6 @@ class Address extends Model
 
     protected $fillable = [
         'name',
-        'city',
         'lat',
         'lng',
         'country',
@@ -34,7 +33,6 @@ class Address extends Model
 
     protected $casts = [
         'name' => Translatable::class,
-        'city' => Translatable::class,
     ];
 
     /**
@@ -45,7 +43,6 @@ class Address extends Model
     {
         return [
             'name',
-            'city',
             'lat',
             'lng',
             'country',

@@ -54,7 +54,7 @@ class StoreUpdateClinicRequest extends FormRequest
                 'address.lat' => 'required|string',
                 'address.lng' => 'required|string',
 
-                'speciality_ids' => 'array|nullable',
+                'speciality_ids' => 'array|required',
                 'speciality_ids.*' => 'required|numeric|exists:specialities,id',
             ];
         }

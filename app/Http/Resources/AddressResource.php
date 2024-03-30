@@ -23,8 +23,8 @@ class AddressResource extends BaseResource
             'country' => $this->country,
             'addressable_id' => $this->addressable_id,
             'addressable_type' => $this->addressable_type,
-            'addressable' => $this->whenLoaded('addressable'),
             'city' => new CityResource($this->whenLoaded('city')),
+            'addressable' => $this->whenLoaded('addressable'),
         ];
     }
 }

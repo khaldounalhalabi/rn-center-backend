@@ -29,7 +29,8 @@ class ClinicResource extends BaseResource
             'hospital' => new HospitalResource($this->whenLoaded('hospital')),
             'schedules' => ScheduleResource::collection($this->whenLoaded('schedules')),
             'specialities' => SpecialityResource::collection($this->whenLoaded('specialities')),
-            'clinicHolidays' => ClinicHolidayResource::collection($this->whenLoaded('clinicHolidays')) ,
+            'clinicHolidays' => ClinicHolidayResource::collection($this->whenLoaded('clinicHolidays')),
+            //TODO::add total appointments when it is done
         ];
     }
 }

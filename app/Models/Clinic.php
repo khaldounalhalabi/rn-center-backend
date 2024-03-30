@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -21,6 +22,7 @@ class Clinic extends Model implements HasMedia
     use HasFactory;
     use Translations;
     use InteractsWithMedia;
+    use SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -60,39 +62,14 @@ class Clinic extends Model implements HasMedia
     public static function relationsSearchableArray(): array
     {
         return [
-            'departments' => [
-                //add your departments desired column to be search within
-            ],
-            'offers' => [
-                //add your offers desired column to be search within
-            ],
-            'subscriptions' => [
-                //add your subscriptions desired column to be search within
-            ],
-            'transactions' => [
-                //add your transactions desired column to be search within
-            ],
-            'appointments' => [
-                //add your appointments desired column to be search within
-            ],
-            'patient_profiles' => [
-                //add your patient_profiles desired column to be search within
-            ],
-            'specialties' => [
-                //add your specialties desired column to be search within
-            ],
-            'prescriptions' => [
-                //add your prescriptions desired column to be search within
-            ],
-            'services' => [
-                //add your services desired column to be search within
-            ],
             'user' => [
                 "first_name",
                 "middle_name",
                 "last_name",
             ],
-            'clinicHolidays' => ['reason']
+            "user.address.city" => [
+                "name",
+            ]
         ];
     }
 
@@ -107,14 +84,14 @@ class Clinic extends Model implements HasMedia
             //            [
             //                'name' => 'subscription_status',
             //                'query' => function (Builder $query) {
-            //                    //TODO::handle it when you create the subscriptions table
+            //TODO::handle it when you create the subscriptions table
             //                    return $query;
             //                }
             //            ] ,
             [
                 'name' => 'is_archived',
                 'relation' => 'user',
-            ]
+            ],
         ];
     }
 
@@ -139,16 +116,15 @@ class Clinic extends Model implements HasMedia
     public function customOrders(): array
     {
         return [
-            'address.city' => function (Builder $query) {
-                return $query->orderBy(function (QueryBuilder $q) {
-                    return $q->from('users')
-                        ->whereRaw('`users`.id = clinics.user_id')
-                        ->orderBy(function (QueryBuilder $builder) {
-                            return $builder->from('addresses')
-                                ->whereRaw('`addresses`.addressable_id = `users`.id && `addresses`.addressable_type = ' . User::class)
-                                ->select('city');
-                        });
-                });
+            'user.address.city.name' => function (Builder $query, $dir) {
+                return $query->join('users', 'users.id', '=', 'clinics.user_id')
+                    ->join('addresses', function ($join) {
+                        $join->on('addresses.addressable_id', '=', 'users.id')
+                            ->where('addresses.addressable_type', User::class);
+                    })
+                    ->join('cities', 'cities.id', '=', 'addresses.city_id')
+                    ->select('clinics.*', 'cities.name AS city_name')
+                    ->orderBy('city_name', $dir);
             }
         ];
     }

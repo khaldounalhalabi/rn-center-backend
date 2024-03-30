@@ -35,6 +35,7 @@ abstract class BaseRepository implements IBaseRepository
     private array $relationSearchableKeys = [];
     private array $searchableKeys = [];
     private array $customOrders = [];
+    private string $tableName;
 
     /**
      * BaseRepository Constructor
@@ -42,6 +43,7 @@ abstract class BaseRepository implements IBaseRepository
     public function __construct(Model $model)
     {
         $this->model = $model;
+        $this->tableName = $this->model->getTable();
 
         if (method_exists($this->model, 'filesKeys')) {
             $this->fileColumnsName = $this->model->filesKeys();
@@ -107,25 +109,25 @@ abstract class BaseRepository implements IBaseRepository
     {
         if (request()->has('search')) {
             $keyword = request()->search;
-
             if (count($this->searchableKeys) > 0) {
                 foreach ($this->searchableKeys as $search_attribute) {
-                    $query->orWhere($search_attribute, 'REGEXP', "(?i).*$keyword.*");
+                    $query->orWhere("{$this->tableName}.{$search_attribute}", 'REGEXP', "(?i).*$keyword.*");
                 }
             }
 
             if (count($this->relationSearchableKeys) > 0) {
-
                 foreach ($this->relationSearchableKeys as $relation => $values) {
-
                     foreach ($values as $search_attribute) {
-                        $query->orWhereHas($relation, function ($q) use ($keyword, $search_attribute) {
-                            $q->where($search_attribute, 'REGEXP', "(?i).*$keyword.*");
+                        $query->orWhereRelation($relation, function ($q) use ($relation, $keyword, $search_attribute) {
+                            $relSeq = explode('.', $relation);
+                            $relTable = $relSeq[count($relSeq) - 1];
+                            $relTable = Str::plural($relTable);
+                            $q->where("{$relTable}.{$search_attribute}", 'REGEXP', "(?i).*$keyword.*");
                         });
                     }
                 }
             }
-            $query->orWhere('id', $keyword);
+            $query->orWhere($this->tableName . '.id', $keyword);
         }
 
         return $query;
@@ -152,24 +154,25 @@ abstract class BaseRepository implements IBaseRepository
             }
 
             if ($relation) {
-                $query = $query->whereHas($relation, function (Builder $q) use ($range, $field, $method, $operator, $value) {
+                $query = $query->whereRelation($relation, function (Builder $q) use ($relation, $range, $field, $method, $operator, $value) {
+                    $relTable = Str::plural($relation);
                     if ($range) {
-                        return $q->whereBetween($field, $value);
+                        return $q->whereBetween("$relTable.{$field}", $value);
                     }
                     if ($operator === "like") {
-                        return $q->{$method}($field, $operator, "%" . $value . "%");
+                        return $q->{$method}("$relTable.$field", $operator, "%" . $value . "%");
                     }
-                    return $q->{$method}($field, $operator, $value);
+                    return $q->{$method}("$relTable.$field", $operator, $value);
                 });
             } elseif ($callback && is_callable($callback)) {
                 $query = call_user_func($callback, $query, $value);
             } else {
                 if ($range) {
-                    $query = $query->whereBetween($field, $value);
+                    $query = $query->whereBetween($this->tableName . '.' . $field, $value);
                 } elseif ($operator == 'like') {
-                    $query = $query->{$method}($field, $operator, "%" . $value . "%");
+                    $query = $query->{$method}($this->tableName . '.' . $field, $operator, "%" . $value . "%");
                 } else {
-                    $query = $query->{$method}($field, $operator, $value);
+                    $query = $query->{$method}($this->tableName . '.' . $field, $operator, $value);
                 }
             }
         }
@@ -187,8 +190,8 @@ abstract class BaseRepository implements IBaseRepository
         $sortDir = request()->sort_dir;
 
         if (isset($sortCol)) {
-            if (in_array($sortCol, $this->customOrders)) {
-                $query = $this->customOrders[$sortCol]($query);
+            if (in_array($sortCol, array_keys($this->customOrders))) {
+                $query = $this->customOrders[$sortCol]($query, $sortDir);
             } elseif (str_contains($sortCol, '.')) {
                 [$relationName, $relatedColumn] = explode('.', $sortCol);
 
@@ -210,7 +213,7 @@ abstract class BaseRepository implements IBaseRepository
                 }
             } else {
                 if (in_array($sortCol, $this->modelTableColumns)) {
-                    $query->orderBy($sortCol, $sortDir ?? 'asc');
+                    $query->orderBy($this->tableName . '.' . $sortCol, $sortDir ?? 'asc');
                 }
             }
         }
