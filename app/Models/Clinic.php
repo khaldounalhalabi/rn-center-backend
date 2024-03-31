@@ -38,6 +38,7 @@ class Clinic extends Model implements HasMedia
 
     protected $casts = [
         'name' => Translatable::class,
+        'working_start_year' => "datetime",
     ];
 
     /**

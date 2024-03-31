@@ -19,7 +19,8 @@ class ClinicResource extends BaseResource
             'name' => $this->name,
             'appointment_cost' => $this->appointment_cost,
             'user_id' => $this->user_id,
-            'working_start_year' => $this->working_start_year,
+            'working_start_year' => $this->working_start_year->format("Y-m-d"),
+            'experience_years' => now()->diffInYears($this->working_start_year),
             'max_appointments' => $this->max_appointments,
             'appointment_day_range' => $this->appointment_day_range,
             'about_us' => $this->about_us,
@@ -30,6 +31,8 @@ class ClinicResource extends BaseResource
             'schedules' => ScheduleResource::collection($this->whenLoaded('schedules')),
             'specialities' => SpecialityResource::collection($this->whenLoaded('specialities')),
             'clinicHolidays' => ClinicHolidayResource::collection($this->whenLoaded('clinicHolidays')),
+            'created_at' => $this->created_at->format("Y-m-d") ,
+            "updated_at" => $this->updated_at->format("Y-m-d") ,
             //TODO::add total appointments when it is done
         ];
     }
