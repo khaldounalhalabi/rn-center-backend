@@ -34,6 +34,7 @@ class Clinic extends Model implements HasMedia
         'experience',
         'user_id',
         'hospital_id',
+        "status",
     ];
 
     protected $casts = [
@@ -53,6 +54,7 @@ class Clinic extends Model implements HasMedia
             'working_start_year',
             'max_appointments',
             'appointment_day_range',
+            "status",
         ];
     }
 

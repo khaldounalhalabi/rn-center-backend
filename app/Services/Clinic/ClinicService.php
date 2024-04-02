@@ -9,6 +9,7 @@ use App\Repositories\ClinicRepository;
 use App\Repositories\PhoneNumberRepository;
 use App\Repositories\UserRepository;
 use App\Services\Contracts\BaseService;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @implements IClinicService<Clinic>
@@ -79,21 +80,24 @@ class ClinicService extends BaseService implements IClinicService
     public function update(array $data, $id, array $relationships = []): ?Clinic
     {
         /** @var Clinic $clinic */
-        $clinic = $this->repository->update($data , $id);
+        $clinic = $this->repository->update($data, $id);
 
         if (!$clinic) return null;
 
         $user = $clinic->user;
 
-        if (isset($data['user'])){
-            $this->userRepository->update($data['user'] , $clinic->user_id);
+        if (isset($data['user'])) {
+            if (isset($data['password']) && $data['password'] == "") {
+                unset($data['password']);
+            }
+            $this->userRepository->update($data['user'], $clinic->user_id);
         }
 
-        if (isset($data['address'])){
+        if (isset($data['address'])) {
             $user->address()->update($data['address']);
         }
 
-        if (isset($data['speciality_ids'])){
+        if (isset($data['speciality_ids'])) {
             $clinic->specialities()->sync($data['speciality_ids']);
         }
 

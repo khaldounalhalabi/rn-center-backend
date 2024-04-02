@@ -16,8 +16,20 @@ class CityResource extends BaseResource
     {
         return [
             'id' => $this->id,
+            ...$this->translatables(),
+            'addresses' => AddressResource::collection($this->whenLoaded('addresses')),
+        ];
+    }
+
+    public function translatables(): array
+    {
+        if ($this->translatable) {
+            return [
+                'name' => $this->getRawOriginal("name"),
+            ];
+        }
+        return [
             'name' => $this->name,
-            'addresses' =>  AddressResource::collection($this->whenLoaded('addresses')) ,
         ];
     }
 }

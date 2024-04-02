@@ -228,6 +228,7 @@ abstract class BaseRepository implements IBaseRepository
      */
     public function all_with_pagination(array $relationships = [], int $per_page = 10): ?array
     {
+        $per_page = request('per_page') ?? $per_page;
         $all = $this->globalQuery($relationships)->paginate($per_page);
         if (count($all) > 0) {
             $pagination_data = $this->formatPaginateData($all);

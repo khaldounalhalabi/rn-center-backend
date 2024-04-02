@@ -18,6 +18,7 @@ Route::controller(v1\ScheduleController::class)
 
 
 Route::apiResource("/customers", v1\CustomerController::class)->names("customers");
+Route::get('/hospitals/all', [v1\HospitalController::class, 'getAll'])->name('hospital.all');
 Route::apiResource("/hospitals", v1\HospitalController::class)->names("hospitals");
 Route::apiResource("/phone-numbers", v1\PhoneNumberController::class)->names("phone.numbers");
 Route::apiResource("/available-departments", v1\AvailableDepartmentController::class)->names("available.departments");

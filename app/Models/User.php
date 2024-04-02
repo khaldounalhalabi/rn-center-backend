@@ -141,7 +141,7 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     protected function password(): Attribute
     {
         return Attribute::make(
-            set: fn(string $value) => Hash::make($value)
+            set: fn(?string $value) => Hash::make($value)
         );
     }
 }

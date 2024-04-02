@@ -18,7 +18,12 @@ class HospitalController extends ApiController
         $this->hospitalService = $hospitalService;
 
         // place the relations you want to return them within the response
-        $this->relations = [] ;
+        $this->relations = [];
+    }
+
+    public function getAll()
+    {
+        return $this->hospitalService->index($this->relations);
     }
 
     public function index()

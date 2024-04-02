@@ -10,6 +10,19 @@ use Illuminate\Support\Collection;
 
 class BaseResource extends JsonResource
 {
+    public bool $translatable = false;
+
+    public function setTranslatable($val): static
+    {
+        $this->translatable = $val;
+        return $this;
+    }
+
+    public function translatables(): array
+    {
+        return [];
+    }
+
     private const AuthorizedActions = 'authorizedActions';
     private const FilterMethod = 'filterArray';
 
@@ -20,7 +33,7 @@ class BaseResource extends JsonResource
     {
         return collect()
             ->wrap($data)
-            ->map(fn ($item) => self::makeWithExtra($item, $extra))
+            ->map(fn($item) => self::makeWithExtra($item, $extra))
             ->values()
             ->merge(self::getFilters(get_class($data->first())));
     }
@@ -37,7 +50,7 @@ class BaseResource extends JsonResource
     }
 
     /**
-     * @param  string     $class
+     * @param string $class
      * @return Collection
      */
     protected static function getFilters(string $class): Collection
@@ -48,7 +61,7 @@ class BaseResource extends JsonResource
             $filterCols = collect(call_user_func([$class, self::FilterMethod]));
             $filters = $filters->merge(
                 [
-                    "filters" => $filterCols->map(fn ($item) => [
+                    "filters" => $filterCols->map(fn($item) => [
                         "field" => isset($item["relation"]) ? $item["relation"] . '.' . ($item["field"] ?? $item["name"]) : ($item["field"] ?? $item["name"]),
                         "operator" => $item['operator'] ?? '='
                     ])
@@ -60,11 +73,11 @@ class BaseResource extends JsonResource
 
     /**
      * @template T of Model<T>
-     * @param  DBCollection|LengthAwarePaginator $data
-     * @param  array                             $itemAbilities
-     * @param  array                             $generalAbilities
-     * @param  array|null                        $extra
-     * @param  bool                              $withFilters
+     * @param DBCollection|LengthAwarePaginator $data
+     * @param array $itemAbilities
+     * @param array $generalAbilities
+     * @param array|null $extra
+     * @param bool $withFilters
      * @return Collection<T>
      */
     public static function collectionWithAbilities(DBCollection|LengthAwarePaginator $data, array $itemAbilities = [], array $generalAbilities = [], ?array $extra = null, bool $withFilters = false): Collection
@@ -119,17 +132,14 @@ class BaseResource extends JsonResource
         if (!method_exists($class, self::AuthorizedActions)) {
             return true;
         }
-        return (bool) (!in_array($ability, call_user_func([$class, self::AuthorizedActions])))
-
-
-        ;
+        return (bool)(!in_array($ability, call_user_func([$class, self::AuthorizedActions])));
     }
 
     public static function collectionWithDetail(DBCollection|LengthAwarePaginator $data, array $extra = null, bool $withFilters = false): Collection
     {
         return collect()
             ->wrap($data)
-            ->map(fn ($item) => self::makeWithDetail($item, $extra))
+            ->map(fn($item) => self::makeWithDetail($item, $extra))
             ->values()
             ->merge(self::getFilters(get_class($data->first())));
     }
@@ -146,10 +156,10 @@ class BaseResource extends JsonResource
     }
 
     /**
-     * @param  Model              $data
-     * @param  array              $itemAbilities
-     * @param  array              $generalAbilities
-     * @param  array|null         $extra
+     * @param Model $data
+     * @param array $itemAbilities
+     * @param array $generalAbilities
+     * @param array|null $extra
      * @return BaseResource|array
      */
     public static function makeWithAbilities(Model $data, array $itemAbilities = [], array $generalAbilities = [], ?array $extra = null): array|BaseResource
