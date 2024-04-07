@@ -80,11 +80,6 @@ class Clinic extends Model implements HasMedia
     public function filterArray(): array
     {
         return [
-            [
-                'name' => 'phone',
-                'relation' => 'user.phones',
-                'operator' => 'like',
-            ],
             //            [
             //                'name' => 'subscription_status',
             //                'query' => function (Builder $query) {
