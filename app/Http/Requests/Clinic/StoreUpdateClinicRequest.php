@@ -6,6 +6,7 @@ use App\Enums\ClinicStatusEnum;
 use App\Enums\GenderEnum;
 use App\Models\Clinic;
 use App\Rules\LanguageShape;
+use App\Rules\UniquePhoneNumber;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Propaganistas\LaravelPhone\Rules\Phone;
@@ -34,7 +35,7 @@ class StoreUpdateClinicRequest extends FormRequest
                 'appointment_cost' => 'required|numeric',
                 'max_appointments' => 'required|numeric',
                 'phone_numbers' => 'array|required',
-                'phone_numbers.*' => ['required', 'string', 'unique:phone_numbers,phone'],
+                'phone_numbers.*' => ['required', 'string', 'unique:phone_numbers,phone' , (new Phone())->country(['IQ'])],
                 'hospital_id' => 'numeric|nullable|exists:hospitals,id',
                 'status' => 'required|string|' . Rule::in(ClinicStatusEnum::getAllValues()),
 
@@ -64,7 +65,7 @@ class StoreUpdateClinicRequest extends FormRequest
             'appointment_cost' => 'nullable|numeric',
             'max_appointments' => 'nullable|numeric',
             'phone_numbers' => 'array|nullable',
-            'phone_numbers.*' => ['nullable', 'string', 'unique:phone_numbers,phone', (new Phone())->country(['IQ'])],
+            'phone_numbers.*' => ['nullable', 'string', new UniquePhoneNumber($userId) , (new Phone())->country(['IQ'])],
             'hospital_id' => 'numeric|nullable|exists:hospitals,id',
             'status' => 'nullable|string|' . Rule::in(ClinicStatusEnum::getAllValues()),
 

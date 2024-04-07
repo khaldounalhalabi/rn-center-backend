@@ -37,6 +37,7 @@ class ClinicFactory extends Factory
             'appointment_day_range' => fake()->numberBetween(1, 2000),
             'about_us' => fake()->sentence,
             'experience' => fake()->sentence,
+            'approximate_appointment_time' => random_int(1, 30),
         ];
     }
 

@@ -7,6 +7,7 @@ use App\Models\Hospital;
 use App\Models\Schedule;
 use App\Repositories\ScheduleRepository;
 use App\Services\Contracts\BaseService;
+use Exception;
 use Illuminate\Support\Collection;
 
 /**
@@ -66,5 +67,15 @@ class ScheduleService extends BaseService implements IScheduleService
         }
 
         return $this->repository->insert($schedules->unique()->toArray());
+    }
+
+    public function deleteAllClinicSchedules($clinicId): bool
+    {
+        try {
+            $this->repository->deleteAll($clinicId, Clinic::class);
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 }

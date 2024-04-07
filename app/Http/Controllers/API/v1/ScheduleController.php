@@ -24,8 +24,9 @@ class ScheduleController extends ApiController
     public function clinicSchedules($clinicId)
     {
         $data = $this->scheduleService->getClinicSchedule($clinicId);
+
         if (count($data)) {
-            return $this->apiResponse(ScheduleResource::collection($data), self::STATUS_OK, __('site.get_successfully'));
+            return $this->apiResponse(collect(ScheduleResource::collection($data))->groupBy('day_of_week'), self::STATUS_OK, __('site.get_successfully'));
         }
 
         return $this->noData([]);
@@ -66,6 +67,16 @@ class ScheduleController extends ApiController
     {
         $item = $this->scheduleService->delete($scheduleId);
         if ($item) {
+            return $this->apiResponse(true, self::STATUS_OK, __('site.delete_successfully'));
+        }
+
+        return $this->noData(false);
+    }
+
+    public function deleteAllClinicSchedules($clinicId)
+    {
+        $result = $this->scheduleService->deleteAllClinicSchedules($clinicId);
+        if ($result) {
             return $this->apiResponse(true, self::STATUS_OK, __('site.delete_successfully'));
         }
 

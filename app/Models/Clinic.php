@@ -35,6 +35,7 @@ class Clinic extends Model implements HasMedia
         'user_id',
         'hospital_id',
         "status",
+        "approximate_appointment_time",
     ];
 
     protected $casts = [

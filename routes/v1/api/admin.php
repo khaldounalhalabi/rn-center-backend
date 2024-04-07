@@ -13,6 +13,7 @@ Route::apiResource("/clinics", v1\ClinicController::class)->names("clinics");
 Route::controller(v1\ScheduleController::class)
     ->group(function () {
         Route::get('/clinics/{clinicId}/schedules', 'clinicSchedules')->name('clinics.schedules');
+        Route::delete('clinics/{clinicId}/schedules' , 'deleteAllClinicSchedules')->name('clinics.schedules.delete');
         Route::post('schedules', 'storeUpdateSchedules')->name('schedules.storeOrUpdate');
     });
 

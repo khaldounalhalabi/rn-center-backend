@@ -19,6 +19,7 @@ return new class () extends Migration {
             $table->date('working_start_year')->default(now());
             $table->integer('max_appointments');
             $table->integer('appointment_day_range')->default(7);
+            $table->integer("approximate_appointment_time")->default(30);
             $table->text('about_us')->nullable();
             $table->text('experience')->nullable();
             $table->enum("status", \App\Enums\ClinicStatusEnum::getAllValues())->default(\App\Enums\ClinicStatusEnum::ACTIVE->value);
