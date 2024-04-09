@@ -25,7 +25,6 @@ return new class () extends Migration {
             $table->enum("status", \App\Enums\ClinicStatusEnum::getAllValues())->default(\App\Enums\ClinicStatusEnum::ACTIVE->value);
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Hospital::class)->nullable()->constrained();
-            $table->softDeletes();
             $table->timestamps();
         });
     }

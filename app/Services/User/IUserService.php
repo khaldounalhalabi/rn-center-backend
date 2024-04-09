@@ -12,6 +12,9 @@ use Illuminate\Contracts\Auth\Authenticatable;
  */
 interface IUserService extends IBaseService
 {
+
+    public function toggleArchive($userId): ?string;
+
     /**
      * @param array $data
      * @param string|null $role

@@ -95,6 +95,11 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         return $query->where('is_archived', true);
     }
 
+    public function scopeNotArchived(Builder $query): Builder
+    {
+        return $query->where('is_archived', false);
+    }
+
     /**
      * define your columns which you want to treat them as files
      * so the base repository can store them in the storage without

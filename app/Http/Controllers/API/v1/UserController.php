@@ -72,4 +72,14 @@ class UserController extends ApiController
 
         return $this->noData(false);
     }
+
+    public function toggleArchive($userId)
+    {
+        $result = $this->userService->toggleArchive($userId);
+        if ($result) {
+            return $this->apiResponse($result, self::STATUS_OK, __('site.change_successfully'));
+        }
+
+        return $this->noData();
+    }
 }

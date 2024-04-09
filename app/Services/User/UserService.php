@@ -339,4 +339,17 @@ class UserService extends BaseService implements IUserService
 
         return $user->load($relations);
     }
+
+    public function toggleArchive($userId): ?string
+    {
+        /** @var User $user */
+        $user = $this->repository->find($userId);
+        if (!$user) {
+            return null;
+        }
+
+        $user = $this->repository->update(["is_archived" => !$user->is_archived], $user);
+
+        return $user->is_archived ? "archived" : "not_archived";
+    }
 }

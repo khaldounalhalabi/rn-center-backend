@@ -22,7 +22,6 @@ class Clinic extends Model implements HasMedia
     use HasFactory;
     use Translations;
     use InteractsWithMedia;
-    use SoftDeletes;
 
     protected $fillable = [
         'name',

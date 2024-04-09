@@ -16,7 +16,8 @@ class Translatable implements CastsAttributes
      */
     public function get(Model $model, string $key, mixed $value, array $attributes): ?string
     {
-        return $this->translateValue($value);
+//        return $this->translateValue($value);
+        return $value;
     }
 
     /**

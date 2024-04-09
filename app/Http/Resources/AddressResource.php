@@ -16,7 +16,6 @@ class AddressResource extends BaseResource
     {
         return [
             'id' => $this->id,
-            ...$this->translatables(),
             'city_id' => $this->city_id,
             'lat' => $this->lat,
             'lng' => $this->lng,
@@ -24,18 +23,6 @@ class AddressResource extends BaseResource
             'addressable_id' => $this->addressable_id,
             'addressable_type' => $this->addressable_type,
             'addressable' => $this->whenLoaded('addressable'),
-        ];
-    }
-
-    public function translatables(): array
-    {
-        if ($this->translatable) {
-            return [
-                "name" => $this->getRawOriginal("name"),
-                'city' => (new CityResource($this->whenLoaded('city')))->setTranslatable(true),
-            ];
-        }
-        return [
             "name" => $this->name,
             'city' => new CityResource($this->whenLoaded('city')),
         ];

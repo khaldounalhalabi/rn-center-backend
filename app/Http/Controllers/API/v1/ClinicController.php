@@ -17,9 +17,9 @@ class ClinicController extends ApiController
 
         $this->clinicService = $clinicService;
         // place the relations you want to return them within the response
-        $this->relations = ['user', 'user.address' , "user.address.city", 'user.phones', 'specialities', 'hospital' , 'user.media'];
+        $this->relations = ['user', 'user.address', "user.address.city", 'user.phones', 'specialities', 'hospital', 'user.media'];
 
-        $this->indexRelations = ['user' , 'user.phones' , 'user.address' , 'user.address.city'];
+        $this->indexRelations = ['user', 'user.phones', 'user.address', 'user.address.city'];
     }
 
     public function index()
@@ -37,7 +37,7 @@ class ClinicController extends ApiController
         /** @var Clinic|null $item */
         $item = $this->clinicService->view($clinicId, $this->relations);
         if ($item) {
-            return $this->apiResponse((new ClinicResource($item))->setTranslatable(true), self::STATUS_OK, __('site.get_successfully'));
+            return $this->apiResponse(new ClinicResource($item), self::STATUS_OK, __('site.get_successfully'));
         }
 
         return $this->noData(null);

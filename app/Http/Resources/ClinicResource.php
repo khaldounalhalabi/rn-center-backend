@@ -16,7 +16,9 @@ class ClinicResource extends BaseResource
     {
         return [
             'id' => $this->id,
-            ...$this->translatables(),
+            "name" => $this->name,
+            'user' => new UserResource($this->whenLoaded('user')),
+            'hospital' => new HospitalResource($this->whenLoaded('hospital')),
             'appointment_cost' => $this->appointment_cost,
             'user_id' => $this->user_id,
             "hospital_id" => $this->hospital_id,
@@ -36,22 +38,5 @@ class ClinicResource extends BaseResource
             "approximate_appointment_time" => $this->approximate_appointment_time,
             //TODO::add total appointments when it is done
         ];
-    }
-
-    public function translatables(): array
-    {
-        if ($this->translatable) {
-            return [
-                "name" => $this->getRawOriginal("name"),
-                'user' => (new UserResource($this->whenLoaded('user')))->setTranslatable(true),
-                'hospital' => (new HospitalResource($this->whenLoaded('hospital')))->setTranslatable(true),
-            ];
-        } else {
-            return [
-                "name" => $this->name,
-                'user' => new UserResource($this->whenLoaded('user')),
-                'hospital' => new HospitalResource($this->whenLoaded('hospital')),
-            ];
-        }
     }
 }
