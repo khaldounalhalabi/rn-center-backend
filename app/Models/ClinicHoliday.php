@@ -35,6 +35,8 @@ class ClinicHoliday extends Model
 
     protected $casts = [
         'reason' => Translatable::class,
+        'start_date' => 'datetime:Y-m-d',
+        'end_date' => 'datetime:Y-m-d',
     ];
 
 
@@ -88,10 +90,12 @@ class ClinicHoliday extends Model
         return [
             [
                 'name' => 'start_date',
+                'method' => 'whereDate',
             ],
             [
                 'name' => 'end_date',
-            ]
+                'method' => 'whereDate',
+            ],
         ];
     }
 }

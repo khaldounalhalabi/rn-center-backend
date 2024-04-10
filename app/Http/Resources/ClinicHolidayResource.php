@@ -17,8 +17,8 @@ class ClinicHolidayResource extends BaseResource
         return [
             'id' => $this->id,
             'clinic_id' => $this->clinic_id,
-            'start_date' => $this->start_date,
-            'end_date' => $this->end_date,
+            'start_date' => $this->start_date->format('Y-m-d'),
+            'end_date' => $this->end_date->format('Y-m-d'),
             'reason' => $this->reason,
             'clinic' => new ClinicResource($this->whenLoaded('clinic')),
         ];
