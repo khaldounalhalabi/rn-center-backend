@@ -146,7 +146,7 @@ abstract class BaseRepository implements IBaseRepository
             $relation = $filterFields['relation'] ?? null;
             $method = $filterFields['method'] ?? "where";
             $callback = $filterFields['query'] ?? null;
-            $value = request($field ?? $relation);
+            $value = request($field);
             $range = is_array($value);
 
             if (!$value) {
@@ -154,15 +154,21 @@ abstract class BaseRepository implements IBaseRepository
             }
 
             if ($relation) {
-                $query = $query->whereRelation($relation, function (Builder $q) use ($relation, $range, $field, $method, $operator, $value) {
-                    $relTable = Str::plural($relation);
+                $tables = explode('.', $relation);
+                $relTable = Str::plural($tables[count($tables) - 2]);
+                $col = $tables[count($tables) - 1];
+                unset($tables[count($tables) - 1]);
+                $relation = implode('.', $tables);
+
+                $query = $query->whereRelation($relation, function (Builder $q) use ($col, $relTable, $relation, $range, $field, $method, $operator, $value) {
+
                     if ($range) {
-                        return $q->whereBetween("$relTable.{$field}", $value);
+                        return $q->whereBetween("$relTable.{$col}", $value);
                     }
                     if ($operator === "like") {
-                        return $q->{$method}("$relTable.$field", $operator, "%" . $value . "%");
+                        return $q->{$method}("$relTable.$col", $operator, "%" . $value . "%");
                     }
-                    return $q->{$method}("$relTable.$field", $operator, $value);
+                    return $q->{$method}("$relTable.$col", $operator, $value);
                 });
             } elseif ($callback && is_callable($callback)) {
                 $query = call_user_func($callback, $query, $value);

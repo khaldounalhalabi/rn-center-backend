@@ -44,6 +44,21 @@ class Schedule extends Model
         ];
     }
 
+    public function filterArray(): array
+    {
+        return [
+            [
+                'name' => 'day_of_week'
+            ],
+            [
+                'name' => 'start_time'
+            ],
+            [
+                'name' => 'end_time'
+            ]
+        ];
+    }
+
     /**
      * add your relations and their searchable columns,
      * so you can search within them in the index method

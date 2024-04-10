@@ -79,17 +79,33 @@ class Clinic extends Model implements HasMedia
     public function filterArray(): array
     {
         return [
-            //            [
-            //                'name' => 'subscription_status',
-            //                'query' => function (Builder $query) {
-            //TODO::handle it when you create the subscriptions table
-            //                    return $query;
-            //                }
-            //            ] ,
             [
                 'name' => 'is_archived',
-                'relation' => 'user',
+                'relation' => 'user.is_archived',
             ],
+            [
+                'name' => 'status',
+            ],
+            [
+                'name' => 'city_name',
+                'relation' => 'user.address.city.name',
+                'operator' => 'like'
+            ],
+            [
+                'name' => 'day_of_week',
+                'relation' => 'schedules.day_of_week',
+                'method' => 'whereTime'
+            ],
+            [
+                'name' => 'start_time',
+                'relation' => 'schedules.start_time',
+                'method' => 'whereTime'
+            ],
+            [
+                'name' => 'end_time',
+                'relation' => 'schedules.end_time',
+                'method' => 'whereTime'
+            ]
         ];
     }
 

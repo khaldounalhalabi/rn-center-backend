@@ -82,4 +82,16 @@ class ClinicHoliday extends Model
             ]
         ];
     }
+
+    public function filterArray(): array
+    {
+        return [
+            [
+                'name' => 'start_date',
+            ],
+            [
+                'name' => 'end_date',
+            ]
+        ];
+    }
 }
