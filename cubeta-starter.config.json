@@ -336,7 +336,9 @@
                     {
                         "type": "hasMany",
                         "model_name": "PhoneNumber"
-                    },
+                    }
+                ],
+                "manyToMany": [
                     {
                         "type": "hasMany",
                         "model_name": "AvailableDepartment"

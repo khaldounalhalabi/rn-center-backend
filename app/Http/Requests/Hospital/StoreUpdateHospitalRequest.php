@@ -2,9 +2,12 @@
 
 namespace App\Http\Requests\Hospital;
 
+use App\Models\Hospital;
 use App\Rules\LanguageShape;
+use App\Rules\UniquePhoneNumber;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Propaganistas\LaravelPhone\Rules\Phone;
 
 
 class StoreUpdateHospitalRequest extends FormRequest
@@ -24,14 +27,26 @@ class StoreUpdateHospitalRequest extends FormRequest
      */
     public function rules(): array
     {
+        if (request()->method() == 'POST') {
+            return [
+                'name' => ['required', 'json', new LanguageShape()],
+                'phone_numbers' => 'array|required',
+                'phone_numbers.*' => ['required', 'string', 'unique:phone_numbers,phone', (new Phone())->country(['IQ'])],
+                'available_departments' => 'array|nullable',
+                'available_departments.*' => ['required', 'numeric', 'exists:available_departments,id'],
+                "images" => 'array|nullable',
+                'images.*' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            ];
+        }
+
         return [
-            'name' => ['required', 'json', new LanguageShape()],
+            'name' => ['nullable', 'json', new LanguageShape()],
             'phone_numbers' => 'array|nullable',
-            'phone_numbers.*' => 'required|string|phone:IQ|unique:phone_numbers,phone',
+            'phone_numbers.*' => ['nullable', 'string', new UniquePhoneNumber(request()->route('hospital'), Hospital::class), (new Phone())->country(['IQ'])],
             'available_departments' => 'array|nullable',
-            'available_departments.*' => ['required', 'string', 'unique:available_departments,name', new LanguageShape()],
+            'available_departments.*' => ['nullable', 'numeric', 'exists:available_departments,id'],
             "images" => 'array|nullable',
-            'images.*' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ];
     }
 }

@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Casts\Translatable;
+use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property string name
@@ -14,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class AvailableDepartment extends Model
 {
     use HasFactory;
-    use \App\Traits\Translations;
+    use Translations;
 
 
     protected $fillable = [
@@ -25,8 +27,8 @@ class AvailableDepartment extends Model
     ];
 
     protected $casts = [
-        'name' => \App\Casts\Translatable::class,
-        'description' => \App\Casts\Translatable::class,
+        'name' => Translatable::class,
+        'description' => Translatable::class,
     ];
 
     /**
@@ -49,15 +51,15 @@ class AvailableDepartment extends Model
     {
         return [
             'hospital_id' => [
-                //add your hospital_id desired column to be search within
+                //add your hospital_id desired column to be searched within
             ],
 
         ];
     }
 
-    public function hospital(): belongsTo
+    public function hospital(): BelongsToMany
     {
-        return $this->belongsTo(Hospital::class);
+        return $this->belongsToMany(Hospital::class , 'department_hospitals');
     }
 
     /**
@@ -71,6 +73,4 @@ class AvailableDepartment extends Model
             //filesKeys
         ];
     }
-
-
 }

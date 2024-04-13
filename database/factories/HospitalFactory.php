@@ -47,10 +47,10 @@ class HospitalFactory extends Factory
 
     public function withAvailableDepartments($count = 1): HospitalFactory
     {
-        return $this->has(AvailableDepartment::factory($count));
+        return $this->has(AvailableDepartment::factory($count) , 'availableDepartments');
     }
 
-    public function allRelations()
+    public function allRelations(): HospitalFactory
     {
         return $this->withMedia()
             ->withAvailableDepartments()

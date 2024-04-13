@@ -91,10 +91,13 @@ class ClinicHoliday extends Model
             [
                 'name' => 'start_date',
                 'method' => 'whereDate',
+                'operator' => '>=' ,
+
             ],
             [
                 'name' => 'end_date',
                 'method' => 'whereDate',
+                'operator' => '<=' ,
             ],
         ];
     }

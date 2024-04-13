@@ -25,11 +25,20 @@ class StoreUpdateClinicHolidayRequest extends FormRequest
      */
     public function rules(): array
     {
+        if (request()->method() == "POST") {
+            return [
+                'clinic_id' => ['required', 'numeric', 'exists:clinics,id'],
+                'start_date' => ['required', 'date'],
+                'end_date' => ['required', 'date'],
+                'reason' => ['required', 'json', new LanguageShape()],
+            ];
+        }
+
         return [
-            'clinic_id' => ['required', 'numeric', 'exists:clinics,id'],
-            'start_date' => ['required', 'date'],
-            'end_date' => ['required', 'date'],
-            'reason' => ['required', 'json', new LanguageShape()],
+            'clinic_id' => ['nullable', 'numeric', 'exists:clinics,id'],
+            'start_date' => ['nullable', 'date'],
+            'end_date' => ['nullable', 'date'],
+            'reason' => ['nullable', 'json', new LanguageShape()],
         ];
     }
 }

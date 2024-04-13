@@ -9,7 +9,6 @@ use App\Repositories\ClinicRepository;
 use App\Repositories\PhoneNumberRepository;
 use App\Repositories\UserRepository;
 use App\Services\Contracts\BaseService;
-use Illuminate\Support\Facades\Log;
 
 /**
  * @implements IClinicService<Clinic>

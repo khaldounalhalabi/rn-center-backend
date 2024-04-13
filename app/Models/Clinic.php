@@ -99,12 +99,14 @@ class Clinic extends Model implements HasMedia
             [
                 'name' => 'start_time',
                 'relation' => 'schedules.start_time',
-                'method' => 'whereTime'
+                'method' => 'whereTime',
+                'operator' => '>=' ,
             ],
             [
                 'name' => 'end_time',
                 'relation' => 'schedules.end_time',
-                'method' => 'whereTime'
+                'method' => 'whereTime',
+                'operator' => '<=',
             ]
         ];
     }

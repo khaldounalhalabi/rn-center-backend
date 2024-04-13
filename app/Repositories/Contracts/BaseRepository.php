@@ -182,7 +182,6 @@ abstract class BaseRepository implements IBaseRepository
                 }
             }
         }
-
         return $query;
     }
 

@@ -2,16 +2,15 @@
 
 namespace Database\Factories;
 
-use App\Models\Hospital;
+use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
  * @extends Factory
  */
 class AvailableDepartmentFactory extends Factory
 {
-    use \App\Traits\Translations;
+    use Translations;
 
     /**
      * Define the model's default state.
@@ -23,7 +22,6 @@ class AvailableDepartmentFactory extends Factory
         return [
             'name' => $this->fakeTranslation('word'),
             'description' => $this->fakeTranslation('word'),
-            'hospital_id' => Hospital::factory() ,
         ];
     }
 }

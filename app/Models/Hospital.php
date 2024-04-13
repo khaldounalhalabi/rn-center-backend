@@ -7,6 +7,7 @@ use App\Enums\MediaTypeEnum;
 use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
@@ -72,15 +73,9 @@ class Hospital extends Model implements HasMedia
         ];
     }
 
-
-    public function phoneNumbers(): HasMany
+    public function availableDepartments(): BelongsToMany
     {
-        return $this->hasMany(PhoneNumber::class);
-    }
-
-    public function availableDepartments(): HasMany
-    {
-        return $this->hasMany(AvailableDepartment::class);
+        return $this->belongsToMany(AvailableDepartment::class, 'department_hospitals');
     }
 
     public function schedules(): MorphMany

@@ -2,31 +2,42 @@
 
 namespace App\Rules;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Translation\PotentiallyTranslatedString;
 
 class UniquePhoneNumber implements ValidationRule
 {
-    private $userId;
+    private int $phoneableId;
 
-    public function __construct($userId){
-        $this->userId = $userId;
+    /** @var class-string */
+    private string $phoneableType;
+
+    /**
+     * @param int $phoneableId
+     * @param class-string $type
+     */
+    public function __construct(int $phoneableId, string $type = User::class)
+    {
+        $this->phoneableId = $phoneableId;
+        $this->phoneableType = $type;
     }
 
     /**
      * Run the validation rule.
      *
-     * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     * @param Closure(string): PotentiallyTranslatedString $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $exists = \App\Models\PhoneNumber::where('phone' , $value)
-        ->where('phoneable_id' , '!=' , $this->userId)
-        ->where('phoneable_type' , \App\Models\User::class)
-        ->exists();
+        $exists = \App\Models\PhoneNumber::where('phone', $value)
+            ->where('phoneable_id', '!=', $this->phoneableId)
+            ->where('phoneable_type', $this->phoneableType)
+            ->exists();
 
         if ($exists) {
-            $fail("Another User Has The Same $attribute");
+            $fail("Another User Or Hospital Has The Same $attribute");
         }
     }
 }

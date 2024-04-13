@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Speciality;
 
+use App\Rules\LanguageShape;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -25,16 +26,16 @@ class StoreUpdateSpecialityRequest extends FormRequest
     {
         if (request()->method() == 'POST') {
             return [
-                'name' => 'unique:specialities,name|required|string|min:3|max:255',
+                'name' => ['unique:specialities,name', 'required', 'string', 'min:3', 'max:255', new LanguageShape()],
                 'description' => '|nullable|string',
-                'tags' => '|nullable|string',
+                'tags' => 'nullable|string',
             ];
         }
 
         return [
-            'name' => 'unique:specialities,name|nullable|string|min:3|max:255',
+            'name' => ['unique:specialities,name,' . request()->route('speciality'), 'nullable', 'string', 'min:3', 'max:255', new LanguageShape()],
             'description' => '|nullable|string',
-            'tags' => '|nullable|string',
+            'tags' => 'nullable|string',
         ];
     }
 }

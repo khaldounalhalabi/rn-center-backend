@@ -15,7 +15,7 @@ class CitySeeder extends Seeder
     {
         foreach ($this->governorates as $governorate) {
             City::updateOrCreate([
-                'name' => json_encode($governorate, JSON_UNESCAPED_SLASHES)
+                'name' => json_encode($governorate, JSON_UNESCAPED_UNICODE)
             ]);
         }
     }
