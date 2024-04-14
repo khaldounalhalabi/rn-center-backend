@@ -18,8 +18,6 @@ class AvailableDepartmentResource extends BaseResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
-            'hospital_id' => $this->hospital_id,
-            'hospital' =>  new HospitalResource($this->whenLoaded('hospital')) ,
         ];
     }
 }
