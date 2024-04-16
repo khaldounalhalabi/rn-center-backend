@@ -100,6 +100,11 @@ class ClinicService extends BaseService implements IClinicService
             $clinic->specialities()->sync($data['speciality_ids']);
         }
 
+        if ($data['phone_numbers']) {
+            $user->phones()->delete();
+            $this->phoneNumberRepository->insert($data['phone_numbers'], User::class, $user->id);
+        }
+
         return $clinic->load($relationships);
     }
 }
