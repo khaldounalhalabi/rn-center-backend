@@ -17,7 +17,7 @@ class HospitalResource extends BaseResource
             'name' => $this->name,
             'images' => MediaResource::collection($this->whenLoaded('media')),
             'phones' => PhoneNumberResource::collection($this->whenLoaded('phones')),
-            'availableDepartments' => AvailableDepartmentResource::collection($this->whenLoaded('availableDepartments')),
+            'available_departments' => AvailableDepartmentResource::collection($this->whenLoaded('availableDepartments')),
         ];
     }
 }

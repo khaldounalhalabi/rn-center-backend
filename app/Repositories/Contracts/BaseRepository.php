@@ -314,6 +314,15 @@ abstract class BaseRepository implements IBaseRepository
     {
         foreach ($fileKeys as $fileKey) {
             if ($this->fileColumnsName[$fileKey]['type'] == MediaTypeEnum::MULTIPLE->value) {
+
+                $oldMedia = $object->getMedia();
+
+                if (count($oldMedia) and isset($data[$fileKey])) {
+                    foreach ($oldMedia as $media) {
+                        $media->delete();
+                    }
+                }
+
                 foreach ($data[$fileKey] as $file) {
                     $object->addMedia($file)
                         ->toMediaCollection($this->fileColumnsName[$fileKey]['collection'] ?? 'default');

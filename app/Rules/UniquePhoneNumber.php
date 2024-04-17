@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use App\Models\PhoneNumber;
 use App\Models\User;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -31,9 +32,12 @@ class UniquePhoneNumber implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $exists = \App\Models\PhoneNumber::where('phone', $value)
-            ->where('phoneable_id', '!=', $this->phoneableId)
-            ->where('phoneable_type', $this->phoneableType)
+        $phones = PhoneNumber::where('phoneable_type', $this->phoneableType)
+            ->where('phoneable_id', $this->phoneableId)
+            ->pluck('id')->toArray();
+
+        $exists = PhoneNumber::where('phone', $value)
+            ->whereNotIn('id', $phones)
             ->exists();
 
         if ($exists) {
