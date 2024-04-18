@@ -125,6 +125,10 @@
                     {
                         "type": "hasMany",
                         "model_name": "Appointment"
+                    },
+                    {
+                        "type": "hasMany",
+                        "model_name": "Address"
                     }
                 ]
             }
