@@ -44,8 +44,4 @@ Route::prefix('doctor')
 
 Route::get('/cities', [v1\CityController::class, 'index'])->name('cities.index');
 
-Route::get('check-role', function () {
-    return response()->json([
-        "role" => auth()->user()?->roles()->first()->name,
-    ]);
-});
+Route::get('check-role', [v1\BaseAuthController::class, 'checkRole'])->name('check-role');

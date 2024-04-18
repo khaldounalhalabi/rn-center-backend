@@ -32,6 +32,8 @@ class UniquePhoneNumber implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
+
+//        TODO::fix
         $phones = PhoneNumber::where('phoneable_type', $this->phoneableType)
             ->where('phoneable_id', $this->phoneableId)
             ->pluck('id')->toArray();

@@ -128,6 +128,14 @@ class BaseAuthController extends ApiController
             return $this->apiResponse(new UserResource($user), self::STATUS_OK, __('site.get_successfully'));
         }
         return $this->apiResponse(null, self::STATUS_BAD_REQUEST, __('site.unauthorized_user'));
+    }
 
+    public function checkRole()
+    {
+        return $this->apiResponse(
+            auth()->user()?->roles()->first()->name ,
+            self::STATUS_OK ,
+            __('site.get_successfully')
+        );
     }
 }
