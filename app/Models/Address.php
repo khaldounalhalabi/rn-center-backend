@@ -29,6 +29,7 @@ class Address extends Model
         'addressable_id',
         'addressable_type',
         'city_id',
+        'map_iframe',
     ];
 
     protected $casts = [

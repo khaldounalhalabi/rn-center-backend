@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
-/** @mixin \App\Models\Hospital */
+use App\Models\Hospital;
+
+/** @mixin Hospital */
 class HospitalResource extends BaseResource
 {
     /**
@@ -18,6 +20,7 @@ class HospitalResource extends BaseResource
             'images' => MediaResource::collection($this->whenLoaded('media')),
             'phones' => PhoneNumberResource::collection($this->whenLoaded('phones')),
             'available_departments' => AvailableDepartmentResource::collection($this->whenLoaded('availableDepartments')),
+            'address' => new AddressResource($this->whenLoaded('address')),
         ];
     }
 }

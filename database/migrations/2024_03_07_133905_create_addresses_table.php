@@ -17,6 +17,7 @@ return new class () extends Migration {
             $table->foreignIdFor(City::class)->constrained()->cascadeOnDelete();
             $table->text('lat')->nullable();
             $table->text('lng')->nullable();
+            $table->text("map_iframe")->nullable();
             $table->string('country')->default('Iraq');
             $table->unsignedBigInteger('addressable_id');
             $table->string('addressable_type');

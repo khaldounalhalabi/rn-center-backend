@@ -14,11 +14,10 @@ class HospitalController extends ApiController
 
     public function __construct(IHospitalService $hospitalService)
     {
-
         $this->hospitalService = $hospitalService;
 
         // place the relations you want to return them within the response
-        $this->relations = ['availableDepartments', 'phones', 'media'];
+        $this->relations = ['availableDepartments', 'phones', 'media', 'address'];
     }
 
     public function getAll()
@@ -44,7 +43,7 @@ class HospitalController extends ApiController
             return $this->apiResponse(new HospitalResource($item), self::STATUS_OK, __('site.get_successfully'));
         }
 
-        return $this->noData(null);
+        return $this->noData();
     }
 
     public function store(StoreUpdateHospitalRequest $request)
@@ -66,7 +65,7 @@ class HospitalController extends ApiController
             return $this->apiResponse(new HospitalResource($item), self::STATUS_OK, __('site.update_successfully'));
         }
 
-        return $this->noData(null);
+        return $this->noData();
     }
 
     public function destroy($hospitalId)

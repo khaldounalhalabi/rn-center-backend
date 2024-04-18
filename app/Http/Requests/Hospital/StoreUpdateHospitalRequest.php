@@ -36,6 +36,10 @@ class StoreUpdateHospitalRequest extends FormRequest
                 'available_departments.*' => ['required', 'numeric', 'exists:available_departments,id'],
                 "images" => 'array|nullable',
                 'images.*' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+                'address' => 'array|required',
+                'address.name' => ['required', 'json', 'min:3', new LanguageShape()],
+                'address.city_id' => ['required', 'numeric', 'exists:cities,id'],
+                'address.map_iframe' => ['required', 'string']
             ];
         }
 
@@ -47,6 +51,10 @@ class StoreUpdateHospitalRequest extends FormRequest
             'available_departments.*' => ['nullable', 'numeric', 'exists:available_departments,id'],
             "images" => 'array|nullable',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'address' => 'array|nullable',
+            'address.name' => ['nullable', 'json', 'min:3', new LanguageShape()],
+            'address.city_id' => ['nullable', 'numeric', 'exists:cities,id'],
+            'address.map_iframe' => ['nullable', 'string']
         ];
     }
 }

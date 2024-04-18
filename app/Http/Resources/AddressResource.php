@@ -24,6 +24,7 @@ class AddressResource extends BaseResource
             'addressable_type' => $this->addressable_type,
             'addressable' => $this->whenLoaded('addressable'),
             "name" => $this->name,
+            'map_iframe' => $this->map_iframe,
             'city' => new CityResource($this->whenLoaded('city')),
         ];
     }
