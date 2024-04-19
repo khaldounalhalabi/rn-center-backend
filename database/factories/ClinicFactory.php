@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Clinic;
 use App\Models\ClinicHoliday;
 use App\Models\Schedule;
+use App\Models\Service;
 use App\Models\Speciality;
 use App\Models\User;
 use App\Traits\FileHandler;
@@ -45,7 +46,9 @@ class ClinicFactory extends Factory
     {
         return $this->withMedia()
             ->withSchedules(5)
-            ->withSpecialities(5);
+            ->withSpecialities(5)
+            ->withServices(5)
+            ->withClinicHolidays(2);
     }
 
     public function withSpecialities($count = 1): ClinicFactory
@@ -70,6 +73,11 @@ class ClinicFactory extends Factory
     public function withClinicHolidays($count = 1): ClinicFactory
     {
         return $this->has(ClinicHoliday::factory($count));
+    }
+
+    public function withServices($count = 1): ClinicFactory
+    {
+        return $this->has(Service::factory($count));
     }
 
 }

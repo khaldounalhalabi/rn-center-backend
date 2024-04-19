@@ -29,3 +29,13 @@ Route::apiResource("/specialities", v1\SpecialityController::class)->names("spec
 Route::apiResource("/addresses", v1\AddressController::class)->names("addresses");
 Route::apiResource('/cities', v1\CityController::class)->names('cities');
 Route::apiResource('/clinic-holidays', v1\ClinicHolidayController::class)->names('clinic.holidays');
+
+Route::post('/service-categories/export', [v1\ServiceCategoryController::class, 'export'])->name('service.categories.export');
+Route::post('/service-categories/import', [v1\ServiceCategoryController::class, 'import'])->name('service.categories.import');
+Route::get('/service-categories/get-import-example', [v1\ServiceCategoryController::class, 'getImportExample'])->name('service.categories.get.example');
+Route::apiResource('/service-categories', v1\ServiceCategoryController::class)->names('service.categories');
+
+Route::post('/services/export', [v1\ServiceController::class, 'export'])->name('services.export');
+Route::post('/services/import', [v1\ServiceController::class, 'import'])->name('services.import');
+Route::get('/services/get-import-example', [v1\ServiceController::class, 'getImportExample'])->name('services.get.example');
+Route::apiResource('/services', v1\ServiceController::class)->names('services');

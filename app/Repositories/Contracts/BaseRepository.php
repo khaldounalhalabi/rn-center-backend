@@ -3,6 +3,8 @@
 namespace App\Repositories\Contracts;
 
 use App\Enums\MediaTypeEnum;
+use App\Excel\BaseExporter;
+use App\Excel\BaseImporter;
 use App\Traits\FileHandler;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -13,6 +15,8 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection as RegularCollection;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
  * @template T of Model
@@ -412,5 +416,43 @@ abstract class BaseRepository implements IBaseRepository
         }
 
         return null;
+    }
+
+    /**
+     * @param array $ids
+     * @return BinaryFileResponse
+     */
+    public function export(array $ids = []): BinaryFileResponse
+    {
+        if (!count($ids)) {
+            $collection = $this->globalQuery()->get();
+        } else {
+            $collection = $this->globalQuery()->whereIn('id', $ids)->get();
+        }
+
+        $requestedColumns = request("columns") ?? null;
+        return Excel::download(
+            new BaseExporter($collection, $this->model, $requestedColumns),
+            $this->model->getTable() . ".xlsx",
+        );
+    }
+
+    /**
+     * @return BinaryFileResponse
+     */
+    public function getImportExample(): BinaryFileResponse
+    {
+        return Excel::download(
+            new BaseExporter(collect(), $this->model, null, true),
+            $this->model->getTable() . '-example.xlsx'
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function import(): void
+    {
+        Excel::import(new BaseImporter($this->model), request()->file('excel_file'));
     }
 }

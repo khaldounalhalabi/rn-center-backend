@@ -560,6 +560,88 @@
                     }
                 ]
             }
+        },
+        {
+            "model_name": "ServiceCategory",
+            "table_name": "service_categories",
+            "attributes": [
+                {
+                    "name": "name",
+                    "type": "translatable",
+                    "nullable": false,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "hasMany": [
+                    {
+                        "type": "hasMany",
+                        "model_name": "Service"
+                    }
+                ]
+            }
+        },
+        {
+            "model_name": "Service",
+            "table_name": "services",
+            "attributes": [
+                {
+                    "name": "name",
+                    "type": "translatable",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "approximate_duration",
+                    "type": "integer",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "service_category_id",
+                    "type": "key",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "price",
+                    "type": "unsignedDouble",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "status",
+                    "type": "integer",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "description",
+                    "type": "translatable",
+                    "nullable": true,
+                    "unique": false
+                },
+                {
+                    "name": "clinic_id",
+                    "type": "key",
+                    "nullable": false,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "belongsTo": [
+                    {
+                        "type": "belongsTo",
+                        "model_name": "ServiceCategory",
+                        "key": "servicecategory_id"
+                    },
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Clinic",
+                        "key": "clinic_id"
+                    }
+                ]
+            }
         }
     ]
 }
