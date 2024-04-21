@@ -19,7 +19,6 @@ class CustomerFactory extends Factory
     public function definition(): array
     {
         return [
-            'mother_full_name' => fake()->sentence(),
             'medical_condition' => fake()->text(),
             'user_id' => User::factory()->allRelations() ,
         ];

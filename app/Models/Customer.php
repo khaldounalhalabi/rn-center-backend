@@ -18,7 +18,6 @@ class Customer extends Model
     use HasFactory;
 
     protected $fillable = [
-        'mother_full_name',
         'medical_condition',
         'user_id',
     ];
@@ -34,7 +33,6 @@ class Customer extends Model
     public static function searchableArray(): array
     {
         return [
-            'mother_full_name',
             'medical_condition',
         ];
     }
@@ -63,19 +61,4 @@ class Customer extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-    /**
-     * define your columns which you want to treat them as files
-     * so the base repository can store them in the storage without
-     * any additional files procedures
-     */
-    public function filesKeys(): array
-    {
-        return [
-
-            //filesKeys
-        ];
-    }
-
-
 }

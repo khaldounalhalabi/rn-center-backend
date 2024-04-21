@@ -12,10 +12,8 @@ return new class () extends Migration {
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->string('mother_full_name');
             $table->text('medical_condition')->nullable();
             $table->foreignIdFor(\App\Models\User::class)->constrained()->cascadeOnDelete();
-
             $table->timestamps();
         });
     }

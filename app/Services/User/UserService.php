@@ -4,8 +4,10 @@ namespace App\Services\User;
 
 use App\Enums\RolesPermissionEnum;
 use App\Exceptions\RoleDoesNotExistException;
+use App\Models\Address;
 use App\Models\User;
 use App\Notifications\SendVerificationCode;
+use App\Repositories\AddressRepository;
 use App\Repositories\CustomerRepository;
 use App\Repositories\PhoneNumberRepository;
 use App\Repositories\UserRepository;
@@ -20,12 +22,11 @@ use Illuminate\Support\Facades\DB;
  */
 class UserService extends BaseService implements IUserService
 {
-    /**
-     * @var CustomerRepository
-     */
     private CustomerRepository $customerRepository;
 
     private PhoneNumberRepository $phoneNumberRepository;
+
+    private AddressRepository $addressRepository;
 
     /**
      * UserService constructor.
@@ -33,12 +34,14 @@ class UserService extends BaseService implements IUserService
      * @param UserRepository $repository
      * @param CustomerRepository $customerRepository
      * @param PhoneNumberRepository $phoneNumberRepository
+     * @param AddressRepository $addressRepository
      */
-    public function __construct(UserRepository $repository, CustomerRepository $customerRepository, PhoneNumberRepository $phoneNumberRepository)
+    public function __construct(UserRepository $repository, CustomerRepository $customerRepository, PhoneNumberRepository $phoneNumberRepository, AddressRepository $addressRepository)
     {
         parent::__construct($repository);
         $this->customerRepository = $customerRepository;
         $this->phoneNumberRepository = $phoneNumberRepository;
+        $this->addressRepository = $addressRepository;
     }
 
     /**
@@ -172,6 +175,15 @@ class UserService extends BaseService implements IUserService
                 $data = array_merge($data, ['user_id' => $user->id]);
                 $this->customerRepository->create($data);
                 $this->phoneNumberRepository->insert($data['phone_number'] ?? [], User::class, $user->id);
+
+                if (isset($data['address'])) {
+                    $this->addressRepository->create([
+                        ...$data['address'],
+                        'addressable_id' => $user->id,
+                        'addressable_type' => User::class
+                    ]);
+                }
+
                 $this->requestVerificationCode($user);
 
                 DB::commit();
