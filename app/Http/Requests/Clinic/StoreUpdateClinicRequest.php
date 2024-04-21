@@ -35,7 +35,7 @@ class StoreUpdateClinicRequest extends FormRequest
                 'appointment_cost' => 'required|numeric',
                 'max_appointments' => 'required|numeric',
                 'phone_numbers' => 'array|required',
-                'phone_numbers.*' => ['required', 'string', 'unique:phone_numbers,phone' , (new Phone())->country(['IQ'])],
+                'phone_numbers.*' => ['required', 'string', 'unique:phone_numbers,phone', (new Phone())->country(['IQ'])],
                 'hospital_id' => 'numeric|nullable|exists:hospitals,id',
                 'status' => 'required|string|' . Rule::in(ClinicStatusEnum::getAllValues()),
 
@@ -52,8 +52,7 @@ class StoreUpdateClinicRequest extends FormRequest
                 'address' => 'array|required',
                 'address.name' => ['required', 'json', 'min:3', new LanguageShape()],
                 'address.city_id' => ['required', 'numeric', 'exists:cities,id'],
-                'address.lat' => 'required|string',
-                'address.lng' => 'required|string',
+                'address.map_iframe' => ['required', 'string'],
 
                 'speciality_ids' => 'array|required',
                 'speciality_ids.*' => 'required|numeric|exists:specialities,id',
@@ -65,7 +64,7 @@ class StoreUpdateClinicRequest extends FormRequest
             'appointment_cost' => 'nullable|numeric',
             'max_appointments' => 'nullable|numeric',
             'phone_numbers' => 'array|nullable',
-            'phone_numbers.*' => ['nullable', 'string', new UniquePhoneNumber($userId) , (new Phone())->country(['IQ'])],
+            'phone_numbers.*' => ['nullable', 'string', new UniquePhoneNumber($userId), (new Phone())->country(['IQ'])],
             'hospital_id' => 'numeric|nullable|exists:hospitals,id',
             'status' => 'nullable|string|' . Rule::in(ClinicStatusEnum::getAllValues()),
 
@@ -82,11 +81,21 @@ class StoreUpdateClinicRequest extends FormRequest
             'address' => 'array|nullable',
             'address.name' => ['nullable', 'json', 'min:3', new LanguageShape()],
             'address.city_id' => ['nullable', 'numeric', 'exists:cities,id'],
-            'address.lat' => 'nullable|string',
-            'address.lng' => 'nullable|string',
+            'address.map_iframe' => ['nullable', 'string'],
+
 
             'speciality_ids' => 'array|nullable',
             'speciality_ids.*' => 'nullable|numeric|exists:specialities,id',
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'address' => [
+                ...$this->input('address'),
+                'map_iframe' => strip_tags($this->input('address.map_iframe'), ['iframe'])
+            ]
+        ]);
     }
 }

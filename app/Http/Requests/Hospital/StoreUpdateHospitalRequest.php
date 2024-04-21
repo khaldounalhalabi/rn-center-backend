@@ -57,4 +57,14 @@ class StoreUpdateHospitalRequest extends FormRequest
             'address.map_iframe' => ['nullable', 'string']
         ];
     }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'address' => [
+                ...$this->input('address'),
+                'map_iframe' => strip_tags($this->input('address.map_iframe'), ['iframe'])
+            ]
+        ]);
+    }
 }
