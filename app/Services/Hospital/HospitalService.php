@@ -61,6 +61,7 @@ class HospitalService extends BaseService implements IHospitalService
         }
 
         if (isset($data['phone_numbers'])) {
+            $hospital->phones()->delete();
             $this->phoneNumberRepository->insert($data['phone_numbers'], Hospital::class, $hospital->id);
         }
 

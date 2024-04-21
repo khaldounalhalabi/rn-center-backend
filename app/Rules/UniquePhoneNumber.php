@@ -32,8 +32,6 @@ class UniquePhoneNumber implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-
-//        TODO::fix
         $phones = PhoneNumber::where('phoneable_type', $this->phoneableType)
             ->where('phoneable_id', $this->phoneableId)
             ->pluck('id')->toArray();
@@ -43,7 +41,7 @@ class UniquePhoneNumber implements ValidationRule
             ->exists();
 
         if ($exists) {
-            $fail("Another User Or Hospital Has The Same $attribute");
+            $fail("The Selected Phone Number Is Already In Use");
         }
     }
 }
