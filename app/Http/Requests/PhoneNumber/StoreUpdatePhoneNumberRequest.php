@@ -31,7 +31,6 @@ class StoreUpdatePhoneNumberRequest extends FormRequest
             ];
         }
 
-        //TODO::check if we need for store a phone
         return [
             'phone' => 'nullable|string|max:255|min:6|unique:phone_numbers,phone,' . request()->route('phone_number'),
             'label' => 'string|nullable|min:3',
