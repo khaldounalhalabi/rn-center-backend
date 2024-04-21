@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class SpecialityFactory extends Factory
 {
     use Translations;
+
     /**
      * Define the model's default state.
      *
@@ -25,7 +26,6 @@ class SpecialityFactory extends Factory
             'tags' => fake()->unique()->text(),
         ];
     }
-
 
     public function withClinics($count = 1): SpecialityFactory
     {

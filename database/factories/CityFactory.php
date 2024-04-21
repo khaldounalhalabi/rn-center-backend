@@ -21,16 +21,11 @@ class CityFactory extends Factory
     {
         return [
             'name' => $this->fakeTranslation('word'),
-
         ];
     }
 
-
-
-    public function withAddresses($count = 1)
+    public function withAddresses($count = 1): CityFactory
     {
         return $this->has(\App\Models\Address::factory($count));
     }
-
-
 }

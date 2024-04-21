@@ -50,13 +50,12 @@ class UserFactory extends Factory
 
     public function allRelations(): UserFactory
     {
-        return $this->withPhoneNumbers()
-            ->withClinics()
-            ->withMedia()
-            ->withCustomer();
+        return $this->withPhoneNumbers(3)
+            ->withAddress()
+            ->withMedia();
     }
 
-    public function withCustomer(): UserFactory
+    public function customer(): UserFactory
     {
         return $this->has(Customer::factory());
     }
@@ -70,7 +69,7 @@ class UserFactory extends Factory
         });
     }
 
-    public function withClinics(): UserFactory
+    public function clinic(): UserFactory
     {
         return $this->has(Clinic::factory());
     }
@@ -79,5 +78,4 @@ class UserFactory extends Factory
     {
         return $this->has(PhoneNumber::factory($count), 'phones');
     }
-
 }

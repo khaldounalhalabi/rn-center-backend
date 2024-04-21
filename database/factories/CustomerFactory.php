@@ -21,7 +21,7 @@ class CustomerFactory extends Factory
         return [
             'mother_full_name' => fake()->sentence(),
             'medical_condition' => fake()->text(),
-            'user_id' => User::factory() ,
+            'user_id' => User::factory()->allRelations() ,
         ];
     }
 }
