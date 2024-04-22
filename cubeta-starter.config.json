@@ -642,6 +642,121 @@
                     }
                 ]
             }
+        },
+        {
+            "model_name": "Appointment",
+            "table_name": "appointments",
+            "attributes": [
+                {
+                    "name": "customer_id",
+                    "type": "key",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "clinic_id",
+                    "type": "key",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "note",
+                    "type": "text",
+                    "nullable": true,
+                    "unique": false
+                },
+                {
+                    "name": "service_id",
+                    "type": "key",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "extra_fees",
+                    "type": "unsignedDouble",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "total_cost",
+                    "type": "unsignedDouble",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "type",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "date",
+                    "type": "date",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "from",
+                    "type": "time",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "to",
+                    "type": "time",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "status",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "device_type",
+                    "type": "string",
+                    "nullable": true,
+                    "unique": false
+                },
+                {
+                    "name": "appointment_sequence",
+                    "type": "bigInteger",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "qr_code",
+                    "type": "file",
+                    "nullable": false,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "belongsTo": [
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Customer",
+                        "key": "customer_id"
+                    },
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Clinic",
+                        "key": "clinic_id"
+                    },
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Service",
+                        "key": "service_id"
+                    }
+                ],
+                "hasMany": [
+                    {
+                        "type": "hasMany",
+                        "model_name": "AppointmentLog"
+                    }
+                ]
+            }
         }
     ]
 }

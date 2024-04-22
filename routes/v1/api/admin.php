@@ -39,3 +39,13 @@ Route::post('/services/export', [v1\ServiceController::class, 'export'])->name('
 Route::post('/services/import', [v1\ServiceController::class, 'import'])->name('services.import');
 Route::get('/services/get-import-example', [v1\ServiceController::class, 'getImportExample'])->name('services.get.example');
 Route::apiResource('/services', v1\ServiceController::class)->names('services');
+
+Route::apiResource('/appointments', v1\AppointmentController::class)->names('appointments');
+Route::prefix('appointments')
+    ->name('appointments.')
+    ->controller(v1\AppointmentController::class)
+    ->group(function () {
+        Route::post('/export', 'export')->name('export');
+        Route::post('/import', 'import')->name('import');
+        Route::get('/get-import-example', 'getImportExample')->name('get.example');
+    });

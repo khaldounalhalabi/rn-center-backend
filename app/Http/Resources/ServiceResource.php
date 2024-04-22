@@ -23,8 +23,9 @@ class ServiceResource extends BaseResource
             'status' => $this->status,
             'description' => $this->description,
             'clinic_id' => $this->clinic_id,
-            'serviceCategory' =>  new ServiceCategoryResource($this->whenLoaded('serviceCategory')) ,
-            'clinic' =>  new ClinicResource($this->whenLoaded('clinic')) ,
+            'serviceCategory' => new ServiceCategoryResource($this->whenLoaded('serviceCategory')),
+            'clinic' => new ClinicResource($this->whenLoaded('clinic')),
+            'appointments' => AppointmentResource::collection($this->whenLoaded('appointments')),
         ];
     }
 }

@@ -8,7 +8,7 @@ use Illuminate\Support\Collection as RegularCollection;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
- * @template T of Model
+ * @template T as Model
  */
 interface IBaseRepository
 {

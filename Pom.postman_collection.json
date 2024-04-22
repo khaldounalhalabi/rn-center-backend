@@ -10009,43 +10009,43 @@
                                     "key": "name",
                                     "value": "{\"ar\":\"quaerat\",\"en\":\"eligendi\"}",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "approximate_duration",
                                     "value": "10",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "service_category_id",
                                     "value": "1",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "price",
                                     "value": "4",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "status",
                                     "value": "1",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "description",
                                     "value": "{\"ar\":\"excepturi\",\"en\":\"ut\"}",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "clinic_id",
                                     "value": "1",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 }
                             ]
                         }
@@ -10085,43 +10085,43 @@
                                     "key": "name",
                                     "value": "{\"ar\":\"enim\",\"en\":\"iste\"}",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "approximate_duration",
                                     "value": "6",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "service_category_id",
                                     "value": "1",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "price",
                                     "value": "6",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "status",
                                     "value": "10",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "description",
                                     "value": "{\"ar\":\"voluptas\",\"en\":\"aut\"}",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "clinic_id",
                                     "value": "1",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 }
                             ]
                         }
@@ -10242,6 +10242,427 @@
                             "raw": "{{local}}admin/services/get-import-example",
                             "host": [
                                 "{{local}}admin/services/get-import-example"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Appointment",
+            "item": [
+                {
+                    "name": "index",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/appointments",
+                            "host": [
+                                "{{local}}admin/appointments"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "show",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/appointments/1",
+                            "host": [
+                                "{{local}}admin/appointments/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "store",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/appointments",
+                            "host": [
+                                "{{local}}admin/appointments"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "customer_id",
+                                    "value": "1",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "clinic_id",
+                                    "value": "1",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "note",
+                                    "value": "Enim voluptas molestias fuga et. Eius voluptas tempore voluptate iure molestias et. Reprehenderit commodi tempore voluptatibus et. Nihil aliquam asperiores debitis.",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "service_id",
+                                    "value": "1",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "extra_fees",
+                                    "value": "4",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "total_cost",
+                                    "value": "8",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "aut",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "date",
+                                    "value": "2024-04-22",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "from",
+                                    "value": "19:55:02",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "to",
+                                    "value": "19:55:02",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "status",
+                                    "value": "necessitatibus",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "device_type",
+                                    "value": "et",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "appointment_sequence",
+                                    "value": "10",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "qr_code",
+                                    "value": "mollitia",
+                                    "type": "text",
+                                    "description": null
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "update",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/appointments/1",
+                            "host": [
+                                "{{local}}admin/appointments/1"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "customer_id",
+                                    "value": "1",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "clinic_id",
+                                    "value": "1",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "note",
+                                    "value": "Sed laboriosam adipisci veniam a excepturi. Repellat deserunt vero et provident assumenda est. Velit consectetur sunt eaque voluptate. Pariatur debitis nihil et. Aspernatur provident cum quis rerum.",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "service_id",
+                                    "value": "1",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "extra_fees",
+                                    "value": "6",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "total_cost",
+                                    "value": "1",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "cupiditate",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "date",
+                                    "value": "2024-04-22",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "from",
+                                    "value": "19:55:02",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "to",
+                                    "value": "19:55:02",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "status",
+                                    "value": "ducimus",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "device_type",
+                                    "value": "voluptatum",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "appointment_sequence",
+                                    "value": "1",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "qr_code",
+                                    "value": "vel",
+                                    "type": "text",
+                                    "description": null
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/appointments/1",
+                            "host": [
+                                "{{local}}admin/appointments/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "export",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/appointments/export",
+                            "host": [
+                                "{{local}}admin/appointments/export"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "import",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/appointments/import",
+                            "host": [
+                                "{{local}}admin/appointments/import"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "import-example",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/appointments/get-import-example",
+                            "host": [
+                                "{{local}}admin/appointments/get-import-example"
                             ]
                         },
                         "body": null

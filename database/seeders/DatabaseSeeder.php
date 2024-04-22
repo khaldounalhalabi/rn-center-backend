@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             ClinicHolidaySeeder::class,
             ServiceCategorySeeder::class,
             ServiceSeeder::class,
+            AppointmentSeeder::class,
         ]);
     }
 }

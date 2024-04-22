@@ -2,6 +2,7 @@
 
 namespace App\Services\Schedule;
 
+use App\Enums\WeekDayEnum;
 use App\Models\Clinic;
 use App\Models\Hospital;
 use App\Models\Schedule;
@@ -77,5 +78,27 @@ class ScheduleService extends BaseService implements IScheduleService
         } catch (Exception $e) {
             return false;
         }
+    }
+
+    public function setDefaultClinicSchedule(Clinic|int $clinic)
+    {
+        $schedules = collect();
+        if ($clinic instanceof Clinic) {
+            $clinicId = $clinic->id;
+        } else $clinicId = $clinic;
+
+        foreach (WeekDayEnum::getAllValues() as $day) {
+            $schedules->push([
+                'day_of_week' => $day,
+                'start_time' => "09:00",
+                'end_time' => "21:00",
+                'schedulable_id' => $clinicId,
+                'schedulable_type' => Clinic::class,
+                'created_at' => now()->format('Y-m-d H:i:s'),
+                'updated_at' => now()->format('Y-m-d H:i:s')
+            ]);
+        }
+
+        return $this->repository->insert($schedules->unique()->toArray());
     }
 }

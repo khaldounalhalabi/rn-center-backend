@@ -106,4 +106,9 @@ class Service extends Model
             ]
         ];
     }
+
+    public function appointments(): HasMany
+    {
+        return $this->hasMany(Appointment::class);
+    }
 }

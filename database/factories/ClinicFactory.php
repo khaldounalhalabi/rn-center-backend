@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Appointment;
 use App\Models\Clinic;
 use App\Models\ClinicHoliday;
 use App\Models\Schedule;
@@ -12,7 +13,6 @@ use App\Traits\FileHandler;
 use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Http\File;
-use Illuminate\Http\UploadedFile;
 
 /**
  * @extends Factory
@@ -80,4 +80,8 @@ class ClinicFactory extends Factory
         return $this->has(Service::factory($count));
     }
 
+    public function withAppointments($count = 1): ClinicFactory
+    {
+        return $this->has(Appointment::factory($count));
+    }
 }

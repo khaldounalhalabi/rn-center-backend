@@ -2,6 +2,7 @@
 
 namespace App\Services\Contracts;
 
+use App\Repositories\Contracts\BaseRepository;
 use App\Repositories\Contracts\IBaseRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -9,18 +10,19 @@ use Illuminate\Support\Collection as RegularCollection;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
- * @template T of Model
+ * @template T as Model
+ * @template Repository<T> as BaseRepository<T>
  * @class BaseService
  */
 abstract class BaseService implements IBaseService
 {
     /**
-     * @var IBaseRepository
+     * @var Repository
      */
     protected IBaseRepository $repository;
 
     /**
-     * @param IBaseRepository $repository
+     * @param Repository $repository
      */
     public function __construct(IBaseRepository $repository)
     {
@@ -78,7 +80,7 @@ abstract class BaseService implements IBaseService
      * @param array $data
      * @param        $id
      * @param array $relationships
-     * @return T
+     * @return T|null
      */
     public function update(array $data, $id, array $relationships = []): ?Model
     {

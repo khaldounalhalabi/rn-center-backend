@@ -31,4 +31,9 @@ class ServiceFactory extends Factory
             'clinic_id' => Clinic::factory()->allRelations(),
         ];
     }
+
+    public function withAppointments($count = 1): ServiceFactory
+    {
+        return $this->has(\App\Models\Appointment::factory($count));
+    }
 }

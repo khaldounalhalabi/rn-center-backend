@@ -36,8 +36,8 @@ class ClinicResource extends BaseResource
             'created_at' => $this->created_at->format("Y-m-d"),
             "updated_at" => $this->updated_at->format("Y-m-d"),
             "approximate_appointment_time" => $this->approximate_appointment_time,
-            //TODO::add total appointments when it is done
             'services' => ServiceResource::collection($this->whenLoaded('services')),
+            'appointments' => AppointmentResource::collection($this->whenLoaded('appointments')),
         ];
     }
 }

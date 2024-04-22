@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Casts\Translatable;
 use App\Enums\MediaTypeEnum;
 use App\Traits\Translations;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Builder as QueryBuilder;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -100,7 +102,7 @@ class Clinic extends Model implements HasMedia
                 'name' => 'start_time',
                 'relation' => 'schedules.start_time',
                 'method' => 'whereTime',
-                'operator' => '>=' ,
+                'operator' => '>=',
             ],
             [
                 'name' => 'end_time',
@@ -168,5 +170,57 @@ class Clinic extends Model implements HasMedia
     public function services(): HasMany
     {
         return $this->hasMany(Service::class);
+    }
+
+    public function appointments(): HasMany
+    {
+        return $this->hasMany(Appointment::class);
+    }
+
+    public function canHasAppointmentIn(string $date, string $from, string $to, ?int $customerId = null): bool
+    {
+        if ($this->hasHolidayIn($date)) {
+            return false;
+        }
+
+        if (!$this->availableScheduleIn($date, $from, $to)) {
+            return false;
+        }
+
+        if ($this->conflictWithAnotherAppointment($date, $from, $to, $customerId)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function hasHolidayIn(string $date): bool
+    {
+        return $this->clinicHolidays()
+            ->where('start_date', '>=', $date)
+            ->where('end_date', '<=', $date)
+            ->exists();
+    }
+
+    public function availableScheduleIn(string $date, string $from, string $to): bool
+    {
+        $date = Carbon::parse($date);
+        $dayName = Str::lower($date->dayName);
+
+        return $this->schedules()
+            ->where('day_of_week', $dayName)
+            ->where('start_time', '<=', $from)
+            ->where('end_time', '>=', $to)
+            ->exists();
+    }
+
+    public function conflictWithAnotherAppointment(string $date, string $from, string $to, ?int $customerId = null): bool
+    {
+        return $this->appointments()
+            ->where('date', $date)
+            ->where('from', '<=', $to)
+            ->where('to', '>=', $from)
+            ->where('customer_id', '!=', $customerId ?? auth()->user()->id)
+            ->exists();
     }
 }

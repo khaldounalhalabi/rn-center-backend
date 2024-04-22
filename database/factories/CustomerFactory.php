@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Appointment;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
  * @extends Factory
@@ -20,7 +20,17 @@ class CustomerFactory extends Factory
     {
         return [
             'medical_condition' => fake()->text(),
-            'user_id' => User::factory()->allRelations() ,
+            'user_id' => User::factory()->allRelations(),
         ];
+    }
+
+    public function allRelations(): CustomerFactory
+    {
+        return $this->withAppointments();
+    }
+
+    public function withAppointments($count = 1): CustomerFactory
+    {
+        return $this->has(Appointment::factory($count));
     }
 }

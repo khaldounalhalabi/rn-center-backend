@@ -19,9 +19,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
- * @template T of Model
+ * @template T as Model
  * @implements IBaseRepository<T>
- * Class BaseRepository
  */
 abstract class BaseRepository implements IBaseRepository
 {
@@ -42,7 +41,7 @@ abstract class BaseRepository implements IBaseRepository
     private string $tableName;
 
     /**
-     * BaseRepository Constructor
+     * @param T $model
      */
     public function __construct(Model $model)
     {
@@ -90,7 +89,7 @@ abstract class BaseRepository implements IBaseRepository
 
     /**
      * @param array $relations
-     * @return Builder<T>
+     * @return Builder|T
      */
     public function globalQuery(array $relations = []): Builder
     {
@@ -107,7 +106,7 @@ abstract class BaseRepository implements IBaseRepository
 
     /**
      * @param Builder $query
-     * @return Builder
+     * @return Builder|T
      */
     private function addSearch(Builder $query): Builder
     {
@@ -140,7 +139,7 @@ abstract class BaseRepository implements IBaseRepository
     /**
      * this function implement already defined filters in the model
      * @param Builder $query
-     * @return Builder
+     * @return Builder|T
      */
     private function filterFields(Builder $query): Builder
     {
@@ -191,7 +190,7 @@ abstract class BaseRepository implements IBaseRepository
 
     /**
      * @param Builder $query
-     * @return Builder
+     * @return Builder|T
      */
     private function orderQueryBy(Builder $query): Builder
     {
