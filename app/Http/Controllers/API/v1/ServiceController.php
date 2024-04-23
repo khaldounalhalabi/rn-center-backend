@@ -19,7 +19,7 @@ class ServiceController extends ApiController
         $this->serviceService = $serviceService;
 
         // place the relations you want to return them within the response
-        $this->relations = ['serviceCategory'] ;
+        $this->relations = ['serviceCategory' , 'clinic'] ;
     }
 
     public function index()
