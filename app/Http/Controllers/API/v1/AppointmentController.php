@@ -51,7 +51,7 @@ class AppointmentController extends ApiController
             return $this->apiResponse(new AppointmentResource($item), self::STATUS_OK, __('site.stored_successfully'));
         }
 
-        return $this->apiResponse(null, self::STATUS_OK, __('site.something_went_wrong'));
+        return $this->apiResponse(null, self::STATUS_OK, __('site.doctor_dont_has_vacant_in_this_time'));
     }
 
     public function update($appointmentId, StoreUpdateAppointmentRequest $request)
@@ -97,7 +97,7 @@ class AppointmentController extends ApiController
 
     public function getClinicAppointments($clinicId)
     {
-        $data = $this->appointmentService->getClinicAppointments($clinicId , $this->relations);
+        $data = $this->appointmentService->getClinicAppointments($clinicId, $this->relations);
         if ($data) {
             return $this->apiResponse(AppointmentResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
         }

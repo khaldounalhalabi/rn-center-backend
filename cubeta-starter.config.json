@@ -757,6 +757,67 @@
                     }
                 ]
             }
+        },
+        {
+            "model_name": "AppointmentLog",
+            "table_name": "appointment_logs",
+            "attributes": [
+                {
+                    "name": "appointment_id",
+                    "type": "key",
+                    "nullable": true,
+                    "unique": true
+                },
+                {
+                    "name": "cancellation_reason",
+                    "type": "text",
+                    "nullable": false,
+                    "unique": true
+                },
+                {
+                    "name": "status",
+                    "type": "string",
+                    "nullable": true,
+                    "unique": true
+                },
+                {
+                    "name": "actor_id",
+                    "type": "key",
+                    "nullable": false,
+                    "unique": true
+                },
+                {
+                    "name": "affected_id",
+                    "type": "key",
+                    "nullable": false,
+                    "unique": true
+                },
+                {
+                    "name": "happen_in",
+                    "type": "dateTime",
+                    "nullable": true,
+                    "unique": true
+                }
+            ],
+            "relations": {
+                "belongsTo": [
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Appointment",
+                        "key": "appointment_id"
+                    },
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Actor",
+                        "key": "actor_id"
+                    },
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Affected",
+                        "key": "affected_id"
+                    }
+                ]
+            }
         }
     ]
 }

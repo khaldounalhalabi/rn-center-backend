@@ -39,6 +39,7 @@ class StoreUpdateAppointmentRequest extends FormRequest
                 'to' => ['required', 'date_format:H:i'],
                 'status' => ['required', 'string', 'min:3', 'max:255', Rule::in(AppointmentStatusEnum::getAllValues())],
                 'device_type' => ['nullable', 'string', 'min:3', 'max:255'],
+                'cancellation_reason' => 'string|nullable|' . Rule::requiredIf($this->input('status') == AppointmentStatusEnum::CANCELLED->value),
             ];
         }
 
@@ -51,6 +52,7 @@ class StoreUpdateAppointmentRequest extends FormRequest
             'from' => ['nullable', 'date_format:H:i'],
             'to' => ['nullable', 'date_format:H:i'],
             'status' => ['nullable', 'string', 'min:3', 'max:255', Rule::in(AppointmentStatusEnum::getAllValues())],
+            'cancellation_reason' => 'string|nullable|' . Rule::requiredIf($this->input('status') == AppointmentStatusEnum::CANCELLED->value),
         ];
     }
 }

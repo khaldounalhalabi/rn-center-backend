@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Carbon;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property integer customer_id
@@ -182,5 +183,10 @@ class Appointment extends Model
                 'operator' => '<=',
             ],
         ];
+    }
+
+    public function appointmentLogs(): HasMany
+    {
+        return $this->hasMany(AppointmentLog::class);
     }
 }

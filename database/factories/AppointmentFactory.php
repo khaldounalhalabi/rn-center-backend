@@ -42,4 +42,9 @@ class AppointmentFactory extends Factory
             //TODO::add qr code faker
         ];
     }
+    public function withAppointmentLogs($count = 1)
+    {
+        return $this->has(\App\Models\AppointmentLog::factory($count));
+    }
+
 }

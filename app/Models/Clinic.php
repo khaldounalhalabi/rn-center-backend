@@ -218,8 +218,10 @@ class Clinic extends Model implements HasMedia
     {
         return $this->appointments()
             ->where('date', $date)
-            ->where('from', '<=', $to)
-            ->where('to', '>=', $from)
+            ->where(function (Builder $query) use ($to, $from) {
+                $query->whereBetween('from', [$from, $to])
+                    ->orWhereBetween('to', [$from, $to]);
+            })
             ->where('customer_id', '!=', $customerId ?? auth()->user()->id)
             ->exists();
     }
