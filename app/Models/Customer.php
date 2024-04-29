@@ -45,16 +45,12 @@ class Customer extends Model
     public static function relationsSearchableArray(): array
     {
         return [
-            'patient_profiles' => [
-                //add your patient_profiles desired column to be search within
+            'user' => [
+                'first_name',
+                'last_name',
+                'email',
+                'middle_name',
             ],
-            'appointments' => [
-                //add your appointments desired column to be search within
-            ],
-            'user_id' => [
-                //add your user_id desired column to be search within
-            ],
-
         ];
     }
 

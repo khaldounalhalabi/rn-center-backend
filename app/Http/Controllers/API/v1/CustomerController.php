@@ -10,7 +10,7 @@ use App\Services\Customer\ICustomerService;
 
 class CustomerController extends ApiController
 {
-    private $customerService;
+    private ICustomerService $customerService;
 
     public function __construct(ICustomerService $customerService)
     {
@@ -18,7 +18,7 @@ class CustomerController extends ApiController
         $this->customerService = $customerService;
 
         // place the relations you want to return them within the response
-        $this->relations = [] ;
+        $this->relations = ['user'];
     }
 
     public function index()
