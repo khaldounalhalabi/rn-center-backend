@@ -39,9 +39,10 @@ class ClinicService extends BaseService implements IClinicService
     /**
      * @param array $data
      * @param array $relationships
+     * @param array $countable
      * @return Clinic|null
      */
-    public function store(array $data, array $relationships = []): ?Clinic
+    public function store(array $data, array $relationships = [], array $countable = []): ?Clinic
     {
         if (!isset($data['user'])
             || !isset($data['address'])
@@ -67,16 +68,17 @@ class ClinicService extends BaseService implements IClinicService
 
         $this->phoneNumberRepository->insert($data['phone_numbers'], User::class, $user->id);
 
-        return $clinic->load($relationships);
+        return $clinic->load($relationships)->loadCount($countable);
     }
 
     /**
      * @param array $data
      * @param $id
      * @param array $relationships
+     * @param array $countable
      * @return Clinic|null
      */
-    public function update(array $data, $id, array $relationships = []): ?Clinic
+    public function update(array $data, $id, array $relationships = [], array $countable = []): ?Clinic
     {
         /** @var Clinic $clinic */
         $clinic = $this->repository->update($data, $id);
@@ -105,6 +107,6 @@ class ClinicService extends BaseService implements IClinicService
             $this->phoneNumberRepository->insert($data['phone_numbers'], User::class, $user->id);
         }
 
-        return $clinic->load($relationships);
+        return $clinic->load($relationships)->loadCount($countable);
     }
 }

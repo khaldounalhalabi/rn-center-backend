@@ -94,4 +94,14 @@ class AppointmentController extends ApiController
         ]);
         $this->appointmentService->import();
     }
+
+    public function getClinicAppointments($clinicId)
+    {
+        $data = $this->appointmentService->getClinicAppointments($clinicId , $this->relations);
+        if ($data) {
+            return $this->apiResponse(AppointmentResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
+        }
+
+        return $this->noData(null);
+    }
 }

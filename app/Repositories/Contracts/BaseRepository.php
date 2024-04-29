@@ -82,18 +82,19 @@ abstract class BaseRepository implements IBaseRepository
      * @param array $relationships
      * @return Collection<T>|RegularCollection<T>|array
      */
-    public function all(array $relationships = []): Collection|array|RegularCollection
+    public function all(array $relationships = [], array $countable = []): Collection|array|RegularCollection
     {
         return $this->globalQuery($relationships)->get();
     }
 
     /**
      * @param array $relations
+     * @param array $countable
      * @return Builder|T
      */
-    public function globalQuery(array $relations = []): Builder
+    public function globalQuery(array $relations = [], array $countable = []): Builder
     {
-        $query = $this->model->with($relations);
+        $query = $this->model->with($relations)->withCount($countable);
 
         if (request()->method() == 'GET') {
             $query = $this->addSearch($query);
@@ -231,10 +232,11 @@ abstract class BaseRepository implements IBaseRepository
 
     /**
      * @param array $relationships
+     * @param array $countable
      * @param int $per_page
      * @return array{data:Collection<T>|array|RegularCollection<T> , pagination_data:array}|null
      */
-    public function all_with_pagination(array $relationships = [], int $per_page = 10): ?array
+    public function all_with_pagination(array $relationships = [], array $countable = [], int $per_page = 10): ?array
     {
         $per_page = request('per_page') ?? $per_page;
         $all = $this->globalQuery($relationships)->paginate($per_page);
@@ -270,7 +272,7 @@ abstract class BaseRepository implements IBaseRepository
      * @param array $relationships
      * @return T|null
      */
-    public function create(array $data, array $relationships = []): ?Model
+    public function create(array $data, array $relationships = [], array $countable = []): ?Model
     {
         $receivedData = $data;
         $colNames = $this->fileColName($data);
@@ -366,9 +368,12 @@ abstract class BaseRepository implements IBaseRepository
     }
 
     /**
+     * @param $id
+     * @param array $relationships
+     * @param array $countable
      * @return T|null
      */
-    public function find($id, array $relationships = []): ?Model
+    public function find($id, array $relationships = [], array $countable = []): ?Model
     {
         $result = $this->model->with($relationships)->find($id);
 
@@ -383,9 +388,10 @@ abstract class BaseRepository implements IBaseRepository
      * @param array $data
      * @param T|mixed $id
      * @param array $relationships
+     * @param array $countable
      * @return T
      */
-    public function update(array $data, $id, array $relationships = []): mixed
+    public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
     {
         $receivedData = $data;
 

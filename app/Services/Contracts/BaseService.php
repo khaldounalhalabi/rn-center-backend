@@ -49,52 +49,57 @@ abstract class BaseService implements IBaseService
 
     /**
      * @param array $relations
+     * @param array $countable
      * @return Collection<T>|RegularCollection<T>|array
      */
-    public function index(array $relations = []): RegularCollection|Collection|array
+    public function index(array $relations = [], array $countable = []): RegularCollection|Collection|array
     {
-        return $this->repository->all($relations);
+        return $this->repository->all($relations , $countable);
     }
 
     /**
      * @param array $relations
+     * @param array $countable
      * @param int $per_page
      * @return array{data:Collection<T>|array|RegularCollection<T> , pagination_data:array}|null
      */
-    public function indexWithPagination(array $relations = [], int $per_page = 10): ?array
+    public function indexWithPagination(array $relations = [], array $countable = [], int $per_page = 10): ?array
     {
-        return $this->repository->all_with_pagination($relations, $per_page);
+        return $this->repository->all_with_pagination($relations , $countable, $per_page);
     }
 
     /**
      * @param array $data
      * @param array $relationships
-     * @return T|null
+     * @param array $countable
+     * @return Model|null
      */
-    public function store(array $data, array $relationships = []): ?Model
+    public function store(array $data, array $relationships = [], array $countable = []): ?Model
     {
-        return $this->repository->create($data, $relationships);
+        return $this->repository->create($data, $relationships , $countable);
     }
 
     /**
      * @param array $data
      * @param        $id
      * @param array $relationships
-     * @return T|null
+     * @param array $countable
+     * @return Model|null
      */
-    public function update(array $data, $id, array $relationships = []): ?Model
+    public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
     {
-        return $this->repository->update($data, $id, $relationships);
+        return $this->repository->update($data, $id, $relationships , $countable);
     }
 
     /**
      * @param $id
      * @param array $relationships
-     * @return T|null
+     * @param array $countable
+     * @return Model|null
      */
-    public function view($id, array $relationships = []): ?Model
+    public function view($id, array $relationships = [], array $countable = []): ?Model
     {
-        return $this->repository->find($id, $relationships);
+        return $this->repository->find($id, $relationships , $countable);
     }
 
     /**

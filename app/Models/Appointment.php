@@ -158,4 +158,29 @@ class Appointment extends Model
         return auth()->user()->hasRole(RolesPermissionEnum::ADMIN['role'])
             || (auth()->user()->id == $this->clinic->user_id);
     }
+
+    public function filterArray(): array
+    {
+        return [
+            [
+                'name' => 'type',
+            ],
+            [
+                'name' => 'status',
+            ],
+            [
+                'name' => 'date',
+            ],
+            [
+                'name' => 'from',
+                'method' => 'whereTime',
+                'operator' => '>=',
+            ],
+            [
+                'name' => 'to',
+                'method' => 'whereTime',
+                'operator' => '<=',
+            ],
+        ];
+    }
 }

@@ -33,9 +33,10 @@ class AppointmentService extends BaseService implements IAppointmentService
     /**
      * @param array $data
      * @param array $relationships
+     * @param array $countable
      * @return Appointment|null
      */
-    public function store(array $data, array $relationships = []): ?Appointment
+    public function store(array $data, array $relationships = [], array $countable = []): ?Appointment
     {
         $clinic = $this->clinicRepository->find($data['clinic_id']);
 
@@ -55,10 +56,10 @@ class AppointmentService extends BaseService implements IAppointmentService
             $data['appointment_sequence'] = 1;
         }
 
-        return $this->repository->create($data, $relationships);
+        return $this->repository->create($data, $relationships, $countable);
     }
 
-    public function update(array $data, $id, array $relationships = []): ?Model
+    public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
     {
         /** @var Appointment $appointment */
         $appointment = $this->repository->find($id);
@@ -95,6 +96,17 @@ class AppointmentService extends BaseService implements IAppointmentService
             //TODO::trigger log
         }
 
-        return $this->repository->update($data, $appointment, $relationships);
+        return $this->repository->update($data, $appointment, $relationships, $countable);
+    }
+
+    /**
+     * @param $clinicId
+     * @param array $relations
+     * @param int $perPage
+     * @return null|array
+     */
+    public function getClinicAppointments($clinicId , array $relations = [], int $perPage = 10): ?array
+    {
+        return $this->repository->getByClinic(auth()->user()?->id, $relations, $perPage);
     }
 }

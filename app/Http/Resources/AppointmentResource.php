@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\BaseResource;
 use App\Models\Appointment;
 
 /** @mixin Appointment */

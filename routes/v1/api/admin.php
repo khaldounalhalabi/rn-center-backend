@@ -18,6 +18,7 @@ Route::controller(v1\ScheduleController::class)
         Route::get('/clinics/{clinicId}/schedules', 'clinicSchedules')->name('clinics.schedules');
         Route::delete('clinics/{clinicId}/schedules', 'deleteAllClinicSchedules')->name('clinics.schedules.delete');
         Route::post('schedules', 'storeUpdateSchedules')->name('schedules.storeOrUpdate');
+        Route::get('/clinics/{clinicId}/appointments', [v1\AppointmentController::class, 'getClinicAppointments'])->name('clinics.appointments');
     });
 
 Route::apiResource("/customers", v1\CustomerController::class)->names("customers");

@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Appointment;
 use App\Repositories\Contracts\BaseRepository;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * @extends  BaseRepository<Appointment>
@@ -27,5 +28,27 @@ class AppointmentRepository extends BaseRepository
             ->where('date', $date)
             ->orderBy('appointment_sequence', 'DESC')
             ->first();
+    }
+
+    /**
+     * @param $clinicId
+     * @param array $relations
+     * @param int $perPage
+     * @return array|null
+     */
+    public function getByClinic($clinicId, array $relations = [], int $perPage = 10): ?array
+    {
+        $data = $this->globalQuery($relations)
+            ->where('clinic_id', $clinicId)
+            ->paginate();
+
+        if (count($data)) {
+            return [
+                'data' => $data,
+                'pagination_data' => $this->formatPaginateData($data)
+            ];
+        }
+
+        return null;
     }
 }

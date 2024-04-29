@@ -14,23 +14,26 @@ interface IBaseRepository
 {
     /**
      * @param array $relationships
+     * @param array $countable
      * @return Collection<T>|RegularCollection<T>|array
      */
-    public function all(array $relationships = []): Collection|array|RegularCollection;
+    public function all(array $relationships = [], array $countable = []): Collection|array|RegularCollection;
 
     /**
      * @param array $relationships
+     * @param array $countable
      * @param int $per_page
      * @return array{data:Collection<T>|array|RegularCollection<T> , pagination_data:array}|null
      */
-    public function all_with_pagination(array $relationships = [], int $per_page = 10): ?array;
+    public function all_with_pagination(array $relationships = [], array $countable = [], int $per_page = 10): ?array;
 
     /**
      * @param array $data
      * @param array $relationships
-     * @return T|null
+     * @param array $countable
+     * @return Model|null
      */
-    public function create(array $data, array $relationships = []): ?Model;
+    public function create(array $data, array $relationships = [], array $countable = []): ?Model;
 
     /**
      * @param            $id
@@ -39,9 +42,12 @@ interface IBaseRepository
     public function delete($id): ?bool;
 
     /**
-     * @return T|null
+     * @param $id
+     * @param array $relationships
+     * @param array $countable
+     * @return Model|null
      */
-    public function find($id, array $relationships = []): ?Model;
+    public function find($id, array $relationships = [], array $countable = []): ?Model;
 
     /**
      * @param        $data
@@ -53,9 +59,10 @@ interface IBaseRepository
      * @param array $data
      * @param T|int $id
      * @param array $relationships
+     * @param array $countable
      * @return T
      */
-    public function update(array $data, $id, array $relationships = []): mixed;
+    public function update(array $data, Model|int $id, array $relationships = [], array $countable = []): mixed;
 
     /**
      * @param array $ids

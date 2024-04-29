@@ -15,6 +15,8 @@ class ApiController extends Controller
 
     protected array $indexRelations = [];
 
+    protected array $countable = [];
+
     //Exception
     public const STATUS_BAD_REQUEST = 400;
 
