@@ -239,7 +239,7 @@ abstract class BaseRepository implements IBaseRepository
     public function all_with_pagination(array $relationships = [], array $countable = [], int $per_page = 10): ?array
     {
         $per_page = request('per_page') ?? $per_page;
-        $all = $this->globalQuery($relationships)->paginate($per_page);
+        $all = $this->globalQuery($relationships)->withCount($countable)->paginate($per_page);
         if (count($all) > 0) {
             $pagination_data = $this->formatPaginateData($all);
             return ['data' => $all, 'pagination_data' => $pagination_data];
@@ -270,7 +270,8 @@ abstract class BaseRepository implements IBaseRepository
     /**
      * @param array $data
      * @param array $relationships
-     * @return T|null
+     * @param array $countable
+     * @return Model|null
      */
     public function create(array $data, array $relationships = [], array $countable = []): ?Model
     {
@@ -283,6 +284,7 @@ abstract class BaseRepository implements IBaseRepository
             }
         }
 
+        /** @var T $result */
         $result = $this->model->create($receivedData);
 
         if (count($colNames)) {
@@ -291,7 +293,7 @@ abstract class BaseRepository implements IBaseRepository
 
         $result->refresh();
 
-        return $result->load($relationships);
+        return $result->load($relationships)->loadCount($countable);
     }
 
     /**
@@ -375,7 +377,7 @@ abstract class BaseRepository implements IBaseRepository
      */
     public function find($id, array $relationships = [], array $countable = []): ?Model
     {
-        $result = $this->model->with($relationships)->find($id);
+        $result = $this->model->with($relationships)->withCount($countable)->find($id);
 
         if ($result) {
             return $result;
@@ -417,7 +419,7 @@ abstract class BaseRepository implements IBaseRepository
                 $this->handleFiles($item, $data, $colNames);
             }
 
-            return $item->load($relationships);
+            return $item->load($relationships)->load($countable);
         }
 
         return null;

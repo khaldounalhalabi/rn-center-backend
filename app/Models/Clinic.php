@@ -177,6 +177,16 @@ class Clinic extends Model implements HasMedia
         return $this->hasMany(Appointment::class);
     }
 
+    public function todayAppointments(): HasMany
+    {
+        return $this->hasMany(Appointment::class)->where('date', now()->format('Y-m-d'));
+    }
+
+    public function upcomingAppointments(): HasMany
+    {
+        return $this->hasMany(Appointment::class)->where('date', '>', now()->addDay()->format('Y-m-d'));
+    }
+
     public function canHasAppointmentIn(string $date, string $from, string $to, ?int $customerId = null): bool
     {
         if ($this->hasHolidayIn($date)) {

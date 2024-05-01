@@ -38,7 +38,9 @@ class ClinicResource extends BaseResource
             "approximate_appointment_time" => $this->approximate_appointment_time,
             'services' => ServiceResource::collection($this->whenLoaded('services')),
             'appointments' => AppointmentResource::collection($this->whenLoaded('appointments')),
-            'total_appointments' => $this->whenCounted('appointments')
+            'total_appointments' => $this->whenCounted('appointments'),
+            'today_appointments_count' => $this->whenCounted('todayAppointments'),
+            'upcoming_appointments_count' => $this->whenCounted('upcomingAppointments'),
         ];
     }
 }
