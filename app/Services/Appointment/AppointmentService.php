@@ -3,9 +3,9 @@
 namespace App\Services\Appointment;
 
 use App\Models\Appointment;
-use App\Models\Clinic;
 use App\Repositories\ClinicRepository;
 use App\Repositories\Contracts\BaseRepository;
+use App\Repositories\ServiceRepository;
 use App\Services\Contracts\BaseService;
 use App\Repositories\AppointmentRepository;
 use Illuminate\Database\Eloquent\Model;
@@ -17,17 +17,20 @@ use Illuminate\Database\Eloquent\Model;
 class AppointmentService extends BaseService implements IAppointmentService
 {
     private ClinicRepository $clinicRepository;
+    private ServiceRepository $serviceRepository;
 
     /**
      * AppointmentService constructor.
      *
      * @param AppointmentRepository $repository
      * @param ClinicRepository $clinicRepository
+     * @param ServiceRepository $serviceRepository
      */
-    public function __construct(AppointmentRepository $repository, ClinicRepository $clinicRepository)
+    public function __construct(AppointmentRepository $repository, ClinicRepository $clinicRepository, ServiceRepository $serviceRepository)
     {
         parent::__construct($repository);
         $this->clinicRepository = $clinicRepository;
+        $this->serviceRepository = $serviceRepository;
     }
 
     /**
@@ -54,6 +57,17 @@ class AppointmentService extends BaseService implements IAppointmentService
             $data['appointment_sequence'] = $lastAppointmentInDay->appointment_sequence + 1;
         } else {
             $data['appointment_sequence'] = 1;
+        }
+
+        if (isset($data['service_id'])) {
+            $service = $this->serviceRepository->find($data['service_id']);
+            if (!$service) {
+                return null;
+            }
+
+            $data['total_cost'] = $service->price + ($data['extra_fees'] ?? 0);
+        } else {
+            return null;
         }
 
         return $this->repository->create($data, $relationships, $countable);
@@ -96,6 +110,17 @@ class AppointmentService extends BaseService implements IAppointmentService
             //TODO::trigger log
         }
 
+        if (isset($data['service_id'])) {
+            $service = $this->serviceRepository->find($data['service_id']);
+            if (!$service) {
+                return null;
+            }
+
+            $data['total_cost'] = $service->price + ($data['extra_fees'] ?? 0);
+        } else {
+            $data['total_cost'] = $appointment->service->price + ($data['extra_fees'] ?? $appointment->extra_fees);
+        }
+
         return $this->repository->update($data, $appointment, $relationships, $countable);
     }
 
@@ -105,7 +130,7 @@ class AppointmentService extends BaseService implements IAppointmentService
      * @param int $perPage
      * @return null|array
      */
-    public function getClinicAppointments($clinicId , array $relations = [], int $perPage = 10): ?array
+    public function getClinicAppointments($clinicId, array $relations = [], int $perPage = 10): ?array
     {
         return $this->repository->getByClinic(auth()->user()?->id, $relations, $perPage);
     }
