@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\WeekDayEnum;
 use App\Models\Appointment;
 use App\Models\Clinic;
 use App\Models\ClinicHoliday;
@@ -11,6 +12,7 @@ use App\Models\Speciality;
 use App\Models\User;
 use App\Traits\FileHandler;
 use App\Traits\Translations;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Http\File;
 
@@ -58,7 +60,17 @@ class ClinicFactory extends Factory
 
     public function withSchedules($count = 1): ClinicFactory
     {
-        return $this->has(Schedule::factory($count), 'schedules');
+        return $this->afterCreating(function (Clinic $clinic) {
+            foreach (WeekDayEnum::getAllValues() as $day) {
+                Schedule::create([
+                    'schedulable_id' => $clinic->id,
+                    'day_of_week' => $day,
+                    'start_time' => Carbon::parse('12:00'),
+                    'end_time' => Carbon::parse('00:00'),
+                    'schedulable_type' => Clinic::class,
+                ]);
+            }
+        });
     }
 
     public function withMedia(): ClinicFactory
