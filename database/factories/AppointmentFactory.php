@@ -4,6 +4,8 @@ namespace Database\Factories;
 
 use App\Enums\AppointmentStatusEnum;
 use App\Enums\AppointmentTypeEnum;
+use App\Models\Appointment;
+use App\Models\AppointmentLog;
 use App\Models\Clinic;
 use App\Models\Customer;
 use App\Models\Service;
@@ -43,9 +45,21 @@ class AppointmentFactory extends Factory
         ];
     }
 
-    public function withAppointmentLogs($count = 1)
+    public function withAppointmentLogs(): AppointmentFactory
     {
-        return $this->has(\App\Models\AppointmentLog::factory($count));
+        return $this->afterCreating(function (Appointment $app) {
+            AppointmentLog::create([
+                'appointment_id' => $app->id,
+                'status' => $app->status,
+                'actor_id' => $app->clinic_id,
+                'affected_id' => $app->customer_id,
+                'happen_in' => now(),
+            ]);
+        });
     }
 
+    public function allRelations(): AppointmentFactory
+    {
+        return $this->withAppointmentLogs();
+    }
 }
