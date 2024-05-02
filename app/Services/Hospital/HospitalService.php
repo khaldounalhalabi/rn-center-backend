@@ -49,7 +49,7 @@ class HospitalService extends BaseService implements IHospitalService
             $this->addressRepository->create($data['address']);
         }
 
-        return $hospital->load($relationships)->loadCount($relationships);
+        return $hospital->load($relationships)->loadCount($countable);
     }
 
     public function update(array $data, $id, array $relationships = [], array $countable = []): ?Hospital
