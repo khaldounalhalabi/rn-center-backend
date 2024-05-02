@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Clinic;
 use App\Models\Hospital;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,8 +24,8 @@ class ScheduleFactory extends Factory
             'schedulable_id' => $relChance ? Clinic::factory()->allRelations() : Hospital::factory()->allRelations(),
             'schedulable_type' => $relChance ? Clinic::class : Hospital::class,
             'day_of_week' => strtolower(fake()->dayOfWeek),
-            'start_time' => fake()->time('H:i'),
-            'end_time' => fake()->time('H:i'),
+            'start_time' => Carbon::parse("12:00"),
+            'end_time' => Carbon::parse("00:00"),
         ];
     }
 
