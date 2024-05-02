@@ -241,7 +241,6 @@ class Clinic extends Model implements HasMedia
     {
         return $this->hasMany(Appointment::class)
             ->where('date', '>=', now()->format('Y-m-d'))
-            ->where('to', '>=', now()->format('Y-m-d'))
             ->whereIn('status', [AppointmentStatusEnum::CHECKIN->value, AppointmentStatusEnum::PENDING->value]);
     }
 

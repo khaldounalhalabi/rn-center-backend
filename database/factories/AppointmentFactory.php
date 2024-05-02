@@ -28,20 +28,21 @@ class AppointmentFactory extends Factory
         return [
             'customer_id' => Customer::factory(),
             'clinic_id' => Clinic::factory(),
-            'note' => fake()->unique()->text(),
+            'note' => fake()->text(),
             'service_id' => Service::factory(),
-            'extra_fees' => fake()->unique()->randomFloat(1, 2000),
-            'total_cost' => fake()->unique()->randomFloat(2, 0, 1000),
+            'extra_fees' => fake()->randomFloat(1, 2000),
+            'total_cost' => fake()->randomFloat(2, 0, 1000),
             'type' => fake()->randomElement(AppointmentTypeEnum::getAllValues()),
-            'date' => fake()->unique()->date(),
-            'from' => fake()->unique()->time(),
-            'to' => fake()->unique()->time(),
-            'status' => fake()->randomElement(AppointmentStatusEnum::getAllValues()),
-            'device_type' => fake()->unique()->word(),
-            'appointment_sequence' => fake()->unique()->numberBetween(1, 2000),
+            'date' => fake()->dateTimeBetween('-5 days', '+20 days'),
+            'from' => fake()->time(),
+            'to' => fake()->time(),
+            'status' => AppointmentStatusEnum::PENDING->value,
+            'device_type' => fake()->word(),
+            'appointment_sequence' => fake()->numberBetween(1, 10),
             //TODO::add qr code faker
         ];
     }
+
     public function withAppointmentLogs($count = 1)
     {
         return $this->has(\App\Models\AppointmentLog::factory($count));
