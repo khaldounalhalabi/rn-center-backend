@@ -138,6 +138,11 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         return $this->morphMany(PhoneNumber::class, 'phoneable');
     }
 
+    public function phoneNumbers(): MorphMany
+    {
+        return $this->morphMany(PhoneNumber::class, 'phoneable');
+    }
+
     public function address(): MorphOne
     {
         return $this->morphOne(Address::class, 'addressable');

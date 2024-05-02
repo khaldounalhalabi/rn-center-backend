@@ -56,7 +56,9 @@ class Hospital extends Model implements HasMedia
             'addresses' => [
                 //add your addresses desired column to be search within
             ],
-
+            'phoneNumbers' => [
+                'phone'
+            ]
         ];
     }
 
@@ -84,6 +86,11 @@ class Hospital extends Model implements HasMedia
     }
 
     public function phones(): MorphMany
+    {
+        return $this->morphMany(PhoneNumber::class, 'phoneable');
+    }
+
+    public function phoneNumbers(): MorphMany
     {
         return $this->morphMany(PhoneNumber::class, 'phoneable');
     }

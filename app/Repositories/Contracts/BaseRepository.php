@@ -126,7 +126,7 @@ abstract class BaseRepository implements IBaseRepository
                         $query->orWhereRelation($relation, function ($q) use ($relation, $keyword, $search_attribute) {
                             $relSeq = explode('.', $relation);
                             $relTable = $relSeq[count($relSeq) - 1];
-                            $relTable = Str::plural($relTable);
+                            $relTable = Str::snake(Str::plural($relTable));
                             $q->where("{$relTable}.{$search_attribute}", 'REGEXP', "(?i).*$keyword.*");
                         });
                     }

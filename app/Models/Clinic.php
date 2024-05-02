@@ -75,6 +75,9 @@ class Clinic extends Model implements HasMedia
             ],
             "user.address.city" => [
                 "name",
+            ],
+            'user.phoneNumbers' => [
+                'phone'
             ]
         ];
     }
