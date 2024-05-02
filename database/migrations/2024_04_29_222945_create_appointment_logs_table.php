@@ -13,7 +13,7 @@ return new class () extends Migration {
     {
         Schema::create('appointment_logs', function (Blueprint $table) {
             $table->id();
-            $table->text('cancellation_reason');
+            $table->text('cancellation_reason')->nullable();
             $table->string('status')->nullable();
             $table->dateTime('happen_in')->nullable();
             $table->foreignIdFor(Appointment::class)->nullable()->constrained()->cascadeOnDelete();
