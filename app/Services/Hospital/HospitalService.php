@@ -34,7 +34,7 @@ class HospitalService extends BaseService implements IHospitalService
     public function store(array $data, array $relationships = [], array $countable = []): ?Hospital
     {
         /** @var Hospital $hospital */
-        $hospital = parent::store($data, $relationships, $countable);
+        $hospital = parent::store($data);
         if ($data['available_departments']) {
             $hospital->availableDepartments()->sync($data['available_departments']);
         }
@@ -49,7 +49,7 @@ class HospitalService extends BaseService implements IHospitalService
             $this->addressRepository->create($data['address']);
         }
 
-        return $hospital;
+        return $hospital->load($relationships)->loadCount($relationships);
     }
 
     public function update(array $data, $id, array $relationships = [], array $countable = []): ?Hospital
