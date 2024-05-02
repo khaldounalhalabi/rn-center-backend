@@ -33,7 +33,7 @@ class AuthRegisterRequest extends FormRequest
             'middle_name' => 'required|string|max:255|min:3',
             'last_name' => 'required|string|max:255|min:3',
             'phone_number' => 'array|required',
-            'phone_number.*' => ['required', 'string', 'unique:phone_numbers,phone', (new Phone())->country(['IQ'])],
+            'phone_number.*' => ['required', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/'],
             'email' => 'required|email|unique:users,email|min:3|max:255',
             'password' => 'required|min:8|confirmed|max:255',
             'fcm_token' => 'nullable|string|min:3|max:1000',

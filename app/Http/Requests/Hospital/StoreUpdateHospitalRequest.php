@@ -31,7 +31,7 @@ class StoreUpdateHospitalRequest extends FormRequest
             return [
                 'name' => ['required', 'json', new LanguageShape()],
                 'phone_numbers' => 'array|required',
-                'phone_numbers.*' => ['required', 'string', 'unique:phone_numbers,phone', (new Phone())->country(['IQ'])],
+                'phone_numbers.*' => ['required', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/'],
                 'available_departments' => 'array|nullable',
                 'available_departments.*' => ['required', 'numeric', 'exists:available_departments,id'],
                 "images" => 'array|nullable',
@@ -46,7 +46,7 @@ class StoreUpdateHospitalRequest extends FormRequest
         return [
             'name' => ['nullable', 'json', new LanguageShape()],
             'phone_numbers' => 'array|nullable',
-            'phone_numbers.*' => ['nullable', 'string', new UniquePhoneNumber(request()->route('hospital'), Hospital::class), (new Phone())->country(['IQ'])],
+            'phone_numbers.*' => ['nullable', 'string', new UniquePhoneNumber(request()->route('hospital'), Hospital::class), 'regex:/^07\d{9}$/'],
             'available_departments' => 'array|nullable',
             'available_departments.*' => ['nullable', 'numeric', 'exists:available_departments,id'],
             "images" => 'array|nullable',

@@ -34,7 +34,7 @@ class UpdateUserRequest extends FormRequest
             'middle_name' => 'nullable|string|max:255|min:3',
             'last_name' => 'nullable|string|max:255|min:3',
             'phone_number' => 'array|nullable',
-            'phone_number.*' => ['nullable', 'string', 'unique:phone_numbers,phone', (new Phone())->country(['IQ']), new UniquePhoneNumber(auth()->user()->id)],
+            'phone_number.*' => ['nullable', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/', new UniquePhoneNumber(auth()->user()->id)],
             'email' => 'nullable|email|unique:users,email|min:3|max:255',
             'password' => 'nullable|min:8|confirmed|max:255',
             'fcm_token' => 'nullable|string|min:3|max:1000',

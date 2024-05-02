@@ -35,7 +35,7 @@ class StoreUpdateClinicRequest extends FormRequest
                 'appointment_cost' => 'required|numeric',
                 'max_appointments' => 'required|numeric',
                 'phone_numbers' => 'array|required',
-                'phone_numbers.*' => ['required', 'string', 'unique:phone_numbers,phone', (new Phone())->country(['IQ'])],
+                'phone_numbers.*' => ['required', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/'],
                 'hospital_id' => 'numeric|nullable|exists:hospitals,id',
                 'status' => 'required|string|' . Rule::in(ClinicStatusEnum::getAllValues()),
 
@@ -64,7 +64,7 @@ class StoreUpdateClinicRequest extends FormRequest
             'appointment_cost' => 'nullable|numeric',
             'max_appointments' => 'nullable|numeric',
             'phone_numbers' => 'array|nullable',
-            'phone_numbers.*' => ['nullable', 'string', new UniquePhoneNumber($userId), (new Phone())->country(['IQ'])],
+            'phone_numbers.*' => ['nullable', 'string', new UniquePhoneNumber($userId), 'regex:/^07\d{9}$/'],
             'hospital_id' => 'numeric|nullable|exists:hospitals,id',
             'status' => 'nullable|string|' . Rule::in(ClinicStatusEnum::getAllValues()),
 
