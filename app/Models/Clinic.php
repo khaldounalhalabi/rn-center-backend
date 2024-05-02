@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Casts\Translatable;
+use App\Enums\AppointmentStatusEnum;
 use App\Enums\MediaTypeEnum;
 use App\Traits\Translations;
 use Carbon\Carbon;
@@ -234,5 +235,19 @@ class Clinic extends Model implements HasMedia
             })
             ->where('customer_id', '!=', $customerId ?? auth()->user()->id)
             ->exists();
+    }
+
+    public function validAppointments(): HasMany
+    {
+        return $this->hasMany(Appointment::class)
+            ->where('date', '>=', now()->format('Y-m-d'))
+            ->where('to', '>=', now()->format('Y-m-d'))
+            ->whereIn('status', [AppointmentStatusEnum::CHECKIN->value, AppointmentStatusEnum::PENDING->value]);
+    }
+
+    public function validHolidays(): HasMany
+    {
+        return $this->hasMany(ClinicHoliday::class)
+            ->where('end_date', '>=', now()->format('Y-m-d'));
     }
 }

@@ -80,6 +80,7 @@ abstract class BaseRepository implements IBaseRepository
 
     /**
      * @param array $relationships
+     * @param array $countable
      * @return Collection<T>|RegularCollection<T>|array
      */
     public function all(array $relationships = [], array $countable = []): Collection|array|RegularCollection
@@ -271,7 +272,7 @@ abstract class BaseRepository implements IBaseRepository
      * @param array $data
      * @param array $relationships
      * @param array $countable
-     * @return Model|null
+     * @return T|null
      */
     public function create(array $data, array $relationships = [], array $countable = []): ?Model
     {
@@ -391,7 +392,7 @@ abstract class BaseRepository implements IBaseRepository
      * @param T|mixed $id
      * @param array $relationships
      * @param array $countable
-     * @return T
+     * @return T|null
      */
     public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
     {

@@ -31,7 +31,7 @@ interface IBaseRepository
      * @param array $data
      * @param array $relationships
      * @param array $countable
-     * @return Model|null
+     * @return T|null
      */
     public function create(array $data, array $relationships = [], array $countable = []): ?Model;
 
@@ -45,7 +45,7 @@ interface IBaseRepository
      * @param $id
      * @param array $relationships
      * @param array $countable
-     * @return Model|null
+     * @return T|null
      */
     public function find($id, array $relationships = [], array $countable = []): ?Model;
 

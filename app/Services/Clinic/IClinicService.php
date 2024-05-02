@@ -7,9 +7,12 @@ use App\Models\Clinic;
 
 /**
  * @extends IBaseService<Clinic>
- * Interface IUserService
  */
 interface IClinicService extends IBaseService
 {
-    //
+    /**
+     * @param $clinicId
+     * @return array
+     */
+    public function getClinicAvailableTimes($clinicId): array;
 }

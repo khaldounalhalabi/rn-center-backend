@@ -11,8 +11,8 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
  * @template T as Model
- * @template Repository<T> as BaseRepository<T>
- * @class BaseService
+ * @template Repository as BaseRepository<T>
+ * @implements IBaseService<T>
  */
 abstract class BaseService implements IBaseService
 {
@@ -54,7 +54,7 @@ abstract class BaseService implements IBaseService
      */
     public function index(array $relations = [], array $countable = []): RegularCollection|Collection|array
     {
-        return $this->repository->all($relations , $countable);
+        return $this->repository->all($relations, $countable);
     }
 
     /**
@@ -65,7 +65,7 @@ abstract class BaseService implements IBaseService
      */
     public function indexWithPagination(array $relations = [], array $countable = [], int $per_page = 10): ?array
     {
-        return $this->repository->all_with_pagination($relations , $countable, $per_page);
+        return $this->repository->all_with_pagination($relations, $countable, $per_page);
     }
 
     /**
@@ -76,7 +76,7 @@ abstract class BaseService implements IBaseService
      */
     public function store(array $data, array $relationships = [], array $countable = []): ?Model
     {
-        return $this->repository->create($data, $relationships , $countable);
+        return $this->repository->create($data, $relationships, $countable);
     }
 
     /**
@@ -88,7 +88,7 @@ abstract class BaseService implements IBaseService
      */
     public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
     {
-        return $this->repository->update($data, $id, $relationships , $countable);
+        return $this->repository->update($data, $id, $relationships, $countable);
     }
 
     /**
@@ -99,7 +99,7 @@ abstract class BaseService implements IBaseService
      */
     public function view($id, array $relationships = [], array $countable = []): ?Model
     {
-        return $this->repository->find($id, $relationships , $countable);
+        return $this->repository->find($id, $relationships, $countable);
     }
 
     /**

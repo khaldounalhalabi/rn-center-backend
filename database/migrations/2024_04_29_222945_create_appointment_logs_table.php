@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Appointment;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,9 +16,9 @@ return new class () extends Migration {
             $table->text('cancellation_reason')->unique();
             $table->string('status')->nullable()->unique();
             $table->dateTime('happen_in')->nullable()->unique();
-            $table->foreignIdFor(\App\Models\Appointment::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(\App\Models\Actor::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(\App\Models\Affected::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Appointment::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignId('actor_id')->references('id')->on('users')->cascadeOnDelete();
+            $table->foreignId("affected_id")->references('id')->on('users')->cascadeOnDelete();
 
             $table->timestamps();
         });

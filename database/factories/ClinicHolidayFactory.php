@@ -22,8 +22,8 @@ class ClinicHolidayFactory extends Factory
     {
         return [
             'clinic_id' => Clinic::factory(),
-            'start_date' => fake()->unique()->date(),
-            'end_date' => fake()->unique()->date(),
+            'start_date' => fake()->dateTimeBetween('-5 days', '+5 days'),
+            'end_date' => fake()->dateTimeBetween('+10 days', '+20 days'),
             'reason' => $this->fakeTranslation('word'),
         ];
     }
