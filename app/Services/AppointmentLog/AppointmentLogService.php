@@ -5,6 +5,9 @@ namespace App\Services\AppointmentLog;
 use App\Models\AppointmentLog;
 use App\Services\Contracts\BaseService;
 use App\Repositories\AppointmentLogRepository;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection as LaravelCollection;
+use LaravelIdea\Helper\App\Models\_IH_AppointmentLog_C;
 
 /**
  * @implements IAppointmentLogService<AppointmentLog>
@@ -20,5 +23,14 @@ class AppointmentLogService extends BaseService implements IAppointmentLogServic
     public function __construct(AppointmentLogRepository $repository)
     {
         parent::__construct($repository);
+    }
+
+    /**
+     * @param $appointmentId
+     * * @return array|Collection<AppointmentLog>|LaravelCollection<AppointmentLog>|_IH_AppointmentLog_C
+     */
+    public function getAppointmentLogs($appointmentId): Collection|_IH_AppointmentLog_C|array|LaravelCollection
+    {
+        return $this->repository->getByAppointmentId($appointmentId);
     }
 }

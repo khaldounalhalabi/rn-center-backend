@@ -13,9 +13,9 @@ return new class () extends Migration {
     {
         Schema::create('appointment_logs', function (Blueprint $table) {
             $table->id();
-            $table->text('cancellation_reason')->unique();
-            $table->string('status')->nullable()->unique();
-            $table->dateTime('happen_in')->nullable()->unique();
+            $table->text('cancellation_reason');
+            $table->string('status')->nullable();
+            $table->dateTime('happen_in')->nullable();
             $table->foreignIdFor(Appointment::class)->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('actor_id')->references('id')->on('users')->cascadeOnDelete();
             $table->foreignId("affected_id")->references('id')->on('users')->cascadeOnDelete();

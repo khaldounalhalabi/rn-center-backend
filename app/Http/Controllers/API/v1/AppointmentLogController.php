@@ -19,7 +19,7 @@ class AppointmentLogController extends ApiController
         $this->appointmentLogService = $appointmentLogService;
 
         // place the relations you want to return them within the response
-        $this->relations = [] ;
+        $this->relations = [];
     }
 
     public function index()
@@ -94,5 +94,12 @@ class AppointmentLogController extends ApiController
         ]);
 
         $this->appointmentLogService->import();
+    }
+
+    public function getAppointmentLogs($appointmentId)
+    {
+        $data = $this->appointmentLogService->getAppointmentLogs($appointmentId);
+
+        return $this->apiResponse($data, self::STATUS_OK, __('site.get_successfully'));
     }
 }

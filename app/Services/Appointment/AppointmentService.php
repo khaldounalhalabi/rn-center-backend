@@ -3,6 +3,7 @@
 namespace App\Services\Appointment;
 
 use App\Models\Appointment;
+use App\Repositories\AppointmentLogRepository;
 use App\Repositories\ClinicRepository;
 use App\Repositories\Contracts\BaseRepository;
 use App\Repositories\ServiceRepository;
@@ -18,6 +19,7 @@ class AppointmentService extends BaseService implements IAppointmentService
 {
     private ClinicRepository $clinicRepository;
     private ServiceRepository $serviceRepository;
+    private AppointmentLogRepository $appointmentLogRepository;
 
     /**
      * AppointmentService constructor.
@@ -25,12 +27,17 @@ class AppointmentService extends BaseService implements IAppointmentService
      * @param AppointmentRepository $repository
      * @param ClinicRepository $clinicRepository
      * @param ServiceRepository $serviceRepository
+     * @param AppointmentLogRepository $appointmentLogRepository
      */
-    public function __construct(AppointmentRepository $repository, ClinicRepository $clinicRepository, ServiceRepository $serviceRepository)
+    public function __construct(AppointmentRepository    $repository,
+                                ClinicRepository         $clinicRepository,
+                                ServiceRepository        $serviceRepository,
+                                AppointmentLogRepository $appointmentLogRepository)
     {
         parent::__construct($repository);
         $this->clinicRepository = $clinicRepository;
         $this->serviceRepository = $serviceRepository;
+        $this->appointmentLogRepository = $appointmentLogRepository;
     }
 
     /**
@@ -70,7 +77,18 @@ class AppointmentService extends BaseService implements IAppointmentService
             return null;
         }
 
-        return $this->repository->create($data, $relationships, $countable);
+        $appointment =  $this->repository->create($data, $relationships, $countable);
+
+        $this->appointmentLogRepository->create([
+            'cancellation_reason' => $data['cancellation_reason'] ?? null,
+            'status' => $data['status'],
+            'happen_in' => now(),
+            'appointment_id' => $appointment->id,
+            'actor_id' => auth()->user()->id,
+            'affected_id' => $data['customer_id'] ?? $appointment->customer_id
+        ]);
+        
+        return $appointment;
     }
 
     public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
@@ -107,7 +125,14 @@ class AppointmentService extends BaseService implements IAppointmentService
         }
 
         if ($data['status'] != $appointment->status) {
-            //TODO::trigger log
+            $this->appointmentLogRepository->create([
+                'cancellation_reason' => $data['cancellation_reason'] ?? null,
+                'status' => $data['status'],
+                'happen_in' => now(),
+                'appointment_id' => $appointment->id,
+                'actor_id' => auth()->user()->id,
+                'affected_id' => $data['customer_id'] ?? $appointment->customer_id
+            ]);
         }
 
         if (isset($data['service_id'])) {
