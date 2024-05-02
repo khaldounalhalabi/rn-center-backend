@@ -100,6 +100,6 @@ class AppointmentLogController extends ApiController
     {
         $data = $this->appointmentLogService->getAppointmentLogs($appointmentId);
 
-        return $this->apiResponse($data, self::STATUS_OK, __('site.get_successfully'));
+        return $this->apiResponse(AppointmentLogResource::collection($data), self::STATUS_OK, __('site.get_successfully'));
     }
 }

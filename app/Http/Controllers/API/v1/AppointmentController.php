@@ -51,7 +51,7 @@ class AppointmentController extends ApiController
             return $this->apiResponse(new AppointmentResource($item), self::STATUS_OK, __('site.stored_successfully'));
         }
 
-        return $this->apiResponse(null, self::STATUS_OK, __('site.doctor_dont_has_vacant_in_this_time'));
+        return $this->apiResponse(null, self::STATUS_INVALID_TIME_TO_BOOK, __('site.doctor_dont_has_vacant_in_this_time'));
     }
 
     public function update($appointmentId, StoreUpdateAppointmentRequest $request)
@@ -62,7 +62,7 @@ class AppointmentController extends ApiController
             return $this->apiResponse(new AppointmentResource($item), self::STATUS_OK, __('site.update_successfully'));
         }
 
-        return $this->noData(null);
+        return $this->apiResponse(null, self::STATUS_INVALID_TIME_TO_BOOK, __('site.doctor_dont_has_vacant_in_this_time'));
     }
 
     public function destroy($appointmentId)
