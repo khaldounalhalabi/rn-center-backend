@@ -72,6 +72,7 @@ class Clinic extends Model implements HasMedia
                 "first_name",
                 "middle_name",
                 "last_name",
+                'full_name'
             ],
             "user.address.city" => [
                 "name",

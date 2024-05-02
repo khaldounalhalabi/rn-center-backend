@@ -14,6 +14,7 @@ return new class () extends Migration {
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->json('full_name')->nullable();
             $table->json('first_name');
             $table->json('middle_name');
             $table->json('last_name');

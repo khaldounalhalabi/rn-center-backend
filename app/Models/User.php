@@ -40,6 +40,7 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         'tags', 'image', 'email_verified_at',
         'password', 'fcm_token', 'reset_password_code',
         'is_archived', 'remember_token', 'verification_code',
+        'full_name'
     ];
 
     protected $hidden = [
@@ -60,6 +61,17 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         'last_name' => Translatable::class,
     ];
 
+    protected static function booted()
+    {
+        parent::booted();
+        self::creating(function (User $user) {
+            $user->full_name = json_encode([
+                'en' => (json_decode($user->first_name, true)['en'] ?? "") . ' ' . (json_decode($user->middle_name, true)['en'] ?? "") . ' ' . (json_decode($user->last_name, true)['en'] ?? ""),
+                'ar' => (json_decode($user->first_name, true)['ar'] ?? "") . ' ' . (json_decode($user->middle_name, true)['ar'] ?? "") . ' ' . (json_decode($user->last_name, true)['ar'] ?? "")
+            ], JSON_PRETTY_PRINT + JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES);
+        });
+    }
+
     /**
      * add your searchable columns, so you can search within them in the
      * index method
@@ -71,6 +83,7 @@ class User extends Authenticatable implements JWTSubject, HasMedia
             'email', 'birth_date',
             'gender', 'blood_group', 'is_blocked',
             'tags', 'image', 'is_archived',
+            'full_name'
         ];
     }
 

@@ -50,6 +50,7 @@ class Customer extends Model
                 'last_name',
                 'email',
                 'middle_name',
+                'full_name'
             ],
         ];
     }
