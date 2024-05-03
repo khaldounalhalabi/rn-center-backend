@@ -114,7 +114,7 @@ class Hospital extends Model implements HasMedia
                     $join->on('addresses.addressable_id', '=', 'hospitals.id')
                         ->where('addresses.addressable_type', Hospital::class);
                 })->join('cities', 'cities.id', '=', 'addresses.city_id')
-                    ->select('clinics.*', 'cities.name AS city_name')
+                    ->select('hospitals.*', 'cities.name AS city_name')
                     ->orderBy('city_name', $dir);
             }
         ];
