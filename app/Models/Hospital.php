@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Casts\Translatable;
 use App\Enums\MediaTypeEnum;
 use App\Traits\Translations;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -103,5 +104,19 @@ class Hospital extends Model implements HasMedia
     public function address(): MorphOne
     {
         return $this->morphOne(Address::class, 'addressable');
+    }
+
+    public function customOrders(): array
+    {
+        return [
+            'address.city.name' => function (Builder $query, $dir) {
+                return $query->join('addresses', function ($join) {
+                    $join->on('addresses.addressable_id', '=', 'hospitals.id')
+                        ->where('addresses.addressable_type', Hospital::class);
+                })->join('cities', 'cities.id', '=', 'addresses.city_id')
+                    ->select('clinics.*', 'cities.name AS city_name')
+                    ->orderBy('city_name', $dir);
+            }
+        ];
     }
 }
