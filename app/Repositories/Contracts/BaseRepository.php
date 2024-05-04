@@ -226,6 +226,8 @@ abstract class BaseRepository implements IBaseRepository
                     $query->orderBy($this->tableName . '.' . $sortCol, $sortDir ?? 'asc');
                 }
             }
+        } else {
+            return $query->orderBy('created_at');
         }
 
         return $query;
