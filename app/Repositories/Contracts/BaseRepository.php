@@ -227,7 +227,7 @@ abstract class BaseRepository implements IBaseRepository
                 }
             }
         } else {
-            return $query->orderBy('created_at');
+            return $query->orderBy('created_at', 'DESC');
         }
 
         return $query;
