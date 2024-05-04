@@ -11,6 +11,7 @@ Route::post('/update-user-data', [v1\AdminAuthController::class, 'updateUserDeta
 
 Route::delete('/users/{userId}/toggle-archive', [v1\UserController::class, 'toggleArchive'])->name('users.toggle.archive');
 
+Route::get('/clinics/{clinicId}/toggle-status', [v1\ClinicController::class, 'toggleClinicStatus'])->name('clinic.status.toggle');
 Route::apiResource("/clinics", v1\ClinicController::class)->names("clinics");
 
 Route::controller(v1\ScheduleController::class)

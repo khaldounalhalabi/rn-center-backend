@@ -80,4 +80,14 @@ class ClinicController extends ApiController
         $data = $this->clinicService->getClinicAvailableTimes($clinicId);
         return $this->apiResponse($data, self::STATUS_OK, __('site.get_successfully'));
     }
+
+    public function toggleClinicStatus($clinicId)
+    {
+        $data = $this->clinicService->toggleClinicStatus($clinicId);
+
+        if ($data) {
+            return $this->apiResponse($data, self::STATUS_OK, __('site.success'));
+        }
+        return $this->noData();
+    }
 }

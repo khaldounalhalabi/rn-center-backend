@@ -32,7 +32,7 @@ class StoreUpdateHospitalRequest extends FormRequest
                 'name' => ['required', 'json', new LanguageShape()],
                 'phone_numbers' => 'array|required',
                 'phone_numbers.*' => ['required', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/'],
-                'available_departments' => 'array|nullable',
+                'available_departments' => 'array|required',
                 'available_departments.*' => ['required', 'numeric', 'exists:available_departments,id'],
                 "images" => 'array|nullable',
                 'images.*' => 'required|image|mimes:jpeg,png,jpg|max:2048',
