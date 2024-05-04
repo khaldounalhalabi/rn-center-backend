@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Appointment;
+use App\Models\Prescription;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -32,5 +33,10 @@ class CustomerFactory extends Factory
     public function withAppointments($count = 1): CustomerFactory
     {
         return $this->has(Appointment::factory($count));
+    }
+
+    public function withPrescriptions($count = 1): CustomerFactory
+    {
+        return $this->has(Prescription::factory($count));
     }
 }

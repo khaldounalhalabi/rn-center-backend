@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Clinic;
+use App\Models\Prescription;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -21,7 +22,12 @@ class MedicineFactory extends Factory
         return [
             'name' => fake()->firstName(),
             'description' => fake()->text(),
-            'clinic_id' => Clinic::factory() ,
+            'clinic_id' => Clinic::factory(),
         ];
+    }
+
+    public function withPrescriptions($count = 1): MedicineFactory
+    {
+        return $this->has(Prescription::factory($count));
     }
 }

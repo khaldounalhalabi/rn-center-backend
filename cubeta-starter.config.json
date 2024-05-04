@@ -849,8 +849,81 @@
                         "model_name": "Clinic",
                         "key": "clinic_id"
                     }
+                ],
+                "manyToMany": [
+                    {
+                        "model_name": "Prescription",
+                        "type": "manyToMany"
+                    }
                 ]
             }
+        },
+        {
+            "model_name": "Prescription",
+            "table_name": "prescriptions",
+            "attributes": [
+                {
+                    "name": "clinic_id",
+                    "type": "key",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "customer_id",
+                    "type": "key",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "physical_information",
+                    "type": "json",
+                    "nullable": true,
+                    "unique": false
+                },
+                {
+                    "name": "problem_description",
+                    "type": "text",
+                    "nullable": true,
+                    "unique": false
+                },
+                {
+                    "name": "test",
+                    "type": "text",
+                    "nullable": true,
+                    "unique": false
+                },
+                {
+                    "name": "next_visit",
+                    "type": "string",
+                    "nullable": true,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "belongsTo": [
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Clinic",
+                        "key": "clinic_id"
+                    },
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Customer",
+                        "key": "customer_id"
+                    }
+                ],
+                "manyToMany": [
+                    {
+                        "type": "manyToMany",
+                        "model_name": "Medicine"
+                    }
+                ]
+            }
+        },
+        {
+            "model_name": "MedicinePrescription",
+            "table_name": "medicine_prescriptions",
+            "attributes": []
         }
     ]
 }

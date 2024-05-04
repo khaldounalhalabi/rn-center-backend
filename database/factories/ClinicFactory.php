@@ -7,6 +7,7 @@ use App\Models\Appointment;
 use App\Models\Clinic;
 use App\Models\ClinicHoliday;
 use App\Models\Medicine;
+use App\Models\Prescription;
 use App\Models\Schedule;
 use App\Models\Service;
 use App\Models\Speciality;
@@ -51,7 +52,8 @@ class ClinicFactory extends Factory
             ->withSchedules(5)
             ->withSpecialities(5)
             ->withServices(5)
-            ->withClinicHolidays(2);
+            ->withClinicHolidays(2)
+            ->withPrescriptions();
     }
 
     public function withSpecialities($count = 1): ClinicFactory
@@ -103,4 +105,8 @@ class ClinicFactory extends Factory
         return $this->has(Medicine::factory($count));
     }
 
+    public function withPrescriptions($count = 1): ClinicFactory
+    {
+        return $this->has(Prescription::factory($count));
+    }
 }

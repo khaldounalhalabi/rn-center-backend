@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
             ServiceSeeder::class,
             AppointmentSeeder::class,
             MedicineSeeder::class,
+            PrescriptionSeeder::class,
         ]);
     }
 }

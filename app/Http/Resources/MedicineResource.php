@@ -20,6 +20,7 @@ class MedicineResource extends BaseResource
             'description' => $this->description,
             'clinic_id' => $this->clinic_id,
             'clinic' => new ClinicResource($this->whenLoaded('clinic')),
+            'prescriptions' => PrescriptionResource::collection($this->whenLoaded('prescriptions')),
         ];
     }
 }

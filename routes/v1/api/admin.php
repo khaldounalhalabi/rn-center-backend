@@ -60,3 +60,8 @@ Route::post('/medicines/export', [v1\MedicineController::class, 'export'])->name
 Route::post('/medicines/import', [v1\MedicineController::class, 'import'])->name('medicines.import');
 Route::get('/medicines/get-import-example', [v1\MedicineController::class, 'getImportExample'])->name('medicines.get.example');
 Route::apiResource('/medicines', v1\MedicineController::class)->names('medicines');
+
+Route::post('prescriptions/export', [v1\PrescriptionController::class, 'export'])->name('prescriptions.export');
+Route::post('prescriptions/import', [v1\PrescriptionController::class, 'import'])->name('prescriptions.import');
+Route::get('prescriptions/get-import-example', [v1\PrescriptionController::class, 'getImportExample'])->name('prescriptions.get.example');
+Route::apiResource('prescriptions', v1\PrescriptionController::class)->names('prescriptions');

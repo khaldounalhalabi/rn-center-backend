@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property string name
@@ -84,5 +85,10 @@ class Medicine extends Model
                 'last_name'
             ]
         ];
+    }
+
+    public function prescriptions(): BelongsToMany
+    {
+        return $this->belongsToMany(Prescription::class);
     }
 }
