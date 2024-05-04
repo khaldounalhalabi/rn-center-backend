@@ -15,4 +15,10 @@ interface IClinicService extends IBaseService
      * @return array
      */
     public function getClinicAvailableTimes($clinicId): array;
+
+    /**
+     * @param $clinicId
+     * @return string|null
+     */
+    public function toggleClinicStatus($clinicId): ?string;
 }

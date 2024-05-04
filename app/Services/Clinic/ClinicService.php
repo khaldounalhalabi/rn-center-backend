@@ -2,6 +2,7 @@
 
 namespace App\Services\Clinic;
 
+use App\Enums\ClinicStatusEnum;
 use App\Models\Appointment;
 use App\Models\Clinic;
 use App\Models\User;
@@ -10,6 +11,7 @@ use App\Repositories\ClinicRepository;
 use App\Repositories\PhoneNumberRepository;
 use App\Repositories\UserRepository;
 use App\Services\Contracts\BaseService;
+use App\Services\Schedule\ScheduleService;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
@@ -23,6 +25,7 @@ class ClinicService extends BaseService implements IClinicService
     private UserRepository $userRepository;
     private AddressRepository $addressRepository;
     private PhoneNumberRepository $phoneNumberRepository;
+    private ScheduleService $scheduleService;
 
     /**
      * ClinicService constructor.
@@ -32,12 +35,19 @@ class ClinicService extends BaseService implements IClinicService
      * @param AddressRepository $addressRepository
      * @param PhoneNumberRepository $phoneNumberRepository
      */
-    public function __construct(ClinicRepository $repository, UserRepository $userRepository, AddressRepository $addressRepository, PhoneNumberRepository $phoneNumberRepository)
+    public function __construct(
+        ClinicRepository      $repository,
+        UserRepository        $userRepository,
+        AddressRepository     $addressRepository,
+        PhoneNumberRepository $phoneNumberRepository,
+        ScheduleService       $scheduleService
+    )
     {
         parent::__construct($repository);
         $this->userRepository = $userRepository;
         $this->addressRepository = $addressRepository;
         $this->phoneNumberRepository = $phoneNumberRepository;
+        $this->scheduleService = $scheduleService;
     }
 
     /**
@@ -71,6 +81,8 @@ class ClinicService extends BaseService implements IClinicService
         $this->addressRepository->create($data['address']);
 
         $this->phoneNumberRepository->insert($data['phone_numbers'], User::class, $user->id);
+
+        $this->scheduleService->setDefaultClinicSchedule($clinic);
 
         return $clinic->load($relationships)->loadCount($countable);
     }
@@ -138,5 +150,28 @@ class ClinicService extends BaseService implements IClinicService
             'clinic_schedule' => $schedules,
             'clinic_holidays' => $holidays
         ];
+    }
+
+    /**
+     * @param $clinicId
+     * @return string|null
+     */
+    public function toggleClinicStatus($clinicId): ?string
+    {
+        $clinic = $this->repository->find($clinicId);
+
+        if (!$clinic) {
+            return null;
+        }
+
+        if ($clinic->status == ClinicStatusEnum::ACTIVE->value) {
+            $clinic->status = ClinicStatusEnum::INACTIVE->value;
+        } else {
+            $clinic->status = ClinicStatusEnum::ACTIVE->value;
+        }
+
+        $clinic->save();
+
+        return $clinic->status;
     }
 }
