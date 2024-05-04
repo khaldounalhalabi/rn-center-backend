@@ -210,13 +210,11 @@ class UserService extends BaseService implements IUserService
     {
         $code = $this->generateUserVerificationCode();
 
-        if (!app()->environment('locale')) {
-            $user->notify(new SendVerificationCode(
-                $code,
-                'Verify Your Email',
-                'Your Email Verification Code Is : '
-            ));
-        }
+        $user->notify(new SendVerificationCode(
+            $code,
+            'Verify Your Email',
+            'Your Email Verification Code Is : '
+        ));
 
         $user->verification_code = $code;
         $user->save();
@@ -227,10 +225,6 @@ class UserService extends BaseService implements IUserService
      */
     public function generateUserVerificationCode(): string
     {
-        if (app()->environment('local')) {
-            return "0000";
-        }
-
         do {
             $code = sprintf('%06d', mt_rand(1, 999999));
             $temp_user = $this->getUserByPasswordResetCode($code);
@@ -282,13 +276,11 @@ class UserService extends BaseService implements IUserService
             $user->save();
 
             try {
-                if (!app()->environment('locale')) {
-                    $user->notify(new SendVerificationCode(
-                        $code,
-                        'Reset Password Verification Code',
-                        'Your Password Reset Code Is : '
-                    ));
-                }
+                $user->notify(new SendVerificationCode(
+                    $code,
+                    'Reset Password Verification Code',
+                    'Your Password Reset Code Is : '
+                ));
             } catch (Exception) {
                 return null;
             }
@@ -317,19 +309,17 @@ class UserService extends BaseService implements IUserService
     {
         $user = $this->getUserByPasswordResetCode($reset_password_code);
 
+        if (!$user) return false;
+
         if ($user->updated_at->addMinutes(10)->equalTo(now())) {
             return false;
         }
 
-        if ($user) {
-            $user->password = $password;
-            $user->reset_password_code = null;
-            $user->save();
+        $user->password = $password;
+        $user->reset_password_code = null;
+        $user->save();
 
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
     /**
