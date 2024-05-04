@@ -13,8 +13,8 @@ return new class () extends Migration {
     {
         Schema::create('clinic_holidays', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('start_date');
-            $table->dateTime('end_date');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->json('reason');
             $table->foreignIdFor(Clinic::class)->constrained()->cascadeOnDelete();
             $table->timestamps();

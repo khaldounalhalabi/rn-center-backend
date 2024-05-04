@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property integer clinic_id
  * @property string day_of_week
  * @property DateTime start_time
  * @property DateTime end_time
- * @property integer hospital_id
+ * @property string schedulable_type
+ * @property int schedulable_id
  */
 class Schedule extends Model
 {

@@ -194,6 +194,10 @@ class Clinic extends Model implements HasMedia
 
     public function canHasAppointmentIn(string $date, string $from, string $to, ?int $customerId = null): bool
     {
+        if (!$this->validAppointmentDateTime($date, $from, $to)) {
+            return false;
+        }
+
         if ($this->hasHolidayIn($date)) {
             return false;
         }
@@ -209,11 +213,28 @@ class Clinic extends Model implements HasMedia
         return true;
     }
 
+    public function validAppointmentDateTime(string $date, string $from, string $to, ?int $customerId = null): bool
+    {
+        $date = Carbon::parse($date);
+        $from = Carbon::parse($from);
+        $to = Carbon::parse($to);
+
+        if ($date->subDays($this->appointment_day_range)->isAfter(now())) {
+            return false;
+        }
+
+        if ($to->diffInMinutes($from) != $this->approximate_appointment_time) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function hasHolidayIn(string $date): bool
     {
         return $this->clinicHolidays()
-            ->where('start_date', '>=', $date)
-            ->where('end_date', '<=', $date)
+            ->where('start_date', '<=', $date)
+            ->where('end_date', '>=', $date)
             ->exists();
     }
 
