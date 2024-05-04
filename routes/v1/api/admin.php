@@ -54,3 +54,9 @@ Route::prefix('appointments')
         Route::post('/import', 'import')->name('import');
         Route::get('/get-import-example', 'getImportExample')->name('get.example');
     });
+
+
+Route::post('/medicines/export', [v1\MedicineController::class, 'export'])->name('medicines.export');
+Route::post('/medicines/import', [v1\MedicineController::class, 'import'])->name('medicines.import');
+Route::get('/medicines/get-import-example', [v1\MedicineController::class, 'getImportExample'])->name('medicines.get.example');
+Route::apiResource('/medicines', v1\MedicineController::class)->names('medicines');

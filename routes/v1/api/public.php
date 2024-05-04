@@ -45,7 +45,3 @@ Route::prefix('doctor')
 Route::get('/cities', [v1\CityController::class, 'index'])->name('cities.index');
 
 Route::get('check-role', [v1\BaseAuthController::class, 'checkRole'])->name('check-role');
-Route::post('/appointment-logs/export', [v1\AppointmentLogController::class, 'export'])->name('api.public.appointment.logs.export');
-Route::post('/appointment-logs/import', [v1\AppointmentLogController::class, 'import'])->name('api.public.appointment.logs.import');
-Route::get('/appointment-logs/get-import-example', [v1\AppointmentLogController::class, 'getImportExample'])->name('api.public.appointment.logs.get.example');
-Route::apiResource('/appointment-logs', v1\AppointmentLogController::class)->names('api.public.appointment.logs') ;

@@ -23,10 +23,10 @@ class ServiceFactory extends Factory
     {
         return [
             'name' => $this->fakeTranslation('word'),
-            'approximate_duration' => fake()->unique()->numberBetween(1, 2000),
+            'approximate_duration' => fake()->numberBetween(1, 2000),
             'service_category_id' => ServiceCategory::factory(),
-            'price' => fake()->unique()->randomFloat(2, 0, 1000),
-            'status' => fake()->unique()->numberBetween(1, 2000),
+            'price' => fake()->randomFloat(2, 0, 1000),
+            'status' => fake()->numberBetween(1, 2000),
             'description' => $this->fakeTranslation('word'),
             'clinic_id' => Clinic::factory()->allRelations(),
         ];

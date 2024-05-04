@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
             ServiceCategorySeeder::class,
             ServiceSeeder::class,
             AppointmentSeeder::class,
+            MedicineSeeder::class,
         ]);
     }
 }

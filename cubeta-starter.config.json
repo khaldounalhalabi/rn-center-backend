@@ -818,6 +818,39 @@
                     }
                 ]
             }
+        },
+        {
+            "model_name": "Medicine",
+            "table_name": "medicines",
+            "attributes": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "nullable": true,
+                    "unique": true
+                },
+                {
+                    "name": "description",
+                    "type": "text",
+                    "nullable": false,
+                    "unique": true
+                },
+                {
+                    "name": "clinic_id",
+                    "type": "key",
+                    "nullable": true,
+                    "unique": true
+                }
+            ],
+            "relations": {
+                "belongsTo": [
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Clinic",
+                        "key": "clinic_id"
+                    }
+                ]
+            }
         }
     ]
 }

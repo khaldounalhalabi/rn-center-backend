@@ -274,4 +274,9 @@ class Clinic extends Model implements HasMedia
         return $this->hasMany(ClinicHoliday::class)
             ->where('end_date', '>=', now()->format('Y-m-d'));
     }
+
+    public function medicines(): HasMany
+    {
+        return $this->hasMany(Medicine::class);
+    }
 }
