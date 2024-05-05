@@ -90,7 +90,6 @@ class Service extends Model
             'approximate_duration',
             'price',
             'status',
-            'description',
         ];
     }
 

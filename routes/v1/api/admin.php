@@ -61,6 +61,7 @@ Route::post('/medicines/import', [v1\MedicineController::class, 'import'])->name
 Route::get('/medicines/get-import-example', [v1\MedicineController::class, 'getImportExample'])->name('medicines.get.example');
 Route::apiResource('/medicines', v1\MedicineController::class)->names('medicines');
 
+Route::delete('/prescriptions/medicine-data/{medicineDataId}', [v1\PrescriptionController::class, 'removeMedicine'])->name('prescription.medicine.remove');
 Route::post('prescriptions/export', [v1\PrescriptionController::class, 'export'])->name('prescriptions.export');
 Route::post('prescriptions/import', [v1\PrescriptionController::class, 'import'])->name('prescriptions.import');
 Route::get('prescriptions/get-import-example', [v1\PrescriptionController::class, 'getImportExample'])->name('prescriptions.get.example');

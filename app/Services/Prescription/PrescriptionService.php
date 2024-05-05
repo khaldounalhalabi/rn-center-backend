@@ -45,11 +45,11 @@ class PrescriptionService extends BaseService implements IPrescriptionService
     {
         $prescription = $this->repository->create($data);
 
-        if (!isset($data['medicine'])) {
+        if (!isset($data['medicines'])) {
             return null;
         }
 
-        $medicineData = $data['medicine'];
+        $medicineData = $data['medicines'];
         $medicines = collect();
 
         foreach ($medicineData as $item) {
@@ -81,7 +81,7 @@ class PrescriptionService extends BaseService implements IPrescriptionService
         $this->repository->update($data, $prescription);
 
         if (isset($data['medicines'])) {
-            $medicineData = $data['medicine'];
+            $medicineData = $data['medicines'];
             $medicines = collect();
 
             foreach ($medicineData as $item) {
@@ -108,5 +108,24 @@ class PrescriptionService extends BaseService implements IPrescriptionService
         }
 
         return $prescription->delete();
+    }
+
+    /**
+     * @param int $medicineDataId
+     * @return bool|null
+     */
+    public function removeMedicine(int $medicineDataId): ?bool
+    {
+        $medicineData = $this->medicinePrescriptionRepository->find($medicineDataId);
+
+        if (!$medicineData){
+            return null;
+        }
+
+        if (!$medicineData->prescription->canDelete()) {
+            return null;
+        }
+
+        return $this->medicinePrescriptionRepository->delete($medicineDataId);
     }
 }

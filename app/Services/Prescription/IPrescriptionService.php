@@ -11,5 +11,9 @@ use App\Models\Prescription;
  */
 interface IPrescriptionService extends IBaseService
 {
-    //
+    /**
+     * @param int $medicineDataId
+     * @return bool|null
+     */
+    public function removeMedicine(int $medicineDataId): ?bool;
 }

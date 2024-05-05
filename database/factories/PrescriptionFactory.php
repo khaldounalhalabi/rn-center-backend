@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Clinic;
+use App\Models\Customer;
 use App\Models\MedicinePrescription;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -18,18 +20,33 @@ class PrescriptionFactory extends Factory
      */
     public function definition(): array
     {
+        $physicalInformation = [
+            "High Blood Pressure" => fake()->sentence(5),
+            "Diabetic" => fake()->sentence(5),
+            "Food Allergies" => fake()->sentence(5),
+            "Tendency Bleed" => fake()->sentence(5),
+            "Heart Disease" => fake()->sentence(5),
+            "Medical History" => fake()->sentence(5),
+            "Female Pregnancy" => fake()->sentence(5),
+            "Breast Feeding" => fake()->sentence(5),
+            "Current Medication" => fake()->sentence(5),
+            "Surgery" => fake()->sentence(5),
+            "Accident" => fake()->sentence(5),
+            "Others" => fake()->sentence(5),
+            "Pulse Rate" => fake()->sentence(5),
+            "Temperature" => fake()->sentence(5),
+        ];
         return [
-            'clinic_id' => \App\Models\Clinic::factory(),
-            'customer_id' => \App\Models\Customer::factory(),
-            'physical_information' => json_encode([fake()->word() => fake()->word()]),
-            'problem_description' => fake()->unique()->text(),
-            'test' => fake()->unique()->text(),
-            'next_visit' => fake()->unique()->word(),
-
+            'clinic_id' => Clinic::factory(),
+            'customer_id' => Customer::factory(),
+            'physical_information' => json_encode($physicalInformation),
+            'problem_description' => fake()->text(),
+            'test' => fake()->text(),
+            'next_visit' => "Next Week",
         ];
     }
 
-    public function allRelations()
+    public function allRelations(): PrescriptionFactory
     {
         return $this->withMedicineData();
     }
@@ -41,6 +58,6 @@ class PrescriptionFactory extends Factory
 
     public function withMedicineData($count = 1): PrescriptionFactory
     {
-        return $this->has(MedicinePrescription::factory($count) , 'medicinesData');
+        return $this->has(MedicinePrescription::factory($count), 'medicinesData');
     }
 }

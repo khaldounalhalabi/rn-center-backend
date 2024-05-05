@@ -95,4 +95,14 @@ class PrescriptionController extends ApiController
 
         $this->prescriptionService->import();
     }
+
+    public function removeMedicine($medicineDataId)
+    {
+        $result = $this->prescriptionService->removeMedicine($medicineDataId);
+
+        if ($result) {
+            return $this->apiResponse(true, self::STATUS_OK, __('site.delete_successfully'));
+        }
+        return $this->noData(false);
+    }
 }

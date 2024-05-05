@@ -32,11 +32,11 @@ class StoreUpdatePrescriptionRequest extends FormRequest
                 'next_visit' => ['nullable', 'string', 'min:3', 'max:255'],
 
                 'medicines' => 'array|required',
-                'medicines.medicine_id' => 'required|exists:medicines,id|numeric',
-                'medicines.dosage' => 'string|nullable',
-                'medicines.duration' => 'string|nullable',
-                'medicines.time' => 'string|nullable',
-                'medicines.dose_interval' => 'string|nullable',
+                'medicines.*.medicine_id' => 'required|exists:medicines,id|numeric',
+                'medicines.*.dosage' => 'string|nullable',
+                'medicines.*.duration' => 'string|nullable',
+                'medicines.*.time' => 'string|nullable',
+                'medicines.*.dose_interval' => 'string|nullable',
                 'comment' => 'string|nullable'
             ];
         }
@@ -50,11 +50,11 @@ class StoreUpdatePrescriptionRequest extends FormRequest
             'next_visit' => ['nullable', 'string', 'min:3', 'max:255'],
 
             'medicines' => 'array|nullable',
-            'medicines.id' => 'nullable|exists:medicines,id|numeric',
-            'medicines.dosage' => 'string|nullable',
-            'medicines.duration' => 'string|nullable',
-            'medicines.time' => 'string|nullable',
-            'medicines.dose_interval' => 'string|nullable',
+            'medicines.*.medicine_id' => 'required|exists:medicines,id|numeric',
+            'medicines.*.dosage' => 'string|nullable',
+            'medicines.*.duration' => 'string|nullable',
+            'medicines.*.time' => 'string|nullable',
+            'medicines.*.dose_interval' => 'string|nullable',
             'comment' => 'string|nullable'
         ];
     }
