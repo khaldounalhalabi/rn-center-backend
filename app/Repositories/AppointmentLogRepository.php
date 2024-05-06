@@ -21,10 +21,11 @@ class AppointmentLogRepository extends BaseRepository
 
     /**
      * @param $appointmentId
+     * @param array $relations
      * @return array|Collection<AppointmentLog>|LaravelCollection<AppointmentLog>|_IH_AppointmentLog_C
      */
-    public function getByAppointmentId($appointmentId): array|LaravelCollection|Collection|_IH_AppointmentLog_C
+    public function getByAppointmentId($appointmentId, array $relations = []): array|LaravelCollection|Collection|_IH_AppointmentLog_C
     {
-        return $this->globalQuery()->where('appointment_id', $appointmentId)->get();
+        return $this->globalQuery($relations)->where('appointment_id', $appointmentId)->get();
     }
 }

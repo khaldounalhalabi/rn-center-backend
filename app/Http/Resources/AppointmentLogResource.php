@@ -23,6 +23,7 @@ class AppointmentLogResource extends BaseResource
             'affected_id' => $this->affected_id,
             'happen_in' => $this->happen_in->format('Y-m-d H:i:s'),
             'appointment' => new AppointmentResource($this->whenLoaded('appointment')),
+            'actor' => new UserResource($this->whenLoaded('actor'))
         ];
     }
 }

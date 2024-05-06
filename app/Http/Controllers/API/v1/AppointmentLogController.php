@@ -19,7 +19,7 @@ class AppointmentLogController extends ApiController
         $this->appointmentLogService = $appointmentLogService;
 
         // place the relations you want to return them within the response
-        $this->relations = [];
+        $this->relations = ['actor'];
     }
 
     public function index()
@@ -98,7 +98,7 @@ class AppointmentLogController extends ApiController
 
     public function getAppointmentLogs($appointmentId)
     {
-        $data = $this->appointmentLogService->getAppointmentLogs($appointmentId);
+        $data = $this->appointmentLogService->getAppointmentLogs($appointmentId, $this->relations);
 
         return $this->apiResponse(AppointmentLogResource::collection($data), self::STATUS_OK, __('site.get_successfully'));
     }

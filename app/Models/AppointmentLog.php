@@ -3,9 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany ;
-use Illuminate\Database\Eloquent\Relations\HasOne ;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Carbon;
@@ -16,23 +13,22 @@ use Carbon;
  * @property string status
  * @property integer actor_id
  * @property integer affected_id
- * @property Carbon happen_in
+ * @property Carbon\Carbon happen_in
  * @property Appointment appointment
- * @property Actor actor
- * @property Affected affected
+ * @property User actor
+ * @property User affected
  */
-
 class AppointmentLog extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'appointment_id' ,
-        'cancellation_reason' ,
-        'status' ,
-        'actor_id' ,
-        'affected_id' ,
-        'happen_in' ,
+        'appointment_id',
+        'cancellation_reason',
+        'status',
+        'actor_id',
+        'affected_id',
+        'happen_in',
 
     ];
 
@@ -44,25 +40,21 @@ class AppointmentLog extends Model
     public function exportable(): array
     {
         return [
-            'cancellation_reason' ,
-            'status' ,
-            'happen_in' ,
-            'appointment.id' ,
-            'actor_id' ,
-            'affected_id' ,
+            'cancellation_reason',
+            'status',
+            'happen_in',
+            'appointment.id',
+            'actor_id',
+            'affected_id',
 
         ];
     }
-
-
 
 
     public function appointment()
     {
         return $this->belongsTo(Appointment::class);
     }
-
-
 
 
     /**
@@ -86,10 +78,10 @@ class AppointmentLog extends Model
     public static function searchableArray(): array
     {
         return [
-            'cancellation_reason' ,
-            'status' ,
+            'cancellation_reason',
+            'status',
 
-        ] ;
+        ];
     }
 
     /**
@@ -103,5 +95,13 @@ class AppointmentLog extends Model
         ];
     }
 
+    public function actor(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'actor_id', 'id');
+    }
 
+    public function affected(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'affected_id', 'id');
+    }
 }

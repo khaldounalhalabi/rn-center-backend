@@ -16,7 +16,8 @@ interface IAppointmentLogService extends IBaseService
 {
     /**
      * @param $appointmentId
-     * * @return array|Collection<AppointmentLog>|LaravelCollection<AppointmentLog>|_IH_AppointmentLog_C
+     * @param array $relations
+     * @return array|Collection<AppointmentLog>|LaravelCollection<AppointmentLog>|_IH_AppointmentLog_C
      */
-    public function getAppointmentLogs($appointmentId): Collection|_IH_AppointmentLog_C|array|LaravelCollection;
+    public function getAppointmentLogs($appointmentId, array $relations = []): Collection|_IH_AppointmentLog_C|array|LaravelCollection;
 }
