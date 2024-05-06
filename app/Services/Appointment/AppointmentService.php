@@ -54,7 +54,7 @@ class AppointmentService extends BaseService implements IAppointmentService
             return null;
         }
 
-        if (!$clinic->canHasAppointmentIn($data['date'], $data['from'], $data['to'], $data['customer_id'])) {
+        if (!$clinic->canHasAppointmentIn($data['date'])) {
             return null;
         }
 
@@ -74,10 +74,10 @@ class AppointmentService extends BaseService implements IAppointmentService
 
             $data['total_cost'] = $service->price + ($data['extra_fees'] ?? 0);
         } else {
-            return null;
+            $data['total_cost'] = $clinic->appointment_cost + ($data['extra_fees'] ?? 0);
         }
 
-        $appointment =  $this->repository->create($data, $relationships, $countable);
+        $appointment = $this->repository->create($data, $relationships, $countable);
 
         $this->appointmentLogRepository->create([
             'cancellation_reason' => $data['cancellation_reason'] ?? null,
@@ -87,7 +87,7 @@ class AppointmentService extends BaseService implements IAppointmentService
             'actor_id' => auth()->user()->id,
             'affected_id' => $data['customer_id'] ?? $appointment->customer_id
         ]);
-        
+
         return $appointment;
     }
 
@@ -106,11 +106,7 @@ class AppointmentService extends BaseService implements IAppointmentService
 
         $clinic = $appointment->clinic;
 
-        if (!$clinic->canHasAppointmentIn(
-            $data['date'] ?? $appointment->date->format('Y-m-d'),
-            $data['from'] ?? $appointment->from->format('H:i'),
-            $data['to'] ?? $appointment->to->format('H:i'),
-            $appointment->customer_id)) {
+        if (!$clinic->canHasAppointmentIn($data['date'] ?? $appointment->date->format('Y-m-d'))) {
             return null;
         }
 
@@ -140,10 +136,9 @@ class AppointmentService extends BaseService implements IAppointmentService
             if (!$service) {
                 return null;
             }
-
             $data['total_cost'] = $service->price + ($data['extra_fees'] ?? 0);
         } else {
-            $data['total_cost'] = $appointment->service->price + ($data['extra_fees'] ?? $appointment->extra_fees);
+            $data['total_cost'] = $clinic->appointment_cost + ($data['extra_fees'] ?? 0);
         }
 
         return $this->repository->update($data, $appointment, $relationships, $countable);

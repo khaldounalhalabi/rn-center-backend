@@ -24,8 +24,6 @@ class AppointmentResource extends BaseResource
             'total_cost' => $this->total_cost,
             'type' => $this->type,
             'date' => $this->date->format('Y-m-d'),
-            'from' => $this->from->format('H:i'),
-            'to' => $this->to->format('H:i'),
             'status' => $this->status,
             'device_type' => $this->device_type,
             'appointment_sequence' => $this->appointment_sequence,

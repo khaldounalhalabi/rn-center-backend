@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use App\Enums\RolesPermissionEnum;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Carbon;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -18,8 +18,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property numeric total_cost
  * @property string type
  * @property Carbon date
- * @property Carbon from
- * @property Carbon to
  * @property string status
  * @property string device_type
  * @property numeric appointment_sequence
@@ -41,8 +39,6 @@ class Appointment extends Model
         'total_cost',
         'type',
         'date',
-        'from',
-        'to',
         'status',
         'device_type',
         'appointment_sequence',
@@ -51,8 +47,6 @@ class Appointment extends Model
 
     protected $casts = [
         'date' => 'datetime:Y-m-d:',
-        'from' => 'datetime:H:i:s',
-        'to' => 'datetime:H:i:s',
     ];
 
     public function exportable(): array
@@ -69,7 +63,6 @@ class Appointment extends Model
             'device_type',
             'appointment_sequence',
             'qr_code',
-            'customer.mother_full_name',
             'clinic.name',
             'service.name',
         ];
@@ -141,7 +134,8 @@ class Appointment extends Model
             'customer.user' => [
                 'first_name',
                 'last_name',
-                'middle_name'
+                'middle_name',
+                'full_name',
             ],
             'clinic' => [
                 'name',

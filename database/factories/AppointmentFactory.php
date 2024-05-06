@@ -36,8 +36,6 @@ class AppointmentFactory extends Factory
             'total_cost' => fake()->randomFloat(2, 0, 1000),
             'type' => fake()->randomElement(AppointmentTypeEnum::getAllValues()),
             'date' => fake()->dateTimeBetween('-5 days', '+20 days'),
-            'from' => fake()->time(),
-            'to' => fake()->time(),
             'status' => AppointmentStatusEnum::PENDING->value,
             'device_type' => fake()->word(),
             'appointment_sequence' => fake()->numberBetween(1, 10),

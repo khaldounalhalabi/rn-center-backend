@@ -192,9 +192,9 @@ class Clinic extends Model implements HasMedia
         return $this->hasMany(Appointment::class)->where('date', '>', now()->addDay()->format('Y-m-d'));
     }
 
-    public function canHasAppointmentIn(string $date, string $from, string $to, ?int $customerId = null): bool
+    public function canHasAppointmentIn(string $date): bool
     {
-        if (!$this->validAppointmentDateTime($date, $from, $to)) {
+        if (!$this->validAppointmentDateTime($date)) {
             return false;
         }
 
@@ -202,28 +202,25 @@ class Clinic extends Model implements HasMedia
             return false;
         }
 
-        if (!$this->availableScheduleIn($date, $from, $to)) {
+        if (!$this->availableScheduleIn($date)) {
             return false;
         }
 
-        if ($this->conflictWithAnotherAppointment($date, $from, $to, $customerId)) {
+        $this->loadCount('validAppointments');
+
+        // checking if the current clinic reached the maximum appointments per day
+        if ($this->valid_appointments_count >= $this->max_appointments) {
             return false;
         }
 
         return true;
     }
 
-    public function validAppointmentDateTime(string $date, string $from, string $to, ?int $customerId = null): bool
+    public function validAppointmentDateTime(string $date): bool
     {
         $date = Carbon::parse($date);
-        $from = Carbon::parse($from);
-        $to = Carbon::parse($to);
 
         if ($date->subDays($this->appointment_day_range)->isAfter(now())) {
-            return false;
-        }
-
-        if ($to->diffInMinutes($from) != $this->approximate_appointment_time) {
             return false;
         }
 
@@ -238,27 +235,13 @@ class Clinic extends Model implements HasMedia
             ->exists();
     }
 
-    public function availableScheduleIn(string $date, string $from, string $to): bool
+    public function availableScheduleIn(string $date): bool
     {
         $date = Carbon::parse($date);
         $dayName = Str::lower($date->dayName);
 
         return $this->schedules()
             ->where('day_of_week', $dayName)
-            ->where('start_time', '<=', $from)
-            ->where('end_time', '>=', $to)
-            ->exists();
-    }
-
-    public function conflictWithAnotherAppointment(string $date, string $from, string $to, ?int $customerId = null): bool
-    {
-        return $this->appointments()
-            ->where('date', $date)
-            ->where(function (Builder $query) use ($to, $from) {
-                $query->whereBetween('from', [$from, $to])
-                    ->orWhereBetween('to', [$from, $to]);
-            })
-            ->where('customer_id', '!=', $customerId ?? auth()->user()->id)
             ->exists();
     }
 
@@ -266,7 +249,7 @@ class Clinic extends Model implements HasMedia
     {
         return $this->hasMany(Appointment::class)
             ->where('date', '>=', now()->format('Y-m-d'))
-            ->whereIn('status', [AppointmentStatusEnum::CHECKIN->value, AppointmentStatusEnum::PENDING->value]);
+            ->whereIn('status', [AppointmentStatusEnum::CHECKIN->value, AppointmentStatusEnum::BOOKED->value]);
     }
 
     public function validHolidays(): HasMany
