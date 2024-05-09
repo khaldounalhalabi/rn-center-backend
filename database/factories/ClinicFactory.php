@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\WeekDayEnum;
+use App\Models\Address;
 use App\Models\Appointment;
 use App\Models\Clinic;
 use App\Models\ClinicHoliday;
@@ -54,6 +55,16 @@ class ClinicFactory extends Factory
             ->withServices(5)
             ->withClinicHolidays(2)
             ->withPrescriptions();
+    }
+
+    public function withAddress(): ClinicFactory
+    {
+        return $this->afterCreating(function (Clinic $clinic){
+            Address::factory()->create([
+                'addressable_id' => $clinic->user_id ,
+                'addressable_type' => User::class,
+            ]);
+        });
     }
 
     public function withPrescriptions($count = 1): ClinicFactory
