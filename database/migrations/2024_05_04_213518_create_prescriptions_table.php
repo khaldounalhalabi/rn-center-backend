@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Appointment;
 use App\Models\Clinic;
 use App\Models\Customer;
 use Illuminate\Database\Migrations\Migration;
@@ -20,6 +21,7 @@ return new class () extends Migration {
             $table->string('next_visit')->nullable();
             $table->foreignIdFor(Clinic::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Customer::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Appointment::class)->constrained()->cascadeOnDelete();
 
             $table->timestamps();
         });

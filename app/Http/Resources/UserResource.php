@@ -28,7 +28,8 @@ class UserResource extends BaseResource
             'first_name' => $this->first_name,
             'middle_name' => $this->middle_name,
             'last_name' => $this->last_name,
-            'address' => new AddressResource($this->whenLoaded('address'))
+            'address' => new AddressResource($this->whenLoaded('address')),
+            'role' => $this->whenLoaded('roles'),
         ];
     }
 }
