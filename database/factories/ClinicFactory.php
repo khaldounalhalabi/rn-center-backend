@@ -8,6 +8,7 @@ use App\Models\Appointment;
 use App\Models\Clinic;
 use App\Models\ClinicHoliday;
 use App\Models\Medicine;
+use App\Models\PhoneNumber;
 use App\Models\Prescription;
 use App\Models\Schedule;
 use App\Models\Service;
@@ -59,9 +60,9 @@ class ClinicFactory extends Factory
 
     public function withAddress(): ClinicFactory
     {
-        return $this->afterCreating(function (Clinic $clinic){
+        return $this->afterCreating(function (Clinic $clinic) {
             Address::factory()->create([
-                'addressable_id' => $clinic->user_id ,
+                'addressable_id' => $clinic->user_id,
                 'addressable_type' => User::class,
             ]);
         });
@@ -119,5 +120,15 @@ class ClinicFactory extends Factory
     public function withMedicines($count = 1): ClinicFactory
     {
         return $this->has(Medicine::factory($count));
+    }
+
+    public function withPhones(): ClinicFactory
+    {
+        return $this->afterCreating(function (Clinic $clinic) {
+            PhoneNumber::factory()->create([
+                'phoneable_id' => $clinic->user_id,
+                'phoneable_type' => User::class
+            ]);
+        });
     }
 }
