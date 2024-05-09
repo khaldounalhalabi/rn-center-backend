@@ -17,6 +17,7 @@ return new class () extends Migration {
             $table->string('day_of_week');
             $table->time('start_time')->default(now()->format('H:i'));
             $table->time('end_time')->default(now()->format('H:i'));
+            $table->integer('appointment_gap')->default(10);
 
             $table->unique([
                 'schedulable_type',

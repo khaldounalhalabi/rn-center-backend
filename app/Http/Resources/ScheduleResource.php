@@ -29,6 +29,7 @@ class ScheduleResource extends BaseResource
             'day_of_week' => $this->day_of_week,
             'start_time' => $this->start_time->format('H:i'),
             'end_time' => $this->end_time->format('H:i'),
+            'appointment_gap' => $this->appointment_gap,
             ...$loaded
         ];
     }
