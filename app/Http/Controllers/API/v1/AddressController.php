@@ -5,8 +5,8 @@ namespace App\Http\Controllers\API\v1;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\Address\StoreUpdateAddressRequest;
 use App\Http\Resources\AddressResource;
-use App\Services\Address\IAddressService;
 use App\Models\Address;
+use App\Services\Address\IAddressService;
 
 class AddressController extends ApiController
 {
@@ -18,7 +18,7 @@ class AddressController extends ApiController
         $this->addressService = $addressService;
 
         // place the relations you want to return them within the response
-        $this->relations = [] ;
+        $this->relations = [];
     }
 
     public function index()

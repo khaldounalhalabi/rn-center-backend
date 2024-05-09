@@ -27,13 +27,13 @@ class SpecialityFactory extends Factory
         ];
     }
 
-    public function withClinics($count = 1): SpecialityFactory
-    {
-        return $this->has(Clinic::factory($count));
-    }
-
     public function allRelations(): SpecialityFactory
     {
         return $this->withClinics();
+    }
+
+    public function withClinics($count = 1): SpecialityFactory
+    {
+        return $this->has(Clinic::factory($count));
     }
 }

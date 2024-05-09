@@ -5,8 +5,8 @@ namespace App\Http\Controllers\API\v1;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\Hospital\StoreUpdateHospitalRequest;
 use App\Http\Resources\HospitalResource;
-use App\Services\Hospital\IHospitalService;
 use App\Models\Hospital;
+use App\Services\Hospital\IHospitalService;
 
 class HospitalController extends ApiController
 {

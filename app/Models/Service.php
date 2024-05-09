@@ -4,12 +4,10 @@ namespace App\Models;
 
 use App\Casts\Translatable;
 use App\Traits\Translations;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property numeric approximate_duration
@@ -41,44 +39,6 @@ class Service extends Model
         'description' => Translatable::class,
     ];
 
-    public function exportable(): array
-    {
-        return [
-            'name',
-            'approximate_duration',
-            'price',
-            'status',
-            'description',
-            'serviceCategory.name',
-            'clinic.name',
-        ];
-    }
-
-
-    public function serviceCategory(): BelongsTo
-    {
-        return $this->belongsTo(ServiceCategory::class);
-    }
-
-    public function clinic(): BelongsTo
-    {
-        return $this->belongsTo(Clinic::class);
-    }
-
-
-    /**
-     * define your columns which you want to treat them as files
-     * so the base repository can store them in the storage without
-     * any additional files procedures
-     */
-    public function filesKeys(): array
-    {
-        return [
-            //filesKeys
-        ];
-    }
-
-
     /**
      * add your searchable columns, so you can search within them in the
      * index method
@@ -103,6 +63,41 @@ class Service extends Model
             'serviceCategory' => [
                 'name',
             ]
+        ];
+    }
+
+    public function exportable(): array
+    {
+        return [
+            'name',
+            'approximate_duration',
+            'price',
+            'status',
+            'description',
+            'serviceCategory.name',
+            'clinic.name',
+        ];
+    }
+
+    public function serviceCategory(): BelongsTo
+    {
+        return $this->belongsTo(ServiceCategory::class);
+    }
+
+    public function clinic(): BelongsTo
+    {
+        return $this->belongsTo(Clinic::class);
+    }
+
+    /**
+     * define your columns which you want to treat them as files
+     * so the base repository can store them in the storage without
+     * any additional files procedures
+     */
+    public function filesKeys(): array
+    {
+        return [
+            //filesKeys
         ];
     }
 

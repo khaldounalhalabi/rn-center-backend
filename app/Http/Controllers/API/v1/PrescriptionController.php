@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\API\v1;
 
-use App\Http\Requests\Prescription\StoreUpdatePrescriptionRequest;
-use App\Services\Prescription\IPrescriptionService;
-use App\Http\Resources\PrescriptionResource;
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\Prescription\StoreUpdatePrescriptionRequest;
+use App\Http\Resources\PrescriptionResource;
 use App\Models\Prescription;
+use App\Services\Prescription\IPrescriptionService;
 use Illuminate\Http\Request;
 
 class PrescriptionController extends ApiController

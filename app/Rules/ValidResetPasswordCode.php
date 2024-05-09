@@ -16,8 +16,8 @@ class ValidResetPasswordCode implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $user= User::where('reset_password_code' , $value)->first();
-        if ($user->updated_at->addMinutes(10)->equalTo(now())){
+        $user = User::where('reset_password_code', $value)->first();
+        if ($user->updated_at->addMinutes(10)->equalTo(now())) {
             $fail("Your Reset Password Code Has Expired Request New One");
         }
     }

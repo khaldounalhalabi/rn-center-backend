@@ -11,7 +11,6 @@ use App\Models\Customer;
 use App\Models\Service;
 use App\Traits\FileHandler;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
  * @extends Factory
@@ -43,6 +42,11 @@ class AppointmentFactory extends Factory
         ];
     }
 
+    public function allRelations(): AppointmentFactory
+    {
+        return $this->withAppointmentLogs();
+    }
+
     public function withAppointmentLogs(): AppointmentFactory
     {
         return $this->afterCreating(function (Appointment $app) {
@@ -54,10 +58,5 @@ class AppointmentFactory extends Factory
                 'happen_in' => now(),
             ]);
         });
-    }
-
-    public function allRelations(): AppointmentFactory
-    {
-        return $this->withAppointmentLogs();
     }
 }

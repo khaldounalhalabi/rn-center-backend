@@ -53,13 +53,13 @@ class PrescriptionFactory extends Factory
         return $this->withMedicineData();
     }
 
-    public function withMedicines($count = 1): PrescriptionFactory
-    {
-        return $this->has(Medicine::factory($count));
-    }
-
     public function withMedicineData($count = 1): PrescriptionFactory
     {
         return $this->has(MedicinePrescription::factory($count), 'medicinesData');
+    }
+
+    public function withMedicines($count = 1): PrescriptionFactory
+    {
+        return $this->has(Medicine::factory($count));
     }
 }

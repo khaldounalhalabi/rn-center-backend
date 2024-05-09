@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\API\v1;
 
-use App\Http\Requests\Medicine\StoreUpdateMedicineRequest;
-use App\Services\Medicine\IMedicineService;
-use App\Http\Resources\MedicineResource;
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\Medicine\StoreUpdateMedicineRequest;
+use App\Http\Resources\MedicineResource;
 use App\Models\Medicine;
+use App\Services\Medicine\IMedicineService;
 use Illuminate\Http\Request;
 
 class MedicineController extends ApiController
@@ -19,7 +19,7 @@ class MedicineController extends ApiController
         $this->medicineService = $medicineService;
 
         // place the relations you want to return them within the response
-        $this->relations = ['clinic' , 'clinic.user'];
+        $this->relations = ['clinic', 'clinic.user'];
     }
 
     public function index()

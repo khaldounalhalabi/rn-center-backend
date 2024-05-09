@@ -38,7 +38,7 @@ class BaseExporter implements FromCollection, WithMapping, WithHeadings, WithCus
             }
             return $this->collection;
         }
-        
+
         return $this->model->export();
     }
 

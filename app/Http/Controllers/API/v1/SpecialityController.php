@@ -5,8 +5,8 @@ namespace App\Http\Controllers\API\v1;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\Speciality\StoreUpdateSpecialityRequest;
 use App\Http\Resources\SpecialityResource;
-use App\Services\Speciality\ISpecialityService;
 use App\Models\Speciality;
+use App\Services\Speciality\ISpecialityService;
 
 class SpecialityController extends ApiController
 {
@@ -18,7 +18,7 @@ class SpecialityController extends ApiController
         $this->specialityService = $specialityService;
 
         // place the relations you want to return them within the response
-        $this->relations = [] ;
+        $this->relations = [];
     }
 
     public function index()

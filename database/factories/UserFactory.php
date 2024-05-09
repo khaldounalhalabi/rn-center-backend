@@ -38,26 +38,11 @@ class UserFactory extends Factory
         ];
     }
 
-    public function withAddress(): UserFactory
-    {
-        return $this->afterCreating(function (User $user) {
-            Address::factory()->create([
-                "addressable_id" => $user->id,
-                "addressable_type" => User::class,
-            ]);
-        });
-    }
-
     public function allRelations(): UserFactory
     {
         return $this->withPhoneNumbers(3)
             ->withAddress()
             ->withMedia();
-    }
-
-    public function customer(): UserFactory
-    {
-        return $this->has(Customer::factory());
     }
 
     public function withMedia(): UserFactory
@@ -69,13 +54,28 @@ class UserFactory extends Factory
         });
     }
 
-    public function clinic(): UserFactory
+    public function withAddress(): UserFactory
     {
-        return $this->has(Clinic::factory());
+        return $this->afterCreating(function (User $user) {
+            Address::factory()->create([
+                "addressable_id" => $user->id,
+                "addressable_type" => User::class,
+            ]);
+        });
     }
 
     public function withPhoneNumbers($count = 1): UserFactory
     {
         return $this->has(PhoneNumber::factory($count), 'phones');
+    }
+
+    public function customer(): UserFactory
+    {
+        return $this->has(Customer::factory());
+    }
+
+    public function clinic(): UserFactory
+    {
+        return $this->has(Clinic::factory());
     }
 }

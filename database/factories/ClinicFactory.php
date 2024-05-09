@@ -56,6 +56,21 @@ class ClinicFactory extends Factory
             ->withPrescriptions();
     }
 
+    public function withPrescriptions($count = 1): ClinicFactory
+    {
+        return $this->has(Prescription::factory($count));
+    }
+
+    public function withClinicHolidays($count = 1): ClinicFactory
+    {
+        return $this->has(ClinicHoliday::factory($count));
+    }
+
+    public function withServices($count = 1): ClinicFactory
+    {
+        return $this->has(Service::factory($count));
+    }
+
     public function withSpecialities($count = 1): ClinicFactory
     {
         return $this->has(Speciality::factory($count));
@@ -85,16 +100,6 @@ class ClinicFactory extends Factory
         });
     }
 
-    public function withClinicHolidays($count = 1): ClinicFactory
-    {
-        return $this->has(ClinicHoliday::factory($count));
-    }
-
-    public function withServices($count = 1): ClinicFactory
-    {
-        return $this->has(Service::factory($count));
-    }
-
     public function withAppointments($count = 1): ClinicFactory
     {
         return $this->has(Appointment::factory($count));
@@ -103,10 +108,5 @@ class ClinicFactory extends Factory
     public function withMedicines($count = 1): ClinicFactory
     {
         return $this->has(Medicine::factory($count));
-    }
-
-    public function withPrescriptions($count = 1): ClinicFactory
-    {
-        return $this->has(Prescription::factory($count));
     }
 }

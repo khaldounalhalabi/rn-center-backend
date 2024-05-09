@@ -25,7 +25,7 @@ return new class () extends Migration {
                 'start_time',
                 'end_time'
             ], 'unique_schedule');
-            
+
             $table->timestamps();
         });
     }

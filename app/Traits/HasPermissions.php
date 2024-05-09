@@ -19,8 +19,8 @@ trait HasPermissions
      * this method assign a permission to access given model
      * it returns true when the permission created successfully
      * and false when the permission is already exist for the current user on this model or in one of the user roles
-     * @param  string|array{string} $permission
-     * @param  class-string<Model>  $model
+     * @param string|array{string} $permission
+     * @param class-string<Model> $model
      * @return bool
      */
     public function assignPermission(string|array $permission, string $model): bool
@@ -53,8 +53,8 @@ trait HasPermissions
     }
 
     /**
-     * @param  string              $permissionName
-     * @param  class-string<Model> $model
+     * @param string $permissionName
+     * @param class-string<Model> $model
      * @return void
      */
     public function removePermission(string $permissionName, string $model): void
@@ -72,7 +72,7 @@ trait HasPermissions
         }
 
         $permission->permissions = collect($permission->permissions)
-            ->filter(fn ($value) => ($value != $permissionName))
+            ->filter(fn($value) => ($value != $permissionName))
             ->values()
             ->toArray();
 
@@ -83,9 +83,9 @@ trait HasPermissions
      * if the provided permission isn't in the authorizedActions() returned array in the provided model the method will return true .
      * Additional action is that you can provide an instance of the model to check for the abilities that is correspond
      * to the provided permission
-     * @param  string     $permission
-     * @param  string     $model
-     * @param  Model|null $modelInstance
+     * @param string $permission
+     * @param string $model
+     * @param Model|null $modelInstance
      * @return bool
      */
     public function hasPermission(string $permission, string $model, ?Model $modelInstance = null): bool
@@ -106,8 +106,8 @@ trait HasPermissions
     }
 
     /**
-     * @param  string              $permission
-     * @param  class-string<Model> $model
+     * @param string $permission
+     * @param class-string<Model> $model
      * @return bool
      */
     private function checkRoleHasPermission(string $permission, string $model): bool
@@ -120,17 +120,13 @@ trait HasPermissions
             return false;
         }
 
-        return (bool) (in_array($permission, $rolePermissions->permissions))
-
-
-
-        ;
+        return (bool)(in_array($permission, $rolePermissions->permissions));
     }
 
     /**
-     * @param  string              $permission
-     * @param  class-string<Model> $model
-     * @param  Model|null          $modelInstance
+     * @param string $permission
+     * @param class-string<Model> $model
+     * @param Model|null $modelInstance
      * @return bool
      */
     private function checkModelHasPermission(string $permission, string $model, ?Model $modelInstance = null): bool
@@ -157,9 +153,9 @@ trait HasPermissions
     }
 
     /**
-     * @param  Model|null $modelInstance
-     * @param  string     $model
-     * @param  string     $attributeName
+     * @param Model|null $modelInstance
+     * @param string $model
+     * @param string $attributeName
      * @return bool
      */
     private function applyAbilityIfExist(?Model $modelInstance, string $model, string $attributeName): bool
@@ -175,9 +171,9 @@ trait HasPermissions
     }
 
     /**
-     * @param  Builder             $query
-     * @param  string              $permission
-     * @param  class-string<Model> $model
+     * @param Builder $query
+     * @param string $permission
+     * @param class-string<Model> $model
      * @return void
      */
     public function scopeByPermission(Builder $query, string $permission, string $model): void

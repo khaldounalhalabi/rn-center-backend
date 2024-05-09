@@ -14,6 +14,6 @@ class ServiceSeeder extends Seeder
     {
         Service::factory(10)
             ->withAppointments()
-            ->create() ;
+            ->create();
     }
 }

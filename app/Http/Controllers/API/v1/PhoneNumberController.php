@@ -5,8 +5,8 @@ namespace App\Http\Controllers\API\v1;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\PhoneNumber\StoreUpdatePhoneNumberRequest;
 use App\Http\Resources\PhoneNumberResource;
-use App\Services\PhoneNumber\IPhoneNumberService;
 use App\Models\PhoneNumber;
+use App\Services\PhoneNumber\IPhoneNumberService;
 
 class PhoneNumberController extends ApiController
 {
@@ -18,7 +18,7 @@ class PhoneNumberController extends ApiController
         $this->phoneNumberService = $phoneNumberService;
 
         // place the relations you want to return them within the response
-        $this->relations = [] ;
+        $this->relations = [];
     }
 
     public function index()

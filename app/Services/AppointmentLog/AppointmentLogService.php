@@ -32,6 +32,6 @@ class AppointmentLogService extends BaseService implements IAppointmentLogServic
      */
     public function getAppointmentLogs($appointmentId, array $relations = []): Collection|_IH_AppointmentLog_C|array|LaravelCollection
     {
-        return $this->repository->getByAppointmentId($appointmentId , $relations);
+        return $this->repository->getByAppointmentId($appointmentId, $relations);
     }
 }

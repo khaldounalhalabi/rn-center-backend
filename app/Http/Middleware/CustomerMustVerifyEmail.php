@@ -28,7 +28,7 @@ class CustomerMustVerifyEmail
         if ($user->hasRole(RolesPermissionEnum::CUSTOMER['role']) && $user->email_verified_at == null) {
             return $this->apiResponse(null, ApiController::STATUS_UNAUTHORIZED, __('site.your_email_is_not_verified'));
         }
-        
+
         return $next($request);
     }
 }

@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Clinic;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ClinicSeeder extends Seeder
@@ -22,6 +21,6 @@ class ClinicSeeder extends Seeder
             ->withClinicHolidays()
             ->withMedicines()
             ->withSchedules()
-            ->create() ;
+            ->create();
     }
 }

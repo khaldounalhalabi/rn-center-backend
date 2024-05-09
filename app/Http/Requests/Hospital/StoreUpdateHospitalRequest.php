@@ -7,7 +7,6 @@ use App\Rules\LanguageShape;
 use App\Rules\UniquePhoneNumber;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Propaganistas\LaravelPhone\Rules\Phone;
 
 
 class StoreUpdateHospitalRequest extends FormRequest

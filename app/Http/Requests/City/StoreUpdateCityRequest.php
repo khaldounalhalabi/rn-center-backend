@@ -3,11 +3,9 @@
 namespace App\Http\Requests\City;
 
 use App\Rules\LanguageShape;
-
-
-
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+
 
 class StoreUpdateCityRequest extends FormRequest
 {
@@ -28,13 +26,13 @@ class StoreUpdateCityRequest extends FormRequest
     {
         if (request()->method() == 'POST') {
             return [
-                'name' => ['required', 'json', new LanguageShape()] ,
+                'name' => ['required', 'json', new LanguageShape()],
 
             ];
         }
 
         return [
-            'name' => ['nullable', 'json', new LanguageShape()] ,
+            'name' => ['nullable', 'json', new LanguageShape()],
         ];
     }
 }

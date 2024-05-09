@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\App\Models\Speciality;
-use App\Models\App\Models\Clinic;
+use App\Models\Clinic;
+use App\Models\Speciality;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,8 +16,8 @@ return new class () extends Migration {
     {
         Schema::create('clinic_specialities', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\Speciality::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(\App\Models\Clinic::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Speciality::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Clinic::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

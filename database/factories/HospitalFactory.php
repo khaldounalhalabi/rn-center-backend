@@ -9,7 +9,6 @@ use App\Traits\FileHandler;
 use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Http\File;
-use Illuminate\Http\UploadedFile;
 
 /**
  * @extends Factory
@@ -31,6 +30,23 @@ class HospitalFactory extends Factory
         ];
     }
 
+    public function allRelations(): HospitalFactory
+    {
+        return $this->withMedia()
+            ->withAvailableDepartments()
+            ->withPhoneNumbers();
+    }
+
+    public function withPhoneNumbers($count = 1): HospitalFactory
+    {
+        return $this->has(PhoneNumber::factory($count), 'phones');
+    }
+
+    public function withAvailableDepartments($count = 1): HospitalFactory
+    {
+        return $this->has(AvailableDepartment::factory($count), 'availableDepartments');
+    }
+
     public function withMedia(): HospitalFactory
     {
         return $this->afterCreating(function (Hospital $h) {
@@ -38,23 +54,6 @@ class HospitalFactory extends Factory
                 new File(storage_path('/app/required/download.png'))
             )->preservingOriginal()->toMediaCollection();
         });
-    }
-
-    public function withPhoneNumbers($count = 1): HospitalFactory
-    {
-        return $this->has(PhoneNumber::factory($count) , 'phones');
-    }
-
-    public function withAvailableDepartments($count = 1): HospitalFactory
-    {
-        return $this->has(AvailableDepartment::factory($count) , 'availableDepartments');
-    }
-
-    public function allRelations(): HospitalFactory
-    {
-        return $this->withMedia()
-            ->withAvailableDepartments()
-            ->withPhoneNumbers();
     }
 
 }

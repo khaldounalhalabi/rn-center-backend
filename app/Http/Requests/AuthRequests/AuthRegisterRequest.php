@@ -6,7 +6,6 @@ use App\Enums\GenderEnum;
 use App\Rules\LanguageShape;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Propaganistas\LaravelPhone\Rules\Phone;
 
 class AuthRegisterRequest extends FormRequest
 {

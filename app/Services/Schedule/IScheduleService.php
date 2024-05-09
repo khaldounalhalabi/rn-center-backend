@@ -26,5 +26,5 @@ interface IScheduleService extends IBaseService
      */
     public function storeUpdateSchedules(array $data, array $relationships = []): bool;
 
-    public function deleteAllClinicSchedules($clinicId):bool;
+    public function deleteAllClinicSchedules($clinicId): bool;
 }

@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 class AdminOnly
 {
     use RestTrait;
+
     /**
      * Handle an incoming request.
      *
@@ -19,8 +20,8 @@ class AdminOnly
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->user()?->hasRole(RolesPermissionEnum::ADMIN['role'])){
-            return $this->apiResponse(null  , ApiController::STATUS_UNAUTHORIZED , __('site.unauthorized_user'));
+        if (!auth()->user()?->hasRole(RolesPermissionEnum::ADMIN['role'])) {
+            return $this->apiResponse(null, ApiController::STATUS_UNAUTHORIZED, __('site.unauthorized_user'));
         }
         return $next($request);
     }

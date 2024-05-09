@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\API\v1;
 
-use App\Http\Requests\Appointment\StoreUpdateAppointmentRequest;
-use App\Services\Appointment\IAppointmentService;
-use App\Http\Resources\AppointmentResource;
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\Appointment\StoreUpdateAppointmentRequest;
+use App\Http\Resources\AppointmentResource;
 use App\Models\Appointment;
+use App\Services\Appointment\IAppointmentService;
 use Illuminate\Http\Request;
 
 class AppointmentController extends ApiController

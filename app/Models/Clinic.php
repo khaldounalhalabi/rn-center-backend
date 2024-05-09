@@ -14,8 +14,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -152,11 +150,6 @@ class Clinic extends Model implements HasMedia
         ];
     }
 
-    public function schedules(): MorphMany
-    {
-        return $this->morphMany(Schedule::class, 'schedulable');
-    }
-
     public function specialities(): BelongsToMany
     {
         return $this->belongsToMany(Speciality::class, 'clinic_specialities');
@@ -165,11 +158,6 @@ class Clinic extends Model implements HasMedia
     public function hospital(): BelongsTo
     {
         return $this->belongsTo(Hospital::class);
-    }
-
-    public function clinicHolidays(): HasMany
-    {
-        return $this->hasMany(ClinicHoliday::class);
     }
 
     public function services(): HasMany
@@ -235,6 +223,11 @@ class Clinic extends Model implements HasMedia
             ->exists();
     }
 
+    public function clinicHolidays(): HasMany
+    {
+        return $this->hasMany(ClinicHoliday::class);
+    }
+
     public function availableScheduleIn(string $date): bool
     {
         $date = Carbon::parse($date);
@@ -243,6 +236,11 @@ class Clinic extends Model implements HasMedia
         return $this->schedules()
             ->where('day_of_week', $dayName)
             ->exists();
+    }
+
+    public function schedules(): MorphMany
+    {
+        return $this->morphMany(Schedule::class, 'schedulable');
     }
 
     public function validAppointments(): HasMany

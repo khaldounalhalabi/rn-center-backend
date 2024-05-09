@@ -59,7 +59,7 @@ class AvailableDepartment extends Model
 
     public function hospital(): BelongsToMany
     {
-        return $this->belongsToMany(Hospital::class , 'department_hospitals');
+        return $this->belongsToMany(Hospital::class, 'department_hospitals');
     }
 
     /**

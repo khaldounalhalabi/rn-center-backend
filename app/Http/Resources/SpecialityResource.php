@@ -19,7 +19,7 @@ class SpecialityResource extends BaseResource
             'name' => $this->name,
             'description' => $this->description,
             'tags' => $this->tags,
-            'clinics' =>  ClinicResource::collection($this->whenLoaded('clinics')) ,
+            'clinics' => ClinicResource::collection($this->whenLoaded('clinics')),
         ];
     }
 }

@@ -3,10 +3,9 @@
 namespace App\Http\Requests\ServiceCategory;
 
 use App\Rules\LanguageShape;
-
-
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+
 
 class StoreUpdateServiceCategoryRequest extends FormRequest
 {

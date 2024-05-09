@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Speciality;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class SpecialitySeeder extends Seeder
@@ -15,6 +14,6 @@ class SpecialitySeeder extends Seeder
     {
         Speciality::factory(10)
             ->withClinics()
-            ->create() ;
+            ->create();
     }
 }

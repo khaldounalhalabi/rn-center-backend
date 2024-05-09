@@ -16,7 +16,7 @@ class Role extends Model
     protected $fillable = ['name'];
 
     /**
-     * @param  string    $name
+     * @param string $name
      * @return Role|null
      */
     public static function getByName(string $name): ?Role
@@ -25,7 +25,7 @@ class Role extends Model
     }
 
     /**
-     * @param  class-string<Model> $model
+     * @param class-string<Model> $model
      * @return MorphToMany
      */
     public function modelsHasRole(string $model): MorphToMany

@@ -118,7 +118,7 @@ class PrescriptionService extends BaseService implements IPrescriptionService
     {
         $medicineData = $this->medicinePrescriptionRepository->find($medicineDataId);
 
-        if (!$medicineData){
+        if (!$medicineData) {
             return null;
         }
 

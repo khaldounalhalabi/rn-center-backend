@@ -16,7 +16,7 @@ trait HasRoles
     use HasPermissions;
 
     /**
-     * @param  string                    $roleName
+     * @param string $roleName
      * @return $this
      * @throws RoleDoesNotExistException
      */
@@ -42,7 +42,7 @@ trait HasRoles
     }
 
     /**
-     * @param  string                    $roleName
+     * @param string $roleName
      * @return $this
      * @throws RoleDoesNotExistException
      */
@@ -59,7 +59,7 @@ trait HasRoles
     }
 
     /**
-     * @param  string $roleName
+     * @param string $roleName
      * @return bool
      */
     public function hasRole(string $roleName): bool
@@ -68,8 +68,8 @@ trait HasRoles
     }
 
     /**
-     * @param  Builder $query
-     * @param  string  $roleName
+     * @param Builder $query
+     * @param string $roleName
      * @return void
      */
     public function scopeByRole(Builder $query, string $roleName): void

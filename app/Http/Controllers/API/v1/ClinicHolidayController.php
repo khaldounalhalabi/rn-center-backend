@@ -5,8 +5,8 @@ namespace App\Http\Controllers\API\v1;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\ClinicHoliday\StoreUpdateClinicHolidayRequest;
 use App\Http\Resources\ClinicHolidayResource;
-use App\Services\ClinicHoliday\IClinicHolidayService;
 use App\Models\ClinicHoliday;
+use App\Services\ClinicHoliday\IClinicHolidayService;
 
 class ClinicHolidayController extends ApiController
 {

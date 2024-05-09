@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\AvailableDepartment;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class AvailableDepartmentSeeder extends Seeder
@@ -14,6 +13,6 @@ class AvailableDepartmentSeeder extends Seeder
     public function run(): void
     {
         AvailableDepartment::factory(10)
-            ->create() ;
+            ->create();
     }
 }

@@ -122,7 +122,7 @@ class BaseAuthController extends ApiController
 
     public function userDetails()
     {
-        $user = $this->userService->userDetails($this->role,$this->relations);
+        $user = $this->userService->userDetails($this->role, $this->relations);
 
         if ($user) {
             return $this->apiResponse(new UserResource($user), self::STATUS_OK, __('site.get_successfully'));
@@ -133,8 +133,8 @@ class BaseAuthController extends ApiController
     public function checkRole()
     {
         return $this->apiResponse(
-            auth()->user()?->roles()->first()->name ,
-            self::STATUS_OK ,
+            auth()->user()?->roles()->first()->name,
+            self::STATUS_OK,
             __('site.get_successfully')
         );
     }

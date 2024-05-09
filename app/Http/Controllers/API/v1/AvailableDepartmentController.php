@@ -5,8 +5,8 @@ namespace App\Http\Controllers\API\v1;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\AvailableDepartment\StoreUpdateAvailableDepartmentRequest;
 use App\Http\Resources\AvailableDepartmentResource;
-use App\Services\AvailableDepartment\IAvailableDepartmentService;
 use App\Models\AvailableDepartment;
+use App\Services\AvailableDepartment\IAvailableDepartmentService;
 
 class AvailableDepartmentController extends ApiController
 {
@@ -18,7 +18,7 @@ class AvailableDepartmentController extends ApiController
         $this->availableDepartmentService = $availableDepartmentService;
 
         // place the relations you want to return them within the response
-        $this->relations = [] ;
+        $this->relations = [];
     }
 
     public function index()

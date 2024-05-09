@@ -42,7 +42,7 @@ class NotificationService extends BaseService implements INotificationService
     {
         /** @var Notification $notification */
         $notification = $this->repository->find($id);
-        Log::info(print_r($notification->toArray() , 1));
+        Log::info(print_r($notification->toArray(), 1));
         if (!$notification) {
             return false;
         }
@@ -57,7 +57,7 @@ class NotificationService extends BaseService implements INotificationService
         try {
             auth('web')->user()->unreadNotifications()->latest()->limit(5)->get()->markAsRead();
             return true;
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             return false;
         }
     }

@@ -3,12 +3,10 @@
 namespace App\Http\Requests\AuthRequests;
 
 use App\Enums\GenderEnum;
-use App\Models\User;
 use App\Rules\LanguageShape;
 use App\Rules\UniquePhoneNumber;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Propaganistas\LaravelPhone\Rules\Phone;
 
 class UpdateUserRequest extends FormRequest
 {

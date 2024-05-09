@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Schedule;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ScheduleSeeder extends Seeder
@@ -14,6 +13,6 @@ class ScheduleSeeder extends Seeder
     public function run(): void
     {
         Schedule::factory(10)
-            ->create() ;
+            ->create();
     }
 }

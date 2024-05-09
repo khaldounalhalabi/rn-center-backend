@@ -8,17 +8,6 @@ use Illuminate\Contracts\Validation\ValidationRule;
 
 class LanguageShape implements ValidationRule
 {
-    public function hasNestedArrays($array): bool
-    {
-        foreach ($array as $element) {
-            if (is_array($element)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         try {
@@ -48,5 +37,16 @@ class LanguageShape implements ValidationRule
         } catch (Exception) {
             $fail("invalid $attribute");
         }
+    }
+
+    public function hasNestedArrays($array): bool
+    {
+        foreach ($array as $element) {
+            if (is_array($element)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

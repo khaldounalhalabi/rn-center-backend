@@ -4,7 +4,6 @@ namespace App\Http\Requests\Appointment;
 
 use App\Enums\AppointmentStatusEnum;
 use App\Enums\AppointmentTypeEnum;
-use App\Rules\CanBookAppointment;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 

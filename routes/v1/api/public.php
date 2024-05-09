@@ -1,12 +1,11 @@
 <?php
 
 use App\Http\Controllers\API\v1;
-
-
 use App\Http\Controllers\API\v1\AdminAuthController;
 use App\Http\Controllers\API\v1\CustomerAuthController;
 use App\Http\Controllers\API\v1\DoctorAuthController;
 use Illuminate\Support\Facades\Route;
+
 
 Route::prefix('/customer')
     ->controller(CustomerAuthController::class)

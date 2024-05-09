@@ -17,7 +17,7 @@ class ServiceCategoryResource extends BaseResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'services' => \App\Http\Resources\ServiceResource::collection($this->whenLoaded('services')) ,
+            'services' => \App\Http\Resources\ServiceResource::collection($this->whenLoaded('services')),
         ];
     }
 }

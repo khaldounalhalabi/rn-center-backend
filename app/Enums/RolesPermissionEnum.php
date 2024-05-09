@@ -9,12 +9,10 @@ class RolesPermissionEnum
 {
     //**********ADMIN***********//
     public const ADMIN = [
-        'role' => 'admin' ,
-        'permissions' => [] ,
-    ] ;
+        'role' => 'admin',
+        'permissions' => [],
+    ];
     //*************************//
-
-
 
 
     public const ALLROLES = [
@@ -22,7 +20,6 @@ class RolesPermissionEnum
         self::DOCTOR['role'],
         self::CUSTOMER['role'],
         //add-all-your-enums-roles-here
-
 
 
     ];
@@ -34,22 +31,21 @@ class RolesPermissionEnum
         //add-all-your-enums-here
 
 
-
     ];
 
     //**********DOCTOR***********//
     public const DOCTOR = [
-        'role' => 'doctor' ,
-        'permissions' => [] ,
-    ] ;
+        'role' => 'doctor',
+        'permissions' => [],
+    ];
     //*************************//
 
 
     //**********CUSTOMER***********//
     public const CUSTOMER = [
-        'role' => 'customer' ,
-        'permissions' => [] ,
-    ] ;
+        'role' => 'customer',
+        'permissions' => [],
+    ];
     //*************************//
 
 }

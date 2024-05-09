@@ -10,22 +10,9 @@ use Illuminate\Support\Collection;
 
 class BaseResource extends JsonResource
 {
-    public bool $translatable = false;
-
-    public function setTranslatable($val): static
-    {
-        $this->translatable = $val;
-        return $this;
-    }
-
-    public function translatables(): array
-    {
-        return [];
-    }
-
     private const AuthorizedActions = 'authorizedActions';
     private const FilterMethod = 'filterArray';
-
+    public bool $translatable = false;
     protected bool $detailed = false;
     protected ?array $extra;
 
@@ -191,5 +178,16 @@ class BaseResource extends JsonResource
         return count($abilities) > 0
             ? array_merge($response->toArray(request()), ["abilities" => $abilities])
             : $response;
+    }
+
+    public function setTranslatable($val): static
+    {
+        $this->translatable = $val;
+        return $this;
+    }
+
+    public function translatables(): array
+    {
+        return [];
     }
 }

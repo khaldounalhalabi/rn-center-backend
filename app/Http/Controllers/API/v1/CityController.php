@@ -5,8 +5,8 @@ namespace App\Http\Controllers\API\v1;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\City\StoreUpdateCityRequest;
 use App\Http\Resources\CityResource;
-use App\Services\City\ICityService;
 use App\Models\City;
+use App\Services\City\ICityService;
 
 class CityController extends ApiController
 {
@@ -18,7 +18,7 @@ class CityController extends ApiController
         $this->cityService = $cityService;
 
         // place the relations you want to return them within the response
-        $this->relations = [] ;
+        $this->relations = [];
     }
 
     public function index()

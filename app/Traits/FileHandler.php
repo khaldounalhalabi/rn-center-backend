@@ -35,9 +35,9 @@ trait FileHandler
      *
      * @param         $file
      * @param         $dir
-     * @param  bool   $to_compress
-     * @param  bool   $is_base_64
-     * @param  int    $width
+     * @param bool $to_compress
+     * @param bool $is_base_64
+     * @param int $width
      * @return string
      */
     public function storeFile($file, $dir, bool $to_compress = true, bool $is_base_64 = false, int $width = 300): string
@@ -61,8 +61,8 @@ trait FileHandler
     }
 
     /**
-     * @param  string $url image URL
-     * @param  string $dir the rest of the storage path where you want to store
+     * @param string $url image URL
+     * @param string $dir the rest of the storage path where you want to store
      * @return array
      */
     public function storeImageFromUrl(string $url, string $dir = ''): array
@@ -78,7 +78,7 @@ trait FileHandler
     /**
      * this function can store any file
      *
-     * @param  string $key key as sent in the request
+     * @param string $key key as sent in the request
      * @return string
      */
     public function storeNormalFile(string $key): string
@@ -104,9 +104,9 @@ trait FileHandler
      * @param         $new_file
      * @param         $old_file
      * @param         $dir
-     * @param  bool   $to_compress
-     * @param  bool   $is_base_64
-     * @param  int    $width
+     * @param bool $to_compress
+     * @param bool $is_base_64
+     * @param int $width
      * @return string
      */
     public function updateFile($new_file, $old_file, $dir, bool $to_compress = true, bool $is_base_64 = false, int $width = 300): string
@@ -134,13 +134,13 @@ trait FileHandler
     /**
      * store requested keys as files
      *
-     * @param  array $data
-     * @param  array $filesKeys
-     * @param  bool  $is_store
-     * @param  null  $item
-     * @param  bool  $to_compress
-     * @param  bool  $is_base_64
-     * @param  int   $width
+     * @param array $data
+     * @param array $filesKeys
+     * @param bool $is_store
+     * @param null $item
+     * @param bool $to_compress
+     * @param bool $is_base_64
+     * @param int $width
      * @return array
      */
     private function storeOrUpdateRequestedFiles(array $data, array $filesKeys = [], bool $is_store = true, $item = null, bool $to_compress = true, bool $is_base_64 = false, int $width = 300): array

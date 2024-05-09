@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\API\v1;
 
-use App\Http\Requests\ServiceCategory\StoreUpdateServiceCategoryRequest;
-use App\Services\ServiceCategory\IServiceCategoryService;
-use App\Http\Resources\ServiceCategoryResource;
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\ServiceCategory\StoreUpdateServiceCategoryRequest;
+use App\Http\Resources\ServiceCategoryResource;
 use App\Models\ServiceCategory;
+use App\Services\ServiceCategory\IServiceCategoryService;
 use Illuminate\Http\Request;
 
 class ServiceCategoryController extends ApiController
@@ -19,7 +19,7 @@ class ServiceCategoryController extends ApiController
         $this->serviceCategoryService = $serviceCategoryService;
 
         // place the relations you want to return them within the response
-        $this->relations = [] ;
+        $this->relations = [];
     }
 
     public function index()

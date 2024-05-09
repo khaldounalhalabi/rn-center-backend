@@ -3,23 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\City;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class CitySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
-    {
-        foreach ($this->governorates as $governorate) {
-            City::updateOrCreate([
-                'name' => json_encode($governorate, JSON_UNESCAPED_UNICODE)
-            ]);
-        }
-    }
-
     public array $governorates = [
         ["en" => "Najaf", "ar" => "النجف"],
         ["en" => "Karbala", "ar" => "كربلاء"],
@@ -40,4 +27,16 @@ class CitySeeder extends Seeder
         ["en" => "Duhok", "ar" => "دهوك"],
         ["en" => "Mosul", "ar" => "الموصل"]
     ];
+
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        foreach ($this->governorates as $governorate) {
+            City::updateOrCreate([
+                'name' => json_encode($governorate, JSON_UNESCAPED_UNICODE)
+            ]);
+        }
+    }
 }
