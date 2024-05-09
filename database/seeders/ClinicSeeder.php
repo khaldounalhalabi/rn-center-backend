@@ -13,6 +13,15 @@ class ClinicSeeder extends Seeder
      */
     public function run(): void
     {
-        Clinic::factory(10)->create() ;
+        Clinic::factory(10)
+            ->withSpecialities()
+            ->withPrescriptions()
+            ->withAppointments()
+            ->withServices()
+            ->withMedia()
+            ->withClinicHolidays()
+            ->withMedicines()
+            ->withSchedules()
+            ->create() ;
     }
 }

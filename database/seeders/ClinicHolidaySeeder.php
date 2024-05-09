@@ -12,6 +12,7 @@ class ClinicHolidaySeeder extends Seeder
      */
     public function run(): void
     {
-        ClinicHoliday::factory(10)->create() ;
+        ClinicHoliday::factory(10)
+            ->create() ;
     }
 }

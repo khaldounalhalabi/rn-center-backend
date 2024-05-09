@@ -13,8 +13,14 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $admin = User::factory()->create(['email' => 'admin@pom.com', 'password' => '123456789'])->assignRole(RolesPermissionEnum::ADMIN['role']);
+        $admin = User::factory()
+            ->create(['email' => 'admin@pom.com', 'password' => '123456789'])
+            ->assignRole(RolesPermissionEnum::ADMIN['role']);
 
-        User::factory(10)->create();
+        User::factory(10)
+            ->withMedia()
+            ->withPhoneNumbers()
+            ->withAddress()
+            ->create();
     }
 }

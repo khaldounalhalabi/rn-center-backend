@@ -13,6 +13,7 @@ class AppointmentLogSeeder extends Seeder
      */
     public function run(): void
     {
-        AppointmentLog::factory(10)->create() ;
+        AppointmentLog::factory(10)
+            ->create() ;
     }
 }
