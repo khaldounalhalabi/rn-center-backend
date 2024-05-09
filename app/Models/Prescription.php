@@ -31,7 +31,7 @@ class Prescription extends Model
         'problem_description',
         'test',
         'next_visit',
-
+        'appointment_id',
     ];
 
     protected $casts = [
@@ -47,7 +47,6 @@ class Prescription extends Model
             'next_visit',
             'clinic.name',
             'customer.mother_full_name',
-
         ];
     }
 
@@ -76,7 +75,6 @@ class Prescription extends Model
     public function filesKeys(): array
     {
         return [
-
             //filesKeys
         ];
     }
@@ -93,7 +91,6 @@ class Prescription extends Model
             'problem_description',
             'test',
             'next_visit',
-
         ];
     }
 
@@ -130,5 +127,10 @@ class Prescription extends Model
     public function medicinesData(): HasMany
     {
         return $this->hasMany(MedicinePrescription::class);
+    }
+
+    public function appointment(): BelongsTo
+    {
+        return $this->belongsTo(Appointment::class);
     }
 }

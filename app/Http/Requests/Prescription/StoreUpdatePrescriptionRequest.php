@@ -26,6 +26,7 @@ class StoreUpdatePrescriptionRequest extends FormRequest
             return [
                 'clinic_id' => ['required', 'numeric', 'exists:clinics,id'],
                 'customer_id' => ['required', 'numeric', 'exists:customers,id'],
+                'appointment_id' => ['required', 'numeric', 'exists:appointments,id'],
                 'physical_information' => ['nullable', 'json'],
                 'problem_description' => ['nullable', 'string'],
                 'test' => ['nullable', 'string'],
@@ -42,8 +43,6 @@ class StoreUpdatePrescriptionRequest extends FormRequest
         }
 
         return [
-            'clinic_id' => ['nullable', 'numeric', 'exists:clinics,id'],
-            'customer_id' => ['nullable', 'numeric', 'exists:customers,id'],
             'physical_information' => ['nullable', 'json'],
             'problem_description' => ['nullable', 'string'],
             'test' => ['nullable', 'string'],

@@ -26,6 +26,8 @@ class PrescriptionResource extends BaseResource
             'customer' => new CustomerResource($this->whenLoaded('customer')),
             'medicines' => MedicineResource::collection($this->whenLoaded('medicines')),
             'medicines_data' => MedicinePrescriptionResource::collection($this->whenLoaded('medicinesData')),
+            'appointment' => new AppointmentResource($this->whenLoaded('appointment')),
+            'created_at' => $this->created_at->format('Y-m-d'),
         ];
     }
 }

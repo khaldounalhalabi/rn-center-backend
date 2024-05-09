@@ -18,7 +18,7 @@ class PrescriptionController extends ApiController
 
         $this->prescriptionService = $prescriptionService;
 
-        $this->relations = ['clinic.user', 'customer.user', 'medicinesData'];
+        $this->relations = ['clinic.user', 'customer.user', 'medicinesData.medicine'];
         $this->indexRelations = ['clinic.user', 'customer.user'];
     }
 

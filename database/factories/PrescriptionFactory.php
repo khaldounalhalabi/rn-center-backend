@@ -2,11 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Appointment;
 use App\Models\Clinic;
 use App\Models\Customer;
+use App\Models\Medicine;
 use App\Models\MedicinePrescription;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
  * @extends Factory
@@ -39,6 +40,7 @@ class PrescriptionFactory extends Factory
         return [
             'clinic_id' => Clinic::factory(),
             'customer_id' => Customer::factory(),
+            'appointment_id' => Appointment::factory(),
             'physical_information' => json_encode($physicalInformation),
             'problem_description' => fake()->text(),
             'test' => fake()->text(),
@@ -53,7 +55,7 @@ class PrescriptionFactory extends Factory
 
     public function withMedicines($count = 1): PrescriptionFactory
     {
-        return $this->has(\App\Models\Medicine::factory($count));
+        return $this->has(Medicine::factory($count));
     }
 
     public function withMedicineData($count = 1): PrescriptionFactory
