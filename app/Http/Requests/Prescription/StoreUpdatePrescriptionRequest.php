@@ -55,7 +55,7 @@ class StoreUpdatePrescriptionRequest extends FormRequest
             'medicines.*.duration' => 'string|nullable',
             'medicines.*.time' => 'string|nullable',
             'medicines.*.dose_interval' => 'string|nullable',
-            'comment' => 'string|nullable'
+            'medicines.*.comment' => 'string|nullable'
         ];
     }
 }
