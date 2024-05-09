@@ -12,6 +12,6 @@ class ServiceCategorySeeder extends Seeder
      */
     public function run(): void
     {
-        ServiceCategory::factory(10)->allRelations()->create();
+        ServiceCategory::factory(10)->create();
     }
 }

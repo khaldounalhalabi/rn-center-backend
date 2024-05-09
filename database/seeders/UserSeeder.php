@@ -15,6 +15,6 @@ class UserSeeder extends Seeder
     {
         $admin = User::factory()->create(['email' => 'admin@pom.com', 'password' => '123456789'])->assignRole(RolesPermissionEnum::ADMIN['role']);
 
-        User::factory(10)->allRelations()->create();
+        User::factory(10)->create();
     }
 }

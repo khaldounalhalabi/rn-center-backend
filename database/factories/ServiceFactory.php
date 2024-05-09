@@ -28,7 +28,7 @@ class ServiceFactory extends Factory
             'price' => fake()->randomFloat(2, 0, 1000),
             'status' => fake()->numberBetween(1, 2000),
             'description' => $this->fakeTranslation('word'),
-            'clinic_id' => Clinic::factory()->allRelations(),
+            'clinic_id' => Clinic::factory(),
         ];
     }
 

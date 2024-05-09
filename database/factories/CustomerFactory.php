@@ -21,7 +21,7 @@ class CustomerFactory extends Factory
     {
         return [
             'medical_condition' => fake()->text(),
-            'user_id' => User::factory()->allRelations(),
+            'user_id' => User::factory(),
         ];
     }
 

@@ -13,6 +13,6 @@ class SpecialitySeeder extends Seeder
      */
     public function run(): void
     {
-        Speciality::factory(10)->allRelations()->create() ;
+        Speciality::factory(10)->create() ;
     }
 }

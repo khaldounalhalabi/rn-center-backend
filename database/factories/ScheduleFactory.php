@@ -20,7 +20,7 @@ class ScheduleFactory extends Factory
     {
         $relChance = fake()->boolean;
         return [
-            'schedulable_id' => $relChance ? Clinic::factory()->allRelations() : Hospital::factory()->allRelations(),
+            'schedulable_id' => $relChance ? Clinic::factory() : Hospital::factory(),
             'schedulable_type' => $relChance ? Clinic::class : Hospital::class,
             'day_of_week' => strtolower(fake()->dayOfWeek),
             'start_time' => fake()->time('H:i'),
