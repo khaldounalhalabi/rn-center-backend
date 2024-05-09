@@ -21,6 +21,8 @@ class ClinicSeeder extends Seeder
             ->withClinicHolidays()
             ->withMedicines()
             ->withSchedules()
+            ->withPhones()
+            ->withAddress()
             ->create();
     }
 }
