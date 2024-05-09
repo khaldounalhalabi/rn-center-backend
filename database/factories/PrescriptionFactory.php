@@ -40,7 +40,7 @@ class PrescriptionFactory extends Factory
         return [
             'clinic_id' => Clinic::factory(),
             'customer_id' => Customer::factory(),
-            'appointment_id' => Appointment::factory(),
+            'appointment_id' => Appointment::inRandomOrder()->first()->id,
             'physical_information' => json_encode($physicalInformation),
             'problem_description' => fake()->text(),
             'test' => fake()->text(),
