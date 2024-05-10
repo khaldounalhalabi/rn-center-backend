@@ -152,6 +152,6 @@ class AppointmentService extends BaseService implements IAppointmentService
      */
     public function getClinicAppointments($clinicId, array $relations = [], int $perPage = 10): ?array
     {
-        return $this->repository->getByClinic(auth()->user()?->id, $relations, $perPage);
+        return $this->repository->getByAppointmentId(auth()->user()?->id, $relations, $perPage);
     }
 }

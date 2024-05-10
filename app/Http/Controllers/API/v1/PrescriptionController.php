@@ -105,4 +105,14 @@ class PrescriptionController extends ApiController
         }
         return $this->noData(false);
     }
+
+    public function getAppointmentPrescriptions($appointmentId)
+    {
+        $data = $this->prescriptionService->getByAppointmentId($appointmentId, $this->relations);
+        if ($data) {
+            return $this->apiResponse($data['data'], self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
+        }
+
+        return $this->noData();
+    }
 }

@@ -16,4 +16,12 @@ interface IPrescriptionService extends IBaseService
      * @return bool|null
      */
     public function removeMedicine(int $medicineDataId): ?bool;
+
+    /**
+     * @param int   $appointmentId
+     * @param array $relations
+     * @param int   $perPage
+     * @return null|array{data:mixed , pagination_data:array}
+     */
+    public function getByAppointmentId(int $appointmentId, array $relations = [], int $perPage = 10): ?array;
 }

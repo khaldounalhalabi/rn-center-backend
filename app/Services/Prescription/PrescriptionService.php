@@ -19,8 +19,7 @@ class PrescriptionService extends BaseService implements IPrescriptionService
 
     /**
      * PrescriptionService constructor.
-     *
-     * @param PrescriptionRepository $repository
+     * @param PrescriptionRepository         $repository
      * @param MedicinePrescriptionRepository $medicinePrescriptionRepository
      */
     public function __construct(PrescriptionRepository         $repository,
@@ -127,5 +126,16 @@ class PrescriptionService extends BaseService implements IPrescriptionService
         }
 
         return $this->medicinePrescriptionRepository->delete($medicineDataId);
+    }
+
+    /**
+     * @param int   $appointmentId
+     * @param array $relations
+     * @param int   $perPage
+     * @return null|array{data:mixed , pagination_data:array}
+     */
+    public function getByAppointmentId(int $appointmentId, array $relations = [], int $perPage = 10): ?array
+    {
+        return $this->repository->getByAppointmentId($appointmentId, $relations, $perPage);
     }
 }

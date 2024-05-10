@@ -43,6 +43,7 @@ Route::post('/services/import', [v1\ServiceController::class, 'import'])->name('
 Route::get('/services/get-import-example', [v1\ServiceController::class, 'getImportExample'])->name('services.get.example');
 Route::apiResource('/services', v1\ServiceController::class)->names('services');
 
+Route::get('appointments/{appointmentId}/prescriptions/', [v1\PrescriptionController::class, 'getAppointmentPrescriptions'])->name('appointments.prescriptions');
 Route::get('appointment-logs/{appointmentLogId}', [v1\AppointmentLogController::class, 'show'])->name('appointment.log.show');
 Route::get('appointments/{appointmentId}/logs', [v1\AppointmentLogController::class, 'getAppointmentLogs'])->name('appointments.logs');
 Route::apiResource('/appointments', v1\AppointmentController::class)->names('appointments');
