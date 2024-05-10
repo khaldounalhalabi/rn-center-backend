@@ -35,7 +35,7 @@ class StoreUpdateUserRequest extends FormRequest
                 'birth_date' => 'date_format:Y-m-d|date|before:20 years ago|required',
                 'gender' => ['required', 'string', Rule::in(GenderEnum::getAllValues())],
                 'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
-                'tags'=> ['nullable' , 'string'],
+                'tags' => ['nullable', 'string'],
 
                 'address' => 'array|required',
                 'address.name' => ['required', 'json', 'min:3', new LanguageShape()],
@@ -48,16 +48,18 @@ class StoreUpdateUserRequest extends FormRequest
             ];
         }
 
+        $userId = request()->route('user');
+
         return [
             'first_name' => ['json', 'nullable', new LanguageShape(), 'min:3', 'max:60'],
             'middle_name' => ['json', 'nullable', new LanguageShape(), 'min:3', 'max:60'],
             'last_name' => ['json', 'nullable', new LanguageShape(), 'min:3', 'max:60'],
-            'email' => 'nullable|email|max:255|min:3|string|unique:users,email',
+            'email' => 'nullable|email|max:255|min:3|string|unique:users,email,' . $userId,
             'password' => 'string|min:8|max:20|nullable|confirmed',
             'birth_date' => 'date_format:Y-m-d|date|before:20 years ago|nullable',
             'gender' => ['nullable', 'string', Rule::in(GenderEnum::getAllValues())],
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
-            'tags'=> ['nullable' , 'string'],
+            'tags' => ['nullable', 'string'],
 
             'address' => 'array|nullable',
             'address.name' => ['nullable', 'json', 'min:3', new LanguageShape()],
@@ -65,7 +67,7 @@ class StoreUpdateUserRequest extends FormRequest
             'address.map_iframe' => ['nullable', 'string'],
 
             'phone_numbers' => 'array|nullable',
-            'phone_numbers.*' => ['required', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/', new UniquePhoneNumber(request()->route('user'))],
+            'phone_numbers.*' => ['required', 'string', 'regex:/^07\d{9}$/', new UniquePhoneNumber($userId)],
 
             'role' => 'nullable|string|exists:roles,name',
         ];

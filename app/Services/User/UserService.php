@@ -359,7 +359,7 @@ class UserService extends BaseService implements IUserService
     public function store(array $data, array $relationships = [], array $countable = []): ?Model
     {
         /** @var User $user */
-        $user = $this->repository->create($data['user']);
+        $user = $this->repository->create($data);
 
         $data['address']['addressable_id'] = $user->id;
         $data['address']['addressable_type'] = User::class;
@@ -390,5 +390,16 @@ class UserService extends BaseService implements IUserService
         }
 
         return $user->load($relationships);
+    }
+
+    public function delete($id): ?bool
+    {
+        $user = $this->repository->find($id);
+
+        if ($user->hasRole(RolesPermissionEnum::ADMIN['role'])){
+            return null;
+        }
+
+        return parent::delete($id);
     }
 }
