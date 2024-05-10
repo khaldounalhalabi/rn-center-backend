@@ -38,7 +38,7 @@ class ClinicFactory extends Factory
             'user_id' => User::factory()->withPhoneNumbers()->withAddress(),
             'working_start_year' => fake()->date(),
             'max_appointments' => fake()->numberBetween(1, 10),
-            'appointment_day_range' => fake()->numberBetween(1, 10),
+            'appointment_day_range' => 7,
             'about_us' => fake()->sentence,
             'experience' => fake()->sentence,
             'approximate_appointment_time' => random_int(1, 30),

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\Appointment\StoreUpdateAppointmentRequest;
+use App\Http\Requests\Appointment\ToggleAppointmentStatusRequest;
 use App\Http\Resources\AppointmentResource;
 use App\Models\Appointment;
 use App\Services\Appointment\IAppointmentService;
@@ -103,5 +104,16 @@ class AppointmentController extends ApiController
         }
 
         return $this->noData(null);
+    }
+
+    public function toggleAppointmentStatus($appointmentId , ToggleAppointmentStatusRequest $request)
+    {
+        $result = $this->appointmentService->toggleAppointmentStatus($appointmentId , $request->validated());
+
+        if ($result){
+            return $this->apiResponse(new AppointmentResource($result) , self::STATUS_OK , __('site.success'));
+        }
+
+        return $this->noData();
     }
 }

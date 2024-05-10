@@ -197,7 +197,7 @@ abstract class BaseRepository implements IBaseRepository
     private function orderQueryBy(Builder $query): Builder
     {
         $sortCol = request()->sort_col;
-        $sortDir = request()->sort_dir;
+        $sortDir = request()->sort_dir ?? "DESC";
 
         if (isset($sortCol)) {
             if (in_array($sortCol, array_keys($this->customOrders))) {

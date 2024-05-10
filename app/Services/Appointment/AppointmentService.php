@@ -2,6 +2,7 @@
 
 namespace App\Services\Appointment;
 
+use App\Enums\AppointmentStatusEnum;
 use App\Models\Appointment;
 use App\Repositories\AppointmentLogRepository;
 use App\Repositories\ClinicRepository;
@@ -23,10 +24,9 @@ class AppointmentService extends BaseService implements IAppointmentService
 
     /**
      * AppointmentService constructor.
-     *
-     * @param AppointmentRepository $repository
-     * @param ClinicRepository $clinicRepository
-     * @param ServiceRepository $serviceRepository
+     * @param AppointmentRepository    $repository
+     * @param ClinicRepository         $clinicRepository
+     * @param ServiceRepository        $serviceRepository
      * @param AppointmentLogRepository $appointmentLogRepository
      */
     public function __construct(AppointmentRepository    $repository,
@@ -145,13 +145,36 @@ class AppointmentService extends BaseService implements IAppointmentService
     }
 
     /**
-     * @param $clinicId
+     * @param       $clinicId
      * @param array $relations
-     * @param int $perPage
+     * @param int   $perPage
      * @return null|array
      */
     public function getClinicAppointments($clinicId, array $relations = [], int $perPage = 10): ?array
     {
         return $this->repository->getByAppointmentId(auth()->user()?->id, $relations, $perPage);
+    }
+
+    /**
+     * @param       $appointmentId
+     * @param array $data
+     * @return Appointment|null
+     */
+    public function toggleAppointmentStatus($appointmentId, array $data): ?Appointment
+    {
+        $prescription = $this->repository->find($appointmentId);
+
+        if (!$prescription) {
+            return null;
+        }
+
+        if ($data['status'] == AppointmentStatusEnum::CANCELLED->value && !isset($data['cancellation_reason'])) {
+            return null;
+        }
+
+        return $this->repository->update([
+            'status' => $data['status'],
+            'cancellation_reason' => $data['cancellation_reason'] ?? ""
+        ], $prescription);
     }
 }

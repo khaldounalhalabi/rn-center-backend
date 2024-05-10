@@ -23,7 +23,7 @@ class AppointmentResource extends BaseResource
             'extra_fees' => $this->extra_fees,
             'total_cost' => $this->total_cost,
             'type' => $this->type,
-            'date' => $this->date->format('Y-m-d'),
+            'date' => $this->date?->format('Y-m-d'),
             'status' => $this->status,
             'device_type' => $this->device_type,
             'appointment_sequence' => $this->appointment_sequence,

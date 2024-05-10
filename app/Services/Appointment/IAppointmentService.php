@@ -12,10 +12,17 @@ use App\Models\Appointment;
 interface IAppointmentService extends IBaseService
 {
     /**
-     * @param $clinicId
+     * @param       $clinicId
      * @param array $relations
-     * @param int $perPage
+     * @param int   $perPage
      * @return null|array
      */
     public function getClinicAppointments($clinicId, array $relations = [], int $perPage = 10): ?array;
+
+    /**
+     * @param       $appointmentId
+     * @param array $data
+     * @return Appointment|null
+     */
+    public function toggleAppointmentStatus($appointmentId, array $data): ?Appointment;
 }

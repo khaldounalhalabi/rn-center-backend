@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\RolesPermissionEnum;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -183,5 +184,27 @@ class Appointment extends Model
     public function appointmentLogs(): HasMany
     {
         return $this->hasMany(AppointmentLog::class);
+    }
+
+    public function customOrders(): array
+    {
+        return [
+            'clinic.user.first_name' => function (Builder $query, $dir) {
+                return $query->join('clinics', 'clinics.id', '=', 'appointments.clinic_id')
+                    ->join('users', function ($join) {
+                        $join->on('users.id', '=', 'clinics.user_id');
+                    })
+                    ->select('appointments.*', 'users.first_name AS doctor_first_name')
+                    ->orderBy('doctor_first_name', $dir);
+            } ,
+            'customer.user.first_name' => function (Builder $query, $dir) {
+                return $query->join('customers', 'customers.id', '=', 'appointments.customer_id')
+                    ->join('users', function ($join) {
+                        $join->on('users.id', '=', 'customers.user_id');
+                    })
+                    ->select('appointments.*', 'users.first_name AS customer_first_name')
+                    ->orderBy('customer_first_name', $dir);
+            }
+        ];
     }
 }
