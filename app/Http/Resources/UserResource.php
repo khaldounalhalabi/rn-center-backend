@@ -21,15 +21,15 @@ class UserResource extends BaseResource
             'tags' => $this->tags,
             'fcm_token' => $this->fcm_token,
             'is_archived' => $this->is_archived,
+            'first_name' => $this->first_name,
+            'middle_name' => $this->middle_name,
+            'last_name' => $this->last_name,
+            'role' => $this->whenLoaded('roles'),
             'image' => MediaResource::collection($this->whenLoaded('media')),
             'customer' => new CustomerResource($this->whenLoaded('customer')),
             'clinics' => new ClinicResource($this->whenLoaded('clinic')),
             'phones' => PhoneNumberResource::collection($this->whenLoaded('phones')),
-            'first_name' => $this->first_name,
-            'middle_name' => $this->middle_name,
-            'last_name' => $this->last_name,
             'address' => new AddressResource($this->whenLoaded('address')),
-            'role' => $this->whenLoaded('roles'),
         ];
     }
 }

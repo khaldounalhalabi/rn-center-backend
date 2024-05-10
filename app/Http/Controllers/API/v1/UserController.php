@@ -18,7 +18,7 @@ class UserController extends ApiController
         $this->userService = $userService;
 
         // place the relations you want to return them within the response
-        $this->relations = ['media'];
+        $this->relations = ['media' , 'roles' , 'address.city' , 'phones'];
     }
 
     public function index()

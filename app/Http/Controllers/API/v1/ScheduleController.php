@@ -26,7 +26,13 @@ class ScheduleController extends ApiController
         $data = $this->scheduleService->getClinicSchedule($clinicId);
 
         if (count($data)) {
-            return $this->apiResponse(collect(ScheduleResource::collection($data))->groupBy('day_of_week'), self::STATUS_OK, __('site.get_successfully'));
+            return $this->apiResponse(
+                collect(ScheduleResource::collection($data['data']))
+                    ->groupBy('day_of_week')
+                    ->put('appointment_gap' , $data['appointment_gap']),
+                self::STATUS_OK,
+                __('site.get_successfully')
+            );
         }
 
         return $this->noData([]);

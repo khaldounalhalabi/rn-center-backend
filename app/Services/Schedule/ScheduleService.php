@@ -10,16 +10,16 @@ use App\Repositories\ScheduleRepository;
 use App\Services\Contracts\BaseService;
 use Exception;
 use Illuminate\Support\Collection;
+use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * @implements IScheduleService<Schedule>
- * Class UserService
+ * @extends BaseService<Schedule>
  */
 class ScheduleService extends BaseService implements IScheduleService
 {
     /**
      * ScheduleService constructor.
-     *
      * @param ScheduleRepository $repository
      */
     public function __construct(ScheduleRepository $repository)
@@ -29,11 +29,14 @@ class ScheduleService extends BaseService implements IScheduleService
 
     /**
      * @param int $clinicId
-     * @return Collection<Schedule>|array<Schedule>
+     * @return array{data:Schedule , appointment_gap:int}
      */
-    public function getClinicSchedule(int $clinicId): Collection|array
+    public function getClinicSchedule(int $clinicId): array
     {
-        return $this->repository->getSchedulesByType(Clinic::class, $clinicId);
+        /** @var \Illuminate\Database\Eloquent\Collection<Schedule> $data */
+        $data = $this->repository->getSchedulesByType(Clinic::class, $clinicId);
+        $appointmentGap = $data->pluck('appointment_gap')->unique()->first();
+        return ['data' => $data, 'appointment_gap' => $appointmentGap];
     }
 
     /**

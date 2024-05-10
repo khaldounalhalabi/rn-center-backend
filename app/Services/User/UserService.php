@@ -14,11 +14,12 @@ use App\Repositories\UserRepository;
 use App\Services\Contracts\BaseService;
 use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 /**
  * @implements IUserService
- * Class UserService
+ * @extends BaseService<User>
  */
 class UserService extends BaseService implements IUserService
 {
@@ -353,5 +354,41 @@ class UserService extends BaseService implements IUserService
         $user = $this->repository->update(["is_archived" => !$user->is_archived], $user);
 
         return $user->is_archived ? "archived" : "not_archived";
+    }
+
+    public function store(array $data, array $relationships = [], array $countable = []): ?Model
+    {
+        /** @var User $user */
+        $user = $this->repository->create($data['user']);
+
+        $data['address']['addressable_id'] = $user->id;
+        $data['address']['addressable_type'] = User::class;
+        $this->addressRepository->create($data['address']);
+
+        $this->phoneNumberRepository->insert($data['phone_numbers'], User::class, $user->id);
+
+        $user->assignRole($data['role'] ?? RolesPermissionEnum::CUSTOMER['role']);
+
+        return $user->load($relationships);
+    }
+
+    public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
+    {
+        $user = $this->repository->update($data , $id);
+
+        if (isset($data['address'])){
+            $user->address()->update($data['address']);
+        }
+
+        if ($data['phone_numbers']) {
+            $user->phones()->delete();
+            $this->phoneNumberRepository->insert($data['phone_numbers'], User::class, $user->id);
+        }
+
+        if (isset($data['role'])){
+            $user->assignRole($data['role']);
+        }
+
+        return $user->load($relationships);
     }
 }

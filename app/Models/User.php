@@ -21,7 +21,6 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * Class User
- *
  * @mixin Builder
  */
 class User extends Authenticatable implements JWTSubject, HasMedia
@@ -71,7 +70,7 @@ class User extends Authenticatable implements JWTSubject, HasMedia
             'first_name', 'middle_name', 'last_name',
             'email', 'birth_date',
             'gender', 'blood_group', 'is_blocked',
-            'tags', 'image', 'is_archived',
+            'tags', 'is_archived',
             'full_name'
         ];
     }
@@ -83,7 +82,30 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     public static function relationsSearchableArray(): array
     {
         return [
+            'roles' => [
+                'name'
+            ] ,
+            'phoneNumbers' => [
+                'phone'
+            ] ,
+            'address.city' => [
+                'name'
+            ] ,
+        ];
+    }
 
+    public function customOrders(): array
+    {
+        return [
+            'address.city.name' => function (Builder $query, $dir) {
+                return $query->join('addresses', function ($join) {
+                        $join->on('addresses.addressable_id', '=', 'users.id')
+                            ->where('addresses.addressable_type', User::class);
+                    })
+                    ->join('cities', 'cities.id', '=', 'addresses.city_id')
+                    ->select('users.*', 'cities.name AS city_name')
+                    ->orderBy('city_name', $dir);
+            }
         ];
     }
 

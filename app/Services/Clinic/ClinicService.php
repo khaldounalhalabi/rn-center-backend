@@ -29,11 +29,11 @@ class ClinicService extends BaseService implements IClinicService
 
     /**
      * ClinicService constructor.
-     *
-     * @param ClinicRepository $repository
-     * @param UserRepository $userRepository
-     * @param AddressRepository $addressRepository
+     * @param ClinicRepository      $repository
+     * @param UserRepository        $userRepository
+     * @param AddressRepository     $addressRepository
      * @param PhoneNumberRepository $phoneNumberRepository
+     * @param ScheduleService       $scheduleService
      */
     public function __construct(
         ClinicRepository      $repository,

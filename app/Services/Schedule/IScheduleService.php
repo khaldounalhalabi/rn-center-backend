@@ -14,9 +14,9 @@ interface IScheduleService extends IBaseService
 {
     /**
      * @param int $clinicId
-     * @return Collection<Schedule>|array<Schedule>
+     * @return array{data:Schedule , appointment_gap:int}
      */
-    public function getClinicSchedule(int $clinicId): Collection|array;
+    public function getClinicSchedule(int $clinicId): array;
 
 
     /**
