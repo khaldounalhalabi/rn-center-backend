@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -90,5 +91,19 @@ class Medicine extends Model
     public function prescriptions(): BelongsToMany
     {
         return $this->belongsToMany(Prescription::class , 'medicine_prescriptions');
+    }
+
+    public function customOrders(): array
+    {
+        return [
+            'clinic.user.first_name' => function (Builder $query, $dir) {
+                return $query->join('clinics', 'clinics.id', '=', 'medicines.clinic_id')
+                    ->join('users', function ($join) {
+                        $join->on('users.id', '=', 'clinics.user_id');
+                    })
+                    ->select('medicines.*', 'users.first_name AS doctor_first_name')
+                    ->orderBy('doctor_first_name', $dir);
+            } ,
+        ];
     }
 }
