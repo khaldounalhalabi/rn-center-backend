@@ -77,7 +77,12 @@ class PrescriptionService extends BaseService implements IPrescriptionService
             return null;
         }
 
-        $this->repository->update($data, $prescription);
+        $this->repository->update([
+            'physical_information' => $data['physical_information'],
+            'problem_description' => $data['problem_description'],
+            'test' => $data['test'],
+            'next_visit' => $data['next_visit'],
+        ], $prescription);
 
         if (isset($data['medicines'])) {
             $prescription->medicines()->delete();
