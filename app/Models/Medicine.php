@@ -89,6 +89,6 @@ class Medicine extends Model
 
     public function prescriptions(): BelongsToMany
     {
-        return $this->belongsToMany(Prescription::class);
+        return $this->belongsToMany(Prescription::class , 'medicine_prescriptions');
     }
 }

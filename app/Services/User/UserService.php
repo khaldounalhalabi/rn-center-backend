@@ -4,7 +4,6 @@ namespace App\Services\User;
 
 use App\Enums\RolesPermissionEnum;
 use App\Exceptions\RoleDoesNotExistException;
-use App\Models\Address;
 use App\Models\User;
 use App\Notifications\SendVerificationCode;
 use App\Repositories\AddressRepository;
