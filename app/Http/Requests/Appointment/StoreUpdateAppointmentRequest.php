@@ -19,7 +19,6 @@ class StoreUpdateAppointmentRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
      * @return array<string, Rule|array|string>
      */
     public function rules(): array
@@ -47,5 +46,14 @@ class StoreUpdateAppointmentRequest extends FormRequest
             'status' => ['nullable', 'string', 'min:3', 'max:255', Rule::in(AppointmentStatusEnum::getAllValues())],
             'cancellation_reason' => 'string|nullable|' . Rule::requiredIf($this->input('status') == AppointmentStatusEnum::CANCELLED->value),
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        if ($this->input('extra_fees') == null) {
+            $this->merge([
+                'extra_fees' => 0
+            ]);
+        }
     }
 }

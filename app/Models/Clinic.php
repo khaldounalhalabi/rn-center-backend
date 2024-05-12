@@ -180,7 +180,7 @@ class Clinic extends Model implements HasMedia
         return $this->hasMany(Appointment::class)->where('date', '>', now()->addDay()->format('Y-m-d'));
     }
 
-    public function canHasAppointmentIn(string $date): bool
+    public function canHasAppointmentIn(string $date, int $customerId): bool
     {
         if (!$this->validAppointmentDateTime($date)) {
             return false;
@@ -191,6 +191,10 @@ class Clinic extends Model implements HasMedia
         }
 
         if (!$this->availableScheduleIn($date)) {
+            return false;
+        }
+
+        if ($this->validAppointments()->where('customer_id', $customerId)->exists()) {
             return false;
         }
 

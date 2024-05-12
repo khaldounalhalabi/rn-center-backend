@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\AppointmentStatusEnum;
 use App\Enums\RolesPermissionEnum;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -9,27 +10,36 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Log;
 
 /**
- * @property integer customer_id
- * @property integer clinic_id
- * @property string note
- * @property integer service_id
- * @property numeric extra_fees
- * @property numeric total_cost
- * @property string type
- * @property Carbon date
- * @property string status
- * @property string device_type
- * @property numeric appointment_sequence
- * @property string qr_code
+ * @property integer  customer_id
+ * @property integer  clinic_id
+ * @property string   note
+ * @property integer  service_id
+ * @property numeric  extra_fees
+ * @property numeric  total_cost
+ * @property string   type
+ * @property Carbon   date
+ * @property string   status
+ * @property string   device_type
+ * @property numeric  appointment_sequence
+ * @property string   qr_code
  * @property Customer customer
- * @property Clinic clinic
- * @property Service service
+ * @property Clinic   clinic
+ * @property Service  service
  */
 class Appointment extends Model
 {
     use HasFactory;
+
+    protected static function booted(): void
+    {
+        parent::booted();
+        self::creating(function (Appointment $appointment) {
+            self::handleRemainingTime($appointment);
+        });
+    }
 
     protected $fillable = [
         'customer_id',
@@ -44,6 +54,7 @@ class Appointment extends Model
         'device_type',
         'appointment_sequence',
         'qr_code',
+        'remaining_time'
     ];
 
     protected $casts = [
@@ -196,7 +207,7 @@ class Appointment extends Model
                     })
                     ->select('appointments.*', 'users.first_name AS doctor_first_name')
                     ->orderBy('doctor_first_name', $dir);
-            } ,
+            },
             'customer.user.first_name' => function (Builder $query, $dir) {
                 return $query->join('customers', 'customers.id', '=', 'appointments.customer_id')
                     ->join('users', function ($join) {
@@ -206,5 +217,42 @@ class Appointment extends Model
                     ->orderBy('customer_first_name', $dir);
             }
         ];
+    }
+
+    /**
+     * @param Appointment $appointment
+     * @return Appointment
+     */
+    public static function handleRemainingTime(Appointment $appointment): Appointment
+    {
+        Log::info("Before The Condition");
+        if ($appointment->status == AppointmentStatusEnum::BOOKED->value) {
+            Log::info("Handle Remaining Time Fired");
+            $appointment->load(['clinic', 'clinic.schedules']);
+            $beforeAppointmentsCount = Appointment::validNotEnded()
+                ->where('date', $appointment->date->format('Y-m-d'))
+                ->where('clinic_id', $appointment->clinic_id)
+                ->where('appointment_sequence' , '<' , $appointment->appointment_sequence)
+                ->count();
+
+            $appointment_gap = $appointment->clinic->schedules->pluck('appointment_gap')->first();
+            $approximate_appointment_time = $appointment->clinic->approximate_appointment_time;
+            $diffDays = $appointment->date->diffInDays(now()->format('Y-m-d'));
+            $diffMinutes = ($approximate_appointment_time + $appointment_gap) * $beforeAppointmentsCount;
+
+            $diffTime = intdiv($diffMinutes, 60) . ':' . ($diffMinutes % 60);
+            $appointment->remaining_time = $diffDays == 0
+                ? "$diffTime Hours , $beforeAppointmentsCount Patients Before You"
+                : "$diffDays Days And $diffTime Hours $beforeAppointmentsCount Patients Before You";
+
+            //TODO::add send notification to customer
+        }
+
+        return $appointment;
+    }
+
+    public function scopeValidNotEnded(Builder $query): Builder
+    {
+        return $query->whereIn('status', [AppointmentStatusEnum::BOOKED->value, AppointmentStatusEnum::CHECKIN->value]);
     }
 }

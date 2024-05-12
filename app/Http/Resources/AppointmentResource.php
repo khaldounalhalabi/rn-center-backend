@@ -9,7 +9,6 @@ class AppointmentResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
-     *
      * @return array<string, mixed>
      */
     public function toArray($request): array
@@ -27,6 +26,7 @@ class AppointmentResource extends BaseResource
             'status' => $this->status,
             'device_type' => $this->device_type,
             'appointment_sequence' => $this->appointment_sequence,
+            'remaining_time' => $this->remaining_time,
             'customer' => new CustomerResource($this->whenLoaded('customer')),
             'clinic' => new ClinicResource($this->whenLoaded('clinic')),
             'service' => new ServiceResource($this->whenLoaded('service')),

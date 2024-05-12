@@ -3,6 +3,7 @@
 namespace App\Services\Appointment;
 
 use App\Enums\AppointmentStatusEnum;
+use App\Jobs\UpdateAppointmentRemainingTimeJob;
 use App\Models\Appointment;
 use App\Repositories\AppointmentLogRepository;
 use App\Repositories\ClinicRepository;
@@ -11,6 +12,7 @@ use App\Repositories\ServiceRepository;
 use App\Services\Contracts\BaseService;
 use App\Repositories\AppointmentRepository;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @implements IAppointmentService<Appointment>
@@ -54,16 +56,21 @@ class AppointmentService extends BaseService implements IAppointmentService
             return null;
         }
 
-        if (!$clinic->canHasAppointmentIn($data['date'])) {
+        if (!$clinic->canHasAppointmentIn($data['date'], $data['customer_id'])) {
             return null;
         }
 
-        /** @var Appointment $lastAppointmentInDay */
-        $lastAppointmentInDay = $this->repository->getLastAppointmentInDay($data['date']);
-        if ($lastAppointmentInDay) {
-            $data['appointment_sequence'] = $lastAppointmentInDay->appointment_sequence + 1;
-        } else {
-            $data['appointment_sequence'] = 1;
+        if (!in_array($data['status'], [
+            AppointmentStatusEnum::CANCELLED->value,
+            AppointmentStatusEnum::PENDING->value
+        ])) {
+            /** @var Appointment $lastAppointmentInDay */
+            $lastAppointmentInDay = $this->repository->getLastAppointmentInDay($data['date']);
+            if ($lastAppointmentInDay) {
+                $data['appointment_sequence'] = $lastAppointmentInDay->appointment_sequence + 1;
+            } else {
+                $data['appointment_sequence'] = 1;
+            }
         }
 
         if (isset($data['service_id'])) {
@@ -106,11 +113,20 @@ class AppointmentService extends BaseService implements IAppointmentService
 
         $clinic = $appointment->clinic;
 
-        if (!$clinic->canHasAppointmentIn($data['date'] ?? $appointment->date->format('Y-m-d'))) {
+        if (!$clinic->canHasAppointmentIn(
+            $data['date'] ?? $appointment->date->format('Y-m-d'),
+            $data['customer_id'] ?? $appointment->customer_id
+        )) {
             return null;
         }
 
-        if (isset($data['date']) && $data['date'] != $appointment->date) {
+        if (
+            isset($data['date'])
+            && $data['date'] != $appointment->date
+            && !in_array($data['status'], [
+                AppointmentStatusEnum::CANCELLED->value,
+                AppointmentStatusEnum::PENDING->value
+            ])) {
             /** @var Appointment $appointment */
             $lastAppointmentInDay = $this->repository->getLastAppointmentInDay($data['date']);
             if ($lastAppointmentInDay) {
@@ -141,7 +157,20 @@ class AppointmentService extends BaseService implements IAppointmentService
             $data['total_cost'] = $clinic->appointment_cost + ($data['extra_fees'] ?? 0);
         }
 
-        return $this->repository->update($data, $appointment, $relationships, $countable);
+        $prevStatus = $appointment->status;
+
+        $appointment = $this->repository->update($data, $appointment, $relationships, $countable);
+
+        if ($appointment->status == AppointmentStatusEnum::CHECKOUT->value && $prevStatus != AppointmentStatusEnum::CHECKOUT->value) {
+            UpdateAppointmentRemainingTimeJob::dispatch($appointment->clinic_id, $appointment->date);
+        }
+
+        if ($appointment->status == AppointmentStatusEnum::BOOKED->value && $prevStatus != AppointmentStatusEnum::BOOKED->value) {
+            $appointment = Appointment::handleRemainingTime($appointment);
+            $appointment->save();
+        }
+
+        return $appointment;
     }
 
     /**
@@ -152,7 +181,7 @@ class AppointmentService extends BaseService implements IAppointmentService
      */
     public function getClinicAppointments($clinicId, array $relations = [], int $perPage = 10): ?array
     {
-        return $this->repository->getByAppointmentId(auth()->user()?->id, $relations, $perPage);
+        return $this->repository->getByClinic($clinicId, $relations, $perPage);
     }
 
     /**
@@ -162,9 +191,9 @@ class AppointmentService extends BaseService implements IAppointmentService
      */
     public function toggleAppointmentStatus($appointmentId, array $data): ?Appointment
     {
-        $prescription = $this->repository->find($appointmentId);
+        $appointment = $this->repository->find($appointmentId);
 
-        if (!$prescription) {
+        if (!$appointment) {
             return null;
         }
 
@@ -172,9 +201,24 @@ class AppointmentService extends BaseService implements IAppointmentService
             return null;
         }
 
-        return $this->repository->update([
+        $prevStatus = $appointment->status;
+
+        $appointment = $this->repository->update([
             'status' => $data['status'],
             'cancellation_reason' => $data['cancellation_reason'] ?? ""
-        ], $prescription);
+        ], $appointment);
+
+        Log::error("dispatching condition : " . ($appointment->status == AppointmentStatusEnum::CHECKOUT->value && $prevStatus != AppointmentStatusEnum::CHECKOUT->value));
+
+        if ($appointment->status == AppointmentStatusEnum::CHECKOUT->value && $prevStatus != AppointmentStatusEnum::CHECKOUT->value) {
+            UpdateAppointmentRemainingTimeJob::dispatch($appointment->clinic_id, $appointment->date);
+        }
+
+        if ($data['status'] == AppointmentStatusEnum::BOOKED->value && $prevStatus != AppointmentStatusEnum::BOOKED->value) {
+            $appointment = Appointment::handleRemainingTime($appointment);
+            $appointment->save();
+        }
+
+        return $appointment;
     }
 }
