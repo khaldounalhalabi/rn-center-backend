@@ -14,8 +14,6 @@ class CustomerResource extends BaseResource
     {
         return [
             'id' => $this->id,
-            'mother_full_name' => $this->mother_full_name,
-            'medical_condition' => $this->medical_condition,
             'user_id' => $this->user_id,
             'user' => new UserResource($this->whenLoaded('user')),
             'appointments' => AppointmentResource::collection($this->whenLoaded('appointments')),
