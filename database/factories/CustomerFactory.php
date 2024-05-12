@@ -20,7 +20,6 @@ class CustomerFactory extends Factory
     public function definition(): array
     {
         return [
-            'medical_condition' => fake()->text(),
             'user_id' => User::factory(),
         ];
     }
