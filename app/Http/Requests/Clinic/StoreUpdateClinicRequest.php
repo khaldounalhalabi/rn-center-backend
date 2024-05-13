@@ -23,7 +23,6 @@ class StoreUpdateClinicRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
      * @return array<string, Rule|array|string>
      */
     public function rules(): array
@@ -37,6 +36,7 @@ class StoreUpdateClinicRequest extends FormRequest
                 'phone_numbers.*' => ['required', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/'],
                 'hospital_id' => 'numeric|nullable|exists:hospitals,id',
                 'status' => 'required|string|' . Rule::in(ClinicStatusEnum::getAllValues()),
+                'approximate_appointment_time' => 'numeric|required|max:420',
 
                 'user' => 'array|required',
                 'user.first_name' => ['json', 'required', new LanguageShape(), 'min:3', 'max:60'],
@@ -66,6 +66,7 @@ class StoreUpdateClinicRequest extends FormRequest
             'phone_numbers.*' => ['nullable', 'string', new UniquePhoneNumber($userId), 'regex:/^07\d{9}$/'],
             'hospital_id' => 'numeric|nullable|exists:hospitals,id',
             'status' => 'nullable|string|' . Rule::in(ClinicStatusEnum::getAllValues()),
+            'approximate_appointment_time' => 'numeric|nullable|max:420',
 
             'user' => 'array|nullable',
             'user.first_name' => ['json', 'nullable', new LanguageShape(), 'min:3', 'max:60'],

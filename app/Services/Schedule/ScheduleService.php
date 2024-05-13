@@ -65,6 +65,7 @@ class ScheduleService extends BaseService implements IScheduleService
                 'end_time' => $schedule['end_time'],
                 'schedulable_id' => $data['schedulable_id'],
                 'schedulable_type' => $data['schedulable_type'],
+                'appointment_gap' => $data['appointment_gap'] ?? 10,
                 'created_at' => now()->format('Y-m-d H:i:s'),
                 'updated_at' => now()->format('Y-m-d H:i:s')
             ]);
@@ -97,6 +98,7 @@ class ScheduleService extends BaseService implements IScheduleService
                 'end_time' => "21:00",
                 'schedulable_id' => $clinicId,
                 'schedulable_type' => Clinic::class,
+                'appointment_gap' => 10,
                 'created_at' => now()->format('Y-m-d H:i:s'),
                 'updated_at' => now()->format('Y-m-d H:i:s')
             ]);

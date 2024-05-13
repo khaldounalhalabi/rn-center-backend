@@ -44,7 +44,7 @@ class StoreUpdateUserRequest extends FormRequest
 
                 'phone_numbers' => 'array|required',
                 'phone_numbers.*' => ['required', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/'],
-                'role' => 'nullable|string|exists:roles,name',
+                'role' => 'required|string|exists:roles,name',
             ];
         }
 
