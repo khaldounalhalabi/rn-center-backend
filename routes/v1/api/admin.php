@@ -70,3 +70,5 @@ Route::post('prescriptions/export', [v1\PrescriptionController::class, 'export']
 Route::post('prescriptions/import', [v1\PrescriptionController::class, 'import'])->name('prescriptions.import');
 Route::get('prescriptions/get-import-example', [v1\PrescriptionController::class, 'getImportExample'])->name('prescriptions.get.example');
 Route::apiResource('prescriptions', v1\PrescriptionController::class)->names('prescriptions');
+
+Route::apiResource('/blocked-items', v1\BlockedItemController::class)->names('blocked.items');

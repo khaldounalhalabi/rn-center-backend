@@ -84,13 +84,13 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         return [
             'roles' => [
                 'name'
-            ] ,
+            ],
             'phoneNumbers' => [
                 'phone'
-            ] ,
+            ],
             'address.city' => [
                 'name'
-            ] ,
+            ],
         ];
     }
 
@@ -99,9 +99,9 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         return [
             'address.city.name' => function (Builder $query, $dir) {
                 return $query->join('addresses', function ($join) {
-                        $join->on('addresses.addressable_id', '=', 'users.id')
-                            ->where('addresses.addressable_type', User::class);
-                    })
+                    $join->on('addresses.addressable_id', '=', 'users.id')
+                        ->where('addresses.addressable_type', User::class);
+                })
                     ->join('cities', 'cities.id', '=', 'addresses.city_id')
                     ->select('users.*', 'cities.name AS city_name')
                     ->orderBy('city_name', $dir);
@@ -188,5 +188,22 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         return Attribute::make(
             set: fn(?string $value) => Hash::make($value)
         );
+    }
+
+    public function isBlocked(): bool
+    {
+        if ($this->is_blocked) {
+            return true;
+        }
+
+        $this->load('phones');
+        $fullName = json_decode($this->full_name, true);
+
+        return BlockedItem::whereIn('value', [
+            $this->email,
+            ...$this->phones->pluck('phone'),
+            $fullName['en'],
+            $fullName['ar']
+        ])->exists();
     }
 }

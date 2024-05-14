@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\BlockedItem;
 
+use App\Enums\BlockTypeEnum;
 use App\Models\BlockedItem;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -26,15 +27,15 @@ class StoreUpdateBlockedItemRequest extends FormRequest
     {
         if (request()->method() == 'POST') {
             return [
-                'type' => ['nullable', 'string', 'min:3', 'max:255',],
-                'value' => ['nullable', 'string', 'min:3', 'max:255', 'unique:blocked_items,value'],
+                'type' => ['required', 'string', 'min:3', 'max:255', Rule::in(BlockTypeEnum::getAllValues())],
+                'value' => ['required', 'string', 'min:3', 'max:255', 'unique:blocked_items,value'],
             ];
         }
 
-        $blocked = BlockedItem::find(request()->route('blockedItem'));
+        $blocked = BlockedItem::find(request()->route('blocked_item'));
         return [
-            'type' => ['nullable', 'string', 'min:3', 'max:255'],
-            'value' => ['nullable', 'string', 'min:3', 'max:255', 'unique:blocked_items,type,' . $blocked->id,],
+            'type' => ['nullable', 'string', 'min:3', 'max:255', Rule::in(BlockTypeEnum::getAllValues())],
+            'value' => ['nullable', 'string', 'min:3', 'max:255', 'unique:blocked_items,value,' . $blocked?->id,],
         ];
     }
 }

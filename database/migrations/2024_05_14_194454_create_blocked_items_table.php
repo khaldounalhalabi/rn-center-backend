@@ -14,6 +14,8 @@ return new class () extends Migration {
             $table->id();
             $table->string('type');
             $table->string('value')->unique();
+            $table->index(['value']);
+            $table->index(['type', 'value']);
             $table->timestamps();
         });
     }

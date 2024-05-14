@@ -25,6 +25,8 @@ class ApiController extends Controller
     public const STATUS_VALIDATION = 405;
     public const TOKEN_EXPIRATION = 406;
     public const STATUS_INVALID_TIME_TO_BOOK = 425;
+    public const STATUS_BLOCKED = 430;
+
     protected array $relations = [];
     protected array $indexRelations = [];
     protected array $countable = [];
