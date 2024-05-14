@@ -194,10 +194,6 @@ class Clinic extends Model implements HasMedia
             return false;
         }
 
-        if ($this->validAppointments()->where('customer_id', $customerId)->exists()) {
-            return false;
-        }
-
         $this->loadCount('validAppointments');
 
         // checking if the current clinic reached the maximum appointments per day

@@ -924,6 +924,25 @@
             "model_name": "MedicinePrescription",
             "table_name": "medicine_prescriptions",
             "attributes": []
+        },
+        {
+            "model_name": "BlockedItem",
+            "table_name": "blocked_items",
+            "attributes": [
+                {
+                    "name": "type",
+                    "type": "string",
+                    "nullable": true,
+                    "unique": true
+                },
+                {
+                    "name": "value",
+                    "type": "string",
+                    "nullable": true,
+                    "unique": false
+                }
+            ],
+            "relations": []
         }
     ]
 }

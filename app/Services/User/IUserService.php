@@ -16,18 +16,18 @@ interface IUserService extends IBaseService
     public function toggleArchive($userId): ?string;
 
     /**
-     * @param array $data
+     * @param array       $data
      * @param string|null $role
-     * @param array $relations
+     * @param array       $relations
      * @return array{user:User , token:string , refresh_token:string}|User|null
      */
     public function updateUserDetails(array $data, ?string $role = null, array $relations = []): array|User|null;
 
     /**
-     * @param array $data
+     * @param array       $data
      * @param string|null $role
-     * @param array $relations
-     * @param array $additionalData
+     * @param array       $relations
+     * @param array       $additionalData
      * @return User|Authenticatable|array{user:User , token:string , refresh_token:string}|null
      */
     public function login(array $data, ?string $role = null, array $relations = [], array $additionalData = []): User|Authenticatable|array|null;
@@ -50,9 +50,9 @@ interface IUserService extends IBaseService
     public function refreshToken(array $relations = []): ?array;
 
     /**
-     * @param array $data
+     * @param array       $data
      * @param string|null $role
-     * @param array $relations
+     * @param array       $relations
      * @return array{user:User , token:string , refresh_token:string}|User
      */
     public function register(array $data, ?string $role = null, array $relations = []): array|User;
@@ -84,7 +84,7 @@ interface IUserService extends IBaseService
 
     /**
      * @param string|null $role
-     * @param array $relations
+     * @param array       $relations
      * @return User|Authenticatable|null
      */
     public function userDetails(?string $role = null, array $relations = []): User|Authenticatable|null;
@@ -100,4 +100,10 @@ interface IUserService extends IBaseService
      * @return void
      */
     public function requestVerificationCode(User $user): void;
+
+    /**
+     * @param $userId
+     * @return string|null
+     */
+    public function toggleBlockUser($userId): ?string;
 }

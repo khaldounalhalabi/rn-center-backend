@@ -18,7 +18,7 @@ class UserController extends ApiController
         $this->userService = $userService;
 
         // place the relations you want to return them within the response
-        $this->relations = ['media' , 'roles' , 'address.city' , 'phones'];
+        $this->relations = ['media', 'roles', 'address.city', 'phones'];
     }
 
     public function index()
@@ -80,6 +80,16 @@ class UserController extends ApiController
             return $this->apiResponse($result, self::STATUS_OK, __('site.change_successfully'));
         }
 
+        return $this->noData();
+    }
+
+    public function toggleBlock($userId)
+    {
+        $result = $this->userService->toggleBlockUser($userId);
+
+        if ($result) {
+            return $this->apiResponse($result, self::STATUS_OK, __('site.success'));
+        }
         return $this->noData();
     }
 }

@@ -30,11 +30,10 @@ class UserService extends BaseService implements IUserService
 
     /**
      * UserService constructor.
-     *
-     * @param UserRepository $repository
-     * @param CustomerRepository $customerRepository
+     * @param UserRepository        $repository
+     * @param CustomerRepository    $customerRepository
      * @param PhoneNumberRepository $phoneNumberRepository
-     * @param AddressRepository $addressRepository
+     * @param AddressRepository     $addressRepository
      */
     public function __construct(UserRepository $repository, CustomerRepository $customerRepository, PhoneNumberRepository $phoneNumberRepository, AddressRepository $addressRepository)
     {
@@ -45,9 +44,9 @@ class UserService extends BaseService implements IUserService
     }
 
     /**
-     * @param array $data
+     * @param array       $data
      * @param string|null $role
-     * @param array $relations
+     * @param array       $relations
      * @return array{User , string , string}|User|null
      */
     public function updateUserDetails(array $data, ?string $role = null, array $relations = []): array|User|null
@@ -74,10 +73,10 @@ class UserService extends BaseService implements IUserService
     }
 
     /**
-     * @param array $data
+     * @param array       $data
      * @param string|null $role
-     * @param array $relations
-     * @param array $additionalData
+     * @param array       $relations
+     * @param array       $additionalData
      * @return User|Authenticatable|array{User , string , string}|null
      */
     public function login(array $data, ?string $role = null, array $relations = [], array $additionalData = []): User|Authenticatable|array|null
@@ -154,9 +153,9 @@ class UserService extends BaseService implements IUserService
     }
 
     /**
-     * @param array $data
+     * @param array       $data
      * @param string|null $role
-     * @param array $relations
+     * @param array       $relations
      * @return array{User , string , string}
      * @throws RoleDoesNotExistException
      */
@@ -324,7 +323,7 @@ class UserService extends BaseService implements IUserService
 
     /**
      * @param string|null $role
-     * @param array $relations
+     * @param array       $relations
      * @return User|Authenticatable|null
      */
     public function userDetails(?string $role = null, array $relations = []): User|Authenticatable|null
@@ -373,9 +372,9 @@ class UserService extends BaseService implements IUserService
 
     public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
     {
-        $user = $this->repository->update($data , $id);
+        $user = $this->repository->update($data, $id);
 
-        if (isset($data['address'])){
+        if (isset($data['address'])) {
             $user->address()->update($data['address']);
         }
 
@@ -384,7 +383,7 @@ class UserService extends BaseService implements IUserService
             $this->phoneNumberRepository->insert($data['phone_numbers'], User::class, $user->id);
         }
 
-        if (isset($data['role'])){
+        if (isset($data['role'])) {
             $user->assignRole($data['role']);
         }
 
@@ -395,10 +394,29 @@ class UserService extends BaseService implements IUserService
     {
         $user = $this->repository->find($id);
 
-        if ($user->hasRole(RolesPermissionEnum::ADMIN['role'])){
+        if ($user->hasRole(RolesPermissionEnum::ADMIN['role'])) {
             return null;
         }
 
         return parent::delete($id);
+    }
+
+    /**
+     * @param $userId
+     * @return string|null
+     */
+    public function toggleBlockUser($userId): ?string
+    {
+        $user = $this->repository->find($userId);
+
+        if (!$user) {
+            return null;
+        }
+
+        $user = $this->repository->update([
+            'is_blocked' => !$user->is_blocked
+        ], $user);
+
+        return $user->is_blocked ? "blocked" : "not_blocked";
     }
 }
