@@ -10,7 +10,8 @@ Route::post('/logout', [v1\AdminAuthController::class, 'logout'])->name("logout"
 Route::post('/update-user-data', [v1\AdminAuthController::class, 'updateUserDetails'])->name('update-user-data');
 
 Route::delete('/users/{userId}/toggle-archive', [v1\UserController::class, 'toggleArchive'])->name('users.toggle.archive');
-Route::apiResource('/users' , v1\UserController::class)->names('users');
+Route::get('/users/{userId}/toggle-block', [v1\UserController::class, 'toggleBlock'])->name('user.block.toggle');
+Route::apiResource('/users', v1\UserController::class)->names('users');
 
 Route::get('/clinics/{clinicId}/toggle-status', [v1\ClinicController::class, 'toggleClinicStatus'])->name('clinic.status.toggle');
 Route::apiResource("/clinics", v1\ClinicController::class)->names("clinics");
