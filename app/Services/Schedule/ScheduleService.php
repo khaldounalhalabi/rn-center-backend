@@ -9,8 +9,6 @@ use App\Models\Schedule;
 use App\Repositories\ScheduleRepository;
 use App\Services\Contracts\BaseService;
 use Exception;
-use Illuminate\Support\Collection;
-use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * @implements IScheduleService<Schedule>
