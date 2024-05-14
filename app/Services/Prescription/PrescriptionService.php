@@ -54,7 +54,11 @@ class PrescriptionService extends BaseService implements IPrescriptionService
         foreach ($medicineData as $item) {
             $medicines->push([
                 'prescription_id' => $prescription->id,
-                ...$item,
+                'medicine_id' => $item['medicine_id'],
+                'dosage' => $item['dosage'] ?? "",
+                'duration' => $item['duration'] ?? "",
+                'time' => $item['time'] ?? "",
+                'dose_interval' => $item['dose_interval'] ?? "",
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
@@ -87,7 +91,11 @@ class PrescriptionService extends BaseService implements IPrescriptionService
             foreach ($medicineData as $item) {
                 $medicines->push([
                     'prescription_id' => $prescription->id,
-                    ...$item,
+                    'medicine_id' => $item['medicine_id'],
+                    'dosage' => $item['dosage'] ?? "",
+                    'duration' => $item['duration'] ?? "",
+                    'time' => $item['time'] ?? "",
+                    'dose_interval' => $item['dose_interval'] ?? "",
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
