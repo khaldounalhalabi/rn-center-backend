@@ -59,6 +59,7 @@ class PrescriptionService extends BaseService implements IPrescriptionService
                 'duration' => $item['duration'] ?? "",
                 'time' => $item['time'] ?? "",
                 'dose_interval' => $item['dose_interval'] ?? "",
+                'comment' => $item['comment'] ?? "",
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
@@ -96,6 +97,7 @@ class PrescriptionService extends BaseService implements IPrescriptionService
                     'duration' => $item['duration'] ?? "",
                     'time' => $item['time'] ?? "",
                     'dose_interval' => $item['dose_interval'] ?? "",
+                    'comment' => $item['comment'] ?? "",
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
