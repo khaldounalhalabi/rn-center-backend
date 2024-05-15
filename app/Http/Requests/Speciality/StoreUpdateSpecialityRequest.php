@@ -19,7 +19,6 @@ class StoreUpdateSpecialityRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
      * @return array<string, Rule|array|string>
      */
     public function rules(): array
@@ -29,6 +28,7 @@ class StoreUpdateSpecialityRequest extends FormRequest
                 'name' => ['unique:specialities,name', 'required', 'string', 'min:3', 'max:255', new LanguageShape()],
                 'description' => '|nullable|string',
                 'tags' => 'nullable|string',
+                'image' => 'required|image|mimes:jpeg,png,jpg|max:5000'
             ];
         }
 
@@ -36,6 +36,7 @@ class StoreUpdateSpecialityRequest extends FormRequest
             'name' => ['unique:specialities,name,' . request()->route('speciality'), 'nullable', 'string', 'min:3', 'max:255', new LanguageShape()],
             'description' => '|nullable|string',
             'tags' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
         ];
     }
 }

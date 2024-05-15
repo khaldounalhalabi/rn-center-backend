@@ -3,24 +3,27 @@
 namespace App\Models;
 
 use App\Casts\Translatable;
+use App\Enums\MediaTypeEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property string name
  * @property string description
  * @property string tags
  */
-class Speciality extends Model
+class Speciality extends Model implements HasMedia
 {
     use HasFactory;
+    use InteractsWithMedia;
 
     protected $fillable = [
         'name',
         'description',
         'tags',
-
     ];
 
     protected $casts = [
@@ -37,21 +40,6 @@ class Speciality extends Model
             'name',
             'description',
             'tags',
-
-        ];
-    }
-
-    /**
-     * add your relations and their searchable columns,
-     * so you can search within them in the index method
-     */
-    public static function relationsSearchableArray(): array
-    {
-        return [
-            'clinics' => [
-                //add your clinics desired column to be search within
-            ],
-
         ];
     }
 
@@ -68,7 +56,7 @@ class Speciality extends Model
     public function filesKeys(): array
     {
         return [
-            //filesKeys
+            'image' => ['type' => MediaTypeEnum::SINGLE->value]
         ];
     }
 }

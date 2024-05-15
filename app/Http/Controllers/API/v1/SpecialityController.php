@@ -18,7 +18,7 @@ class SpecialityController extends ApiController
         $this->specialityService = $specialityService;
 
         // place the relations you want to return them within the response
-        $this->relations = [];
+        $this->relations = ['media'];
     }
 
     public function index()

@@ -67,7 +67,6 @@ class Kernel extends HttpKernel
             ThrottleRequests::class . ':api',
             SubstituteBindings::class,
             AcceptedLanguagesMiddleware::class,
-            NotBlocked::class,
         ],
     ];
 
@@ -90,5 +89,6 @@ class Kernel extends HttpKernel
         'verified' => EnsureEmailIsVerified::class,
         'verified-customer' => CustomerMustVerifyEmail::class,
         'admin' => AdminOnly::class,
+        'not_blocked' => NotBlocked::class,
     ];
 }

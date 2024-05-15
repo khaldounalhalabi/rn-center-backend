@@ -9,7 +9,6 @@ class SpecialityResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
-     *
      * @return array<string, mixed>
      */
     public function toArray($request): array
@@ -20,6 +19,7 @@ class SpecialityResource extends BaseResource
             'description' => $this->description,
             'tags' => $this->tags,
             'clinics' => ClinicResource::collection($this->whenLoaded('clinics')),
+            'image' => MediaResource::collection($this->whenLoaded('media'))
         ];
     }
 }

@@ -12,9 +12,7 @@ class RouteServiceProvider extends ServiceProvider
 {
     /**
      * The path to your application's "home" route.
-     *
      * Typically, users are redirected here after authentication.
-     *
      * @var string
      */
     public const HOME = '/home';
@@ -29,15 +27,15 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         $this->routes(function () {
-            Route::middleware(['api', 'verified-customer'])
+            Route::middleware(['api', 'verified-customer', 'not_blocked'])
                 ->prefix('api')
                 ->group(base_path('routes/v1/api/customer.php'));
 
-            Route::middleware('api')
+            Route::middleware(['api', 'not_blocked'])
                 ->prefix('api')
                 ->group(base_path('routes/v1/api/doctor.php'));
 
-            Route::middleware(['api', 'admin'])
+            Route::middleware(['api', 'admin' , 'not_blocked'])
                 ->prefix('api/admin')
                 ->name('api.admin.')
                 ->group(base_path('routes/v1/api/admin.php'));

@@ -3,8 +3,10 @@
 namespace Database\Factories;
 
 use App\Models\Clinic;
+use App\Models\Speciality;
 use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Http\File;
 
 /**
  * @extends Factory
@@ -15,7 +17,6 @@ class SpecialityFactory extends Factory
 
     /**
      * Define the model's default state.
-     *
      * @return array<string, mixed>
      */
     public function definition(): array
@@ -34,6 +35,15 @@ class SpecialityFactory extends Factory
 
     public function allRelations(): SpecialityFactory
     {
-        return $this->withClinics();
+        return $this->withClinics()->withMedia();
+    }
+
+    public function withMedia(): SpecialityFactory
+    {
+        return $this->afterCreating(function (Speciality $spec) {
+            $spec->addMedia(
+                new File(storage_path('/app/required/download.png'))
+            )->preservingOriginal()->toMediaCollection();
+        });
     }
 }
