@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Enums\AppointmentStatusEnum;
 use App\Enums\RolesPermissionEnum;
 use Carbon\Carbon;
+use Carbon\CarbonInterval;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
@@ -225,25 +227,28 @@ class Appointment extends Model
      */
     public static function handleRemainingTime(Appointment $appointment): Appointment
     {
-        Log::info("Before The Condition");
         if ($appointment->status == AppointmentStatusEnum::BOOKED->value) {
-            Log::info("Handle Remaining Time Fired");
             $appointment->load(['clinic', 'clinic.schedules']);
             $beforeAppointmentsCount = Appointment::validNotEnded()
                 ->where('date', $appointment->date->format('Y-m-d'))
                 ->where('clinic_id', $appointment->clinic_id)
-                ->where('appointment_sequence' , '<' , $appointment->appointment_sequence)
+                ->where('appointment_sequence', '<', $appointment->appointment_sequence)
                 ->count();
 
-            $appointment_gap = $appointment->clinic->schedules->pluck('appointment_gap')->first();
+            $appointment_gap = $appointment->clinic->schedules->pluck('appointment_gap')->unique()->first();
             $approximate_appointment_time = $appointment->clinic->approximate_appointment_time;
             $diffDays = $appointment->date->diffInDays(now()->format('Y-m-d'));
             $diffMinutes = ($approximate_appointment_time + $appointment_gap) * $beforeAppointmentsCount;
 
-            $diffTime = intdiv($diffMinutes, 60) . ':' . ($diffMinutes % 60);
+            try {
+                $diffTime = CarbonInterval::hours(intdiv($diffMinutes, 60))->minutes($diffMinutes % 60)->forHumans();
+            } catch (Exception) {
+                $diffTime = intdiv($diffMinutes, 60) . " Hours  , " . $diffMinutes % 60 . " Minutes";
+            }
+
             $appointment->remaining_time = $diffDays == 0
-                ? "$diffTime Hours , $beforeAppointmentsCount Patients Before You"
-                : "$diffDays Days And $diffTime Hours $beforeAppointmentsCount Patients Before You";
+                ? "$diffTime , $beforeAppointmentsCount Patients Before You"
+                : "$diffDays Days And $diffTime , $beforeAppointmentsCount Patients Before You";
 
             //TODO::add send notification to customer
         }

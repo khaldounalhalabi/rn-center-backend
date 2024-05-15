@@ -92,7 +92,8 @@ class AppointmentService extends BaseService implements IAppointmentService
             'happen_in' => now(),
             'appointment_id' => $appointment->id,
             'actor_id' => auth()->user()->id,
-            'affected_id' => $data['customer_id'] ?? $appointment->customer_id
+            'affected_id' => $data['customer_id'] ?? $appointment->customer_id,
+            'event' => "appointment has been created in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en
         ]);
 
         return $appointment;
@@ -136,16 +137,15 @@ class AppointmentService extends BaseService implements IAppointmentService
             }
         }
 
-        if ($data['status'] != $appointment->status) {
-            $this->appointmentLogRepository->create([
-                'cancellation_reason' => $data['cancellation_reason'] ?? null,
-                'status' => $data['status'],
-                'happen_in' => now(),
-                'appointment_id' => $appointment->id,
-                'actor_id' => auth()->user()->id,
-                'affected_id' => $data['customer_id'] ?? $appointment->customer_id
-            ]);
-        }
+        $this->appointmentLogRepository->create([
+            'cancellation_reason' => $data['cancellation_reason'] ?? null,
+            'status' => $data['status'],
+            'happen_in' => now(),
+            'appointment_id' => $appointment->id,
+            'actor_id' => auth()->user()->id,
+            'affected_id' => $data['customer_id'] ?? $appointment->customer_id,
+            'event' => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en
+        ]);
 
         if (isset($data['service_id'])) {
             $service = $this->serviceRepository->find($data['service_id']);
@@ -208,8 +208,6 @@ class AppointmentService extends BaseService implements IAppointmentService
             'cancellation_reason' => $data['cancellation_reason'] ?? ""
         ], $appointment);
 
-        Log::error("dispatching condition : " . ($appointment->status == AppointmentStatusEnum::CHECKOUT->value && $prevStatus != AppointmentStatusEnum::CHECKOUT->value));
-
         if ($appointment->status == AppointmentStatusEnum::CHECKOUT->value && $prevStatus != AppointmentStatusEnum::CHECKOUT->value) {
             UpdateAppointmentRemainingTimeJob::dispatch($appointment->clinic_id, $appointment->date);
         }
@@ -218,6 +216,16 @@ class AppointmentService extends BaseService implements IAppointmentService
             $appointment = Appointment::handleRemainingTime($appointment);
             $appointment->save();
         }
+
+        $this->appointmentLogRepository->create([
+            'cancellation_reason' => $data['cancellation_reason'] ?? "",
+            'status' => $data['status'],
+            'happen_in' => now(),
+            'appointment_id' => $appointment->id,
+            'actor_id' => auth()->user()->id,
+            'affected_id' => $data['customer_id'] ?? $appointment->customer_id,
+            'event' => "appointment status has been changed to {$data['status']} in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en
+        ]);
 
         return $appointment;
     }

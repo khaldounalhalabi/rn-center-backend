@@ -16,7 +16,6 @@ class AppointmentLogFactory extends Factory
 {
     /**
      * Define the model's default state.
-     *
      * @return array<string, mixed>
      */
     public function definition(): array
@@ -28,6 +27,7 @@ class AppointmentLogFactory extends Factory
             'actor_id' => User::factory(),
             'affected_id' => User::factory(),
             'happen_in' => now(),
+            'event' => "appointment created in " . now()->format('Y-m-d H:i:s') . "By " . fake()->name
         ];
     }
 }

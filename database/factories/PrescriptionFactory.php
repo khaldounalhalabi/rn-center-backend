@@ -36,7 +36,7 @@ class PrescriptionFactory extends Factory
             "Temperature" => fake()->sentence(5),
         ];
         return [
-            'clinic_id' => Clinic::factory(),
+            'clinic_id' => Clinic::factory()->withSchedules(),
             'customer_id' => Customer::factory(),
             'appointment_id' => Appointment::factory(),
             'physical_information' => json_encode($physicalInformation),

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Casts\Translatable;
 use App\Enums\MediaTypeEnum;
+use App\Serializers\Translatable as TranslatableSerializer;
 use App\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -20,7 +21,10 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
- * Class User
+ * @property TranslatableSerializer full_name
+ * @property TranslatableSerializer first_name
+ * @property TranslatableSerializer middle_name
+ * @property TranslatableSerializer last_name
  * @mixin Builder
  */
 class User extends Authenticatable implements JWTSubject, HasMedia
@@ -58,6 +62,7 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         'first_name' => Translatable::class,
         'middle_name' => Translatable::class,
         'last_name' => Translatable::class,
+        'full_name' => Translatable::class,
     ];
 
     /**
@@ -113,7 +118,7 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     {
         parent::booted();
         self::creating(function (User $user) {
-            $user->full_name = self::geuUserFullName($user->first_name, $user->middle_name, $user->last_name);
+            $user->full_name = self::geuUserFullName($user->first_name->toJson(), $user->middle_name->toJson(), $user->last_name->toJson());
         });
     }
 
@@ -188,6 +193,21 @@ class User extends Authenticatable implements JWTSubject, HasMedia
      */
     public static function geuUserFullName($firstName, $middleName, $lastName): string|false
     {
+        if ($firstName instanceof TranslatableSerializer && $middleName instanceof TranslatableSerializer && $lastName instanceof TranslatableSerializer) {
+            return json_encode([
+                'en' => $firstName->en . ' ' . $middleName->en . ' ' . $lastName->en,
+                'ar' => $firstName->ar . ' ', $middleName->ar . ' ' . $lastName->ar,
+            ], JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES);
+        }
+
+        if (is_array($firstName) &&
+            is_array($middleName) &&
+            is_array($lastName)) {
+            return json_encode([
+                'en' => ($firstName['en'] ?? "") . ' ' . ($middleName['en'] ?? "") . ' ' . ($lastName['en'] ?? ""),
+                'ar' => ($firstName['ar'] ?? "") . ' ', ($middleName['ar'] ?? "") . ' ' . ($lastName['ar'] ?? ""),
+            ], JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES);
+        }
         return json_encode([
             'en' => (json_decode($firstName, true)['en'] ?? "") . ' ' . (json_decode($middleName, true)['en'] ?? "") . ' ' . (json_decode($lastName, true)['en'] ?? ""),
             'ar' => (json_decode($firstName, true)['ar'] ?? "") . ' ' . (json_decode($middleName, true)['ar'] ?? "") . ' ' . (json_decode($lastName, true)['ar'] ?? "")
@@ -208,13 +228,12 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         }
 
         $this->load('phones');
-        $fullName = json_decode($this->full_name, true);
 
         return BlockedItem::whereIn('value', [
             $this->email,
             ...$this->phones->pluck('phone'),
-            $fullName['en'],
-            $fullName['ar']
+            $this->full_name->en,
+            $this->full_name->ar,
         ])->exists();
     }
 }

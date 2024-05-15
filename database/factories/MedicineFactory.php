@@ -22,7 +22,7 @@ class MedicineFactory extends Factory
         return [
             'name' => fake()->firstName(),
             'description' => fake()->text(),
-            'clinic_id' => Clinic::factory(),
+            'clinic_id' => Clinic::factory()->withSchedules(),
         ];
     }
 

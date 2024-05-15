@@ -17,6 +17,7 @@ use Carbon;
  * @property Appointment appointment
  * @property User actor
  * @property User affected
+ * @property string event
  */
 class AppointmentLog extends Model
 {
@@ -29,7 +30,7 @@ class AppointmentLog extends Model
         'actor_id',
         'affected_id',
         'happen_in',
-
+        'event',
     ];
 
     protected $casts = [

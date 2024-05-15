@@ -71,7 +71,7 @@ class UserFactory extends Factory
 
     public function clinic(): UserFactory
     {
-        return $this->has(Clinic::factory());
+        return $this->has(Clinic::factory()->withSchedules());
     }
 
     public function withPhoneNumbers($count = 1): UserFactory

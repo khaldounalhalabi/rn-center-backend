@@ -13,6 +13,7 @@ return new class () extends Migration {
     {
         Schema::create('appointment_logs', function (Blueprint $table) {
             $table->id();
+            $table->string('event')->nullable();
             $table->text('cancellation_reason')->nullable();
             $table->string('status')->nullable();
             $table->dateTime('happen_in')->nullable();
