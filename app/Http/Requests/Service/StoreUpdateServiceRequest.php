@@ -27,7 +27,7 @@ class StoreUpdateServiceRequest extends FormRequest
         if (request()->method() == 'POST') {
             return [
                 'name' => ['required', 'json', new LanguageShape()],
-                'approximate_duration' => ['required', 'numeric', 'int'],
+                'approximate_duration' => ['required', 'numeric', 'integer'],
                 'service_category_id' => ['required', 'numeric', 'exists:service_categories,id'],
                 'price' => ['required', 'numeric'],
                 'status' => ['required', 'string', Rule::in(ServiceStatusEnum::getAllValues())],
@@ -38,7 +38,7 @@ class StoreUpdateServiceRequest extends FormRequest
 
         return [
             'name' => ['nullable', 'json', new LanguageShape()],
-            'approximate_duration' => ['nullable', 'numeric', 'int'],
+            'approximate_duration' => ['nullable', 'numeric', 'integer'],
             'service_category_id' => ['nullable', 'numeric', 'exists:service_categories,id'],
             'price' => ['nullable', 'numeric'],
             'status' => ['nullable', 'string', Rule::in(ServiceStatusEnum::getAllValues())],
