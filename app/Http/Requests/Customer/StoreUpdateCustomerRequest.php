@@ -4,7 +4,9 @@ namespace App\Http\Requests\Customer;
 
 use App\Enums\BloodGroupEnum;
 use App\Enums\GenderEnum;
+use App\Models\User;
 use App\Rules\LanguageShape;
+use App\Rules\NotInBlocked;
 use App\Rules\UniquePhoneNumber;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -30,7 +32,8 @@ class StoreUpdateCustomerRequest extends FormRequest
                 'first_name' => ['json', 'required', new LanguageShape(), 'min:3', 'max:60'],
                 'middle_name' => ['json', 'required', new LanguageShape(), 'min:3', 'max:60'],
                 'last_name' => ['json', 'required', new LanguageShape(), 'min:3', 'max:60'],
-                'email' => 'required|email|max:255|min:3|string|unique:users,email',
+                'full_name' => ['string', 'nullable', new NotInBlocked()],
+                'email' => ['required', 'email', 'max:255', 'min:3', 'string', 'unique:users,email', new NotInBlocked()],
                 'password' => 'string|min:8|max:20|required|confirmed',
                 'birth_date' => 'date_format:Y-m-d|date|before:20 years ago|required',
                 'gender' => ['required', 'string', Rule::in(GenderEnum::getAllValues())],
@@ -44,7 +47,7 @@ class StoreUpdateCustomerRequest extends FormRequest
                 'address.map_iframe' => ['nullable', 'string'],
 
                 'phone_numbers' => 'array|required',
-                'phone_numbers.*' => ['required', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/'],
+                'phone_numbers.*' => ['required', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/', new NotInBlocked()],
             ];
         }
 
@@ -54,7 +57,8 @@ class StoreUpdateCustomerRequest extends FormRequest
             'first_name' => ['json', 'nullable', new LanguageShape(), 'min:3', 'max:60'],
             'middle_name' => ['json', 'nullable', new LanguageShape(), 'min:3', 'max:60'],
             'last_name' => ['json', 'nullable', new LanguageShape(), 'min:3', 'max:60'],
-            'email' => 'nullable|email|max:255|min:3|string|unique:users,email,' . $userId,
+            'full_name' => ['string', 'nullable', new NotInBlocked()],
+            'email' => ['nullable','email','max:255','min:3','string','unique:users,email,' . $userId , new NotInBlocked()],
             'password' => 'string|min:8|max:20|nullable|confirmed',
             'birth_date' => 'date_format:Y-m-d|date|before:20 years ago|nullable',
             'gender' => ['nullable', 'string', Rule::in(GenderEnum::getAllValues())],
@@ -68,7 +72,7 @@ class StoreUpdateCustomerRequest extends FormRequest
             'address.map_iframe' => ['nullable', 'string'],
 
             'phone_numbers' => 'array|nullable',
-            'phone_numbers.*' => ['required', 'string', 'regex:/^07\d{9}$/', new UniquePhoneNumber($userId)],
+            'phone_numbers.*' => ['required', 'string', 'regex:/^07\d{9}$/', new UniquePhoneNumber($userId) , new NotInBlocked()],
         ];
     }
 
@@ -80,5 +84,11 @@ class StoreUpdateCustomerRequest extends FormRequest
                 'map_iframe' => strip_tags($this->input('address.map_iframe'), ['iframe'])
             ]
         ]);
+
+        if ($this->input('last_name') && $this->input('first_name') && $this->input('middle_name')) {
+            $this->merge([
+                'full_name' => User::geuUserFullName($this->input('first_name'), $this->input('middle_name'), $this->input('last_name'))
+            ]);
+        }
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Requests\Hospital;
 
 use App\Models\Hospital;
 use App\Rules\LanguageShape;
+use App\Rules\NotInBlocked;
 use App\Rules\UniquePhoneNumber;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -21,7 +22,6 @@ class StoreUpdateHospitalRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
      * @return array<string, Rule|array|string>
      */
     public function rules(): array
@@ -30,7 +30,7 @@ class StoreUpdateHospitalRequest extends FormRequest
             return [
                 'name' => ['required', 'json', new LanguageShape()],
                 'phone_numbers' => 'array|required',
-                'phone_numbers.*' => ['required', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/'],
+                'phone_numbers.*' => ['required', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/', new NotInBlocked()],
                 'available_departments' => 'array|required',
                 'available_departments.*' => ['required', 'numeric', 'exists:available_departments,id'],
                 "images" => 'array|nullable',
@@ -45,7 +45,7 @@ class StoreUpdateHospitalRequest extends FormRequest
         return [
             'name' => ['nullable', 'json', new LanguageShape()],
             'phone_numbers' => 'array|nullable',
-            'phone_numbers.*' => ['nullable', 'string', new UniquePhoneNumber(request()->route('hospital'), Hospital::class), 'regex:/^07\d{9}$/'],
+            'phone_numbers.*' => ['nullable', 'string', new UniquePhoneNumber(request()->route('hospital'), Hospital::class), 'regex:/^07\d{9}$/', new NotInBlocked()],
             'available_departments' => 'array|nullable',
             'available_departments.*' => ['nullable', 'numeric', 'exists:available_departments,id'],
             "images" => 'array|nullable',

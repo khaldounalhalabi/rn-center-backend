@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\AuthRequests;
 
+use App\Rules\NotInBlocked;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AuthLoginRequest extends FormRequest
@@ -24,7 +25,7 @@ class AuthLoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['required', 'email', 'exists:users,email', 'max:255'],
+            'email' => ['required', 'email', 'exists:users,email', 'max:255' , new NotInBlocked()],
             'password' => 'required|min:8|max:255',
             'fcm_token' => 'nullable|string|max:1000',
         ];

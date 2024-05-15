@@ -41,7 +41,6 @@ class StoreUpdateAppointmentLogRequest extends FormRequest
             'actor_id' => ['nullable', 'numeric', 'exists:actors,id', 'unique:appointment_logs,actor_id',],
             'affected_id' => ['nullable', 'numeric', 'exists:affecteds,id', 'unique:appointment_logs,affected_id',],
             'happen_in' => ['nullable', 'date', 'unique:appointment_logs,happen_in',],
-
         ];
     }
 

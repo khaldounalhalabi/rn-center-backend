@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Customer;
 
+use App\Rules\NotInBlocked;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -23,7 +24,7 @@ class RequestVerificationCode extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email|exists:users,email|min:3|max:255',
+            'email' => ['required','email','exists:users,email','min:3','max:255' , new NotInBlocked()],
         ];
     }
 }
