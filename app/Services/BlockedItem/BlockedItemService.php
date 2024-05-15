@@ -14,7 +14,6 @@ class BlockedItemService extends BaseService implements IBlockedItemService
 {
     /**
      * BlockedItemService constructor.
-     *
      * @param BlockedItemRepository $repository
      */
     public function __construct(BlockedItemRepository $repository)

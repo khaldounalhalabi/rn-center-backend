@@ -6,7 +6,6 @@ use App\Enums\AppointmentStatusEnum;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use JetBrains\PhpStorm\ArrayShape;
 
 class ToggleAppointmentStatusRequest extends FormRequest
 {

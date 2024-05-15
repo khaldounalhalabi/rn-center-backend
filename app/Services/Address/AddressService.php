@@ -14,7 +14,6 @@ class AddressService extends BaseService implements IAddressService
 {
     /**
      * AddressService constructor.
-     *
      * @param AddressRepository $repository
      */
     public function __construct(AddressRepository $repository)

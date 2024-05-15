@@ -14,7 +14,6 @@ class PhoneNumberService extends BaseService implements IPhoneNumberService
 {
     /**
      * PhoneNumberService constructor.
-     *
      * @param PhoneNumberRepository $repository
      */
     public function __construct(PhoneNumberRepository $repository)

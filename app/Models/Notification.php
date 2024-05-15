@@ -22,7 +22,7 @@ class Notification extends DatabaseNotification
 
     /**
      * @param Builder $query
-     * @param $userId
+     * @param         $userId
      * @return Builder
      */
     public function scopeByUser(Builder $query, $userId): Builder
@@ -32,7 +32,7 @@ class Notification extends DatabaseNotification
 
     /**
      * @param Builder $query
-     * @param bool $value
+     * @param bool    $value
      * @return Builder
      */
     public function scopeAvailable(Builder $query, bool $value = true): Builder

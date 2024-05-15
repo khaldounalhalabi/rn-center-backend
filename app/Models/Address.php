@@ -9,13 +9,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
- * @property string name
- * @property string city
- * @property string lat
- * @property string lng
- * @property string country
+ * @property string  name
+ * @property string  city
+ * @property string  lat
+ * @property string  lng
+ * @property string  country
  * @property numeric addressable_id
- * @property string addressable_type
+ * @property string  addressable_type
  */
 class Address extends Model
 {

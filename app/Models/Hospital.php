@@ -17,10 +17,10 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property Address addresses
- * @property string name
- * @property string phone_numbers
- * @property string available_departments
- * @property string images
+ * @property string  name
+ * @property string  phone_numbers
+ * @property string  available_departments
+ * @property string  images
  */
 class Hospital extends Model implements HasMedia
 {

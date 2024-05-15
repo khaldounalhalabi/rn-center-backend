@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\User;
 
-use App\Enums\BloodGroupEnum;
 use App\Enums\GenderEnum;
 use App\Models\User;
 use App\Rules\LanguageShape;

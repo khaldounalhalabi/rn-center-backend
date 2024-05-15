@@ -58,7 +58,7 @@ class StoreUpdateCustomerRequest extends FormRequest
             'middle_name' => ['json', 'nullable', new LanguageShape(), 'min:3', 'max:60'],
             'last_name' => ['json', 'nullable', new LanguageShape(), 'min:3', 'max:60'],
             'full_name' => ['string', 'nullable', new NotInBlocked()],
-            'email' => ['nullable','email','max:255','min:3','string','unique:users,email,' . $userId , new NotInBlocked()],
+            'email' => ['nullable', 'email', 'max:255', 'min:3', 'string', 'unique:users,email,' . $userId, new NotInBlocked()],
             'password' => 'string|min:8|max:20|nullable|confirmed',
             'birth_date' => 'date_format:Y-m-d|date|before:20 years ago|nullable',
             'gender' => ['nullable', 'string', Rule::in(GenderEnum::getAllValues())],
@@ -72,7 +72,7 @@ class StoreUpdateCustomerRequest extends FormRequest
             'address.map_iframe' => ['nullable', 'string'],
 
             'phone_numbers' => 'array|nullable',
-            'phone_numbers.*' => ['required', 'string', 'regex:/^07\d{9}$/', new UniquePhoneNumber($userId) , new NotInBlocked()],
+            'phone_numbers.*' => ['required', 'string', 'regex:/^07\d{9}$/', new UniquePhoneNumber($userId), new NotInBlocked()],
         ];
     }
 

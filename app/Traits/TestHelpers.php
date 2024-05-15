@@ -73,9 +73,8 @@ trait TestHelpers
 
     /**
      * this function is for converting the return value of a resource as an array
-     *
-     * @param mixed $data the data that  has to be converted
-     * @param bool $multiple if you want to return an array of data
+     * @param mixed $data     the data that  has to be converted
+     * @param bool  $multiple if you want to return an array of data
      */
     public function convertResourceToArray(mixed $data, bool $multiple = false): array
     {
@@ -103,7 +102,6 @@ trait TestHelpers
 
     /**
      * data = [] ||| message = there is no data
-     *
      * @return void
      */
     public function failedMultiResponse()

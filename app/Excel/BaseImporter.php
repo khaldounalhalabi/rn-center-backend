@@ -46,7 +46,7 @@ class BaseImporter implements ToModel, WithHeadingRow
 
     /**
      * @param string $colName
-     * @param $row
+     * @param        $row
      * @return mixed
      */
     private function processRow(string $colName, $row): mixed

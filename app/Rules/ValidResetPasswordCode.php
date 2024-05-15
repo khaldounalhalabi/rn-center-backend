@@ -11,7 +11,6 @@ class ValidResetPasswordCode implements ValidationRule
 {
     /**
      * Run the validation rule.
-     *
      * @param Closure(string): PotentiallyTranslatedString $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void

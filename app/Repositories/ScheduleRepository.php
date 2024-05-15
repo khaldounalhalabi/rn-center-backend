@@ -22,7 +22,7 @@ class ScheduleRepository extends BaseRepository
 
     /**
      * @param class-string $schedulableType
-     * @param int|null $schedulableId
+     * @param int|null     $schedulableId
      * @return Collection<Schedule>|array<Schedule>
      */
     public function getSchedulesByType(string $schedulableType, ?int $schedulableId = null): Collection|array
@@ -44,7 +44,7 @@ class ScheduleRepository extends BaseRepository
     }
 
     /**
-     * @param int $schedulableId
+     * @param int                           $schedulableId
      * @param class-string<Clinic|Hospital> $schedulableType
      * @return bool|null
      */

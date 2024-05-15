@@ -11,7 +11,6 @@ trait RestTrait
 {
     /**
      * this function will determine the api response structure to make all responses has the same structure
-     *
      * @param null $data
      * @param null $message
      * @param null $paginate

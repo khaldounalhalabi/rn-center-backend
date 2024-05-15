@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Models\Appointment;
 use App\Repositories\Contracts\BaseRepository;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * @extends  BaseRepository<Appointment>
@@ -31,9 +30,9 @@ class AppointmentRepository extends BaseRepository
     }
 
     /**
-     * @param $clinicId
+     * @param       $clinicId
      * @param array $relations
-     * @param int $perPage
+     * @param int   $perPage
      * @return array|null
      */
     public function getByClinic($clinicId, array $relations = [], int $perPage = 10): ?array

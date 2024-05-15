@@ -10,13 +10,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * @property numeric approximate_duration
- * @property integer service_category_id
- * @property numeric price
- * @property numeric status
- * @property integer clinic_id
+ * @property numeric         approximate_duration
+ * @property integer         service_category_id
+ * @property numeric         price
+ * @property numeric         status
+ * @property integer         clinic_id
  * @property ServiceCategory serviceCategory
- * @property Clinic clinic
+ * @property Clinic          clinic
  */
 class Service extends Model
 {

@@ -16,7 +16,7 @@ class UniquePhoneNumber implements ValidationRule
     private string $phoneableType;
 
     /**
-     * @param int $phoneableId
+     * @param int          $phoneableId
      * @param class-string $type
      */
     public function __construct(int $phoneableId, string $type = User::class)
@@ -27,7 +27,6 @@ class UniquePhoneNumber implements ValidationRule
 
     /**
      * Run the validation rule.
-     *
      * @param Closure(string): PotentiallyTranslatedString $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void

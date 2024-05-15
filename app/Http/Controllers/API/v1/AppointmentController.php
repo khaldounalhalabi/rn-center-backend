@@ -106,12 +106,12 @@ class AppointmentController extends ApiController
         return $this->noData(null);
     }
 
-    public function toggleAppointmentStatus($appointmentId , ToggleAppointmentStatusRequest $request)
+    public function toggleAppointmentStatus($appointmentId, ToggleAppointmentStatusRequest $request)
     {
-        $result = $this->appointmentService->toggleAppointmentStatus($appointmentId , $request->validated());
+        $result = $this->appointmentService->toggleAppointmentStatus($appointmentId, $request->validated());
 
-        if ($result){
-            return $this->apiResponse(new AppointmentResource($result) , self::STATUS_OK , __('site.success'));
+        if ($result) {
+            return $this->apiResponse(new AppointmentResource($result), self::STATUS_OK, __('site.success'));
         }
 
         return $this->noData();

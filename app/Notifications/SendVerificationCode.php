@@ -16,7 +16,6 @@ class SendVerificationCode extends Notification
 
     /**
      * Create a new notification instance.
-     *
      * @param string $code
      * @param string $title
      * @param string $body
@@ -30,7 +29,6 @@ class SendVerificationCode extends Notification
 
     /**
      * Get the notification's delivery channels.
-     *
      * @param mixed $notifiable
      * @return array
      */
@@ -41,7 +39,6 @@ class SendVerificationCode extends Notification
 
     /**
      * Get the mail representation of the notification.
-     *
      * @param mixed $notifiable
      * @return MailMessage
      */
@@ -54,7 +51,6 @@ class SendVerificationCode extends Notification
 
     /**
      * Get the array representation of the notification.
-     *
      * @param mixed $notifiable
      * @return array
      */

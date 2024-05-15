@@ -19,10 +19,9 @@ class HospitalService extends BaseService implements IHospitalService
 
     /**
      * HospitalService constructor.
-     *
-     * @param HospitalRepository $repository
+     * @param HospitalRepository    $repository
      * @param PhoneNumberRepository $phoneNumberRepository
-     * @param AddressRepository $addressRepository
+     * @param AddressRepository     $addressRepository
      */
     public function __construct(HospitalRepository $repository, PhoneNumberRepository $phoneNumberRepository, AddressRepository $addressRepository)
     {

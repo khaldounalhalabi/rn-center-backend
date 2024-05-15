@@ -9,10 +9,9 @@ trait NotificationSender
 {
     /**
      * This function send to single user if user have fcm token
-     *
-     * @param $notification
+     * @param       $notification
      * @param array $data
-     * @param User $user
+     * @param User  $user
      * @return void
      */
     public function sendToSingleUser($notification, array $data, User $user): void
@@ -21,9 +20,9 @@ trait NotificationSender
     }
 
     /**
-     * @param $notification
+     * @param       $notification
      * @param array $data
-     * @param $users
+     * @param       $users
      * @return void
      */
     private function sendNotification($notification, array $data, $users): void
@@ -33,8 +32,7 @@ trait NotificationSender
 
     /**
      * This function send to array of users ids if they have fcm tokens
-     *
-     * @param $notification
+     * @param       $notification
      * @param array $data
      * @param array $users_ids
      * @return void
@@ -50,9 +48,8 @@ trait NotificationSender
 
     /**
      * This function send to array of users ids if they have fcm tokens
-     *
-     * @param $notification
-     * @param array $data
+     * @param        $notification
+     * @param array  $data
      * @param string $role
      * @return void
      */

@@ -69,7 +69,7 @@ trait HasRoles
 
     /**
      * @param Builder $query
-     * @param string $roleName
+     * @param string  $roleName
      * @return void
      */
     public function scopeByRole(Builder $query, string $roleName): void

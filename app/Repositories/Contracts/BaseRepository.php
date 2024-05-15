@@ -236,7 +236,7 @@ abstract class BaseRepository implements IBaseRepository
     /**
      * @param array $relationships
      * @param array $countable
-     * @param int $per_page
+     * @param int   $per_page
      * @return array{data:Collection<T>|array|RegularCollection<T> , pagination_data:array}|null
      */
     public function all_with_pagination(array $relationships = [], array $countable = [], int $per_page = 10): ?array
@@ -373,7 +373,7 @@ abstract class BaseRepository implements IBaseRepository
     }
 
     /**
-     * @param $id
+     * @param       $id
      * @param array $relationships
      * @param array $countable
      * @return T|null
@@ -390,10 +390,10 @@ abstract class BaseRepository implements IBaseRepository
     }
 
     /**
-     * @param array $data
+     * @param array   $data
      * @param T|mixed $id
-     * @param array $relationships
-     * @param array $countable
+     * @param array   $relationships
+     * @param array   $countable
      * @return T|null
      */
     public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model

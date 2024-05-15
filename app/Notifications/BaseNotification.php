@@ -20,7 +20,6 @@ class BaseNotification extends Notification
 
     /**
      * Create a new notification instance.
-     *
      * @return void
      */
     public function __construct(array $data)
@@ -32,7 +31,6 @@ class BaseNotification extends Notification
 
     /**
      * Get the notification's delivery channels.
-     *
      * @param mixed $notifiable
      * @return array
      */
@@ -47,10 +45,8 @@ class BaseNotification extends Notification
 
     /**
      * Get the mail representation of the notification.
-     *
      * @param mixed $notifiable
      * @return FcmMessage
-     *
      * @throws CouldNotSendNotification
      */
     public function toFcm($notifiable): FcmMessage
@@ -85,7 +81,6 @@ class BaseNotification extends Notification
 
     /**
      * Get the array representation of the notification.
-     *
      * @return array
      */
     public function toDatabase(): array

@@ -14,7 +14,6 @@ class ServiceService extends BaseService implements IServiceService
 {
     /**
      * ServiceService constructor.
-     *
      * @param ServiceRepository $repository
      */
     public function __construct(ServiceRepository $repository)

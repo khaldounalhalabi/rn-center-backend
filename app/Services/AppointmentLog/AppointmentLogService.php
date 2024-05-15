@@ -17,7 +17,6 @@ class AppointmentLogService extends BaseService implements IAppointmentLogServic
 {
     /**
      * AppointmentLogService constructor.
-     *
      * @param AppointmentLogRepository $repository
      */
     public function __construct(AppointmentLogRepository $repository)
@@ -26,7 +25,7 @@ class AppointmentLogService extends BaseService implements IAppointmentLogServic
     }
 
     /**
-     * @param $appointmentId
+     * @param       $appointmentId
      * @param array $relations
      * @return array|Collection<AppointmentLog>|LaravelCollection<AppointmentLog>|_IH_AppointmentLog_C
      */

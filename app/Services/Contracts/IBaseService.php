@@ -36,7 +36,7 @@ interface IBaseService
     /**
      * @param array $relations
      * @param array $countable
-     * @param int $per_page
+     * @param int   $per_page
      * @return array{data:Collection<T>|array<T>|RegularCollection<T> , pagination_data:array}|null
      */
     public function indexWithPagination(array $relations = [], array $countable = [], int $per_page = 10): ?array;
@@ -59,7 +59,7 @@ interface IBaseService
     public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model;
 
     /**
-     * @param $id
+     * @param       $id
      * @param array $relationships
      * @param array $countable
      * @return T|null

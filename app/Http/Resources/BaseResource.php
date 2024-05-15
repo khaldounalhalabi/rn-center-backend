@@ -61,10 +61,10 @@ class BaseResource extends JsonResource
     /**
      * @template T of Model<T>
      * @param DBCollection|LengthAwarePaginator $data
-     * @param array $itemAbilities
-     * @param array $generalAbilities
-     * @param array|null $extra
-     * @param bool $withFilters
+     * @param array                             $itemAbilities
+     * @param array                             $generalAbilities
+     * @param array|null                        $extra
+     * @param bool                              $withFilters
      * @return Collection<T>
      */
     public static function collectionWithAbilities(DBCollection|LengthAwarePaginator $data, array $itemAbilities = [], array $generalAbilities = [], ?array $extra = null, bool $withFilters = false): Collection
@@ -143,9 +143,9 @@ class BaseResource extends JsonResource
     }
 
     /**
-     * @param Model $data
-     * @param array $itemAbilities
-     * @param array $generalAbilities
+     * @param Model      $data
+     * @param array      $itemAbilities
+     * @param array      $generalAbilities
      * @param array|null $extra
      * @return BaseResource|array
      */

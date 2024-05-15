@@ -14,7 +14,6 @@ class ServiceCategoryService extends BaseService implements IServiceCategoryServ
 {
     /**
      * ServiceCategoryService constructor.
-     *
      * @param ServiceCategoryRepository $repository
      */
     public function __construct(ServiceCategoryRepository $repository)

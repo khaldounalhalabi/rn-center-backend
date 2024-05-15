@@ -13,6 +13,6 @@ class AvailableDepartmentSeeder extends Seeder
      */
     public function run(): void
     {
-        AvailableDepartment::factory(10)->create() ;
+        AvailableDepartment::factory(10)->create();
     }
 }

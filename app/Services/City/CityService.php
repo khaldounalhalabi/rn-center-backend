@@ -14,7 +14,6 @@ class CityService extends BaseService implements ICityService
 {
     /**
      * CityService constructor.
-     *
      * @param CityRepository $repository
      */
     public function __construct(CityRepository $repository)

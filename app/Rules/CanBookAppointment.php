@@ -22,9 +22,9 @@ class CanBookAppointment implements ValidationRule
      * @param string|null $date
      * @param string|null $from
      * @param string|null $to
-     * @param int|null $clinicId
-     * @param int|null $appointmentId
-     * @param int|null $customerId
+     * @param int|null    $clinicId
+     * @param int|null    $appointmentId
+     * @param int|null    $customerId
      */
     public function __construct(?string $date, ?string $from, ?string $to, ?int $clinicId, ?int $appointmentId, ?int $customerId)
     {
@@ -39,7 +39,6 @@ class CanBookAppointment implements ValidationRule
 
     /**
      * Run the validation rule.
-     *
      * @param Closure(string): PotentiallyTranslatedString $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void

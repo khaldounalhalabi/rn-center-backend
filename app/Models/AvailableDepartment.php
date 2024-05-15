@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * @property string name
- * @property string description
+ * @property string  name
+ * @property string  description
  * @property integer hospital_id
  */
 class AvailableDepartment extends Model

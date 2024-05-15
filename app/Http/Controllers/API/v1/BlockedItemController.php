@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\API\v1;
 
-use App\Http\Requests\BlockedItem\StoreUpdateBlockedItemRequest;
-use App\Services\BlockedItem\IBlockedItemService;
-use App\Http\Resources\BlockedItemResource;
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\BlockedItem\StoreUpdateBlockedItemRequest;
+use App\Http\Resources\BlockedItemResource;
 use App\Models\BlockedItem;
+use App\Services\BlockedItem\IBlockedItemService;
 use Illuminate\Http\Request;
 
 class BlockedItemController extends ApiController
@@ -19,7 +19,7 @@ class BlockedItemController extends ApiController
         $this->blockedItemService = $blockedItemService;
 
         // place the relations you want to return them within the response
-        $this->relations = [] ;
+        $this->relations = [];
     }
 
     public function index()

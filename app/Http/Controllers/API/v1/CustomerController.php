@@ -18,7 +18,7 @@ class CustomerController extends ApiController
         $this->customerService = $customerService;
 
         // place the relations you want to return them within the response
-        $this->relations = ['user' , 'user.address.city' , 'user.phones'];
+        $this->relations = ['user', 'user.address.city', 'user.phones'];
     }
 
     public function index()

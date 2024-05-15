@@ -34,7 +34,7 @@ class Translatable implements JsonSerializable
         $this->data["$name"] = $value;
     }
 
-    public function __construct(string | array $value)
+    public function __construct(string|array $value)
     {
         if (is_string($value)) {
             $this->data = json_decode($value, true);

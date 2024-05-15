@@ -35,7 +35,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('api')
                 ->group(base_path('routes/v1/api/doctor.php'));
 
-            Route::middleware(['api', 'admin' , 'not_blocked'])
+            Route::middleware(['api', 'admin', 'not_blocked'])
                 ->prefix('api/admin')
                 ->name('api.admin.')
                 ->group(base_path('routes/v1/api/admin.php'));

@@ -15,7 +15,6 @@ class NotificationService extends BaseService implements INotificationService
 
     /**
      * WishlistService constructor.
-     *
      * @param NotificationRepository $repository
      */
     public function __construct(NotificationRepository $repository)

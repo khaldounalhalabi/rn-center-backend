@@ -21,7 +21,6 @@ class HospitalFactory extends Factory
 
     /**
      * Define the model's default state.
-     *
      * @return array<string, mixed>
      */
     public function definition(): array
@@ -42,12 +41,12 @@ class HospitalFactory extends Factory
 
     public function withPhoneNumbers($count = 1): HospitalFactory
     {
-        return $this->has(PhoneNumber::factory($count) , 'phones');
+        return $this->has(PhoneNumber::factory($count), 'phones');
     }
 
     public function withAvailableDepartments($count = 1): HospitalFactory
     {
-        return $this->has(AvailableDepartment::factory($count) , 'availableDepartments');
+        return $this->has(AvailableDepartment::factory($count), 'availableDepartments');
     }
 
     public function allRelations(): HospitalFactory

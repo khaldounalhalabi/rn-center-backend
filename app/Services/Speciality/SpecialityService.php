@@ -14,7 +14,6 @@ class SpecialityService extends BaseService implements ISpecialityService
 {
     /**
      * SpecialityService constructor.
-     *
      * @param SpecialityRepository $repository
      */
     public function __construct(SpecialityRepository $repository)

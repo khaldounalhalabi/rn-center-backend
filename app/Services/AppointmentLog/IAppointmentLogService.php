@@ -15,7 +15,7 @@ use LaravelIdea\Helper\App\Models\_IH_AppointmentLog_C;
 interface IAppointmentLogService extends IBaseService
 {
     /**
-     * @param $appointmentId
+     * @param       $appointmentId
      * @param array $relations
      * @return array|Collection<AppointmentLog>|LaravelCollection<AppointmentLog>|_IH_AppointmentLog_C
      */

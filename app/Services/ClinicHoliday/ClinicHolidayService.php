@@ -14,7 +14,6 @@ class ClinicHolidayService extends BaseService implements IClinicHolidayService
 {
     /**
      * ClinicHolidayService constructor.
-     *
      * @param ClinicHolidayRepository $repository
      */
     public function __construct(ClinicHolidayRepository $repository)

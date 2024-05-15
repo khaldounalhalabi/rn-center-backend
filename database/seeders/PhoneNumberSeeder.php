@@ -13,6 +13,6 @@ class PhoneNumberSeeder extends Seeder
      */
     public function run(): void
     {
-        PhoneNumber::factory(10)->create() ;
+        PhoneNumber::factory(10)->create();
     }
 }

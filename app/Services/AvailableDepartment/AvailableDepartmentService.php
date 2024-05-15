@@ -14,7 +14,6 @@ class AvailableDepartmentService extends BaseService implements IAvailableDepart
 {
     /**
      * AvailableDepartmentService constructor.
-     *
      * @param AvailableDepartmentRepository $repository
      */
     public function __construct(AvailableDepartmentRepository $repository)

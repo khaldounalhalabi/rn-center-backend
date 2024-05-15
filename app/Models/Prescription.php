@@ -11,13 +11,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * @property integer clinic_id
- * @property integer customer_id
- * @property string physical_information
- * @property string problem_description
- * @property string test
- * @property string next_visit
- * @property Clinic clinic
+ * @property integer  clinic_id
+ * @property integer  customer_id
+ * @property string   physical_information
+ * @property string   problem_description
+ * @property string   test
+ * @property string   next_visit
+ * @property Clinic   clinic
  * @property Customer customer
  */
 class Prescription extends Model
@@ -63,7 +63,7 @@ class Prescription extends Model
 
     public function medicines(): BelongsToMany
     {
-        return $this->belongsToMany(Medicine::class , 'medicine_prescriptions');
+        return $this->belongsToMany(Medicine::class, 'medicine_prescriptions');
     }
 
 

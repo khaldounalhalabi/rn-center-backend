@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature ;
+namespace Tests\Feature;
 
 use App\Http\Resources\BlockedItemResource;
 use App\Models\BlockedItem;

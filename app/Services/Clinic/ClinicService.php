@@ -89,7 +89,7 @@ class ClinicService extends BaseService implements IClinicService
 
     /**
      * @param array $data
-     * @param $id
+     * @param       $id
      * @param array $relationships
      * @param array $countable
      * @return Clinic|null

@@ -8,16 +8,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Carbon;
 
 /**
- * @property integer appointment_id
- * @property string cancellation_reason
- * @property string status
- * @property integer actor_id
- * @property integer affected_id
+ * @property integer       appointment_id
+ * @property string        cancellation_reason
+ * @property string        status
+ * @property integer       actor_id
+ * @property integer       affected_id
  * @property Carbon\Carbon happen_in
- * @property Appointment appointment
- * @property User actor
- * @property User affected
- * @property string event
+ * @property Appointment   appointment
+ * @property User          actor
+ * @property User          affected
+ * @property string        event
  */
 class AppointmentLog extends Model
 {

@@ -29,7 +29,7 @@ class ScheduleController extends ApiController
             return $this->apiResponse(
                 collect(ScheduleResource::collection($data['data']))
                     ->groupBy('day_of_week')
-                    ->put('appointment_gap' , $data['appointment_gap']),
+                    ->put('appointment_gap', $data['appointment_gap']),
                 self::STATUS_OK,
                 __('site.get_successfully')
             );

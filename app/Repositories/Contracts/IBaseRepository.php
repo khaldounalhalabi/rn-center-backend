@@ -22,7 +22,7 @@ interface IBaseRepository
     /**
      * @param array $relationships
      * @param array $countable
-     * @param int $per_page
+     * @param int   $per_page
      * @return array{data:Collection<T>|array|RegularCollection<T> , pagination_data:array}|null
      */
     public function all_with_pagination(array $relationships = [], array $countable = [], int $per_page = 10): ?array;
@@ -42,7 +42,7 @@ interface IBaseRepository
     public function delete($id): ?bool;
 
     /**
-     * @param $id
+     * @param       $id
      * @param array $relationships
      * @param array $countable
      * @return T|null

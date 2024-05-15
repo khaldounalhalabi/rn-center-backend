@@ -13,11 +13,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use DateTime;
 
 /**
- * @property integer clinic_id
+ * @property integer  clinic_id
  * @property DateTime start_date
  * @property DateTime end_date
- * @property string reason
- * @property Clinic clinic
+ * @property string   reason
+ * @property Clinic   clinic
  */
 class ClinicHoliday extends Model
 {

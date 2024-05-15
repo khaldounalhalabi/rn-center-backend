@@ -9,10 +9,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * @property string name
- * @property string description
+ * @property string  name
+ * @property string  description
  * @property integer clinic_id
- * @property Clinic clinic
+ * @property Clinic  clinic
  */
 class Medicine extends Model
 {
@@ -90,7 +90,7 @@ class Medicine extends Model
 
     public function prescriptions(): BelongsToMany
     {
-        return $this->belongsToMany(Prescription::class , 'medicine_prescriptions');
+        return $this->belongsToMany(Prescription::class, 'medicine_prescriptions');
     }
 
     public function customOrders(): array
@@ -103,7 +103,7 @@ class Medicine extends Model
                     })
                     ->select('medicines.*', 'users.first_name AS doctor_first_name')
                     ->orderBy('doctor_first_name', $dir);
-            } ,
+            },
         ];
     }
 }

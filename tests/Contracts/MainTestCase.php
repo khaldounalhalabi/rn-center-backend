@@ -12,7 +12,7 @@ class MainTestCase extends TestCase
 
     /**
      * @param array $additionalFactoryData optional data to the factories
-     * @param bool $ownership determine if the action has to be on the authenticated user data
+     * @param bool  $ownership             determine if the action has to be on the authenticated user data
      */
     public function deleteTest(array $additionalFactoryData = [], bool $ownership = false, bool $isDebug = false): void
     {
@@ -60,7 +60,7 @@ class MainTestCase extends TestCase
 
     /**
      * @param array $additionalFactoryData optional data to the factories
-     * @param bool $ownership determine if the action has to be on the authenticated user data
+     * @param bool  $ownership             determine if the action has to be on the authenticated user data
      */
     public function indexTest(array $additionalFactoryData = [], bool $ownership = false, bool $isDebug = false): void
     {
@@ -102,7 +102,7 @@ class MainTestCase extends TestCase
 
     /**
      * @param array $additionalFactoryData optional data to the factories
-     * @param bool $ownership determine if the action has to be on the authenticated user data
+     * @param bool  $ownership             determine if the action has to be on the authenticated user data
      */
     public function showTest(array $additionalFactoryData = [], bool $ownership = false, bool $isDebug = false): void
     {
@@ -168,9 +168,11 @@ class MainTestCase extends TestCase
 
     /**
      * @param array $additionalFactoryData optional data to the factories
-     * @param array $attributes if you are trying to send a custom attributes to the update request send an array of it
-     * @param bool $ownership determine if the action has to be on the authenticated user data
-     * @param bool $replacing this var pointing to the case where the update endpoint creating a new record to the database
+     * @param array $attributes            if you are trying to send a custom attributes to the update request send an
+     *                                     array of it
+     * @param bool  $ownership             determine if the action has to be on the authenticated user data
+     * @param bool  $replacing             this var pointing to the case where the update endpoint creating a new
+     *                                     record to the database
      */
     public function updateTest(array $attributes = [], array $additionalFactoryData = [], bool $ownership = false, bool $replacing = true, bool $isDebug = false): void
     {

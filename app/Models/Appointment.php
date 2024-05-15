@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\Log;
 
 /**
  * @property integer  customer_id
@@ -81,17 +80,6 @@ class Appointment extends Model
             'service.name',
         ];
     }
-
-
-    /**
-     * return the full path of the stored QrCode
-     * @return string|null
-     */
-    public function getQrCodePath(): ?string
-    {
-        return $this->QrCode != null ? asset('storage/' . $this->QrCode) : null;
-    }
-
 
     public function customer(): BelongsTo
     {

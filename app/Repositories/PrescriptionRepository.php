@@ -26,7 +26,7 @@ class PrescriptionRepository extends BaseRepository
      */
     public function getByAppointmentId(int $appointmentId, array $relations = [], int $perPage = 10): ?array
     {
-        $all =  $this->globalQuery($relations)->where('appointment_id', $appointmentId)
+        $all = $this->globalQuery($relations)->where('appointment_id', $appointmentId)
             ->paginate($perPage);
 
         if (count($all) > 0) {

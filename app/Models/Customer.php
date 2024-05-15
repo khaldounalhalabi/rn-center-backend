@@ -9,10 +9,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property PatientProfile patient_profiles
- * @property Appointment appointments
- * @property string mother_full_name
- * @property string medical_condition
- * @property integer user_id
+ * @property Appointment    appointments
+ * @property string         mother_full_name
+ * @property string         medical_condition
+ * @property integer        user_id
  */
 class Customer extends Model
 {

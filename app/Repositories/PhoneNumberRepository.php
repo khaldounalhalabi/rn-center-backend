@@ -19,8 +19,8 @@ class PhoneNumberRepository extends BaseRepository
 
     /**
      * @param array<string> $phones
-     * @param class-string $phoneableType
-     * @param int $phoneableId
+     * @param class-string  $phoneableType
+     * @param int           $phoneableId
      * @return void
      */
     public function insert(array $phones, string $phoneableType, int $phoneableId): void

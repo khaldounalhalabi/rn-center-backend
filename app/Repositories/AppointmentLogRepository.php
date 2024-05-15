@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Models\AppointmentLog;
 use App\Repositories\Contracts\BaseRepository;
-use App\Repositories\Contracts\IBaseRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Collection as LaravelCollection;
 use LaravelIdea\Helper\App\Models\_IH_AppointmentLog_C;
@@ -20,7 +19,7 @@ class AppointmentLogRepository extends BaseRepository
     }
 
     /**
-     * @param $appointmentId
+     * @param       $appointmentId
      * @param array $relations
      * @return array|Collection<AppointmentLog>|LaravelCollection<AppointmentLog>|_IH_AppointmentLog_C
      */

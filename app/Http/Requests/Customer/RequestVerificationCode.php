@@ -18,13 +18,12 @@ class RequestVerificationCode extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
      * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
         return [
-            'email' => ['required','email','exists:users,email','min:3','max:255' , new NotInBlocked()],
+            'email' => ['required', 'email', 'exists:users,email', 'min:3', 'max:255', new NotInBlocked()],
         ];
     }
 }
