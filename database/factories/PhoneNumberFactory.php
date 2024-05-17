@@ -19,7 +19,7 @@ class PhoneNumberFactory extends Factory
     {
         $userChance = fake()->boolean;
         return [
-            'phone' => fake()->unique()->phoneNumber(),
+            'phone' => "07" . fake()->randomNumber(9 , true),
             'phoneable_id' => $userChance ? User::factory()->create()->id : Hospital::factory()->create()->id,
             'phoneable_type' => $userChance ? User::class : Hospital::class,
         ];
