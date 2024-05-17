@@ -59,4 +59,8 @@ Route::apiResource('prescriptions', v1\PrescriptionController::class)->names('pr
 
 Route::apiResource('/blocked-items', v1\BlockedItemController::class)->names('blocked.items');
 
-Route::apiResource('/subscriptions', v1\SubscriptionController::class)->names('subscriptions') ;
+Route::apiResource('/subscriptions', v1\SubscriptionController::class)->names('subscriptions');
+
+Route::apiResource('/enquiries', v1\EnquiryController::class)
+    ->except(['update', 'store', 'destroy'])
+    ->names('enquiries');

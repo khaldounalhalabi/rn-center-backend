@@ -37,6 +37,7 @@ class DatabaseSeeder extends Seeder
             BlockedItemSeeder::class,
             SubscriptionSeeder::class,
             ClinicSubscriptionSeeder::class,
+            EnquirySeeder::class,
         ]);
     }
 }

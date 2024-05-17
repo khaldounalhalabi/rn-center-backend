@@ -11845,31 +11845,31 @@
                                     "key": "name",
                                     "value": "nisi",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "description",
                                     "value": "Accusamus quia voluptatem modi quia. Voluptatem voluptates corporis a rerum numquam minima. Cumque explicabo provident rerum. Quo ea ducimus perspiciatis commodi facere dolor iste rerum.",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "period",
                                     "value": "2",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "allow_period",
                                     "value": "1",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "deduction_cost",
                                     "value": "1",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 }
                             ]
                         }
@@ -11909,31 +11909,31 @@
                                     "key": "name",
                                     "value": "dolorem",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "description",
                                     "value": "Nulla consectetur at ipsa voluptatibus voluptatem. Aut qui eius voluptatem delectus. Praesentium aut temporibus saepe dolorum dolorem non quia.",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "period",
                                     "value": "7",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "allow_period",
                                     "value": "5",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "deduction_cost",
                                     "value": "7",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 }
                             ]
                         }
@@ -12054,6 +12054,307 @@
                             "raw": "{{local}}admin/subscriptions/get-import-example",
                             "host": [
                                 "{{local}}admin/subscriptions/get-import-example"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Enquiry",
+            "item": [
+                {
+                    "name": "index",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/enquiries",
+                            "host": [
+                                "{{local}}admin/enquiries"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "show",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/enquiries/1",
+                            "host": [
+                                "{{local}}admin/enquiries/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "store",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/enquiries",
+                            "host": [
+                                "{{local}}admin/enquiries"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "name",
+                                    "value": "voluptatum",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "email",
+                                    "value": "quam",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "message",
+                                    "value": "Id hic aut ipsam rerum et molestiae. Perspiciatis natus id voluptas et hic et. Quia sapiente consequatur reiciendis et vel maiores autem. Voluptatem quo repellat possimus.",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "read_at",
+                                    "value": "2024-05-17 03:26:11",
+                                    "type": "text",
+                                    "description": null
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "update",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/enquiries/1",
+                            "host": [
+                                "{{local}}admin/enquiries/1"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "name",
+                                    "value": "quae",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "email",
+                                    "value": "laboriosam",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "message",
+                                    "value": "Qui voluptate id quisquam. Ipsum quasi qui temporibus. Quis dicta illo quo est enim vel.",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "read_at",
+                                    "value": "2024-05-17 03:26:11",
+                                    "type": "text",
+                                    "description": null
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/enquiries/1",
+                            "host": [
+                                "{{local}}admin/enquiries/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "export",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/enquiries/export",
+                            "host": [
+                                "{{local}}admin/enquiries/export"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "import",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/enquiries/import",
+                            "host": [
+                                "{{local}}admin/enquiries/import"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "import-example",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/enquiries/get-import-example",
+                            "host": [
+                                "{{local}}admin/enquiries/get-import-example"
                             ]
                         },
                         "body": null
