@@ -61,6 +61,7 @@ Route::apiResource('/blocked-items', v1\BlockedItemController::class)->names('bl
 
 Route::apiResource('/subscriptions', v1\SubscriptionController::class)->names('subscriptions');
 
+Route::post('/enquiries/{enquiryId}/reply', [v1\EnquiryController::class, 'reply'])->name('enquiries.reply');
 Route::apiResource('/enquiries', v1\EnquiryController::class)
     ->except(['update', 'store', 'destroy'])
     ->names('enquiries');

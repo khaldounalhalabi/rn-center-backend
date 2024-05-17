@@ -2,9 +2,13 @@
 
 namespace App\Services\Enquiry;
 
+use App\Mail\EnquiryReplyEmail;
 use App\Models\Enquiry;
 use App\Repositories\EnquiryRepository;
 use App\Services\Contracts\BaseService;
+use Exception;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * @implements IEnquiryService<Enquiry>
@@ -32,5 +36,28 @@ class EnquiryService extends BaseService implements IEnquiryService
         }
 
         return $enquiry;
+    }
+
+    /**
+     * @param       $enquiryId
+     * @param array $data
+     * @return bool
+     */
+    public function reply($enquiryId, array $data): bool
+    {
+        try {
+            $enquiry = $this->repository->find($enquiryId);
+
+            if (!$enquiry) {
+                return false;
+            }
+
+            Mail::to($enquiry->email)->send(new EnquiryReplyEmail($data));
+
+            return true;
+        } catch (Exception $exception) {
+            Log::error("Exception Happened While Replying To An Enquiry : " . $exception->getMessage());
+            return false;
+        }
     }
 }

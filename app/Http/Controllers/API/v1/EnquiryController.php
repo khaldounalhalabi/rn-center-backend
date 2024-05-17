@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\Enquiry\EnquiryReplyRequest;
 use App\Http\Requests\Enquiry\StoreUpdateEnquiryRequest;
 use App\Http\Resources\EnquiryResource;
 use App\Models\Enquiry;
@@ -62,5 +63,17 @@ class EnquiryController extends ApiController
         }
 
         return $this->noData();
+    }
+
+
+    public function reply($enquiryId, EnquiryReplyRequest $request)
+    {
+        $result = $this->enquiryService->reply($enquiryId, $request->validated());
+
+        if ($result) {
+            return $this->apiResponse(true, self::STATUS_OK, __('site.success'));
+        }
+
+        return $this->noData(false);
     }
 }
