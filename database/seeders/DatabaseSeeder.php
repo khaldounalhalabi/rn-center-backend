@@ -35,6 +35,8 @@ class DatabaseSeeder extends Seeder
             MedicineSeeder::class,
             PrescriptionSeeder::class,
             BlockedItemSeeder::class,
+            SubscriptionSeeder::class,
+            ClinicSubscriptionSeeder::class,
         ]);
     }
 }

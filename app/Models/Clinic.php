@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
@@ -264,5 +265,30 @@ class Clinic extends Model implements HasMedia
     public function prescriptions(): HasMany
     {
         return $this->hasMany(Prescription::class);
+    }
+
+    public function subscriptions(): BelongsToMany
+    {
+        return $this->belongsToMany(Subscription::class);
+    }
+
+    public function clinicSubscriptions(): HasMany
+    {
+        return $this->hasMany(ClinicSubscription::class);
+    }
+
+    public function activeSubscription(): HasOne
+    {
+        return $this->hasOne(ClinicSubscription::class)
+            ->where('end_time', '>', now()->format('Y-m-d H:i:s'))
+            ->latestOfMany();
+    }
+
+    public function isDeductable(): bool
+    {
+        $activeSubscription = $this->activeSubscription;
+        return $activeSubscription?->subscription?->period == -1
+            && $activeSubscription?->deduction_cost != 0
+            && $activeSubscription?->subscription?->cost == 0;
     }
 }

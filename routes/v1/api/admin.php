@@ -58,3 +58,5 @@ Route::delete('/prescriptions/medicine-data/{medicineDataId}', [v1\PrescriptionC
 Route::apiResource('prescriptions', v1\PrescriptionController::class)->names('prescriptions');
 
 Route::apiResource('/blocked-items', v1\BlockedItemController::class)->names('blocked.items');
+
+Route::apiResource('/subscriptions', v1\SubscriptionController::class)->names('subscriptions') ;

@@ -42,6 +42,7 @@ class ClinicResource extends BaseResource
             'upcoming_appointments_count' => $this->whenCounted('upcomingAppointments'),
             'medicines' => MedicineResource::collection($this->whenLoaded('medicines')),
             'prescriptions' => PrescriptionResource::collection($this->whenLoaded('prescriptions')),
+            'active_subscription' => new ClinicSubscriptionResource($this->whenLoaded('activeSubscription')),
         ];
     }
 }

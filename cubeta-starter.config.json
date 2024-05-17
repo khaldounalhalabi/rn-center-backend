@@ -943,6 +943,50 @@
                 }
             ],
             "relations": []
+        },
+        {
+            "model_name": "Subscription",
+            "table_name": "subscriptions",
+            "attributes": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "description",
+                    "type": "text",
+                    "nullable": true,
+                    "unique": false
+                },
+                {
+                    "name": "period",
+                    "type": "integer",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "allow_period",
+                    "type": "integer",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "deduction_cost",
+                    "type": "float",
+                    "nullable": false,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "manyToMany": [
+                    {
+                        "type": "manyToMany",
+                        "model_name": "Clinic"
+                    }
+                ]
+            }
         }
     ]
 }

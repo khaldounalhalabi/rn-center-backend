@@ -11,6 +11,7 @@ use App\Models\Prescription;
 use App\Models\Schedule;
 use App\Models\Service;
 use App\Models\Speciality;
+use App\Models\Subscription;
 use App\Models\User;
 use App\Traits\FileHandler;
 use App\Traits\Translations;
@@ -107,5 +108,9 @@ class ClinicFactory extends Factory
     public function withPrescriptions($count = 1): ClinicFactory
     {
         return $this->has(Prescription::factory($count));
+    }
+    public function withSubscriptions($count = 1): ClinicFactory
+    {
+        return $this->has(Subscription::factory($count));
     }
 }

@@ -17,7 +17,7 @@ class ClinicController extends ApiController
         $this->clinicService = $clinicService;
         // place the relations you want to return them within the response
 
-        $this->relations = ['user', 'user.address', "user.address.city", 'user.phones', 'specialities', 'hospital', 'user.media'];
+        $this->relations = ['user', 'user.address', "user.address.city", 'user.phones', 'specialities', 'hospital', 'user.media', 'activeSubscription.subscription'];
         $this->indexRelations = ['user', 'user.phones', 'user.address', 'user.address.city'];
         $this->countable = ['appointments', 'todayAppointments', 'upcomingAppointments'];
     }

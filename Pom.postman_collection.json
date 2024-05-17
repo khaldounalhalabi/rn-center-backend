@@ -11748,6 +11748,319 @@
                     "response": []
                 }
             ]
+        },
+        {
+            "name": "Subscription",
+            "item": [
+                {
+                    "name": "index",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/subscriptions",
+                            "host": [
+                                "{{local}}admin/subscriptions"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "show",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/subscriptions/1",
+                            "host": [
+                                "{{local}}admin/subscriptions/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "store",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/subscriptions",
+                            "host": [
+                                "{{local}}admin/subscriptions"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "name",
+                                    "value": "nisi",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "description",
+                                    "value": "Accusamus quia voluptatem modi quia. Voluptatem voluptates corporis a rerum numquam minima. Cumque explicabo provident rerum. Quo ea ducimus perspiciatis commodi facere dolor iste rerum.",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "period",
+                                    "value": "2",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "allow_period",
+                                    "value": "1",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "deduction_cost",
+                                    "value": "1",
+                                    "type": "text",
+                                    "description": null
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "update",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/subscriptions/1",
+                            "host": [
+                                "{{local}}admin/subscriptions/1"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "name",
+                                    "value": "dolorem",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "description",
+                                    "value": "Nulla consectetur at ipsa voluptatibus voluptatem. Aut qui eius voluptatem delectus. Praesentium aut temporibus saepe dolorum dolorem non quia.",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "period",
+                                    "value": "7",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "allow_period",
+                                    "value": "5",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "deduction_cost",
+                                    "value": "7",
+                                    "type": "text",
+                                    "description": null
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/subscriptions/1",
+                            "host": [
+                                "{{local}}admin/subscriptions/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "export",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/subscriptions/export",
+                            "host": [
+                                "{{local}}admin/subscriptions/export"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "import",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/subscriptions/import",
+                            "host": [
+                                "{{local}}admin/subscriptions/import"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "import-example",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/subscriptions/get-import-example",
+                            "host": [
+                                "{{local}}admin/subscriptions/get-import-example"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                }
+            ]
         }
     ],
     "event": [
