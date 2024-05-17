@@ -137,8 +137,6 @@ class ClinicService extends BaseService implements IClinicService
             ->map(fn(Collection $appointments, $index) => [
                 'date' => Carbon::parse($index)->format('Y-m-d'),
                 'times' => $appointments->map(fn(Appointment $appointment) => [
-                    'from' => $appointment->from->format('H:i'),
-                    'to' => $appointment->to->format('H:i'),
                 ]),
             ])->values();
 

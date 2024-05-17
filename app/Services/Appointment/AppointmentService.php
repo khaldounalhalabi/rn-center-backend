@@ -5,14 +5,15 @@ namespace App\Services\Appointment;
 use App\Enums\AppointmentStatusEnum;
 use App\Jobs\UpdateAppointmentRemainingTimeJob;
 use App\Models\Appointment;
+use App\Notifications\AppointmentStatusChangedNotification;
 use App\Repositories\AppointmentLogRepository;
+use App\Repositories\AppointmentRepository;
 use App\Repositories\ClinicRepository;
 use App\Repositories\Contracts\BaseRepository;
 use App\Repositories\ServiceRepository;
 use App\Services\Contracts\BaseService;
-use App\Repositories\AppointmentRepository;
+use App\Services\Notification\FirebaseServices;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
 
 /**
  * @implements IAppointmentService<Appointment>
@@ -216,6 +217,15 @@ class AppointmentService extends BaseService implements IAppointmentService
             $appointment = Appointment::handleRemainingTime($appointment);
             $appointment->save();
         }
+
+        FirebaseServices::make()
+            ->setData([
+                'appointment' => $appointment
+            ])
+            ->setMethod('one')
+            ->setTo(auth()->user())
+            ->setNotification(AppointmentStatusChangedNotification::class)
+            ->send();
 
         $this->appointmentLogRepository->create([
             'cancellation_reason' => $data['cancellation_reason'] ?? "",

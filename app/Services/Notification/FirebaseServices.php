@@ -2,6 +2,7 @@
 
 namespace App\Services\Notification;
 
+use App\Enums\RolesPermissionEnum;
 use App\Traits\NotificationSender;
 
 class FirebaseServices
@@ -25,7 +26,7 @@ class FirebaseServices
         $this->notification = '';
         $this->data = [];
         $this->to = null;
-        $this->role = 'admin';
+        $this->role = RolesPermissionEnum::ADMIN['role'];
         $this->method = 'sendForOneDevice';
     }
 

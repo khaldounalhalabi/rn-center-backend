@@ -236,4 +236,9 @@ class User extends Authenticatable implements JWTSubject, HasMedia
             $this->full_name->ar,
         ])->exists();
     }
+
+    public function routeNotificationForFcm()
+    {
+        return $this->fcm_token;
+    }
 }
