@@ -63,4 +63,10 @@ class Translatable implements JsonSerializable
     {
         return $this->toJson();
     }
+
+    public function __toString(): string
+    {
+        $locale = app()->getLocale();
+        return $this->data[$locale] ?? "";
+    }
 }

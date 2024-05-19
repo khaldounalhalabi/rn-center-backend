@@ -4,6 +4,7 @@ namespace App\Http\Requests\Customer;
 
 use App\Enums\BloodGroupEnum;
 use App\Enums\GenderEnum;
+use App\Models\Customer;
 use App\Models\User;
 use App\Rules\LanguageShape;
 use App\Rules\NotInBlocked;
@@ -51,7 +52,7 @@ class StoreUpdateCustomerRequest extends FormRequest
             ];
         }
 
-        $userId = request()->route('customer');
+        $userId = Customer::find(request()->route('customer'))?->user_id;
 
         return [
             'first_name' => ['json', 'nullable', new LanguageShape(), 'min:3', 'max:60'],

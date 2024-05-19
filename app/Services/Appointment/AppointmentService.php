@@ -3,9 +3,10 @@
 namespace App\Services\Appointment;
 
 use App\Enums\AppointmentStatusEnum;
+use App\Enums\RolesPermissionEnum;
 use App\Jobs\UpdateAppointmentRemainingTimeJob;
 use App\Models\Appointment;
-use App\Notifications\AppointmentStatusChangedNotification;
+use App\Notifications\Admin\AppointmentStatusChangedNotification;
 use App\Repositories\AppointmentLogRepository;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\ClinicRepository;
@@ -109,6 +110,8 @@ class AppointmentService extends BaseService implements IAppointmentService
             return null;
         }
 
+        $oldStatus = $appointment->status;
+
         if (!$appointment->canUpdate()) {
             return null;
         }
@@ -171,6 +174,26 @@ class AppointmentService extends BaseService implements IAppointmentService
             $appointment->save();
         }
 
+        if ($oldStatus != $appointment->status) {
+            FirebaseServices::make()
+                ->setData([
+                    'appointment' => $appointment
+                ])
+                ->setMethod('one')
+                ->setTo($appointment->customer->user)
+                ->setNotification(AppointmentStatusChangedNotification::class)
+                ->send();
+
+            FirebaseServices::make()
+                ->setData([
+                    'appointment' => $appointment
+                ])
+                ->setMethod('byRole')
+                ->setRole(RolesPermissionEnum::ADMIN['role'])
+                ->setNotification(AppointmentStatusChangedNotification::class)
+                ->send();
+        }
+
         return $appointment;
     }
 
@@ -198,6 +221,8 @@ class AppointmentService extends BaseService implements IAppointmentService
             return null;
         }
 
+        $oldStatus = $appointment->status;
+
         if ($data['status'] == AppointmentStatusEnum::CANCELLED->value && !isset($data['cancellation_reason'])) {
             return null;
         }
@@ -207,7 +232,7 @@ class AppointmentService extends BaseService implements IAppointmentService
         $appointment = $this->repository->update([
             'status' => $data['status'],
             'cancellation_reason' => $data['cancellation_reason'] ?? ""
-        ], $appointment);
+        ], $appointment, ['customer.user']);
 
         if ($appointment->status == AppointmentStatusEnum::CHECKOUT->value && $prevStatus != AppointmentStatusEnum::CHECKOUT->value) {
             UpdateAppointmentRemainingTimeJob::dispatch($appointment->clinic_id, $appointment->date);
@@ -218,14 +243,25 @@ class AppointmentService extends BaseService implements IAppointmentService
             $appointment->save();
         }
 
-        FirebaseServices::make()
-            ->setData([
-                'appointment' => $appointment
-            ])
-            ->setMethod('one')
-            ->setTo(auth()->user())
-            ->setNotification(AppointmentStatusChangedNotification::class)
-            ->send();
+        if ($oldStatus != $appointment->status) {
+            FirebaseServices::make()
+                ->setData([
+                    'appointment' => $appointment
+                ])
+                ->setMethod('one')
+                ->setTo($appointment->customer->user)
+                ->setNotification(AppointmentStatusChangedNotification::class)
+                ->send();
+
+            FirebaseServices::make()
+                ->setData([
+                    'appointment' => $appointment
+                ])
+                ->setMethod('byRole')
+                ->setRole(RolesPermissionEnum::ADMIN['role'])
+                ->setNotification(AppointmentStatusChangedNotification::class)
+                ->send();
+        }
 
         $this->appointmentLogRepository->create([
             'cancellation_reason' => $data['cancellation_reason'] ?? "",

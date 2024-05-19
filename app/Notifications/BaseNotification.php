@@ -4,7 +4,6 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use NotificationChannels\Fcm\Exceptions\CouldNotSendNotification;
 use NotificationChannels\Fcm\FcmChannel;
 use NotificationChannels\Fcm\FcmMessage;
 
@@ -17,6 +16,9 @@ class BaseNotification extends Notification
     private string $message;
 
     private string $messageAR;
+
+    /** @var class-string */
+    private string $type = self::class;
 
     /**
      * Create a new notification instance.
@@ -47,19 +49,28 @@ class BaseNotification extends Notification
      * Get the mail representation of the notification.
      * @param mixed $notifiable
      * @return FcmMessage
-     * @throws CouldNotSendNotification
      */
     public function toFcm($notifiable): FcmMessage
     {
         return FcmMessage::create()
             ->setData([
-                'data' => json_encode(array_merge($this->data, ['type' => self::class])),
+                'data' => json_encode($this->data),
                 'title' => env('APP_NAME', 'Rakeen Jawaher'),
                 'body' => $this->message,
                 'message' => $this->message,
                 'body_ar' => $this->messageAR,
                 'message_ar' => $this->messageAR,
+                "type" => $this->type,
             ]);
+    }
+
+    /**
+     * @param class-string $type
+     * @return void
+     */
+    public function setType(string $type): void
+    {
+        $this->type = str_replace("App\\Notifications\\", "", $type);
     }
 
     public function setData($data): void
@@ -91,5 +102,10 @@ class BaseNotification extends Notification
     public function fcmProject($notifiable, $message): string
     {
         return 'app'; // name of the firebase project to use
+    }
+
+    public function getFrontUrl(): string
+    {
+        return "http://localhost:3000/" . app()->getLocale() . "/";
     }
 }

@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('/refresh', [v1\AdminAuthController::class, 'refresh'])->name("refresh-token");
 Route::post('/logout', [v1\AdminAuthController::class, 'logout'])->name("logout");
 Route::post('/update-user-data', [v1\AdminAuthController::class, 'updateUserDetails'])->name('update-user-data');
+Route::post('/fcm/store-token', [v1\AdminAuthController::class, 'storeFcmToken'])->name('fcm.storeToken');
+Route::get('/fcm/get-token', [v1\AdminAuthController::class, 'getUserFcmToken'])->name('fcm.getToken');
 
 Route::delete('/users/{userId}/toggle-archive', [v1\UserController::class, 'toggleArchive'])->name('users.toggle.archive');
 Route::get('/users/{userId}/toggle-block', [v1\UserController::class, 'toggleBlock'])->name('user.block.toggle');
