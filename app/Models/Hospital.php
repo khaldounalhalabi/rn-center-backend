@@ -54,8 +54,8 @@ class Hospital extends Model implements HasMedia
     public static function relationsSearchableArray(): array
     {
         return [
-            'addresses' => [
-                //add your addresses desired column to be search within
+            'address.city' => [
+                'name'
             ],
             'phoneNumbers' => [
                 'phone'
@@ -117,6 +117,17 @@ class Hospital extends Model implements HasMedia
                     ->select('hospitals.*', 'cities.name AS city_name')
                     ->orderBy('city_name', $dir);
             }
+        ];
+    }
+
+    public function filterArray(): array
+    {
+        return [
+            [
+                'name' => 'city_name',
+                'relation' => 'address.city.name',
+                'operator' => 'like'
+            ],
         ];
     }
 }
