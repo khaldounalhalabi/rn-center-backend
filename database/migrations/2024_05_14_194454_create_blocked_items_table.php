@@ -17,6 +17,7 @@ return new class () extends Migration {
             $table->index(['value']);
             $table->index(['type', 'value']);
             $table->timestamps();
+            $table->index(['created_at']);
         });
     }
 

@@ -38,7 +38,6 @@ class AppointmentFactory extends Factory
             'status' => AppointmentStatusEnum::PENDING->value,
             'device_type' => fake()->word(),
             'appointment_sequence' => fake()->numberBetween(1, 10),
-            //TODO::add qr code faker
         ];
     }
 

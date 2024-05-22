@@ -17,6 +17,7 @@ return new class () extends Migration {
             $table->unsignedBigInteger("phoneable_id");
             $table->string("phoneable_type");
             $table->timestamps();
+            $table->index(['created_at']);
         });
     }
 

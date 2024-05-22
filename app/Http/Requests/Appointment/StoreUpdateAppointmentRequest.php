@@ -29,7 +29,7 @@ class StoreUpdateAppointmentRequest extends FormRequest
                 'clinic_id' => ['required', 'numeric', 'exists:clinics,id'],
                 'note' => ['nullable', 'string'],
                 'service_id' => ['nullable', 'numeric', 'exists:services,id'],
-                'extra_fees' => ['nullable', 'numeric'],
+                'extra_fees' => ['nullable', 'numeric' , 'min:0'],
                 'type' => ['required', 'string', 'min:3', 'max:255', Rule::in(AppointmentTypeEnum::getAllValues())],
                 'date' => ['required', 'date', 'date_format:Y-m-d', 'after_or_equal:today'],
                 'status' => ['required', 'string', 'min:3', 'max:255', Rule::in(AppointmentStatusEnum::getAllValues())],
@@ -41,7 +41,7 @@ class StoreUpdateAppointmentRequest extends FormRequest
         return [
             'note' => ['nullable', 'string'],
             'service_id' => ['nullable', 'numeric', 'exists:services,id'],
-            'extra_fees' => ['nullable', 'numeric'],
+            'extra_fees' => ['nullable', 'numeric' , 'min:0'],
             'date' => ['nullable', 'date', 'date_format:Y-m-d', 'after_or_equal:today'],
             'status' => ['nullable', 'string', 'min:3', 'max:255', Rule::in(AppointmentStatusEnum::getAllValues())],
             'cancellation_reason' => 'string|nullable|' . Rule::requiredIf($this->input('status') == AppointmentStatusEnum::CANCELLED->value),

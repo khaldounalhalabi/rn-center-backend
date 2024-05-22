@@ -23,6 +23,7 @@ return new class () extends Migration {
             $table->string('status')->default(SubscriptionStatusEnum::ACTIVE->value);
             $table->unsignedFloat('deduction_cost')->default(0.00);
             $table->timestamps();
+            $table->index(['created_at']);
         });
     }
 

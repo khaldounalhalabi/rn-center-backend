@@ -16,8 +16,8 @@ return new class () extends Migration {
             $table->string('email');
             $table->text('message');
             $table->dateTime('read_at')->nullable();
-
             $table->timestamps();
+            $table->index(['created_at']);
         });
     }
 

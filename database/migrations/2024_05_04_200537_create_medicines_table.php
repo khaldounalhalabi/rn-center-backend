@@ -16,8 +16,8 @@ return new class () extends Migration {
             $table->string('name');
             $table->text('description')->nullable();
             $table->foreignIdFor(Clinic::class)->constrained()->cascadeOnDelete();
-
             $table->timestamps();
+            $table->index(['created_at']);
         });
     }
 

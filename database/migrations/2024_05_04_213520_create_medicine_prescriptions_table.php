@@ -23,6 +23,7 @@ return new class () extends Migration {
             $table->string('dose_interval')->nullable();
             $table->text('comment')->nullable();
             $table->timestamps();
+            $table->index(['created_at']);
         });
     }
 

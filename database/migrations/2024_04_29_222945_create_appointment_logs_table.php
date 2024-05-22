@@ -20,8 +20,8 @@ return new class () extends Migration {
             $table->foreignIdFor(Appointment::class)->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('actor_id')->references('id')->on('users')->cascadeOnDelete();
             $table->foreignId("affected_id")->references('id')->on('users')->cascadeOnDelete();
-
             $table->timestamps();
+            $table->index(['created_at']);
         });
     }
 

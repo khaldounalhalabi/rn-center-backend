@@ -22,6 +22,7 @@ return new class () extends Migration {
             $table->unsignedBigInteger('addressable_id');
             $table->string('addressable_type');
             $table->timestamps();
+            $table->index(['created_at']);
         });
     }
 

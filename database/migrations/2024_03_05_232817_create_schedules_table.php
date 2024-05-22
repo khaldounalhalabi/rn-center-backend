@@ -28,6 +28,7 @@ return new class () extends Migration {
             ], 'unique_schedule');
 
             $table->timestamps();
+            $table->index(['created_at']);
         });
     }
 

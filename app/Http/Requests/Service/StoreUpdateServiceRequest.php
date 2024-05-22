@@ -26,9 +26,9 @@ class StoreUpdateServiceRequest extends FormRequest
         if (request()->method() == 'POST') {
             return [
                 'name' => ['required', 'json', new LanguageShape()],
-                'approximate_duration' => ['required', 'numeric', 'integer'],
+                'approximate_duration' => ['required', 'numeric', 'integer', 'min:5'],
                 'service_category_id' => ['required', 'numeric', 'exists:service_categories,id'],
-                'price' => ['required', 'numeric'],
+                'price' => ['required', 'numeric', 'min:0'],
                 'status' => ['required', 'string', Rule::in(ServiceStatusEnum::getAllValues())],
                 'description' => ['nullable', 'json', new LanguageShape()],
                 'clinic_id' => ['required', 'numeric', 'exists:clinics,id'],
@@ -37,9 +37,9 @@ class StoreUpdateServiceRequest extends FormRequest
 
         return [
             'name' => ['nullable', 'json', new LanguageShape()],
-            'approximate_duration' => ['nullable', 'numeric', 'integer'],
+            'approximate_duration' => ['nullable', 'numeric', 'integer','min:5'],
             'service_category_id' => ['nullable', 'numeric', 'exists:service_categories,id'],
-            'price' => ['nullable', 'numeric'],
+            'price' => ['nullable', 'numeric' , 'min:0'],
             'status' => ['nullable', 'string', Rule::in(ServiceStatusEnum::getAllValues())],
             'description' => ['nullable', 'json', new LanguageShape()],
             'clinic_id' => ['nullable', 'numeric', 'exists:clinics,id'],

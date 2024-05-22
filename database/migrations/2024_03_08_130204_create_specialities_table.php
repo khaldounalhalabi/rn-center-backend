@@ -15,8 +15,8 @@ return new class () extends Migration {
             $table->text('name');
             $table->text('description')->nullable();
             $table->text('tags')->nullable();
-
             $table->timestamps();
+            $table->index(['created_at']);
         });
     }
 

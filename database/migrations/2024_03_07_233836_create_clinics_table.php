@@ -26,6 +26,7 @@ return new class () extends Migration {
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Hospital::class)->nullable()->constrained();
             $table->timestamps();
+            $table->index(['created_at']);
         });
     }
 

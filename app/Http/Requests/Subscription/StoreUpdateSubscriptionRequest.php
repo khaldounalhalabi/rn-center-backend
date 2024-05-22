@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Subscription;
 
+use Closure;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -25,9 +26,17 @@ class StoreUpdateSubscriptionRequest extends FormRequest
             return [
                 'name' => ['required', 'string', 'min:3', 'max:255', 'unique:subscriptions,name'],
                 'description' => ['nullable', 'string'],
-                'period' => ['required', 'numeric'],
-                'allow_period' => ['nullable', 'numeric'],
-                'cost' => ['required', 'numeric'],
+                'period' => ['required', 'numeric', function (string $attribute, mixed $value, Closure $fail) {
+                    if ($value == 0) {
+                        $fail($attribute . ' must not be 0.');
+                    }
+
+                    if ($value < -1) {
+                        $fail($attribute . ' must not be less than -1.');
+                    }
+                }],
+                'allow_period' => ['nullable', 'numeric', 'min:0'],
+                'cost' => ['required', 'numeric', 'min:0'],
             ];
         }
 
@@ -36,8 +45,8 @@ class StoreUpdateSubscriptionRequest extends FormRequest
             'name' => ['nullable', 'string', 'min:3', 'max:255', 'unique:subscriptions,name,' . $subscriptionId],
             'description' => ['nullable', 'string'],
             'period' => ['nullable', 'numeric'],
-            'allow_period' => ['nullable', 'numeric'],
-            'cost' => ['nullable', 'numeric'],
+            'allow_period' => ['nullable', 'numeric', 'min:0'],
+            'cost' => ['nullable', 'numeric', 'min:0'],
         ];
     }
 }

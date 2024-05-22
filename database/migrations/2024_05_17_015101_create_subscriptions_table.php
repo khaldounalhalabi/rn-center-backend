@@ -18,6 +18,7 @@ return new class () extends Migration {
             $table->integer('allow_period')->default(0);
             $table->unsignedDouble("cost", 15, 4)->default(0.0000);
             $table->timestamps();
+            $table->index(['created_at']);
         });
     }
 

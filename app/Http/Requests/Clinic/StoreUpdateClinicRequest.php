@@ -32,13 +32,13 @@ class StoreUpdateClinicRequest extends FormRequest
         if (request()->method() == "POST") {
             return [
                 'name' => ['required', 'json', 'min:3', 'max:255', new LanguageShape()],
-                'appointment_cost' => 'required|numeric',
-                'max_appointments' => 'required|numeric|integer',
+                'appointment_cost' => 'required|numeric|min:0',
+                'max_appointments' => 'required|numeric|integer|min:2',
                 'phone_numbers' => 'array|required',
                 'phone_numbers.*' => ['required', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/', new NotInBlocked()],
                 'hospital_id' => 'numeric|nullable|exists:hospitals,id',
                 'status' => 'required|string|' . Rule::in(ClinicStatusEnum::getAllValues()),
-                'approximate_appointment_time' => 'numeric|required|max:420|integer',
+                'approximate_appointment_time' => 'numeric|required|max:420|integer|min:5',
 
                 'user' => 'array|required',
                 'user.first_name' => ['json', 'required', new LanguageShape(), 'min:3', 'max:60'],
@@ -63,13 +63,13 @@ class StoreUpdateClinicRequest extends FormRequest
         $userId = Clinic::find(request()->route('clinic'))?->user_id;
         return [
             'name' => ['nullable', 'json', 'min:3', 'max:255', new LanguageShape()],
-            'appointment_cost' => 'nullable|numeric',
-            'max_appointments' => 'nullable|numeric',
+            'appointment_cost' => 'nullable|numeric|min:0',
+            'max_appointments' => 'nullable|numeric|min:2',
             'phone_numbers' => 'array|nullable',
             'phone_numbers.*' => ['nullable', 'string', new UniquePhoneNumber($userId), 'regex:/^07\d{9}$/', new NotInBlocked()],
             'hospital_id' => 'numeric|nullable|exists:hospitals,id',
             'status' => 'nullable|string|' . Rule::in(ClinicStatusEnum::getAllValues()),
-            'approximate_appointment_time' => 'numeric|nullable|max:420|integer',
+            'approximate_appointment_time' => 'numeric|nullable|max:420|integer|min:5',
 
             'user' => 'array|nullable',
             'user.first_name' => ['json', 'nullable', new LanguageShape(), 'min:3', 'max:60'],

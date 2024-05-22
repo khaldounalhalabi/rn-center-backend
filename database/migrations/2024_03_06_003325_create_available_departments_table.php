@@ -14,8 +14,8 @@ return new class () extends Migration {
             $table->id();
             $table->json('name');
             $table->text('description')->nullable();
-
             $table->timestamps();
+            $table->index(['created_at']);
         });
     }
 
