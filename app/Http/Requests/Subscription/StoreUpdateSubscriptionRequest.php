@@ -44,7 +44,15 @@ class StoreUpdateSubscriptionRequest extends FormRequest
         return [
             'name' => ['nullable', 'string', 'min:3', 'max:255', 'unique:subscriptions,name,' . $subscriptionId],
             'description' => ['nullable', 'string'],
-            'period' => ['nullable', 'numeric'],
+            'period' => ['nullable', 'numeric', function (string $attribute, mixed $value, Closure $fail) {
+                if ($value == 0) {
+                    $fail($attribute . ' must not be 0.');
+                }
+
+                if ($value < -1) {
+                    $fail($attribute . ' must not be less than -1.');
+                }
+            }],
             'allow_period' => ['nullable', 'numeric', 'min:0'],
             'cost' => ['nullable', 'numeric', 'min:0'],
         ];
