@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Address;
 use App\Models\AvailableDepartment;
 use App\Models\Hospital;
 use App\Models\PhoneNumber;
@@ -9,7 +10,6 @@ use App\Traits\FileHandler;
 use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Http\File;
-use Illuminate\Http\UploadedFile;
 
 /**
  * @extends Factory
@@ -49,11 +49,21 @@ class HospitalFactory extends Factory
         return $this->has(AvailableDepartment::factory($count), 'availableDepartments');
     }
 
+    public function withAddress(): HospitalFactory
+    {
+        return $this->afterCreating(function (Hospital $hos) {
+            Address::factory()->create([
+                'addressable_type' => Hospital::class,
+                'addressable_id' => $hos->id
+            ]);
+        });
+    }
+
     public function allRelations(): HospitalFactory
     {
         return $this->withMedia()
             ->withAvailableDepartments()
-            ->withPhoneNumbers();
+            ->withPhoneNumbers()
+            ->withAddress();
     }
-
 }

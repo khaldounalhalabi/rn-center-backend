@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\SubscriptionStatusEnum;
+use App\Enums\SubscriptionTypeEnum;
 use App\Models\Clinic;
 use App\Models\Subscription;
 use Illuminate\Database\Migrations\Migration;
@@ -22,6 +23,7 @@ return new class () extends Migration {
             $table->dateTime('end_time')->default(now()->addYear());
             $table->string('status')->default(SubscriptionStatusEnum::ACTIVE->value);
             $table->unsignedFloat('deduction_cost')->default(0.00);
+            $table->string("type")->default(SubscriptionTypeEnum::BOOKING_COST_BASED->value);
             $table->timestamps();
             $table->index(['created_at']);
         });

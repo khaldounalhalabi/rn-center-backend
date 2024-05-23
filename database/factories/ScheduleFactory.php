@@ -19,7 +19,7 @@ class ScheduleFactory extends Factory
     {
         $relChance = fake()->boolean;
         return [
-            'schedulable_id' => $relChance ? Clinic::factory()->withSchedules() : Hospital::factory(),
+            'schedulable_id' => $relChance ? Clinic::factory()->withSchedules() : Hospital::factory()->withAddress(),
             'schedulable_type' => $relChance ? Clinic::class : Hospital::class,
             'day_of_week' => strtolower(fake()->dayOfWeek),
             'start_time' => fake()->time('H:i'),
@@ -38,7 +38,7 @@ class ScheduleFactory extends Factory
     public function hospital(): ScheduleFactory
     {
         return $this->state([
-            'schedulable_id' => Hospital::factory(),
+            'schedulable_id' => Hospital::factory()->withAddress(),
             'schedulable_type' => Hospital::class
         ]);
     }
