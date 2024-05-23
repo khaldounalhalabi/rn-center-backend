@@ -2,15 +2,16 @@
 
 namespace App\Services\Hospital;
 
+use App\Enums\HospitalStatusEnum;
 use App\Models\Hospital;
 use App\Repositories\AddressRepository;
+use App\Repositories\HospitalRepository;
 use App\Repositories\PhoneNumberRepository;
 use App\Services\Contracts\BaseService;
-use App\Repositories\HospitalRepository;
 
 /**
  * @implements IHospitalService<Hospital>
- * Class UserService
+ * @extends BaseService<Hospital>
  */
 class HospitalService extends BaseService implements IHospitalService
 {
@@ -69,5 +70,24 @@ class HospitalService extends BaseService implements IHospitalService
         }
 
         return $hospital;
+    }
+
+    /**
+     * @param $hospitalId
+     * @return Hospital|null
+     */
+    public function toggleHospitalStatus($hospitalId): ?Hospital
+    {
+        $hospital = $this->repository->find($hospitalId);
+
+        if (!$hospital) {
+            return null;
+        }
+
+        return $this->repository->update([
+            'status' => $hospital->status == HospitalStatusEnum::ACTIVE->value
+                ? HospitalStatusEnum::INACTIVE->value
+                : HospitalStatusEnum::ACTIVE->value
+        ], $hospital);
     }
 }

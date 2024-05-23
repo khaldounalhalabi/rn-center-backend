@@ -2,8 +2,8 @@
 
 namespace App\Services\Hospital;
 
-use App\Services\Contracts\IBaseService;
 use App\Models\Hospital;
+use App\Services\Contracts\IBaseService;
 
 /**
  * @extends IBaseService<Hospital>
@@ -11,5 +11,9 @@ use App\Models\Hospital;
  */
 interface IHospitalService extends IBaseService
 {
-    //
+    /**
+     * @param $hospitalId
+     * @return Hospital|null
+     */
+    public function toggleHospitalStatus($hospitalId): ?Hospital;
 }

@@ -30,6 +30,7 @@ class Hospital extends Model implements HasMedia
 
     protected $fillable = [
         'name',
+        'status'
     ];
 
     protected $casts = [
@@ -44,6 +45,7 @@ class Hospital extends Model implements HasMedia
     {
         return [
             'name',
+            'status'
         ];
     }
 

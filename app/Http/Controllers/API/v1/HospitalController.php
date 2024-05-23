@@ -77,4 +77,15 @@ class HospitalController extends ApiController
 
         return $this->noData(false);
     }
+
+    public function toggleHospitalStatus($hospitalId)
+    {
+        $result = $this->hospitalService->toggleHospitalStatus($hospitalId);
+
+        if ($result) {
+            return $this->apiResponse(new HospitalResource($result), self::STATUS_OK, __('site.success'));
+        }
+
+        return $this->noData();
+    }
 }

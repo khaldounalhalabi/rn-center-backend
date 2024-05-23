@@ -16,6 +16,7 @@ class HospitalResource extends BaseResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'status' => $this->status,
             'images' => MediaResource::collection($this->whenLoaded('media')),
             'phones' => PhoneNumberResource::collection($this->whenLoaded('phones')),
             'available_departments' => AvailableDepartmentResource::collection($this->whenLoaded('availableDepartments')),

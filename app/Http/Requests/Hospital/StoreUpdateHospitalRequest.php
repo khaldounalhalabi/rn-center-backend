@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Hospital;
 
+use App\Enums\HospitalStatusEnum;
 use App\Models\Hospital;
 use App\Rules\LanguageShape;
 use App\Rules\NotInBlocked;
@@ -29,6 +30,7 @@ class StoreUpdateHospitalRequest extends FormRequest
         if (request()->method() == 'POST') {
             return [
                 'name' => ['required', 'json', new LanguageShape()],
+                'status' => ['required', 'string', Rule::in(HospitalStatusEnum::getAllValues())],
                 'phone_numbers' => 'array|required',
                 'phone_numbers.*' => ['required', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/', new NotInBlocked()],
                 'available_departments' => 'array|required',
@@ -44,6 +46,7 @@ class StoreUpdateHospitalRequest extends FormRequest
 
         return [
             'name' => ['nullable', 'json', new LanguageShape()],
+            'status' => ['nullable', 'string', Rule::in(HospitalStatusEnum::getAllValues())],
             'phone_numbers' => 'array|nullable',
             'phone_numbers.*' => ['nullable', 'string', new UniquePhoneNumber(request()->route('hospital'), Hospital::class), 'regex:/^07\d{9}$/', new NotInBlocked()],
             'available_departments' => 'array|nullable',
