@@ -6,7 +6,9 @@ use App\Repositories\Contracts\BaseRepository;
 use App\Repositories\Contracts\IBaseRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection as RegularCollection;
+use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
@@ -39,10 +41,11 @@ abstract class BaseService implements IBaseService
     }
 
     /**
-     * @param        $data
+     * @param LengthAwarePaginator<T> $data
      * @return array
      */
-    public function formatPaginationData($data): array
+    #[ArrayShape(['currentPage' => "mixed", 'from' => "mixed", 'to' => "mixed", 'total' => "mixed", 'per_page' => "mixed", 'total_pages' => "float", 'isFirst' => "bool", 'isLast' => "bool"])]
+    public function formatPaginationData(LengthAwarePaginator $data): array
     {
         return $this->repository->formatPaginateData($data);
     }

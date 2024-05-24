@@ -12,9 +12,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection as RegularCollection;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
+use JetBrains\PhpStorm\ArrayShape;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
@@ -199,35 +201,34 @@ abstract class BaseRepository implements IBaseRepository
         $sortCol = request()->sort_col;
         $sortDir = request()->sort_dir ?? "DESC";
 
-        if (isset($sortCol)) {
-            if (in_array($sortCol, array_keys($this->customOrders))) {
-                $query = $this->customOrders[$sortCol]($query, $sortDir);
-            } elseif (str_contains($sortCol, '.')) {
-                [$relationName, $relatedColumn] = explode('.', $sortCol);
+        if (!isset($sortCol)) {
+            return $query->orderBy('created_at', 'DESC');
+        }
+        if (in_array($sortCol, array_keys($this->customOrders))) {
+            $query = $this->customOrders[$sortCol]($query, $sortDir);
+        } elseif (str_contains($sortCol, '.')) {
+            [$relationName, $relatedColumn] = explode('.', $sortCol);
 
-                if (method_exists($this->model, $relationName)) {
-                    $relationMethod = $this->model->{$relationName}();
+            if (method_exists($this->model, $relationName)) {
+                $relationMethod = $this->model->{$relationName}();
 
-                    if ($relationMethod instanceof BelongsTo) {
-                        $foreignKey = $relationMethod->getForeignKeyName();
-                        $relatedTable = Str::plural(Str::snake($relationName));
+                if ($relationMethod instanceof BelongsTo) {
+                    $foreignKey = $relationMethod->getForeignKeyName();
+                    $relatedTable = Str::plural(Str::snake($relationName));
 
-                        $query->orderBy(function (QueryBuilder $q) use ($foreignKey, $relatedColumn, $relatedTable) {
-                            $currentTable = $this->model->getTable();
-                            return $q->from($relatedTable)
-                                ->whereRaw("`$relatedTable`.id = `$currentTable`.$foreignKey")
-                                ->select($relatedColumn);
-                        }, $sortDir ?? 'asc');
-                    }
-
+                    $query->orderBy(function (QueryBuilder $q) use ($foreignKey, $relatedColumn, $relatedTable) {
+                        $currentTable = $this->model->getTable();
+                        return $q->from($relatedTable)
+                            ->whereRaw("`$relatedTable`.id = `$currentTable`.$foreignKey")
+                            ->select($relatedColumn);
+                    }, $sortDir);
                 }
-            } else {
-                if (in_array($sortCol, $this->modelTableColumns)) {
-                    $query->orderBy($this->tableName . '.' . $sortCol, $sortDir ?? 'asc');
-                }
+
             }
         } else {
-            return $query->orderBy('created_at', 'DESC');
+            if (in_array($sortCol, $this->modelTableColumns)) {
+                $query->orderBy($this->tableName . '.' . $sortCol, $sortDir);
+            }
         }
 
         return $query;
@@ -245,28 +246,25 @@ abstract class BaseRepository implements IBaseRepository
         $all = $this->globalQuery($relationships)->withCount($countable)->paginate($per_page);
         if (count($all) > 0) {
             $pagination_data = $this->formatPaginateData($all);
-            return ['data' => $all, 'pagination_data' => $pagination_data];
+            return ['data' => $all->items(), 'pagination_data' => $pagination_data];
         }
         return null;
     }
 
     /**
-     * @param        $data
+     * @param LengthAwarePaginator<T> $data
      * @return array
      */
-    public function formatPaginateData($data): array
+    #[ArrayShape(['currentPage' => "mixed", 'from' => "mixed", 'to' => "mixed", 'total' => "mixed", 'per_page' => "mixed", 'total_pages' => "float", 'isFirst' => "bool", 'isLast' => "bool"])]
+    public function formatPaginateData(LengthAwarePaginator $data): array
     {
-        $paginated_arr = $data->toArray();
-
         return [
-            'currentPage' => $paginated_arr['current_page'],
-            'from' => $paginated_arr['from'],
-            'to' => $paginated_arr['to'],
-            'total' => $paginated_arr['total'],
-            'per_page' => $paginated_arr['per_page'],
-            'total_pages' => ceil($paginated_arr['total'] / $paginated_arr['per_page']),
-            'isFirst' => $paginated_arr['current_page'] == 1,
-            'isLast' => $paginated_arr['current_page'] == ceil($paginated_arr['total'] / $paginated_arr['per_page']),
+            'currentPage' => $data->currentPage(),
+            'total' => $data->total(),
+            'per_page' => $data->perPage(),
+            'total_pages' => $data->lastPage(),
+            'isFirst' => $data->onFirstPage(),
+            'isLast' => $data->onLastPage(),
         ];
     }
 

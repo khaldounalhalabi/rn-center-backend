@@ -4,6 +4,7 @@ namespace App\Services\Contracts;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection as RegularCollection;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -20,11 +21,11 @@ interface IBaseService
     public function delete($id): ?bool;
 
     /**
-     * @param        $data
+     * @param LengthAwarePaginator<T> $data
      * @return array
      */
-    #[ArrayShape(['currentPage' => 'int', 'from' => 'int', 'to' => 'int', 'total' => 'int', 'per_page' => 'int'])]
-    public function formatPaginationData($data): array;
+    #[ArrayShape(['currentPage' => "mixed", 'from' => "mixed", 'to' => "mixed", 'total' => "mixed", 'per_page' => "mixed", 'total_pages' => "float", 'isFirst' => "bool", 'isLast' => "bool"])]
+    public function formatPaginationData(LengthAwarePaginator $data): array;
 
     /**
      * @param array $relations
