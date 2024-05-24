@@ -35,7 +35,7 @@ class StoreUpdateSubscriptionRequest extends FormRequest
                         $fail($attribute . ' must not be less than -1.');
                     }
                 }],
-                'allow_period' => ['nullable', 'numeric', 'min:0'],
+                'allow_period' => ['required', 'numeric', 'min:0'],
                 'cost' => ['required', 'numeric', 'min:0'],
             ];
         }
