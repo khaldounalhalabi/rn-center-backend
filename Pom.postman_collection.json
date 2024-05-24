@@ -12158,25 +12158,25 @@
                                     "key": "name",
                                     "value": "voluptatum",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "email",
                                     "value": "quam",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "message",
                                     "value": "Id hic aut ipsam rerum et molestiae. Perspiciatis natus id voluptas et hic et. Quia sapiente consequatur reiciendis et vel maiores autem. Voluptatem quo repellat possimus.",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "read_at",
                                     "value": "2024-05-17 03:26:11",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 }
                             ]
                         }
@@ -12216,25 +12216,25 @@
                                     "key": "name",
                                     "value": "quae",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "email",
                                     "value": "laboriosam",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "message",
                                     "value": "Qui voluptate id quisquam. Ipsum quasi qui temporibus. Quis dicta illo quo est enim vel.",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "read_at",
                                     "value": "2024-05-17 03:26:11",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 }
                             ]
                         }
@@ -12355,6 +12355,257 @@
                             "raw": "{{local}}admin/enquiries/get-import-example",
                             "host": [
                                 "{{local}}admin/enquiries/get-import-example"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "ClinicSubscription",
+            "item": [
+                {
+                    "name": "index",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}clinic-subscriptions",
+                            "host": [
+                                "{{local}}clinic-subscriptions"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "show",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}clinic-subscriptions/1",
+                            "host": [
+                                "{{local}}clinic-subscriptions/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "store",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}clinic-subscriptions",
+                            "host": [
+                                "{{local}}clinic-subscriptions"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": []
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "update",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}clinic-subscriptions/1",
+                            "host": [
+                                "{{local}}clinic-subscriptions/1"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": []
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}clinic-subscriptions/1",
+                            "host": [
+                                "{{local}}clinic-subscriptions/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "export",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}clinic-subscriptions/export",
+                            "host": [
+                                "{{local}}clinic-subscriptions/export"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "import",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}clinic-subscriptions/import",
+                            "host": [
+                                "{{local}}clinic-subscriptions/import"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "import-example",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}clinic-subscriptions/get-import-example",
+                            "host": [
+                                "{{local}}clinic-subscriptions/get-import-example"
                             ]
                         },
                         "body": null

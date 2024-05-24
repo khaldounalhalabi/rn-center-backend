@@ -68,3 +68,8 @@ Route::post('/enquiries/{enquiryId}/reply', [v1\EnquiryController::class, 'reply
 Route::apiResource('/enquiries', v1\EnquiryController::class)
     ->except(['update', 'store', 'destroy'])
     ->names('enquiries');
+
+Route::get('clinics/{clinicId}/subscriptions', [v1\ClinicSubscriptionController::class, 'getByClinic'])->name('clinics.subscriptions');
+Route::apiResource('/clinic-subscriptions', v1\ClinicSubscriptionController::class)
+    ->except(['index'])
+    ->names('clinic.subscriptions');

@@ -1018,6 +1018,11 @@
                 }
             ],
             "relations": []
+        },
+        {
+            "model_name": "ClinicSubscription",
+            "table_name": "clinic_subscriptions",
+            "attributes": []
         }
     ]
 }
