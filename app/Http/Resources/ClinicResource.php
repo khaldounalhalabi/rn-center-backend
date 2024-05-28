@@ -43,6 +43,7 @@ class ClinicResource extends BaseResource
             'medicines' => MedicineResource::collection($this->whenLoaded('medicines')),
             'prescriptions' => PrescriptionResource::collection($this->whenLoaded('prescriptions')),
             'active_subscription' => new ClinicSubscriptionResource($this->whenLoaded('activeSubscription')),
+            'offers' => OfferResource::collection($this->whenLoaded('offers')) ,
         ];
     }
 }

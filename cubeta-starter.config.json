@@ -1023,6 +1023,69 @@
             "model_name": "ClinicSubscription",
             "table_name": "clinic_subscriptions",
             "attributes": []
+        },
+        {
+            "model_name": "Offer",
+            "table_name": "offers",
+            "attributes": [
+                {
+                    "name": "title",
+                    "type": "translatable",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "value",
+                    "type": "float",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "note",
+                    "type": "translatable",
+                    "nullable": true,
+                    "unique": false
+                },
+                {
+                    "name": "start_at",
+                    "type": "date",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "end_at",
+                    "type": "date",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "is_active",
+                    "type": "boolean",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "type",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "clinic_id",
+                    "type": "key",
+                    "nullable": false,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "belongsTo": [
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Clinic",
+                        "key": "clinic_id"
+                    }
+                ]
+            }
         }
     ]
 }

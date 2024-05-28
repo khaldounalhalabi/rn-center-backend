@@ -38,6 +38,7 @@ class DatabaseSeeder extends Seeder
             SubscriptionSeeder::class,
             ClinicSubscriptionSeeder::class,
             EnquirySeeder::class,
+            OfferSeeder::class,
         ]);
     }
 }

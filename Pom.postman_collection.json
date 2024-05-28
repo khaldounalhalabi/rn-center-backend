@@ -12613,6 +12613,355 @@
                     "response": []
                 }
             ]
+        },
+        {
+            "name": "Offer",
+            "item": [
+                {
+                    "name": "index",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/offers",
+                            "host": [
+                                "{{local}}admin/offers"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "show",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/offers/1",
+                            "host": [
+                                "{{local}}admin/offers/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "store",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/offers",
+                            "host": [
+                                "{{local}}admin/offers"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "title",
+                                    "value": "{\"ar\":\"quo\",\"en\":\"sequi\"}",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "value",
+                                    "value": "8",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "note",
+                                    "value": "{\"ar\":\"inventore\",\"en\":\"architecto\"}",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "start_at",
+                                    "value": "2024-05-28",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "end_at",
+                                    "value": "2024-05-28",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "is_active",
+                                    "value": "1",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "deserunt",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "clinic_id",
+                                    "value": "1",
+                                    "type": "text",
+                                    "description": null
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "update",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/offers/1",
+                            "host": [
+                                "{{local}}admin/offers/1"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "title",
+                                    "value": "{\"ar\":\"rem\",\"en\":\"ut\"}",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "value",
+                                    "value": "9",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "note",
+                                    "value": "{\"ar\":\"est\",\"en\":\"reprehenderit\"}",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "start_at",
+                                    "value": "2024-05-28",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "end_at",
+                                    "value": "2024-05-28",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "is_active",
+                                    "value": "1",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "et",
+                                    "type": "text",
+                                    "description": null
+                                },
+                                {
+                                    "key": "clinic_id",
+                                    "value": "1",
+                                    "type": "text",
+                                    "description": null
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/offers/1",
+                            "host": [
+                                "{{local}}admin/offers/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "export",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/offers/export",
+                            "host": [
+                                "{{local}}admin/offers/export"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "import",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/offers/import",
+                            "host": [
+                                "{{local}}admin/offers/import"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "import-example",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}admin/offers/get-import-example",
+                            "host": [
+                                "{{local}}admin/offers/get-import-example"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                }
+            ]
         }
     ],
     "event": [

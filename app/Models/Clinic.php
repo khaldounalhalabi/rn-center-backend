@@ -198,22 +198,14 @@ class Clinic extends Model implements HasMedia
         $this->loadCount('validAppointments');
 
         // checking if the current clinic reached the maximum appointments per day
-        if ($this->valid_appointments_count >= $this->max_appointments) {
-            return false;
-        }
-
-        return true;
+        return !($this->valid_appointments_count >= $this->max_appointments);
     }
 
     public function validAppointmentDateTime(string $date): bool
     {
         $date = Carbon::parse($date);
 
-        if ($date->subDays($this->appointment_day_range)->isAfter(now())) {
-            return false;
-        }
-
-        return true;
+        return !($date->subDays($this->appointment_day_range)->isAfter(now()));
     }
 
     public function hasHolidayIn(string $date): bool
@@ -290,5 +282,10 @@ class Clinic extends Model implements HasMedia
         return $activeSubscription?->subscription?->period == -1
             && $activeSubscription?->deduction_cost != 0
             && $activeSubscription?->subscription?->cost == 0;
+    }
+
+    public function offers(): HasMany
+    {
+        return $this->hasMany(Offer::class);
     }
 }

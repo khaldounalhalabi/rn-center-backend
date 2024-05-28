@@ -7,6 +7,7 @@ use App\Models\Appointment;
 use App\Models\Clinic;
 use App\Models\ClinicHoliday;
 use App\Models\Medicine;
+use App\Models\Offer;
 use App\Models\Prescription;
 use App\Models\Schedule;
 use App\Models\Service;
@@ -112,5 +113,9 @@ class ClinicFactory extends Factory
     public function withSubscriptions($count = 1): ClinicFactory
     {
         return $this->has(Subscription::factory($count));
+    }
+    public function withOffers($count = 1): ClinicFactory
+    {
+        return $this->has(Offer::factory($count));
     }
 }

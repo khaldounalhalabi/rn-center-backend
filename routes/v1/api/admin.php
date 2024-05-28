@@ -73,3 +73,5 @@ Route::get('clinics/{clinicId}/subscriptions', [v1\ClinicSubscriptionController:
 Route::apiResource('/clinic-subscriptions', v1\ClinicSubscriptionController::class)
     ->except(['index'])
     ->names('clinic.subscriptions');
+
+Route::apiResource('offers', v1\OfferController::class)->names('offers') ;
