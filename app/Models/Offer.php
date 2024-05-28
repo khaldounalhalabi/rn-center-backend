@@ -22,7 +22,6 @@ class Offer extends Model
 {
     use HasFactory;
     use Translations;
-    use Prunable;
 
     protected static function booted()
     {
@@ -114,11 +113,5 @@ class Offer extends Model
     public function scopeIsActive($query)
     {
         return $query->where('is_active', 1);
-    }
-
-    public function prunable(): bool
-    {
-        return static::where('end_at', '<', now()->format('Y-m-d'))
-            ->update(['is_active' => false]);
     }
 }

@@ -45,13 +45,4 @@ class StoreUpdateOfferRequest extends FormRequest
             'type' => ['nullable', 'string', 'min:3', 'max:255', Rule::in(OfferTypeEnum::getAllValues())],
         ];
     }
-
-
-    protected function prepareForValidation()
-    {
-        if (request()->acceptsHtml()) {
-            $this->merge([
-            ]);
-        }
-    }
 }
