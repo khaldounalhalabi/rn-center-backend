@@ -10,6 +10,7 @@ use App\Repositories\AddressRepository;
 use App\Repositories\ClinicRepository;
 use App\Repositories\PhoneNumberRepository;
 use App\Repositories\UserRepository;
+use App\Services\ClinicSubscription\ClinicSubscriptionService;
 use App\Services\Contracts\BaseService;
 use App\Services\Schedule\ScheduleService;
 use Carbon\Carbon;
@@ -27,6 +28,8 @@ class ClinicService extends BaseService implements IClinicService
     private PhoneNumberRepository $phoneNumberRepository;
     private ScheduleService $scheduleService;
 
+    private ClinicSubscriptionService $clinicSubscriptionService;
+
     /**
      * ClinicService constructor.
      * @param ClinicRepository      $repository
@@ -36,11 +39,12 @@ class ClinicService extends BaseService implements IClinicService
      * @param ScheduleService       $scheduleService
      */
     public function __construct(
-        ClinicRepository      $repository,
-        UserRepository        $userRepository,
-        AddressRepository     $addressRepository,
-        PhoneNumberRepository $phoneNumberRepository,
-        ScheduleService       $scheduleService
+        ClinicRepository          $repository,
+        UserRepository            $userRepository,
+        AddressRepository         $addressRepository,
+        PhoneNumberRepository     $phoneNumberRepository,
+        ScheduleService           $scheduleService,
+        ClinicSubscriptionService $clinicSubscriptionService
     )
     {
         parent::__construct($repository);
@@ -48,6 +52,7 @@ class ClinicService extends BaseService implements IClinicService
         $this->addressRepository = $addressRepository;
         $this->phoneNumberRepository = $phoneNumberRepository;
         $this->scheduleService = $scheduleService;
+        $this->clinicSubscriptionService = $clinicSubscriptionService;
     }
 
     /**
@@ -84,7 +89,16 @@ class ClinicService extends BaseService implements IClinicService
 
         $this->scheduleService->setDefaultClinicSchedule($clinic);
 
-        return $clinic->load($relationships)->loadCount($countable);
+        $this->clinicSubscriptionService->store([
+            'clinic_id'       => $clinic->id,
+            'subscription_id' => $data['subscription_id'],
+            'type'            => $data['subscription_type'],
+            'deduction_cost'  => $data['subscription_deduction_cost'] ?? 0,
+        ]);
+
+        return $clinic->refresh()
+            ->load($relationships)
+            ->loadCount($countable);
     }
 
     /**
@@ -135,7 +149,7 @@ class ClinicService extends BaseService implements IClinicService
         $clinic = $this->repository->find($clinicId, ['validAppointments', 'schedules', 'validHolidays']);
         $bookedTimes = $clinic->validAppointments->groupBy('date')
             ->map(fn(Collection $appointments, $index) => [
-                'date' => Carbon::parse($index)->format('Y-m-d'),
+                'date'  => Carbon::parse($index)->format('Y-m-d'),
                 'times' => $appointments->map(fn(Appointment $appointment) => [
                 ]),
             ])->values();
@@ -144,7 +158,7 @@ class ClinicService extends BaseService implements IClinicService
         $holidays = $clinic->validHolidays;
 
         return [
-            'booked_times' => $bookedTimes,
+            'booked_times'    => $bookedTimes,
             'clinic_schedule' => $schedules,
             'clinic_holidays' => $holidays
         ];

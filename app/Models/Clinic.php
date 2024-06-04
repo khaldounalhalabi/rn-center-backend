@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Casts\Translatable;
 use App\Enums\AppointmentStatusEnum;
 use App\Enums\MediaTypeEnum;
+use App\Enums\SubscriptionStatusEnum;
 use App\Traits\Translations;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -40,7 +41,7 @@ class Clinic extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'name' => Translatable::class,
+        'name'               => Translatable::class,
         'working_start_year' => "datetime",
     ];
 
@@ -67,7 +68,7 @@ class Clinic extends Model implements HasMedia
     public static function relationsSearchableArray(): array
     {
         return [
-            'user' => [
+            'user'              => [
                 "first_name",
                 "middle_name",
                 "last_name",
@@ -86,32 +87,32 @@ class Clinic extends Model implements HasMedia
     {
         return [
             [
-                'name' => 'is_archived',
+                'name'     => 'is_archived',
                 'relation' => 'user.is_archived',
             ],
             [
                 'name' => 'status',
             ],
             [
-                'name' => 'city_name',
+                'name'     => 'city_name',
                 'relation' => 'user.address.city.name',
                 'operator' => 'like'
             ],
             [
-                'name' => 'day_of_week',
+                'name'     => 'day_of_week',
                 'relation' => 'schedules.day_of_week',
-                'method' => 'whereTime'
+                'method'   => 'whereTime'
             ],
             [
-                'name' => 'start_time',
+                'name'     => 'start_time',
                 'relation' => 'schedules.start_time',
-                'method' => 'whereTime',
+                'method'   => 'whereTime',
                 'operator' => '>=',
             ],
             [
-                'name' => 'end_time',
+                'name'     => 'end_time',
                 'relation' => 'schedules.end_time',
-                'method' => 'whereTime',
+                'method'   => 'whereTime',
                 'operator' => '<=',
             ]
         ];
@@ -273,6 +274,7 @@ class Clinic extends Model implements HasMedia
     {
         return $this->hasOne(ClinicSubscription::class)
             ->where('end_time', '>', now()->format('Y-m-d H:i:s'))
+            ->where('status', SubscriptionStatusEnum::ACTIVE->value)
             ->latestOfMany();
     }
 

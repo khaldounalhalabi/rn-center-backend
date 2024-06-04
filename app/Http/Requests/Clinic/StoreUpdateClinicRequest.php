@@ -4,6 +4,7 @@ namespace App\Http\Requests\Clinic;
 
 use App\Enums\ClinicStatusEnum;
 use App\Enums\GenderEnum;
+use App\Enums\SubscriptionTypeEnum;
 use App\Models\Clinic;
 use App\Models\User;
 use App\Rules\LanguageShape;
@@ -58,6 +59,10 @@ class StoreUpdateClinicRequest extends FormRequest
 
                 'speciality_ids' => 'array|required',
                 'speciality_ids.*' => 'required|numeric|exists:specialities,id',
+
+                'subscription_id' => 'required|numeric|exists:subscriptions,id',
+                'subscription_type' => 'string|required|' . Rule::in(SubscriptionTypeEnum::getAllValues()),
+                'subscription_deduction_cost' => 'numeric|min:0|nullable|' . Rule::requiredIf($this->input('type') == SubscriptionTypeEnum::BOOKING_COST_BASED->value)
             ];
         }
         $userId = Clinic::find(request()->route('clinic'))?->user_id;

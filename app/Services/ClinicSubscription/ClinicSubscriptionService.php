@@ -41,12 +41,14 @@ class ClinicSubscriptionService extends BaseService implements IClinicSubscripti
         if (!$subscription) {
             return null;
         }
-        $data['start_at'] = now();
-        $data['ends_at'] = $subscription->period == -1
+        $data['start_time'] = now();
+        $data['ends_time'] = $subscription->period == -1
             ? now()->addYears(1000)  // lifetime
             : now()->addMonths($subscription->period);
 
         $data['status'] = SubscriptionStatusEnum::ACTIVE->value;
+
+        $this->repository->deactivatePreviousSubscriptions($data['clinic_id']);
 
         return parent::store($data, $relationships, $countable);
     }

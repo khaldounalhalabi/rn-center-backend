@@ -33,8 +33,6 @@ class StoreUpdateClinicSubscriptionRequest extends FormRequest
             ];
         }
 
-        $clinicSubscription = ClinicSubscription::find(request()->route('clinic_subscription'));
-
         return [
             'subscription_id' => 'nullable|numeric|exists:subscriptions,id',
             'type' => 'string|nullable|' . Rule::in(SubscriptionTypeEnum::getAllValues()),

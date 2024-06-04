@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Enums\SubscriptionStatusEnum;
 use App\Models\ClinicSubscription;
 use App\Repositories\Contracts\BaseRepository;
 use JetBrains\PhpStorm\ArrayShape;
@@ -33,11 +34,21 @@ class ClinicSubscriptionRepository extends BaseRepository
 
         if (count($data)) {
             return [
-                'data' => $data,
+                'data'            => $data,
                 'pagination_data' => $this->formatPaginateData($data)
             ];
         }
 
         return null;
+    }
+
+    public function deactivatePreviousSubscriptions($clinicId): void
+    {
+        $this->globalQuery()
+            ->where('clinic_id', $clinicId)
+            ->where('status', SubscriptionStatusEnum::ACTIVE->value)
+            ->update([
+                'status' => SubscriptionStatusEnum::IN_ACTIVE->value
+            ]);
     }
 }
