@@ -14,13 +14,13 @@ class SubscriptionResource extends BaseResource
     public function toArray($request): array
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'description' => $this->description,
-            'period' => $this->period,
+            'id'           => $this->id,
+            'name'         => $this->name,
+            'description'  => $this->description,
+            'period'       => $this->period,
             'allow_period' => $this->allow_period,
-            'cost' => $this->cost,
-            'clinics' => ClinicResource::collection($this->whenLoaded('clinics')),
+            'cost'         => $this->cost,
+            'clinics'      => ClinicResource::collection($this->whenLoaded('clinics')),
         ];
     }
 }

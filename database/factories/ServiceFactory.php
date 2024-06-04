@@ -21,13 +21,13 @@ class ServiceFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->fakeTranslation('word'),
+            'name'                 => $this->fakeTranslation('word'),
             'approximate_duration' => fake()->numberBetween(1, 2000),
-            'service_category_id' => ServiceCategory::factory(),
-            'price' => fake()->randomFloat(2, 0, 1000),
-            'status' => fake()->numberBetween(1, 2000),
-            'description' => $this->fakeTranslation('word'),
-            'clinic_id' => Clinic::factory()->withSchedules(),
+            'service_category_id'  => ServiceCategory::factory(),
+            'price'                => fake()->randomFloat(2, 0, 1000),
+            'status'               => fake()->numberBetween(1, 2000),
+            'description'          => $this->fakeTranslation('word'),
+            'clinic_id'            => Clinic::factory()->withSchedules(),
         ];
     }
 

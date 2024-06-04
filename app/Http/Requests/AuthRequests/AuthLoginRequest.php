@@ -23,8 +23,8 @@ class AuthLoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['required', 'email', 'exists:users,email', 'max:255', new NotInBlocked()],
-            'password' => 'required|min:8|max:255',
+            'email'     => ['required', 'email', 'exists:users,email', 'max:255', new NotInBlocked()],
+            'password'  => 'required|min:8|max:255',
             'fcm_token' => 'nullable|string|max:1000',
         ];
     }

@@ -2,8 +2,8 @@
 
 namespace App\Services\Enquiry;
 
-use App\Services\Contracts\IBaseService;
 use App\Models\Enquiry;
+use App\Services\Contracts\IBaseService;
 
 /**
  * @extends IBaseService<Enquiry>

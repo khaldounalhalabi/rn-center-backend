@@ -24,7 +24,7 @@ class ResetPasswordRequest extends FormRequest
     {
         return [
             'reset_password_code' => ['required', 'string', 'exists:users,reset_password_code', 'max:8', new ValidResetPasswordCode()],
-            'password' => 'required|string|min:8|confirmed|max:255',
+            'password'            => 'required|string|min:8|confirmed|max:255',
         ];
     }
 }

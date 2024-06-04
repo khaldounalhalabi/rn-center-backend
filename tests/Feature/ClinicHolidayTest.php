@@ -40,7 +40,7 @@ class ClinicHolidayTest extends MainTestCase
     {
         $this->requestPathHook($this->baseUrl . 'store');
         $this->storeTest(['start_date' => now()->format('Y-m-d H:i:s'),
-            'end_date' => now()->format('Y-m-d H:i:s'),
+                          'end_date'   => now()->format('Y-m-d H:i:s'),
         ]);
     }
 

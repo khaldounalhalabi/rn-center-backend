@@ -22,9 +22,9 @@ class SpecialityFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->fakeTranslation('name'),
+            'name'        => $this->fakeTranslation('name'),
             'description' => fake()->text(),
-            'tags' => fake()->text(),
+            'tags'        => fake()->text(),
         ];
     }
 

@@ -3,8 +3,8 @@
 namespace App\Services\Service;
 
 use App\Models\Service;
-use App\Services\Contracts\BaseService;
 use App\Repositories\ServiceRepository;
+use App\Services\Contracts\BaseService;
 
 /**
  * @implements IServiceService<Service>

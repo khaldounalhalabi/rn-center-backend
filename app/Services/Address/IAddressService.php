@@ -2,8 +2,8 @@
 
 namespace App\Services\Address;
 
-use App\Services\Contracts\IBaseService;
 use App\Models\Address;
+use App\Services\Contracts\IBaseService;
 
 /**
  * @extends IBaseService<Address>

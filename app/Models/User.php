@@ -52,17 +52,17 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     ];
 
     protected $casts = [
-        'id' => 'integer',
+        'id'                => 'integer',
         'email_verified_at' => 'datetime',
-        'birth_date' => 'datetime',
-        'is_blocked' => 'boolean',
-        'is_archived' => 'boolean',
-        'created_at' => 'datetime:Y-m-d H:i:s',
-        'updated_at' => 'datetime:Y-m-d H:i:s',
-        'first_name' => Translatable::class,
-        'middle_name' => Translatable::class,
-        'last_name' => Translatable::class,
-        'full_name' => Translatable::class,
+        'birth_date'        => 'datetime',
+        'is_blocked'        => 'boolean',
+        'is_archived'       => 'boolean',
+        'created_at'        => 'datetime:Y-m-d H:i:s',
+        'updated_at'        => 'datetime:Y-m-d H:i:s',
+        'first_name'        => Translatable::class,
+        'middle_name'       => Translatable::class,
+        'last_name'         => Translatable::class,
+        'full_name'         => Translatable::class,
     ];
 
     /**
@@ -87,7 +87,7 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     public static function relationsSearchableArray(): array
     {
         return [
-            'roles' => [
+            'roles'        => [
                 'name'
             ],
             'phoneNumbers' => [

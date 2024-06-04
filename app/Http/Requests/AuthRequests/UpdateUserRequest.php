@@ -28,24 +28,31 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => 'nullable|string|max:255|min:3',
-            'middle_name' => 'nullable|string|max:255|min:3',
-            'last_name' => 'nullable|string|max:255|min:3',
-            'full_name' => ['nullable', 'string', new NotInBlocked()],
-            'phone_number' => 'array|nullable',
-            'phone_number.*' => ['nullable', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/', new UniquePhoneNumber(auth()->user()->id), new NotInBlocked()],
-            'email' => ['nullable', 'email', 'unique:users,email', 'min:3', 'max:255', new NotInBlocked()],
-            'password' => 'nullable|min:8|confirmed|max:255',
-            'fcm_token' => 'nullable|string|min:3|max:1000',
-            'gender' => 'nullable|string|' . Rule::in(GenderEnum::getAllValues()),
-            'image' => 'image|max:50000|mimes:jpg,png|nullable',
-            'birth_date' => 'nullable|date|date_format:Y-m-d',
-            'address' => 'nullable|array',
-            'address.name' => ['nullable', 'string', new LanguageShape()],
-            'address.city_id' => ['nullable', 'exists:cities,id', 'integer'],
-            'address.lat' => ['nullable', 'string', 'nullable_without:address.map_iframe'],
-            'address.lng' => ['nullable', 'string', 'nullable_without:address.map_iframe'],
+            'first_name'         => 'nullable|string|max:255|min:3',
+            'middle_name'        => 'nullable|string|max:255|min:3',
+            'last_name'          => 'nullable|string|max:255|min:3',
+            'full_name'          => ['nullable', 'string', new NotInBlocked()],
+            'phone_number'       => 'array|nullable',
+            'phone_number.*'     => ['nullable', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/', new UniquePhoneNumber(auth()->user()->id), new NotInBlocked()],
+            'email'              => ['nullable', 'email', 'unique:users,email', 'min:3', 'max:255', new NotInBlocked()],
+            'password'           => 'nullable|min:8|confirmed|max:255',
+            'fcm_token'          => 'nullable|string|min:3|max:1000',
+            'gender'             => 'nullable|string|' . Rule::in(GenderEnum::getAllValues()),
+            'image'              => 'image|max:50000|mimes:jpg,png|nullable',
+            'birth_date'         => 'nullable|date|date_format:Y-m-d',
+            'address'            => 'nullable|array',
+            'address.name'       => ['nullable', 'string', new LanguageShape()],
+            'address.city_id'    => ['nullable', 'exists:cities,id', 'integer'],
+            'address.lat'        => ['nullable', 'string', 'nullable_without:address.map_iframe'],
+            'address.lng'        => ['nullable', 'string', 'nullable_without:address.map_iframe'],
             'address.map_iframe' => ['nullable', 'string']
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'phone_numbers.*' => 'phone number'
         ];
     }
 
@@ -56,12 +63,5 @@ class UpdateUserRequest extends FormRequest
                 'full_name' => User::geuUserFullName($this->input('first_name'), $this->input('middle_name'), $this->input('last_name'))
             ]);
         }
-    }
-
-    public function attributes()
-    {
-        return [
-            'phone_numbers.*' => 'phone number'
-        ];
     }
 }

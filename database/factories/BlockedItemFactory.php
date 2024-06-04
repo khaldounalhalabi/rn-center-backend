@@ -28,7 +28,7 @@ class BlockedItemFactory extends Factory
                 : fake()->name
             );
         return [
-            'type' => $type,
+            'type'  => $type,
             'value' => $value,
         ];
     }

@@ -2,8 +2,8 @@
 
 namespace App\Services\Appointment;
 
-use App\Services\Contracts\IBaseService;
 use App\Models\Appointment;
+use App\Services\Contracts\IBaseService;
 
 /**
  * @extends IBaseService<Appointment>

@@ -100,6 +100,76 @@ class AppointmentService extends BaseService implements IAppointmentService
         return $appointment;
     }
 
+    /**
+     * @param       $clinicId
+     * @param array $relations
+     * @param int   $perPage
+     * @return null|array
+     */
+    public function getClinicAppointments($clinicId, array $relations = [], int $perPage = 10): ?array
+    {
+        return $this->repository->getByClinic($clinicId, $relations, $perPage);
+    }
+
+    /**
+     * @param       $appointmentId
+     * @param array $data
+     * @return Appointment|null
+     */
+    public function toggleAppointmentStatus($appointmentId, array $data): ?Appointment
+    {
+        $appointment = $this->repository->find($appointmentId);
+
+        if (!$appointment) {
+            return null;
+        }
+
+        $oldStatus = $appointment->status;
+
+        if ($data['status'] == AppointmentStatusEnum::CANCELLED->value && !isset($data['cancellation_reason'])) {
+            return null;
+        }
+
+        $prevStatus = $appointment->status;
+
+        $appointment = $this->repository->update([
+            'status'              => $data['status'],
+            'cancellation_reason' => $data['cancellation_reason'] ?? ""
+        ], $appointment, ['customer.user']);
+
+        if ($appointment->status == AppointmentStatusEnum::CHECKOUT->value && $prevStatus != AppointmentStatusEnum::CHECKOUT->value) {
+            UpdateAppointmentRemainingTimeJob::dispatch($appointment->clinic_id, $appointment->date);
+        }
+
+        if ($data['status'] == AppointmentStatusEnum::BOOKED->value && $prevStatus != AppointmentStatusEnum::BOOKED->value) {
+            $appointment = Appointment::handleRemainingTime($appointment);
+            $appointment->save();
+        }
+
+        if ($oldStatus != $appointment->status) {
+            FirebaseServices::make()
+                ->setData([
+                    'appointment' => $appointment
+                ])
+                ->setMethod('one')
+                ->setTo($appointment->customer->user)
+                ->setNotification(AppointmentStatusChangedNotification::class)
+                ->send();
+        }
+
+        $this->appointmentLogRepository->create([
+            'cancellation_reason' => $data['cancellation_reason'] ?? "",
+            'status'              => $data['status'],
+            'happen_in'           => now(),
+            'appointment_id'      => $appointment->id,
+            'actor_id'            => auth()->user()->id,
+            'affected_id'         => $data['customer_id'] ?? $appointment->customer_id,
+            'event'               => "appointment status has been changed to {$data['status']} in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en
+        ]);
+
+        return $appointment;
+    }
+
     public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
     {
         /** @var Appointment $appointment */
@@ -196,76 +266,6 @@ class AppointmentService extends BaseService implements IAppointmentService
                 ->setNotification(AppointmentStatusChangedNotification::class)
                 ->send();
         }
-
-        return $appointment;
-    }
-
-    /**
-     * @param       $clinicId
-     * @param array $relations
-     * @param int   $perPage
-     * @return null|array
-     */
-    public function getClinicAppointments($clinicId, array $relations = [], int $perPage = 10): ?array
-    {
-        return $this->repository->getByClinic($clinicId, $relations, $perPage);
-    }
-
-    /**
-     * @param       $appointmentId
-     * @param array $data
-     * @return Appointment|null
-     */
-    public function toggleAppointmentStatus($appointmentId, array $data): ?Appointment
-    {
-        $appointment = $this->repository->find($appointmentId);
-
-        if (!$appointment) {
-            return null;
-        }
-
-        $oldStatus = $appointment->status;
-
-        if ($data['status'] == AppointmentStatusEnum::CANCELLED->value && !isset($data['cancellation_reason'])) {
-            return null;
-        }
-
-        $prevStatus = $appointment->status;
-
-        $appointment = $this->repository->update([
-            'status'              => $data['status'],
-            'cancellation_reason' => $data['cancellation_reason'] ?? ""
-        ], $appointment, ['customer.user']);
-
-        if ($appointment->status == AppointmentStatusEnum::CHECKOUT->value && $prevStatus != AppointmentStatusEnum::CHECKOUT->value) {
-            UpdateAppointmentRemainingTimeJob::dispatch($appointment->clinic_id, $appointment->date);
-        }
-
-        if ($data['status'] == AppointmentStatusEnum::BOOKED->value && $prevStatus != AppointmentStatusEnum::BOOKED->value) {
-            $appointment = Appointment::handleRemainingTime($appointment);
-            $appointment->save();
-        }
-
-        if ($oldStatus != $appointment->status) {
-            FirebaseServices::make()
-                ->setData([
-                    'appointment' => $appointment
-                ])
-                ->setMethod('one')
-                ->setTo($appointment->customer->user)
-                ->setNotification(AppointmentStatusChangedNotification::class)
-                ->send();
-        }
-
-        $this->appointmentLogRepository->create([
-            'cancellation_reason' => $data['cancellation_reason'] ?? "",
-            'status'              => $data['status'],
-            'happen_in'           => now(),
-            'appointment_id'      => $appointment->id,
-            'actor_id'            => auth()->user()->id,
-            'affected_id'         => $data['customer_id'] ?? $appointment->customer_id,
-            'event'               => "appointment status has been changed to {$data['status']} in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en
-        ]);
 
         return $appointment;
     }

@@ -25,14 +25,14 @@ class StoreUpdateAvailableDepartmentRequest extends FormRequest
     {
         if (request()->method() == 'POST') {
             return [
-                'name' => ['required', 'json', new LanguageShape()],
+                'name'        => ['required', 'json', new LanguageShape()],
                 'description' => ['nullable', 'json', new LanguageShape()],
                 'hospital_id' => 'required|numeric|exists:hospitals,id',
             ];
         }
 
         return [
-            'name' => ['nullable', 'json', new LanguageShape()],
+            'name'        => ['nullable', 'json', new LanguageShape()],
             'description' => ['nullable', 'json', new LanguageShape()],
             'hospital_id' => 'nullable|numeric|exists:hospitals,id',
         ];

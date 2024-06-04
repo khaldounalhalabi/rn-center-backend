@@ -2,8 +2,8 @@
 
 namespace App\Services\Medicine;
 
-use App\Services\Contracts\IBaseService;
 use App\Models\Medicine;
+use App\Services\Contracts\IBaseService;
 
 /**
  * @extends IBaseService<Medicine>

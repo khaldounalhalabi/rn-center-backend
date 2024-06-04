@@ -3,8 +3,8 @@
 namespace App\Services\City;
 
 use App\Models\City;
-use App\Services\Contracts\BaseService;
 use App\Repositories\CityRepository;
+use App\Services\Contracts\BaseService;
 
 /**
  * @implements ICityService<City>

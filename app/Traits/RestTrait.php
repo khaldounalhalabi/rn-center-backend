@@ -2,13 +2,31 @@
 
 namespace App\Traits;
 
-use Illuminate\Http\JsonResponse;
-use JetBrains\PhpStorm\ArrayShape;
-use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\ApiController;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Validator;
+use JetBrains\PhpStorm\ArrayShape;
 
 trait RestTrait
 {
+    /**
+     * to handle validations
+     */
+    public function apiValidation($request, $array): JsonResponse|array
+    {
+        $validator = Validator::make($request->all(), $array);
+        if ($validator->fails()) {
+            $msg = [
+                'text'   => 'the given data is invalid',
+                'errors' => $validator->errors(),
+            ];
+
+            return $this->apiResponse(null, ApiController::STATUS_VALIDATION, $msg);
+        }
+
+        return $validator->valid();
+    }
+
     /**
      * this function will determine the api response structure to make all responses has the same structure
      * @param null $data
@@ -18,32 +36,14 @@ trait RestTrait
     public function apiResponse($data = null, int $code = 200, $message = null, $paginate = null): JsonResponse
     {
         $arrayResponse = [
-            'data' => $data,
-            'status' => $code == 200 || $code == 201 || $code == 204 || $code == 205,
-            'message' => $message,
-            'code' => $code,
+            'data'     => $data,
+            'status'   => $code == 200 || $code == 201 || $code == 204 || $code == 205,
+            'message'  => $message,
+            'code'     => $code,
             'paginate' => $paginate,
         ];
 
         return response()->json($arrayResponse, $code, [], JSON_PRETTY_PRINT);
-    }
-
-    /**
-     * to handle validations
-     */
-    public function apiValidation($request, $array): JsonResponse|array
-    {
-        $validator = Validator::make($request->all(), $array);
-        if ($validator->fails()) {
-            $msg = [
-                'text' => 'the given data is invalid',
-                'errors' => $validator->errors(),
-            ];
-
-            return $this->apiResponse(null, ApiController::STATUS_VALIDATION, $msg);
-        }
-
-        return $validator->valid();
     }
 
     /**
@@ -56,10 +56,10 @@ trait RestTrait
 
         return [
             'currentPage' => $paginated_arr['current_page'],
-            'from' => $paginated_arr['from'],
-            'to' => $paginated_arr['to'],
-            'total' => $paginated_arr['total'],
-            'per_page' => $paginated_arr['per_page'],
+            'from'        => $paginated_arr['from'],
+            'to'          => $paginated_arr['to'],
+            'total'       => $paginated_arr['total'],
+            'per_page'    => $paginated_arr['per_page'],
         ];
     }
 

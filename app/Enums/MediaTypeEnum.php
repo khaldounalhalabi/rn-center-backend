@@ -10,9 +10,9 @@ use App\Models\User;
 enum MediaTypeEnum: string
 {
     public const TYPES = [
-        User::class => 'user',
-        Clinic::class => 'clinic',
-        Hospital::class => 'hospital',
+        User::class       => 'user',
+        Clinic::class     => 'clinic',
+        Hospital::class   => 'hospital',
         Speciality::class => 'speciality'
     ];
 

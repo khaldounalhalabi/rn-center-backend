@@ -4,10 +4,10 @@ namespace App\Traits;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schema;
 
 trait TestHelpers
 {
@@ -29,19 +29,19 @@ trait TestHelpers
 
     protected array $pagination = [
         "currentPage" => 1,
-        "from" => 1,
-        "isFirst" => true,
-        "isLast" => true,
-        "per_page" => 10,
-        "to" => 5,
-        "total" => 5,
+        "from"        => 1,
+        "isFirst"     => true,
+        "isLast"      => true,
+        "per_page"    => 10,
+        "to"          => 5,
+        "total"       => 5,
         "total_pages" => 1
     ];
 
     protected array $responseBody = [
-        'data' => null,
-        'status' => true,
-        'code' => 200,
+        'data'     => null,
+        'status'   => true,
+        'code'     => 200,
         'paginate' => null,
     ];
 
@@ -58,6 +58,15 @@ trait TestHelpers
         }
 
         $this->signIn($this->userType);
+    }
+
+    public function signIn($type = null): void
+    {
+        $this->user = User::factory()->create();
+        if (isset($type) && $type != 'none') {
+            $this->user->assignRole($type);
+        }
+        $this->be($this->user);
     }
 
     /**
@@ -116,7 +125,7 @@ trait TestHelpers
     public function login(string $email, string $password = '12345678'): void
     {
         auth()->attempt([
-            'email' => $email,
+            'email'    => $email,
             'password' => $password,
         ]);
     }
@@ -128,14 +137,5 @@ trait TestHelpers
     public function requestPathHook(string $routeName = ''): void
     {
         $this->requestPath = $routeName;
-    }
-
-    public function signIn($type = null): void
-    {
-        $this->user = User::factory()->create();
-        if (isset($type) && $type != 'none') {
-            $this->user->assignRole($type);
-        }
-        $this->be($this->user);
     }
 }

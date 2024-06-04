@@ -49,7 +49,7 @@ class BaseResource extends JsonResource
             $filters = $filters->merge(
                 [
                     "filters" => $filterCols->map(fn($item) => [
-                        "field" => isset($item["relation"]) ? $item["relation"] . '.' . ($item["field"] ?? $item["name"]) : ($item["field"] ?? $item["name"]),
+                        "field"    => isset($item["relation"]) ? $item["relation"] . '.' . ($item["field"] ?? $item["name"]) : ($item["field"] ?? $item["name"]),
                         "operator" => $item['operator'] ?? '='
                     ])
                 ]

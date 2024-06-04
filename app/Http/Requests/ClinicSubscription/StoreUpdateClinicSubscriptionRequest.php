@@ -3,7 +3,6 @@
 namespace App\Http\Requests\ClinicSubscription;
 
 use App\Enums\SubscriptionTypeEnum;
-use App\Models\ClinicSubscription;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -26,17 +25,17 @@ class StoreUpdateClinicSubscriptionRequest extends FormRequest
     {
         if (request()->method() == "POST") {
             return [
-                'clinic_id' => 'required|numeric|exists:clinics,id',
+                'clinic_id'       => 'required|numeric|exists:clinics,id',
                 'subscription_id' => 'required|numeric|exists:subscriptions,id',
-                'type' => 'string|required|' . Rule::in(SubscriptionTypeEnum::getAllValues()),
-                'deduction_cost' => 'numeric|min:0|nullable|' . Rule::requiredIf($this->input('type') == SubscriptionTypeEnum::BOOKING_COST_BASED->value)
+                'type'            => 'string|required|' . Rule::in(SubscriptionTypeEnum::getAllValues()),
+                'deduction_cost'  => 'numeric|min:0|nullable|' . Rule::requiredIf($this->input('type') == SubscriptionTypeEnum::BOOKING_COST_BASED->value)
             ];
         }
 
         return [
             'subscription_id' => 'nullable|numeric|exists:subscriptions,id',
-            'type' => 'string|nullable|' . Rule::in(SubscriptionTypeEnum::getAllValues()),
-            'deduction_cost' => 'numeric|min:0|nullable|' . Rule::requiredIf($this->input('type') == SubscriptionTypeEnum::BOOKING_COST_BASED->value)
+            'type'            => 'string|nullable|' . Rule::in(SubscriptionTypeEnum::getAllValues()),
+            'deduction_cost'  => 'numeric|min:0|nullable|' . Rule::requiredIf($this->input('type') == SubscriptionTypeEnum::BOOKING_COST_BASED->value)
         ];
     }
 }

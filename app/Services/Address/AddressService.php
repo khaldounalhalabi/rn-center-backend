@@ -3,8 +3,8 @@
 namespace App\Services\Address;
 
 use App\Models\Address;
-use App\Services\Contracts\BaseService;
 use App\Repositories\AddressRepository;
+use App\Services\Contracts\BaseService;
 
 /**
  * @implements IAddressService<Address>

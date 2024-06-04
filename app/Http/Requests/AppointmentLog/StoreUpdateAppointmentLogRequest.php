@@ -23,23 +23,23 @@ class StoreUpdateAppointmentLogRequest extends FormRequest
     {
         if (request()->method() == 'POST') {
             return [
-                'appointment_id' => ['nullable', 'numeric', 'exists:appointments,id', 'unique:appointment_logs,appointment_id',],
+                'appointment_id'      => ['nullable', 'numeric', 'exists:appointments,id', 'unique:appointment_logs,appointment_id',],
                 'cancellation_reason' => ['required', 'string', 'unique:appointment_logs,cancellation_reason',],
-                'status' => ['nullable', 'string', 'min:3', 'max:255', 'unique:appointment_logs,status',],
-                'actor_id' => ['required', 'numeric', 'exists:actors,id', 'unique:appointment_logs,actor_id',],
-                'affected_id' => ['required', 'numeric', 'exists:affecteds,id', 'unique:appointment_logs,affected_id',],
-                'happen_in' => ['nullable', 'date', 'unique:appointment_logs,happen_in',],
+                'status'              => ['nullable', 'string', 'min:3', 'max:255', 'unique:appointment_logs,status',],
+                'actor_id'            => ['required', 'numeric', 'exists:actors,id', 'unique:appointment_logs,actor_id',],
+                'affected_id'         => ['required', 'numeric', 'exists:affecteds,id', 'unique:appointment_logs,affected_id',],
+                'happen_in'           => ['nullable', 'date', 'unique:appointment_logs,happen_in',],
 
             ];
         }
 
         return [
-            'appointment_id' => ['nullable', 'numeric', 'exists:appointments,id', 'unique:appointment_logs,appointment_id',],
+            'appointment_id'      => ['nullable', 'numeric', 'exists:appointments,id', 'unique:appointment_logs,appointment_id',],
             'cancellation_reason' => ['nullable', 'string', 'unique:appointment_logs,cancellation_reason',],
-            'status' => ['nullable', 'string', 'min:3', 'max:255', 'unique:appointment_logs,status',],
-            'actor_id' => ['nullable', 'numeric', 'exists:actors,id', 'unique:appointment_logs,actor_id',],
-            'affected_id' => ['nullable', 'numeric', 'exists:affecteds,id', 'unique:appointment_logs,affected_id',],
-            'happen_in' => ['nullable', 'date', 'unique:appointment_logs,happen_in',],
+            'status'              => ['nullable', 'string', 'min:3', 'max:255', 'unique:appointment_logs,status',],
+            'actor_id'            => ['nullable', 'numeric', 'exists:actors,id', 'unique:appointment_logs,actor_id',],
+            'affected_id'         => ['nullable', 'numeric', 'exists:affecteds,id', 'unique:appointment_logs,affected_id',],
+            'happen_in'           => ['nullable', 'date', 'unique:appointment_logs,happen_in',],
         ];
     }
 

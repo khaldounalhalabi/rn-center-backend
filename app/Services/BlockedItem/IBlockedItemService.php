@@ -2,8 +2,8 @@
 
 namespace App\Services\BlockedItem;
 
-use App\Services\Contracts\IBaseService;
 use App\Models\BlockedItem;
+use App\Services\Contracts\IBaseService;
 
 /**
  * @extends IBaseService<BlockedItem>

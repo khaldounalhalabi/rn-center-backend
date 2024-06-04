@@ -24,15 +24,15 @@ class StoreUpdateEnquiryRequest extends FormRequest
     {
         if (request()->method() == 'POST') {
             return [
-                'name' => ['required', 'string', 'min:3', 'max:255'],
-                'email' => ['required', 'string', 'max:255', 'email'],
+                'name'    => ['required', 'string', 'min:3', 'max:255'],
+                'email'   => ['required', 'string', 'max:255', 'email'],
                 'message' => ['required', 'string'],
             ];
         }
 
         return [
-            'name' => ['nullable', 'string', 'min:3', 'max:255'],
-            'email' => ['nullable', 'string', 'max:255', 'email'],
+            'name'    => ['nullable', 'string', 'min:3', 'max:255'],
+            'email'   => ['nullable', 'string', 'max:255', 'email'],
             'message' => ['nullable', 'string'],
         ];
     }

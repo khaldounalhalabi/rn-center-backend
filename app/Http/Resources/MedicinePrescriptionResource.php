@@ -12,17 +12,17 @@ class MedicinePrescriptionResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'dosage' => $this->dosage,
-            'duration' => $this->duration,
-            'time' => $this->time,
+            'id'            => $this->id,
+            'dosage'        => $this->dosage,
+            'duration'      => $this->duration,
+            'time'          => $this->time,
             'dose_interval' => $this->dose_interval,
-            'comment' => $this->comment,
+            'comment'       => $this->comment,
 
             'prescription_id' => $this->prescription_id,
-            'medicine_id' => $this->medicine_id,
+            'medicine_id'     => $this->medicine_id,
 
-            'medicine' => new MedicineResource($this->whenLoaded('medicine')),
+            'medicine'     => new MedicineResource($this->whenLoaded('medicine')),
             'prescription' => new PrescriptionResource($this->whenLoaded('prescription')),
         ];
     }

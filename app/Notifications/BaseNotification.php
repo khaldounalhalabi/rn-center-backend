@@ -54,14 +54,19 @@ class BaseNotification extends Notification
     {
         return FcmMessage::create()
             ->setData([
-                'data' => json_encode($this->data),
-                'title' => env('APP_NAME', 'Rakeen Jawaher'),
-                'body' => $this->message,
-                'message' => $this->message,
-                'body_ar' => $this->messageAR,
+                'data'       => json_encode($this->data),
+                'title'      => env('APP_NAME', 'Rakeen Jawaher'),
+                'body'       => $this->message,
+                'message'    => $this->message,
+                'body_ar'    => $this->messageAR,
                 'message_ar' => $this->messageAR,
-                "type" => $this->type,
+                "type"       => $this->type,
             ]);
+    }
+
+    public function setData($data): void
+    {
+        $this->data = $data;
     }
 
     /**
@@ -71,11 +76,6 @@ class BaseNotification extends Notification
     public function setType(string $type): void
     {
         $this->type = str_replace("App\\Notifications\\", "", $type);
-    }
-
-    public function setData($data): void
-    {
-        $this->data = $data;
     }
 
     public function setMessage($message): void

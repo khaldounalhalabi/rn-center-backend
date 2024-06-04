@@ -29,7 +29,7 @@ class Schedule extends Model
 
     protected $casts = [
         'start_time' => 'datetime:H:i',
-        'end_time' => 'datetime:H:i',
+        'end_time'   => 'datetime:H:i',
     ];
 
     /**
@@ -52,11 +52,11 @@ class Schedule extends Model
                 'name' => 'day_of_week'
             ],
             [
-                'name' => 'start_time',
+                'name'     => 'start_time',
                 'operator' => '>='
             ],
             [
-                'name' => 'end_time',
+                'name'     => 'end_time',
                 'operator' => '>='
             ]
         ];

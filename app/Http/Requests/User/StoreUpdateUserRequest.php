@@ -76,6 +76,13 @@ class StoreUpdateUserRequest extends FormRequest
         ];
     }
 
+    public function attributes()
+    {
+        return [
+            'phone_numbers.*' => 'phone number'
+        ];
+    }
+
     protected function prepareForValidation(): void
     {
         if ($this->input('last_name') && $this->input('first_name') && $this->input('middle_name')) {
@@ -83,12 +90,5 @@ class StoreUpdateUserRequest extends FormRequest
                 'full_name' => User::geuUserFullName($this->input('first_name'), $this->input('middle_name'), $this->input('last_name'))
             ]);
         }
-    }
-
-    public function attributes()
-    {
-        return [
-            'phone_numbers.*' => 'phone number'
-        ];
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\API\v1;
 
-use App\Http\Requests\Subscription\StoreUpdateSubscriptionRequest;
-use App\Services\Subscription\ISubscriptionService;
-use App\Http\Resources\SubscriptionResource;
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\Subscription\StoreUpdateSubscriptionRequest;
+use App\Http\Resources\SubscriptionResource;
 use App\Models\Subscription;
+use App\Services\Subscription\ISubscriptionService;
 use Illuminate\Http\Request;
 
 class SubscriptionController extends ApiController
@@ -19,7 +19,7 @@ class SubscriptionController extends ApiController
         $this->subscriptionService = $subscriptionService;
 
         // place the relations you want to return them within the response
-        $this->relations = [] ;
+        $this->relations = [];
     }
 
     public function index()

@@ -77,6 +77,13 @@ class StoreUpdateCustomerRequest extends FormRequest
         ];
     }
 
+    public function attributes()
+    {
+        return [
+            'phone_numbers.*' => 'phone number'
+        ];
+    }
+
     protected function prepareForValidation(): void
     {
         $this->merge([
@@ -91,12 +98,5 @@ class StoreUpdateCustomerRequest extends FormRequest
                 'full_name' => User::geuUserFullName($this->input('first_name'), $this->input('middle_name'), $this->input('last_name'))
             ]);
         }
-    }
-
-    public function attributes()
-    {
-        return [
-            'phone_numbers.*' => 'phone number'
-        ];
     }
 }

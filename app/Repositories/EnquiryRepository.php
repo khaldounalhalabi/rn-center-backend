@@ -1,6 +1,6 @@
 <?php
 
-namespace  App\Repositories;
+namespace App\Repositories;
 
 use App\Models\Enquiry;
 use App\Repositories\Contracts\BaseRepository;

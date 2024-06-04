@@ -4,9 +4,6 @@ namespace App\Repositories;
 
 use App\Models\Prescription;
 use App\Repositories\Contracts\BaseRepository;
-use App\Repositories\Contracts\IBaseRepository;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use LaravelIdea\Helper\App\Models\_IH_Prescription_C;
 
 /**
  * @extends  BaseRepository<Prescription>

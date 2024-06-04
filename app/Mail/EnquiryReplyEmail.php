@@ -41,7 +41,7 @@ class EnquiryReplyEmail extends Mailable
             view: 'emails.enquiry-reply',
             with: [
                 'title' => $this->data['title'] ?? null,
-                'body' => $this->data['body'] ?? ""
+                'body'  => $this->data['body'] ?? ""
             ]
         );
     }

@@ -3,8 +3,8 @@
 namespace App\Services\Medicine;
 
 use App\Models\Medicine;
-use App\Services\Contracts\BaseService;
 use App\Repositories\MedicineRepository;
+use App\Services\Contracts\BaseService;
 
 /**
  * @implements IMedicineService<Medicine>

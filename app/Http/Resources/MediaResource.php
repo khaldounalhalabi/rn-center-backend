@@ -14,13 +14,13 @@ class MediaResource extends BaseResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'model_id' => $this->model_id,
+            'id'         => $this->id,
+            'model_id'   => $this->model_id,
             'model_type' => MediaTypeEnum::getType($this->model_type),
-            'file_name' => $this->file_name,
-            'file_type' => $this->mime_type,
-            'file_url' => $this->original_url,
-            'size' => $this->size,
+            'file_name'  => $this->file_name,
+            'file_type'  => $this->mime_type,
+            'file_url'   => $this->original_url,
+            'size'       => $this->size,
             'collection' => $this->collection_name,
         ];
     }

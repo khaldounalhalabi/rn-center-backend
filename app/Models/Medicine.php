@@ -77,7 +77,7 @@ class Medicine extends Model
     public static function relationsSearchableArray(): array
     {
         return [
-            'clinic' => [
+            'clinic'      => [
                 'name'
             ],
             'clinic.user' => [

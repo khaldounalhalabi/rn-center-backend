@@ -52,6 +52,25 @@ class HospitalService extends BaseService implements IHospitalService
         return $hospital->load($relationships)->loadCount($countable);
     }
 
+    /**
+     * @param $hospitalId
+     * @return Hospital|null
+     */
+    public function toggleHospitalStatus($hospitalId): ?Hospital
+    {
+        $hospital = $this->repository->find($hospitalId);
+
+        if (!$hospital) {
+            return null;
+        }
+
+        return $this->repository->update([
+            'status' => $hospital->status == HospitalStatusEnum::ACTIVE->value
+                ? HospitalStatusEnum::INACTIVE->value
+                : HospitalStatusEnum::ACTIVE->value
+        ], $hospital);
+    }
+
     public function update(array $data, $id, array $relationships = [], array $countable = []): ?Hospital
     {
         /** @var Hospital $hospital */
@@ -70,24 +89,5 @@ class HospitalService extends BaseService implements IHospitalService
         }
 
         return $hospital;
-    }
-
-    /**
-     * @param $hospitalId
-     * @return Hospital|null
-     */
-    public function toggleHospitalStatus($hospitalId): ?Hospital
-    {
-        $hospital = $this->repository->find($hospitalId);
-
-        if (!$hospital) {
-            return null;
-        }
-
-        return $this->repository->update([
-            'status' => $hospital->status == HospitalStatusEnum::ACTIVE->value
-                ? HospitalStatusEnum::INACTIVE->value
-                : HospitalStatusEnum::ACTIVE->value
-        ], $hospital);
     }
 }

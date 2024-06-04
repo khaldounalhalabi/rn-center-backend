@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Models\City;
 use App\Repositories\Contracts\BaseRepository;
-use App\Repositories\Contracts\IBaseRepository;
 
 /**
  * @extends  BaseRepository<City>

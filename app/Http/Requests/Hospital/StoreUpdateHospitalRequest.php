@@ -60,6 +60,15 @@ class StoreUpdateHospitalRequest extends FormRequest
         ];
     }
 
+    public function attributes()
+    {
+        return [
+            'phone_numbers.*'         => 'phone number',
+            'available_departments.*' => 'available department',
+            'images.*'                => 'image',
+        ];
+    }
+
     protected function prepareForValidation(): void
     {
         $this->merge([
@@ -68,14 +77,5 @@ class StoreUpdateHospitalRequest extends FormRequest
                 'map_iframe' => strip_tags($this->input('address.map_iframe'), ['iframe'])
             ]
         ]);
-    }
-
-    public function attributes()
-    {
-        return [
-            'phone_numbers.*' => 'phone number' ,
-            'available_departments.*' => 'available department' ,
-            'images.*' => 'image',
-        ];
     }
 }

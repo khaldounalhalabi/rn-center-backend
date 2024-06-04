@@ -139,10 +139,10 @@ class Appointment extends Model
                 'middle_name',
                 'full_name',
             ],
-            'clinic' => [
+            'clinic'        => [
                 'name',
             ],
-            'clinic.user' => [
+            'clinic.user'   => [
                 'first_name',
                 'last_name',
                 'middle_name',
@@ -170,13 +170,13 @@ class Appointment extends Model
                 'name' => 'date',
             ],
             [
-                'name' => 'from',
-                'method' => 'whereTime',
+                'name'     => 'from',
+                'method'   => 'whereTime',
                 'operator' => '>=',
             ],
             [
-                'name' => 'to',
-                'method' => 'whereTime',
+                'name'     => 'to',
+                'method'   => 'whereTime',
                 'operator' => '<=',
             ],
         ];
@@ -190,7 +190,7 @@ class Appointment extends Model
     public function customOrders(): array
     {
         return [
-            'clinic.user.first_name' => function (Builder $query, $dir) {
+            'clinic.user.first_name'   => function (Builder $query, $dir) {
                 return $query->join('clinics', 'clinics.id', '=', 'appointments.clinic_id')
                     ->join('users', function ($join) {
                         $join->on('users.id', '=', 'clinics.user_id');

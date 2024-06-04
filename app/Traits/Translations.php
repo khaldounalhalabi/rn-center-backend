@@ -66,6 +66,25 @@ trait Translations
     }
 
     /**
+     * generate a fake data for translated column
+     * @param string $fakerType the generated data type i.e : sentence|title|word....etc
+     * @return bool|string the response would be json encoded
+     */
+    public function fakeTranslation(string $fakerType): bool|string
+    {
+        $result = [];
+        foreach (config('cubeta-starter.available_locales') as $locale) {
+            if ($locale == 'ar') {
+                $result["{$locale}"] = fake('ar_SA')->{"{$fakerType}"};
+            } else {
+                $result["{$locale}"] = fake()->{"{$fakerType}"};
+            }
+        }
+
+        return json_encode($result, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
      * translate the value directly
      * @param string|null $value must be a json string
      * @param string|null $locale
@@ -86,24 +105,5 @@ trait Translations
         }
 
         return $translationArray[config('cubeta-starter.defaultLocale')] ?? null;
-    }
-
-    /**
-     * generate a fake data for translated column
-     * @param string $fakerType the generated data type i.e : sentence|title|word....etc
-     * @return bool|string the response would be json encoded
-     */
-    public function fakeTranslation(string $fakerType): bool|string
-    {
-        $result = [];
-        foreach (config('cubeta-starter.available_locales') as $locale) {
-            if ($locale == 'ar') {
-                $result["{$locale}"] = fake('ar_SA')->{"{$fakerType}"};
-            } else {
-                $result["{$locale}"] = fake()->{"{$fakerType}"};
-            }
-        }
-
-        return json_encode($result, JSON_UNESCAPED_UNICODE);
     }
 }

@@ -23,7 +23,7 @@ class EnquiryReplyRequest extends FormRequest
     {
         return [
             'title' => 'nullable|string|max:255',
-            'body' => 'string|required'
+            'body'  => 'string|required'
         ];
     }
 

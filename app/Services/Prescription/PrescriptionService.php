@@ -4,8 +4,8 @@ namespace App\Services\Prescription;
 
 use App\Models\Prescription;
 use App\Repositories\MedicinePrescriptionRepository;
-use App\Services\Contracts\BaseService;
 use App\Repositories\PrescriptionRepository;
+use App\Services\Contracts\BaseService;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -54,14 +54,14 @@ class PrescriptionService extends BaseService implements IPrescriptionService
         foreach ($medicineData as $item) {
             $medicines->push([
                 'prescription_id' => $prescription->id,
-                'medicine_id' => $item['medicine_id'],
-                'dosage' => $item['dosage'] ?? "",
-                'duration' => $item['duration'] ?? "",
-                'time' => $item['time'] ?? "",
-                'dose_interval' => $item['dose_interval'] ?? "",
-                'comment' => $item['comment'] ?? "",
-                'created_at' => now(),
-                'updated_at' => now(),
+                'medicine_id'     => $item['medicine_id'],
+                'dosage'          => $item['dosage'] ?? "",
+                'duration'        => $item['duration'] ?? "",
+                'time'            => $item['time'] ?? "",
+                'dose_interval'   => $item['dose_interval'] ?? "",
+                'comment'         => $item['comment'] ?? "",
+                'created_at'      => now(),
+                'updated_at'      => now(),
             ]);
         }
 
@@ -92,14 +92,14 @@ class PrescriptionService extends BaseService implements IPrescriptionService
             foreach ($medicineData as $item) {
                 $medicines->push([
                     'prescription_id' => $prescription->id,
-                    'medicine_id' => $item['medicine_id'],
-                    'dosage' => $item['dosage'] ?? "",
-                    'duration' => $item['duration'] ?? "",
-                    'time' => $item['time'] ?? "",
-                    'dose_interval' => $item['dose_interval'] ?? "",
-                    'comment' => $item['comment'] ?? "",
-                    'created_at' => now(),
-                    'updated_at' => now(),
+                    'medicine_id'     => $item['medicine_id'],
+                    'dosage'          => $item['dosage'] ?? "",
+                    'duration'        => $item['duration'] ?? "",
+                    'time'            => $item['time'] ?? "",
+                    'dose_interval'   => $item['dose_interval'] ?? "",
+                    'comment'         => $item['comment'] ?? "",
+                    'created_at'      => now(),
+                    'updated_at'      => now(),
                 ]);
             }
 
@@ -107,17 +107,6 @@ class PrescriptionService extends BaseService implements IPrescriptionService
         }
 
         return $prescription->load($relationships)->loadCount($countable);
-    }
-
-    public function delete($id): ?bool
-    {
-        $prescription = $this->repository->find($id);
-
-        if (!$prescription || !$prescription?->canShow()) {
-            return null;
-        }
-
-        return $prescription->delete();
     }
 
     /**
@@ -137,6 +126,17 @@ class PrescriptionService extends BaseService implements IPrescriptionService
         }
 
         return $this->medicinePrescriptionRepository->delete($medicineDataId);
+    }
+
+    public function delete($id): ?bool
+    {
+        $prescription = $this->repository->find($id);
+
+        if (!$prescription || !$prescription?->canShow()) {
+            return null;
+        }
+
+        return $prescription->delete();
     }
 
     /**

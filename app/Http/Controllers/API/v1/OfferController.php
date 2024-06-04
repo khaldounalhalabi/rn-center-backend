@@ -7,7 +7,6 @@ use App\Http\Requests\Offer\StoreUpdateOfferRequest;
 use App\Http\Resources\OfferResource;
 use App\Models\Offer;
 use App\Services\Offer\IOfferService;
-use Illuminate\Http\Request;
 
 class OfferController extends ApiController
 {

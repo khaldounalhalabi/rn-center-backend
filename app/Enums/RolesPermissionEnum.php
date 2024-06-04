@@ -9,7 +9,7 @@ class RolesPermissionEnum
 {
     //**********ADMIN***********//
     public const ADMIN = [
-        'role' => 'admin',
+        'role'        => 'admin',
         'permissions' => [],
     ];
     //*************************//
@@ -35,7 +35,7 @@ class RolesPermissionEnum
 
     //**********DOCTOR***********//
     public const DOCTOR = [
-        'role' => 'doctor',
+        'role'        => 'doctor',
         'permissions' => [],
     ];
     //*************************//
@@ -43,7 +43,7 @@ class RolesPermissionEnum
 
     //**********CUSTOMER***********//
     public const CUSTOMER = [
-        'role' => 'customer',
+        'role'        => 'customer',
         'permissions' => [],
     ];
     //*************************//

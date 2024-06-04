@@ -25,6 +25,17 @@ class Subscription extends Model
         'cost',
     ];
 
+    /**
+     * add your searchable columns, so you can search within them in the
+     * index method
+     */
+    public static function searchableArray(): array
+    {
+        return [
+            'name',
+        ];
+    }
+
     public function exportable(): array
     {
         return [
@@ -36,20 +47,8 @@ class Subscription extends Model
         ];
     }
 
-
     public function clinics(): BelongsToMany
     {
         return $this->belongsToMany(Clinic::class);
-    }
-
-    /**
-     * add your searchable columns, so you can search within them in the
-     * index method
-     */
-    public static function searchableArray(): array
-    {
-        return [
-            'name',
-        ];
     }
 }

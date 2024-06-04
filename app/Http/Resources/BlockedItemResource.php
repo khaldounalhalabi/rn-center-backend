@@ -14,8 +14,8 @@ class BlockedItemResource extends BaseResource
     public function toArray($request): array
     {
         return [
-            'id' => $this->id,
-            'type' => $this->type,
+            'id'    => $this->id,
+            'type'  => $this->type,
             'value' => $this->value,
         ];
     }

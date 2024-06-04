@@ -16,10 +16,10 @@ class PhoneNumberResource extends BaseResource
     public function toArray($request): array
     {
         return [
-            'id' => $this->id,
-            'phone' => $this->phone,
-            'label' => $this->label,
-            'phoneable_id' => $this->phoneable_id,
+            'id'             => $this->id,
+            'phone'          => $this->phone,
+            'label'          => $this->label,
+            'phoneable_id'   => $this->phoneable_id,
             'phoneable_type' => $this->getPhoneableType($this->phoneable_type)
         ];
     }

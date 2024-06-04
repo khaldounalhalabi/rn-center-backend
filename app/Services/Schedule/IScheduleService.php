@@ -2,9 +2,8 @@
 
 namespace App\Services\Schedule;
 
-use App\Services\Contracts\IBaseService;
 use App\Models\Schedule;
-use Illuminate\Support\Collection;
+use App\Services\Contracts\IBaseService;
 
 /**
  * @extends IBaseService<Schedule>

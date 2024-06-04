@@ -3,8 +3,8 @@
 namespace App\Services\Speciality;
 
 use App\Models\Speciality;
-use App\Services\Contracts\BaseService;
 use App\Repositories\SpecialityRepository;
+use App\Services\Contracts\BaseService;
 
 /**
  * @implements ISpecialityService<Speciality>

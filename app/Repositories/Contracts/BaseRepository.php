@@ -260,11 +260,11 @@ abstract class BaseRepository implements IBaseRepository
     {
         return [
             'currentPage' => $data->currentPage(),
-            'total' => $data->total(),
-            'per_page' => $data->perPage(),
+            'total'       => $data->total(),
+            'per_page'    => $data->perPage(),
             'total_pages' => $data->lastPage(),
-            'isFirst' => $data->onFirstPage(),
-            'isLast' => $data->onLastPage(),
+            'isFirst'     => $data->onFirstPage(),
+            'isLast'      => $data->onLastPage(),
         ];
     }
 

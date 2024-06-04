@@ -54,7 +54,7 @@ class HospitalFactory extends Factory
         return $this->afterCreating(function (Hospital $hos) {
             Address::factory()->create([
                 'addressable_type' => Hospital::class,
-                'addressable_id' => $hos->id
+                'addressable_id'   => $hos->id
             ]);
         });
     }

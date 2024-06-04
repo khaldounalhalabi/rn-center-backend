@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property integer       appointment_id
@@ -38,40 +38,6 @@ class AppointmentLog extends Model
 
     ];
 
-    public function exportable(): array
-    {
-        return [
-            'cancellation_reason',
-            'status',
-            'happen_in',
-            'appointment.id',
-            'actor_id',
-            'affected_id',
-
-        ];
-    }
-
-
-    public function appointment()
-    {
-        return $this->belongsTo(Appointment::class);
-    }
-
-
-    /**
-     * define your columns which you want to treat them as files
-     * so the base repository can store them in the storage without
-     * any additional files procedures
-     */
-    public function filesKeys(): array
-    {
-        return [
-
-            //filesKeys
-        ];
-    }
-
-
     /**
      * add your searchable columns, so you can search within them in the
      * index method
@@ -93,6 +59,37 @@ class AppointmentLog extends Model
     {
         return [
 
+        ];
+    }
+
+    public function exportable(): array
+    {
+        return [
+            'cancellation_reason',
+            'status',
+            'happen_in',
+            'appointment.id',
+            'actor_id',
+            'affected_id',
+
+        ];
+    }
+
+    public function appointment()
+    {
+        return $this->belongsTo(Appointment::class);
+    }
+
+    /**
+     * define your columns which you want to treat them as files
+     * so the base repository can store them in the storage without
+     * any additional files procedures
+     */
+    public function filesKeys(): array
+    {
+        return [
+
+            //filesKeys
         ];
     }
 

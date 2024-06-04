@@ -23,16 +23,16 @@ class StoreUpdateMedicineRequest extends FormRequest
     {
         if (request()->method() == 'POST') {
             return [
-                'name' => ['required', 'string', 'min:3', 'max:255',],
+                'name'        => ['required', 'string', 'min:3', 'max:255',],
                 'description' => ['nullable', 'string',],
-                'clinic_id' => ['required', 'numeric', 'exists:clinics,id',],
+                'clinic_id'   => ['required', 'numeric', 'exists:clinics,id',],
             ];
         }
 
         return [
-            'name' => ['nullable', 'string', 'min:3', 'max:255',],
+            'name'        => ['nullable', 'string', 'min:3', 'max:255',],
             'description' => ['nullable', 'string',],
-            'clinic_id' => ['nullable', 'numeric', 'exists:clinics,id',],
+            'clinic_id'   => ['nullable', 'numeric', 'exists:clinics,id',],
         ];
     }
 }

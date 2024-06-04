@@ -35,7 +35,7 @@ class Service extends Model
     ];
 
     protected $casts = [
-        'name' => Translatable::class,
+        'name'        => Translatable::class,
         'description' => Translatable::class,
     ];
 

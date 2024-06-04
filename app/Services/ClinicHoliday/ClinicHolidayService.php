@@ -3,8 +3,8 @@
 namespace App\Services\ClinicHoliday;
 
 use App\Models\ClinicHoliday;
-use App\Services\Contracts\BaseService;
 use App\Repositories\ClinicHolidayRepository;
+use App\Services\Contracts\BaseService;
 
 /**
  * @implements IClinicHolidayService<ClinicHoliday>

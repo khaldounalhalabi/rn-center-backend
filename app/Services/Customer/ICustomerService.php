@@ -2,8 +2,8 @@
 
 namespace App\Services\Customer;
 
-use App\Services\Contracts\IBaseService;
 use App\Models\Customer;
+use App\Services\Contracts\IBaseService;
 
 /**
  * @extends IBaseService<Customer>

@@ -48,10 +48,10 @@ class Offer extends Model
     ];
 
     protected $casts = [
-        'title' => Translatable::class,
-        'note' => Translatable::class,
-        'start_at' => 'datetime',
-        'end_at' => 'datetime',
+        'title'     => Translatable::class,
+        'note'      => Translatable::class,
+        'start_at'  => 'datetime',
+        'end_at'    => 'datetime',
         'is_active' => 'boolean',
 
     ];

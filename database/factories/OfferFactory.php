@@ -17,20 +17,19 @@ class OfferFactory extends Factory
 
     /**
      * Define the model's default state.
-     *
      * @return array<string, mixed>
      */
     public function definition(): array
     {
         return [
-            'title' => $this->fakeTranslation('title'),
-            'value' => fake()->randomFloat(2, 0, 100),
-            'note' => $this->fakeTranslation('sentence'),
-            'start_at' => now()->subDays(5),
-            'end_at' => now()->addDays(5),
+            'title'     => $this->fakeTranslation('title'),
+            'value'     => fake()->randomFloat(2, 0, 100),
+            'note'      => $this->fakeTranslation('sentence'),
+            'start_at'  => now()->subDays(5),
+            'end_at'    => now()->addDays(5),
             'is_active' => fake()->boolean(),
-            'type' => fake()->randomElement(OfferTypeEnum::getAllValues()),
-            'clinic_id' => Clinic::factory() ,
+            'type'      => fake()->randomElement(OfferTypeEnum::getAllValues()),
+            'clinic_id' => Clinic::factory(),
         ];
     }
 }

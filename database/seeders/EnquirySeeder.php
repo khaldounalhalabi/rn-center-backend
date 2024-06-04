@@ -13,6 +13,6 @@ class EnquirySeeder extends Seeder
      */
     public function run(): void
     {
-        Enquiry::factory(10)->create() ;
+        Enquiry::factory(10)->create();
     }
 }

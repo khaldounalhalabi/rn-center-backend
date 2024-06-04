@@ -43,8 +43,8 @@ class BaseAuthController extends ApiController
         }
 
         return $this->apiResponse([
-            'user' => new UserResource($user),
-            'token' => $token,
+            'user'          => new UserResource($user),
+            'token'         => $token,
             'refresh_token' => $refresh_token
         ], self::STATUS_OK, __('site.successfully_logged_in'));
     }
@@ -61,8 +61,8 @@ class BaseAuthController extends ApiController
         [$user, $token, $refresh_token] = $this->userService->refreshToken($this->relations);
         if ($user) {
             return $this->apiResponse([
-                'user' => new UserResource($user),
-                'token' => $token,
+                'user'          => new UserResource($user),
+                'token'         => $token,
                 'refresh_token' => $refresh_token
             ], self::STATUS_OK, __('site.token_refreshed_successfully'));
         }
@@ -75,8 +75,8 @@ class BaseAuthController extends ApiController
         [$user, $token, $refresh_token] = $this->userService->register($request->validated(), $this->role, $this->relations);
 
         return $this->apiResponse([
-            'user' => new UserResource($user),
-            'token' => $token,
+            'user'          => new UserResource($user),
+            'token'         => $token,
             'refresh_token' => $refresh_token
         ], self::STATUS_OK, __('site.registered_successfully'));
     }
@@ -112,8 +112,8 @@ class BaseAuthController extends ApiController
 
         if ($user) {
             return $this->apiResponse([
-                'user' => new UserResource($user),
-                'token' => $token,
+                'user'          => new UserResource($user),
+                'token'         => $token,
                 'refresh_token' => $refresh_token
             ], self::STATUS_OK, __('site.update_successfully'));
         }

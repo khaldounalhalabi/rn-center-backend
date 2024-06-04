@@ -35,7 +35,7 @@ trait HasPermissions
             $ownerPermission->update(array_merge($ownerPermission->permissions, $permission));
         } else {
             $this->permissions()->create([
-                'model_name' => $model,
+                'model_name'  => $model,
                 'permissions' => $permission
             ]);
 

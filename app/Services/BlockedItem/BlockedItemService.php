@@ -3,8 +3,8 @@
 namespace App\Services\BlockedItem;
 
 use App\Models\BlockedItem;
-use App\Services\Contracts\BaseService;
 use App\Repositories\BlockedItemRepository;
+use App\Services\Contracts\BaseService;
 
 /**
  * @implements IBlockedItemService<BlockedItem>

@@ -19,9 +19,9 @@ class MedicineFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->firstName(),
+            'name'        => fake()->firstName(),
             'description' => fake()->text(),
-            'clinic_id' => Clinic::factory()->withSchedules(),
+            'clinic_id'   => Clinic::factory()->withSchedules(),
         ];
     }
 

@@ -38,48 +38,6 @@ class Prescription extends Model
 
     ];
 
-    public function exportable(): array
-    {
-        return [
-            'physical_information',
-            'problem_description',
-            'test',
-            'next_visit',
-            'clinic.name',
-            'customer.mother_full_name',
-        ];
-    }
-
-
-    public function clinic(): BelongsTo
-    {
-        return $this->belongsTo(Clinic::class);
-    }
-
-    public function customer(): BelongsTo
-    {
-        return $this->belongsTo(Customer::class);
-    }
-
-    public function medicines(): BelongsToMany
-    {
-        return $this->belongsToMany(Medicine::class, 'medicine_prescriptions');
-    }
-
-
-    /**
-     * define your columns which you want to treat them as files
-     * so the base repository can store them in the storage without
-     * any additional files procedures
-     */
-    public function filesKeys(): array
-    {
-        return [
-            //filesKeys
-        ];
-    }
-
-
     /**
      * add your searchable columns, so you can search within them in the
      * index method
@@ -105,6 +63,44 @@ class Prescription extends Model
         ];
     }
 
+    public function exportable(): array
+    {
+        return [
+            'physical_information',
+            'problem_description',
+            'test',
+            'next_visit',
+            'clinic.name',
+            'customer.mother_full_name',
+        ];
+    }
+
+    public function clinic(): BelongsTo
+    {
+        return $this->belongsTo(Clinic::class);
+    }
+
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
+    public function medicines(): BelongsToMany
+    {
+        return $this->belongsToMany(Medicine::class, 'medicine_prescriptions');
+    }
+
+    /**
+     * define your columns which you want to treat them as files
+     * so the base repository can store them in the storage without
+     * any additional files procedures
+     */
+    public function filesKeys(): array
+    {
+        return [
+            //filesKeys
+        ];
+    }
 
     public function canUpdate(): bool
     {

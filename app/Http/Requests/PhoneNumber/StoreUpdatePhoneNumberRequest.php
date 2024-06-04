@@ -31,10 +31,10 @@ class StoreUpdatePhoneNumberRequest extends FormRequest
         }
 
         return [
-            'phone' => 'nullable|string|max:255|min:6|unique:phone_numbers,phone,' . request()->route('phone_number'),
-            'label' => 'string|nullable|min:3',
+            'phone'          => 'nullable|string|max:255|min:6|unique:phone_numbers,phone,' . request()->route('phone_number'),
+            'label'          => 'string|nullable|min:3',
             'phoneable_type' => 'required|string' . Rule::in([User::class, Hospital::class]),
-            'phoneable_id' => 'required|numeric',
+            'phoneable_id'   => 'required|numeric',
         ];
     }
 }

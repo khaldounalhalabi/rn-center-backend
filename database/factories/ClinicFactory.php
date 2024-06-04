@@ -35,14 +35,14 @@ class ClinicFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->fakeTranslation('name'),
-            'appointment_cost' => fake()->numberBetween(1, 100),
-            'user_id' => User::factory()->withPhoneNumbers()->withAddress(),
-            'working_start_year' => fake()->date(),
-            'max_appointments' => fake()->numberBetween(1, 10),
-            'appointment_day_range' => 7,
-            'about_us' => fake()->sentence,
-            'experience' => fake()->sentence,
+            'name'                         => $this->fakeTranslation('name'),
+            'appointment_cost'             => fake()->numberBetween(1, 100),
+            'user_id'                      => User::factory()->withPhoneNumbers()->withAddress(),
+            'working_start_year'           => fake()->date(),
+            'max_appointments'             => fake()->numberBetween(1, 10),
+            'appointment_day_range'        => 7,
+            'about_us'                     => fake()->sentence,
+            'experience'                   => fake()->sentence,
             'approximate_appointment_time' => random_int(1, 30),
         ];
     }
@@ -67,10 +67,10 @@ class ClinicFactory extends Factory
         return $this->afterCreating(function (Clinic $clinic) {
             foreach (WeekDayEnum::getAllValues() as $day) {
                 Schedule::create([
-                    'schedulable_id' => $clinic->id,
-                    'day_of_week' => $day,
-                    'start_time' => Carbon::parse('12:00'),
-                    'end_time' => Carbon::parse('00:00'),
+                    'schedulable_id'   => $clinic->id,
+                    'day_of_week'      => $day,
+                    'start_time'       => Carbon::parse('12:00'),
+                    'end_time'         => Carbon::parse('00:00'),
                     'schedulable_type' => Clinic::class,
                 ]);
             }
@@ -110,10 +110,12 @@ class ClinicFactory extends Factory
     {
         return $this->has(Prescription::factory($count));
     }
+
     public function withSubscriptions($count = 1): ClinicFactory
     {
         return $this->has(Subscription::factory($count));
     }
+
     public function withOffers($count = 1): ClinicFactory
     {
         return $this->has(Offer::factory($count));

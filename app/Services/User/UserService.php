@@ -72,6 +72,37 @@ class UserService extends BaseService implements IUserService
 
     }
 
+    public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
+    {
+        $user = $this->repository->update($data, $id);
+
+        if (isset($data['address'])) {
+            $user->address()->update($data['address']);
+        }
+
+        if ($data['phone_numbers']) {
+            $user->phones()->delete();
+            $this->phoneNumberRepository->insert($data['phone_numbers'], User::class, $user->id);
+        }
+
+        if (isset($data['role'])) {
+            $user->assignRole($data['role']);
+        }
+
+        return $user->load($relationships);
+    }
+
+    public function delete($id): ?bool
+    {
+        $user = $this->repository->find($id);
+
+        if ($user->hasRole(RolesPermissionEnum::ADMIN['role'])) {
+            return null;
+        }
+
+        return parent::delete($id);
+    }
+
     /**
      * @param array       $data
      * @param string|null $role
@@ -82,7 +113,7 @@ class UserService extends BaseService implements IUserService
     public function login(array $data, ?string $role = null, array $relations = [], array $additionalData = []): User|Authenticatable|array|null
     {
         $token = auth()->attempt([
-            'email' => $data['email'],
+            'email'    => $data['email'],
             'password' => $data['password'],
         ]);
 
@@ -178,7 +209,7 @@ class UserService extends BaseService implements IUserService
                 if (isset($data['address'])) {
                     $this->addressRepository->create([
                         ...$data['address'],
-                        'addressable_id' => $user->id,
+                        'addressable_id'   => $user->id,
                         'addressable_type' => User::class
                     ]);
                 }
@@ -368,37 +399,6 @@ class UserService extends BaseService implements IUserService
         $user->assignRole($data['role'] ?? RolesPermissionEnum::CUSTOMER['role']);
 
         return $user->load($relationships);
-    }
-
-    public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
-    {
-        $user = $this->repository->update($data, $id);
-
-        if (isset($data['address'])) {
-            $user->address()->update($data['address']);
-        }
-
-        if ($data['phone_numbers']) {
-            $user->phones()->delete();
-            $this->phoneNumberRepository->insert($data['phone_numbers'], User::class, $user->id);
-        }
-
-        if (isset($data['role'])) {
-            $user->assignRole($data['role']);
-        }
-
-        return $user->load($relationships);
-    }
-
-    public function delete($id): ?bool
-    {
-        $user = $this->repository->find($id);
-
-        if ($user->hasRole(RolesPermissionEnum::ADMIN['role'])) {
-            return null;
-        }
-
-        return parent::delete($id);
     }
 
     /**

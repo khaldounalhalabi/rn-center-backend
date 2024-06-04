@@ -76,19 +76,19 @@ class Kernel extends HttpKernel
      * @var array<string, class-string|string>
      */
     protected $middlewareAliases = [
-        'auth' => Authenticate::class,
-        'auth.basic' => AuthenticateWithBasicAuth::class,
-        'auth.session' => AuthenticateSession::class,
-        'cache.headers' => SetCacheHeaders::class,
-        'can' => Authorize::class,
-        'guest' => RedirectIfAuthenticated::class,
-        'password.confirm' => RequirePassword::class,
-        'precognitive' => HandlePrecognitiveRequests::class,
-        'signed' => ValidateSignature::class,
-        'throttle' => ThrottleRequests::class,
-        'verified' => EnsureEmailIsVerified::class,
+        'auth'              => Authenticate::class,
+        'auth.basic'        => AuthenticateWithBasicAuth::class,
+        'auth.session'      => AuthenticateSession::class,
+        'cache.headers'     => SetCacheHeaders::class,
+        'can'               => Authorize::class,
+        'guest'             => RedirectIfAuthenticated::class,
+        'password.confirm'  => RequirePassword::class,
+        'precognitive'      => HandlePrecognitiveRequests::class,
+        'signed'            => ValidateSignature::class,
+        'throttle'          => ThrottleRequests::class,
+        'verified'          => EnsureEmailIsVerified::class,
         'verified-customer' => CustomerMustVerifyEmail::class,
-        'admin' => AdminOnly::class,
-        'not_blocked' => NotBlocked::class,
+        'admin'             => AdminOnly::class,
+        'not_blocked'       => NotBlocked::class,
     ];
 }

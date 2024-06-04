@@ -126,7 +126,7 @@ class Hospital extends Model implements HasMedia
     {
         return [
             [
-                'name' => 'city',
+                'name'     => 'city',
                 'relation' => 'address.city.name',
                 'operator' => 'like'
             ],

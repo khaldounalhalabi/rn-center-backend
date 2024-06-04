@@ -9,6 +9,15 @@ class Translatable implements JsonSerializable
 {
     private array $data = [];
 
+    public function __construct(string|array $value)
+    {
+        if (is_string($value)) {
+            $this->data = json_decode($value, true);
+        } else {
+            $this->data = $value;
+        }
+    }
+
     /**
      * @throws Exception
      */
@@ -34,15 +43,6 @@ class Translatable implements JsonSerializable
         $this->data["$name"] = $value;
     }
 
-    public function __construct(string|array $value)
-    {
-        if (is_string($value)) {
-            $this->data = json_decode($value, true);
-        } else {
-            $this->data = $value;
-        }
-    }
-
     public function translate(?string $locale = null)
     {
         $locale = $locale ?? config('cubeta-starter.defaultLocale');
@@ -54,14 +54,14 @@ class Translatable implements JsonSerializable
         return $this->data;
     }
 
-    public function toJson(): bool|string
-    {
-        return json_encode($this->data, JSON_UNESCAPED_SLASHES + JSON_UNESCAPED_UNICODE);
-    }
-
     public function jsonSerialize(): string|bool
     {
         return $this->toJson();
+    }
+
+    public function toJson(): bool|string
+    {
+        return json_encode($this->data, JSON_UNESCAPED_SLASHES + JSON_UNESCAPED_UNICODE);
     }
 
     public function __toString(): string

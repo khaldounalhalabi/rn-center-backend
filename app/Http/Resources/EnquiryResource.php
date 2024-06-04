@@ -12,9 +12,9 @@ class EnquiryResource extends BaseResource
     public function toArray($request): array
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->email,
+            'id'      => $this->id,
+            'name'    => $this->name,
+            'email'   => $this->email,
             'message' => $this->message,
             'read_at' => $this->read_at?->format('Y-m-d H:i:s'),
         ];
