@@ -186,4 +186,16 @@ class ClinicService extends BaseService implements IClinicService
 
         return $clinic->status;
     }
+
+    /**
+     * @param       $subscriptionId
+     * @param array $relations
+     * @param array $countable
+     * @param int   $perPage
+     * @return ?array
+     */
+    public function getBySubscription($subscriptionId, array $relations = [], array $countable = [], int $perPage = 10): ?array
+    {
+        return $this->repository->byActiveSubscription($subscriptionId, $relations, $countable, $perPage);
+    }
 }

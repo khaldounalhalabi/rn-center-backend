@@ -29,34 +29,34 @@ class StoreUpdateHospitalRequest extends FormRequest
     {
         if (request()->method() == 'POST') {
             return [
-                'name' => ['required', 'json', new LanguageShape()],
-                'status' => ['required', 'string', Rule::in(HospitalStatusEnum::getAllValues())],
-                'phone_numbers' => 'array|required',
-                'phone_numbers.*' => ['required', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/', new NotInBlocked()],
-                'available_departments' => 'array|required',
+                'name'                    => ['required', 'json', new LanguageShape()],
+                'status'                  => ['required', 'string', Rule::in(HospitalStatusEnum::getAllValues())],
+                'phone_numbers'           => 'array|required',
+                'phone_numbers.*'         => ['required', 'string', 'unique:phone_numbers,phone', 'min:1', 'max:255', new NotInBlocked()],
+                'available_departments'   => 'array|required',
                 'available_departments.*' => ['required', 'numeric', 'exists:available_departments,id'],
-                "images" => 'array|nullable',
-                'images.*' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-                'address' => 'array|required',
-                'address.name' => ['required', 'json', 'min:3', new LanguageShape()],
-                'address.city_id' => ['required', 'numeric', 'exists:cities,id'],
-                'address.map_iframe' => ['required', 'string']
+                "images"                  => 'array|nullable',
+                'images.*'                => 'required|image|mimes:jpeg,png,jpg|max:2048',
+                'address'                 => 'array|required',
+                'address.name'            => ['required', 'json', 'min:3', new LanguageShape()],
+                'address.city_id'         => ['required', 'numeric', 'exists:cities,id'],
+                'address.map_iframe'      => ['required', 'string']
             ];
         }
 
         return [
-            'name' => ['nullable', 'json', new LanguageShape()],
-            'status' => ['nullable', 'string', Rule::in(HospitalStatusEnum::getAllValues())],
-            'phone_numbers' => 'array|nullable',
-            'phone_numbers.*' => ['nullable', 'string', new UniquePhoneNumber(request()->route('hospital'), Hospital::class), 'regex:/^07\d{9}$/', new NotInBlocked()],
-            'available_departments' => 'array|nullable',
+            'name'                    => ['nullable', 'json', new LanguageShape()],
+            'status'                  => ['nullable', 'string', Rule::in(HospitalStatusEnum::getAllValues())],
+            'phone_numbers'           => 'array|nullable',
+            'phone_numbers.*'         => ['nullable', 'string', new UniquePhoneNumber(request()->route('hospital'), Hospital::class), 'regex:/^07\d{9}$/', new NotInBlocked()],
+            'available_departments'   => 'array|nullable',
             'available_departments.*' => ['nullable', 'numeric', 'exists:available_departments,id'],
-            "images" => 'array|nullable',
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'address' => 'array|nullable',
-            'address.name' => ['nullable', 'json', 'min:3', new LanguageShape()],
-            'address.city_id' => ['nullable', 'numeric', 'exists:cities,id'],
-            'address.map_iframe' => ['nullable', 'string']
+            "images"                  => 'array|nullable',
+            'images.*'                => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'address'                 => 'array|nullable',
+            'address.name'            => ['nullable', 'json', 'min:3', new LanguageShape()],
+            'address.city_id'         => ['nullable', 'numeric', 'exists:cities,id'],
+            'address.map_iframe'      => ['nullable', 'string']
         ];
     }
 

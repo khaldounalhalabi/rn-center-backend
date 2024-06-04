@@ -16,6 +16,7 @@ Route::get('/users/{userId}/toggle-block', [v1\UserController::class, 'toggleBlo
 Route::apiResource('/users', v1\UserController::class)->names('users');
 
 Route::get('/clinics/{clinicId}/toggle-status', [v1\ClinicController::class, 'toggleClinicStatus'])->name('clinic.status.toggle');
+Route::get('/subscriptions/{subscriptionId}/clinics' , [v1\ClinicController::class , 'getBySubscription'])->name('subscription.clinics');
 Route::apiResource("/clinics", v1\ClinicController::class)->names("clinics");
 
 Route::controller(v1\ScheduleController::class)

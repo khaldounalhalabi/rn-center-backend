@@ -45,7 +45,7 @@ class UpdateUserRequest extends FormRequest
             'address.city_id' => ['nullable', 'exists:cities,id', 'integer'],
             'address.lat' => ['nullable', 'string', 'nullable_without:address.map_iframe'],
             'address.lng' => ['nullable', 'string', 'nullable_without:address.map_iframe'],
-            'address.map_iframe' => ['nullable', 'string', 'nullable_without:address.lat', 'nullable_without:address.lng']
+            'address.map_iframe' => ['nullable', 'string']
         ];
     }
 

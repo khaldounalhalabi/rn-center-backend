@@ -33,7 +33,8 @@ class UniquePhoneNumber implements ValidationRule
     {
         $phones = PhoneNumber::where('phoneable_type', $this->phoneableType)
             ->where('phoneable_id', $this->phoneableId)
-            ->pluck('id')->toArray();
+            ->pluck('id')
+            ->toArray();
 
         $exists = PhoneNumber::where('phone', $value)
             ->whereNotIn('id', $phones)

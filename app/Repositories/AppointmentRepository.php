@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 use App\Models\Appointment;
 use App\Repositories\Contracts\BaseRepository;
+use Carbon\Carbon;
+use DateTime;
 
 /**
  * @extends  BaseRepository<Appointment>
@@ -16,15 +18,17 @@ class AppointmentRepository extends BaseRepository
     }
 
     /**
+     * @param             $clinicId
      * @param string|null $date
      * @return Appointment|null
      */
-    public function getLastAppointmentInDay(?string $date = null): ?Appointment
+    public function getClinicLastAppointmentInDay($clinicId, ?string $date = null): ?Appointment
     {
         if (!$date) $date = now()->format('Y-m-d');
 
         return $this->globalQuery()
             ->where('date', $date)
+            ->where('clinic_id', $clinicId)
             ->orderBy('appointment_sequence', 'DESC')
             ->first();
     }
@@ -43,11 +47,25 @@ class AppointmentRepository extends BaseRepository
 
         if (count($data)) {
             return [
-                'data' => $data,
+                'data'            => $data,
                 'pagination_data' => $this->formatPaginateData($data)
             ];
         }
 
         return null;
+    }
+
+    /**
+     * @param                        $clinicId
+     * @param string|Carbon|DateTime $date
+     * @param array                  $data
+     * @return bool|int
+     */
+    public function updatePreviousClinicAppointments($clinicId, string|Carbon|DateTime $date, array $data): bool|int
+    {
+        return $this->globalQuery()
+            ->where('clinic_id', $clinicId)
+            ->where('date', $date)
+            ->update($data);
     }
 }
