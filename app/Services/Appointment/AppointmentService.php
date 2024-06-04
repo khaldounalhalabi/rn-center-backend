@@ -3,7 +3,6 @@
 namespace App\Services\Appointment;
 
 use App\Enums\AppointmentStatusEnum;
-use App\Enums\RolesPermissionEnum;
 use App\Jobs\UpdateAppointmentRemainingTimeJob;
 use App\Models\Appointment;
 use App\Notifications\Admin\AppointmentStatusChangedNotification;
@@ -196,15 +195,6 @@ class AppointmentService extends BaseService implements IAppointmentService
                 ->setTo($appointment->customer->user)
                 ->setNotification(AppointmentStatusChangedNotification::class)
                 ->send();
-
-            FirebaseServices::make()
-                ->setData([
-                    'appointment' => $appointment
-                ])
-                ->setMethod('byRole')
-                ->setRole(RolesPermissionEnum::ADMIN['role'])
-                ->setNotification(AppointmentStatusChangedNotification::class)
-                ->send();
         }
 
         return $appointment;
@@ -263,15 +253,6 @@ class AppointmentService extends BaseService implements IAppointmentService
                 ])
                 ->setMethod('one')
                 ->setTo($appointment->customer->user)
-                ->setNotification(AppointmentStatusChangedNotification::class)
-                ->send();
-
-            FirebaseServices::make()
-                ->setData([
-                    'appointment' => $appointment
-                ])
-                ->setMethod('byRole')
-                ->setRole(RolesPermissionEnum::ADMIN['role'])
                 ->setNotification(AppointmentStatusChangedNotification::class)
                 ->send();
         }

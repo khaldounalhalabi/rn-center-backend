@@ -31,7 +31,7 @@ class SendNotificationJob implements ShouldQueue
     public function handle(): void
     {
         try {
-            Log::info("");
+            Log::info("Send Notification Job");
             Notification::send($this->users, new $this->notification($this->data));
             Log::info('***************************************');
             Log::info('***************************************');
