@@ -17,9 +17,10 @@ class EnquiryFactory extends Factory
      */
     public function definition(): array
     {
+        $bool = fake()->boolean;
         return [
-            'name' => fake()->name(),
-            'email' => fake()->email(),
+            'name' => $bool ? "khaldoun" : "mustafa",
+            'email' => $bool ? "khaldounalhalabi42@gmail.com" : "asasimr55@gmail.com",
             'message' => fake()->text(),
         ];
     }
