@@ -57,4 +57,11 @@ class UpdateUserRequest extends FormRequest
             ]);
         }
     }
+
+    public function attributes()
+    {
+        return [
+            'phone_numbers.*' => 'phone number'
+        ];
+    }
 }

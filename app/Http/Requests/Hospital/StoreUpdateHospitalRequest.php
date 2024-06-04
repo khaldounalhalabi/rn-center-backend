@@ -69,4 +69,13 @@ class StoreUpdateHospitalRequest extends FormRequest
             ]
         ]);
     }
+
+    public function attributes()
+    {
+        return [
+            'phone_numbers.*' => 'phone number' ,
+            'available_departments.*' => 'available department' ,
+            'images.*' => 'image',
+        ];
+    }
 }

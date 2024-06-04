@@ -23,37 +23,49 @@ class StoreUpdatePrescriptionRequest extends FormRequest
     {
         if (request()->method() == 'POST') {
             return [
-                'clinic_id' => ['required', 'numeric', 'exists:clinics,id'],
-                'customer_id' => ['required', 'numeric', 'exists:customers,id'],
-                'appointment_id' => ['required', 'numeric', 'exists:appointments,id'],
+                'clinic_id'            => ['required', 'numeric', 'exists:clinics,id'],
+                'customer_id'          => ['required', 'numeric', 'exists:customers,id'],
+                'appointment_id'       => ['required', 'numeric', 'exists:appointments,id'],
                 'physical_information' => ['nullable', 'json'],
-                'problem_description' => ['nullable', 'string'],
-                'test' => ['nullable', 'string'],
-                'next_visit' => ['nullable', 'string', 'min:3', 'max:255'],
+                'problem_description'  => ['nullable', 'string'],
+                'test'                 => ['nullable', 'string'],
+                'next_visit'           => ['nullable', 'string', 'min:3', 'max:255'],
 
-                'medicines' => 'array|required',
-                'medicines.*.medicine_id' => 'required|exists:medicines,id|numeric',
-                'medicines.*.dosage' => 'string|nullable',
-                'medicines.*.duration' => 'string|nullable',
-                'medicines.*.time' => 'string|nullable',
+                'medicines'                 => 'array|required',
+                'medicines.*.medicine_id'   => 'required|exists:medicines,id|numeric',
+                'medicines.*.dosage'        => 'string|nullable',
+                'medicines.*.duration'      => 'string|nullable',
+                'medicines.*.time'          => 'string|nullable',
                 'medicines.*.dose_interval' => 'string|nullable',
-                'medicines.*.comment' => 'string|nullable'
+                'medicines.*.comment'       => 'string|nullable'
             ];
         }
 
         return [
             'physical_information' => ['nullable', 'json'],
-            'problem_description' => ['nullable', 'string'],
-            'test' => ['nullable', 'string'],
-            'next_visit' => ['nullable', 'string', 'min:3', 'max:255'],
+            'problem_description'  => ['nullable', 'string'],
+            'test'                 => ['nullable', 'string'],
+            'next_visit'           => ['nullable', 'string', 'min:3', 'max:255'],
 
-            'medicines' => 'array|nullable',
-            'medicines.*.medicine_id' => 'required|exists:medicines,id|numeric',
-            'medicines.*.dosage' => 'string|nullable',
-            'medicines.*.duration' => 'string|nullable',
-            'medicines.*.time' => 'string|nullable',
+            'medicines'                 => 'array|nullable',
+            'medicines.*.medicine_id'   => 'required|exists:medicines,id|numeric',
+            'medicines.*.dosage'        => 'string|nullable',
+            'medicines.*.duration'      => 'string|nullable',
+            'medicines.*.time'          => 'string|nullable',
             'medicines.*.dose_interval' => 'string|nullable',
-            'medicines.*.comment' => 'string|nullable'
+            'medicines.*.comment'       => 'string|nullable'
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'medicines.*.medicine_id'   => 'medicine',
+            'medicines.*.dosage'        => 'medicine dosage',
+            'medicines.*.duration'      => 'medicine duration',
+            'medicines.*.time'          => 'medicine time',
+            'medicines.*.dose_interval' => 'medicine dose interval',
+            'medicines.*.comment'       => 'comment',
         ];
     }
 }

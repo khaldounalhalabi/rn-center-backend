@@ -23,13 +23,22 @@ class StoreUpdateScheduleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'schedules' => 'array|required',
+            'schedules'               => 'array|required',
             'schedules.*.day_of_week' => 'required|string|' . Rule::in(WeekDayEnum::getAllValues()),
-            'schedules.*.start_time' => 'required|date_format:H:i',
-            'schedules.*.end_time' => ['required', 'date_format:H:i', 'after:schedules.*.start_time'],
-            'clinic_id' => 'nullable|numeric|exists:clinics,id|required_without:hospital_id',
-            'hospital_id' => 'nullable|numeric|exists:hospitals,id|required_without:clinic_id',
-            'appointment_gap' => 'required|numeric|max:60|integer|min:0'
+            'schedules.*.start_time'  => 'required|date_format:H:i',
+            'schedules.*.end_time'    => ['required', 'date_format:H:i', 'after:schedules.*.start_time'],
+            'clinic_id'               => 'nullable|numeric|exists:clinics,id|required_without:hospital_id',
+            'hospital_id'             => 'nullable|numeric|exists:hospitals,id|required_without:clinic_id',
+            'appointment_gap'         => 'required|numeric|max:60|integer|min:0'
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'schedules.*.day_of_week' => 'schedule week day',
+            'schedules.*.start_time'  => 'schedule start time',
+            'schedules.*.end_time'    => 'schedule end time',
         ];
     }
 }

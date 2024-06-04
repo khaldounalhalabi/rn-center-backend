@@ -116,4 +116,12 @@ class StoreUpdateClinicRequest extends FormRequest
             ]);
         }
     }
+
+    public function attributes()
+    {
+        return [
+            'phone_numbers.*' => 'phone number' ,
+            'speciality_ids.*' => 'speciality'
+        ];
+    }
 }
