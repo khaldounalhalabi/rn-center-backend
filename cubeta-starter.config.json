@@ -1086,6 +1086,56 @@
                     }
                 ]
             }
+        },
+        {
+            "model_name": "PatientProfile",
+            "table_name": "patient_profiles",
+            "attributes": [
+                {
+                    "name": "customer_id",
+                    "type": "key",
+                    "nullable": true,
+                    "unique": true
+                },
+                {
+                    "name": "clinic_id",
+                    "type": "key",
+                    "nullable": true,
+                    "unique": true
+                },
+                {
+                    "name": "medical_condition",
+                    "type": "text",
+                    "nullable": true,
+                    "unique": true
+                },
+                {
+                    "name": "note",
+                    "type": "text",
+                    "nullable": false,
+                    "unique": true
+                },
+                {
+                    "name": "other_data",
+                    "type": "json",
+                    "nullable": false,
+                    "unique": true
+                }
+            ],
+            "relations": {
+                "belongsTo": [
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Customer",
+                        "key": "customer_id"
+                    },
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Clinic",
+                        "key": "clinic_id"
+                    }
+                ]
+            }
         }
     ]
 }

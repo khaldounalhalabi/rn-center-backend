@@ -251,7 +251,7 @@ class AppointmentService extends BaseService implements IAppointmentService
             $appointment->status == AppointmentStatusEnum::CHECKIN->value
             && $prevStatus != AppointmentStatusEnum::CHECKIN->value
         ) {
-            $this->repository->updatePreviousClinicAppointments($clinic->id, $appointment->date, [
+            $this->repository->updatePreviousCheckinClinicAppointments($clinic->id, $appointment->date, [
                 'status' => AppointmentStatusEnum::CHECKOUT->value
             ]);
         }

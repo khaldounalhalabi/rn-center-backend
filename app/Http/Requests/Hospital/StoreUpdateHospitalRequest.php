@@ -48,7 +48,7 @@ class StoreUpdateHospitalRequest extends FormRequest
             'name'                    => ['nullable', 'json', new LanguageShape()],
             'status'                  => ['nullable', 'string', Rule::in(HospitalStatusEnum::getAllValues())],
             'phone_numbers'           => 'array|nullable',
-            'phone_numbers.*'         => ['nullable', 'string', new UniquePhoneNumber(request()->route('hospital'), Hospital::class), 'regex:/^07\d{9}$/', new NotInBlocked()],
+            'phone_numbers.*'         => ['nullable', 'string', new UniquePhoneNumber(request()->route('hospital'), Hospital::class), new NotInBlocked()],
             'available_departments'   => 'array|nullable',
             'available_departments.*' => ['nullable', 'numeric', 'exists:available_departments,id'],
             "images"                  => 'array|nullable',

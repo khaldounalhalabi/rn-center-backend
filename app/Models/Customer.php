@@ -69,4 +69,9 @@ class Customer extends Model
     {
         return $this->hasMany(Prescription::class);
     }
+
+    public function patientProfiles()
+    {
+        return $this->hasMany(PatientProfile::class);
+    }
 }

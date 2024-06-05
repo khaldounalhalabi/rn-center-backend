@@ -37,4 +37,8 @@ class CustomerFactory extends Factory
     {
         return $this->has(Prescription::factory($count));
     }
+    public function withPatientProfiles($count = 1)
+    {
+        return $this->has(\App\Models\PatientProfile::factory($count));
+    }
 }

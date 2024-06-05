@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Enums\AppointmentStatusEnum;
 use App\Models\Appointment;
 use App\Repositories\Contracts\BaseRepository;
 use Carbon\Carbon;
@@ -61,11 +62,12 @@ class AppointmentRepository extends BaseRepository
      * @param array                  $data
      * @return bool|int
      */
-    public function updatePreviousClinicAppointments($clinicId, string|Carbon|DateTime $date, array $data): bool|int
+    public function updatePreviousCheckinClinicAppointments($clinicId, string|Carbon|DateTime $date, array $data): bool|int
     {
         return $this->globalQuery()
             ->where('clinic_id', $clinicId)
             ->where('date', $date)
+            ->where('status', AppointmentStatusEnum::CHECKIN->value)
             ->update($data);
     }
 }

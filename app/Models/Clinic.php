@@ -290,4 +290,9 @@ class Clinic extends Model implements HasMedia
     {
         return $this->hasMany(Offer::class);
     }
+
+    public function patientProfiles()
+    {
+        return $this->hasMany(PatientProfile::class);
+    }
 }

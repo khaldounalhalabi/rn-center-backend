@@ -120,4 +120,9 @@ class ClinicFactory extends Factory
     {
         return $this->has(Offer::factory($count));
     }
+
+    public function withPatientProfiles($count = 1)
+    {
+        return $this->has(\App\Models\PatientProfile::factory($count));
+    }
 }

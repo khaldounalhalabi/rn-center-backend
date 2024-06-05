@@ -76,3 +76,5 @@ Route::apiResource('/clinic-subscriptions', v1\ClinicSubscriptionController::cla
     ->names('clinic.subscriptions');
 
 Route::apiResource('offers', v1\OfferController::class)->names('offers');
+
+Route::apiResource('/patient-profiles', v1\PatientProfileController::class)->names('api.public.patient.profiles');

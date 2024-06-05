@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\PatientProfile;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -39,6 +40,7 @@ class DatabaseSeeder extends Seeder
             ClinicSubscriptionSeeder::class,
             EnquirySeeder::class,
             OfferSeeder::class,
+            PatientProfile::class
         ]);
     }
 }

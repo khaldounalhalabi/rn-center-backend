@@ -17,6 +17,7 @@ class CustomerResource extends BaseResource
             'user'          => new UserResource($this->whenLoaded('user')),
             'appointments'  => AppointmentResource::collection($this->whenLoaded('appointments')),
             'prescriptions' => PrescriptionResource::collection($this->whenLoaded('prescriptions')),
+            'patientProfiles' => \App\Http\Resources\PatientProfileResource::collection($this->whenLoaded('patientProfiles')) ,
         ];
     }
 }

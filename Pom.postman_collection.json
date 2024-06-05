@@ -12710,49 +12710,49 @@
                                     "key": "title",
                                     "value": "{\"ar\":\"quo\",\"en\":\"sequi\"}",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "value",
                                     "value": "8",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "note",
                                     "value": "{\"ar\":\"inventore\",\"en\":\"architecto\"}",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "start_at",
                                     "value": "2024-05-28",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "end_at",
                                     "value": "2024-05-28",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "is_active",
                                     "value": "1",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "type",
                                     "value": "deserunt",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "clinic_id",
                                     "value": "1",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 }
                             ]
                         }
@@ -12792,49 +12792,49 @@
                                     "key": "title",
                                     "value": "{\"ar\":\"rem\",\"en\":\"ut\"}",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "value",
                                     "value": "9",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "note",
                                     "value": "{\"ar\":\"est\",\"en\":\"reprehenderit\"}",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "start_at",
                                     "value": "2024-05-28",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "end_at",
                                     "value": "2024-05-28",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "is_active",
                                     "value": "1",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "type",
                                     "value": "et",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 },
                                 {
                                     "key": "clinic_id",
                                     "value": "1",
                                     "type": "text",
-                                    "description": null
+                                    "description": ""
                                 }
                             ]
                         }
@@ -12955,6 +12955,257 @@
                             "raw": "{{local}}admin/offers/get-import-example",
                             "host": [
                                 "{{local}}admin/offers/get-import-example"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "PatientProfile",
+            "item": [
+                {
+                    "name": "index",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}none/patient-profiles",
+                            "host": [
+                                "{{local}}none/patient-profiles"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "show",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}none/patient-profiles/1",
+                            "host": [
+                                "{{local}}none/patient-profiles/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "store",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}none/patient-profiles",
+                            "host": [
+                                "{{local}}none/patient-profiles"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": []
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "update",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}none/patient-profiles/1",
+                            "host": [
+                                "{{local}}none/patient-profiles/1"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": []
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}none/patient-profiles/1",
+                            "host": [
+                                "{{local}}none/patient-profiles/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "export",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}none/patient-profiles/export",
+                            "host": [
+                                "{{local}}none/patient-profiles/export"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "import",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}none/patient-profiles/import",
+                            "host": [
+                                "{{local}}none/patient-profiles/import"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "import-example",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}none/patient-profiles/get-import-example",
+                            "host": [
+                                "{{local}}none/patient-profiles/get-import-example"
                             ]
                         },
                         "body": null
