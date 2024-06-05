@@ -1,10 +1,9 @@
 <?php
 
-namespace  App\Repositories;
+namespace App\Repositories;
 
 use App\Models\PatientProfile;
 use App\Repositories\Contracts\BaseRepository;
-use App\Repositories\Contracts\IBaseRepository;
 
 /**
  * @extends  BaseRepository<PatientProfile>
@@ -14,5 +13,22 @@ class PatientProfileRepository extends BaseRepository
     public function __construct(PatientProfile $patientProfile)
     {
         parent::__construct($patientProfile);
+    }
+
+    public function getByCustomerId($customerId, array $relations, array $countable = [], int $perPage = 10)
+    {
+        $perPage = request('per_page') ?? $perPage;
+        $data = $this->globalQuery($relations, $countable)
+            ->where('customer_id')
+            ->paginate($perPage);
+
+        if ($data->count()) {
+            return [
+                'data'            => $data,
+                'pagination_data' => $this->formatPaginateData($data)
+            ];
+        }
+
+        return null;
     }
 }

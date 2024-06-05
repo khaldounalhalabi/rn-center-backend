@@ -20,4 +20,16 @@ class PatientProfileService extends BaseService implements IPatientProfileServic
     {
         parent::__construct($repository);
     }
+
+    /**
+     * @param       $customerId
+     * @param array $relations
+     * @param array $countable
+     * @param int   $perPage
+     * @return null|array{data:mixed , pagination_data:array}
+     */
+    public function getCustomerPatientProfiles($customerId, array $relations = [], array $countable = [], int $perPage = 10): ?array
+    {
+        return $this->repository->getByCustomerId($customerId, $relations, $countable, $perPage);
+    }
 }
