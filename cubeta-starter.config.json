@@ -1136,6 +1136,51 @@
                     }
                 ]
             }
+        },
+        {
+            "model_name": "Transaction",
+            "table_name": "transactions",
+            "attributes": [
+                {
+                    "name": "type",
+                    "type": "string",
+                    "nullable": true,
+                    "unique": true
+                },
+                {
+                    "name": "amount",
+                    "type": "unsignedDouble",
+                    "nullable": true,
+                    "unique": true
+                },
+                {
+                    "name": "description",
+                    "type": "text",
+                    "nullable": false,
+                    "unique": true
+                },
+                {
+                    "name": "date",
+                    "type": "dateTime",
+                    "nullable": true,
+                    "unique": true
+                },
+                {
+                    "name": "actor_id",
+                    "type": "key",
+                    "nullable": false,
+                    "unique": true
+                }
+            ],
+            "relations": {
+                "belongsTo": [
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Actor",
+                        "key": "actor_id"
+                    }
+                ]
+            }
         }
     ]
 }

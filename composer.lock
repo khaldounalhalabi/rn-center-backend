@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e310dc1af504a9e194e5fe7b71f934c5",
+    "content-hash": "16d0bcbfa118d8c2dbefab14b1a6b5b3",
     "packages": [
         {
             "name": "beste/clock",
@@ -410,16 +410,16 @@
         },
         {
             "name": "cubeta/cubeta-starter",
-            "version": "dev-dev",
+            "version": "dev-react",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cubeta-io/cubeta-starter.git",
-                "reference": "f0a960816ebaf3138734075589da8939be16ecb2"
+                "reference": "c4902116e24ad3f78a91becc3553e577f7ac352a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cubeta-io/cubeta-starter/zipball/f0a960816ebaf3138734075589da8939be16ecb2",
-                "reference": "f0a960816ebaf3138734075589da8939be16ecb2",
+                "url": "https://api.github.com/repos/cubeta-io/cubeta-starter/zipball/c4902116e24ad3f78a91becc3553e577f7ac352a",
+                "reference": "c4902116e24ad3f78a91becc3553e577f7ac352a",
                 "shasum": ""
             },
             "require": {
@@ -459,9 +459,9 @@
             "description": "Cubeta-Starter: A developer's Swiss army knife for seamless CRUD operations. Choose between core integration or dev dependency. Enjoy a user-friendly GUI for code generation, enhancing your development workflow. Say goodbye to repetition, embrace productivity with Cubeta-Starter!",
             "support": {
                 "issues": "https://github.com/cubeta-io/cubeta-starter/issues",
-                "source": "https://github.com/cubeta-io/cubeta-starter/tree/dev"
+                "source": "https://github.com/cubeta-io/cubeta-starter/tree/react"
             },
-            "time": "2024-04-18T12:04:01+00:00"
+            "time": "2024-06-06T14:42:58+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
