@@ -21,6 +21,10 @@ class FirebaseServices
 
     private $role;
 
+    const ONE = "one";
+    const MANY = "many";
+    const ByRole = "byRole";
+
     private function __construct()
     {
         $this->notification = '';
@@ -76,7 +80,11 @@ class FirebaseServices
         return $this;
     }
 
-    public function setMethod($method): static
+    /**
+     * @param byRole|one|many $method
+     * @return $this
+     */
+    public function setMethod(string $method): static
     {
         $this->method = match ($method) {
             'one', null => 'sendForOneDevice',

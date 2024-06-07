@@ -3,9 +3,11 @@
 namespace App\Services\Appointment;
 
 use App\Enums\AppointmentStatusEnum;
+use App\Enums\RolesPermissionEnum;
 use App\Jobs\UpdateAppointmentRemainingTimeJob;
 use App\Models\Appointment;
-use App\Notifications\Admin\AppointmentStatusChangedNotification;
+use App\Notifications\Customer\CustomerAppointmentChangedNotification;
+use App\Notifications\RealTime\AppointmentStatusChangeNotification;
 use App\Repositories\AppointmentLogRepository;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\ClinicRepository;
@@ -118,7 +120,7 @@ class AppointmentService extends BaseService implements IAppointmentService
      */
     public function toggleAppointmentStatus($appointmentId, array $data): ?Appointment
     {
-        $appointment = $this->repository->find($appointmentId);
+        $appointment = $this->repository->find($appointmentId, ['customer.user', 'clinic.user']);
 
         if (!$appointment) {
             return null;
@@ -135,7 +137,7 @@ class AppointmentService extends BaseService implements IAppointmentService
         $appointment = $this->repository->update([
             'status'              => $data['status'],
             'cancellation_reason' => $data['cancellation_reason'] ?? ""
-        ], $appointment, ['customer.user']);
+        ], $appointment, ['customer.user', 'clinic.user']);
 
         if ($appointment->status == AppointmentStatusEnum::CHECKOUT->value && $prevStatus != AppointmentStatusEnum::CHECKOUT->value) {
             UpdateAppointmentRemainingTimeJob::dispatch($appointment->clinic_id, $appointment->date);
@@ -146,16 +148,7 @@ class AppointmentService extends BaseService implements IAppointmentService
             $appointment->save();
         }
 
-        if ($oldStatus != $appointment->status) {
-            FirebaseServices::make()
-                ->setData([
-                    'appointment' => $appointment
-                ])
-                ->setMethod('one')
-                ->setTo($appointment->customer->user)
-                ->setNotification(AppointmentStatusChangedNotification::class)
-                ->send();
-        }
+        $this->handleChangeAppointmentNotifications($appointment, $oldStatus);
 
         $this->appointmentLogRepository->create([
             'cancellation_reason' => $data['cancellation_reason'] ?? "",
@@ -256,17 +249,45 @@ class AppointmentService extends BaseService implements IAppointmentService
             ]);
         }
 
+        $this->handleChangeAppointmentNotifications($appointment, $oldStatus);
+
+        return $appointment;
+    }
+
+    /**
+     * @param mixed  $appointment
+     * @param string $oldStatus
+     * @return void
+     */
+    private function handleChangeAppointmentNotifications(mixed $appointment, string $oldStatus): void
+    {
         if ($oldStatus != $appointment->status) {
             FirebaseServices::make()
                 ->setData([
                     'appointment' => $appointment
                 ])
-                ->setMethod('one')
+                ->setMethod(FirebaseServices::ONE)
                 ->setTo($appointment->customer->user)
-                ->setNotification(AppointmentStatusChangedNotification::class)
+                ->setNotification(CustomerAppointmentChangedNotification::class)
+                ->send();
+
+            FirebaseServices::make()
+                ->setData([
+                    'appointment' => $appointment,
+                ])
+                ->setMethod(FirebaseServices::ByRole)
+                ->setRole(RolesPermissionEnum::ADMIN['role'])
+                ->setNotification(AppointmentStatusChangeNotification::class)
+                ->send();
+
+            FirebaseServices::make()
+                ->setData([
+                    'appointment' => $appointment,
+                ])
+                ->setMethod(FirebaseServices::ONE)
+                ->setTo($appointment->clinic->user)
+                ->setNotification(AppointmentStatusChangeNotification::class)
                 ->send();
         }
-
-        return $appointment;
     }
 }
