@@ -24,7 +24,7 @@ class PatientProfileRepository extends BaseRepository
 
         if ($data->count()) {
             return [
-                'data'            => $data,
+                'data'            => $data->getCollection(),
                 'pagination_data' => $this->formatPaginateData($data)
             ];
         }
