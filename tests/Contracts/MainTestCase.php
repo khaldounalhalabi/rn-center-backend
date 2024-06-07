@@ -29,7 +29,7 @@ class MainTestCase extends TestCase
             $array = array_merge($additionalFactoryData, ['user_id' => User::factory()->create()->id]);
             $factoryData = $this->model::factory()->create($array);
 
-            $this->delete(route($this->requestPath, $factoryData->id))
+            $this->delete(route($this->requestPath, $factoryData->id), [], $this->headers)
                 ->assertExactJson($this->responseBody)
                 ->assertOk();
 
@@ -43,7 +43,7 @@ class MainTestCase extends TestCase
         $this->responseBody['data'] = true;
         $this->responseBody['message'] = __('site.delete_successfully');
 
-        $response = $this->delete(route($this->requestPath, $factoryData->id))
+        $response = $this->delete(route($this->requestPath, $factoryData->id), [], $this->headers)
             ->assertExactJson($this->responseBody)
             ->assertOk();
 
@@ -68,7 +68,7 @@ class MainTestCase extends TestCase
         $this->responseBody['data'] = [];
         $this->responseBody['message'] = __('site.there_is_no_data');
 
-        $this->get(route($this->requestPath))
+        $this->get(route($this->requestPath), $this->headers)
             ->assertExactJson($this->responseBody)
             ->assertOk();
 
@@ -77,7 +77,7 @@ class MainTestCase extends TestCase
             $array = array_merge($additionalFactoryData, ['user_id' => User::factory()->create()->id]);
             $this->model::factory(5)->create($array);
 
-            $this->get(route($this->requestPath))
+            $this->get(route($this->requestPath), $this->headers)
                 ->assertExactJson($this->responseBody)
                 ->assertOk();
 
@@ -92,7 +92,7 @@ class MainTestCase extends TestCase
         $this->responseBody['data'] = $this->convertResourceToArray($factoryData->load($this->relations), true);
         $this->responseBody['message'] = __('site.get_successfully');
         $this->responseBody['paginate'] = $this->pagination;
-        $response = $this->get(route($this->requestPath))
+        $response = $this->get(route($this->requestPath), $this->headers)
             ->assertExactJson($this->responseBody)
             ->assertOk();
         if ($isDebug) {
@@ -109,7 +109,7 @@ class MainTestCase extends TestCase
         // the user provided invalid id
         $this->responseBody['message'] = __('site.there_is_no_data');
 
-        $this->get(route($this->requestPath, fake()->uuid()))
+        $this->get(route($this->requestPath, fake()->uuid()), $this->headers)
             ->assertExactJson($this->responseBody)
             ->assertOk();
 
@@ -118,7 +118,7 @@ class MainTestCase extends TestCase
             $array = array_merge($additionalFactoryData, ['user_id' => User::factory()->create()->id]);
             $factoryData = $this->model::factory()->create($array);
 
-            $this->get(route($this->requestPath, $factoryData->id))
+            $this->get(route($this->requestPath, $factoryData->id), $this->headers)
                 ->assertExactJson($this->responseBody)
                 ->assertOk();
 
@@ -132,7 +132,7 @@ class MainTestCase extends TestCase
         // the user provided the right id
         $this->responseBody['data'] = $this->convertResourceToArray($factoryData->load($this->relations));
         $this->responseBody['message'] = __('site.get_successfully');
-        $response = $this->get(route($this->requestPath, $factoryData->id))
+        $response = $this->get(route($this->requestPath, $factoryData->id), $this->headers)
             ->assertExactJson($this->responseBody)
             ->assertOk();
 
@@ -147,15 +147,13 @@ class MainTestCase extends TestCase
     public function storeTest(array $additionalAttributes = [], mixed $requestParams = null, bool $isDebug = false): void
     {
         $attributes = $this->model::factory()->raw($additionalAttributes);
-        $response = $this->post(route($this->requestPath, $requestParams), $attributes);
+        $response = $this->post(route($this->requestPath, $requestParams), $attributes, $this->headers);
 
         if ($isDebug) {
             dd($response);
         }
 
         $createdModel = $this->model::orderByDesc('id')->first();
-
-        if (!$createdModel) dump($response);
 
         $this->responseBody['data'] = $this->convertResourceToArray($createdModel->load($this->relations));
         $this->responseBody['message'] = __('site.stored_successfully');
@@ -168,19 +166,16 @@ class MainTestCase extends TestCase
 
     /**
      * @param array $additionalFactoryData optional data to the factories
-     * @param array $attributes            if you are trying to send a custom attributes to the update request send an
-     *                                     array of it
+     * @param array $attributes            if you are trying to send a custom attributes to the update request send an array of it
      * @param bool  $ownership             determine if the action has to be on the authenticated user data
-     * @param bool  $replacing             this var pointing to the case where the update endpoint creating a new
-     *                                     record to the database
+     * @param bool  $replacing             this var pointing to the case where the update endpoint creating a new record to the database
      */
     public function updateTest(array $attributes = [], array $additionalFactoryData = [], bool $ownership = false, bool $replacing = true, bool $isDebug = false): void
     {
         $attributes = $this->model::factory()->raw($attributes);
-
         //the user provided invalid ID
         $this->responseBody['message'] = __('site.there_is_no_data');
-        $this->put(route($this->requestPath, fake()->uuid), $attributes)
+        $this->put(route($this->requestPath, fake()->uuid), $attributes, $this->headers)
             ->assertExactJson($this->responseBody)
             ->assertOk();
 
@@ -189,7 +184,7 @@ class MainTestCase extends TestCase
             $array = array_merge($additionalFactoryData, ['user_id' => User::factory()->create()->id]);
             $factoryData = $this->model::factory()->create($array);
 
-            $this->get(route($this->requestPath, $factoryData->id))
+            $this->get(route($this->requestPath, $factoryData->id), $this->headers)
                 ->assertExactJson($this->responseBody)
                 ->assertOk();
 
@@ -201,7 +196,7 @@ class MainTestCase extends TestCase
         }
 
         //the user provided the right ID
-        $response = $this->put(route($this->requestPath, $factoryData->id), $attributes)->assertOk();
+        $response = $this->put(route($this->requestPath, $factoryData->id), $attributes, $this->headers)->assertOk();
         if ($replacing) {
             $factoryData->refresh();
             $this->assertModelExists($factoryData);
