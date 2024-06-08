@@ -160,7 +160,7 @@ class UserService extends BaseService
     public function logout(): void
     {
         $user = auth()->user();
-        auth()->logout();
+        auth('api')->logout();
         $user->fcm_token = null;
         $user->save();
     }
