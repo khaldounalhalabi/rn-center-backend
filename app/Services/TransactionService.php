@@ -22,7 +22,7 @@ class TransactionService extends BaseService
     public function store(array $data, array $relationships = [], array $countable = []): ?Model
     {
         $authUser = auth()->user();
-        if (!$authUser || !$authUser?->hasRole(RolesPermissionEnum::ADMIN['role'])) {
+        if (!$authUser || !$authUser?->isAdmin()) {
             return null;
         }
         $data['actor_id'] = $authUser->id;
@@ -32,7 +32,7 @@ class TransactionService extends BaseService
     public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
     {
         $authUser = auth()->user();
-        if (!$authUser || !$authUser?->hasRole(RolesPermissionEnum::ADMIN['role'])) {
+        if (!$authUser || !$authUser?->isAdmin()) {
             return null;
         }
         $data['actor_id'] = $authUser->id;

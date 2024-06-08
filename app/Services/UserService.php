@@ -94,7 +94,7 @@ class UserService extends BaseService
     {
         $user = $this->repository->find($id);
 
-        if ($user->hasRole(RolesPermissionEnum::ADMIN['role'])) {
+        if ($user->isAdmin()) {
             return null;
         }
 

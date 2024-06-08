@@ -99,4 +99,16 @@ class ClinicController extends ApiController
         }
         return $this->noData();
     }
+
+    public function updateDoctorClinic(StoreUpdateClinicRequest $request)
+    {
+        $clinicId = auth()->user()?->clinic->id;
+        /** @var Clinic|null $item */
+        $item = $this->clinicService->update($request->validated(), $clinicId, $this->relations, $this->countable);
+        if ($item) {
+            return $this->apiResponse(new ClinicResource($item), self::STATUS_OK, __('site.update_successfully'));
+        }
+
+        return $this->noData(null);
+    }
 }

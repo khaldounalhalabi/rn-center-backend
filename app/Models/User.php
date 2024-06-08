@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Casts\Translatable;
 use App\Enums\MediaTypeEnum;
+use App\Enums\RolesPermissionEnum;
 use App\Serializers\Translatable as TranslatableSerializer;
 use App\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Builder;
@@ -240,5 +241,20 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         return Attribute::make(
             set: fn(?string $value) => Hash::make($value)
         );
+    }
+
+    public function isDoctor(): bool
+    {
+        return $this->hasRole(RolesPermissionEnum::DOCTOR['role']);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->hasRole(RolesPermissionEnum::ADMIN['role']);
+    }
+
+    public function isCustomer(): bool
+    {
+        return $this->hasRole(RolesPermissionEnum::CUSTOMER['role']);
     }
 }

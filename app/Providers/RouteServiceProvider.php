@@ -29,10 +29,11 @@ class RouteServiceProvider extends ServiceProvider
         $this->routes(function () {
             Route::middleware(['api', 'verified-customer', 'not_blocked'])
                 ->prefix('api')
+                ->name('apo.doctor.')
                 ->group(base_path('routes/v1/api/customer.php'));
 
-            Route::middleware(['api', 'not_blocked'])
-                ->prefix('api')
+            Route::middleware(['api', 'not_blocked', 'doctor'])
+                ->prefix('api/doctor')
                 ->group(base_path('routes/v1/api/doctor.php'));
 
             Route::middleware(['api', 'admin', 'not_blocked'])

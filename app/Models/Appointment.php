@@ -205,7 +205,7 @@ class Appointment extends Model
 
     public function canUpdate(): bool
     {
-        return auth()->user()->hasRole(RolesPermissionEnum::ADMIN['role'])
+        return auth()->user()->isAdmin()
             || (auth()->user()->id == $this->clinic->user_id);
     }
 

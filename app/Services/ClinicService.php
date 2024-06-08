@@ -97,10 +97,18 @@ class ClinicService extends BaseService
      */
     public function update(array $data, $id, array $relationships = [], array $countable = []): ?Clinic
     {
-        /** @var Clinic $clinic */
-        $clinic = $this->repository->update($data, $id);
+        $clinic = $this->repository->find($id);
 
-        if (!$clinic) return null;
+        if (!$clinic) {
+            return null;
+        }
+
+        if (!$clinic->canUpdate()){
+            return null;
+        }
+
+        $clinic = $this->repository->update($data, $clinic);
+
 
         $user = $clinic->user;
 

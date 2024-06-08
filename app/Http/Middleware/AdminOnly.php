@@ -19,7 +19,7 @@ class AdminOnly
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->user()?->hasRole(RolesPermissionEnum::ADMIN['role'])) {
+        if (!auth()->user()?->isAdmin()) {
             return $this->apiResponse(null, ApiController::STATUS_UNAUTHORIZED, __('site.unauthorized_user'));
         }
         return $next($request);

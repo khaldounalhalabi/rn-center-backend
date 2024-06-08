@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Route;
 
 //add-your-routes-here
 
-Route::post('/doctor/refresh', [v1\DoctorAuthController::class, 'refresh'])->middleware('auth:api')->name("doctor.refresh-token");
-Route::post('/doctor/logout', [v1\DoctorAuthController::class, 'logout'])->middleware('auth:api')->name("doctor.logout");
-Route::post('/doctor/update-user-data', [v1\DoctorAuthController::class, 'updateUserDetails'])->name('update-user-data');
+Route::post('refresh', [v1\DoctorAuthController::class, 'refresh'])->middleware('auth:api')->name("refresh-token");
+Route::post('logout', [v1\DoctorAuthController::class, 'logout'])->middleware('auth:api')->name("logout");
+Route::post('update-user-data', [v1\DoctorAuthController::class, 'updateUserDetails'])->name('update-user-data');
 
+Route::put('/clinic/update', [v1\ClinicController::class, 'updateDoctorClinic'])->name('clinic.update');

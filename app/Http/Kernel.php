@@ -6,6 +6,7 @@ use App\Http\Middleware\AcceptedLanguagesMiddleware;
 use App\Http\Middleware\AdminOnly;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\CustomerMustVerifyEmail;
+use App\Http\Middleware\DoctorOnly;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\NotBlocked;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
@@ -90,5 +91,6 @@ class Kernel extends HttpKernel
         'verified-customer' => CustomerMustVerifyEmail::class,
         'admin'             => AdminOnly::class,
         'not_blocked'       => NotBlocked::class,
+        'doctor'            => DoctorOnly::class,
     ];
 }

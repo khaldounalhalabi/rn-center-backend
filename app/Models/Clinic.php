@@ -41,8 +41,12 @@ class Clinic extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'name'               => Translatable::class,
-        'working_start_year' => "datetime",
+        'name'                         => Translatable::class,
+        'working_start_year'           => "datetime",
+        'max_appointments'             => 'integer',
+        'approximate_appointment_time' => 'integer',
+        'appointment_day_range'        => 'integer',
+        'appointment_cost'             => 'float',
     ];
 
     /**
@@ -292,8 +296,18 @@ class Clinic extends Model implements HasMedia
         return $this->hasMany(Offer::class);
     }
 
-    public function patientProfiles()
+    public function patientProfiles(): HasMany
     {
         return $this->hasMany(PatientProfile::class);
+    }
+
+    public function canUpdate(): bool
+    {
+        return auth()->user()?->isAdmin() || auth()->user()?->id == $this->user_id;
+    }
+
+    public function canShow(): bool
+    {
+        return auth()->user()?->isAdmin() || auth()->user()?->id == $this->user_id;
     }
 }

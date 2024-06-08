@@ -34,24 +34,24 @@ class UpdateUserRequest extends FormRequest
             'middle_name'        => ['nullable', 'string', 'max:255', 'min:3', new LanguageShape()],
             'last_name'          => ['nullable', 'string', 'max:255', 'min:3', new LanguageShape()],
             'full_name'          => ['nullable', 'string', new NotInBlocked()],
-            'phone_number'       => ['array', 'nullable', Rule::excludeIf(fn() => $user?->hasRole(RolesPermissionEnum::DOCTOR['role']))],
-            'phone_number.*'     => ['nullable', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/', new UniquePhoneNumber($user?->id), new NotInBlocked(), Rule::excludeIf(fn() => $user?->hasRole(RolesPermissionEnum::DOCTOR['role']))],
+            'phone_number'       => ['array', 'nullable', Rule::excludeIf(fn() => $user?->isDoctor())],
+            'phone_number.*'     => ['nullable', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/', new UniquePhoneNumber($user?->id), new NotInBlocked(), Rule::excludeIf(fn() => $user?->isDoctor())],
             'email'              => ['nullable', 'email', 'unique:users,email,' . $user?->id, 'min:3', 'max:255', new NotInBlocked()],
             'password'           => 'nullable|min:8|confirmed|max:255',
             'fcm_token'          => 'nullable|string|min:3|max:1000',
             'gender'             => 'nullable|string|' . Rule::in(GenderEnum::getAllValues()),
             'image'              => 'image|max:50000|mimes:jpg,png|nullable',
             'birth_date'         => 'nullable|date|date_format:Y-m-d',
-            'address'            => ['nullable', 'array', Rule::excludeIf(fn() => $user?->hasRole(RolesPermissionEnum::DOCTOR['role']))],
-            'address.name'       => ['nullable', 'string', new LanguageShape(), Rule::excludeIf(fn() => $user?->hasRole(RolesPermissionEnum::DOCTOR['role']))],
-            'address.city_id'    => ['nullable', 'exists:cities,id', 'integer', Rule::excludeIf(fn() => $user?->hasRole(RolesPermissionEnum::DOCTOR['role']))],
-            'address.lat'        => ['nullable', 'string', 'nullable_without:address.map_iframe', Rule::excludeIf(fn() => $user?->hasRole(RolesPermissionEnum::DOCTOR['role']))],
-            'address.lng'        => ['nullable', 'string', 'nullable_without:address.map_iframe', Rule::excludeIf(fn() => $user?->hasRole(RolesPermissionEnum::DOCTOR['role']))],
-            'address.map_iframe' => ['nullable', 'string', Rule::excludeIf(fn() => $user?->hasRole(RolesPermissionEnum::DOCTOR['role']))]
+            'address'            => ['nullable', 'array', Rule::excludeIf(fn() => $user?->isDoctor())],
+            'address.name'       => ['nullable', 'string', new LanguageShape(), Rule::excludeIf(fn() => $user?->isDoctor())],
+            'address.city_id'    => ['nullable', 'exists:cities,id', 'integer', Rule::excludeIf(fn() => $user?->isDoctor())],
+            'address.lat'        => ['nullable', 'string', 'nullable_without:address.map_iframe', Rule::excludeIf(fn() => $user?->isDoctor())],
+            'address.lng'        => ['nullable', 'string', 'nullable_without:address.map_iframe', Rule::excludeIf(fn() => $user?->isDoctor())],
+            'address.map_iframe' => ['nullable', 'string', Rule::excludeIf(fn() => $user?->isDoctor())]
         ];
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'phone_numbers.*' => 'phone number'
