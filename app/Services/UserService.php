@@ -78,7 +78,7 @@ class UserService extends BaseService
             $user->address()->update($data['address']);
         }
 
-        if ($data['phone_numbers']) {
+        if (isset($data['phone_numbers'])) {
             $user->phones()->delete();
             $this->phoneNumberRepository->insert($data['phone_numbers'], User::class, $user->id);
         }
