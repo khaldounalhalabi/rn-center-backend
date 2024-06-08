@@ -34,7 +34,7 @@ class LanguageShape implements ValidationRule
             if (!count($theDifferenceBetweenTheProvidedLanguages) == 0) {
                 $fail(implode(',', $theDifferenceBetweenTheProvidedLanguages) . " doesn't exist in your project locales");
             }
-        } catch (Exception) {
+        } catch (Exception $exception) {
             $fail("invalid {$attribute}");
         }
     }

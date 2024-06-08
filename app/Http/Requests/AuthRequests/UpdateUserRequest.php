@@ -27,14 +27,15 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
+        $userId = auth()->user()->id;
         return [
-            'first_name'         => 'nullable|string|max:255|min:3',
-            'middle_name'        => 'nullable|string|max:255|min:3',
-            'last_name'          => 'nullable|string|max:255|min:3',
+            'first_name'         => ['nullable', 'string', 'max:255', 'min:3', new LanguageShape()],
+            'middle_name'        => ['nullable', 'string', 'max:255', 'min:3', new LanguageShape()],
+            'last_name'          => ['nullable', 'string', 'max:255', 'min:3', new LanguageShape()],
             'full_name'          => ['nullable', 'string', new NotInBlocked()],
             'phone_number'       => 'array|nullable',
-            'phone_number.*'     => ['nullable', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/', new UniquePhoneNumber(auth()->user()->id), new NotInBlocked()],
-            'email'              => ['nullable', 'email', 'unique:users,email', 'min:3', 'max:255', new NotInBlocked()],
+            'phone_number.*'     => ['nullable', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/', new UniquePhoneNumber($userId), new NotInBlocked()],
+            'email'              => ['nullable', 'email', 'unique:users,email,' . $userId, 'min:3', 'max:255', new NotInBlocked()],
             'password'           => 'nullable|min:8|confirmed|max:255',
             'fcm_token'          => 'nullable|string|min:3|max:1000',
             'gender'             => 'nullable|string|' . Rule::in(GenderEnum::getAllValues()),
