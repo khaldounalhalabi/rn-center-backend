@@ -41,5 +41,8 @@ Route::prefix('doctor')
     });
 
 Route::get('/cities', [v1\CityController::class, 'index'])->name('cities.index');
+Route::get('/hospitals' , [v1\HospitalController::class , 'index'])->name('hospital.index');
+Route::get('/specialities' , [v1\SpecialityController::class , 'index'])->name('speciality.index');
+Route::get('/subscriptions' , [v1\SubscriptionController::class , 'index'])->name('subscription.index');
 
 Route::get('check-role', [v1\BaseAuthController::class, 'checkRole'])->name('check-role');

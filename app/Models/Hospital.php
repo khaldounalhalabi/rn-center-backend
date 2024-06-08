@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Casts\Translatable;
+use App\Enums\HospitalStatusEnum;
 use App\Enums\MediaTypeEnum;
 use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Builder;
@@ -131,5 +132,10 @@ class Hospital extends Model implements HasMedia
                 'operator' => 'like'
             ],
         ];
+    }
+
+    public function scopeIsActive(Builder $query): Builder
+    {
+        return $query->where('status', HospitalStatusEnum::ACTIVE->value);
     }
 }
