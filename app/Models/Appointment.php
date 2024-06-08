@@ -4,14 +4,17 @@ namespace App\Models;
 
 use App\Enums\AppointmentStatusEnum;
 use App\Enums\RolesPermissionEnum;
+use App\Notifications\Customer\AppointmentRemainingTimeNotification;
+use App\Services\Notification\FirebaseServices;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * @property integer  customer_id
@@ -130,6 +133,7 @@ class Appointment extends Model
      * add your relations and their searchable columns,
      * so you can search within them in the index method
      */
+    #[ArrayShape(['customer.user' => "string[]", 'clinic' => "string[]", 'clinic.user' => "string[]"])]
     public static function relationsSearchableArray(): array
     {
         return [
@@ -187,6 +191,7 @@ class Appointment extends Model
         return $this->hasMany(AppointmentLog::class);
     }
 
+    #[ArrayShape(['clinic.user.first_name' => "\Closure", 'customer.user.first_name' => "\Closure"])]
     public function customOrders(): array
     {
         return [
@@ -223,6 +228,10 @@ class Appointment extends Model
                 ->where('appointment_sequence', '<', $appointment->appointment_sequence)
                 ->count();
 
+            if ($beforeAppointmentsCount > 5) {
+                return $appointment;
+            }
+
             $appointment_gap = $appointment->clinic->schedules->pluck('appointment_gap')->unique()->first();
             $approximate_appointment_time = $appointment->clinic->approximate_appointment_time;
             $diffDays = $appointment->date->diffInDays(now()->format('Y-m-d'));
@@ -238,7 +247,19 @@ class Appointment extends Model
                 ? "$diffTime , $beforeAppointmentsCount Patients Before You"
                 : "$diffDays Days And $diffTime , $beforeAppointmentsCount Patients Before You";
 
-            //TODO::add send notification to customer
+            FirebaseServices::make()
+                ->setData([
+                    'remaining_time' => $appointment,
+                    'message'        => "Your appointment booked in ($appointment->clinic->name) clinic in {$appointment->date} has an approximate time of : {$appointment->remaining_time}",
+                    'appointment_id' => $appointment->id,
+                    'clinic_id'      => $appointment->clinic_id,
+                    // TODO::update open route for this when you do the customer pages or configure another way for handling the notification
+                    'url'            => "#"
+                ])
+                ->setMethod(FirebaseServices::ONE)
+                ->setTo($appointment->customer->user)
+                ->setNotification(AppointmentRemainingTimeNotification::class)
+                ->send();
         }
 
         return $appointment;
