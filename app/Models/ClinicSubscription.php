@@ -35,8 +35,11 @@ class ClinicSubscription extends Model
         return $this->belongsTo(Subscription::class);
     }
 
-    public function remainingTime(): int
+    public function remainingTime(): ?int
     {
-        return $this->end_time->diffInDays(now());
+        if ($this->subscription->period >= 0) {
+            return $this->end_time->diffInDays(now());
+        }
+        return null;
     }
 }

@@ -24,7 +24,7 @@ class ClinicSubscriptionService extends BaseService
     private SubscriptionRepository $subscriptionRepository;
 
 
-    public function init()
+    public function init(): void
     {
         parent::__construct();
         $this->subscriptionRepository = SubscriptionRepository::make();
@@ -41,9 +41,10 @@ class ClinicSubscriptionService extends BaseService
         if (!$subscription) {
             return null;
         }
+
         $data['start_time'] = now();
-        $data['ends_time'] = $subscription->period == -1
-            ? now()->addYears(1000)  // lifetime
+        $data['end_time'] = $subscription->period < 0
+            ? now()->addYears(200)  // lifetime
             : now()->addMonths($subscription->period);
 
         $data['status'] = SubscriptionStatusEnum::ACTIVE->value;

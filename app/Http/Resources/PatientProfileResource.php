@@ -20,7 +20,7 @@ class PatientProfileResource extends BaseResource
             'medical_condition' => $this->medical_condition,
             'note'              => $this->note,
             'other_data'        => $this->other_data,
-            'updated_at'        => $this->updated_at,
+            'updated_at'        => $this->updated_at->format('Y-m-d H:i:s'),
             'customer'          => new CustomerResource($this->whenLoaded('customer')),
             'clinic'            => new ClinicResource($this->whenLoaded('clinic')),
         ];

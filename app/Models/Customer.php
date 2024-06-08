@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -55,6 +56,18 @@ class Customer extends Model
         ];
     }
 
+    public function customOrders(): array
+    {
+        return [
+            'user.first_name' => function (Builder $query, $dir) {
+                return $query->join('users', 'users.id', '=', 'customers.user_id')
+                    ->select('customers.*', 'users.full_name AS customer_first_name')
+                    ->orderBy('customer_first_name', $dir);
+            }
+        ];
+    }
+
+
     public function user(): belongsTo
     {
         return $this->belongsTo(User::class);
@@ -70,7 +83,7 @@ class Customer extends Model
         return $this->hasMany(Prescription::class);
     }
 
-    public function patientProfiles()
+    public function patientProfiles(): HasMany
     {
         return $this->hasMany(PatientProfile::class);
     }

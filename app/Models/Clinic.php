@@ -136,6 +136,7 @@ class Clinic extends Model implements HasMedia
         ];
     }
 
+
     public function customOrders(): array
     {
         return [
