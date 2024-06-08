@@ -30,6 +30,38 @@ class PatientProfile extends Model
 
     ];
 
+    /**
+     * add your searchable columns, so you can search within them in the
+     * index method
+     */
+    public static function searchableArray(): array
+    {
+        return [
+            'medical_condition',
+            'note',
+            'other_data',
+        ];
+    }
+
+    /**
+     * add your relations and their searchable columns,
+     * so you can search within them in the index method
+     */
+    public static function relationsSearchableArray(): array
+    {
+        return [
+            'clinic'        => [
+                'name'
+            ],
+            'clinic.user'   => [
+                'name'
+            ],
+            'customer.user' => [
+                'full_name'
+            ]
+        ];
+    }
+
     public function exportable(): array
     {
         return [
@@ -60,38 +92,6 @@ class PatientProfile extends Model
     {
         return [
             //filesKeys
-        ];
-    }
-
-    /**
-     * add your searchable columns, so you can search within them in the
-     * index method
-     */
-    public static function searchableArray(): array
-    {
-        return [
-            'medical_condition',
-            'note',
-            'other_data',
-        ];
-    }
-
-    /**
-     * add your relations and their searchable columns,
-     * so you can search within them in the index method
-     */
-    public static function relationsSearchableArray(): array
-    {
-        return [
-            'clinic'        => [
-                'name'
-            ],
-            'clinic.user'   => [
-                'name'
-            ],
-            'customer.user' => [
-                'full_name'
-            ]
         ];
     }
 

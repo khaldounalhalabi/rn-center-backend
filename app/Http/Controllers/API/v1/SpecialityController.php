@@ -6,16 +6,16 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\Speciality\StoreUpdateSpecialityRequest;
 use App\Http\Resources\SpecialityResource;
 use App\Models\Speciality;
-use App\Services\Speciality\ISpecialityService;
+use App\Services\SpecialityService;
 
 class SpecialityController extends ApiController
 {
-    private $specialityService;
+    private SpecialityService $specialityService;
 
-    public function __construct(ISpecialityService $specialityService)
+    public function __construct()
     {
 
-        $this->specialityService = $specialityService;
+        $this->specialityService = SpecialityService::make();
 
         // place the relations you want to return them within the response
         $this->relations = ['media'];

@@ -6,17 +6,17 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\Medicine\StoreUpdateMedicineRequest;
 use App\Http\Resources\MedicineResource;
 use App\Models\Medicine;
-use App\Services\Medicine\IMedicineService;
+use App\Services\MedicineService;
 use Illuminate\Http\Request;
 
 class MedicineController extends ApiController
 {
-    private IMedicineService $medicineService;
+    private MedicineService $medicineService;
 
-    public function __construct(IMedicineService $medicineService)
+    public function __construct()
     {
 
-        $this->medicineService = $medicineService;
+        $this->medicineService = MedicineService::make();
 
         // place the relations you want to return them within the response
         $this->relations = ['clinic', 'clinic.user'];

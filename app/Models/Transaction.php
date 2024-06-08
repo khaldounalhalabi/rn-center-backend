@@ -31,31 +31,6 @@ class Transaction extends Model
         'date' => 'datetime',
     ];
 
-    public function exportable(): array
-    {
-        return [
-            'type',
-            'amount',
-            'description',
-            'date',
-            'actor_id',
-        ];
-    }
-
-
-    /**
-     * define your columns which you want to treat them as files
-     * so the base repository can store them in the storage without
-     * any additional files procedures
-     */
-    public function filesKeys(): array
-    {
-        return [
-            //filesKeys
-        ];
-    }
-
-
     /**
      * add your searchable columns, so you can search within them in the
      * index method
@@ -78,6 +53,29 @@ class Transaction extends Model
             'actor' => [
                 'full_name',
             ]
+        ];
+    }
+
+    public function exportable(): array
+    {
+        return [
+            'type',
+            'amount',
+            'description',
+            'date',
+            'actor_id',
+        ];
+    }
+
+    /**
+     * define your columns which you want to treat them as files
+     * so the base repository can store them in the storage without
+     * any additional files procedures
+     */
+    public function filesKeys(): array
+    {
+        return [
+            //filesKeys
         ];
     }
 

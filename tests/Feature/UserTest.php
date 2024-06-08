@@ -15,7 +15,7 @@ class UserTest extends MainTestCase
     protected string $resource = UserResource::class;
 
     // define the actor
-    protected string $userType = "none";
+    protected string $userType = "admin";
 
     // the named route eg: 'user.products.'
     //!!! Note: the dot "." in the end of the baseUrl is important !!!

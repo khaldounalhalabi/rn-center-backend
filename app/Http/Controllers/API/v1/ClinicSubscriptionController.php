@@ -6,16 +6,16 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\ClinicSubscription\StoreUpdateClinicSubscriptionRequest;
 use App\Http\Resources\ClinicSubscriptionResource;
 use App\Models\ClinicSubscription;
-use App\Services\ClinicSubscription\IClinicSubscriptionService;
+use App\Services\ClinicSubscriptionService;
 
 class ClinicSubscriptionController extends ApiController
 {
-    private IClinicSubscriptionService $clinicSubscriptionService;
+    private ClinicSubscriptionService $clinicSubscriptionService;
 
-    public function __construct(IClinicSubscriptionService $clinicSubscriptionService)
+    public function __construct()
     {
 
-        $this->clinicSubscriptionService = $clinicSubscriptionService;
+        $this->clinicSubscriptionService = ClinicSubscriptionService::make();
 
         // place the relations you want to return them within the response
         $this->relations = ['subscription', 'clinic.user'];

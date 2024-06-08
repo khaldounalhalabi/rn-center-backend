@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
-/** @mixin \App\Models\Enquiry */
+use App\Models\Enquiry;
+
+/** @mixin Enquiry */
 class EnquiryResource extends BaseResource
 {
     /**

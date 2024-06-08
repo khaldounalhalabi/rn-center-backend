@@ -6,17 +6,17 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\Transaction\StoreUpdateTransactionRequest;
 use App\Http\Resources\TransactionResource;
 use App\Models\Transaction;
-use App\Services\Transaction\ITransactionService;
+use App\Services\TransactionService;
 use Illuminate\Http\Request;
 
 class TransactionController extends ApiController
 {
-    private ITransactionService $transactionService;
+    private TransactionService $transactionService;
 
-    public function __construct(ITransactionService $transactionService)
+    public function __construct()
     {
 
-        $this->transactionService = $transactionService;
+        $this->transactionService = TransactionService::make();
 
         // place the relations you want to return them within the response
         $this->relations = ['actor'];

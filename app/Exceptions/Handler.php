@@ -2,17 +2,20 @@
 
 namespace App\Exceptions;
 
-use Throwable;
-use App\Traits\RestTrait;
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\ApiController;
+use App\Traits\RestTrait;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -38,7 +41,7 @@ class Handler extends ExceptionHandler
     /**
      * @throws Throwable
      */
-    public function handleException($request, Throwable $exception): \Illuminate\Http\Response|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+    public function handleException($request, Throwable $exception): \Illuminate\Http\Response|JsonResponse|RedirectResponse|Response
     {
         if ($exception instanceof AuthenticationException) {
             return $this->apiResponse('', ApiController::STATUS_NOT_AUTHENTICATED, $exception->getMessage());
@@ -82,6 +85,15 @@ class Handler extends ExceptionHandler
         return $this->apiResponse('', ApiController::STATUS_NOT_FOUND, $exception->getMessage());
     }
 
+    public function render($request, Throwable $exception): \Illuminate\Http\Response|JsonResponse|RedirectResponse|Response
+    {
+        if (!$request->acceptsHtml()) {
+            return $this->handleException($request, $exception);
+        }
+        return parent::render($request, $exception);
+
+    }
+
     /**
      * Register the exception handling callbacks for the application.
      * @return void
@@ -89,14 +101,5 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         //
-    }
-
-    public function render($request, Throwable $exception): \Illuminate\Http\Response|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-    {
-        if (!$request->acceptsHtml()) {
-            return $this->handleException($request, $exception);
-        }
-        return parent::render($request, $exception);
-
     }
 }

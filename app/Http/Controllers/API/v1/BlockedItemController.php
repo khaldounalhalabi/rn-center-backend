@@ -6,17 +6,17 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\BlockedItem\StoreUpdateBlockedItemRequest;
 use App\Http\Resources\BlockedItemResource;
 use App\Models\BlockedItem;
-use App\Services\BlockedItem\IBlockedItemService;
+use App\Services\BlockedItemService;
 use Illuminate\Http\Request;
 
 class BlockedItemController extends ApiController
 {
-    private IBlockedItemService $blockedItemService;
+    private BlockedItemService $blockedItemService;
 
-    public function __construct(IBlockedItemService $blockedItemService)
+    public function __construct()
     {
 
-        $this->blockedItemService = $blockedItemService;
+        $this->blockedItemService = BlockedItemService::make();
 
         // place the relations you want to return them within the response
         $this->relations = [];

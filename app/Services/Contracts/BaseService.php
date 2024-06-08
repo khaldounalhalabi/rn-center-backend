@@ -3,7 +3,6 @@
 namespace App\Services\Contracts;
 
 use App\Repositories\Contracts\BaseRepository;
-use App\Repositories\Contracts\IBaseRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -12,23 +11,27 @@ use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
+ * @property class-string $repositoryClass
  * @template T as Model
- * @template Repository as BaseRepository<T>
+ * @template Repository of class-string<$repositoryClass>
  * @implements IBaseService<T>
  */
 abstract class BaseService implements IBaseService
 {
+
+    /**
+     * @var class-string<BaseRepository<T>>
+     */
+    protected string $repositoryClass = BaseRepository::class;
+
     /**
      * @var Repository
      */
-    protected IBaseRepository $repository;
+    protected BaseRepository $repository;
 
-    /**
-     * @param Repository $repository
-     */
-    public function __construct(IBaseRepository $repository)
+    protected function __construct()
     {
-        $this->repository = $repository;
+        $this->repository = new $this->repositoryClass();
     }
 
     /**

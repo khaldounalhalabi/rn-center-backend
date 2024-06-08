@@ -10,8 +10,6 @@ use App\Repositories\Contracts\BaseRepository;
  */
 class ServiceCategoryRepository extends BaseRepository
 {
-    public function __construct(ServiceCategory $serviceCategory)
-    {
-        parent::__construct($serviceCategory);
-    }
+    protected string $modelClass = ServiceCategory::class;
+
 }

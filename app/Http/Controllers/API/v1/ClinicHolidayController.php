@@ -6,16 +6,16 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\ClinicHoliday\StoreUpdateClinicHolidayRequest;
 use App\Http\Resources\ClinicHolidayResource;
 use App\Models\ClinicHoliday;
-use App\Services\ClinicHoliday\IClinicHolidayService;
+use App\Services\ClinicHolidayService;
 
 class ClinicHolidayController extends ApiController
 {
-    private IClinicHolidayService $clinicHolidayService;
+    private ClinicHolidayService $clinicHolidayService;
 
-    public function __construct(IClinicHolidayService $clinicHolidayService)
+    public function __construct()
     {
 
-        $this->clinicHolidayService = $clinicHolidayService;
+        $this->clinicHolidayService = ClinicHolidayService::make();
 
         // place the relations you want to return them within the response
         $this->relations = ['clinic'];

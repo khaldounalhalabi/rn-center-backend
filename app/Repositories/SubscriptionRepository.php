@@ -10,8 +10,6 @@ use App\Repositories\Contracts\BaseRepository;
  */
 class SubscriptionRepository extends BaseRepository
 {
-    public function __construct(Subscription $subscription)
-    {
-        parent::__construct($subscription);
-    }
+    protected string $modelClass = Subscription::class;
+
 }

@@ -6,15 +6,15 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\Offer\StoreUpdateOfferRequest;
 use App\Http\Resources\OfferResource;
 use App\Models\Offer;
-use App\Services\Offer\IOfferService;
+use App\Services\OfferService;
 
 class OfferController extends ApiController
 {
-    private IOfferService $offerService;
+    private OfferService $offerService;
 
-    public function __construct(IOfferService $offerService)
+    public function __construct()
     {
-        $this->offerService = $offerService;
+        $this->offerService = OfferService::make();
         // place the relations you want to return them within the response
         $this->relations = ['clinic'];
     }

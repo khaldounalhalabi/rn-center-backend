@@ -99,6 +99,43 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         ];
     }
 
+    protected static function booted(): void
+    {
+        parent::booted();
+        self::creating(function (User $user) {
+            $user->full_name = self::geuUserFullName($user->first_name->toJson(), $user->middle_name->toJson(), $user->last_name->toJson());
+        });
+    }
+
+    /**
+     * @param $firstName
+     * @param $middleName
+     * @param $lastName
+     * @return false|string
+     */
+    public static function geuUserFullName($firstName, $middleName, $lastName): string|false
+    {
+        if ($firstName instanceof TranslatableSerializer && $middleName instanceof TranslatableSerializer && $lastName instanceof TranslatableSerializer) {
+            return json_encode([
+                'en' => $firstName->en . ' ' . $middleName->en . ' ' . $lastName->en,
+                'ar' => $firstName->ar . ' ', $middleName->ar . ' ' . $lastName->ar,
+            ], JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES);
+        }
+
+        if (is_array($firstName) &&
+            is_array($middleName) &&
+            is_array($lastName)) {
+            return json_encode([
+                'en' => ($firstName['en'] ?? "") . ' ' . ($middleName['en'] ?? "") . ' ' . ($lastName['en'] ?? ""),
+                'ar' => ($firstName['ar'] ?? "") . ' ', ($middleName['ar'] ?? "") . ' ' . ($lastName['ar'] ?? ""),
+            ], JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES);
+        }
+        return json_encode([
+            'en' => (json_decode($firstName, true)['en'] ?? "") . ' ' . (json_decode($middleName, true)['en'] ?? "") . ' ' . (json_decode($lastName, true)['en'] ?? ""),
+            'ar' => (json_decode($firstName, true)['ar'] ?? "") . ' ' . (json_decode($middleName, true)['ar'] ?? "") . ' ' . (json_decode($lastName, true)['ar'] ?? "")
+        ], JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES);
+    }
+
     public function customOrders(): array
     {
         return [
@@ -112,14 +149,6 @@ class User extends Authenticatable implements JWTSubject, HasMedia
                     ->orderBy('city_name', $dir);
             }
         ];
-    }
-
-    protected static function booted(): void
-    {
-        parent::booted();
-        self::creating(function (User $user) {
-            $user->full_name = self::geuUserFullName($user->first_name->toJson(), $user->middle_name->toJson(), $user->last_name->toJson());
-        });
     }
 
     public function scopeBlocked(Builder $query): Builder
@@ -185,42 +214,6 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         return $this->morphOne(Address::class, 'addressable');
     }
 
-    /**
-     * @param $firstName
-     * @param $middleName
-     * @param $lastName
-     * @return false|string
-     */
-    public static function geuUserFullName($firstName, $middleName, $lastName): string|false
-    {
-        if ($firstName instanceof TranslatableSerializer && $middleName instanceof TranslatableSerializer && $lastName instanceof TranslatableSerializer) {
-            return json_encode([
-                'en' => $firstName->en . ' ' . $middleName->en . ' ' . $lastName->en,
-                'ar' => $firstName->ar . ' ', $middleName->ar . ' ' . $lastName->ar,
-            ], JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES);
-        }
-
-        if (is_array($firstName) &&
-            is_array($middleName) &&
-            is_array($lastName)) {
-            return json_encode([
-                'en' => ($firstName['en'] ?? "") . ' ' . ($middleName['en'] ?? "") . ' ' . ($lastName['en'] ?? ""),
-                'ar' => ($firstName['ar'] ?? "") . ' ', ($middleName['ar'] ?? "") . ' ' . ($lastName['ar'] ?? ""),
-            ], JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES);
-        }
-        return json_encode([
-            'en' => (json_decode($firstName, true)['en'] ?? "") . ' ' . (json_decode($middleName, true)['en'] ?? "") . ' ' . (json_decode($lastName, true)['en'] ?? ""),
-            'ar' => (json_decode($firstName, true)['ar'] ?? "") . ' ' . (json_decode($middleName, true)['ar'] ?? "") . ' ' . (json_decode($lastName, true)['ar'] ?? "")
-        ], JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES);
-    }
-
-    protected function password(): Attribute
-    {
-        return Attribute::make(
-            set: fn(?string $value) => Hash::make($value)
-        );
-    }
-
     public function isBlocked(): bool
     {
         if ($this->is_blocked) {
@@ -240,5 +233,12 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     public function routeNotificationForFcm()
     {
         return $this->fcm_token;
+    }
+
+    protected function password(): Attribute
+    {
+        return Attribute::make(
+            set: fn(?string $value) => Hash::make($value)
+        );
     }
 }

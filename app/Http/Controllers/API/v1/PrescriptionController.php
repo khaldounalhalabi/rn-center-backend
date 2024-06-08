@@ -6,17 +6,17 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\Prescription\StoreUpdatePrescriptionRequest;
 use App\Http\Resources\PrescriptionResource;
 use App\Models\Prescription;
-use App\Services\Prescription\IPrescriptionService;
+use App\Services\PrescriptionService;
 use Illuminate\Http\Request;
 
 class PrescriptionController extends ApiController
 {
-    private IPrescriptionService $prescriptionService;
+    private PrescriptionService $prescriptionService;
 
-    public function __construct(IPrescriptionService $prescriptionService)
+    public function __construct()
     {
 
-        $this->prescriptionService = $prescriptionService;
+        $this->prescriptionService = PrescriptionService::make();
 
         $this->relations = ['clinic.user', 'customer.user', 'medicinesData.medicine'];
         $this->indexRelations = ['clinic.user', 'customer.user'];

@@ -15,6 +15,11 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 interface IBaseRepository
 {
     /**
+     * @return static
+     */
+    public static function make(): static;
+
+    /**
      * @param array $relationships
      * @param array $countable
      * @return Collection<T>|RegularCollection<T>|array

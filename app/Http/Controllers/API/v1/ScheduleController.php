@@ -6,16 +6,16 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\Schedule\StoreUpdateScheduleRequest;
 use App\Http\Resources\ScheduleResource;
 use App\Models\Schedule;
-use App\Services\Schedule\IScheduleService;
+use App\Services\ScheduleService;
 
 class ScheduleController extends ApiController
 {
-    private IScheduleService $scheduleService;
+    private ScheduleService $scheduleService;
 
-    public function __construct(IScheduleService $scheduleService)
+    public function __construct()
     {
 
-        $this->scheduleService = $scheduleService;
+        $this->scheduleService = ScheduleService::make();
 
         // place the relations you want to return them within the response
         $this->relations = [];

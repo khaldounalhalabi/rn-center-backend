@@ -6,17 +6,17 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\AppointmentLog\StoreUpdateAppointmentLogRequest;
 use App\Http\Resources\AppointmentLogResource;
 use App\Models\AppointmentLog;
-use App\Services\AppointmentLog\IAppointmentLogService;
+use App\Services\AppointmentLogService;
 use Illuminate\Http\Request;
 
 class AppointmentLogController extends ApiController
 {
-    private $appointmentLogService;
+    private AppointmentLogService $appointmentLogService;
 
-    public function __construct(IAppointmentLogService $appointmentLogService)
+    public function __construct()
     {
 
-        $this->appointmentLogService = $appointmentLogService;
+        $this->appointmentLogService = AppointmentLogService::make();
 
         // place the relations you want to return them within the response
         $this->relations = ['actor'];

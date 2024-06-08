@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Enums\RolesPermissionEnum;
-use App\Services\User\IUserService;
 
 class AdminAuthController extends BaseAuthController
 {
-    public function __construct(IUserService $userService)
+    public function __construct()
     {
-        parent::__construct($userService);
+        parent::__construct();
 
         $this->roleHook(RolesPermissionEnum::ADMIN['role']);
     }

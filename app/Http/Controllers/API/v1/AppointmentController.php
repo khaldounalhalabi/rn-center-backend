@@ -7,17 +7,18 @@ use App\Http\Requests\Appointment\StoreUpdateAppointmentRequest;
 use App\Http\Requests\Appointment\ToggleAppointmentStatusRequest;
 use App\Http\Resources\AppointmentResource;
 use App\Models\Appointment;
-use App\Services\Appointment\IAppointmentService;
+use App\Services\AddressService;
+use App\Services\AppointmentService;
 use Illuminate\Http\Request;
 
 class AppointmentController extends ApiController
 {
-    private IAppointmentService $appointmentService;
+    private AppointmentService $appointmentService;
 
-    public function __construct(IAppointmentService $appointmentService)
+    public function __construct()
     {
 
-        $this->appointmentService = $appointmentService;
+        $this->appointmentService = AppointmentService::make();
 
         // place the relations you want to return them within the response
         $this->relations = ['clinic', 'clinic.user', 'customer.user', 'service'];

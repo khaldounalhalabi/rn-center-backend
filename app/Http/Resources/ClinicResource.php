@@ -44,7 +44,7 @@ class ClinicResource extends BaseResource
             'prescriptions'                => PrescriptionResource::collection($this->whenLoaded('prescriptions')),
             'active_subscription'          => new ClinicSubscriptionResource($this->whenLoaded('activeSubscription')),
             'offers'                       => OfferResource::collection($this->whenLoaded('offers')),
-            'patientProfiles' => \App\Http\Resources\PatientProfileResource::collection($this->whenLoaded('patientProfiles')) ,
+            'patientProfiles'              => PatientProfileResource::collection($this->whenLoaded('patientProfiles')),
         ];
     }
 }

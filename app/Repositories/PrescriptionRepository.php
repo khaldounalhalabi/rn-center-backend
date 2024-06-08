@@ -10,10 +10,8 @@ use App\Repositories\Contracts\BaseRepository;
  */
 class PrescriptionRepository extends BaseRepository
 {
-    public function __construct(Prescription $prescription)
-    {
-        parent::__construct($prescription);
-    }
+    protected string $modelClass = Prescription::class;
+
 
     /**
      * @param int   $appointmentId

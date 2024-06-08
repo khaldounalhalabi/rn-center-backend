@@ -6,17 +6,15 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\Address\StoreUpdateAddressRequest;
 use App\Http\Resources\AddressResource;
 use App\Models\Address;
-use App\Services\Address\IAddressService;
+use App\Services\AddressService;
 
 class AddressController extends ApiController
 {
-    private IAddressService $addressService;
+    private AddressService $addressService;
 
-    public function __construct(IAddressService $addressService)
+    public function __construct()
     {
-
-        $this->addressService = $addressService;
-
+        $this->addressService = AddressService::make();
         // place the relations you want to return them within the response
         $this->relations = [];
     }

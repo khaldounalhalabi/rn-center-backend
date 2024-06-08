@@ -30,7 +30,7 @@ class AppointmentResource extends BaseResource
             'customer'             => new CustomerResource($this->whenLoaded('customer')),
             'clinic'               => new ClinicResource($this->whenLoaded('clinic')),
             'service'              => new ServiceResource($this->whenLoaded('service')),
-            'appointmentLogs'      => \App\Http\Resources\AppointmentLogResource::collection($this->whenLoaded('appointmentLogs')),
+            'appointmentLogs'      => AppointmentLogResource::collection($this->whenLoaded('appointmentLogs')),
         ];
     }
 }

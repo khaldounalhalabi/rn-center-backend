@@ -6,16 +6,16 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\Customer\StoreUpdateCustomerRequest;
 use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
-use App\Services\Customer\ICustomerService;
+use App\Services\CustomerService;
 
 class CustomerController extends ApiController
 {
-    private ICustomerService $customerService;
+    private CustomerService $customerService;
 
-    public function __construct(ICustomerService $customerService)
+    public function __construct()
     {
 
-        $this->customerService = $customerService;
+        $this->customerService = CustomerService::make();
 
         // place the relations you want to return them within the response
         $this->relations = ['user', 'user.address.city', 'user.phones'];

@@ -6,10 +6,8 @@ use App\Models\Service;
 use App\Models\ServiceCategory;
 use App\Repositories\ServiceCategoryRepository;
 use App\Repositories\ServiceRepository;
-use App\Services\Service\IServiceService;
-use App\Services\Service\ServiceService;
-use App\Services\ServiceCategory\IServiceCategoryService;
-use App\Services\ServiceCategory\ServiceCategoryService;
+use App\Services\ServiceCategoryService;
+use App\Services\ServiceService;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
 
@@ -19,36 +17,6 @@ class CubetaStarterServiceProvider extends ServiceProvider
      * Register services.
      */
     public function register(): void
-    {
-        $this->bindAllRepositoriesAndServices();
-
-        $this->app->bind(ServiceCategoryRepository::class, function ($app) {
-            return new (ServiceCategoryRepository::class)(
-                $app->make(ServiceCategory::class)
-            );
-        });
-
-        $this->app->bind(
-            IServiceCategoryService::class,
-            ServiceCategoryService::class
-        );
-
-        $this->app->bind(ServiceRepository::class, function ($app) {
-            return new (ServiceRepository::class)(
-                $app->make(Service::class)
-            );
-        });
-
-        $this->app->bind(
-            IServiceService::class,
-            ServiceService::class
-        );
-    }
-
-    /**
-     * Bootstrap services.
-     */
-    public function boot(): void
     {
 
     }
@@ -99,5 +67,13 @@ class CubetaStarterServiceProvider extends ServiceProvider
                 }
             }
         }
+    }
+
+    /**
+     * Bootstrap services.
+     */
+    public function boot(): void
+    {
+
     }
 }

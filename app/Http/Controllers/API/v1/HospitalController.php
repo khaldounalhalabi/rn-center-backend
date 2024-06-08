@@ -6,15 +6,15 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\Hospital\StoreUpdateHospitalRequest;
 use App\Http\Resources\HospitalResource;
 use App\Models\Hospital;
-use App\Services\Hospital\IHospitalService;
+use App\Services\HospitalService;
 
 class HospitalController extends ApiController
 {
-    private IHospitalService $hospitalService;
+    private HospitalService $hospitalService;
 
-    public function __construct(IHospitalService $hospitalService)
+    public function __construct()
     {
-        $this->hospitalService = $hospitalService;
+        $this->hospitalService = HospitalService::make();
 
         // place the relations you want to return them within the response
         $this->relations = ['availableDepartments', 'phones', 'media', 'address', 'address.city'];

@@ -10,8 +10,5 @@ use App\Repositories\Contracts\BaseRepository;
  */
 class OfferRepository extends BaseRepository
 {
-    public function __construct(Offer $offer)
-    {
-        parent::__construct($offer);
-    }
+    protected string $modelClass = Offer::class;
 }

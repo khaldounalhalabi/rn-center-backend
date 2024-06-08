@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
-/** @mixin \App\Models\AvailableDepartment */
+use App\Models\AvailableDepartment;
+
+/** @mixin AvailableDepartment */
 class AvailableDepartmentResource extends BaseResource
 {
     /**

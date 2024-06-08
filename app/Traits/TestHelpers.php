@@ -27,6 +27,10 @@ trait TestHelpers
 
     protected string $userType;
 
+    protected array $headers = [
+        'Accept' => 'application/json',
+    ];
+
     protected array $pagination = [
         "currentPage" => 1,
         "from"        => 1,

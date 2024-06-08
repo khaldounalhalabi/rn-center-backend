@@ -13,10 +13,8 @@ use LaravelIdea\Helper\App\Models\_IH_Speciality_C;
  */
 class SpecialityRepository extends BaseRepository
 {
-    public function __construct(Speciality $speciality)
-    {
-        parent::__construct($speciality);
-    }
+    protected string $modelClass = Speciality::class;
+
 
     /**
      * @param array<integer> $ids

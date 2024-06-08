@@ -6,16 +6,16 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\City\StoreUpdateCityRequest;
 use App\Http\Resources\CityResource;
 use App\Models\City;
-use App\Services\City\ICityService;
+use App\Services\CityService;
 
 class CityController extends ApiController
 {
-    private $cityService;
+    private CityService $cityService;
 
-    public function __construct(ICityService $cityService)
+    public function __construct()
     {
 
-        $this->cityService = $cityService;
+        $this->cityService = CityService::make();
 
         // place the relations you want to return them within the response
         $this->relations = [];

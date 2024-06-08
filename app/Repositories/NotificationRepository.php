@@ -8,10 +8,8 @@ use App\Repositories\Contracts\BaseRepository;
 
 class NotificationRepository extends BaseRepository
 {
-    public function __construct(Notification $notification)
-    {
-        parent::__construct($notification);
-    }
+    protected string $modelClass = Notification::class;
+
 
     public function getUserNotifications($notifiableId, $notifiableType = User::class, int $per_page = 10): ?array
     {

@@ -13,10 +13,7 @@ use LaravelIdea\Helper\App\Models\_IH_AppointmentLog_C;
  */
 class AppointmentLogRepository extends BaseRepository
 {
-    public function __construct(AppointmentLog $appointmentLog)
-    {
-        parent::__construct($appointmentLog);
-    }
+    protected string $modelClass = AppointmentLog::class;
 
     /**
      * @param       $appointmentId

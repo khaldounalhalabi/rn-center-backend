@@ -13,10 +13,7 @@ use DateTime;
  */
 class AppointmentRepository extends BaseRepository
 {
-    public function __construct(Appointment $appointment)
-    {
-        parent::__construct($appointment);
-    }
+    protected string $modelClass = Appointment::class;
 
     /**
      * @param             $clinicId

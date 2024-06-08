@@ -15,11 +15,11 @@ class PatientProfileTest extends MainTestCase
     protected string $resource = PatientProfileResource::class;
 
     // define the actor
-    protected string $userType = "{{actor}}";
+    protected string $userType = "admin";
 
     // the named route eg: 'user.products.'
     //!!! Note: the dot "." in the end of the baseUrl is important !!!
-    protected string $baseUrl = 'api.public.patient.profiles.';
+    protected string $baseUrl = 'api.admin.patient.profiles.';
 
     // if your endpoints return the model with its relation put the relations in the array
     protected array $relations = [];
