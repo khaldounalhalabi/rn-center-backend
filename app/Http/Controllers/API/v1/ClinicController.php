@@ -103,10 +103,28 @@ class ClinicController extends ApiController
     public function updateDoctorClinic(StoreUpdateClinicRequest $request)
     {
         $clinicId = auth()->user()?->clinic->id;
-        /** @var Clinic|null $item */
+        if (!$clinicId) {
+            return $this->noData();
+        }
+
         $item = $this->clinicService->update($request->validated(), $clinicId, $this->relations, $this->countable);
         if ($item) {
             return $this->apiResponse(new ClinicResource($item), self::STATUS_OK, __('site.update_successfully'));
+        }
+
+        return $this->noData(null);
+    }
+
+    public function showDoctorClinic()
+    {
+        $clinicId = auth()->user()?->clinic->id;
+        if (!$clinicId) {
+            return $this->noData();
+        }
+
+        $item = $this->clinicService->view($clinicId, $this->relations, $this->countable);
+        if ($item) {
+            return $this->apiResponse(new ClinicResource($item), self::STATUS_OK, __('site.get_successfully'));
         }
 
         return $this->noData(null);

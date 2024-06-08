@@ -103,7 +103,7 @@ class ClinicService extends BaseService
             return null;
         }
 
-        if (!$clinic->canUpdate()){
+        if (!$clinic->canUpdate()) {
             return null;
         }
 
