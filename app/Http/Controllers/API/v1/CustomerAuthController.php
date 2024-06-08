@@ -5,13 +5,12 @@ namespace App\Http\Controllers\API\v1;
 use App\Enums\RolesPermissionEnum;
 use App\Http\Requests\Customer\RequestVerificationCode;
 use App\Http\Requests\Customer\VerifyEmailRequest;
-use App\Services\User\IUserService;
 
 class CustomerAuthController extends BaseAuthController
 {
-    public function __construct(IUserService $userService)
+    public function __construct()
     {
-        parent::__construct($userService);
+        parent::__construct();
 
         $this->roleHook(RolesPermissionEnum::CUSTOMER['role']);
         $this->relations = ['customer', 'media', 'phones'];

@@ -21,16 +21,18 @@ use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
- * @template T as Model
+ * @template T of Model
  * @implements IBaseRepository<T>
  */
 abstract class BaseRepository implements IBaseRepository
 {
     use FileHandler;
 
+    private static $instance;
     /**
-     * @var T
+     * @var class-string
      */
+    protected string $modelClass = Model::class;
     protected Model $model;
     private Filesystem $fileSystem;
     private array $filterKeys = [];
@@ -45,9 +47,9 @@ abstract class BaseRepository implements IBaseRepository
     /**
      * @param T $model
      */
-    public function __construct(Model $model)
+    public function __construct()
     {
-        $this->model = $model;
+        $this->model = new $this->modelClass;
         $this->tableName = $this->model->getTable();
 
         if (method_exists($this->model, 'filesKeys')) {
@@ -78,6 +80,16 @@ abstract class BaseRepository implements IBaseRepository
         $table = $this->model->getTable();
 
         return Schema::getColumnListing($table);
+    }
+
+    public static function make(): static
+    {
+        if (is_null(self::$instance)) {
+            self::$instance = new static();
+        } elseif (!(self::$instance instanceof static)) {
+            self::$instance = new static();
+        }
+        return self::$instance;
     }
 
     /**

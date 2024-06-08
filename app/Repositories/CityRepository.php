@@ -10,8 +10,6 @@ use App\Repositories\Contracts\BaseRepository;
  */
 class CityRepository extends BaseRepository
 {
-    public function __construct(City $city)
-    {
-        parent::__construct($city);
-    }
+    protected string $modelClass = City::class;
+
 }

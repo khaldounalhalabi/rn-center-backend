@@ -6,17 +6,17 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\Subscription\StoreUpdateSubscriptionRequest;
 use App\Http\Resources\SubscriptionResource;
 use App\Models\Subscription;
-use App\Services\Subscription\ISubscriptionService;
+use App\Services\SubscriptionService;
 use Illuminate\Http\Request;
 
 class SubscriptionController extends ApiController
 {
-    private ISubscriptionService $subscriptionService;
+    private SubscriptionService $subscriptionService;
 
-    public function __construct(ISubscriptionService $subscriptionService)
+    public function __construct()
     {
 
-        $this->subscriptionService = $subscriptionService;
+        $this->subscriptionService = SubscriptionService::make();
 
         // place the relations you want to return them within the response
         $this->relations = [];

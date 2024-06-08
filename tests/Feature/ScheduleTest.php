@@ -13,11 +13,11 @@ class ScheduleTest extends MainTestCase
     protected string $resource = ScheduleResource::class;
 
     // define the actor
-    protected string $userType = "admin";
+    protected string $userType  = "admin";
 
     // the named route eg: 'user.products.'
     //!!! Note: the dot "." in the end of the baseUrl is important !!!
-    protected string $baseUrl = 'api.admin.schedules.';
+    protected string $baseUrl = 'api.admin.clinics.schedules.';
 
     // if your endpoints return the model with its relation put the relations in the array
     protected array $relations = [];
@@ -36,7 +36,7 @@ class ScheduleTest extends MainTestCase
 
     public function test_user_can_create_a_Schedule()
     {
-        $this->requestPathHook($this->baseUrl . 'store');
+        $this->requestPathHook(route('api.admin.clinics.schedules'));
         $this->storeTest([]);
     }
 

@@ -7,16 +7,15 @@ use App\Http\Requests\Enquiry\EnquiryReplyRequest;
 use App\Http\Requests\Enquiry\StoreUpdateEnquiryRequest;
 use App\Http\Resources\EnquiryResource;
 use App\Models\Enquiry;
-use App\Services\Enquiry\IEnquiryService;
+use App\Services\EnquiryService;
 
 class EnquiryController extends ApiController
 {
-    private IEnquiryService $enquiryService;
+    private EnquiryService $enquiryService;
 
-    public function __construct(IEnquiryService $enquiryService)
+    public function __construct()
     {
-
-        $this->enquiryService = $enquiryService;
+        $this->enquiryService = EnquiryService::make();
 
         // place the relations you want to return them within the response
         $this->relations = [];

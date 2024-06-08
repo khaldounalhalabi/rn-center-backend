@@ -15,7 +15,7 @@ class EnquiryTest extends MainTestCase
     protected string $resource = EnquiryResource::class;
 
     // define the actor
-    protected string $userType = "admin";
+    protected string $userType  = "admin";
 
     // the named route eg: 'user.products.'
     //!!! Note: the dot "." in the end of the baseUrl is important !!!

@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
-/** @mixin \App\Models\City */
+use App\Models\City;
+
+/** @mixin City */
 class CityResource extends BaseResource
 {
     /**

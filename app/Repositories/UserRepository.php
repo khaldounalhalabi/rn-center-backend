@@ -13,13 +13,7 @@ use LaravelIdea\Helper\App\Models\_IH_User_C;
  */
 class UserRepository extends BaseRepository implements IBaseRepository
 {
-    /**
-     * @param User $user
-     */
-    public function __construct(User $user)
-    {
-        parent::__construct($user);
-    }
+    protected string $modelClass = User::class;
 
     /**
      * @param $email

@@ -7,7 +7,6 @@ use App\Traits\Translations;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -23,6 +22,47 @@ class Offer extends Model
     use HasFactory;
     use Translations;
 
+    protected $fillable = [
+        'title',
+        'value',
+        'note',
+        'start_at',
+        'end_at',
+        'is_active',
+        'type',
+        'clinic_id',
+    ];
+    protected $casts = [
+        'title'     => Translatable::class,
+        'note'      => Translatable::class,
+        'start_at'  => 'datetime',
+        'end_at'    => 'datetime',
+        'is_active' => 'boolean',
+
+    ];
+
+    /**
+     * add your searchable columns, so you can search within them in the
+     * index method
+     */
+    public static function searchableArray(): array
+    {
+        return [
+            'type',
+        ];
+    }
+
+    /**
+     * add your relations and their searchable columns,
+     * so you can search within them in the index method
+     */
+    public static function relationsSearchableArray(): array
+    {
+        return [
+
+        ];
+    }
+
     protected static function booted()
     {
         parent::booted();
@@ -34,27 +74,6 @@ class Offer extends Model
             }
         });
     }
-
-
-    protected $fillable = [
-        'title',
-        'value',
-        'note',
-        'start_at',
-        'end_at',
-        'is_active',
-        'type',
-        'clinic_id',
-    ];
-
-    protected $casts = [
-        'title'     => Translatable::class,
-        'note'      => Translatable::class,
-        'start_at'  => 'datetime',
-        'end_at'    => 'datetime',
-        'is_active' => 'boolean',
-
-    ];
 
     public function exportable(): array
     {
@@ -84,29 +103,6 @@ class Offer extends Model
     {
         return [
             //filesKeys
-        ];
-    }
-
-
-    /**
-     * add your searchable columns, so you can search within them in the
-     * index method
-     */
-    public static function searchableArray(): array
-    {
-        return [
-            'type',
-        ];
-    }
-
-    /**
-     * add your relations and their searchable columns,
-     * so you can search within them in the index method
-     */
-    public static function relationsSearchableArray(): array
-    {
-        return [
-
         ];
     }
 

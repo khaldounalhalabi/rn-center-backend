@@ -12,8 +12,6 @@ use App\Repositories\Contracts\IBaseRepository;
  */
 class HospitalRepository extends BaseRepository
 {
-    public function __construct(Hospital $hospital)
-    {
-        parent::__construct($hospital);
-    }
+    protected string $modelClass = Hospital::class;
+
 }

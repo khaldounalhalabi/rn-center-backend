@@ -15,10 +15,8 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class ScheduleRepository extends BaseRepository
 {
-    public function __construct(Schedule $schedule)
-    {
-        parent::__construct($schedule);
-    }
+    protected string $modelClass = Schedule::class;
+
 
     /**
      * @param class-string $schedulableType

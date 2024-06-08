@@ -10,8 +10,6 @@ use App\Repositories\Contracts\BaseRepository;
  */
 class EnquiryRepository extends BaseRepository
 {
-    public function __construct(Enquiry $enquiry)
-    {
-        parent::__construct($enquiry);
-    }
+    protected string $modelClass = Enquiry::class;
+
 }

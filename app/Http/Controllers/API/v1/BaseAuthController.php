@@ -10,21 +10,21 @@ use App\Http\Requests\AuthRequests\RequestResetPasswordRequest;
 use App\Http\Requests\AuthRequests\ResetPasswordRequest;
 use App\Http\Requests\AuthRequests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
-use App\Services\User\IUserService;
+use App\Services\UserService;
 use Exception;
 use Illuminate\Http\Request;
 
 class BaseAuthController extends ApiController
 {
-    protected IUserService $userService;
+    protected UserService $userService;
     private ?string $role = null;
 
     /**
      * @throws Exception
      */
-    public function __construct(IUserService $userService)
+    public function __construct()
     {
-        $this->userService = $userService;
+        $this->userService = UserService::make();
         $this->relations = ['media'];
     }
 

@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -27,36 +27,6 @@ class Medicine extends Model
     protected $casts = [
 
     ];
-
-    public function exportable(): array
-    {
-        return [
-            'name',
-            'description',
-            'clinic.name',
-        ];
-    }
-
-
-    public function clinic(): BelongsTo
-    {
-        return $this->belongsTo(Clinic::class);
-    }
-
-
-    /**
-     * define your columns which you want to treat them as files
-     * so the base repository can store them in the storage without
-     * any additional files procedures
-     */
-    public function filesKeys(): array
-    {
-        return [
-
-            //filesKeys
-        ];
-    }
-
 
     /**
      * add your searchable columns, so you can search within them in the
@@ -85,6 +55,33 @@ class Medicine extends Model
                 'first_name',
                 'last_name'
             ]
+        ];
+    }
+
+    public function exportable(): array
+    {
+        return [
+            'name',
+            'description',
+            'clinic.name',
+        ];
+    }
+
+    public function clinic(): BelongsTo
+    {
+        return $this->belongsTo(Clinic::class);
+    }
+
+    /**
+     * define your columns which you want to treat them as files
+     * so the base repository can store them in the storage without
+     * any additional files procedures
+     */
+    public function filesKeys(): array
+    {
+        return [
+
+            //filesKeys
         ];
     }
 

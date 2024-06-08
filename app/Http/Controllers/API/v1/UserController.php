@@ -6,16 +6,16 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\User\StoreUpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use App\Services\User\IUserService;
+use App\Services\UserService;
 
 class UserController extends ApiController
 {
-    private IUserService $userService;
+    private UserService $userService;
 
-    public function __construct(IUserService $userService)
+    public function __construct()
     {
 
-        $this->userService = $userService;
+        $this->userService = UserService::make();
 
         // place the relations you want to return them within the response
         $this->relations = ['media', 'roles', 'address.city', 'phones'];

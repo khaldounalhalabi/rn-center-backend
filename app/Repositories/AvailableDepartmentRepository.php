@@ -12,8 +12,5 @@ use App\Repositories\Contracts\IBaseRepository;
  */
 class AvailableDepartmentRepository extends BaseRepository
 {
-    public function __construct(AvailableDepartment $availableDepartment)
-    {
-        parent::__construct($availableDepartment);
-    }
+    protected string $modelClass = AvailableDepartment::class;
 }

@@ -13,10 +13,8 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class ClinicRepository extends BaseRepository
 {
-    public function __construct(Clinic $clinic)
-    {
-        parent::__construct($clinic);
-    }
+    protected string $modelClass = Clinic::class;
+
 
     public function byActiveSubscription($subscriptionId, array $relations = [], array $countable = [], int $perPage = 10): ?array
     {

@@ -27,16 +27,6 @@ class Enquiry extends Model
         'read_at' => 'datetime',
     ];
 
-    public function exportable(): array
-    {
-        return [
-            'name',
-            'email',
-            'message',
-            'read_at',
-        ];
-    }
-
     /**
      * add your searchable columns, so you can search within them in the
      * index method
@@ -47,6 +37,16 @@ class Enquiry extends Model
             'name',
             'email',
             'message',
+        ];
+    }
+
+    public function exportable(): array
+    {
+        return [
+            'name',
+            'email',
+            'message',
+            'read_at',
         ];
     }
 }

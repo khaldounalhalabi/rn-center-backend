@@ -2824,7 +2824,7 @@
                                         ],
                                         "type": "text/javascript"
                                     },
-                                    "listen": "admin"
+                                    "listen": admin
                                 },
                                 {
                                     "script": {
@@ -2872,13 +2872,13 @@
                                     "formdata": [
                                         {
                                             "key": "first_name",
-                                            "value": "admin",
+                                            "value": admin,
                                             "type": "text",
                                             "description": ""
                                         },
                                         {
                                             "key": "last_name",
-                                            "value": "admin",
+                                            "value": admin,
                                             "type": "text",
                                             "description": ""
                                         },
@@ -3113,7 +3113,7 @@
                                                 "{{local}}"
                                             ],
                                             "path": [
-                                                "admin",
+                                                admin,
                                                 "refresh"
                                             ]
                                         }
@@ -3248,7 +3248,7 @@
                                                 "{{local}}"
                                             ],
                                             "path": [
-                                                "admin",
+                                                admin,
                                                 "password-reset-request"
                                             ]
                                         }
@@ -3378,7 +3378,7 @@
                                                 "{{local}}"
                                             ],
                                             "path": [
-                                                "admin",
+                                                admin,
                                                 "check-reset-password-code"
                                             ]
                                         }
@@ -3531,7 +3531,7 @@
                                                 "{{local}}"
                                             ],
                                             "path": [
-                                                "admin",
+                                                admin,
                                                 "reset-password"
                                             ]
                                         }
@@ -3649,7 +3649,7 @@
                                                 "{{local}}"
                                             ],
                                             "path": [
-                                                "admin",
+                                                admin,
                                                 "logout"
                                             ]
                                         }

@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
-/** @mixin \App\Models\Transaction */
+use App\Models\Transaction;
+
+/** @mixin Transaction */
 class TransactionResource extends BaseResource
 {
     /**

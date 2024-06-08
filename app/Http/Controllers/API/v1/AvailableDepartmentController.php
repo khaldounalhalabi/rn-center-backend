@@ -6,16 +6,16 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\AvailableDepartment\StoreUpdateAvailableDepartmentRequest;
 use App\Http\Resources\AvailableDepartmentResource;
 use App\Models\AvailableDepartment;
-use App\Services\AvailableDepartment\IAvailableDepartmentService;
+use App\Services\AvailableDepartmentService;
 
 class AvailableDepartmentController extends ApiController
 {
-    private $availableDepartmentService;
+    private AvailableDepartmentService $availableDepartmentService;
 
-    public function __construct(IAvailableDepartmentService $availableDepartmentService)
+    public function __construct()
     {
 
-        $this->availableDepartmentService = $availableDepartmentService;
+        $this->availableDepartmentService = AvailableDepartmentService::make();
 
         // place the relations you want to return them within the response
         $this->relations = [];

@@ -6,16 +6,16 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\PatientProfile\StoreUpdatePatientProfileRequest;
 use App\Http\Resources\PatientProfileResource;
 use App\Models\PatientProfile;
-use App\Services\PatientProfile\IPatientProfileService;
+use App\Services\PatientProfileService;
 
 class PatientProfileController extends ApiController
 {
-    private $patientProfileService;
+    private PatientProfileService $patientProfileService;
 
-    public function __construct(IPatientProfileService $patientProfileService)
+    public function __construct()
     {
 
-        $this->patientProfileService = $patientProfileService;
+        $this->patientProfileService = PatientProfileService::make();
 
         // place the relations you want to return them within the response
         $this->relations = ['customer.user', 'clinic.user'];

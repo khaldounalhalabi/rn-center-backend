@@ -12,10 +12,8 @@ use JetBrains\PhpStorm\ArrayShape;
  */
 class ClinicSubscriptionRepository extends BaseRepository
 {
-    public function __construct(ClinicSubscription $clinicSubscription)
-    {
-        parent::__construct($clinicSubscription);
-    }
+    protected string $modelClass = ClinicSubscription::class;
+
 
     /**
      * @param       $clinicId

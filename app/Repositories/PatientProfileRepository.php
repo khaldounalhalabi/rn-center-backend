@@ -10,16 +10,14 @@ use App\Repositories\Contracts\BaseRepository;
  */
 class PatientProfileRepository extends BaseRepository
 {
-    public function __construct(PatientProfile $patientProfile)
-    {
-        parent::__construct($patientProfile);
-    }
+    protected string $modelClass = PatientProfile::class;
+
 
     public function getByCustomerId($customerId, array $relations, array $countable = [], int $perPage = 10): ?array
     {
         $perPage = request('per_page') ?? $perPage;
         $data = $this->globalQuery($relations, $countable)
-            ->where('customer_id' , $customerId)
+            ->where('customer_id', $customerId)
             ->paginate($perPage);
 
         if ($data->count()) {

@@ -45,6 +45,16 @@ class Schedule extends Model
         ];
     }
 
+    /**
+     * add your relations and their searchable columns,
+     * so you can search within them in the index method
+     */
+    public static function relationsSearchableArray(): array
+    {
+        return [
+        ];
+    }
+
     public function filterArray(): array
     {
         return [
@@ -59,16 +69,6 @@ class Schedule extends Model
                 'name'     => 'end_time',
                 'operator' => '>='
             ]
-        ];
-    }
-
-    /**
-     * add your relations and their searchable columns,
-     * so you can search within them in the index method
-     */
-    public static function relationsSearchableArray(): array
-    {
-        return [
         ];
     }
 

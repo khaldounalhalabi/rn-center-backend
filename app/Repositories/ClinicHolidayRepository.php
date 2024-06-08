@@ -10,8 +10,6 @@ use App\Repositories\Contracts\BaseRepository;
  */
 class ClinicHolidayRepository extends BaseRepository
 {
-    public function __construct(ClinicHoliday $clinicHoliday)
-    {
-        parent::__construct($clinicHoliday);
-    }
+    protected string $modelClass = ClinicHoliday::class;
+
 }

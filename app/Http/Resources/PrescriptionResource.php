@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
-/** @mixin \App\Models\Prescription */
+use App\Models\Prescription;
+
+/** @mixin Prescription */
 class PrescriptionResource extends BaseResource
 {
     /**

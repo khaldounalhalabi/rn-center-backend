@@ -12,8 +12,5 @@ use App\Repositories\Contracts\IBaseRepository;
  */
 class AddressRepository extends BaseRepository
 {
-    public function __construct(Address $address)
-    {
-        parent::__construct($address);
-    }
+    protected string $modelClass = Address::class;
 }

@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
-/** @mixin \App\Models\PatientProfile */
+use App\Models\PatientProfile;
+
+/** @mixin PatientProfile */
 class PatientProfileResource extends BaseResource
 {
     /**

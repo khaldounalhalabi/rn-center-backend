@@ -12,10 +12,8 @@ use App\Repositories\Contracts\IBaseRepository;
  */
 class PhoneNumberRepository extends BaseRepository
 {
-    public function __construct(PhoneNumber $phoneNumber)
-    {
-        parent::__construct($phoneNumber);
-    }
+    protected string $modelClass = PhoneNumber::class;
+
 
     /**
      * @param array<string> $phones

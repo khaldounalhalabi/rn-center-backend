@@ -19,7 +19,7 @@ class AppointmentLogTest extends MainTestCase
 
     // the named route eg: 'user.products.'
     //!!! Note: the dot "." in the end of the baseUrl is important !!!
-    protected string $baseUrl = 'api.public.appointment.logs.';
+    protected string $baseUrl = 'api.admin.appointment.logs.';
 
     // if your endpoints return the model with its relation put the relations in the array
     protected array $relations = [];

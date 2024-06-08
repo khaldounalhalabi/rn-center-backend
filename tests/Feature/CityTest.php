@@ -13,11 +13,11 @@ class CityTest extends MainTestCase
     protected string $resource = CityResource::class;
 
     // define the actor
-    protected string $userType = "none";
+    protected string $userType = "admin";
 
     // the named route eg: 'user.products.'
     //!!! Note: the dot "." in the end of the baseUrl is important !!!
-    protected string $baseUrl = 'api.public.cities.';
+    protected string $baseUrl = 'api.admin.cities.';
 
     // if your endpoints return the model with its relation put the relations in the array
     protected array $relations = [];

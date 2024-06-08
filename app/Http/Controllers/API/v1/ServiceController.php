@@ -6,17 +6,17 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\Service\StoreUpdateServiceRequest;
 use App\Http\Resources\ServiceResource;
 use App\Models\Service;
-use App\Services\Service\IServiceService;
+use App\Services\ServiceService;
 use Illuminate\Http\Request;
 
 class ServiceController extends ApiController
 {
-    private IServiceService $serviceService;
+    private ServiceService $serviceService;
 
-    public function __construct(IServiceService $serviceService)
+    public function __construct()
     {
 
-        $this->serviceService = $serviceService;
+        $this->serviceService = ServiceService::make();
 
         // place the relations you want to return them within the response
         $this->relations = ['serviceCategory', 'clinic'];

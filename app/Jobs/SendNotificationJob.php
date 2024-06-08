@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -40,7 +41,7 @@ class SendNotificationJob implements ShouldQueue
             Notification::send($this->users, new $this->notification($this->data));
             Log::info('***************************************');
             Log::info('***************************************');
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             Log::info('***************************************');
             Log::info("$this->notification could not be send to : \n" . print_r($this->users->pluck(['id', 'email']), 1));
             Log::info($exception->getMessage());

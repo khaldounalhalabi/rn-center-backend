@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property string type
@@ -23,7 +23,11 @@ class BlockedItem extends Model
 
     ];
 
-    public function exportable(): array
+    /**
+     * add your searchable columns, so you can search within them in the
+     * index method
+     */
+    public static function searchableArray(): array
     {
         return [
             'type',
@@ -31,6 +35,13 @@ class BlockedItem extends Model
         ];
     }
 
+    public function exportable(): array
+    {
+        return [
+            'type',
+            'value',
+        ];
+    }
 
     /**
      * define your columns which you want to treat them as files
@@ -41,19 +52,6 @@ class BlockedItem extends Model
     {
         return [
             //filesKeys
-        ];
-    }
-
-
-    /**
-     * add your searchable columns, so you can search within them in the
-     * index method
-     */
-    public static function searchableArray(): array
-    {
-        return [
-            'type',
-            'value',
         ];
     }
 }

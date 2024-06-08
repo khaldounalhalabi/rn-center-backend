@@ -10,8 +10,5 @@ use App\Repositories\Contracts\BaseRepository;
  */
 class BlockedItemRepository extends BaseRepository
 {
-    public function __construct(BlockedItem $blockedItem)
-    {
-        parent::__construct($blockedItem);
-    }
+    protected string $modelClass = BlockedItem::class;
 }

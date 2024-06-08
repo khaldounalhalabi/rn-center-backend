@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\Translatable;
 use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,7 +23,7 @@ class City extends Model
     ];
 
     protected $casts = [
-        'name' => \App\Casts\Translatable::class,
+        'name' => Translatable::class,
 
     ];
 

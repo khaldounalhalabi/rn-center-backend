@@ -12,8 +12,6 @@ use App\Repositories\Contracts\IBaseRepository;
  */
 class CustomerRepository extends BaseRepository
 {
-    public function __construct(Customer $customer)
-    {
-        parent::__construct($customer);
-    }
+    protected string $modelClass = Customer::class;
+
 }

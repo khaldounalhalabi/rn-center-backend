@@ -6,16 +6,16 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\PhoneNumber\StoreUpdatePhoneNumberRequest;
 use App\Http\Resources\PhoneNumberResource;
 use App\Models\PhoneNumber;
-use App\Services\PhoneNumber\IPhoneNumberService;
+use App\Services\PhoneNumberService;
 
 class PhoneNumberController extends ApiController
 {
-    private $phoneNumberService;
+    private PhoneNumberService $phoneNumberService;
 
-    public function __construct(IPhoneNumberService $phoneNumberService)
+    public function __construct()
     {
 
-        $this->phoneNumberService = $phoneNumberService;
+        $this->phoneNumberService = PhoneNumberService::make();
 
         // place the relations you want to return them within the response
         $this->relations = [];

@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
-/** @mixin \App\Models\AppointmentLog */
+use App\Models\AppointmentLog;
+
+/** @mixin AppointmentLog */
 class AppointmentLogResource extends BaseResource
 {
     /**
