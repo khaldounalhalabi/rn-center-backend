@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Contracts;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -87,4 +88,11 @@ interface IBaseRepository
      * @return void
      */
     public function import(): void;
+
+    /**
+     * @param array $relations
+     * @param array $countable
+     * @return Builder|T
+     */
+    public function globalQuery(array $relations = [], array $countable = []): Builder;
 }

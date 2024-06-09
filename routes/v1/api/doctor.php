@@ -16,3 +16,6 @@ Route::get('/clinic', [v1\ClinicController::class, 'showDoctorClinic'])->name('c
 
 Route::post('/schedules', [v1\ScheduleController::class, 'storeUpdateSchedules'])->name('schedules.store');
 Route::get('/schedules', [v1\ScheduleController::class, 'getCurrentClinicSchedules'])->name('schedules.show');
+
+Route::get('clinic-holidays', [v1\ClinicHolidayController::class, 'getCurrentClinicHolidays'])->name('holidays');
+Route::apiResource('clinic-holidays', v1\ClinicHolidayController::class)->except(['index'])->names('holidays');

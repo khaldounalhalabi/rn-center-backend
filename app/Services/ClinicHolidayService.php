@@ -6,6 +6,7 @@ use App\Models\ClinicHoliday;
 use App\Repositories\ClinicHolidayRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * @extends BaseService<ClinicHoliday>
@@ -16,4 +17,47 @@ class ClinicHolidayService extends BaseService
     use Makable;
 
     protected string $repositoryClass = ClinicHolidayRepository::class;
+
+    public function getCurrentClinicHolidays(array $relations = [], array $countable = [], int $perPage = 10): ?array
+    {
+        if (!auth()->user()?->isDoctor()) {
+            return null;
+        }
+
+        return $this->repository->getClinicHolidays(auth()->user()?->clinic->id, $relations, $countable, $perPage);
+    }
+
+    public function view($id, array $relationships = [], array $countable = []): ?Model
+    {
+        $holiday = parent::view($id, $relationships, $countable);
+
+        if ($holiday?->canShow()) {
+            return $holiday;
+        }
+
+        return null;
+    }
+
+
+    public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
+    {
+        $holiday = $this->repository->find($id);
+
+        if (!$holiday?->canUpdate()) {
+            return null;
+        }
+
+        return $this->repository->update($data, $holiday, $relationships, $countable);
+    }
+
+    public function delete($id): ?bool
+    {
+        $holiday = $this->repository->find($id);
+
+        if (!$holiday?->canUpdate()) {
+            return null;
+        }
+
+        return $holiday->delete();
+    }
 }

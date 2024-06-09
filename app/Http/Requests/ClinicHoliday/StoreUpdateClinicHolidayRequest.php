@@ -39,4 +39,13 @@ class StoreUpdateClinicHolidayRequest extends FormRequest
             'reason'     => ['nullable', 'json', new LanguageShape()],
         ];
     }
+
+    public function prepareForValidation(): void
+    {
+        if (auth()->user()?->isDoctor()) {
+            $this->merge([
+                'clinic_id' => auth()->user()?->clinic->id
+            ]);
+        }
+    }
 }
