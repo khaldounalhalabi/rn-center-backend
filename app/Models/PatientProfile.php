@@ -54,7 +54,7 @@ class PatientProfile extends Model
                 'name'
             ],
             'clinic.user'   => [
-                'name'
+                'full_name'
             ],
             'customer.user' => [
                 'full_name'

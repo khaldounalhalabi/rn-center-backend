@@ -35,7 +35,6 @@ class Customer extends Model
     public static function searchableArray(): array
     {
         return [
-            'medical_condition',
         ];
     }
 
@@ -47,10 +46,7 @@ class Customer extends Model
     {
         return [
             'user' => [
-                'first_name',
-                'last_name',
                 'email',
-                'middle_name',
                 'full_name'
             ],
         ];
