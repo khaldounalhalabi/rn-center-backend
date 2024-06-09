@@ -25,7 +25,7 @@ class BaseAuthController extends ApiController
     public function __construct()
     {
         $this->userService = UserService::make();
-        $this->relations = ['media'];
+        $this->relations = ['media' , 'phoneNumbers'];
     }
 
     public function roleHook(string $role)
