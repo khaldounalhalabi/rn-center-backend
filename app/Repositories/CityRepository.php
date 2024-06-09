@@ -15,11 +15,12 @@ class CityRepository extends BaseRepository
 
     /**
      * @param array $relations
+     * @param array $countable
      * @return Builder
      */
-    public function globalQuery(array $relations = []): Builder
+    public function globalQuery(array $relations = [], array $countable = []): Builder
     {
-        $query = parent::globalQuery($relations);
+        $query = parent::globalQuery($relations, $countable);
         $query->when(!auth()->user()?->isAdmin(), function (Builder $query) {
             $query->isActive();
         });
