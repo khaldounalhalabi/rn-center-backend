@@ -27,7 +27,7 @@ class UserResource extends BaseResource
             'role'        => $this->whenLoaded('roles'),
             'image'       => MediaResource::collection($this->whenLoaded('media')),
             'customer'    => new CustomerResource($this->whenLoaded('customer')),
-            'clinics'     => new ClinicResource($this->whenLoaded('clinic')),
+            'clinic'     => new ClinicResource($this->whenLoaded('clinic')),
             'phones'      => PhoneNumberResource::collection($this->whenLoaded('phones')),
             'address'     => new AddressResource($this->whenLoaded('address')),
         ];

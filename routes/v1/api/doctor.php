@@ -13,3 +13,6 @@ Route::get('me', [v1\DoctorAuthController::class, 'userDetails'])->name('me');
 
 Route::put('/clinic/update', [v1\ClinicController::class, 'updateDoctorClinic'])->name('clinic.update');
 Route::get('/clinic', [v1\ClinicController::class, 'showDoctorClinic'])->name('clinic.show');
+
+Route::post('/schedules', [v1\ScheduleController::class, 'storeUpdateSchedules'])->name('schedules.store');
+Route::get('/schedules', [v1\ScheduleController::class, 'getCurrentClinicSchedules'])->name('schedules.show');

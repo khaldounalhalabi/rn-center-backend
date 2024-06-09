@@ -88,4 +88,27 @@ class ScheduleController extends ApiController
 
         return $this->noData(false);
     }
+
+    public function getCurrentClinicSchedules()
+    {
+        if (auth()->user()?->isDoctor()) {
+            $clinicId = auth()->user()?->clinic->id;
+        } else {
+            return $this->noData();
+        }
+        
+        $data = $this->scheduleService->getClinicSchedule($clinicId);
+
+        if (count($data)) {
+            return $this->apiResponse(
+                collect(ScheduleResource::collection($data['data']))
+                    ->groupBy('day_of_week')
+                    ->put('appointment_gap', $data['appointment_gap']),
+                self::STATUS_OK,
+                __('site.get_successfully')
+            );
+        }
+
+        return $this->noData([]);
+    }
 }

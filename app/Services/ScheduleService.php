@@ -79,7 +79,7 @@ class ScheduleService extends BaseService
         }
     }
 
-    public function setDefaultClinicSchedule(Clinic|int $clinic)
+    public function setDefaultClinicSchedule(Clinic|int $clinic): bool
     {
         $schedules = collect();
         if ($clinic instanceof Clinic) {

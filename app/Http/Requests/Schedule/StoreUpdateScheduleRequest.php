@@ -33,12 +33,21 @@ class StoreUpdateScheduleRequest extends FormRequest
         ];
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'schedules.*.day_of_week' => 'schedule week day',
             'schedules.*.start_time'  => 'schedule start time',
             'schedules.*.end_time'    => 'schedule end time',
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        if (auth()->user()?->isDoctor()) {
+            $this->merge([
+                'clinic_id' => auth()->user()?->clinic->id
+            ]);
+        }
     }
 }

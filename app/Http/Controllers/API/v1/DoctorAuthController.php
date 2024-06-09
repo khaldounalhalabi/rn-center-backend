@@ -11,5 +11,6 @@ class DoctorAuthController extends BaseAuthController
         parent::__construct();
 
         $this->roleHook(RolesPermissionEnum::DOCTOR['role']);
+        $this->relations = ['media', 'phoneNumbers', 'address.city', 'clinic'];
     }
 }
