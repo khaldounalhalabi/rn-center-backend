@@ -59,12 +59,13 @@ class AppointmentRepository extends BaseRepository
      * @param array                  $data
      * @return bool|int
      */
-    public function updatePreviousCheckinClinicAppointments($clinicId, string|Carbon|DateTime $date, array $data): bool|int
+    public function updatePreviousCheckinClinicAppointments($clinicId , $appointmentSequence, string|Carbon|DateTime $date, array $data): bool|int
     {
         return $this->globalQuery()
             ->where('clinic_id', $clinicId)
-            ->where('date', '>', $date)
+            ->where('date', $date)
             ->where('status', AppointmentStatusEnum::CHECKIN->value)
+            ->where('appointment_sequence' , '<' , $appointmentSequence)
             ->update($data);
     }
 }

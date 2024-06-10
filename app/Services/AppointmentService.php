@@ -138,9 +138,12 @@ class AppointmentService extends BaseService
             $appointment->status == AppointmentStatusEnum::CHECKIN->value
             && $prevStatus != AppointmentStatusEnum::CHECKIN->value
         ) {
-            $this->repository->updatePreviousCheckinClinicAppointments($appointment->clinic_id, $appointment->date, [
-                'status' => AppointmentStatusEnum::CHECKOUT->value
-            ]);
+            $this->repository->updatePreviousCheckinClinicAppointments($appointment->clinic_id,
+                $appointment->appointment_sequence,
+                $appointment->date,
+                [
+                    'status' => AppointmentStatusEnum::CHECKOUT->value
+                ]);
         }
 
         if ($appointment->status == AppointmentStatusEnum::CHECKOUT->value && $prevStatus != AppointmentStatusEnum::CHECKOUT->value) {
@@ -248,9 +251,12 @@ class AppointmentService extends BaseService
             $appointment->status == AppointmentStatusEnum::CHECKIN->value
             && $prevStatus != AppointmentStatusEnum::CHECKIN->value
         ) {
-            $this->repository->updatePreviousCheckinClinicAppointments($clinic->id, $appointment->date, [
-                'status' => AppointmentStatusEnum::CHECKOUT->value
-            ]);
+            $this->repository->updatePreviousCheckinClinicAppointments($clinic->id,
+                $appointment->appointment_sequence,
+                $appointment->date,
+                [
+                    'status' => AppointmentStatusEnum::CHECKOUT->value
+                ]);
         }
 
         $this->handleChangeAppointmentNotifications($appointment, $oldStatus);
