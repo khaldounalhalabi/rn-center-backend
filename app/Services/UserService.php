@@ -59,8 +59,25 @@ class UserService extends BaseService
             return null;
         }
 
+        if (isset($data['password']) && $data['password'] == "") {
+            unset($data['password']);
+        }
+
         /** @var User $user */
         $user = $this->repository->update($data, $user->id);
+
+        if (isset($data['address'])) {
+            $user->address()->updateOrCreate([
+                ...$data['address'],
+                'name'    => $data['address']['name'] ?? '{"en":"" , "ar":""}',
+                'city_id' => $data['city_id'] ?? 1
+            ]);
+        }
+
+        if (isset($data['phone_numbers'])) {
+            $user->phones()->delete();
+            $this->phoneNumberRepository->insert($data['phone_numbers'], User::class, $user->id);
+        }
 
         $token = auth()->login($user);
 

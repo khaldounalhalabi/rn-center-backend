@@ -11,5 +11,7 @@ class AdminAuthController extends BaseAuthController
         parent::__construct();
 
         $this->roleHook(RolesPermissionEnum::ADMIN['role']);
+
+        $this->relations = ['address.city' , 'phones' , 'media', 'roles'];
     }
 }

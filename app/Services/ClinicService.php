@@ -127,7 +127,7 @@ class ClinicService extends BaseService
             $clinic->specialities()->sync($data['speciality_ids']);
         }
 
-        if ($data['phone_numbers']) {
+        if (isset($data['phone_numbers'])) {
             $user->phones()->delete();
             $this->phoneNumberRepository->insert($data['phone_numbers'], User::class, $user->id);
         }
