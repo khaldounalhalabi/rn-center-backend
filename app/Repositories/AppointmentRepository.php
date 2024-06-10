@@ -63,7 +63,7 @@ class AppointmentRepository extends BaseRepository
     {
         return $this->globalQuery()
             ->where('clinic_id', $clinicId)
-            ->where('date', $date)
+            ->where('date', '>', $date)
             ->where('status', AppointmentStatusEnum::CHECKIN->value)
             ->update($data);
     }
