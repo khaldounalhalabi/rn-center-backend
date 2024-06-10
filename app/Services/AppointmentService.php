@@ -134,6 +134,15 @@ class AppointmentService extends BaseService
             'cancellation_reason' => $data['cancellation_reason'] ?? ""
         ], $appointment, ['customer.user', 'clinic.user']);
 
+        if (
+            $appointment->status == AppointmentStatusEnum::CHECKIN->value
+            && $prevStatus != AppointmentStatusEnum::CHECKIN->value
+        ) {
+            $this->repository->updatePreviousCheckinClinicAppointments($appointment->clinic_id, $appointment->date, [
+                'status' => AppointmentStatusEnum::CHECKOUT->value
+            ]);
+        }
+
         if ($appointment->status == AppointmentStatusEnum::CHECKOUT->value && $prevStatus != AppointmentStatusEnum::CHECKOUT->value) {
             UpdateAppointmentRemainingTimeJob::dispatch($appointment->clinic_id, $appointment->date);
         }
