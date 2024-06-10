@@ -3,7 +3,6 @@
 namespace App\Http\Requests\AuthRequests;
 
 use App\Enums\GenderEnum;
-use App\Enums\RolesPermissionEnum;
 use App\Models\User;
 use App\Rules\LanguageShape;
 use App\Rules\NotInBlocked;
@@ -34,8 +33,8 @@ class UpdateUserRequest extends FormRequest
             'middle_name'        => ['nullable', 'string', 'max:255', 'min:3', new LanguageShape()],
             'last_name'          => ['nullable', 'string', 'max:255', 'min:3', new LanguageShape()],
             'full_name'          => ['nullable', 'string', new NotInBlocked()],
-            'phone_numbers'       => ['array', 'nullable', Rule::excludeIf(fn() => $user?->isDoctor())],
-            'phone_numbers.*'     => ['nullable', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/', new UniquePhoneNumber($user?->id), new NotInBlocked(), Rule::excludeIf(fn() => $user?->isDoctor())],
+            'phone_numbers'      => ['array', 'nullable', Rule::excludeIf(fn() => $user?->isDoctor())],
+            'phone_numbers.*'    => ['nullable', 'string', 'regex:/^07\d{9}$/', new UniquePhoneNumber($user?->id), new NotInBlocked(), Rule::excludeIf(fn() => $user?->isDoctor())],
             'email'              => ['nullable', 'email', 'unique:users,email,' . $user?->id, 'min:3', 'max:255', new NotInBlocked()],
             'password'           => 'nullable|min:8|confirmed|max:255',
             'fcm_token'          => 'nullable|string|min:3|max:1000',
