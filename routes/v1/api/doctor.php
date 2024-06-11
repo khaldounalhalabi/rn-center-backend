@@ -20,4 +20,6 @@ Route::get('/schedules', [v1\ScheduleController::class, 'getCurrentClinicSchedul
 Route::get('clinic-holidays', [v1\ClinicHolidayController::class, 'getCurrentClinicHolidays'])->name('holidays');
 Route::apiResource('clinic-holidays', v1\ClinicHolidayController::class)->except(['index'])->names('holidays');
 
-Route::apiResource('services' , v1\ServiceController::class)->names('services');
+Route::apiResource('services', v1\ServiceController::class)->names('services');
+
+Route::apiResource('offers', v1\OfferController::class)->names('offers');

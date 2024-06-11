@@ -44,7 +44,7 @@ class ServiceService extends BaseService
     {
         $service = $this->repository->find($id);
 
-        if (!$service?->delete()) {
+        if (!$service?->canDelete()) {
             return null;
         }
 
