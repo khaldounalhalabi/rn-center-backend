@@ -12,9 +12,13 @@ class Translatable implements JsonSerializable
     /**
      * @throws Exception
      */
-    public function __construct(string|array $value)
+    public function __construct(string|array|null $value)
     {
-        if (is_string($value)) {
+        if (!$value) {
+            foreach (config('cubeta-starter.available_locales') as $locale) {
+                $this->data[$locale] = "";
+            }
+        } elseif (is_string($value)) {
             $this->data = json_decode($value, true);
         } else {
             $this->data = $value;
