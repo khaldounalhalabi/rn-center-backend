@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
+use App\Enums\MediaTypeEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property integer  customer_id
@@ -14,9 +18,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property Customer customer
  * @property Clinic   clinic
  */
-class PatientProfile extends Model
+class PatientProfile extends Model implements HasMedia
 {
     use HasFactory;
+    use InteractsWithMedia;
 
     protected $fillable = [
         'customer_id',
@@ -78,7 +83,7 @@ class PatientProfile extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    public function clinic()
+    public function clinic(): BelongsTo
     {
         return $this->belongsTo(Clinic::class);
     }
@@ -91,9 +96,7 @@ class PatientProfile extends Model
     public function filesKeys(): array
     {
         return [
-            //filesKeys
+            'images' => ['type' => MediaTypeEnum::MULTIPLE->value]
         ];
     }
-
-
 }

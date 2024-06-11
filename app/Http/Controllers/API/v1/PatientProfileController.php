@@ -18,7 +18,7 @@ class PatientProfileController extends ApiController
         $this->patientProfileService = PatientProfileService::make();
 
         // place the relations you want to return them within the response
-        $this->relations = ['customer.user', 'clinic.user'];
+        $this->relations = ['customer.user', 'clinic.user' , 'media'];
     }
 
     public function index()

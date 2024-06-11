@@ -28,6 +28,8 @@ class StoreUpdatePatientProfileRequest extends FormRequest
                 'medical_condition' => ['required', 'string'],
                 'note'              => ['nullable', 'string'],
                 'other_data'        => ['nullable', 'json'],
+                'images'            => ['nullable', 'array', 'max:20'],
+                'images.*'          => ['nullable', 'image', 'max:50000'],
             ];
         }
 
@@ -37,6 +39,8 @@ class StoreUpdatePatientProfileRequest extends FormRequest
             'medical_condition' => ['nullable', 'string'],
             'note'              => ['nullable', 'string'],
             'other_data'        => ['nullable', 'json'],
+            'images'            => ['nullable', 'array', 'max:20'],
+            'images.*'          => ['nullable', 'image', 'max:50000'],
         ];
     }
 }

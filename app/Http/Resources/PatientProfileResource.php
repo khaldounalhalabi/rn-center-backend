@@ -23,6 +23,7 @@ class PatientProfileResource extends BaseResource
             'updated_at'        => $this->updated_at->format('Y-m-d H:i:s'),
             'customer'          => new CustomerResource($this->whenLoaded('customer')),
             'clinic'            => new ClinicResource($this->whenLoaded('clinic')),
+            'images'            => MediaResource::collection($this->whenLoaded('media')),
         ];
     }
 }

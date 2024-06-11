@@ -4,16 +4,18 @@ namespace App\Enums;
 
 use App\Models\Clinic;
 use App\Models\Hospital;
+use App\Models\PatientProfile;
 use App\Models\Speciality;
 use App\Models\User;
 
 enum MediaTypeEnum: string
 {
     public const TYPES = [
-        User::class       => 'user',
-        Clinic::class     => 'clinic',
-        Hospital::class   => 'hospital',
-        Speciality::class => 'speciality'
+        User::class           => 'user',
+        Clinic::class         => 'clinic',
+        Hospital::class       => 'hospital',
+        Speciality::class     => 'speciality',
+        PatientProfile::class => 'patient_profile'
     ];
 
     case SINGLE = 'single';
