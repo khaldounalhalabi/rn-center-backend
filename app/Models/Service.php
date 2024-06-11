@@ -3,11 +3,14 @@
 namespace App\Models;
 
 use App\Casts\Translatable;
+use App\Enums\MediaTypeEnum;
 use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property numeric         approximate_duration
@@ -18,11 +21,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property ServiceCategory serviceCategory
  * @property Clinic          clinic
  */
-class Service extends Model
+class Service extends Model implements HasMedia
 {
     use HasFactory;
     use Translations;
-
+    use InteractsWithMedia;
 
     protected $fillable = [
         'name',
@@ -97,12 +100,30 @@ class Service extends Model
     public function filesKeys(): array
     {
         return [
-            //filesKeys
+            'icon' => ['type' => MediaTypeEnum::SINGLE->value]
         ];
     }
 
     public function appointments(): HasMany
     {
         return $this->hasMany(Appointment::class);
+    }
+
+    public function canShow(): bool
+    {
+        return $this->clinic_id == auth()?->user()?->clinic->id
+            || auth()->user()?->isAdmin();
+    }
+
+    public function canEdit(): bool
+    {
+        return $this->clinic_id == auth()?->user()?->clinic->id
+            || auth()->user()?->isAdmin();
+    }
+
+    public function canDelete(): bool
+    {
+        return $this->clinic_id == auth()?->user()?->clinic->id
+            || auth()->user()?->isAdmin();
     }
 }

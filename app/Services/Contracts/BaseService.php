@@ -12,8 +12,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
  * @property class-string $repositoryClass
- * @template T as Model
- * @template Repository of class-string<$repositoryClass>
+ * @template T of Model
  * @implements IBaseService<T>
  */
 abstract class BaseService implements IBaseService
@@ -24,9 +23,6 @@ abstract class BaseService implements IBaseService
      */
     protected string $repositoryClass = BaseRepository::class;
 
-    /**
-     * @var Repository
-     */
     protected BaseRepository $repository;
 
     protected function __construct()
@@ -78,7 +74,7 @@ abstract class BaseService implements IBaseService
      * @param array $data
      * @param array $relationships
      * @param array $countable
-     * @return Model|null
+     * @return T|null
      */
     public function store(array $data, array $relationships = [], array $countable = []): ?Model
     {
@@ -90,7 +86,7 @@ abstract class BaseService implements IBaseService
      * @param        $id
      * @param array  $relationships
      * @param array  $countable
-     * @return Model|null
+     * @return T|null
      */
     public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
     {
@@ -101,7 +97,7 @@ abstract class BaseService implements IBaseService
      * @param       $id
      * @param array $relationships
      * @param array $countable
-     * @return Model|null
+     * @return T|null
      */
     public function view($id, array $relationships = [], array $countable = []): ?Model
     {

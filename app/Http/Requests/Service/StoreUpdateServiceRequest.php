@@ -32,6 +32,7 @@ class StoreUpdateServiceRequest extends FormRequest
                 'status'               => ['required', 'string', Rule::in(ServiceStatusEnum::getAllValues())],
                 'description'          => ['nullable', 'json', new LanguageShape()],
                 'clinic_id'            => ['required', 'numeric', 'exists:clinics,id'],
+                'icon'                 => ['nullable', 'image', 'max:5000']
             ];
         }
 
@@ -43,6 +44,16 @@ class StoreUpdateServiceRequest extends FormRequest
             'status'               => ['nullable', 'string', Rule::in(ServiceStatusEnum::getAllValues())],
             'description'          => ['nullable', 'json', new LanguageShape()],
             'clinic_id'            => ['nullable', 'numeric', 'exists:clinics,id'],
+            'icon'                 => ['nullable', 'image', 'max:5000']
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        if (auth()->user()?->isDoctor()) {
+            $this->merge([
+                'clinic_id' => auth()->user()->clinic?->id
+            ]);
+        }
     }
 }

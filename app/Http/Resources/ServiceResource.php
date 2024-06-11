@@ -25,6 +25,7 @@ class ServiceResource extends BaseResource
             'serviceCategory'      => new ServiceCategoryResource($this->whenLoaded('serviceCategory')),
             'clinic'               => new ClinicResource($this->whenLoaded('clinic')),
             'appointments'         => AppointmentResource::collection($this->whenLoaded('appointments')),
+            'icon'                 => MediaResource::collection($this->whenLoaded('media')),
         ];
     }
 }
