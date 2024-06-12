@@ -19,6 +19,7 @@ return new class () extends Migration {
             $table->json('other_data');
             $table->foreignIdFor(Customer::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Clinic::class)->constrained()->cascadeOnDelete();
+            $table->unique(['clinic_id', 'patient_id']);
             $table->timestamps();
         });
     }
