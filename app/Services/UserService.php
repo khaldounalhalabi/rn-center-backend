@@ -405,11 +405,15 @@ class UserService extends BaseService
         /** @var User $user */
         $user = $this->repository->create($data);
 
-        $data['address']['addressable_id'] = $user->id;
-        $data['address']['addressable_type'] = User::class;
-        $this->addressRepository->create($data['address']);
+        if (isset($data['address'])) {
+            $data['address']['addressable_id'] = $user->id;
+            $data['address']['addressable_type'] = User::class;
+            $this->addressRepository->create($data['address']);
+        }
 
-        $this->phoneNumberRepository->insert($data['phone_numbers'], User::class, $user->id);
+        if (isset($data['phone_numbers'])) {
+            $this->phoneNumberRepository->insert($data['phone_numbers'], User::class, $user->id);
+        }
 
         $user->assignRole($data['role'] ?? RolesPermissionEnum::CUSTOMER['role']);
 

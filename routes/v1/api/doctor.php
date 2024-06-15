@@ -23,3 +23,14 @@ Route::apiResource('clinic-holidays', v1\ClinicHolidayController::class)->except
 Route::apiResource('services', v1\ServiceController::class)->names('services');
 
 Route::apiResource('offers', v1\OfferController::class)->names('offers');
+
+
+Route::get('customers', [v1\CustomerController::class, 'getDoctorCustomers'])->name('customers.index');
+Route::get('customers/{customerId}', [v1\CustomerController::class, 'show'])->name('customers.show');
+Route::post('customers', [v1\CustomerController::class, 'doctorAddCustomer'])->name('customers.store');
+Route::put('customers/{customerId}', [v1\CustomerController::class, 'doctorUpdateCustomer'])->name('customers.update');
+Route::delete('customers/{customerId}', [v1\CustomerController::class, 'doctorDeleteCustomer'])->name('customers.delete');
+
+Route::get('/customers/{customerId}/prescriptions', [v1\PrescriptionController::class, 'getCustomerPrescriptions'])->name('customer.prescriptions');
+Route::apiResource('/prescriptions', v1\PrescriptionController::class)->except(['index'])->names('prescriptions');
+

@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Enums\RolesPermissionEnum;
 use App\Models\Customer;
 use App\Repositories\CustomerRepository;
+use App\Repositories\PatientProfileRepository;
+use App\Repositories\UserRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
 use Illuminate\Database\Eloquent\Model;
@@ -22,7 +24,7 @@ class CustomerService extends BaseService
     private UserService $userService;
 
 
-    public function init()
+    public function init(): void
     {
         parent::__construct();
         $this->userService = UserService::make();
@@ -62,5 +64,101 @@ class CustomerService extends BaseService
         $user = $customer->user;
         $customer->delete();
         return $user->delete();
+    }
+
+    /**
+     * @param array{first_name:string,middle_name:string,last_name:string,full_name:string,email:string,birth_date:string,gender:string,address:string,name:string,city_id:string,phone_numbers:string,medical_condition:string,note:string,other_data:string,images:string, $data
+     * @param array                                                                                                                                                                                                                                                          $relations
+     * @param array                                                                                                                                                                                                                                                          $countable
+     * @return Customer|null
+     */
+    public function doctorAddCustomer(array $data = [], array $relations = [], array $countable = []): ?Customer
+    {
+        $user = UserRepository::make()->getExistCustomerUser([
+            'email'         => $data['email'] ?? null,
+            'phone_numbers' => $data['phone_numbers'] ?? null
+        ]);
+
+        if (!$user) {
+            $data['role'] = RolesPermissionEnum::CUSTOMER['role'];
+            $user = $this->userService->store($data);
+        }
+
+        $customer = $this->repository->getByUserId($user->id);
+
+        if (!$customer) {
+            $customer = $this->repository->create([
+                'user_id' => $user->id
+            ]);
+        }
+
+        $patientProfile = PatientProfileRepository::make()->getByClinicAndCustomer(auth()->user()?->clinic?->id, $customer->id);
+
+        if ($patientProfile && $patientProfile->canEdit()) {
+            PatientProfileRepository::make()->update($data, $patientProfile);
+        } else {
+            PatientProfileRepository::make()->create([
+                'customer_id' => $customer->id,
+                'clinic_id'   => auth()->user()?->clinic?->id,
+                ...$data
+            ]);
+        }
+
+        return $customer->load($relations)->loadCount($countable);
+    }
+
+    public function doctorUpdateCustomer(int $customerId, array $data, array $relations = [], array $countable = [])
+    {
+        $customer = $this->repository->find($customerId);
+        if (!$customer) {
+            return null;
+        }
+
+        $patientProfile = PatientProfileRepository::make()->getByClinicAndCustomer(auth()->user()?->clinic?->id, $customer->id);
+
+        if ($patientProfile && $patientProfile->canEdit()) {
+            PatientProfileRepository::make()->update($data, $patientProfile);
+        } else {
+            PatientProfileRepository::make()->create([
+                'customer_id' => $customer->id,
+                'clinic_id'   => auth()->user()?->clinic?->id,
+                ...$data
+            ]);
+        }
+
+        return $customer->load($relations)->loadCount($countable);
+    }
+
+    public function doctorDeleteCustomer($customerId): ?bool
+    {
+        $customer = $this->repository->find($customerId);
+        if (!$customer) {
+            return null;
+        }
+
+        $patientProfile = PatientProfileRepository::make()->getByClinicAndCustomer(auth()->user()?->clinic?->id, $customer->id);
+
+        if ($patientProfile) {
+            $patientProfile->delete();
+            return true;
+        }
+
+        return null;
+    }
+
+    public function getDoctorCustomers(array $relations = [], array $countable = [], int $perPage = 10): ?array
+    {
+        return $this->repository->getClinicCustomers(auth()?->user()?->clinic?->id ?? 0, $relations, $countable, $perPage);
+    }
+
+    public function view($id, array $relationships = [], array $countable = []): ?Model
+    {
+        $customer = parent::view($id, $relationships, $countable);
+
+        if ($customer->canShow()) {
+            return $customer;
+        }
+
+        return null;
     }
 }

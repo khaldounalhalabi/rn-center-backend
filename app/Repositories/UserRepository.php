@@ -2,9 +2,11 @@
 
 namespace App\Repositories;
 
+use App\Enums\RolesPermissionEnum;
 use App\Models\User;
 use App\Repositories\Contracts\BaseRepository;
 use App\Repositories\Contracts\IBaseRepository;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use LaravelIdea\Helper\App\Models\_IH_User_C;
 
@@ -49,5 +51,21 @@ class UserRepository extends BaseRepository implements IBaseRepository
     public function getUserByVerificationCode(string $verificationCode): ?User
     {
         return User::where('verification_code', $verificationCode)->first();
+    }
+
+    /**
+     * @param array{email:string , phone_numbers:string[]} $data
+     * @return null|User
+     */
+    public function getExistCustomerUser(array $data = []): ?User
+    {
+        return User::when(isset($data['email']), fn(Builder $query) => $query->where('email', $data['email']))
+            ->when(isset($data['phone_numbers'])
+                , fn(Builder $query) => $query->whereHas('phoneNumbers', function (Builder $query) use ($data) {
+                    $query->whereIn('phone', $data['phone_numbers'])
+                        ->where('phoneable_type', User::class);
+                }))
+            ->byRole(RolesPermissionEnum::CUSTOMER['role'])
+            ->first();
     }
 }

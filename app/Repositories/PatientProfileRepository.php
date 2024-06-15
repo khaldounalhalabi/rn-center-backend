@@ -29,4 +29,11 @@ class PatientProfileRepository extends BaseRepository
 
         return null;
     }
+
+    public function getByClinicAndCustomer($clinicId, $customerId): ?PatientProfile
+    {
+        return PatientProfile::where('clinic_id', $clinicId)
+            ->where('customer_id', $customerId)
+            ->first();
+    }
 }

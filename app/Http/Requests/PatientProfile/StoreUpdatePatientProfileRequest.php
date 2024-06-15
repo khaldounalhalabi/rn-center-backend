@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests\PatientProfile;
 
+use App\Enums\GenderEnum;
+use App\Rules\LanguageShape;
+use App\Rules\NotInBlocked;
 use App\Rules\UniquePatientProfile;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;

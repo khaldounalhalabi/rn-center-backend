@@ -25,7 +25,7 @@ class StoreUpdatePrescriptionRequest extends FormRequest
             return [
                 'clinic_id'            => ['required', 'numeric', 'exists:clinics,id'],
                 'customer_id'          => ['required', 'numeric', 'exists:customers,id'],
-                'appointment_id'       => ['required', 'numeric', 'exists:appointments,id'],
+                'appointment_id'       => ['nullable', 'required_without:customer_id', 'numeric', 'exists:appointments,id'],
                 'physical_information' => ['nullable', 'json'],
                 'problem_description'  => ['nullable', 'string'],
                 'test'                 => ['nullable', 'string'],
@@ -67,5 +67,14 @@ class StoreUpdatePrescriptionRequest extends FormRequest
             'medicines.*.dose_interval' => 'medicine dose interval',
             'medicines.*.comment'       => 'comment',
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        if (auth()->user()?->isDoctor()) {
+            $this->merge([
+                'clinic_id' => auth()->user()?->clinic?->id
+            ]);
+        }
     }
 }

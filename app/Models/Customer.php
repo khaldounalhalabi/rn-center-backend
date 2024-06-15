@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * @property PatientProfile patient_profiles
@@ -82,5 +83,21 @@ class Customer extends Model
     public function patientProfiles(): HasMany
     {
         return $this->hasMany(PatientProfile::class);
+    }
+
+    public function currentClinicPatientProfile(): HasOne
+    {
+        return $this->hasOne(PatientProfile::class)
+            ->where('clinic_id', auth()->user()?->clinic?->id)
+            ->latestOfMany();
+    }
+
+    public function canShow(): bool
+    {
+        return (
+                auth()->user()?->isDoctor()
+                && $this->patientProfiles()
+                    ->where('clinic_id', auth()?->user()?->clinic?->id)->exists()
+            ) || auth()->user()?->isAdmin();
     }
 }

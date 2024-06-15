@@ -18,8 +18,13 @@ class PrescriptionController extends ApiController
 
         $this->prescriptionService = PrescriptionService::make();
 
-        $this->relations = ['clinic.user', 'customer.user', 'medicinesData.medicine'];
-        $this->indexRelations = ['clinic.user', 'customer.user'];
+        if (auth()->user()?->isDoctor()) {
+            $this->relations = ['customer.user', 'medicinesData.medicine', 'appointment'];
+            $this->indexRelations = ['customer.user'];
+        } else {
+            $this->relations = ['clinic.user', 'customer.user', 'medicinesData.medicine'];
+            $this->indexRelations = ['clinic.user', 'customer.user'];
+        }
     }
 
     public function index()
@@ -109,6 +114,16 @@ class PrescriptionController extends ApiController
     public function getAppointmentPrescriptions($appointmentId)
     {
         $data = $this->prescriptionService->getByAppointmentId($appointmentId, $this->relations);
+        if ($data) {
+            return $this->apiResponse(PrescriptionResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
+        }
+
+        return $this->noData();
+    }
+
+    public function getCustomerPrescriptions($customerId)
+    {
+        $data = $this->prescriptionService->getClinicCustomerPrescriptions($customerId, auth()?->user()?->clinic?->id, $this->indexRelations);
         if ($data) {
             return $this->apiResponse(PrescriptionResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
         }

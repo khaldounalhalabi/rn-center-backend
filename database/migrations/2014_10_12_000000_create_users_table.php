@@ -18,7 +18,7 @@ return new class () extends Migration {
             $table->json('first_name');
             $table->json('middle_name');
             $table->json('last_name');
-            $table->string('email')->unique();
+            $table->string('email')->nullable()->unique();
             $table->date('birth_date')->nullable();
             $table->enum('gender', GenderEnum::getAllValues());
             $table->enum('blood_group', BloodGroupEnum::getAllValues())->nullable();
@@ -26,7 +26,7 @@ return new class () extends Migration {
             $table->text('tags')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('verification_code')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->string('fcm_token')->nullable();
             $table->string('reset_password_code')->nullable();
             $table->boolean('is_archived')->default(false);
