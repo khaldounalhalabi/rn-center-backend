@@ -25,6 +25,10 @@ class PhoneNumberRepository extends BaseRepository
     {
         $data = [];
         foreach ($phones as $phone) {
+            if (!$phone) {
+                continue;
+            }
+
             $data[] = [
                 'phone'          => $phone,
                 'phoneable_type' => $phoneableType,
