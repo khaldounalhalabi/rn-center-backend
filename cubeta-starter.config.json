@@ -1181,6 +1181,64 @@
                     }
                 ]
             }
+        },
+        {
+            "model_name": "BloodDonationRequest",
+            "table_name": "blood_donation_requests",
+            "attributes": [
+                {
+                    "name": "full_name",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "contact_phone",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "address",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "city_id",
+                    "type": "key",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "blood_group",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "nearest_hospital",
+                    "type": "integer",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "notes",
+                    "type": "text",
+                    "nullable": true,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "belongsTo": [
+                    {
+                        "type": "belongsTo",
+                        "model_name": "City",
+                        "key": "city_id"
+                    }
+                ]
+            }
         }
-    ]
+    ],
+    "frontend_type": "None"
 }

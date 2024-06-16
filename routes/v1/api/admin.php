@@ -5,8 +5,8 @@ use Illuminate\Support\Facades\Route;
 
 //add-your-routes-here
 
-Route::post('/refresh', [v1\AdminAuthController::class, 'refresh'])->name("refresh-token");
-Route::post('/logout', [v1\AdminAuthController::class, 'logout'])->name("logout");
+Route::post('/refresh', [v1\AdminAuthController::class, 'refresh'])->name('refresh-token');
+Route::post('/logout', [v1\AdminAuthController::class, 'logout'])->name('logout');
 Route::post('/update-user-data', [v1\AdminAuthController::class, 'updateUserDetails'])->name('update-user-data');
 Route::get('/me', [v1\AdminAuthController::class, 'userDetails'])->name('me');
 Route::post('/fcm/store-token', [v1\AdminAuthController::class, 'storeFcmToken'])->name('fcm.storeToken');
@@ -18,7 +18,7 @@ Route::apiResource('/users', v1\UserController::class)->names('users');
 
 Route::get('/clinics/{clinicId}/toggle-status', [v1\ClinicController::class, 'toggleClinicStatus'])->name('clinic.status.toggle');
 Route::get('/subscriptions/{subscriptionId}/clinics', [v1\ClinicController::class, 'getBySubscription'])->name('subscription.clinics');
-Route::apiResource("/clinics", v1\ClinicController::class)->names("clinics");
+Route::apiResource('/clinics', v1\ClinicController::class)->names('clinics');
 
 Route::controller(v1\ScheduleController::class)
     ->group(function () {
@@ -30,18 +30,18 @@ Route::controller(v1\ScheduleController::class)
     });
 
 Route::get('customers/{customerId}/patient-profiles', [v1\PatientProfileController::class, 'getCustomerPatientProfiles']);
-Route::apiResource("/customers", v1\CustomerController::class)->names("customers");
+Route::apiResource('/customers', v1\CustomerController::class)->names('customers');
 
 Route::get('/hospitals/{hospitalId}/toggle-status', [v1\HospitalController::class, 'toggleHospitalStatus'])->name('hospitals.toggle.status');
-Route::apiResource("/hospitals", v1\HospitalController::class)->names("hospitals");
+Route::apiResource('/hospitals', v1\HospitalController::class)->names('hospitals');
 
-Route::apiResource("/phone-numbers", v1\PhoneNumberController::class)->names("phone.numbers");
+Route::apiResource('/phone-numbers', v1\PhoneNumberController::class)->names('phone.numbers');
 
-Route::apiResource("/available-departments", v1\AvailableDepartmentController::class)->names("available.departments");
+Route::apiResource('/available-departments', v1\AvailableDepartmentController::class)->names('available.departments');
 
-Route::apiResource("/specialities", v1\SpecialityController::class)->names("specialities");
+Route::apiResource('/specialities', v1\SpecialityController::class)->names('specialities');
 
-Route::apiResource("/addresses", v1\AddressController::class)->names("addresses");
+Route::apiResource('/addresses', v1\AddressController::class)->names('addresses');
 
 Route::apiResource('/cities', v1\CityController::class)->names('cities');
 
@@ -50,7 +50,6 @@ Route::apiResource('/clinic-holidays', v1\ClinicHolidayController::class)->names
 Route::apiResource('/service-categories', v1\ServiceCategoryController::class)->names('service.categories');
 
 Route::apiResource('/services', v1\ServiceController::class)->names('services');
-
 
 Route::post('appointments/{appointmentId}/toggle-status', [v1\AppointmentController::class, 'toggleAppointmentStatus'])->name('appointments.status.toggle');
 Route::get('appointments/{appointmentId}/prescriptions/', [v1\PrescriptionController::class, 'getAppointmentPrescriptions'])->name('appointments.prescriptions');
@@ -83,3 +82,4 @@ Route::apiResource('/patient-profiles', v1\PatientProfileController::class)->nam
 
 Route::apiResource('/transactions', v1\TransactionController::class)->names('transactions');
 
+Route::apiResource('/blood-donation-requests', v1\BloodDonationRequestController::class)->names('blood.donation.requests');

@@ -14,6 +14,7 @@ class CityFactory extends Factory
 
     /**
      * Define the model's default state.
+     *
      * @return array<string, mixed>
      */
     public function definition(): array
@@ -26,5 +27,10 @@ class CityFactory extends Factory
     public function withAddresses($count = 1): CityFactory
     {
         return $this->has(\App\Models\Address::factory($count));
+    }
+
+    public function withBloodDonationRequests($count = 1): CityFactory
+    {
+        return $this->has(\App\Models\BloodDonationRequest::factory($count));
     }
 }

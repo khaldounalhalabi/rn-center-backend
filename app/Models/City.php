@@ -16,7 +16,6 @@ class City extends Model
     use HasFactory;
     use Translations;
 
-
     protected $fillable = [
         'name',
 
@@ -68,5 +67,8 @@ class City extends Model
         ];
     }
 
-
+    public function bloodDonationRequests(): HasMany
+    {
+        return $this->hasMany(BloodDonationRequest::class);
+    }
 }

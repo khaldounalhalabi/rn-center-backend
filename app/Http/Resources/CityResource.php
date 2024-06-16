@@ -9,14 +9,16 @@ class CityResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
+     *
      * @return array<string, mixed>
      */
     public function toArray($request): array
     {
         return [
-            'id'        => $this->id,
-            'name'      => $this->name,
+            'id' => $this->id,
+            'name' => $this->name,
             'addresses' => AddressResource::collection($this->whenLoaded('addresses')),
+            'bloodDonationRequests' => BloodDonationRequestResource::collection($this->whenLoaded('bloodDonationRequests')),
         ];
     }
 }
