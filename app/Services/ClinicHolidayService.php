@@ -24,7 +24,7 @@ class ClinicHolidayService extends BaseService
             return null;
         }
 
-        return $this->repository->getClinicHolidays(auth()->user()?->clinic->id, $relations, $countable, $perPage);
+        return $this->repository->getClinicHolidays(auth()->user()?->clinic?->id, $relations, $countable, $perPage);
     }
 
     public function view($id, array $relationships = [], array $countable = []): ?Model

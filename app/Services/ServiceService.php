@@ -51,4 +51,9 @@ class ServiceService extends BaseService
         $service->delete();
         return true;
     }
+
+    public function getClinicServices($clinicId, array $relations = [], array $countable = [], $perPage = 10): ?array
+    {
+        return $this->repository->getByClinic($clinicId, $relations, $countable, $perPage);
+    }
 }

@@ -49,6 +49,7 @@ Route::apiResource('/clinic-holidays', v1\ClinicHolidayController::class)->names
 
 Route::apiResource('/service-categories', v1\ServiceCategoryController::class)->names('service.categories');
 
+Route::get('/clinics/{clinicId}/services' , [v1\ServiceController::class , 'getClinicServices'])->name('get-clinic-services');
 Route::apiResource('/services', v1\ServiceController::class)->names('services');
 
 Route::post('appointments/{appointmentId}/toggle-status', [v1\AppointmentController::class, 'toggleAppointmentStatus'])->name('appointments.status.toggle');

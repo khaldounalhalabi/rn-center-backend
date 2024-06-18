@@ -98,19 +98,19 @@ class ClinicHoliday extends Model
     public function canShow(): bool
     {
         return auth()->user()?->isAdmin()
-            || (auth()->user()?->isDoctor() && auth()->user()?->clinic->id == $this->clinic_id);
+            || (auth()->user()?->isDoctor() && auth()->user()?->clinic?->id == $this->clinic_id);
     }
 
     public function canUpdate(): bool
     {
         return auth()->user()?->isAdmin()
-            || (auth()->user()?->isDoctor() && auth()->user()?->clinic->id == $this->clinic_id);
+            || (auth()->user()?->isDoctor() && auth()->user()?->clinic?->id == $this->clinic_id);
 
     }
 
     public function canDelete(): bool
     {
         return auth()->user()?->isAdmin()
-            || (auth()->user()?->isDoctor() && auth()->user()?->clinic->id == $this->clinic_id);
+            || (auth()->user()?->isDoctor() && auth()->user()?->clinic?->id == $this->clinic_id);
     }
 }

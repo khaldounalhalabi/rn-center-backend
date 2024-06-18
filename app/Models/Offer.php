@@ -63,7 +63,7 @@ class Offer extends Model
         ];
     }
 
-    protected static function booted()
+    protected static function booted(): void
     {
         parent::booted();
         self::creating(function (Offer $offer) {
