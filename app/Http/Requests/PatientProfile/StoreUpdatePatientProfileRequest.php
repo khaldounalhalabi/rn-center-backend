@@ -2,9 +2,6 @@
 
 namespace App\Http\Requests\PatientProfile;
 
-use App\Enums\GenderEnum;
-use App\Rules\LanguageShape;
-use App\Rules\NotInBlocked;
 use App\Rules\UniquePatientProfile;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -38,7 +35,7 @@ class StoreUpdatePatientProfileRequest extends FormRequest
         }
 
         return [
-            'customer_id'       => ['nullable', 'numeric', 'exists:customers,id', new UniquePatientProfile($this->input('clinic_id'), $this->input('customer_id'))],
+            'customer_id'       => ['nullable', 'numeric', 'exists:customers,id', new UniquePatientProfile($this->input('clinic_id'), $this->input('customer_id'), request()->route('patient_profile'))],
             'clinic_id'         => ['nullable', 'numeric', 'exists:clinics,id',],
             'medical_condition' => ['nullable', 'string'],
             'note'              => ['nullable', 'string'],
