@@ -24,7 +24,7 @@ class ClinicHolidayService extends BaseService
             return null;
         }
 
-        return $this->repository->getClinicHolidays(auth()->user()?->clinic?->id, $relations, $countable, $perPage);
+        return $this->repository->getClinicHolidays(auth()->user()?->getClinicId(), $relations, $countable, $perPage);
     }
 
     public function view($id, array $relationships = [], array $countable = []): ?Model
@@ -54,7 +54,7 @@ class ClinicHolidayService extends BaseService
     {
         $holiday = $this->repository->find($id);
 
-        if (!$holiday?->canUpdate()) {
+        if (!$holiday?->canDelete()) {
             return null;
         }
 

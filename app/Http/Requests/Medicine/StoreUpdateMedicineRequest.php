@@ -35,4 +35,13 @@ class StoreUpdateMedicineRequest extends FormRequest
             'clinic_id'   => ['nullable', 'numeric', 'exists:clinics,id',],
         ];
     }
+
+    protected function prepareForValidation(): void
+    {
+        if (auth()->user()?->isDoctor()){
+            $this->merge([
+                'clinic_id' => auth()->user()?->getClinicId()
+            ]);
+        }
+    }
 }

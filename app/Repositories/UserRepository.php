@@ -13,7 +13,7 @@ use LaravelIdea\Helper\App\Models\_IH_User_C;
 /**
  * @extends BaseRepository<User>
  */
-class UserRepository extends BaseRepository implements IBaseRepository
+class UserRepository extends BaseRepository
 {
     protected string $modelClass = User::class;
 

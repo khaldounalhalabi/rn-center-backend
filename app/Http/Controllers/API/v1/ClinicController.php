@@ -102,7 +102,7 @@ class ClinicController extends ApiController
 
     public function updateDoctorClinic(StoreUpdateClinicRequest $request)
     {
-        $clinicId = auth()->user()?->clinic?->id;
+        $clinicId = auth()->user()?->getClinicId();
         if (!$clinicId) {
             return $this->noData();
         }
@@ -117,7 +117,7 @@ class ClinicController extends ApiController
 
     public function showDoctorClinic()
     {
-        $clinicId = auth()->user()?->clinic?->id;
+        $clinicId = auth()->user()?->getClinicId();
         if (!$clinicId) {
             return $this->noData();
         }

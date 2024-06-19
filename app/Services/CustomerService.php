@@ -92,41 +92,17 @@ class CustomerService extends BaseService
             ]);
         }
 
-        $patientProfile = PatientProfileRepository::make()->getByClinicAndCustomer(auth()->user()?->clinic?->id, $customer->id);
-
-        if ($patientProfile && $patientProfile->canEdit()) {
-            PatientProfileRepository::make()->update($data, $patientProfile);
-        } else {
-            PatientProfileRepository::make()->create([
-                'customer_id' => $customer->id,
-                'clinic_id'   => auth()->user()?->clinic?->id,
-                ...$data
-            ]);
-        }
-
-        return $customer->load($relations)->loadCount($countable);
+        return $this->createUpdateClinicPatientProfile($customer, $data, $relations, $countable);
     }
 
-    public function doctorUpdateCustomer(int $customerId, array $data, array $relations = [], array $countable = [])
+    public function doctorUpdateCustomer(int $customerId, array $data, array $relations = [], array $countable = []): Customer|null
     {
         $customer = $this->repository->find($customerId);
         if (!$customer) {
             return null;
         }
 
-        $patientProfile = PatientProfileRepository::make()->getByClinicAndCustomer(auth()->user()?->clinic?->id, $customer->id);
-
-        if ($patientProfile && $patientProfile->canEdit()) {
-            PatientProfileRepository::make()->update($data, $patientProfile);
-        } else {
-            PatientProfileRepository::make()->create([
-                'customer_id' => $customer->id,
-                'clinic_id'   => auth()->user()?->clinic?->id,
-                ...$data
-            ]);
-        }
-
-        return $customer->load($relations)->loadCount($countable);
+        return $this->createUpdateClinicPatientProfile($customer, $data, $relations, $countable);
     }
 
     public function doctorDeleteCustomer($customerId): ?bool
@@ -136,7 +112,7 @@ class CustomerService extends BaseService
             return null;
         }
 
-        $patientProfile = PatientProfileRepository::make()->getByClinicAndCustomer(auth()->user()?->clinic?->id, $customer->id);
+        $patientProfile = PatientProfileRepository::make()->getByClinicAndCustomer(auth()->user()?->getClinicId(), $customer->id);
 
         if ($patientProfile) {
             $patientProfile->delete();
@@ -148,17 +124,41 @@ class CustomerService extends BaseService
 
     public function getDoctorCustomers(array $relations = [], array $countable = [], int $perPage = 10): ?array
     {
-        return $this->repository->getClinicCustomers(auth()?->user()?->clinic?->id ?? 0, $relations, $countable, $perPage);
+        return $this->repository->getClinicCustomers(auth()?->user()?->getClinicId() ?? 0, $relations, $countable, $perPage);
     }
 
     public function view($id, array $relationships = [], array $countable = []): ?Model
     {
         $customer = parent::view($id, $relationships, $countable);
 
-        if ($customer->canShow()) {
+        if ($customer?->canShow()) {
             return $customer;
         }
 
         return null;
+    }
+
+    /**
+     * @param Model|Customer|null $customer
+     * @param array               $data
+     * @param array               $relations
+     * @param array               $countable
+     * @return Customer|Model|null
+     */
+    private function createUpdateClinicPatientProfile(Model|Customer|null $customer, array $data, array $relations, array $countable): null|Customer|Model
+    {
+        $patientProfile = PatientProfileRepository::make()->getByClinicAndCustomer(auth()->user()?->getClinicId(), $customer->id);
+
+        if ($patientProfile && $patientProfile->canEdit()) {
+            PatientProfileRepository::make()->update($data, $patientProfile);
+        } else {
+            PatientProfileRepository::make()->create([
+                'customer_id' => $customer->id,
+                'clinic_id'   => auth()->user()?->getClinicId(),
+                ...$data
+            ]);
+        }
+
+        return $customer->load($relations)->loadCount($countable);
     }
 }

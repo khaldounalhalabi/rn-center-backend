@@ -103,19 +103,19 @@ class Prescription extends Model
     public function canUpdate(): bool
     {
         return auth()->user()?->isAdmin()
-            || $this->clinic_id == auth()->user()?->clinic?->id;
+            || $this->clinic_id == auth()->user()?->getClinicId();
     }
 
     public function canShow(): bool
     {
         return auth()->user()?->isAdmin()
-            || $this->clinic_id == auth()->user()?->clinic?->id;
+            || $this->clinic_id == auth()->user()?->getClinicId();
     }
 
     public function canDelete(): bool
     {
         return auth()->user()?->isAdmin()
-            || $this->clinic_id == auth()->user()?->clinic?->id;
+            || $this->clinic_id == auth()->user()?->getClinicId();
     }
 
     public function medicinesData(): HasMany

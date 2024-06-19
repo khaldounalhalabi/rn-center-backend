@@ -11,13 +11,10 @@ use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
- * @property class-string $repositoryClass
  * @template T of Model
- * @implements IBaseService<T>
  */
-abstract class BaseService implements IBaseService
+abstract class BaseService
 {
-
     /**
      * @var class-string<BaseRepository<T>>
      */

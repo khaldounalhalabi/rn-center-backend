@@ -32,7 +32,7 @@ class PrescriptionService extends BaseService
     {
         $prescription = $this->repository->find($id, $relationships, $countable);
 
-        if (!$prescription || !$prescription?->canShow()) {
+        if (!$prescription?->canShow()) {
             return null;
         }
 
@@ -67,11 +67,7 @@ class PrescriptionService extends BaseService
             $data['customer_id'] = $appointment->customer_id;
         }
 
-        if (!$prescription) {
-            return null;
-        }
-
-        if (!$prescription->canUpdate()) {
+        if (!$prescription?->canUpdate()) {
             return null;
         }
 
@@ -93,11 +89,7 @@ class PrescriptionService extends BaseService
     {
         $medicineData = $this->medicinePrescriptionRepository->find($medicineDataId);
 
-        if (!$medicineData) {
-            return null;
-        }
-
-        if (!$medicineData->prescription->canDelete()) {
+        if (!$medicineData?->prescription?->canDelete()) {
             return null;
         }
 
@@ -108,7 +100,7 @@ class PrescriptionService extends BaseService
     {
         $prescription = $this->repository->find($id);
 
-        if (!$prescription || !$prescription?->canShow()) {
+        if (!$prescription?->canShow()) {
             return null;
         }
 

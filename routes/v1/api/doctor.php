@@ -34,3 +34,4 @@ Route::delete('customers/{customerId}', [v1\CustomerController::class, 'doctorDe
 Route::get('/customers/{customerId}/prescriptions', [v1\PrescriptionController::class, 'getCustomerPrescriptions'])->name('customer.prescriptions');
 Route::apiResource('/prescriptions', v1\PrescriptionController::class)->except(['index'])->names('prescriptions');
 
+Route::apiResource('medicines', v1\MedicineController::class)->names('medicines');

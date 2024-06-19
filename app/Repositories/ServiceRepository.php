@@ -18,7 +18,7 @@ class ServiceRepository extends BaseRepository
         $query = parent::globalQuery($relations, $countable);
 
         return $query->when(auth()->user()?->isDoctor(), function (Builder $query) {
-            $query->where('clinic_id', auth()->user()?->clinic?->id);
+            $query->where('clinic_id', auth()->user()?->getClinicId());
         });
     }
 

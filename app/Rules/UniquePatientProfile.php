@@ -28,7 +28,7 @@ class UniquePatientProfile implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if (!$this->clinicId) {
-            $this->clinicId = auth()->user()?->clinic?->id;
+            $this->clinicId = auth()->user()?->getClinicId();
         }
 
         if (!$this->clinicId || !$this->customerId) {

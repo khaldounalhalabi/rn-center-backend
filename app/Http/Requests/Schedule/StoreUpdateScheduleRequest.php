@@ -46,7 +46,7 @@ class StoreUpdateScheduleRequest extends FormRequest
     {
         if (auth()->user()?->isDoctor()) {
             $this->merge([
-                'clinic_id' => auth()->user()?->clinic?->id
+                'clinic_id' => auth()->user()?->getClinicId()
             ]);
         }
     }

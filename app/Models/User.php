@@ -257,4 +257,12 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     {
         return $this->hasRole(RolesPermissionEnum::CUSTOMER['role']);
     }
+
+    /**
+     * @return int|null
+     */
+    public function getClinicId(): ?int
+    {
+        return $this?->clinic?->id;
+    }
 }

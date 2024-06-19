@@ -22,9 +22,8 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
  * @template T of Model
- * @implements IBaseRepository<T>
  */
-abstract class BaseRepository implements IBaseRepository
+abstract class BaseRepository
 {
     use FileHandler;
 
@@ -373,9 +372,9 @@ abstract class BaseRepository implements IBaseRepository
     public function delete($id): ?bool
     {
         $result = $this->model->where('id', '=', $id)->first();
+
         if ($result) {
             $result->delete();
-
             return true;
         }
 

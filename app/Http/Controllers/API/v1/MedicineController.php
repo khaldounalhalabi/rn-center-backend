@@ -19,7 +19,11 @@ class MedicineController extends ApiController
         $this->medicineService = MedicineService::make();
 
         // place the relations you want to return them within the response
-        $this->relations = ['clinic', 'clinic.user'];
+        if (auth()->user()?->isDoctor()) {
+            $this->relations = [];
+        } else {
+            $this->relations = ['clinic', 'clinic.user'];
+        }
     }
 
     public function index()

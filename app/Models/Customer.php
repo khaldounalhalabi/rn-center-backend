@@ -88,7 +88,7 @@ class Customer extends Model
     public function currentClinicPatientProfile(): HasOne
     {
         return $this->hasOne(PatientProfile::class)
-            ->where('clinic_id', auth()->user()?->clinic?->id)
+            ->where('clinic_id', auth()->user()?->getClinicId())
             ->latestOfMany();
     }
 
@@ -97,7 +97,7 @@ class Customer extends Model
         return (
                 auth()->user()?->isDoctor()
                 && $this->patientProfiles()
-                    ->where('clinic_id', auth()?->user()?->clinic?->id)->exists()
+                    ->where('clinic_id', auth()?->user()?->getClinicId())->exists()
             ) || auth()->user()?->isAdmin();
     }
 }
