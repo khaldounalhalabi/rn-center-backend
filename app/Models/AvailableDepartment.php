@@ -50,10 +50,6 @@ class AvailableDepartment extends Model
     public static function relationsSearchableArray(): array
     {
         return [
-            'hospital_id' => [
-                //add your hospital_id desired column to be searched within
-            ],
-
         ];
     }
 

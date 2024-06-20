@@ -13,5 +13,4 @@ use App\Repositories\Contracts\IBaseRepository;
 class HospitalRepository extends BaseRepository
 {
     protected string $modelClass = Hospital::class;
-
 }

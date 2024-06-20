@@ -27,14 +27,12 @@ class StoreUpdateAvailableDepartmentRequest extends FormRequest
             return [
                 'name'        => ['required', 'json', new LanguageShape()],
                 'description' => ['nullable', 'json', new LanguageShape()],
-                'hospital_id' => 'required|numeric|exists:hospitals,id',
             ];
         }
 
         return [
             'name'        => ['nullable', 'json', new LanguageShape()],
             'description' => ['nullable', 'json', new LanguageShape()],
-            'hospital_id' => 'nullable|numeric|exists:hospitals,id',
         ];
     }
 }
