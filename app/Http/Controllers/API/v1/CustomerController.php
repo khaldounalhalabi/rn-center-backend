@@ -18,8 +18,24 @@ class CustomerController extends ApiController
 
         $this->customerService = CustomerService::make();
 
-        // place the relations you want to return them within the response
-        $this->relations = ['user', 'user.address.city', 'user.phones' , 'user.media'];
+        if (auth()->user()?->isDoctor()) {
+            $this->relations = [
+                'currentClinicPatientProfile.media',
+                'user.address.city',
+                'user.phones',
+                'user.media',
+                'currentClinicPatientProfile',
+                'user'
+            ];
+        } else {
+            $this->relations = [
+                'user',
+                'user.address',
+                'user.address.city',
+                'user.phones',
+                'user.media'
+            ];
+        }
     }
 
     public function index()
@@ -78,7 +94,7 @@ class CustomerController extends ApiController
     public function getDoctorCustomers()
     {
         $data = $this->customerService->getDoctorCustomers([
-            'user.address.city', 'user.phones'
+            'user', 'user.address', 'user.address.city', 'user.phones'
         ]);
 
         if ($data) {
@@ -90,12 +106,7 @@ class CustomerController extends ApiController
 
     public function doctorAddCustomer(DoctorStoreUpdateCustomerRequest $request)
     {
-        $data = $this->customerService->doctorAddCustomer($request->validated(), [
-            'currentClinicPatientProfile.media',
-            'user.address.city',
-            'user.phones',
-            'user.media',
-        ]);
+        $data = $this->customerService->doctorAddCustomer($request->validated(), $this->relations);
 
         if ($data) {
             return $this->apiResponse(new CustomerResource($data), self::STATUS_OK, __('site.stored_successfully'));
@@ -106,12 +117,7 @@ class CustomerController extends ApiController
 
     public function doctorUpdateCustomer(DoctorStoreUpdateCustomerRequest $request, $customerId)
     {
-        $data = $this->customerService->doctorUpdateCustomer($customerId, $request->validated(), [
-            'currentClinicPatientProfile.media',
-            'user.address.city',
-            'user.phones',
-            'user.media',
-        ]);
+        $data = $this->customerService->doctorUpdateCustomer($customerId, $request->validated(), $this->relations);
 
         if ($data) {
             return $this->apiResponse(new CustomerResource($data), self::STATUS_OK, __('site.update_successfully'));
@@ -124,8 +130,8 @@ class CustomerController extends ApiController
     {
         $result = $this->customerService->doctorDeleteCustomer($customerId);
 
-        if ($result){
-            return $this->apiResponse($result , self::STATUS_OK , __('site.delete_successfully'));
+        if ($result) {
+            return $this->apiResponse($result, self::STATUS_OK, __('site.delete_successfully'));
         }
 
         return $this->noData();
