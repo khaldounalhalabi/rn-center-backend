@@ -52,10 +52,8 @@ class Transaction extends Model
     {
         return [
             'actor' => [
-                'first_name',
-                'middle_name',
-                'last_name',
-                'email' ,
+                'full_name',
+                'email',
             ]
         ];
     }

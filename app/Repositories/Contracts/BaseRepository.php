@@ -136,10 +136,8 @@ abstract class BaseRepository
             if (count($this->relationSearchableKeys) > 0) {
                 foreach ($this->relationSearchableKeys as $relation => $values) {
                     foreach ($values as $search_attribute) {
-                        $query->orWhereRelation($relation, function ($q) use ($relation, $keyword, $search_attribute) {
-                            $relSeq = explode('.', $relation);
-                            $relTable = $relSeq[count($relSeq) - 1];
-                            $relTable = Str::snake(Str::plural($relTable));
+                        $query->orWhereRelation($relation, function (Builder $q) use ($relation, $keyword, $search_attribute) {
+                            $relTable = $q->getModel()->getTable();
                             $q->where("{$relTable}.{$search_attribute}", 'REGEXP', "(?i).*$keyword.*");
                         });
                     }
