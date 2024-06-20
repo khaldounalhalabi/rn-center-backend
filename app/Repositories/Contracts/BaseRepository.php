@@ -111,8 +111,10 @@ abstract class BaseRepository
         $query = $this->model->with($relations)->withCount($countable);
 
         if (request()->method() == 'GET') {
-            $query = $this->addSearch($query);
             $query = $this->filterFields($query);
+            $query = $query->where(function($q){
+                return $this->addSearch($q);
+            });
             $query = $this->orderQueryBy($query);
         }
 
