@@ -39,7 +39,8 @@ class Transaction extends Model
     {
         return [
             'type',
-            'description',
+            'amount',
+            'date'
         ];
     }
 
@@ -51,7 +52,10 @@ class Transaction extends Model
     {
         return [
             'actor' => [
-                'full_name',
+                'first_name',
+                'middle_name',
+                'last_name',
+                'email' ,
             ]
         ];
     }
