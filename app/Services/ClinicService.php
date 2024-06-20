@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Enums\ClinicStatusEnum;
+use App\Enums\RolesPermissionEnum;
+use App\Exceptions\RoleDoesNotExistException;
 use App\Models\Appointment;
 use App\Models\Clinic;
 use App\Models\User;
@@ -60,6 +62,7 @@ class ClinicService extends BaseService
 
         /** @var User $user */
         $user = $this->userRepository->create($data['user']);
+        $user->assignRole(RolesPermissionEnum::DOCTOR['role']);
         $data['user_id'] = $user->id;
 
         /** @var Clinic $clinic */
