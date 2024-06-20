@@ -18,7 +18,7 @@ class TransactionResource extends BaseResource
             'type'        => $this->type,
             'amount'      => $this->amount,
             'description' => $this->description,
-            'date'        => $this->date->format('Y-m-d H:i:s'),
+            'date'        => $this->date->format('Y-m-d H:i'),
             'actor_id'    => $this->actor_id,
             'actor'       => new UserResource($this->whenLoaded('actor'))
         ];
