@@ -173,13 +173,12 @@ abstract class BaseRepository
 
             if ($relation) {
                 $tables = explode('.', $relation);
-                $relTable = Str::plural($tables[count($tables) - 2]);
                 $col = $tables[count($tables) - 1];
                 unset($tables[count($tables) - 1]);
                 $relation = implode('.', $tables);
 
-                $query = $query->whereRelation($relation, function (Builder $q) use ($col, $relTable, $relation, $range, $field, $method, $operator, $value) {
-
+                $query = $query->whereRelation($relation, function (Builder $q) use ($col, $relation, $range, $field, $method, $operator, $value) {
+                    $relTable = $q->getModel()->getTable();
                     if ($range) {
                         return $q->whereBetween("$relTable.{$col}", $value);
                     }

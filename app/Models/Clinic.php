@@ -118,7 +118,11 @@ class Clinic extends Model implements HasMedia
                 'relation' => 'schedules.end_time',
                 'method'   => 'whereTime',
                 'operator' => '<=',
-            ]
+            ],
+            [
+                'name'     => 'subscription_status',
+                'relation' => 'lastSubscription.status',
+            ],
         ];
     }
 
@@ -281,6 +285,12 @@ class Clinic extends Model implements HasMedia
         return $this->hasOne(ClinicSubscription::class)
             ->where('end_time', '>', now()->format('Y-m-d H:i:s'))
             ->where('status', SubscriptionStatusEnum::ACTIVE->value)
+            ->latestOfMany();
+    }
+
+    public function lastSubscription(): HasOne
+    {
+        return $this->hasOne(ClinicSubscription::class)
             ->latestOfMany();
     }
 
