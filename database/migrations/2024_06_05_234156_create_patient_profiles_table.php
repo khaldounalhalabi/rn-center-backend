@@ -15,7 +15,7 @@ return new class () extends Migration {
         Schema::create('patient_profiles', function (Blueprint $table) {
             $table->id();
             $table->text('medical_condition');
-            $table->text('note');
+            $table->text('note')->nullable();
             $table->json('other_data');
             $table->foreignIdFor(Customer::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Clinic::class)->constrained()->cascadeOnDelete();
