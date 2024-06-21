@@ -71,6 +71,7 @@ class AppointmentRepository extends BaseRepository
             ->where('appointment_sequence', '<', $appointmentSequence)
             ->chunk(5, function (Collection $appointments) use ($data) {
                 foreach ($appointments as $appointment) {
+                    $appointment->update($data);
                     AppointmentLog::create([
                         'cancellation_reason' => $data['cancellation_reason'] ?? "",
                         'status'              => $data['status'] ?? $appointment->status,
@@ -81,7 +82,6 @@ class AppointmentRepository extends BaseRepository
                         'event'               => "appointment status has been changed to {$data['status']} in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en
                     ]);
                 }
-            })
-            ->update($data);
+            });
     }
 }
