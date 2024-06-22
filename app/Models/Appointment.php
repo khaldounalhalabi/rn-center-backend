@@ -37,7 +37,7 @@ class Appointment extends Model
 {
     use HasFactory;
     use HasClinic;
-    
+
     protected $fillable = [
         'customer_id',
         'clinic_id',
@@ -45,6 +45,7 @@ class Appointment extends Model
         'service_id',
         'extra_fees',
         'total_cost',
+        'discount',
         'type',
         'date',
         'status',

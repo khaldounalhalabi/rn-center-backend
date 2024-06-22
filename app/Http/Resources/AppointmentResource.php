@@ -21,6 +21,7 @@ class AppointmentResource extends BaseResource
             'service_id'           => $this->service_id,
             'extra_fees'           => $this->extra_fees,
             'total_cost'           => $this->total_cost,
+            'discount'             => $this->discount,
             'type'                 => $this->type,
             'date'                 => $this->date?->format('Y-m-d'),
             'status'               => $this->status,

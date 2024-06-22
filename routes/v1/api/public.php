@@ -47,3 +47,5 @@ Route::get('/subscriptions', [v1\SubscriptionController::class, 'index'])->name(
 Route::get('/service-categories', [v1\ServiceCategoryController::class, 'index'])->name('service.category.index');
 
 Route::get('/check-role', [v1\BaseAuthController::class, 'checkRole'])->name('check-role');
+
+Route::delete('/media/{mediaId}', [v1\MediaController::class, 'delete'])->name('media.delete');

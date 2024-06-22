@@ -78,7 +78,7 @@ class AppointmentService extends BaseService
             }
         }
 
-        $data['total_cost'] = ($service?->price ?? 0) + ($data['extra_fees'] ?? 0) + $clinic->appointment_cost;
+        $data['total_cost'] = ($service?->price ?? 0) + ($data['extra_fees'] ?? 0) + $clinic->appointment_cost - ($data['discount'] ?? 0);
 
         $appointment = $this->repository->create($data, $relationships, $countable);
 
@@ -227,7 +227,8 @@ class AppointmentService extends BaseService
 
         $data['total_cost'] = ($service?->price ?? 0)
             + ($data['extra_fees'] ?? ($appointment->extra_fees ?? 0))
-            + $clinic->appointment_cost;
+            + $clinic->appointment_cost
+            - ($data['discount'] ?? ($appointment->discount ?? 0));
 
         $prevStatus = $appointment->status;
 
