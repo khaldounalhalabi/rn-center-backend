@@ -76,11 +76,9 @@ class AppointmentService extends BaseService
             if (!$service) {
                 return null;
             }
-
-            $data['total_cost'] = $service->price + ($data['extra_fees'] ?? 0);
-        } else {
-            $data['total_cost'] = $clinic->appointment_cost + ($data['extra_fees'] ?? 0);
         }
+
+        $data['total_cost'] = ($service?->price ?? 0) + ($data['extra_fees'] ?? 0) + $clinic->appointment_cost;
 
         $appointment = $this->repository->create($data, $relationships, $countable);
 
@@ -223,10 +221,13 @@ class AppointmentService extends BaseService
             if (!$service) {
                 return null;
             }
-            $data['total_cost'] = $service->price + ($data['extra_fees'] ?? 0);
         } else {
-            $data['total_cost'] = $clinic->appointment_cost + ($data['extra_fees'] ?? 0);
+            $service = $appointment->service ?? null;
         }
+
+        $data['total_cost'] = ($service?->price ?? 0)
+            + ($data['extra_fees'] ?? ($appointment->extra_fees ?? 0))
+            + $clinic->appointment_cost;
 
         $prevStatus = $appointment->status;
 
