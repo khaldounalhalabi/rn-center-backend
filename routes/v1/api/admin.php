@@ -49,13 +49,14 @@ Route::apiResource('/clinic-holidays', v1\ClinicHolidayController::class)->names
 
 Route::apiResource('/service-categories', v1\ServiceCategoryController::class)->names('service.categories');
 
-Route::get('/clinics/{clinicId}/services' , [v1\ServiceController::class , 'getClinicServices'])->name('get-clinic-services');
+Route::get('/clinics/{clinicId}/services', [v1\ServiceController::class, 'getClinicServices'])->name('get-clinic-services');
 Route::apiResource('/services', v1\ServiceController::class)->names('services');
 
 Route::post('appointments/{appointmentId}/toggle-status', [v1\AppointmentController::class, 'toggleAppointmentStatus'])->name('appointments.status.toggle');
 Route::get('appointments/{appointmentId}/prescriptions/', [v1\PrescriptionController::class, 'getAppointmentPrescriptions'])->name('appointments.prescriptions');
 Route::get('appointment-logs/{appointmentLogId}', [v1\AppointmentLogController::class, 'show'])->name('appointment.log.show');
 Route::get('appointments/{appointmentId}/logs', [v1\AppointmentLogController::class, 'getAppointmentLogs'])->name('appointments.logs');
+Route::get('customers/{customerId}/clinics/{clinicId}/last-appointment', [v1\AppointmentController::class, 'getCustomerLastAppointment'])->name('customers.clinics.last-appointment');
 Route::apiResource('/appointments', v1\AppointmentController::class)->names('appointments');
 
 Route::apiResource('/medicines', v1\MedicineController::class)->names('medicines');

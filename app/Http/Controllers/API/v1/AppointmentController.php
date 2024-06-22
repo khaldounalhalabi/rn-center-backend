@@ -7,7 +7,6 @@ use App\Http\Requests\Appointment\StoreUpdateAppointmentRequest;
 use App\Http\Requests\Appointment\ToggleAppointmentStatusRequest;
 use App\Http\Resources\AppointmentResource;
 use App\Models\Appointment;
-use App\Services\AddressService;
 use App\Services\AppointmentService;
 use Illuminate\Http\Request;
 
@@ -113,6 +112,17 @@ class AppointmentController extends ApiController
 
         if ($result) {
             return $this->apiResponse(new AppointmentResource($result), self::STATUS_OK, __('site.success'));
+        }
+
+        return $this->noData();
+    }
+
+    public function getCustomerLastAppointment($customerId, $clinicId)
+    {
+        $appointment = $this->appointmentService->getCustomerLastAppointment($customerId, $clinicId, $this->relations, $this->countable);
+
+        if ($appointment) {
+            return $this->apiResponse(new AppointmentResource($appointment), self::STATUS_OK, __('site.get_successfully'));
         }
 
         return $this->noData();

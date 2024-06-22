@@ -8,6 +8,7 @@ use App\Models\AppointmentLog;
 use App\Repositories\Contracts\BaseRepository;
 use Carbon\Carbon;
 use DateTime;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
 /**
@@ -41,9 +42,10 @@ class AppointmentRepository extends BaseRepository
      */
     public function getByClinic($clinicId, array $relations = [], int $perPage = 10): ?array
     {
+        $perPage = request('per_page') ?? $perPage;
         $data = $this->globalQuery($relations)
             ->where('clinic_id', $clinicId)
-            ->paginate();
+            ->paginate($perPage);
 
         if (count($data)) {
             return [
@@ -83,5 +85,22 @@ class AppointmentRepository extends BaseRepository
                     ]);
                 }
             });
+    }
+
+    /**
+     * @param int      $customerId
+     * @param int|null $clinicId
+     * @param array    $relations
+     * @param array    $countable
+     * @return Appointment|null
+     */
+    public function getCustomerLastAppointment(int $customerId, ?int $clinicId = null, array $relations = [], array $countable = []): ?Appointment
+    {
+        return $this->globalQuery($relations, $countable)
+            ->where('customer_id', $customerId)
+            ->when($clinicId, fn(Builder $query) => $query->where('clinic_id', $clinicId))
+            ->orderBy('date', 'DESC')
+            ->where('status', AppointmentStatusEnum::CHECKOUT->value)
+            ->first();
     }
 }

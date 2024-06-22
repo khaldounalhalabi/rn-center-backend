@@ -302,4 +302,9 @@ class AppointmentService extends BaseService
                 ->send();
         }
     }
+
+    public function getCustomerLastAppointment(int $customerId, ?int $clinicId = null, array $relations = [], array $countable = []): ?Appointment
+    {
+        return $this->repository->getCustomerLastAppointment($customerId, $clinicId, $relations, $countable);
+    }
 }
