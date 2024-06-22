@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Enums\AppointmentStatusEnum;
-use App\Enums\RolesPermissionEnum;
 use App\Notifications\Customer\AppointmentRemainingTimeNotification;
 use App\Services\FirebaseServices;
+use App\Traits\HasClinic;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Exception;
@@ -36,7 +36,8 @@ use JetBrains\PhpStorm\ArrayShape;
 class Appointment extends Model
 {
     use HasFactory;
-
+    use HasClinic;
+    
     protected $fillable = [
         'customer_id',
         'clinic_id',
@@ -201,12 +202,6 @@ class Appointment extends Model
             'qr_code',
             //filesKeys
         ];
-    }
-
-    public function canUpdate(): bool
-    {
-        return auth()->user()->isAdmin()
-            || (auth()->user()->id == $this->clinic->user_id);
     }
 
     public function filterArray(): array

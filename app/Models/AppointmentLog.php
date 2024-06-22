@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasClinic;
 use Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,6 +23,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class AppointmentLog extends Model
 {
     use HasFactory;
+    use HasClinic;
 
     protected $fillable = [
         'appointment_id',
@@ -101,5 +103,23 @@ class AppointmentLog extends Model
     public function affected(): BelongsTo
     {
         return $this->belongsTo(User::class, 'affected_id', 'id');
+    }
+
+    public function canShow(): bool
+    {
+        return $this->appointment?->clinic_id == auth()?->user()?->getClinicId()
+            || auth()->user()?->isAdmin();
+    }
+
+    public function canUpdate(): bool
+    {
+        return $this->appointment?->clinic_id == auth()?->user()?->getClinicId()
+            || auth()->user()?->isAdmin();
+    }
+
+    public function canDelete(): bool
+    {
+        return $this->appointment?->clinic_id == auth()?->user()?->getClinicId()
+            || auth()->user()?->isAdmin();
     }
 }

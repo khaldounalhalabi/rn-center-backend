@@ -21,23 +21,8 @@ class Customer extends Model
     use HasFactory;
 
     protected $fillable = [
-        'medical_condition',
         'user_id',
     ];
-
-    protected $casts = [
-
-    ];
-
-    /**
-     * add your searchable columns, so you can search within them in the
-     * index method
-     */
-    public static function searchableArray(): array
-    {
-        return [
-        ];
-    }
 
     /**
      * add your relations and their searchable columns,
@@ -63,7 +48,6 @@ class Customer extends Model
             }
         ];
     }
-
 
     public function user(): belongsTo
     {
@@ -99,5 +83,19 @@ class Customer extends Model
                 && $this->patientProfiles()
                     ->where('clinic_id', auth()?->user()?->getClinicId())->exists()
             ) || auth()->user()?->isAdmin();
+    }
+
+    public function canUpdate(): bool
+    {
+        return (
+                auth()->user()?->isDoctor()
+                && $this->patientProfiles()
+                    ->where('clinic_id', auth()?->user()?->getClinicId())->exists()
+            ) || auth()->user()?->isAdmin();
+    }
+
+    public function canDelete(): bool
+    {
+        return auth()->user()?->isAdmin();
     }
 }

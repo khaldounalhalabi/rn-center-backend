@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasClinic;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Prescription extends Model
 {
     use HasFactory;
+    use HasClinic;
 
     protected $fillable = [
         'clinic_id',
@@ -98,24 +100,6 @@ class Prescription extends Model
         return [
             //filesKeys
         ];
-    }
-
-    public function canUpdate(): bool
-    {
-        return auth()->user()?->isAdmin()
-            || $this->clinic_id == auth()->user()?->getClinicId();
-    }
-
-    public function canShow(): bool
-    {
-        return auth()->user()?->isAdmin()
-            || $this->clinic_id == auth()->user()?->getClinicId();
-    }
-
-    public function canDelete(): bool
-    {
-        return auth()->user()?->isAdmin()
-            || $this->clinic_id == auth()->user()?->getClinicId();
     }
 
     public function medicinesData(): HasMany

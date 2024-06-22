@@ -6,6 +6,7 @@ use App\Casts\Translatable;
 use App\Enums\AppointmentStatusEnum;
 use App\Enums\MediaTypeEnum;
 use App\Enums\SubscriptionStatusEnum;
+use App\Traits\HasClinic;
 use App\Traits\Translations;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -25,6 +26,7 @@ class Clinic extends Model implements HasMedia
     use HasFactory;
     use Translations;
     use InteractsWithMedia;
+    use HasClinic;
 
     protected $fillable = [
         'name',
@@ -318,6 +320,11 @@ class Clinic extends Model implements HasMedia
     }
 
     public function canShow(): bool
+    {
+        return auth()->user()?->isAdmin() || auth()->user()?->id == $this->user_id;
+    }
+
+    public function canDelete(): bool
     {
         return auth()->user()?->isAdmin() || auth()->user()?->id == $this->user_id;
     }

@@ -33,7 +33,7 @@ class ServiceService extends BaseService
     {
         $service = $this->repository->find($id);
 
-        if (!$service?->canEdit()) {
+        if (!$service?->canUpdate()) {
             return null;
         }
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasClinic;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Medicine extends Model
 {
     use HasFactory;
+    use HasClinic;
 
     protected $fillable = [
         'name',
@@ -102,23 +104,5 @@ class Medicine extends Model
                     ->orderBy('doctor_first_name', $dir);
             },
         ];
-    }
-
-    public function canShow(): bool
-    {
-        return $this->clinic_id == auth()->user()?->getClinicId()
-            || auth()->user()?->isAdmin();
-    }
-
-    public function canEdit(): bool
-    {
-        return $this->clinic_id == auth()->user()?->getClinicId()
-            || auth()->user()?->isAdmin();
-    }
-
-    public function canDelete(): bool
-    {
-        return $this->clinic_id == auth()->user()?->getClinicId()
-            || auth()->user()?->isAdmin();
     }
 }

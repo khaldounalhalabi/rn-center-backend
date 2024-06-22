@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Casts\Translatable;
+use App\Traits\HasClinic;
 use App\Traits\Translations;
 use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,6 +21,7 @@ class ClinicHoliday extends Model
 {
     use HasFactory;
     use Translations;
+    use HasClinic;
 
 
     protected $fillable = [
@@ -93,24 +95,5 @@ class ClinicHoliday extends Model
                 'operator' => '<=',
             ],
         ];
-    }
-
-    public function canShow(): bool
-    {
-        return auth()->user()?->isAdmin()
-            || (auth()->user()?->isDoctor() && auth()->user()?->getClinicId() == $this->clinic_id);
-    }
-
-    public function canUpdate(): bool
-    {
-        return auth()->user()?->isAdmin()
-            || (auth()->user()?->isDoctor() && auth()->user()?->getClinicId() == $this->clinic_id);
-
-    }
-
-    public function canDelete(): bool
-    {
-        return auth()->user()?->isAdmin()
-            || (auth()->user()?->isDoctor() && auth()->user()?->getClinicId() == $this->clinic_id);
     }
 }

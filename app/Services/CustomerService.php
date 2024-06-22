@@ -82,9 +82,12 @@ class CustomerService extends BaseService
         if (!$user) {
             $data['role'] = RolesPermissionEnum::CUSTOMER['role'];
             $user = $this->userService->store($data);
+            $customer = $this->repository->create([
+                'user_id' => $user->id
+            ]);
+        } else {
+            $customer = $this->repository->getByUserId($user->id);
         }
-
-        $customer = $this->repository->getByUserId($user->id);
 
         if (!$customer) {
             $customer = $this->repository->create([
@@ -98,9 +101,12 @@ class CustomerService extends BaseService
     public function doctorUpdateCustomer(int $customerId, array $data, array $relations = [], array $countable = []): Customer|null
     {
         $customer = $this->repository->find($customerId);
-        if (!$customer) {
+
+        if (!$customer?->canUpdate()) {
             return null;
         }
+
+        $this->userService->update($data, $customer->user_id);
 
         return $this->createUpdateClinicPatientProfile($customer, $data, $relations, $countable);
     }
@@ -149,7 +155,7 @@ class CustomerService extends BaseService
     {
         $patientProfile = PatientProfileRepository::make()->getByClinicAndCustomer(auth()->user()?->getClinicId(), $customer->id);
 
-        if ($patientProfile && $patientProfile->canEdit()) {
+        if ($patientProfile && $patientProfile->canUpdate()) {
             PatientProfileRepository::make()->update($data, $patientProfile);
         } else {
             PatientProfileRepository::make()->create([

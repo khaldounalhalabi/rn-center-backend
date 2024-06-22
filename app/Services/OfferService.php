@@ -32,7 +32,7 @@ class OfferService extends BaseService
     {
         $offer = $this->repository->find($id);
 
-        if (!$offer?->canEdit()) {
+        if (!$offer?->canUpdate()) {
             return null;
         }
 
