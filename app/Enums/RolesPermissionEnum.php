@@ -2,6 +2,16 @@
 
 namespace App\Enums;
 
+use App\Models\Appointment;
+use App\Models\Clinic;
+use App\Models\ClinicEmployee;
+use App\Models\ClinicHoliday;
+use App\Models\Customer;
+use App\Models\Medicine;
+use App\Models\Offer;
+use App\Models\Schedule;
+use App\Models\Service;
+
 /**
  * Class RolesPermissionEnum
  */
@@ -15,11 +25,11 @@ class RolesPermissionEnum
     //*************************//
 
 
-    public const ALL_ROLES = [
+    public const ALLROLES = [
         self::ADMIN['role'],
         self::DOCTOR['role'],
         self::CUSTOMER['role'],
-        self::CLINIC_STAFF['role'],
+        self::CLINIC_EMPLOYEE['role'],
         //add-all-your-enums-roles-here
     ];
 
@@ -27,6 +37,7 @@ class RolesPermissionEnum
         self::ADMIN,
         self::DOCTOR,
         self::CUSTOMER,
+        self::CLINIC_EMPLOYEE,
         //add-all-your-enums-here
 
 
@@ -40,19 +51,19 @@ class RolesPermissionEnum
     //*************************//
 
     //**********CLINIC STAFF***********//
-    public const CLINIC_STAFF = [
-        'role'        => 'clinic-staff',
+    public const CLINIC_EMPLOYEE = [
+        'role'        => 'clinic-employee',
         'permissions' => [
-            'manage-schedules',
-            'manage-holidays',
-            'manage-services',
-            'manage-offers',
-            'manage-patients',
-            'manage-medicines',
-            'manage-appointments',
-            'edit-clinic-profile',
-            'show-clinic-profile',
-            'manage-transactions',
+            'manage-schedules'    => Schedule::class,
+            'manage-holidays'     => ClinicHoliday::class,
+            'manage-services'     => Service::class,
+            'manage-offers'       => Offer::class,
+            'manage-patients'     => Customer::class,
+            'manage-medicines'    => Medicine::class,
+            'manage-appointments' => Appointment::class,
+            'edit-clinic-profile' => Clinic::class,
+            'show-clinic-profile' => Clinic::class,
+            'manage-employees'    => ClinicEmployee::class,
         ],
     ];
     //*************************//

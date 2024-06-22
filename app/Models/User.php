@@ -28,15 +28,16 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property TranslatableSerializer last_name
  * @mixin Builder
  */
-class User extends Authenticatable implements JWTSubject, HasMedia
+class User extends Authenticatable implements HasMedia, JWTSubject
 {
     use HasApiTokens;
     use HasFactory;
-    use Notifiable;
     use HasRoles;
     use InteractsWithMedia;
+    use Notifiable;
 
     protected $guarded = ['id'];
+
     protected $fillable = [
         'first_name', 'middle_name', 'last_name',
         'email', 'birth_date',
@@ -44,7 +45,7 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         'tags', 'image', 'email_verified_at',
         'password', 'fcm_token', 'reset_password_code',
         'is_archived', 'remember_token', 'verification_code',
-        'full_name'
+        'full_name',
     ];
 
     protected $hidden = [
@@ -77,7 +78,7 @@ class User extends Authenticatable implements JWTSubject, HasMedia
             'email', 'birth_date',
             'gender', 'blood_group', 'is_blocked',
             'tags', 'is_archived',
-            'full_name'
+            'full_name',
         ];
     }
 
@@ -89,13 +90,13 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     {
         return [
             'roles'        => [
-                'name'
+                'name',
             ],
             'phoneNumbers' => [
-                'phone'
+                'phone',
             ],
             'address.city' => [
-                'name'
+                'name',
             ],
         ];
     }
@@ -108,12 +109,6 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         });
     }
 
-    /**
-     * @param $firstName
-     * @param $middleName
-     * @param $lastName
-     * @return false|string
-     */
     public static function geuUserFullName($firstName, $middleName, $lastName): string|false
     {
         if ($firstName instanceof TranslatableSerializer && $middleName instanceof TranslatableSerializer && $lastName instanceof TranslatableSerializer) {
@@ -127,13 +122,14 @@ class User extends Authenticatable implements JWTSubject, HasMedia
             is_array($middleName) &&
             is_array($lastName)) {
             return json_encode([
-                'en' => ($firstName['en'] ?? "") . ' ' . ($middleName['en'] ?? "") . ' ' . ($lastName['en'] ?? ""),
-                'ar' => ($firstName['ar'] ?? "") . ' ', ($middleName['ar'] ?? "") . ' ' . ($lastName['ar'] ?? ""),
+                'en' => ($firstName['en'] ?? '') . ' ' . ($middleName['en'] ?? '') . ' ' . ($lastName['en'] ?? ''),
+                'ar' => ($firstName['ar'] ?? '') . ' ', ($middleName['ar'] ?? '') . ' ' . ($lastName['ar'] ?? ''),
             ], JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES);
         }
+
         return json_encode([
-            'en' => (json_decode($firstName, true)['en'] ?? "") . ' ' . (json_decode($middleName, true)['en'] ?? "") . ' ' . (json_decode($lastName, true)['en'] ?? ""),
-            'ar' => (json_decode($firstName, true)['ar'] ?? "") . ' ' . (json_decode($middleName, true)['ar'] ?? "") . ' ' . (json_decode($lastName, true)['ar'] ?? "")
+            'en' => (json_decode($firstName, true)['en'] ?? '') . ' ' . (json_decode($middleName, true)['en'] ?? '') . ' ' . (json_decode($lastName, true)['en'] ?? ''),
+            'ar' => (json_decode($firstName, true)['ar'] ?? '') . ' ' . (json_decode($middleName, true)['ar'] ?? '') . ' ' . (json_decode($lastName, true)['ar'] ?? ''),
         ], JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES);
     }
 
@@ -148,7 +144,7 @@ class User extends Authenticatable implements JWTSubject, HasMedia
                     ->join('cities', 'cities.id', '=', 'addresses.city_id')
                     ->select('users.*', 'cities.name AS city_name')
                     ->orderBy('city_name', $dir);
-            }
+            },
         ];
     }
 
@@ -258,11 +254,25 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         return $this->hasRole(RolesPermissionEnum::CUSTOMER['role']);
     }
 
-    /**
-     * @return int|null
-     */
+    public function isClinicEmployee(): bool
+    {
+        return $this->hasRole(RolesPermissionEnum::CLINIC_EMPLOYEE['role']);
+    }
+
+    public function isClinic(): bool
+    {
+        return $this->isDoctor() || $this->isClinicEmployee();
+    }
+
     public function getClinicId(): ?int
     {
-        return $this?->clinic?->id;
+        return $this->isDoctor()
+            ? $this?->clinic?->id
+            : $this->clinicEmployee?->clinic_id;
+    }
+
+    public function clinicEmployee(): HasOne
+    {
+        return $this->hasOne(ClinicEmployee::class);
     }
 }

@@ -953,7 +953,7 @@
                                             "key": "user[birth_date]",
                                             "value": "2000-09-21",
                                             "type": "text",
-                                            "description": "date_format:Y-m-d|date|before:20 years ago"
+                                            "description": "date_format:Y-m-d|date"
                                         },
                                         {
                                             "key": "user[gender]",
@@ -1096,7 +1096,7 @@
                                                 {
                                                     "key": "user[birth_date]",
                                                     "value": "2000-09-21",
-                                                    "description": "date_format:Y-m-d|date|before:20 years ago",
+                                                    "description": "date_format:Y-m-d|date",
                                                     "type": "text"
                                                 },
                                                 {
@@ -1336,7 +1336,7 @@
                                             "key": "user[birth_date]",
                                             "value": "2000-09-21",
                                             "type": "text",
-                                            "description": "date_format:Y-m-d|date|before:20 years ago"
+                                            "description": "date_format:Y-m-d|date"
                                         },
                                         {
                                             "key": "user[gender]",
@@ -1490,7 +1490,7 @@
                                                 {
                                                     "key": "user[birth_date]",
                                                     "value": "2000-09-21",
-                                                    "description": "date_format:Y-m-d|date|before:20 years ago",
+                                                    "description": "date_format:Y-m-d|date",
                                                     "type": "text"
                                                 },
                                                 {
@@ -1712,7 +1712,7 @@
                                                 {
                                                     "key": "user[birth_date]",
                                                     "value": "2000-09-21",
-                                                    "description": "date_format:Y-m-d|date|before:20 years ago",
+                                                    "description": "date_format:Y-m-d|date",
                                                     "type": "text"
                                                 },
                                                 {

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Interfaces\ActionsMustBeAuthorized;
 use App\Traits\HasClinic;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,10 +16,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property integer clinic_id
  * @property Clinic  clinic
  */
-class Medicine extends Model
+class Medicine extends Model implements ActionsMustBeAuthorized
 {
     use HasFactory;
     use HasClinic;
+
+    public static function authorizedActions(): array
+    {
+        return [
+            'manage-medicines'
+        ];
+    }
 
     protected $fillable = [
         'name',

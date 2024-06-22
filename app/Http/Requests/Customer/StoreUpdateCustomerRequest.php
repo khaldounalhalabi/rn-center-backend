@@ -61,7 +61,7 @@ class StoreUpdateCustomerRequest extends FormRequest
             'full_name'   => ['string', 'nullable', new NotInBlocked()],
             'email'       => ['nullable', 'email', 'max:255', 'min:3', 'string', 'unique:users,email,' . $userId, new NotInBlocked()],
             'password'    => 'string|min:8|max:20|nullable|confirmed',
-            'birth_date'  => 'date_format:Y-m-d|date|before:20 years ago|nullable',
+            'birth_date'  => 'date_format:Y-m-d|date|nullable',
             'gender'      => ['nullable', 'string', Rule::in(GenderEnum::getAllValues())],
             'image'       => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
             'tags'        => ['nullable', 'string'],

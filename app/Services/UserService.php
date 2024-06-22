@@ -35,19 +35,18 @@ class UserService extends BaseService
 
     public function init(): void
     {
-        parent::__construct();
         $this->customerRepository = CustomerRepository::make();
         $this->phoneNumberRepository = PhoneNumberRepository::make();
         $this->addressRepository = AddressRepository::make();
     }
 
     /**
-     * @param array       $data
-     * @param string|null $role
-     * @param array       $relations
+     * @param array         $data
+     * @param string[]|null $roles
+     * @param array         $relations
      * @return array{User , string , string}|User|null
      */
-    public function updateUserDetails(array $data, ?string $role = null, array $relations = []): array|User|null
+    public function updateUserDetails(array $data, ?array $roles = null, array $relations = []): array|User|null
     {
         $user = auth()->user();
 
@@ -55,7 +54,7 @@ class UserService extends BaseService
             return null;
         }
 
-        if ($role && !$user->hasRole($role)) {
+        if ($roles && !$user->hasAnyRole($roles)) {
             return null;
         }
 
@@ -119,13 +118,13 @@ class UserService extends BaseService
     }
 
     /**
-     * @param array       $data
-     * @param string|null $role
-     * @param array       $relations
-     * @param array       $additionalData
+     * @param array         $data
+     * @param string[]|null $roles
+     * @param array         $relations
+     * @param array         $additionalData
      * @return User|Authenticatable|array{User , string , string}|null
      */
-    public function login(array $data, ?string $role = null, array $relations = [], array $additionalData = []): User|Authenticatable|array|null
+    public function login(array $data, ?array $roles = null, array $relations = [], array $additionalData = []): User|Authenticatable|array|null
     {
         $token = auth()->attempt([
             'email'    => $data['email'],
@@ -138,7 +137,7 @@ class UserService extends BaseService
 
         $user = auth()->user();
 
-        if ($role && !$user->hasRole($role)) {
+        if ($roles && !$user->hasAnyRole($roles)) {
             return null;
         }
 
@@ -199,24 +198,26 @@ class UserService extends BaseService
     }
 
     /**
-     * @param array       $data
-     * @param string|null $role
-     * @param array       $relations
+     * @param array         $data
+     * @param string[]|null $roles
+     * @param array         $relations
      * @return array{User , string , string}
      * @throws RoleDoesNotExistException
      */
-    public function register(array $data, ?string $role = null, array $relations = []): array
+    public function register(array $data, ?array $roles = null, array $relations = []): array
     {
         try {
             DB::beginTransaction();
             /** @var User $user */
             $user = $this->repository->create($data);
 
-            if ($role) {
-                $user->assignRole($role);
+            if ($roles) {
+                foreach ($roles as $role) {
+                    $user->assignRole($role);
+                }
             }
 
-            if ($role and $role == RolesPermissionEnum::CUSTOMER['role']) {
+            if ($roles and in_array(RolesPermissionEnum::CUSTOMER['role'], $roles)) {
                 $data = array_merge($data, ['user_id' => $user->id]);
                 $this->customerRepository->create($data);
                 $this->phoneNumberRepository->insert($data['phone_number'] ?? [], User::class, $user->id);
@@ -368,11 +369,11 @@ class UserService extends BaseService
     }
 
     /**
-     * @param string|null $role
+     * @param string[]|null $roles
      * @param array       $relations
      * @return User|Authenticatable|null
      */
-    public function userDetails(?string $role = null, array $relations = []): User|Authenticatable|null
+    public function userDetails(?array $roles = null, array $relations = []): User|Authenticatable|null
     {
         $user = auth()->user();
 
@@ -380,7 +381,7 @@ class UserService extends BaseService
             return null;
         }
 
-        if ($role && !$user->hasRole($role)) {
+        if ($roles && !$user->hasAnyRole($roles)) {
             return null;
         }
 

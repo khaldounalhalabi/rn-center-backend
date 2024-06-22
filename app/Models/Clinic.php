@@ -6,7 +6,7 @@ use App\Casts\Translatable;
 use App\Enums\AppointmentStatusEnum;
 use App\Enums\MediaTypeEnum;
 use App\Enums\SubscriptionStatusEnum;
-use App\Traits\HasClinic;
+use App\Interfaces\ActionsMustBeAuthorized;
 use App\Traits\Translations;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -21,11 +21,19 @@ use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Clinic extends Model implements HasMedia
+class Clinic extends Model implements HasMedia, ActionsMustBeAuthorized
 {
     use HasFactory;
-    use Translations;
     use InteractsWithMedia;
+    use Translations;
+
+    public static function authorizedActions(): array
+    {
+        return [
+            'edit-clinic-profile',
+            'show-clinic-profile'
+        ];
+    }
 
     protected $fillable = [
         'name',
@@ -37,13 +45,13 @@ class Clinic extends Model implements HasMedia
         'experience',
         'user_id',
         'hospital_id',
-        "status",
-        "approximate_appointment_time",
+        'status',
+        'approximate_appointment_time',
     ];
 
     protected $casts = [
         'name'                         => Translatable::class,
-        'working_start_year'           => "datetime",
+        'working_start_year'           => 'datetime',
         'max_appointments'             => 'integer',
         'approximate_appointment_time' => 'integer',
         'appointment_day_range'        => 'integer',
@@ -62,7 +70,7 @@ class Clinic extends Model implements HasMedia
             'working_start_year',
             'max_appointments',
             'appointment_day_range',
-            "status",
+            'status',
         ];
     }
 
@@ -74,17 +82,17 @@ class Clinic extends Model implements HasMedia
     {
         return [
             'user'              => [
-                "first_name",
-                "middle_name",
-                "last_name",
-                'full_name'
+                'first_name',
+                'middle_name',
+                'last_name',
+                'full_name',
             ],
-            "user.address.city" => [
-                "name",
+            'user.address.city' => [
+                'name',
             ],
             'user.phoneNumbers' => [
-                'phone'
-            ]
+                'phone',
+            ],
         ];
     }
 
@@ -101,12 +109,12 @@ class Clinic extends Model implements HasMedia
             [
                 'name'     => 'city_name',
                 'relation' => 'user.address.city.name',
-                'operator' => 'like'
+                'operator' => 'like',
             ],
             [
                 'name'     => 'day_of_week',
                 'relation' => 'schedules.day_of_week',
-                'method'   => 'whereTime'
+                'method'   => 'whereTime',
             ],
             [
                 'name'     => 'start_time',
@@ -127,7 +135,7 @@ class Clinic extends Model implements HasMedia
         ];
     }
 
-    public function user(): belongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -145,7 +153,6 @@ class Clinic extends Model implements HasMedia
         ];
     }
 
-
     public function customOrders(): array
     {
         return [
@@ -158,7 +165,7 @@ class Clinic extends Model implements HasMedia
                     ->join('cities', 'cities.id', '=', 'addresses.city_id')
                     ->select('clinics.*', 'cities.name AS city_name')
                     ->orderBy('city_name', $dir);
-            }
+            },
         ];
     }
 
@@ -298,6 +305,7 @@ class Clinic extends Model implements HasMedia
     public function isDeductable(): bool
     {
         $activeSubscription = $this->activeSubscription;
+
         return $activeSubscription?->subscription?->period == -1
             && $activeSubscription?->deduction_cost != 0
             && $activeSubscription?->subscription?->cost == 0;
@@ -326,5 +334,10 @@ class Clinic extends Model implements HasMedia
     public function canDelete(): bool
     {
         return auth()->user()?->isAdmin() || auth()->user()?->id == $this->user_id;
+    }
+
+    public function clinicEmployees(): HasMany
+    {
+        return $this->hasMany(ClinicEmployee::class);
     }
 }

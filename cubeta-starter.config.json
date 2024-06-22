@@ -1238,6 +1238,38 @@
                     }
                 ]
             }
+        },
+        {
+            "model_name": "ClinicEmployee",
+            "table_name": "clinic_employees",
+            "attributes": [
+                {
+                    "name": "user_id",
+                    "type": "key",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "clinic_id",
+                    "type": "key",
+                    "nullable": false,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "belongsTo": [
+                    {
+                        "type": "belongsTo",
+                        "model_name": "User",
+                        "key": "user_id"
+                    },
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Clinic",
+                        "key": "clinic_id"
+                    }
+                ]
+            }
         }
     ],
     "frontend_type": "None"

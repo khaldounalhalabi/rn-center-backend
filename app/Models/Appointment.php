@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\AppointmentStatusEnum;
+use App\Interfaces\ActionsMustBeAuthorized;
 use App\Notifications\Customer\AppointmentRemainingTimeNotification;
 use App\Services\FirebaseServices;
 use App\Traits\HasClinic;
@@ -33,10 +34,17 @@ use JetBrains\PhpStorm\ArrayShape;
  * @property Clinic   clinic
  * @property Service  service
  */
-class Appointment extends Model
+class Appointment extends Model implements ActionsMustBeAuthorized
 {
     use HasFactory;
     use HasClinic;
+
+    public static function authorizedActions(): array
+    {
+        return [
+            'manage-appointments'
+        ];
+    }
 
     protected $fillable = [
         'customer_id',

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Casts\Translatable;
+use App\Interfaces\ActionsMustBeAuthorized;
 use App\Traits\HasClinic;
 use App\Traits\Translations;
 use Carbon\Carbon;
@@ -18,11 +19,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property integer clinic_id
  * @property Clinic  clinic
  */
-class Offer extends Model
+class Offer extends Model implements ActionsMustBeAuthorized
 {
     use HasFactory;
     use Translations;
     use HasClinic;
+
+    public static function authorizedActions(): array
+    {
+        return [
+            'manage-offers'
+        ];
+    }
 
     protected $fillable = [
         'title',

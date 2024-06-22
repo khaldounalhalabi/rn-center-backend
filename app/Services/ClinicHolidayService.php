@@ -20,7 +20,7 @@ class ClinicHolidayService extends BaseService
 
     public function getCurrentClinicHolidays(array $relations = [], array $countable = [], int $perPage = 10): ?array
     {
-        if (!auth()->user()?->isDoctor()) {
+        if (!auth()->user()?->isClinic()) {
             return null;
         }
 

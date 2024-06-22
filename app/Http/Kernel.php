@@ -11,6 +11,7 @@ use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\NotBlocked;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Http\Middleware\ClinicEmployeeHasPermission;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\TrustProxies;
 use App\Http\Middleware\ValidateSignature;
@@ -92,5 +93,6 @@ class Kernel extends HttpKernel
         'admin'             => AdminOnly::class,
         'not_blocked'       => NotBlocked::class,
         'doctor'            => DoctorOnly::class,
+        'staff_can'         => ClinicEmployeeHasPermission::class,
     ];
 }

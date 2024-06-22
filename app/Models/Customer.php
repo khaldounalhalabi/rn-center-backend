@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Interfaces\ActionsMustBeAuthorized;
 use App\Traits\HasClinic;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,10 +18,17 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property string         medical_condition
  * @property integer        user_id
  */
-class Customer extends Model
+class Customer extends Model implements ActionsMustBeAuthorized
 {
     use HasFactory;
     use HasClinic;
+
+    public static function authorizedActions(): array
+    {
+        return [
+            'manage-patients'
+        ];
+    }
 
     protected $fillable = [
         'user_id',
@@ -81,7 +89,7 @@ class Customer extends Model
     public function canShow(): bool
     {
         return (
-                auth()->user()?->isDoctor()
+                auth()->user()?->isClinic()
                 && $this->patientProfiles()
                     ->where('clinic_id', auth()?->user()?->getClinicId())->exists()
             ) || auth()->user()?->isAdmin();
@@ -90,7 +98,7 @@ class Customer extends Model
     public function canUpdate(): bool
     {
         return (
-                auth()->user()?->isDoctor()
+                auth()->user()?->isClinic()
                 && $this->patientProfiles()
                     ->where('clinic_id', auth()?->user()?->getClinicId())->exists()
             ) || auth()->user()?->isAdmin();

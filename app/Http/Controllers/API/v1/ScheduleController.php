@@ -91,7 +91,7 @@ class ScheduleController extends ApiController
 
     public function getCurrentClinicSchedules()
     {
-        if (auth()->user()?->isDoctor()) {
+        if (auth()->user()?->isClinic()) {
             $clinicId = auth()->user()?->getClinicId();
         } else {
             return $this->noData();

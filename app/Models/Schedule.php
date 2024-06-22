@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Interfaces\ActionsMustBeAuthorized;
 use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string   schedulable_type
  * @property int      schedulable_id
  */
-class Schedule extends Model
+class Schedule extends Model implements ActionsMustBeAuthorized
 {
     use HasFactory;
 
@@ -86,6 +87,13 @@ class Schedule extends Model
     {
         return [
             //filesKeys
+        ];
+    }
+
+    public static function authorizedActions(): array
+    {
+        return [
+            'manage-schedules',
         ];
     }
 }

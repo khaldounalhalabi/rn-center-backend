@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Casts\Translatable;
+use App\Interfaces\ActionsMustBeAuthorized;
 use App\Traits\HasClinic;
 use App\Traits\Translations;
 use DateTime;
@@ -17,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string   reason
  * @property Clinic   clinic
  */
-class ClinicHoliday extends Model
+class ClinicHoliday extends Model implements ActionsMustBeAuthorized
 {
     use HasFactory;
     use Translations;
@@ -94,6 +95,13 @@ class ClinicHoliday extends Model
                 'method'   => 'whereDate',
                 'operator' => '<=',
             ],
+        ];
+    }
+
+    public static function authorizedActions(): array
+    {
+        return [
+            'manage-holidays'
         ];
     }
 }

@@ -12,7 +12,9 @@ class CustomerAuthController extends BaseAuthController
     {
         parent::__construct();
 
-        $this->roleHook(RolesPermissionEnum::CUSTOMER['role']);
+        $this->roleHook([
+            RolesPermissionEnum::CUSTOMER['role'],
+        ]);
         $this->relations = ['customer', 'media', 'phones'];
     }
 

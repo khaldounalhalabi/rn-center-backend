@@ -32,7 +32,9 @@ trait HasPermissions
         $permission = Arr::wrap($permission);
 
         if (isset($ownerPermission)) {
-            $ownerPermission->update(array_merge($ownerPermission->permissions, $permission));
+            $ownerPermission->update([
+                'permissions' => array_merge($ownerPermission->permissions, $permission)
+            ]);
         } else {
             $this->permissions()->create([
                 'model_name'  => $model,
@@ -79,6 +81,16 @@ trait HasPermissions
         $permission->save();
     }
 
+    public function removeAllPermissions(): void
+    {
+        $permissions = $this->permissions()->get();
+
+        $permissions->each(function (ModelHasPermission $permission) {
+            $permission->permissions = [];
+            $permission->save();
+        });
+    }
+
     /**
      * if the provided permission isn't in the authorizedActions() returned array in the provided model the method will
      * return true . Additional action is that you can provide an instance of the model to check for the abilities that
@@ -120,7 +132,7 @@ trait HasPermissions
             return false;
         }
 
-        return (bool)(in_array($permission, $rolePermissions->permissions));
+        return in_array($permission, $rolePermissions->permissions);
     }
 
     /**

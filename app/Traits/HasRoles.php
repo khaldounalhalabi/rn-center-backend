@@ -68,6 +68,15 @@ trait HasRoles
     }
 
     /**
+     * @param string[] $roles
+     * @return bool
+     */
+    public function hasAnyRole(array $roles = []): bool
+    {
+        return $this->roles()->whereIn('name', $roles)->exists();
+    }
+
+    /**
      * @param Builder $query
      * @param string  $roleName
      * @return void

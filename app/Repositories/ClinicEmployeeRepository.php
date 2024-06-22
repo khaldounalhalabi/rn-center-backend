@@ -2,16 +2,16 @@
 
 namespace App\Repositories;
 
-use App\Models\Medicine;
+use App\Models\ClinicEmployee;
 use App\Repositories\Contracts\BaseRepository;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * @extends  BaseRepository<Medicine>
+ * @extends  BaseRepository<ClinicEmployee>
  */
-class MedicineRepository extends BaseRepository
+class ClinicEmployeeRepository extends BaseRepository
 {
-    protected string $modelClass = Medicine::class;
+    protected string $modelClass = ClinicEmployee::class;
 
     public function globalQuery(array $relations = [], array $countable = []): Builder
     {

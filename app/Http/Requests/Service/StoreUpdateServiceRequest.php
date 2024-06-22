@@ -50,7 +50,7 @@ class StoreUpdateServiceRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        if (auth()->user()?->isDoctor()) {
+        if (auth()->user()?->isClinic()) {
             $this->merge([
                 'clinic_id' => auth()->user()?->getClinicId()
             ]);

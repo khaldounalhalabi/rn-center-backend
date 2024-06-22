@@ -18,7 +18,7 @@ class PrescriptionController extends ApiController
 
         $this->prescriptionService = PrescriptionService::make();
 
-        if (auth()->user()?->isDoctor()) {
+        if (auth()->user()?->isClinic()) {
             $this->relations = ['customer.user', 'medicinesData.medicine', 'appointment'];
             $this->indexRelations = ['customer.user'];
         } else {
