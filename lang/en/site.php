@@ -41,4 +41,6 @@ return [
     'duplicated_schedule'       => 'The Provided Schedule Data Already Defined',
     'uncompleted_schedule_data' => 'Uncompleted Schedule Data',
 
+    'blocked'  => "Your Account Has Been Blocked",
+    'archived' => "Your Account Has Been Suspended",
 ];

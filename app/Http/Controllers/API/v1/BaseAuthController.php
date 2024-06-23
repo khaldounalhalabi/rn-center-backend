@@ -42,6 +42,14 @@ class BaseAuthController extends ApiController
             return $this->apiResponse(null, self::STATUS_UNAUTHORIZED, __('site.credentials_not_match_records'));
         }
 
+        if ($user->is_archived) {
+            return $this->apiResponse(null, self::STATUS_ARCHIVED, __('site.archived'));
+        }
+
+        if ($user->is_blocked) {
+            return $this->apiResponse(null, self::STATUS_BLOCKED, __('site.blocked'));
+        }
+
         return $this->apiResponse([
             'user'          => new UserResource($user),
             'token'         => $token,
