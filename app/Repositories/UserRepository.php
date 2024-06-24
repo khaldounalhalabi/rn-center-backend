@@ -5,7 +5,6 @@ namespace App\Repositories;
 use App\Enums\RolesPermissionEnum;
 use App\Models\User;
 use App\Repositories\Contracts\BaseRepository;
-use App\Repositories\Contracts\IBaseRepository;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use LaravelIdea\Helper\App\Models\_IH_User_C;
@@ -17,13 +16,21 @@ class UserRepository extends BaseRepository
 {
     protected string $modelClass = User::class;
 
+    public function globalQuery(array $relations = [], array $countable = []): Builder
+    {
+        return parent::globalQuery($relations, $countable)
+            ->when($this->filtered, function (Builder $query) {
+                $query->available();
+            });
+    }
+
     /**
      * @param $email
      * @return User|null
      */
     public function getUserByEmail($email): User|null
     {
-        return User::where('email', $email)->first();
+        return $this->globalQuery()->where('email', $email)->first();
     }
 
     /**
@@ -32,7 +39,7 @@ class UserRepository extends BaseRepository
      */
     public function getUserByPasswordResetCode($token): User|null
     {
-        return User::where('reset_password_code', $token)->first();
+        return $this->globalQuery()->where('reset_password_code', $token)->first();
     }
 
     /**
@@ -41,7 +48,7 @@ class UserRepository extends BaseRepository
      */
     public function getByFcmToken($fcm_token): Collection|array|_IH_User_C
     {
-        return User::where('fcm_token', $fcm_token)->get();
+        return $this->globalQuery()->where('fcm_token', $fcm_token)->get();
     }
 
     /**
@@ -50,7 +57,7 @@ class UserRepository extends BaseRepository
      */
     public function getUserByVerificationCode(string $verificationCode): ?User
     {
-        return User::where('verification_code', $verificationCode)->first();
+        return $this->globalQuery()->where('verification_code', $verificationCode)->first();
     }
 
     /**
@@ -59,7 +66,7 @@ class UserRepository extends BaseRepository
      */
     public function getExistCustomerUser(array $data = []): ?User
     {
-        return User::when(isset($data['email']), fn(Builder $query) => $query->where('email', $data['email']))
+        return $this->globalQuery()->when(isset($data['email']), fn(Builder $query) => $query->where('email', $data['email']))
             ->when(isset($data['phone_numbers'])
                 , fn(Builder $query) => $query->whereHas('phoneNumbers', function (Builder $query) use ($data) {
                     $query->whereIn('phone', $data['phone_numbers'])

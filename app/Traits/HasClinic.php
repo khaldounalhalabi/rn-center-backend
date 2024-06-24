@@ -9,19 +9,22 @@ trait HasClinic
 {
     public function canShow(): bool
     {
-        return $this->clinic_id == auth()?->user()?->getClinicId()
-            || auth()->user()?->isAdmin();
+        return ($this->clinic_id == auth()?->user()?->getClinicId()
+                || auth()->user()?->isAdmin())
+            && $this->clinic->isAvailable();
     }
 
     public function canUpdate(): bool
     {
-        return $this->clinic_id == auth()?->user()?->getClinicId()
-            || auth()->user()?->isAdmin();
+        return ($this->clinic_id == auth()?->user()?->getClinicId()
+                || auth()->user()?->isAdmin())
+            && $this->clinic->isAvailable();
     }
 
     public function canDelete(): bool
     {
-        return $this->clinic_id == auth()?->user()?->getClinicId()
-            || auth()->user()?->isAdmin();
+        return ($this->clinic_id == auth()?->user()?->getClinicId()
+                || auth()->user()?->isAdmin())
+            && $this->clinic->isAvailable();
     }
 }

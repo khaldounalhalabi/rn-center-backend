@@ -15,6 +15,13 @@ class ClinicRepository extends BaseRepository
 {
     protected string $modelClass = Clinic::class;
 
+    public function globalQuery(array $relations = [], array $countable = []): Builder
+    {
+        return parent::globalQuery($relations, $countable)
+            ->when($this->filtered, function (Builder $query) {
+                $query->available();
+            });
+    }
 
     public function byActiveSubscription($subscriptionId, array $relations = [], array $countable = [], int $perPage = 10): ?array
     {

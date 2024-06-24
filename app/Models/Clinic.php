@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Casts\Translatable;
 use App\Enums\AppointmentStatusEnum;
+use App\Enums\ClinicStatusEnum;
 use App\Enums\MediaTypeEnum;
 use App\Enums\SubscriptionStatusEnum;
 use App\Interfaces\ActionsMustBeAuthorized;
@@ -339,5 +340,19 @@ class Clinic extends Model implements HasMedia, ActionsMustBeAuthorized
     public function clinicEmployees(): HasMany
     {
         return $this->hasMany(ClinicEmployee::class);
+    }
+
+    public function scopeAvailable(Builder $query): Builder
+    {
+        return $query->where('status', ClinicStatusEnum::ACTIVE->value)
+            ->whereHas('user', function (Builder $q) {
+                $q->available();
+            });
+    }
+
+    public function isAvailable(): bool
+    {
+        return $this->status == ClinicStatusEnum::ACTIVE->value
+            && $this->user->isAvailable();
     }
 }

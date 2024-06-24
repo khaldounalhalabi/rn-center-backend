@@ -108,4 +108,11 @@ class Customer extends Model implements ActionsMustBeAuthorized
     {
         return auth()->user()?->isAdmin();
     }
+
+    public function scopeAvailable(Builder $query): Builder
+    {
+        return $query->whereHas('user', function (Builder $q) {
+            $q->available();
+        });
+    }
 }

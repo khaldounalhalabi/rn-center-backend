@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\PatientProfile;
 use App\Repositories\Contracts\BaseRepository;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * @extends  BaseRepository<PatientProfile>
@@ -12,6 +13,17 @@ class PatientProfileRepository extends BaseRepository
 {
     protected string $modelClass = PatientProfile::class;
 
+    public function globalQuery(array $relations = []): Builder
+    {
+        return parent::globalQuery($relations)
+            ->when($this->filtered, function (Builder $query) {
+                $query->whereHas('customer', function (Builder $builder) {
+                    $builder->available();
+                })->whereHas('clinic', function (Builder $query) {
+                    $query->available();
+                });
+            });
+    }
 
     public function getByCustomerId($customerId, array $relations, array $countable = [], int $perPage = 10): ?array
     {

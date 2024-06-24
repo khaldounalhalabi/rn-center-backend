@@ -81,22 +81,28 @@ class ClinicEmployee extends Model implements ActionsMustBeAuthorized
 
     public function canDelete(): bool
     {
-        return $this->clinic_id == auth()?->user()?->getClinicId()
-            || auth()->user()?->isAdmin()
-            || auth()->user()?->id == $this->user_id;
+        return ($this->clinic_id == auth()?->user()?->getClinicId()
+                || auth()->user()?->isAdmin()
+                || auth()->user()?->id == $this->user_id
+            ) && $this->clinic->isAvailable()
+            && $this->user->isAvailable();
     }
 
     public function canShow(): bool
     {
-        return $this->clinic_id == auth()?->user()?->getClinicId()
-            || auth()->user()?->isAdmin()
-            || auth()->user()?->id == $this->user_id;
+        return ($this->clinic_id == auth()?->user()?->getClinicId()
+                || auth()->user()?->isAdmin()
+                || auth()->user()?->id == $this->user_id
+            ) && $this->clinic->isAvailable()
+            && $this->user->isAvailable();
     }
 
     public function canUpdate(): bool
     {
-        return $this->clinic_id == auth()?->user()?->getClinicId()
-            || auth()->user()?->isAdmin()
-            || auth()->user()?->id == $this->user_id;
+        return ($this->clinic_id == auth()?->user()?->getClinicId()
+                || auth()->user()?->isAdmin()
+                || auth()->user()?->id == $this->user_id
+            ) && $this->clinic->isAvailable()
+            && $this->user->isAvailable();
     }
 }

@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\ClinicHoliday;
 use App\Repositories\Contracts\BaseRepository;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * @extends  BaseRepository<ClinicHoliday>
@@ -11,6 +12,16 @@ use App\Repositories\Contracts\BaseRepository;
 class ClinicHolidayRepository extends BaseRepository
 {
     protected string $modelClass = ClinicHoliday::class;
+
+    public function globalQuery(array $relations = [], array $countable = []): Builder
+    {
+        return parent::globalQuery($relations, $countable)
+            ->when($this->filtered, function (Builder $query) {
+                $query->whereHas('clinic', function (Builder $q) {
+                    $q->available();
+                });
+            });
+    }
 
     /**
      * @param       $clinicId

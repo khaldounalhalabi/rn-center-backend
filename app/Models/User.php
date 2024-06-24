@@ -275,4 +275,15 @@ class User extends Authenticatable implements HasMedia, JWTSubject
     {
         return $this->hasOne(ClinicEmployee::class);
     }
+
+    public function scopeAvailable(Builder $query): Builder
+    {
+        return $query->where('is_blocked', false)
+            ->where('is_archived', false);
+    }
+
+    public function isAvailable(): bool
+    {
+        return !$this->is_blocked && !$this->is_archived;
+    }
 }

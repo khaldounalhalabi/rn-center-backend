@@ -18,6 +18,18 @@ class AppointmentRepository extends BaseRepository
 {
     protected string $modelClass = Appointment::class;
 
+    public function globalQuery(array $relations = []): Builder
+    {
+        return parent::globalQuery($relations)
+            ->when(function (Builder $query) {
+                $query->whereHas('customer', function (Builder $q) {
+                    $q->available();
+                })->whereHas('clinic', function (Builder $builder) {
+                    $builder->available();
+                });
+            });
+    }
+
     /**
      * @param             $clinicId
      * @param string|null $date

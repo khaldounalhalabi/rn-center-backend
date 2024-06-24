@@ -42,6 +42,7 @@ abstract class BaseRepository
     private array $searchableKeys = [];
     private array $customOrders = [];
     private string $tableName;
+    protected bool $filtered = false;
 
     /**
      * @param T $model
@@ -70,6 +71,8 @@ abstract class BaseRepository
         if (method_exists($this->model, 'customOrders')) {
             $this->customOrders = $this->model->customOrders();
         }
+
+        $this->filtered = (request()->header('filtered') ?? request()->header('Filtered', false)) ?? false;
 
         $this->modelTableColumns = $this->getTableColumns();
     }
@@ -112,7 +115,7 @@ abstract class BaseRepository
 
         if (request()->method() == 'GET') {
             $query = $this->filterFields($query);
-            $query = $query->where(function($q){
+            $query = $query->where(function ($q) {
                 return $this->addSearch($q);
             });
             $query = $this->orderQueryBy($query);

@@ -15,9 +15,17 @@ class CustomerRepository extends BaseRepository
 {
     protected string $modelClass = Customer::class;
 
+    public function globalQuery(array $relations = [], array $countable = []): Builder
+    {
+        return parent::globalQuery($relations, $countable)
+            ->when($this->filtered, function (Builder $query) {
+                $query->available();
+            });
+    }
+
     public function getByUserId($userId): ?Customer
     {
-        return Customer::where('user_id', $userId)->first();
+        return $this->globalQuery()->where('user_id', $userId)->first();
     }
 
     public function getClinicCustomers($clinicId, array $relations = [], array $countable = [], int $perPage = 10): ?array
@@ -25,8 +33,8 @@ class CustomerRepository extends BaseRepository
         $perPage = request('per_page') ?? $perPage;
         $data = $this->globalQuery($relations, $countable)
             ->whereHas('patientProfiles', function (Builder $query) use ($clinicId) {
-            $query->where('clinic_id', $clinicId);
-        })->paginate($perPage);
+                $query->where('clinic_id', $clinicId);
+            })->paginate($perPage);
 
         if ($data?->count()) {
             return [

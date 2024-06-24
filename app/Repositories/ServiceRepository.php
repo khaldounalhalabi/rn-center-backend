@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Enums\ServiceStatusEnum;
 use App\Models\Service;
 use App\Repositories\Contracts\BaseRepository;
 use Illuminate\Database\Eloquent\Builder;
@@ -19,7 +20,10 @@ class ServiceRepository extends BaseRepository
 
         return $query->when(auth()->user()?->isClinic(), function (Builder $query) {
             $query->where('clinic_id', auth()->user()?->getClinicId());
-        });
+        })
+            ->when($this->filtered, function (Builder $query) {
+                $query->where('status', ServiceStatusEnum::ACTIVE->value);
+            });
     }
 
     public function getByClinic($clinicId, array $relations = [], array $countable = [], int $perPage = 10): ?array
