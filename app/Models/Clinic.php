@@ -324,17 +324,20 @@ class Clinic extends Model implements HasMedia, ActionsMustBeAuthorized
 
     public function canUpdate(): bool
     {
-        return auth()->user()?->isAdmin() || auth()->user()?->id == $this->user_id;
+        return auth()->user()?->isAdmin()
+            || auth()->user()?->getClinicId() == $this->id;
     }
 
     public function canShow(): bool
     {
-        return auth()->user()?->isAdmin() || auth()->user()?->id == $this->user_id;
+        return auth()->user()?->isAdmin()
+            || auth()->user()?->getClinicId() == $this->id;
     }
 
     public function canDelete(): bool
     {
-        return auth()->user()?->isAdmin() || auth()->user()?->id == $this->user_id;
+        return auth()->user()?->isAdmin()
+            || auth()->user()?->getClinicId() == $this->id;
     }
 
     public function clinicEmployees(): HasMany
