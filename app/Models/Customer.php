@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -114,5 +115,10 @@ class Customer extends Model implements ActionsMustBeAuthorized
         return $query->whereHas('user', function (Builder $q) {
             $q->available();
         });
+    }
+
+    public function systemOffers(): BelongsToMany
+    {
+        return $this->belongsToMany(SystemOffer::class, 'customer_system_offers');
     }
 }

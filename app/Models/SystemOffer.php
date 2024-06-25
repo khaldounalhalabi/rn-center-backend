@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\MediaTypeEnum;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -101,5 +102,23 @@ class SystemOffer extends Model implements HasMedia
     public function scopeAllowReuse($query)
     {
         return $query->where('allow_reuse', 1);
+    }
+
+    public function customers(): BelongsToMany
+    {
+        return $this->belongsToMany(Customer::class, 'customer_system_offers');
+    }
+
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->where('to', '>=', now()->format('Y-m-d'))
+            ->withCount('customers')
+            ->where('customers_count', '<=', $this->allowed_uses);
+    }
+
+    public function isActive(): bool
+    {
+        return $this->to->greaterThanOrEqualTo(now()->format('Y-m-d'))
+            && $this->customers()->count() <= $this->allowed_uses;
     }
 }
