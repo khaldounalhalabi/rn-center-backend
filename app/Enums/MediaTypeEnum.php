@@ -4,6 +4,7 @@ namespace App\Enums;
 
 use App\Models\Clinic;
 use App\Models\Hospital;
+use App\Models\Offer;
 use App\Models\PatientProfile;
 use App\Models\Service;
 use App\Models\Speciality;
@@ -18,6 +19,8 @@ enum MediaTypeEnum: string
         Speciality::class     => 'speciality',
         PatientProfile::class => 'patient_profile',
         Service::class        => 'service',
+        Offer::class          => 'offer',
+        //        SystemOffer::class => 'system_offer',
     ];
 
     case SINGLE = 'single';

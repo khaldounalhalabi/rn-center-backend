@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Casts\Translatable;
+use App\Enums\MediaTypeEnum;
 use App\Interfaces\ActionsMustBeAuthorized;
 use App\Traits\HasClinic;
 use App\Traits\Translations;
@@ -10,6 +11,8 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property numeric value
@@ -19,11 +22,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property integer clinic_id
  * @property Clinic  clinic
  */
-class Offer extends Model implements ActionsMustBeAuthorized
+class Offer extends Model implements ActionsMustBeAuthorized, HasMedia
 {
     use HasFactory;
     use Translations;
     use HasClinic;
+    use InteractsWithMedia;
 
     public static function authorizedActions(): array
     {
@@ -48,7 +52,6 @@ class Offer extends Model implements ActionsMustBeAuthorized
         'start_at'  => 'datetime',
         'end_at'    => 'datetime',
         'is_active' => 'boolean',
-
     ];
 
     /**
@@ -112,8 +115,7 @@ class Offer extends Model implements ActionsMustBeAuthorized
     public function filesKeys(): array
     {
         return [
-            //filesKeys
-        ];
+            'image' => ['type' => MediaTypeEnum::SINGLE->value]];
     }
 
     public function scopeIsActive($query)

@@ -33,6 +33,7 @@ class StoreUpdateOfferRequest extends FormRequest
                 'end_at'    => ['required', 'date', 'date_format:Y-m-d', 'after:start_at'],
                 'type'      => ['required', 'string', 'min:3', 'max:255', Rule::in(OfferTypeEnum::getAllValues())],
                 'clinic_id' => ['required', 'numeric', 'exists:clinics,id'],
+                'image'     => ['required', 'image', 'max:5000'],
             ];
         }
 
@@ -43,6 +44,7 @@ class StoreUpdateOfferRequest extends FormRequest
             'start_at' => ['nullable', 'date', 'date_format:Y-m-d'],
             'end_at'   => ['nullable', 'date', 'date_format:Y-m-d', 'after:start_at'],
             'type'     => ['nullable', 'string', 'min:3', 'max:255', Rule::in(OfferTypeEnum::getAllValues())],
+            'image'    => ['nullable', 'image', 'max:5000'],
         ];
     }
 

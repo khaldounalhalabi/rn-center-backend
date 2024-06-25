@@ -16,7 +16,7 @@ class OfferController extends ApiController
     {
         $this->offerService = OfferService::make();
         // place the relations you want to return them within the response
-        $this->relations = ['clinic'];
+        $this->relations = ['clinic', 'media'];
     }
 
     public function index()

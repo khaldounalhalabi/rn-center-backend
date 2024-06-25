@@ -24,6 +24,7 @@ class OfferResource extends BaseResource
             'type'      => $this->type,
             'clinic_id' => $this->clinic_id,
             'clinic'    => new ClinicResource($this->whenLoaded('clinic')),
+            'image'     => MediaResource::collection($this->whenLoaded('media'))
         ];
     }
 }
