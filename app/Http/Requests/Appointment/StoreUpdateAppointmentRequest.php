@@ -36,6 +36,10 @@ class StoreUpdateAppointmentRequest extends FormRequest
                 'status'              => ['required', 'string', 'min:3', 'max:255', Rule::in(AppointmentStatusEnum::getAllValues())],
                 'device_type'         => ['nullable', 'string', 'min:3', 'max:255'],
                 'cancellation_reason' => 'string|nullable|' . Rule::requiredIf($this->input('status') == AppointmentStatusEnum::CANCELLED->value),
+                'system_offers'       => ['array', 'nullable', Rule::excludeIf(fn() => auth()->user()?->isClinic())],
+                'system_offers.*'     => ['numeric', 'exists:system_offers,id'],
+                'offers'              => ['array', 'nullable', Rule::excludeIf(fn() => auth()->user()?->isCustomer())],
+                'offers.*'            => ['numeric', 'exists:offers,id']
             ];
         }
 

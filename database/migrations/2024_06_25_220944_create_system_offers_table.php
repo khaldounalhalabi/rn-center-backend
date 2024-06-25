@@ -19,6 +19,8 @@ return new class extends Migration {
             $table->unsignedDouble('amount', 15, 4)->default(0.0000);
             $table->unsignedBigInteger('allowed_uses')->default(0);
             $table->boolean('allow_reuse')->default(false);
+            $table->date('from')->default(now());
+            $table->date('to')->default(now()->addDay());
 
             $table->timestamps();
         });

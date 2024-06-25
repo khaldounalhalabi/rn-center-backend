@@ -32,7 +32,9 @@ class StoreUpdateSystemOfferRequest extends FormRequest
                 'allow_reuse'  => ['required', 'boolean'],
                 'image'        => ['required', 'image', 'max:5000'],
                 'clinics'      => ['array', 'required', 'min:1'],
-                'clinics.*'    => ['required', 'numeric', 'exists:clinics,id']
+                'clinics.*'    => ['required', 'numeric', 'exists:clinics,id'],
+                'from'         => ['required', 'date', 'date_format:Y-m-d', 'after_or_equal:today'],
+                'to'           => ['required', 'date', 'date_format:Y-m-d', 'after_or_equal:today'],
             ];
         }
 
@@ -45,7 +47,9 @@ class StoreUpdateSystemOfferRequest extends FormRequest
             'allow_reuse'  => ['nullable', 'boolean'],
             'image'        => ['nullable', 'image', 'max:5000'],
             'clinics'      => ['array', 'nullable', 'min:1'],
-            'clinics.*'    => ['required_with:clinics', 'numeric', 'exists:clinics,id']
+            'clinics.*'    => ['required_with:clinics', 'numeric', 'exists:clinics,id'],
+            'from'         => ['nullable', 'date', 'date_format:Y-m-d', 'after_or_equal:today'],
+            'to'           => ['nullable', 'date', 'date_format:Y-m-d', 'after_or_equal:today'],
         ];
     }
 }

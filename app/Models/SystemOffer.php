@@ -28,12 +28,16 @@ class SystemOffer extends Model implements HasMedia
         'amount',
         'allowed_uses',
         'allow_reuse',
+        'from',
+        'to'
     ];
 
     protected $casts = [
         'allow_reuse'  => 'boolean',
         'allowed_uses' => 'integer',
         'amount'       => 'double',
+        'from'         => 'date',
+        'to'           => 'date',
     ];
 
     public function exportable(): array
@@ -50,12 +54,12 @@ class SystemOffer extends Model implements HasMedia
 
     public function clinics(): BelongsToMany
     {
-        return $this->belongsToMany(Clinic::class , 'clinic_system_offers');
+        return $this->belongsToMany(Clinic::class, 'clinic_system_offers');
     }
 
     public function appointments(): BelongsToMany
     {
-        return $this->belongsToMany(Appointment::class , 'appointment_system_offers');
+        return $this->belongsToMany(Appointment::class, 'appointment_system_offers');
     }
 
     /**
