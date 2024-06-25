@@ -22,7 +22,7 @@ use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Clinic extends Model implements HasMedia, ActionsMustBeAuthorized
+class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;
@@ -32,7 +32,7 @@ class Clinic extends Model implements HasMedia, ActionsMustBeAuthorized
     {
         return [
             'edit-clinic-profile',
-            'show-clinic-profile'
+            'show-clinic-profile',
         ];
     }
 
@@ -357,5 +357,10 @@ class Clinic extends Model implements HasMedia, ActionsMustBeAuthorized
     {
         return $this->status == ClinicStatusEnum::ACTIVE->value
             && $this->user->isAvailable();
+    }
+
+    public function systemOffers(): BelongsToMany
+    {
+        return $this->belongsToMany(SystemOffer::class , 'clinic_system_offers');
     }
 }

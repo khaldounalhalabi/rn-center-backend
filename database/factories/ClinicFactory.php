@@ -13,6 +13,7 @@ use App\Models\Schedule;
 use App\Models\Service;
 use App\Models\Speciality;
 use App\Models\Subscription;
+use App\Models\SystemOffer;
 use App\Models\User;
 use App\Traits\FileHandler;
 use App\Traits\Translations;
@@ -130,5 +131,10 @@ class ClinicFactory extends Factory
     public function withClinicEmployees($count = 1): ClinicFactory
     {
         return $this->has(\App\Models\ClinicEmployee::factory($count));
+    }
+
+    public function withSystemOffers($count = 1): ClinicFactory
+    {
+        return $this->has(SystemOffer::factory($count));
     }
 }

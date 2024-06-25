@@ -48,6 +48,7 @@ class ClinicResource extends BaseResource
             'offers' => OfferResource::collection($this->whenLoaded('offers')),
             'patientProfiles' => PatientProfileResource::collection($this->whenLoaded('patientProfiles')),
             'clinicEmployees' => ClinicEmployeeResource::collection($this->whenLoaded('clinicEmployees')),
+            'systemOffers' => SystemOfferResource::collection($this->whenLoaded('systemOffers')),
         ];
     }
 }

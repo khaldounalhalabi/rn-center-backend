@@ -14,14 +14,15 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use JetBrains\PhpStorm\ArrayShape;
 
 /**
- * @property integer  customer_id
- * @property integer  clinic_id
+ * @property int      customer_id
+ * @property int      clinic_id
  * @property string   note
- * @property integer  service_id
+ * @property int      service_id
  * @property numeric  extra_fees
  * @property numeric  total_cost
  * @property string   type
@@ -36,13 +37,13 @@ use JetBrains\PhpStorm\ArrayShape;
  */
 class Appointment extends Model implements ActionsMustBeAuthorized
 {
-    use HasFactory;
     use HasClinic;
+    use HasFactory;
 
     public static function authorizedActions(): array
     {
         return [
-            'manage-appointments'
+            'manage-appointments',
         ];
     }
 
@@ -60,8 +61,9 @@ class Appointment extends Model implements ActionsMustBeAuthorized
         'device_type',
         'appointment_sequence',
         'qr_code',
-        'remaining_time'
+        'remaining_time',
     ];
+
     protected $casts = [
         'date' => 'datetime:Y-m-d:',
     ];
@@ -85,7 +87,7 @@ class Appointment extends Model implements ActionsMustBeAuthorized
      * add your relations and their searchable columns,
      * so you can search within them in the index method
      */
-    #[ArrayShape(['customer.user' => "string[]", 'clinic' => "string[]", 'clinic.user' => "string[]"])]
+    #[ArrayShape(['customer.user' => 'string[]', 'clinic' => 'string[]', 'clinic.user' => 'string[]'])]
     public static function relationsSearchableArray(): array
     {
         return [
@@ -102,8 +104,8 @@ class Appointment extends Model implements ActionsMustBeAuthorized
                 'first_name',
                 'last_name',
                 'middle_name',
-                'full_name'
-            ]
+                'full_name',
+            ],
         ];
     }
 
@@ -115,10 +117,6 @@ class Appointment extends Model implements ActionsMustBeAuthorized
         });
     }
 
-    /**
-     * @param Appointment $appointment
-     * @return Appointment
-     */
     public static function handleRemainingTime(Appointment $appointment): Appointment
     {
         if ($appointment->status == AppointmentStatusEnum::BOOKED->value) {
@@ -141,21 +139,21 @@ class Appointment extends Model implements ActionsMustBeAuthorized
             try {
                 $diffTime = CarbonInterval::hours(intdiv($diffMinutes, 60))->minutes($diffMinutes % 60)->forHumans();
             } catch (Exception) {
-                $diffTime = intdiv($diffMinutes, 60) . " Hours  , " . $diffMinutes % 60 . " Minutes";
+                $diffTime = intdiv($diffMinutes, 60) . ' Hours  , ' . $diffMinutes % 60 . ' Minutes';
             }
 
             $appointment->remaining_time = $diffDays == 0
-                ? "$diffTime , $beforeAppointmentsCount Patients Before You"
-                : "$diffDays Days And $diffTime , $beforeAppointmentsCount Patients Before You";
+                ? "{$diffTime} , {$beforeAppointmentsCount} Patients Before You"
+                : "{$diffDays} Days And {$diffTime} , {$beforeAppointmentsCount} Patients Before You";
 
             FirebaseServices::make()
                 ->setData([
                     'remaining_time' => $appointment,
-                    'message'        => "Your appointment booked in ($appointment->clinic->name) clinic in {$appointment->date} has an approximate time of : {$appointment->remaining_time}",
+                    'message'        => "Your appointment booked in ({$appointment->clinic}->name) clinic in {$appointment->date} has an approximate time of : {$appointment->remaining_time}",
                     'appointment_id' => $appointment->id,
                     'clinic_id'      => $appointment->clinic_id,
                     // TODO::update open route for this when you do the customer pages or configure another way for handling the notification
-                    'url'            => "#"
+                    'url'            => '#',
                 ])
                 ->setMethod(FirebaseServices::ONE)
                 ->setTo($appointment->customer->user)
@@ -262,12 +260,17 @@ class Appointment extends Model implements ActionsMustBeAuthorized
                     })
                     ->select('appointments.*', 'users.first_name AS customer_first_name')
                     ->orderBy('customer_first_name', $dir);
-            }
+            },
         ];
     }
 
     public function scopeValidNotEnded(Builder $query): Builder
     {
         return $query->whereIn('status', [AppointmentStatusEnum::BOOKED->value, AppointmentStatusEnum::CHECKIN->value]);
+    }
+
+    public function systemOffers(): BelongsToMany
+    {
+        return $this->belongsToMany(SystemOffer::class, 'appointment_system_offers');
     }
 }

@@ -1270,6 +1270,60 @@
                     }
                 ]
             }
+        },
+        {
+            "model_name": "SystemOffer",
+            "table_name": "system_offers",
+            "attributes": [
+                {
+                    "name": "title",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "description",
+                    "type": "text",
+                    "nullable": true,
+                    "unique": false
+                },
+                {
+                    "name": "type",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "amount",
+                    "type": "unsignedDouble",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "allowed_uses",
+                    "type": "bigInteger",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "allow_reuse",
+                    "type": "boolean",
+                    "nullable": false,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "manyToMany": [
+                    {
+                        "type": "manyToMany",
+                        "model_name": "Clinic"
+                    },
+                    {
+                        "type": "manyToMany",
+                        "model_name": "Appointment"
+                    }
+                ]
+            }
         }
     ],
     "frontend_type": "None"
