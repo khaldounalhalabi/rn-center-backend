@@ -119,13 +119,15 @@ class StoreUpdateClinicRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        $this->merge([
-            'address' => [
-                ...$this->input('address'),
-                'map_iframe' => strip_tags($this->input('address.map_iframe'), ['iframe'])
-            ]
-        ]);
+        if ($this->input('address') != null) {
+            $this->merge([
+                'address' => [
+                    ...$this->input('address'),
+                    'map_iframe' => strip_tags($this->input('address.map_iframe'), ['iframe'])
+                ]
+            ]);
 
+        }
         if ($this->input('user.last_name') && $this->input('user.first_name') && $this->input('user.middle_name')) {
             $this->merge([
                 'user' => [
