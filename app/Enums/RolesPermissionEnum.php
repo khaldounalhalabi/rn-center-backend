@@ -62,7 +62,6 @@ class RolesPermissionEnum
             'manage-medicines'    => Medicine::class,
             'manage-appointments' => Appointment::class,
             'edit-clinic-profile' => Clinic::class,
-            'show-clinic-profile' => Clinic::class,
             'manage-employees'    => ClinicEmployee::class,
         ],
     ];

@@ -23,9 +23,7 @@ Route::put('/clinic/update', [v1\ClinicController::class, 'updateDoctorClinic'])
         'staff_can:edit-clinic-profile,' . Clinic::class
     ])->name('clinic.update');
 Route::get('/clinic', [v1\ClinicController::class, 'showDoctorClinic'])
-    ->middleware([
-        'staff_can:show-clinic-profile,' . Clinic::class
-    ])->name('clinic.show');
+    ->name('clinic.show');
 
 Route::post('/schedules', [v1\ScheduleController::class, 'storeUpdateSchedules'])->middleware([
     'staff_can:manage-schedules,' . Schedule::class
