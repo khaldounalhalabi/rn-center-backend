@@ -46,6 +46,9 @@ Route::get('/specialities', [v1\SpecialityController::class, 'index'])->name('sp
 Route::get('/subscriptions', [v1\SubscriptionController::class, 'index'])->name('subscription.index');
 Route::get('/service-categories', [v1\ServiceCategoryController::class, 'index'])->name('service.category.index');
 
+Route::get('/clinics/{clinicId}/system-offers', [v1\SystemOfferController::class, 'getByClinic'])->name('clinics.system.offers');
+Route::get('/clinics/{clinicId}/offers', [v1\OfferController::class, 'getByClinic'])->name('clinics.offers');
+
 Route::get('/check-role', [v1\BaseAuthController::class, 'checkRole'])->name('check-role');
 
 Route::delete('/media/{mediaId}', [v1\MediaController::class, 'delete'])->name('media.delete');

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -112,13 +113,20 @@ class SystemOffer extends Model implements HasMedia
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('to', '>=', now()->format('Y-m-d'))
-            ->withCount('customers')
-            ->where('customers_count', '<=', $this->allowed_uses);
+            ->where(function ($query) {
+                $query->where(DB::raw('(
+                    select count(*) from customers
+                    inner join customer_system_offers
+                    on customers.id = customer_system_offers.customer_id
+                    where system_offers.id = customer_system_offers.system_offer_id
+                )')
+                    , '<', DB::raw('system_offers.allowed_uses'));
+            });
     }
 
     public function isActive(): bool
     {
         return $this->to->greaterThanOrEqualTo(now()->format('Y-m-d'))
-            && $this->customers()->count() <= $this->allowed_uses;
+            && $this->customers()->count() < $this->allowed_uses;
     }
 }

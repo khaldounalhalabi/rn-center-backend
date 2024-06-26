@@ -15,9 +15,10 @@ class SystemOfferRepository extends BaseRepository
 
     public function globalQuery(array $relations = [], array $countable = []): Builder
     {
-        return parent::globalQuery($relations)->when($this->filtered, function (Builder $query) {
-            $query->active();
-        });
+        return parent::globalQuery($relations, $countable)
+            ->when($this->filtered, function (Builder $query) {
+                $query->active();
+            });
     }
 
     public function getByIds(array $ids = [], ?int $clinicId = null, array $relations = [], array $countable = [])
@@ -38,13 +39,13 @@ class SystemOfferRepository extends BaseRepository
         $data = $this->globalQuery($relations, $countable)
             ->active()
             ->whereHas('clinics', function (Builder $query) use ($clinicId) {
-                $query->where('id', $clinicId);
+                $query->where('clinics.id', $clinicId);
             })->paginate($perPage);
 
         if ($data->count()) {
             return [
                 'data'            => $data->getCollection(),
-                'pagination_date' => $this->formatPaginateData($data)
+                'pagination_data' => $this->formatPaginateData($data)
             ];
         }
 

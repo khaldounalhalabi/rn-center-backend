@@ -22,12 +22,30 @@ class OfferRepository extends BaseRepository
         });
     }
 
-    public function getByids(array $ids = [], ?int $clinicId = null, array $relations = [], array $countable = [])
+    public function getByIds(array $ids = [], ?int $clinicId = null, array $relations = [], array $countable = [])
     {
         return $this->globalQuery($relations, $countable)
             ->whereIn('id', $ids)
             ->when($clinicId, fn(Builder $query) => $query->where('clinic_id', $clinicId))
             ->isActive()
             ->get();
+    }
+
+    public function getByClinicId($clinicId, array $relations = [], array $countable = [], int $perPage = 10): ?array
+    {
+        $perPage = request('per_page', $perPage);
+        $data = $this->globalQuery($relations, $countable)
+            ->where('clinic_id', $clinicId)
+            ->isActive()
+            ->paginate($perPage);
+
+        if ($data->count()) {
+            return [
+                'data'            => $data->getCollection(),
+                'pagination_data' => $this->formatPaginateData($data),
+            ];
+        }
+
+        return null;
     }
 }

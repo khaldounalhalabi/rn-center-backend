@@ -88,7 +88,7 @@ class AppointmentService extends BaseService
         $clinicOffersTotal = 0;
         if (isset($data['offers'])) {
             $clinicOffersTotal = OfferRepository::make()
-                ->getByids($data['offers'], $data['clinic_id'])
+                ->getByIds($data['offers'], $data['clinic_id'])
                 ->sum(fn(Offer $offer) => $offer->type == OfferTypeEnum::FIXED->value
                     ? $offer->value
                     : ($offer->value * $data['total_cost']) / 100

@@ -50,4 +50,9 @@ class OfferService extends BaseService
         $offer->delete();
         return true;
     }
+
+    public function getByClinic($clinicId, array $relations = [], array $countable = [], int $perPage = 10): ?array
+    {
+        return $this->repository->getByClinicId($clinicId, $relations, $countable, $perPage);
+    }
 }

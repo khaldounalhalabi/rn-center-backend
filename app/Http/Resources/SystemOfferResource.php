@@ -21,7 +21,7 @@ class SystemOfferResource extends BaseResource
             'allow_reuse'  => $this->allow_reuse,
             'from'         => $this->from->format('Y-m-d'),
             'to'           => $this->to->format('Y-m-d'),
-            'status'       => $this->to->greaterThanOrEqualTo(now()) ? "active" : "in-active",
+            'status'       => $this->isActive() ? "active" : "in-active",
             'clinics'      => ClinicResource::collection($this->whenLoaded('clinics')),
             'appointments' => AppointmentResource::collection($this->whenLoaded('appointments')),
             'image'        => MediaResource::collection($this->whenLoaded('media')),
