@@ -3,16 +3,21 @@
 namespace App\Services;
 
 use App\Enums\AppointmentStatusEnum;
+use App\Enums\OfferTypeEnum;
 use App\Enums\RolesPermissionEnum;
 use App\Jobs\UpdateAppointmentRemainingTimeJob;
 use App\Models\Appointment;
+use App\Models\Offer;
+use App\Models\SystemOffer;
 use App\Notifications\Customer\CustomerAppointmentChangedNotification;
 use App\Notifications\RealTime\AppointmentStatusChangeNotification;
 use App\Repositories\AppointmentLogRepository;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\ClinicRepository;
 use App\Repositories\Contracts\BaseRepository;
+use App\Repositories\OfferRepository;
 use App\Repositories\ServiceRepository;
+use App\Repositories\SystemOfferRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
 use Illuminate\Database\Eloquent\Model;
@@ -79,6 +84,28 @@ class AppointmentService extends BaseService
         }
 
         $data['total_cost'] = ($service?->price ?? 0) + ($data['extra_fees'] ?? 0) + $clinic->appointment_cost - ($data['discount'] ?? 0);
+
+        $clinicOffersTotal = 0;
+        if (isset($data['offers'])) {
+            $clinicOffersTotal = OfferRepository::make()
+                ->getByids($data['offers'], $data['clinic_id'])
+                ->sum(fn(Offer $offer) => $offer->type == OfferTypeEnum::FIXED->value
+                    ? $offer->value
+                    : ($offer->value * $data['total_cost']) / 100
+                );
+        }
+
+        $systemOffersTotal = 0;
+        if (isset($data['system_offers'])) {
+            $systemOffersTotal = SystemOfferRepository::make()
+                ->getByIds($data['system_offers'], $data['clinic_id'])
+                ->sum(fn(SystemOffer $offer) => $offer->type == OfferTypeEnum::FIXED->value
+                    ? $offer->amount
+                    : ($offer->amount * $data['total_cost']) / 100
+                );
+        }
+
+        $data['total_cost'] = $data['total_cost'] - $clinicOffersTotal - $systemOffersTotal;
 
         $appointment = $this->repository->create($data, $relationships, $countable);
 

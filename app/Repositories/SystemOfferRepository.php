@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\SystemOffer;
 use App\Repositories\Contracts\BaseRepository;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * @extends  BaseRepository<SystemOffer>
@@ -11,4 +12,42 @@ use App\Repositories\Contracts\BaseRepository;
 class SystemOfferRepository extends BaseRepository
 {
     protected string $modelClass = SystemOffer::class;
+
+    public function globalQuery(array $relations = [], array $countable = []): Builder
+    {
+        return parent::globalQuery($relations)->when($this->filtered, function (Builder $query) {
+            $query->active();
+        });
+    }
+
+    public function getByIds(array $ids = [], ?int $clinicId = null, array $relations = [], array $countable = [])
+    {
+        return $this->globalQuery($relations, $countable)
+            ->whereIn('id', $ids)
+            ->active()
+            ->when($clinicId,
+                fn(Builder $query) => $query->whereHas('clinics',
+                    function (Builder $q) use ($clinicId) {
+                        $q->where('id', $clinicId);
+                    }))->get();
+    }
+
+    public function getByClinic($clinicId, array $relations = [], array $countable = [], ?int $perPage = 10): ?array
+    {
+        $perPage = request('per_page') ?? $perPage;
+        $data = $this->globalQuery($relations, $countable)
+            ->active()
+            ->whereHas('clinics', function (Builder $query) use ($clinicId) {
+                $query->where('id', $clinicId);
+            })->paginate($perPage);
+
+        if ($data->count()) {
+            return [
+                'data'            => $data->getCollection(),
+                'pagination_date' => $this->formatPaginateData($data)
+            ];
+        }
+
+        return null;
+    }
 }

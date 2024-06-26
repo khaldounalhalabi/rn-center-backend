@@ -5,6 +5,8 @@ namespace App\Http\Requests\Appointment;
 use App\Enums\AppointmentStatusEnum;
 use App\Enums\AppointmentTypeEnum;
 use App\Models\Appointment;
+use App\Rules\ClinicOfferBelongToClinic;
+use App\Rules\SystemOfferBelongToClinic;
 use App\Rules\ValidSystemOffer;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -39,9 +41,18 @@ class StoreUpdateAppointmentRequest extends FormRequest
                 'device_type'         => ['nullable', 'string', 'min:3', 'max:255'],
                 'cancellation_reason' => 'string|nullable|' . Rule::requiredIf($this->input('status') == AppointmentStatusEnum::CANCELLED->value),
                 'system_offers'       => ['array', 'nullable', Rule::excludeIf(fn() => auth()->user()?->isClinic())],
-                'system_offers.*'     => ['numeric', 'exists:system_offers,id', new ValidSystemOffer($this->input('customer_id'))],
+                'system_offers.*'     => [
+                    'numeric',
+                    'exists:system_offers,id',
+                    new ValidSystemOffer($this->input('customer_id')),
+                    new SystemOfferBelongToClinic($this->input('clinic_id'))
+                ],
                 'offers'              => ['array', 'nullable', Rule::excludeIf(fn() => auth()->user()?->isCustomer())],
-                'offers.*'            => ['numeric', 'exists:offers,id']
+                'offers.*'            => [
+                    'numeric',
+                    'exists:offers,id',
+                    new ClinicOfferBelongToClinic($this->input('clinic_id'))
+                ],
             ];
         }
 
@@ -57,9 +68,18 @@ class StoreUpdateAppointmentRequest extends FormRequest
             'cancellation_reason' => 'string|nullable|' . Rule::requiredIf($this->input('status') == AppointmentStatusEnum::CANCELLED->value),
 
             'system_offers'   => ['array', 'nullable', Rule::excludeIf(fn() => auth()->user()?->isClinic())],
-            'system_offers.*' => ['numeric', 'exists:system_offers,id', new ValidSystemOffer($this->input('customer_id') ?? $appointment->customer_id)],
+            'system_offers.*' => [
+                'numeric',
+                'exists:system_offers,id',
+                new ValidSystemOffer($this->input('customer_id') ?? $appointment->customer_id),
+                new SystemOfferBelongToClinic($appointment->clinic_id)
+            ],
             'offers'          => ['array', 'nullable', Rule::excludeIf(fn() => auth()->user()?->isCustomer())],
-            'offers.*'        => ['numeric', 'exists:offers,id']
+            'offers.*'        => [
+                'numeric',
+                'exists:offers,id',
+                new ClinicOfferBelongToClinic($appointment->clinic_id)
+            ],
         ];
     }
 

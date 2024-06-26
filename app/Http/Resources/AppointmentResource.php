@@ -32,7 +32,7 @@ class AppointmentResource extends BaseResource
             'clinic'               => new ClinicResource($this->whenLoaded('clinic')),
             'service'              => new ServiceResource($this->whenLoaded('service')),
             'appointmentLogs'      => AppointmentLogResource::collection($this->whenLoaded('appointmentLogs')),
-            'systemOffers'         => SystemOfferResource::collection($this->whenLoaded('systemOffers')),
+            'system_offers'        => SystemOfferResource::collection($this->whenLoaded('systemOffers')),
         ];
     }
 }

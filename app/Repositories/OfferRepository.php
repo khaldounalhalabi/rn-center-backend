@@ -21,4 +21,13 @@ class OfferRepository extends BaseRepository
             $query->where('clinic_id', auth()->user()?->getClinicId());
         });
     }
+
+    public function getByids(array $ids = [], ?int $clinicId = null, array $relations = [], array $countable = [])
+    {
+        return $this->globalQuery($relations, $countable)
+            ->whereIn('id', $ids)
+            ->when($clinicId, fn(Builder $query) => $query->where('clinic_id', $clinicId))
+            ->isActive()
+            ->get();
+    }
 }

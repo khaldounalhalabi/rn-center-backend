@@ -43,4 +43,9 @@ class SystemOfferService extends BaseService
 
         return $offer->load($relationships)->loadCount($countable);
     }
+
+    public function getByClinic($clinicId, array $relations = [], array $countable = [], int $perPage = 10): ?array
+    {
+        return $this->repository->getByClinic($clinicId, $relations, $countable, $perPage);
+    }
 }

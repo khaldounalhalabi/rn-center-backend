@@ -17,7 +17,7 @@ class SystemOfferController extends ApiController
     {
         $this->systemOfferService = SystemOfferService::make();
         // place the relations you want to return them within the response
-        $this->relations = ['media'];
+        $this->relations = ['media', 'clinics'];
     }
 
     public function index()
@@ -92,5 +92,16 @@ class SystemOfferController extends ApiController
         ]);
 
         $this->systemOfferService->import();
+    }
+
+    public function getByClinic($clinicId)
+    {
+        $data = $this->systemOfferService->getByClinic($clinicId, $this->relations, $this->countable);
+
+        if ($data) {
+            return $this->apiResponse(SystemOfferResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
+        }
+
+        return $this->noData();
     }
 }
