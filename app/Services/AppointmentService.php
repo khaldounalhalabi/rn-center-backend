@@ -212,27 +212,6 @@ class AppointmentService extends BaseService
 
         $clinic = $appointment->clinic;
 
-        if (!$clinic->canHasAppointmentIn(
-            $data['date'] ?? $appointment->date->format('Y-m-d'),
-            $data['customer_id'] ?? $appointment->customer_id
-        )) {
-            return null;
-        }
-
-        if (
-            isset($data['date'])
-            && $data['date'] != $appointment->date
-            && $data['status'] == AppointmentStatusEnum::BOOKED->value
-        ) {
-            /** @var Appointment $appointment */
-            $lastAppointmentInDay = $this->repository->getClinicLastAppointmentInDay($clinic->id, $data['date']);
-            if ($lastAppointmentInDay) {
-                $data['appointment_sequence'] = $lastAppointmentInDay->appointment_sequence + 1;
-            } else {
-                $data['appointment_sequence'] = 1;
-            }
-        }
-
         $this->appointmentLogRepository->create([
             'cancellation_reason' => $data['cancellation_reason'] ?? null,
             'status'              => $data['status'],
@@ -333,5 +312,53 @@ class AppointmentService extends BaseService
     public function getCustomerLastAppointment(int $customerId, ?int $clinicId = null, array $relations = [], array $countable = []): ?Appointment
     {
         return $this->repository->getCustomerLastAppointment($customerId, $clinicId, $relations, $countable);
+    }
+
+    public function updateAppointmentDate($id, $date, array $relationships = [], array $countable = [])
+    {
+        $data['date'] = $date;
+
+        /** @var Appointment $appointment */
+        $appointment = $this->repository->find($id);
+
+        if (!$appointment) {
+            return null;
+        }
+        if (!$appointment->canUpdate()) {
+            return null;
+        }
+
+        $clinic = $appointment->clinic;
+
+        if (!$clinic->canHasAppointmentIn(
+            $data['date'],
+            $appointment->customer_id
+        )) {
+            return null;
+        }
+        if (
+            isset($data['date'])
+            && $data['date'] != $appointment->date
+            && $appointment->status == AppointmentStatusEnum::BOOKED->value
+        ) {
+            /** @var Appointment $appointment */
+            $lastAppointmentInDay = $this->repository->getClinicLastAppointmentInDay($clinic->id, $data['date']);
+            if ($lastAppointmentInDay) {
+                $data['appointment_sequence'] = $lastAppointmentInDay->appointment_sequence + 1;
+            } else {
+                $data['appointment_sequence'] = 1;
+            }
+        }
+        $appointment = $this->repository->update($data, $appointment, $relationships, $countable);
+
+        $this->appointmentLogRepository->create([
+            'status'         => $appointment->status,
+            'happen_in'      => now(),
+            'appointment_id' => $appointment->id,
+            'actor_id'       => auth()->user()->id,
+            'affected_id'    => $appointment->customer_id,
+            'event'          => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en
+        ]);
+        return $appointment;
     }
 }

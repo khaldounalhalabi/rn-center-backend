@@ -13,9 +13,9 @@ class PatientProfileRepository extends BaseRepository
 {
     protected string $modelClass = PatientProfile::class;
 
-    public function globalQuery(array $relations = []): Builder
+    public function globalQuery(array $relations = [] , array $countable = []): Builder
     {
-        return parent::globalQuery($relations)
+        return parent::globalQuery($relations , $countable)
             ->when($this->filtered, function (Builder $query) {
                 $query->whereHas('customer', function (Builder $builder) {
                     $builder->available();
