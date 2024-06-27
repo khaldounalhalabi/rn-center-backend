@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\AppointmentStatusEnum;
+use App\Enums\AppointmentTypeEnum;
 use App\Enums\OfferTypeEnum;
 use App\Enums\RolesPermissionEnum;
 use App\Jobs\UpdateAppointmentRemainingTimeJob;
@@ -360,5 +361,56 @@ class AppointmentService extends BaseService
             'event'          => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en
         ]);
         return $appointment;
+    }
+
+    private function canUpdateOnlineAppointmentStatus(Appointment $appointment, ?string $status = null): ?bool
+    {
+        if (!$status) {
+            return true;
+        }
+
+        if ($appointment->type != AppointmentTypeEnum::ONLINE->value) {
+            return true;
+        }
+
+        if (
+            $appointment->status == AppointmentStatusEnum::PENDING->value
+            && !in_array($status, [
+                AppointmentStatusEnum::PENDING->value,
+                AppointmentStatusEnum::BOOKED->value
+            ])
+        ) {
+            return false;
+        }
+
+        if (
+            $appointment->status == AppointmentStatusEnum::BOOKED->value
+            && !in_array($status, AppointmentStatusEnum::getAllValues([
+                AppointmentStatusEnum::PENDING
+            ]))
+        ) {
+            return false;
+        }
+
+        if ($appointment->status == AppointmentStatusEnum::CHECKIN->value
+            && !in_array($status, AppointmentStatusEnum::getAllValues([
+                AppointmentStatusEnum::PENDING, AppointmentStatusEnum::BOOKED
+            ]))) {
+            return false;
+        }
+
+        if ($appointment->status == AppointmentStatusEnum::CHECKOUT->value
+            && !in_array($status, [
+                AppointmentStatusEnum::CHECKOUT->value, AppointmentStatusEnum::CANCELLED->value,
+            ])) {
+            return false;
+        }
+
+        if ($appointment->status == AppointmentStatusEnum::CANCELLED->value
+            && $status != AppointmentStatusEnum::CANCELLED->value) {
+            return false;
+        }
+
+        return true;
     }
 }

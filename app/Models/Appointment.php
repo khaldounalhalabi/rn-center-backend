@@ -273,4 +273,16 @@ class Appointment extends Model implements ActionsMustBeAuthorized
     {
         return $this->belongsToMany(SystemOffer::class, 'appointment_system_offers');
     }
+
+    public function canUpdate(): bool
+    {
+        return (
+                (
+                    $this->clinic_id == auth()?->user()?->getClinicId()
+                    && !in_array($this->status, [AppointmentStatusEnum::CHECKOUT->value, AppointmentStatusEnum::CANCELLED->value])
+                )
+                || auth()->user()?->isAdmin()
+            )
+            && $this->clinic->isAvailable();
+    }
 }

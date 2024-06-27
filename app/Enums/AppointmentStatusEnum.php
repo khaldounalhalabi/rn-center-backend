@@ -11,8 +11,15 @@ enum AppointmentStatusEnum: string
     case BOOKED = 'booked';
     case COMPLETED = 'completed';
 
-    public static function getAllValues(): array
+    /**
+     * @param AppointmentStatusEnum[] $except
+     * @return array
+     */
+    public static function getAllValues(array $except = []): array
     {
-        return array_column(self::cases(), 'value');
+        return array_column(
+            array_filter(self::cases(), fn(AppointmentStatusEnum $status) => !in_array($status, $except)),
+            'value'
+        );
     }
 }
