@@ -274,6 +274,11 @@ class Appointment extends Model implements ActionsMustBeAuthorized
         return $this->belongsToMany(SystemOffer::class, 'appointment_system_offers');
     }
 
+    public function offers(): BelongsToMany
+    {
+        return $this->belongsToMany(Offer::class , 'appointment_offers');
+    }
+
     public function canUpdate(): bool
     {
         return (

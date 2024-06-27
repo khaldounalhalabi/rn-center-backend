@@ -21,7 +21,7 @@ class AppointmentController extends ApiController
         $this->appointmentService = AppointmentService::make();
 
         // place the relations you want to return them within the response
-        $this->relations = ['clinic', 'clinic.user', 'customer.user', 'service'];
+        $this->relations = ['clinic', 'clinic.user', 'customer.user', 'service', 'systemOffers', 'offers'];
     }
 
     public function index()
@@ -119,7 +119,7 @@ class AppointmentController extends ApiController
         return $this->noData();
     }
 
-    public function updateAppointmentDate($appointmentId , UpdateAppointmentDateRequest $request)
+    public function updateAppointmentDate($appointmentId, UpdateAppointmentDateRequest $request)
     {
         $appointment = $this
             ->appointmentService
@@ -127,8 +127,8 @@ class AppointmentController extends ApiController
                 $request->validated()['date'],
                 $this->relations,
                 $this->countable);
-        if ($appointment){
-            return $this->apiResponse(new AppointmentResource($appointment) , self::STATUS_OK , __('site.update_successfully'));
+        if ($appointment) {
+            return $this->apiResponse(new AppointmentResource($appointment), self::STATUS_OK, __('site.update_successfully'));
         }
 
         return $this->apiResponse(null, self::STATUS_INVALID_TIME_TO_BOOK, __('site.doctor_dont_has_vacant_in_this_time'));
