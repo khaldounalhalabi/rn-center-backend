@@ -41,18 +41,9 @@ class StoreUpdateAppointmentRequest extends FormRequest
                 'device_type'         => ['nullable', 'string', 'min:3', 'max:255'],
                 'cancellation_reason' => 'string|nullable|' . Rule::requiredIf($this->input('status') == AppointmentStatusEnum::CANCELLED->value),
                 'system_offers'       => ['array', 'nullable', Rule::excludeIf(fn() => auth()->user()?->isClinic())],
-                'system_offers.*'     => [
-                    'numeric',
-                    'exists:system_offers,id',
-                    new ValidSystemOffer($this->input('customer_id')),
-                    new SystemOfferBelongToClinic($this->input('clinic_id'))
-                ],
+                'system_offers.*'     => ['numeric', 'exists:system_offers,id', new ValidSystemOffer($this->input('customer_id')), new SystemOfferBelongToClinic($this->input('clinic_id'))],
                 'offers'              => ['array', 'nullable', Rule::excludeIf(fn() => auth()->user()?->isCustomer())],
-                'offers.*'            => [
-                    'numeric',
-                    'exists:offers,id',
-                    new ClinicOfferBelongToClinic($this->input('clinic_id'))
-                ],
+                'offers.*'            => ['numeric', 'exists:offers,id', new ClinicOfferBelongToClinic($this->input('clinic_id'))],
             ];
         }
 

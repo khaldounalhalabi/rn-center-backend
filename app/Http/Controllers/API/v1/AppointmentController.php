@@ -67,16 +67,6 @@ class AppointmentController extends ApiController
         return $this->apiResponse(null, self::STATUS_INVALID_TIME_TO_BOOK, __('site.doctor_dont_has_vacant_in_this_time'));
     }
 
-    public function destroy($appointmentId)
-    {
-        $item = $this->appointmentService->delete($appointmentId);
-        if ($item) {
-            return $this->apiResponse(true, self::STATUS_OK, __('site.delete_successfully'));
-        }
-
-        return $this->noData(false);
-    }
-
     public function export(Request $request)
     {
         $ids = $request->ids ?? [];
