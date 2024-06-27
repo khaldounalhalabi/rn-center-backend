@@ -86,29 +86,13 @@ class AppointmentService extends BaseService
 
         $data['total_cost'] = ($service?->price ?? 0) + ($data['extra_fees'] ?? 0) + $clinic->appointment_cost - ($data['discount'] ?? 0);
 
-        $clinicOffersTotal = 0;
-        if (isset($data['offers'])) {
-            $clinicOffersTotal = OfferRepository::make()
-                ->getByIds($data['offers'], $data['clinic_id'])
-                ->sum(fn(Offer $offer) => $offer->type == OfferTypeEnum::FIXED->value
-                    ? $offer->value
-                    : ($offer->value * $data['total_cost']) / 100
-                );
-        }
-
-        $systemOffersTotal = 0;
-        if (isset($data['system_offers'])) {
-            $systemOffersTotal = SystemOfferRepository::make()
-                ->getByIds($data['system_offers'], $data['clinic_id'])
-                ->sum(fn(SystemOffer $offer) => $offer->type == OfferTypeEnum::FIXED->value
-                    ? $offer->amount
-                    : ($offer->amount * $data['total_cost']) / 100
-                );
-        }
+        list($clinicOffersTotal, $clinicOffersIds, $systemOffersTotal, $systemOffersIds) = $this->handleAppointmentOffers($data);
 
         $data['total_cost'] = $data['total_cost'] - $clinicOffersTotal - $systemOffersTotal;
 
         $appointment = $this->repository->create($data, $relationships, $countable);
+        $appointment->systemOffers()->sync($systemOffersIds);
+        $appointment->offers()->sync($clinicOffersIds);
 
         $this->appointmentLogRepository->create([
             'cancellation_reason' => $data['cancellation_reason'] ?? null,
@@ -250,9 +234,15 @@ class AppointmentService extends BaseService
             + $clinic->appointment_cost
             - ($data['discount'] ?? ($appointment->discount ?? 0));
 
+        list($clinicOffersTotal, $clinicOffersIds, $systemOffersTotal, $systemOffersIds) = $this->handleAppointmentOffers($data);
+
+        $data['total_cost'] = $data['total_cost'] - $clinicOffersTotal - $systemOffersTotal;
+
         $prevStatus = $appointment->status;
 
-        $appointment = $this->repository->update($data, $appointment, $relationships, $countable);
+        $appointment = $this->repository->update($data, $appointment);
+        $appointment->systemOffers()->sync($systemOffersIds);
+        $appointment->offers()->sync($clinicOffersIds);
 
         if (
             $appointment->status == AppointmentStatusEnum::CHECKOUT->value
@@ -283,7 +273,7 @@ class AppointmentService extends BaseService
 
         $this->handleChangeAppointmentNotifications($appointment, $oldStatus);
 
-        return $appointment;
+        return $appointment->load($relationships)->loadCount($countable);
     }
 
     /**
@@ -425,5 +415,39 @@ class AppointmentService extends BaseService
         }
 
         return true;
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    private function handleAppointmentOffers(array $data): array
+    {
+        $clinicOffersTotal = 0;
+        $clinicOffersIds = [];
+        if (isset($data['offers'])) {
+            $clinicOffers = OfferRepository::make()
+                ->getByIds($data['offers'], $data['clinic_id']);
+            $clinicOffersTotal = $clinicOffers
+                ->sum(fn(Offer $offer) => $offer->type == OfferTypeEnum::FIXED->value
+                    ? $offer->value
+                    : ($offer->value * $data['total_cost']) / 100
+                );
+            $clinicOffersIds = $clinicOffers->pluck('id')->toArray();
+        }
+
+        $systemOffersTotal = 0;
+        $systemOffersIds = [];
+        if (isset($data['system_offers'])) {
+            $systemOffers = SystemOfferRepository::make()
+                ->getByIds($data['system_offers'], $data['clinic_id']);
+            $systemOffersTotal = $systemOffers
+                ->sum(fn(SystemOffer $offer) => $offer->type == OfferTypeEnum::FIXED->value
+                    ? $offer->amount
+                    : ($offer->amount * $data['total_cost']) / 100
+                );
+            $systemOffersIds = $systemOffers->pluck('id')->toArray();
+        }
+        return array($clinicOffersTotal, $clinicOffersIds, $systemOffersTotal, $systemOffersIds);
     }
 }
