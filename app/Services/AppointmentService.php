@@ -153,6 +153,11 @@ class AppointmentService extends BaseService
             return null;
         }
 
+        if (auth()->user()?->isDoctor()
+            && !$this->canUpdateOnlineAppointmentStatus($appointment, $data['status'])) {
+            return null;
+        }
+
         $prevStatus = $appointment->status;
 
         $appointment = $this->repository->update([
@@ -210,6 +215,14 @@ class AppointmentService extends BaseService
         if (!$appointment->canUpdate()) {
             return null;
         }
+
+        if (isset($data['status'])
+            && $data['status'] != $appointment->status
+            && auth()->user()?->isDoctor()
+            && !$this->canUpdateOnlineAppointmentStatus($appointment, $data['status'])) {
+            return null;
+        }
+
 
         $clinic = $appointment->clinic;
 
