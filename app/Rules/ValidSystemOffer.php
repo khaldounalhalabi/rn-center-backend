@@ -17,7 +17,7 @@ class ValidSystemOffer implements ValidationRule
         if (auth()->user()?->isCustomer()) {
             $this->customerId = auth()->user()?->customer->id;
         } else {
-            $this->customerId = null;
+            $this->customerId = $customerId;
         }
     }
 
@@ -30,17 +30,17 @@ class ValidSystemOffer implements ValidationRule
         $offer = SystemOffer::find($value);
 
         if (!$offer) {
-            $fail("Invalid Offer");
+            $fail("{$offer->title} Offer Is Invalid");
             return;
         }
 
         if (!$offer->isActive()) {
-            $fail("The Provided Offer Has Expired");
+            $fail("{$offer->title} Offer Has Expired");
             return;
         }
 
         if (!$this->customerId) {
-            $fail("Invalid Offer");
+            $fail("{$offer->title} Offer Is Invalid");
             return;
         }
 
@@ -51,7 +51,11 @@ class ValidSystemOffer implements ValidationRule
                 ->where('system_offer_id', $offer->id)
                 ->count() > 1
         ) {
-            $fail("You Used This Offer Before");
+            $fail("You Used {$offer->title} Offer Before");
+        }
+
+        if ($offer->allowed_uses <= $offer->customers()->count()) {
+            $fail("{$offer->title} Offer Has Ended");
         }
     }
 }

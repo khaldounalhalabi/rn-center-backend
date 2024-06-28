@@ -95,7 +95,7 @@ class AppointmentService extends BaseService
 
         $data['total_cost'] = $data['total_cost'] - $clinicOffersTotal - $systemOffersTotal;
 
-        $appointment = $this->repository->create($data, $relationships, $countable);
+        $appointment = $this->repository->create($data);
         $appointment->systemOffers()->sync($systemOffersIds);
         $appointment->offers()->sync($clinicOffersIds);
 
@@ -109,7 +109,7 @@ class AppointmentService extends BaseService
             'event'               => "appointment has been created in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en
         ]);
 
-        return $appointment;
+        return $appointment->load($relationships)->loadCount($countable);
     }
 
     /**

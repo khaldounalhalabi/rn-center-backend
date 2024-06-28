@@ -29,7 +29,7 @@ class SystemOfferRepository extends BaseRepository
             ->when($clinicId,
                 fn(Builder $query) => $query->whereHas('clinics',
                     function (Builder $q) use ($clinicId) {
-                        $q->where('id', $clinicId);
+                        $q->where('clinics.id', $clinicId);
                     }))->get();
     }
 
