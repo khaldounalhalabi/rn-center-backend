@@ -19,7 +19,7 @@ return new class () extends Migration {
             $table->id();
             $table->text('note')->nullable();
             $table->unsignedDouble('extra_fees', 15, 4)->default(0.0000);
-            $table->unsignedDouble('total_cost', 15, 4)->default(0.0000);
+            $table->double('total_cost', 15, 4)->default(0.0000);
             $table->unsignedDouble('discount', 15, 4)->default(0.0000);
             $table->string('type')->default(AppointmentTypeEnum::MANUAL->value);
             $table->date('date');

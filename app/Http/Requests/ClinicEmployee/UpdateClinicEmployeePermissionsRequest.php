@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\ClinicEmployee;
 
 use App\Enums\RolesPermissionEnum;
 use Illuminate\Foundation\Http\FormRequest;

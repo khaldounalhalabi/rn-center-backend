@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\ClinicEmployee\StoreUpdateClinicEmployeeRequest;
-use App\Http\Requests\UpdateClinicEmployeePermissionsRequest;
+use App\Http\Requests\ClinicEmployee\UpdateClinicEmployeePermissionsRequest;
 use App\Http\Resources\ClinicEmployeeResource;
 use App\Models\ClinicEmployee;
 use App\Services\ClinicEmployee\ClinicEmployeeService;
