@@ -86,7 +86,12 @@ class AppointmentService extends BaseService
 
         $data['total_cost'] = ($service?->price ?? 0) + ($data['extra_fees'] ?? 0) + $clinic->appointment_cost - ($data['discount'] ?? 0);
 
-        list($clinicOffersTotal, $clinicOffersIds, $systemOffersTotal, $systemOffersIds) = $this->handleAppointmentOffers($data);
+        [
+            $clinicOffersTotal,
+            $clinicOffersIds,
+            $systemOffersTotal,
+            $systemOffersIds
+        ] = $this->handleAppointmentOffers($data);
 
         $data['total_cost'] = $data['total_cost'] - $clinicOffersTotal - $systemOffersTotal;
 
@@ -234,7 +239,12 @@ class AppointmentService extends BaseService
             + $clinic->appointment_cost
             - ($data['discount'] ?? ($appointment->discount ?? 0));
 
-        list($clinicOffersTotal, $clinicOffersIds, $systemOffersTotal, $systemOffersIds) = $this->handleAppointmentOffers($data);
+        [
+            $clinicOffersTotal,
+            $clinicOffersIds,
+            $systemOffersTotal,
+            $systemOffersIds
+        ] = $this->handleAppointmentOffers($data);
 
         $data['total_cost'] = $data['total_cost'] - $clinicOffersTotal - $systemOffersTotal;
 
@@ -448,6 +458,11 @@ class AppointmentService extends BaseService
                 );
             $systemOffersIds = $systemOffers->pluck('id')->toArray();
         }
-        return array($clinicOffersTotal, $clinicOffersIds, $systemOffersTotal, $systemOffersIds);
+        return [
+            $clinicOffersTotal,
+            $clinicOffersIds,
+            $systemOffersTotal,
+            $systemOffersIds
+        ];
     }
 }
