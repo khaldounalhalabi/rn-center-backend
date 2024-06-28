@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources;
 
-use App\Models\ClinicTransaction;
+use App\Models\AppointmentDeduction;
 
-/** @mixin ClinicTransaction */
-class ClinicTransactionResource extends BaseResource
+/** @mixin AppointmentDeduction */
+class AppointmentDeductionResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
@@ -16,15 +16,15 @@ class ClinicTransactionResource extends BaseResource
         return [
             'id'                    => $this->id,
             'amount'                => $this->amount,
-            'appointment_id'        => $this->appointment_id,
-            'type'                  => $this->type,
-            'clinic_id'             => $this->clinic_id,
-            'notes'                 => $this->notes,
             'status'                => $this->status,
+            'clinic_transaction_id' => $this->clinic_transaction_id,
+            'appointment_id'        => $this->appointment_id,
+            'clinic_id'             => $this->clinic_id,
             'date'                  => $this->date->format('Y-m-d'),
+            'clinicTransaction'     => new ClinicTransactionResource($this->whenLoaded('clinicTransaction')),
             'appointment'           => new AppointmentResource($this->whenLoaded('appointment')),
             'clinic'                => new ClinicResource($this->whenLoaded('clinic')),
-            'appointment_deduction' => new AppointmentDeductionResource($this->whenLoaded('appointmentDeduction')),
+
         ];
     }
 }

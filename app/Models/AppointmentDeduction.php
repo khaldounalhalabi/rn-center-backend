@@ -2,56 +2,55 @@
 
 namespace App\Models;
 
-use App\Traits\HasClinic;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
- * @property numeric          amount
- * @property null|int         appointment_id
- * @property string           type
- * @property int              clinic_id
- * @property null|string      notes
- * @property string           status
- * @property Appointment|null appointment
- * @property Clinic           clinic
- * @property Carbon           date
+ * @property numeric           amount
+ * @property string            status
+ * @property int               clinic_transaction_id
+ * @property int               appointment_id
+ * @property int               clinic_id
+ * @property string            date
+ * @property ClinicTransaction clinicTransaction
+ * @property Appointment       appointment
+ * @property Clinic            clinic
  */
-class ClinicTransaction extends Model
+class AppointmentDeduction extends Model
 {
-    use HasClinic;
     use HasFactory;
 
     protected $fillable = [
         'amount',
-        'appointment_id',
-        'type',
-        'clinic_id',
-        'notes',
         'status',
+        'clinic_transaction_id',
+        'appointment_id',
+        'clinic_id',
         'date',
     ];
 
     protected $casts = [
-        'amount' => 'double',
-        'date'   => 'date',
+        'date' => 'date',
     ];
 
     public function exportable(): array
     {
         return [
             'amount',
-            'type',
-            'notes',
             'status',
-            'appointment.id',
-            'appointment.date',
-            'appointment.customer.user.full_name',
             'date',
+            'clinicTransaction.amount',
+            'appointment.id',
+            'appointment.customer.user.full_name',
+            'appointment.clinic.user.full_name',
+            'clinic.name',
         ];
+    }
+
+    public function clinicTransaction(): BelongsTo
+    {
+        return $this->belongsTo(ClinicTransaction::class);
     }
 
     public function appointment(): BelongsTo
@@ -83,28 +82,9 @@ class ClinicTransaction extends Model
     public static function searchableArray(): array
     {
         return [
-            'type',
-            'notes',
             'status',
+            'amount',
             'date',
-        ];
-    }
-
-    public function filterArray(): array
-    {
-        return [
-            [
-                'name' => 'type',
-            ],
-            [
-                'name' => 'date',
-            ],
-            [
-                'name' => 'status',
-            ],
-            [
-                'name' => 'amount',
-            ],
         ];
     }
 
@@ -115,14 +95,12 @@ class ClinicTransaction extends Model
     public static function relationsSearchableArray(): array
     {
         return [
-            'appointment.customer.user' => [
+            'appointment.clinic.user' => [
                 'full_name',
             ],
+            'appointment.clinic'      => [
+                'name',
+            ],
         ];
-    }
-
-    public function appointmentDeduction(): HasOne
-    {
-        return $this->hasOne(AppointmentDeduction::class, 'clinic_transaction_id', 'id');
     }
 }

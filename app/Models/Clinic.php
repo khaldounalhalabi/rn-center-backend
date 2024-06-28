@@ -368,4 +368,9 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
     {
         return $this->hasMany(ClinicTransaction::class);
     }
+
+    public function appointmentDeductions(): HasMany
+    {
+        return $this->hasMany(AppointmentDeduction::class);
+    }
 }

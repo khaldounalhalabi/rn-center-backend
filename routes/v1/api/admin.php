@@ -89,3 +89,6 @@ Route::apiResource('/transactions', v1\TransactionController::class)->names('tra
 Route::apiResource('/blood-donation-requests', v1\BloodDonationRequestController::class)->names('blood.donation.requests');
 
 Route::apiResource('/system-offers', v1\SystemOfferController::class)->names('system.offers');
+
+Route::post('/appointment-deductions/export', [v1\AppointmentDeductionController::class, 'export'])->name('api.admin.appointment.deductions.export');
+Route::apiResource('/appointment-deductions', v1\AppointmentDeductionController::class)->names('api.admin.appointment.deductions');

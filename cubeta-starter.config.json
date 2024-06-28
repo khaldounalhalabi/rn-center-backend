@@ -1380,6 +1380,67 @@
                     }
                 ]
             }
+        },
+        {
+            "model_name": "AppointmentDeduction",
+            "table_name": "appointment_deductions",
+            "attributes": [
+                {
+                    "name": "amount",
+                    "type": "double",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "status",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "clinic_transaction_id",
+                    "type": "key",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "appointment_id",
+                    "type": "key",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "clinic_id",
+                    "type": "key",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "date",
+                    "type": "date",
+                    "nullable": false,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "belongsTo": [
+                    {
+                        "type": "belongsTo",
+                        "model_name": "ClinicTransaction",
+                        "key": "clinictransaction_id"
+                    },
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Appointment",
+                        "key": "appointment_id"
+                    },
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Clinic",
+                        "key": "clinic_id"
+                    }
+                ]
+            }
         }
     ],
     "frontend_type": "None"

@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Enums\ClinicTransactionStatusEnum;
 use App\Enums\ClinicTransactionTypeEnum;
 use App\Models\Appointment;
+use App\Models\AppointmentDeduction;
 use App\Models\Clinic;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -21,6 +22,7 @@ class ClinicTransactionFactory extends Factory
     {
         $clinic = Clinic::inRandomOrder()->first();
         $appointment = Appointment::where('clinic_id', $clinic->id)->inRandomOrder()->first();
+
         return [
             'amount'         => fake()->randomNumber(1, 10),
             'appointment_id' => $appointment?->id,
@@ -29,5 +31,10 @@ class ClinicTransactionFactory extends Factory
             'notes'          => fake()->text(),
             'status'         => ClinicTransactionStatusEnum::PENDING->value,
         ];
+    }
+
+    public function withAppointmentDeduction(): ClinicTransactionFactory
+    {
+        return $this->has(AppointmentDeduction::factory());
     }
 }

@@ -49,6 +49,7 @@ class ClinicResource extends BaseResource
             'clinicEmployees'              => ClinicEmployeeResource::collection($this->whenLoaded('clinicEmployees')),
             'systemOffers'                 => SystemOfferResource::collection($this->whenLoaded('systemOffers')),
             'clinic_transactions'          => ClinicTransactionResource::collection($this->whenLoaded('clinicTransactions')),
+            'appointment_deductions'       => AppointmentDeductionResource::collection($this->whenLoaded('appointmentDeductions')),
         ];
     }
 }
