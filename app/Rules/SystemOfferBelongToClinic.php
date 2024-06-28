@@ -6,6 +6,7 @@ use App\Models\SystemOffer;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Translation\PotentiallyTranslatedString;
 
 class SystemOfferBelongToClinic implements ValidationRule
 {
@@ -22,7 +23,7 @@ class SystemOfferBelongToClinic implements ValidationRule
 
     /**
      * Run the validation rule.
-     * @param \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString $fail
+     * @param \Closure(string): PotentiallyTranslatedString $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
@@ -32,7 +33,7 @@ class SystemOfferBelongToClinic implements ValidationRule
 
         $belong = SystemOffer::where('id', $value)
             ->whereHas('clinics', function (Builder $builder) {
-                $builder->where('id', $this->clinicId);
+                $builder->where('clinics.id', $this->clinicId);
             })->active()->exists();
 
         if (!$belong) {

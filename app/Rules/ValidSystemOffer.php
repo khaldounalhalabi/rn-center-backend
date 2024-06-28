@@ -26,16 +26,20 @@ class ValidSystemOffer implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $offer = SystemOffer::find($value);
+
         if (!$offer) {
             $fail("Invalid Offer");
+            return;
         }
 
         if (!$offer->isActive()) {
             $fail("The Provided Offer Has Expired");
+            return;
         }
 
         if (!$this->customerId) {
             $fail("Invalid Offer");
+            return;
         }
 
         if (
