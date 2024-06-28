@@ -8,6 +8,7 @@ use App\Interfaces\ActionsMustBeAuthorized;
 use App\Traits\HasClinic;
 use App\Traits\Translations;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -119,9 +120,11 @@ class Offer extends Model implements ActionsMustBeAuthorized, HasMedia
             'image' => ['type' => MediaTypeEnum::SINGLE->value]];
     }
 
-    public function scopeIsActive($query)
+    public function scopeIsActive(Builder $query): Builder
     {
-        return $query->where('is_active', 1);
+        return $query->where('is_active', 1)
+            ->where('start_at', '<=', now()->format('Y-m-d'))
+            ->where('end_at', '>', now()->format('Y-m-d'));
     }
 
     public function appointments(): BelongsToMany

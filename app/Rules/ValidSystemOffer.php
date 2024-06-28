@@ -16,6 +16,8 @@ class ValidSystemOffer implements ValidationRule
     {
         if (auth()->user()?->isCustomer()) {
             $this->customerId = auth()->user()?->customer->id;
+        } else {
+            $this->customerId = null;
         }
     }
 

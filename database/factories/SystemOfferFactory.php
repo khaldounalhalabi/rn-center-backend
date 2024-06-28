@@ -25,7 +25,7 @@ class SystemOfferFactory extends Factory
             'amount'       => fake()->numberBetween(5, 100),
             'allowed_uses' => fake()->numberBetween(1, 50),
             'allow_reuse'  => fake()->boolean(),
-            'from'         => fake()->dateTimeBetween('+1 day', '+5 days'),
+            'from'         => fake()->dateTimeBetween('today', '+5 days'),
             'to'           => fake()->dateTimeBetween('+5 days', '+ 10 days'),
         ];
     }

@@ -27,7 +27,7 @@ class OfferFactory extends Factory
             'note'      => $this->fakeTranslation('sentence'),
             'start_at'  => now()->subDays(5),
             'end_at'    => now()->addDays(5),
-            'is_active' => fake()->boolean(),
+            'is_active' => true,
             'type'      => fake()->randomElement(OfferTypeEnum::getAllValues()),
             'clinic_id' => Clinic::factory(),
         ];

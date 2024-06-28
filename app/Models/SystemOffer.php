@@ -112,7 +112,9 @@ class SystemOffer extends Model implements HasMedia
 
     public function scopeActive(Builder $query): Builder
     {
-        return $query->where('to', '>=', now()->format('Y-m-d'))
+        return $query
+            ->where('from', '<=', now()->format('Y-m-d'))
+            ->where('to', '>', now()->format('Y-m-d'))
             ->where(function ($query) {
                 $query->where(DB::raw('(
                     select count(*) from customers
@@ -126,7 +128,8 @@ class SystemOffer extends Model implements HasMedia
 
     public function isActive(): bool
     {
-        return $this->to->greaterThanOrEqualTo(now()->format('Y-m-d'))
+        return $this->to->greaterThan(now()->format('Y-m-d'))
+            && $this->from->lessThanOrEqualTo(now()->format('Y-m-d'))
             && $this->customers()->count() < $this->allowed_uses;
     }
 }
