@@ -30,7 +30,7 @@ class ValidSystemOffer implements ValidationRule
         $offer = SystemOffer::find($value);
 
         if (!$offer) {
-            $fail("{$offer->title} Offer Is Invalid");
+            $fail("$attribute is invalid");
             return;
         }
 
