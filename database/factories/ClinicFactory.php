@@ -6,6 +6,7 @@ use App\Enums\WeekDayEnum;
 use App\Models\Appointment;
 use App\Models\Clinic;
 use App\Models\ClinicHoliday;
+use App\Models\ClinicTransaction;
 use App\Models\Medicine;
 use App\Models\Offer;
 use App\Models\Prescription;
@@ -136,5 +137,10 @@ class ClinicFactory extends Factory
     public function withSystemOffers($count = 1): ClinicFactory
     {
         return $this->has(SystemOffer::factory($count));
+    }
+
+    public function withClinicTransactions($count = 1): ClinicFactory
+    {
+        return $this->has(ClinicTransaction::factory($count));
     }
 }

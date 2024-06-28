@@ -31,6 +31,7 @@ class AppointmentResource extends BaseResource
             'customer'             => new CustomerResource($this->whenLoaded('customer')),
             'clinic'               => new ClinicResource($this->whenLoaded('clinic')),
             'service'              => new ServiceResource($this->whenLoaded('service')),
+            'clinic_transaction'   => new ClinicTransactionResource($this->whenLoaded('clinicTransactions')),
             'appointmentLogs'      => AppointmentLogResource::collection($this->whenLoaded('appointmentLogs')),
             'system_offers'        => SystemOfferResource::collection($this->whenLoaded('systemOffers')),
             'offers'               => OfferResource::collection($this->whenLoaded('offers')),

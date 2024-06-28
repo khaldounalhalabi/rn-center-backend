@@ -361,6 +361,11 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
 
     public function systemOffers(): BelongsToMany
     {
-        return $this->belongsToMany(SystemOffer::class , 'clinic_system_offers');
+        return $this->belongsToMany(SystemOffer::class, 'clinic_system_offers');
+    }
+
+    public function clinicTransactions(): HasMany
+    {
+        return $this->hasMany(ClinicTransaction::class);
     }
 }

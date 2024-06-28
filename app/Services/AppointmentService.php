@@ -142,7 +142,7 @@ class AppointmentService extends BaseService
             return null;
         }
 
-        if (auth()->user()?->isDoctor()
+        if (auth()->user()?->isClinic()
             && !$this->canUpdateOnlineAppointmentStatus($appointment, $data['status'])) {
             return null;
         }
@@ -207,7 +207,7 @@ class AppointmentService extends BaseService
 
         if (isset($data['status'])
             && $data['status'] != $appointment->status
-            && auth()->user()?->isDoctor()
+            && auth()->user()?->isClinic()
             && !$this->canUpdateOnlineAppointmentStatus($appointment, $data['status'])) {
             return null;
         }

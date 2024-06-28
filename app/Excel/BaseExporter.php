@@ -65,7 +65,7 @@ class BaseExporter implements FromCollection, WithMapping, WithHeadings, WithCus
                 $val = $row;
 
                 for ($i = 0; $i < count($relation); $i++) {
-                    $val = $val->{"{$relation[$i]}"};
+                    $val = $val?->{"{$relation[$i]}"};
                 }
 
                 $map[] = $val;

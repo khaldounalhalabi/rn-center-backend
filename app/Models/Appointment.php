@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use JetBrains\PhpStorm\ArrayShape;
 
 /**
@@ -276,7 +277,7 @@ class Appointment extends Model implements ActionsMustBeAuthorized
 
     public function offers(): BelongsToMany
     {
-        return $this->belongsToMany(Offer::class , 'appointment_offers');
+        return $this->belongsToMany(Offer::class, 'appointment_offers');
     }
 
     public function canUpdate(): bool
@@ -289,5 +290,10 @@ class Appointment extends Model implements ActionsMustBeAuthorized
                 || auth()->user()?->isAdmin()
             )
             && $this->clinic->isAvailable();
+    }
+
+    public function clinicTransaction(): HasOne
+    {
+        return $this->hasOne(ClinicTransaction::class, 'appointment_id', 'id');
     }
 }
