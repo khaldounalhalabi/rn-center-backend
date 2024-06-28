@@ -20,6 +20,13 @@ class BaseImporter implements ToModel, WithHeadingRow
         $this->model = $model;
     }
 
+    private function mapping()
+    {
+        return method_exists($this->model, 'importable')
+            ? $this->model->importable()
+            : $this->model->getFillable();
+    }
+
     /**
      * @inheritDoc
      */
@@ -37,16 +44,9 @@ class BaseImporter implements ToModel, WithHeadingRow
         return $this->model->import($row);
     }
 
-    private function mapping()
-    {
-        return method_exists($this->model, 'importable')
-            ? $this->model->importable()
-            : $this->model->getFillable();
-    }
-
     /**
      * @param string $colName
-     * @param        $row
+     * @param $row
      * @return mixed
      */
     private function processRow(string $colName, $row): mixed
