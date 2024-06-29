@@ -18,7 +18,11 @@ class AppointmentDeductionController extends ApiController
         $this->appointmentDeductionService = AppointmentDeductionService::make();
 
         // place the relations you want to return them within the response
-        $this->relations = [];
+        if (auth()->user()?->isClinic()) {
+            $this->relations = ['appointment'];
+        } else {
+            $this->relations = ['clinic.user', 'appointment'];
+        }
     }
 
     public function index()

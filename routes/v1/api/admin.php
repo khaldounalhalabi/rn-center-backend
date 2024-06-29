@@ -92,3 +92,4 @@ Route::apiResource('/system-offers', v1\SystemOfferController::class)->names('sy
 
 Route::post('/appointment-deductions/export', [v1\AppointmentDeductionController::class, 'export'])->name('api.admin.appointment.deductions.export');
 Route::apiResource('/appointment-deductions', v1\AppointmentDeductionController::class)->names('api.admin.appointment.deductions');
+

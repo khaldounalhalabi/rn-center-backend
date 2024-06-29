@@ -11,6 +11,7 @@ class Translatable implements CastsAttributes
     /**
      * Cast the given value.
      * @param array<string, mixed> $attributes
+     * @throws Exception
      */
     public function get($model, string $key, mixed $value, array $attributes): mixed
     {

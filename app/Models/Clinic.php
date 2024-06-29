@@ -11,6 +11,7 @@ use App\Interfaces\ActionsMustBeAuthorized;
 use App\Traits\Translations;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -372,5 +373,12 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
     public function appointmentDeductions(): HasMany
     {
         return $this->hasMany(AppointmentDeduction::class);
+    }
+
+    protected function deductionCost(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value, array $attributes) => (($this->activeSubscription?->deduction_cost ?? 0) * $this->appointment_cost) / 100,
+        );
     }
 }

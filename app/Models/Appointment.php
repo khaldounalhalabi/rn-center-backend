@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\AppointmentStatusEnum;
+use App\Enums\OfferTypeEnum;
 use App\Interfaces\ActionsMustBeAuthorized;
 use App\Notifications\Customer\AppointmentRemainingTimeNotification;
 use App\Services\FirebaseServices;
@@ -150,7 +151,7 @@ class Appointment extends Model implements ActionsMustBeAuthorized
             FirebaseServices::make()
                 ->setData([
                     'remaining_time' => $appointment,
-                    'message'        => "Your appointment booked in ({$appointment->clinic}->name) clinic in {$appointment->date} has an approximate time of : {$appointment->remaining_time}",
+                    'message'        => "Your appointment booked in ({$appointment->clinic->name}) clinic in {$appointment->date->format('Y-m-d')} has an approximate time of : {$appointment->remaining_time}",
                     'appointment_id' => $appointment->id,
                     'clinic_id'      => $appointment->clinic_id,
                     // TODO::update open route for this when you do the customer pages or configure another way for handling the notification
@@ -300,5 +301,23 @@ class Appointment extends Model implements ActionsMustBeAuthorized
     public function appointmentDeduction(): HasOne
     {
         return $this->hasOne(AppointmentDeduction::class, 'appointment_id', 'id');
+    }
+
+    public function getSystemOffersTotal()
+    {
+        return $this->systemOffers
+            ->sum(fn(Offer $offer) => $offer->type == OfferTypeEnum::FIXED->value
+                ? $offer->value
+                : ($offer->value * $this->clinic->appointment_cost) / 100
+            );
+    }
+
+    public function getClinicOfferTotal()
+    {
+        return $this->offers
+            ->sum(fn(SystemOffer $offer) => $offer->type == OfferTypeEnum::FIXED->value
+                ? $offer->amount
+                : ($offer->amount * $this->clinic->appointment_cost) / 100
+            );
     }
 }

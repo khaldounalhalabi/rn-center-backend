@@ -7,9 +7,7 @@ use App\Managers\AppointmentManager;
 use App\Models\Appointment;
 use App\Repositories\AppointmentLogRepository;
 use App\Repositories\AppointmentRepository;
-use App\Repositories\ClinicRepository;
 use App\Repositories\Contracts\BaseRepository;
-use App\Repositories\ServiceRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
 use Illuminate\Database\Eloquent\Model;
@@ -82,6 +80,7 @@ class AppointmentService extends BaseService
         $appointmentManager->checkoutPreviousAppointmentsIfNewStatusIsCheckin($appointment, $prevStatus);
         $appointmentManager->handleAppointmentRemainingTime($appointment, $prevStatus);
         $appointmentManager->handleChangeAppointmentNotifications($appointment, $oldStatus);
+        AppointmentManager::make()->handleTransactionsWhenChangeStatus($appointment, $prevStatus);
 
         AppointmentLogRepository::make()->create([
             'cancellation_reason' => $data['cancellation_reason'] ?? "",

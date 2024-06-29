@@ -45,7 +45,7 @@ class Translatable implements JsonSerializable
             if ($locale == 'ar') {
                 $result["$locale"] = fake('ar_SA')->{"$fakerType"};
             } else {
-                $result["$locale"] = fake()->{"$fakerType"};
+                $result["$locale"] = fake($locale)->{"$fakerType"};
             }
         }
 

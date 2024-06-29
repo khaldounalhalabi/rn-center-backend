@@ -2,8 +2,11 @@
 
 namespace App\Managers;
 
+use App\Enums\AppointmentDeductionStatusEnum;
 use App\Enums\AppointmentStatusEnum;
 use App\Enums\AppointmentTypeEnum;
+use App\Enums\ClinicTransactionStatusEnum;
+use App\Enums\ClinicTransactionTypeEnum;
 use App\Enums\OfferTypeEnum;
 use App\Enums\RolesPermissionEnum;
 use App\Jobs\UpdateAppointmentRemainingTimeJob;
@@ -11,11 +14,14 @@ use App\Models\Appointment;
 use App\Models\Clinic;
 use App\Models\Offer;
 use App\Models\SystemOffer;
+use App\Notifications\Clinic\NewOnlineAppointmentNotification;
 use App\Notifications\Customer\CustomerAppointmentChangedNotification;
 use App\Notifications\RealTime\AppointmentStatusChangeNotification;
+use App\Repositories\AppointmentDeductionRepository;
 use App\Repositories\AppointmentLogRepository;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\ClinicRepository;
+use App\Repositories\ClinicTransactionRepository;
 use App\Repositories\OfferRepository;
 use App\Repositories\ServiceRepository;
 use App\Repositories\SystemOfferRepository;
@@ -35,12 +41,6 @@ class AppointmentManager
         return self::$instance;
     }
 
-    /**
-     * @param array $data
-     * @param array $relationships
-     * @param array $countable
-     * @return Appointment|null
-     */
     public function store(array $data, array $relationships = [], array $countable = []): ?Appointment
     {
         $clinic = ClinicRepository::make()->find($data['clinic_id']);
@@ -53,15 +53,63 @@ class AppointmentManager
         $data['appointment_sequence'] = $this->handleAppointmentSequence($data, $clinic) ?? null;
         $servicePrice = $this->getServiceCost($data);
         [$clinicOffersTotal, $clinicOffersIds, $systemOffersTotal, $systemOffersIds] = $this->handleAppointmentOffers($data, $clinic->appointment_cost);
+
+        if ($data['type'] != AppointmentTypeEnum::ONLINE->value) {
+            $systemOffersIds = [];
+            $systemOffersTotal = 0;
+        }
+
         $data['total_cost'] = $this->calculateAppointmentTotalCost($data, $servicePrice, $systemOffersTotal, $clinicOffersTotal, $clinic);
 
         $appointment = AppointmentRepository::make()->create($data);
-        $appointment->systemOffers()->sync($systemOffersIds);
-        $appointment->offers()->sync($clinicOffersIds);
+
+        if (
+            $appointment->type == AppointmentTypeEnum::ONLINE->value
+            && !in_array($appointment->status, [
+                AppointmentStatusEnum::CANCELLED->value,
+                AppointmentStatusEnum::PENDING->value,
+            ])
+        ) {
+            $this->addDeductionCostTransactions($clinic, $systemOffersTotal, $appointment);
+        }
+
+        if ($appointment->status == AppointmentStatusEnum::CHECKOUT->value) {
+            ClinicTransactionRepository::make()
+                ->create([
+                    'amount'         => $appointment->total_cost,
+                    'appointment_id' => $appointment->id,
+                    'type'           => ClinicTransactionTypeEnum::INCOME->value,
+                    'clinic_id'      => $clinic->id,
+                    'notes'          => "An income from the cost of the appointment with id : $appointment->id , Patient name : {$appointment->customer->user->full_name}",
+                    'status'         => ClinicTransactionStatusEnum::DONE->value,
+                    'date'           => now(),
+                ]);
+        }
+
+        if (isset($systemOffersIds)) {
+            $appointment->systemOffers()->sync($systemOffersIds);
+            $appointment->customer->systemOffers()->sync($systemOffersIds);
+        }
+        if (isset($clinicOffersIds)) {
+            $appointment->offers()->sync($clinicOffersIds);
+        }
+
+        if ($appointment->type == AppointmentTypeEnum::ONLINE->value
+            && $appointment->status == AppointmentStatusEnum::PENDING->value) {
+            FirebaseServices::make()
+                ->setData([
+                    'appointment_id' => $appointment->id,
+                    'message'        => "You have new online appointment at {$appointment->date->format('Y-m-d')}",
+                ])
+                ->setMethod(FirebaseServices::MANY)
+                ->setTo([$appointment->clinic->user->id, ...$clinic->clinicEmployees->pluck('user_id')->toArray()])
+                ->setNotification(NewOnlineAppointmentNotification::class)
+                ->send();
+        }
+
         $this->logAppointment($data, $appointment);
         return $appointment->load($relationships)->loadCount($countable);
     }
-
 
     public function update(array $data, $id, array $relationships = [], array $countable = [])
     {
@@ -79,27 +127,45 @@ class AppointmentManager
             && !$this->canUpdateOnlineAppointmentStatus($appointment, $data['status'])) {
             return null;
         }
+        $prevAppointmentType = $appointment->type;
         $clinic = $appointment->clinic;
         $this->logAppointment($data, $appointment, true);
         $servicePrice = $this->getServiceCost($data, $appointment);
-        [$clinicOffersTotal, $clinicOffersIds, $systemOffersTotal, $systemOffersIds] = $this->handleAppointmentOffers($data, $clinic->appointment_cost);
+        [$clinicOffersTotal, $clinicOffersIds, $systemOffersTotal, $systemOffersIds] = $this->handleAppointmentOffers($data, $clinic->appointment_cost, $appointment);
         $data['total_cost'] = $this->calculateAppointmentTotalCost($data, $servicePrice, $systemOffersTotal, $clinicOffersTotal, $clinic, $appointment);
         $prevStatus = $appointment->status;
         $appointment = AppointmentRepository::make()->update($data, $appointment);
-        $appointment->systemOffers()->sync($systemOffersIds);
-        $appointment->offers()->sync($clinicOffersIds);
+
+        if (isset($systemOffersIds)) {
+            $appointment->systemOffers()->sync($systemOffersIds);
+            $appointment->customer->systemOffers()->detach();
+            $appointment->customer->systemOffers()->sync($systemOffersIds);
+        }
+        if (isset($clinicOffersIds)) {
+            $appointment->offers()->sync($clinicOffersIds);
+        }
+
         $this->handleAppointmentRemainingTime($appointment, $prevStatus);
         $this->checkoutPreviousAppointmentsIfNewStatusIsCheckin($appointment, $prevStatus);
         $this->handleChangeAppointmentNotifications($appointment, $oldStatus);
+        $this->handleTransactionsWhenChangeStatus($appointment->refresh(), $prevStatus);
+
+        if ($appointment->type == AppointmentTypeEnum::ONLINE->value
+            && $prevAppointmentType != AppointmentTypeEnum::ONLINE->value) {
+            FirebaseServices::make()
+                ->setData([
+                    'appointment_id' => $appointment->id,
+                    'message'        => "You have new online appointment at {$appointment->date->format('Y-m-d')}",
+                ])
+                ->setMethod(FirebaseServices::MANY)
+                ->setTo([$appointment->clinic->user->id, ...$clinic->clinicEmployees->pluck('user_id')->toArray()])
+                ->setNotification(NewOnlineAppointmentNotification::class)
+                ->send();
+        }
 
         return $appointment->load($relationships)->loadCount($countable);
     }
 
-    /**
-     * @param array  $data
-     * @param Clinic $clinic
-     * @return float|int|string|null
-     */
     private function handleAppointmentSequence(array $data, Clinic $clinic): float|int|string|null
     {
         if (!in_array($data['status'], [
@@ -133,12 +199,7 @@ class AppointmentManager
         }
     }
 
-    /**
-     * @param array $data
-     * @param       $appointmentCost
-     * @return array
-     */
-    private function handleAppointmentOffers(array $data, $appointmentCost): array
+    private function handleAppointmentOffers(array $data, $appointmentCost, ?Appointment $appointment = null): array
     {
         $clinicOffersTotal = 0;
         $clinicOffersIds = [];
@@ -151,6 +212,9 @@ class AppointmentManager
                     : ($offer->value * $appointmentCost) / 100
                 );
             $clinicOffersIds = $clinicOffers->pluck('id')->toArray();
+        } elseif ($appointment) {
+            $clinicOffersTotal = $appointment->getClinicOfferTotal();
+            $clinicOffersIds = null;
         }
 
         $systemOffersTotal = 0;
@@ -164,6 +228,9 @@ class AppointmentManager
                     : ($offer->amount * $appointmentCost) / 100
                 );
             $systemOffersIds = $systemOffers->pluck('id')->toArray();
+        } elseif ($appointment) {
+            $systemOffersTotal = $appointment->getSystemOffersTotal();
+            $systemOffersIds = null;
         }
         return [
             $clinicOffersTotal,
@@ -181,11 +248,6 @@ class AppointmentManager
             - ($data['discount'] ?? ($appointment?->discount ?? 0));
     }
 
-    /**
-     * @param Appointment $appointment
-     * @param string|null $status
-     * @return bool|null
-     */
     public function canUpdateOnlineAppointmentStatus(Appointment $appointment, ?string $status = null): ?bool
     {
         if (!$status) {
@@ -193,6 +255,11 @@ class AppointmentManager
         }
 
         if ($appointment->type != AppointmentTypeEnum::ONLINE->value) {
+            return true;
+        }
+
+        if ($status == AppointmentStatusEnum::CANCELLED->value
+            && $appointment->status != AppointmentStatusEnum::CHECKOUT->value) {
             return true;
         }
 
@@ -237,11 +304,6 @@ class AppointmentManager
         return true;
     }
 
-    /**
-     * @param mixed $appointment
-     * @param mixed $prevStatus
-     * @return void
-     */
     public function handleAppointmentRemainingTime(Appointment $appointment, mixed $prevStatus): void
     {
         if (
@@ -260,11 +322,6 @@ class AppointmentManager
         }
     }
 
-    /**
-     * @param mixed $appointment
-     * @param mixed $prevStatus
-     * @return void
-     */
     public function checkoutPreviousAppointmentsIfNewStatusIsCheckin(mixed $appointment, mixed $prevStatus): void
     {
         if (
@@ -280,11 +337,6 @@ class AppointmentManager
         }
     }
 
-    /**
-     * @param mixed  $appointment
-     * @param string $oldStatus
-     * @return void
-     */
     public function handleChangeAppointmentNotifications(mixed $appointment, string $oldStatus): void
     {
         if ($oldStatus != $appointment->status) {
@@ -340,5 +392,93 @@ class AppointmentManager
                 'event'               => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en
             ]);
         }
+    }
+
+    public function handleTransactionsWhenChangeStatus(Appointment $appointment, string $prevStatus): void
+    {
+        if (
+            $prevStatus != AppointmentStatusEnum::CANCELLED->value
+            && $appointment->status == AppointmentStatusEnum::CANCELLED->value
+        ) {
+            $appointment->appointmentDeduction->clinicTransaction()->delete();
+            $appointment->appointmentDeduction()->delete();
+            $appointment->clinicTransaction()->delete();
+            $appointment->customer->systemOffers()->detach();
+        } elseif (
+            $prevStatus == AppointmentStatusEnum::PENDING->value
+            && $appointment->status == AppointmentStatusEnum::BOOKED->value
+            && $appointment->type == AppointmentTypeEnum::ONLINE->value
+        ) {
+            $this->addDeductionCostTransactions($appointment->clinic, $appointment->getSystemOffersTotal(), $appointment);
+        } elseif (
+            $prevStatus == AppointmentStatusEnum::CHECKIN->value
+            && $appointment->status == AppointmentStatusEnum::CHECKOUT->value
+        ) {
+            ClinicTransactionRepository::make()
+                ->create([
+                    'amount'         => $appointment->total_cost,
+                    'appointment_id' => $appointment->id,
+                    'type'           => ClinicTransactionTypeEnum::INCOME->value,
+                    'clinic_id'      => $appointment->clinic_id,
+                    'notes'          => "An income from the cost of the appointment with id : $appointment->id , Patient name : {$appointment->customer->user->full_name}",
+                    'status'         => ClinicTransactionStatusEnum::DONE->value,
+                    'date'           => now(),
+                ]);
+        } elseif (
+            $prevStatus == AppointmentStatusEnum::CHECKOUT->value
+            && $appointment->status != AppointmentStatusEnum::CHECKOUT->value
+        ) {
+            $appointment->clinicTransaction()->delete();
+        } elseif (
+            $prevStatus == AppointmentStatusEnum::CANCELLED->value
+            && !in_array($appointment->status, [AppointmentStatusEnum::CANCELLED->value, AppointmentStatusEnum::PENDING])
+            && $appointment->type == AppointmentTypeEnum::ONLINE->value
+        ) {
+            $this->addDeductionCostTransactions($appointment->clinic, $appointment->getSystemOffersTotal(), $appointment);
+            $appointment
+                ->customer
+                ->systemOffers()
+                ->sync($appointment->systemOffers->pluck('id')->toArray());
+
+            if ($appointment->status == AppointmentStatusEnum::CHECKOUT->value) {
+                ClinicTransactionRepository::make()
+                    ->create([
+                        'amount'         => $appointment->total_cost,
+                        'appointment_id' => $appointment->id,
+                        'type'           => ClinicTransactionTypeEnum::INCOME->value,
+                        'clinic_id'      => $appointment->clinic_id,
+                        'notes'          => "An income from the cost of the appointment with id : $appointment->id , Patient name : {$appointment->customer->user->full_name}",
+                        'status'         => ClinicTransactionStatusEnum::DONE->value,
+                        'date'           => now(),
+                    ]);
+            }
+        }
+    }
+
+    private function addDeductionCostTransactions(Clinic $clinic, mixed $systemOffersTotal, Appointment $appointment): void
+    {
+        $deductionAmount = $clinic->deduction_cost - $systemOffersTotal;
+        $clinicTransactionType = $deductionAmount > 0
+            ? ClinicTransactionTypeEnum::SYSTEM_DEBT->value
+            : ClinicTransactionTypeEnum::DEBT_TO_ME->value;
+
+        $clinicTransaction = ClinicTransactionRepository::make()->create([
+            'amount'         => $deductionAmount,
+            'appointment_id' => $appointment->id,
+            'type'           => $clinicTransactionType,
+            'clinic_id'      => $clinic->id,
+            'notes'          => "An Appointment Deduction For The Appointment With Id : $appointment->id , Patient name : {$appointment->customer->user->full_name}",
+            'status'         => ClinicTransactionStatusEnum::PENDING->value,
+            'date'           => now(),
+        ]);
+
+        AppointmentDeductionRepository::make()->create([
+            'amount'                => $clinic->deduction_cost - $systemOffersTotal,
+            'status'                => AppointmentDeductionStatusEnum::PENDING->value,
+            'clinic_transaction_id' => $clinicTransaction->id,
+            'appointment_id'        => $appointment->id,
+            'clinic_id'             => $clinic->id,
+            'date'                  => now(),
+        ]);
     }
 }

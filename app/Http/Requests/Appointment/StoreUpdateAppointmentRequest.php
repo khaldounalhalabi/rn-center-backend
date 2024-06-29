@@ -6,6 +6,7 @@ use App\Enums\AppointmentStatusEnum;
 use App\Enums\AppointmentTypeEnum;
 use App\Models\Appointment;
 use App\Rules\ClinicOfferBelongToClinic;
+use App\Rules\CustomerBelongToClinic;
 use App\Rules\SystemOfferBelongToClinic;
 use App\Rules\ValidSystemOffer;
 use Illuminate\Foundation\Http\FormRequest;
@@ -30,7 +31,7 @@ class StoreUpdateAppointmentRequest extends FormRequest
         if (request()->method() == 'POST') {
             return [
                 'customer_id'         => ['required', 'numeric', 'exists:customers,id'],
-                'clinic_id'           => ['required', 'numeric', 'exists:clinics,id'],
+                'clinic_id'           => ['required', 'numeric', 'exists:clinics,id', new CustomerBelongToClinic($this->input('clinic_id'))],
                 'note'                => ['nullable', 'string'],
                 'service_id'          => ['nullable', 'numeric', 'exists:services,id'],
                 'extra_fees'          => ['nullable', 'numeric', 'min:0'],
@@ -40,7 +41,9 @@ class StoreUpdateAppointmentRequest extends FormRequest
                 'status'              => ['required', 'string', 'min:3', 'max:255', Rule::in(AppointmentStatusEnum::getAllValues())],
                 'device_type'         => ['nullable', 'string', 'min:3', 'max:255'],
                 'cancellation_reason' => 'string|nullable|' . Rule::requiredIf($this->input('status') == AppointmentStatusEnum::CANCELLED->value),
-                'system_offers'       => ['array', 'nullable', Rule::excludeIf(fn() => auth()->user()?->isClinic())],
+                'system_offers'       => ['array', 'nullable', Rule::excludeIf(
+                    fn() => auth()->user()?->isClinic() || $this->input('type') == AppointmentTypeEnum::MANUAL->value
+                )],
                 'system_offers.*'     => ['numeric', 'exists:system_offers,id', new ValidSystemOffer($this->input('customer_id')), new SystemOfferBelongToClinic($this->input('clinic_id'))],
                 'offers'              => ['array', 'nullable', Rule::excludeIf(fn() => auth()->user()?->isCustomer())],
                 'offers.*'            => ['numeric', 'exists:offers,id', new ClinicOfferBelongToClinic($this->input('clinic_id'))],
@@ -57,15 +60,8 @@ class StoreUpdateAppointmentRequest extends FormRequest
             'status'              => ['nullable', 'string', 'min:3', 'max:255', Rule::in(AppointmentStatusEnum::getAllValues())],
             'cancellation_reason' => 'string|nullable|' . Rule::requiredIf($this->input('status') == AppointmentStatusEnum::CANCELLED->value),
 
-            'system_offers'   => ['array', 'nullable', Rule::excludeIf(fn() => auth()->user()?->isClinic())],
-            'system_offers.*' => [
-                'numeric',
-                'exists:system_offers,id',
-                new ValidSystemOffer($this->input('customer_id') ?? $appointment?->customer_id),
-                new SystemOfferBelongToClinic($appointment?->clinic_id)
-            ],
-            'offers'          => ['array', 'nullable', Rule::excludeIf(fn() => auth()->user()?->isCustomer())],
-            'offers.*'        => [
+            'offers'   => ['array', 'nullable', Rule::excludeIf(fn() => auth()->user()?->isCustomer())],
+            'offers.*' => [
                 'numeric',
                 'exists:offers,id',
                 new ClinicOfferBelongToClinic($appointment?->clinic_id)
@@ -85,6 +81,20 @@ class StoreUpdateAppointmentRequest extends FormRequest
             $this->merge([
                 'discount' => 0
             ]);
+        }
+
+        if (auth()->user()?->isClinic()) {
+            $this->merge([
+                'clinic_id'     => auth()->user()?->getClinicId(),
+                'type'          => AppointmentTypeEnum::MANUAL->value,
+                'system_offers' => null,
+            ]);
+
+            if (request()->method() == "POST") {
+                $this->merge([
+                    'status' => AppointmentStatusEnum::BOOKED->value,
+                ]);
+            }
         }
     }
 }
