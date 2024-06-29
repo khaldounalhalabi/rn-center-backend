@@ -114,6 +114,9 @@ class AppointmentDeduction extends Model
             ],
             [
                 'name' => 'status'
+            ],
+            [
+                'name' => 'clinic_id'
             ]
         ];
     }
