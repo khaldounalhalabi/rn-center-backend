@@ -114,13 +114,12 @@ class AppointmentManager
     public function update(array $data, $id, array $relationships = [], array $countable = [])
     {
         $appointment = AppointmentRepository::make()->find($id);
-        if (!$appointment) {
+
+        if (!$appointment?->canUpdate()) {
             return null;
         }
+
         $oldStatus = $appointment->status;
-        if (!$appointment->canUpdate()) {
-            return null;
-        }
         if (isset($data['status'])
             && $data['status'] != $appointment->status
             && auth()->user()?->isClinic()
@@ -281,7 +280,6 @@ class AppointmentManager
         ) {
             return false;
         }
-
         if ($appointment->status == AppointmentStatusEnum::CHECKIN->value
             && !in_array($status, AppointmentStatusEnum::getAllValues([
                 AppointmentStatusEnum::PENDING, AppointmentStatusEnum::BOOKED
@@ -400,7 +398,7 @@ class AppointmentManager
             $prevStatus != AppointmentStatusEnum::CANCELLED->value
             && $appointment->status == AppointmentStatusEnum::CANCELLED->value
         ) {
-            $appointment->appointmentDeduction->clinicTransaction()->delete();
+            $appointment->appointmentDeduction?->clinicTransaction()->delete();
             $appointment->appointmentDeduction()->delete();
             $appointment->clinicTransaction()->delete();
             $appointment->customer->systemOffers()->detach();
@@ -411,7 +409,7 @@ class AppointmentManager
         ) {
             $this->addDeductionCostTransactions($appointment->clinic, $appointment->getSystemOffersTotal(), $appointment);
         } elseif (
-            $prevStatus == AppointmentStatusEnum::CHECKIN->value
+            $prevStatus != AppointmentStatusEnum::CHECKOUT->value
             && $appointment->status == AppointmentStatusEnum::CHECKOUT->value
         ) {
             ClinicTransactionRepository::make()

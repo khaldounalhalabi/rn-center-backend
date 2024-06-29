@@ -27,6 +27,8 @@ class AppointmentRepository extends BaseRepository
                 })->whereHas('clinic', function (Builder $builder) {
                     $builder->available();
                 });
+            })->when(auth()->user()?->isClinic(), function (Builder $query) {
+                $query->where('clinic_id', auth()->user()?->getClinicId());
             });
     }
 

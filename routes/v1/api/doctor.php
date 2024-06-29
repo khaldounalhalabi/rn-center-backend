@@ -97,3 +97,18 @@ Route::post('clinic-transactions/export', [v1\ClinicTransactionController::class
 Route::post('clinic-transactions/import', [v1\ClinicTransactionController::class, 'import'])->name('clinic.transactions.import');
 Route::get('clinic-transactions/get-import-example', [v1\ClinicTransactionController::class, 'getImportExample'])->name('clinic.transactions.get.example');
 Route::apiResource('clinic-transactions', v1\ClinicTransactionController::class)->names('clinic.transactions');
+
+Route::put('appointments/{appointmentId}/update-date', [v1\AppointmentController::class, 'updateAppointmentDate'])->name('appointments.update.date');
+Route::post('appointments/{appointmentId}/toggle-status', [v1\AppointmentController::class, 'toggleAppointmentStatus'])->name('appointments.status.toggle');
+Route::get('appointment-logs/{appointmentLogId}', [v1\AppointmentLogController::class, 'show'])->name('appointment.log.show');
+Route::get('appointments/{appointmentId}/logs', [v1\AppointmentLogController::class, 'getAppointmentLogs'])->name('appointments.logs');
+Route::get('customers/{customerId}/last-appointment', [v1\AppointmentController::class, 'getCustomerLastAppointment'])->name('customers.clinics.last-appointment');
+Route::apiResource('/appointments', v1\AppointmentController::class)
+    ->except(['destroy'])->names('appointments');
+
+Route::post('appointment-deductions/export', [v1\AppointmentDeductionController::class, 'export'])
+    ->name('appointment.deductions.export');
+Route::get('appointment-deductions', [v1\AppointmentDeductionController::class, 'index'])
+    ->name('appointment.deductions.index');
+Route::get('appointment-deductions/{appointmentDeduction}', [v1\AppointmentDeductionController::class, 'show'])
+    ->name('appointment.deductions.show');

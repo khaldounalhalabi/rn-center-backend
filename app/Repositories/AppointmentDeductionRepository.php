@@ -4,7 +4,9 @@ namespace App\Repositories;
 
 use App\Models\AppointmentDeduction;
 use App\Repositories\Contracts\BaseRepository;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
  * @extends  BaseRepository<AppointmentDeduction>
@@ -19,5 +21,19 @@ class AppointmentDeductionRepository extends BaseRepository
             ->when(auth()->user()?->isClinic(), function (Builder $query) {
                 $query->where('clinic_id', auth()->user()?->getClinicId());
             });
+    }
+
+    public function export(array $ids = []): BinaryFileResponse
+    {
+        $year = request('year', now()->year);
+        $month = request('month', now()->monthName);
+        $date = Carbon::parse("$month-$year");
+        $ids = $this->globalQuery()
+            ->where('date', '>=', $date->firstOfMonth()->format('Y-m-d'))
+            ->where('date', '<=', $date->lastOfMonth()->format('Y-m-d'))
+            ->get()
+            ->pluck('id')
+            ->toArray();
+        return parent::export($ids);
     }
 }

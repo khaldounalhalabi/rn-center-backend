@@ -52,8 +52,7 @@ class AppointmentService extends BaseService
     public function toggleAppointmentStatus($appointmentId, array $data): ?Appointment
     {
         $appointment = $this->repository->find($appointmentId, ['customer.user', 'clinic.user']);
-
-        if (!$appointment) {
+        if (!$appointment?->canUpdate()) {
             return null;
         }
 
@@ -126,10 +125,7 @@ class AppointmentService extends BaseService
         /** @var Appointment $appointment */
         $appointment = $this->repository->find($id);
 
-        if (!$appointment) {
-            return null;
-        }
-        if (!$appointment->canUpdate()) {
+        if (!$appointment?->canUpdate()) {
             return null;
         }
 
@@ -141,6 +137,7 @@ class AppointmentService extends BaseService
         )) {
             return null;
         }
+
         if (
             isset($data['date'])
             && $data['date'] != $appointment->date
@@ -165,5 +162,16 @@ class AppointmentService extends BaseService
             'event'          => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en
         ]);
         return $appointment;
+    }
+
+    public function view($id, array $relationships = [], array $countable = []): ?Model
+    {
+        $appointment = $this->repository->find($id);
+
+        if (!$appointment?->canShow()) {
+            return null;
+        }
+
+        return $appointment->load($relationships)->loadCount($countable);
     }
 }

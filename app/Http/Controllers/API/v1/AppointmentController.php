@@ -20,8 +20,11 @@ class AppointmentController extends ApiController
 
         $this->appointmentService = AppointmentService::make();
 
-        // place the relations you want to return them within the response
-        $this->relations = ['clinic', 'clinic.user', 'customer.user', 'service', 'systemOffers', 'offers'];
+        if (auth()->user()?->isClinic()) {
+            $this->relations = ['customer.user', 'service', 'systemOffers', 'offers'];
+        } else {
+            $this->relations = ['clinic', 'clinic.user', 'customer.user', 'service', 'systemOffers', 'offers'];
+        }
     }
 
     public function index()
@@ -108,8 +111,11 @@ class AppointmentController extends ApiController
         return $this->noData();
     }
 
-    public function getCustomerLastAppointment($customerId, $clinicId)
+    public function getCustomerLastAppointment($customerId, $clinicId = null)
     {
+        if (!$clinicId) {
+            $clinicId = auth()->user()?->getClinicId();
+        }
         $appointment = $this->appointmentService->getCustomerLastAppointment($customerId, $clinicId, $this->relations, $this->countable);
 
         if ($appointment) {

@@ -286,7 +286,6 @@ class Appointment extends Model implements ActionsMustBeAuthorized
         return (
                 (
                     $this->clinic_id == auth()?->user()?->getClinicId()
-                    && !in_array($this->status, [AppointmentStatusEnum::CHECKOUT->value, AppointmentStatusEnum::CANCELLED->value])
                 )
                 || auth()->user()?->isAdmin()
             )
@@ -306,7 +305,7 @@ class Appointment extends Model implements ActionsMustBeAuthorized
     public function getSystemOffersTotal()
     {
         return $this->systemOffers
-            ->sum(fn(Offer $offer) => $offer->type == OfferTypeEnum::FIXED->value
+            ->sum(fn(SystemOffer $offer) => $offer->type == OfferTypeEnum::FIXED->value
                 ? $offer->value
                 : ($offer->value * $this->clinic->appointment_cost) / 100
             );
@@ -315,7 +314,7 @@ class Appointment extends Model implements ActionsMustBeAuthorized
     public function getClinicOfferTotal()
     {
         return $this->offers
-            ->sum(fn(SystemOffer $offer) => $offer->type == OfferTypeEnum::FIXED->value
+            ->sum(fn(Offer $offer) => $offer->type == OfferTypeEnum::FIXED->value
                 ? $offer->amount
                 : ($offer->amount * $this->clinic->appointment_cost) / 100
             );

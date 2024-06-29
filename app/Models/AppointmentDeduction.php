@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasClinic;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class AppointmentDeduction extends Model
 {
     use HasFactory;
+    use HasClinic;
 
     protected $fillable = [
         'amount',
@@ -101,6 +103,18 @@ class AppointmentDeduction extends Model
             'appointment.clinic'      => [
                 'name',
             ],
+        ];
+    }
+
+    public function filterArray(): array
+    {
+        return [
+            [
+                'name' => 'date',
+            ],
+            [
+                'name' => 'status'
+            ]
         ];
     }
 }

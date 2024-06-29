@@ -30,8 +30,8 @@ class StoreUpdateAppointmentRequest extends FormRequest
     {
         if (request()->method() == 'POST') {
             return [
-                'customer_id'         => ['required', 'numeric', 'exists:customers,id'],
-                'clinic_id'           => ['required', 'numeric', 'exists:clinics,id', new CustomerBelongToClinic($this->input('clinic_id'))],
+                'customer_id'         => ['required', 'numeric', 'exists:customers,id', new CustomerBelongToClinic($this->input('clinic_id'))],
+                'clinic_id'           => ['required', 'numeric', 'exists:clinics,id'],
                 'note'                => ['nullable', 'string'],
                 'service_id'          => ['nullable', 'numeric', 'exists:services,id'],
                 'extra_fees'          => ['nullable', 'numeric', 'min:0'],
@@ -92,7 +92,8 @@ class StoreUpdateAppointmentRequest extends FormRequest
 
             if (request()->method() == "POST") {
                 $this->merge([
-                    'status' => AppointmentStatusEnum::BOOKED->value,
+                    'status'              => AppointmentStatusEnum::BOOKED->value,
+                    'cancellation_reason' => null
                 ]);
             }
         }
