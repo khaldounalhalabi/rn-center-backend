@@ -6,7 +6,7 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\BloodDonationRequest\StoreUpdateBloodDonationRequestRequest;
 use App\Http\Resources\BloodDonationRequestResource;
 use App\Models\BloodDonationRequest;
-use App\Services\BloodDonationRequest\BloodDonationRequestService;
+use App\Services\BloodDonationRequestService;
 use Illuminate\Http\Request;
 
 class BloodDonationRequestController extends ApiController

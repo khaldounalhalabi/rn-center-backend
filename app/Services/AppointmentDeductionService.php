@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\AppointmentDeduction;
+namespace App\Services;
 
 use App\Models\AppointmentDeduction;
 use App\Repositories\AppointmentDeductionRepository;

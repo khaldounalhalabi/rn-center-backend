@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\SystemOffer;
+namespace App\Services;
 
 use App\Models\SystemOffer;
 use App\Repositories\SystemOfferRepository;

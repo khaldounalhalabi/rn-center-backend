@@ -6,7 +6,7 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\AppointmentDeduction\StoreUpdateAppointmentDeductionRequest;
 use App\Http\Resources\AppointmentDeductionResource;
 use App\Models\AppointmentDeduction;
-use App\Services\AppointmentDeduction\AppointmentDeductionService;
+use App\Services\AppointmentDeductionService;
 use Illuminate\Http\Request;
 
 class AppointmentDeductionController extends ApiController

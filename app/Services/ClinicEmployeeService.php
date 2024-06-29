@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Services\ClinicEmployee;
+namespace App\Services;
 
 use App\Enums\RolesPermissionEnum;
 use App\Models\ClinicEmployee;
 use App\Repositories\ClinicEmployeeRepository;
 use App\Services\Contracts\BaseService;
-use App\Services\UserService;
 use App\Traits\Makable;
 use Exception;
 use Illuminate\Database\Eloquent\Model;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\BloodDonationRequest;
+namespace App\Services;
 
 use App\Models\BloodDonationRequest;
 use App\Repositories\BloodDonationRequestRepository;

@@ -7,7 +7,7 @@ use App\Http\Requests\ClinicEmployee\StoreUpdateClinicEmployeeRequest;
 use App\Http\Requests\ClinicEmployee\UpdateClinicEmployeePermissionsRequest;
 use App\Http\Resources\ClinicEmployeeResource;
 use App\Models\ClinicEmployee;
-use App\Services\ClinicEmployee\ClinicEmployeeService;
+use App\Services\ClinicEmployeeService;
 use Illuminate\Http\Request;
 
 class ClinicEmployeeController extends ApiController

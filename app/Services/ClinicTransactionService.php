@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\ClinicTransaction;
+namespace App\Services;
 
 use App\Models\ClinicTransaction;
 use App\Repositories\ClinicTransactionRepository;

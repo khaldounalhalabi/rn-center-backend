@@ -6,7 +6,7 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\SystemOffer\StoreUpdateSystemOfferRequest;
 use App\Http\Resources\SystemOfferResource;
 use App\Models\SystemOffer;
-use App\Services\SystemOffer\SystemOfferService;
+use App\Services\SystemOfferService;
 use Illuminate\Http\Request;
 
 class SystemOfferController extends ApiController

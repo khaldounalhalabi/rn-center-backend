@@ -6,7 +6,7 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\ClinicTransaction\StoreUpdateClinicTransactionRequest;
 use App\Http\Resources\ClinicTransactionResource;
 use App\Models\ClinicTransaction;
-use App\Services\ClinicTransaction\ClinicTransactionService;
+use App\Services\ClinicTransactionService;
 use Illuminate\Http\Request;
 
 class ClinicTransactionController extends ApiController
