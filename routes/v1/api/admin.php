@@ -14,7 +14,7 @@ Route::get('/fcm/get-token', [v1\AdminAuthController::class, 'getUserFcmToken'])
 
 Route::delete('/users/{userId}/toggle-archive', [v1\UserController::class, 'toggleArchive'])->name('users.toggle.archive');
 Route::get('/users/{userId}/toggle-block', [v1\UserController::class, 'toggleBlock'])->name('user.block.toggle');
-Route::apiResource('/users', v1\UserController::class)->names('users');
+Route::apiResource('/users', v1\UserController::class)->except(['store'])->names('users');
 
 Route::get('/clinics/{clinicId}/toggle-status', [v1\ClinicController::class, 'toggleClinicStatus'])->name('clinic.status.toggle');
 Route::get('/subscriptions/{subscriptionId}/clinics', [v1\ClinicController::class, 'getBySubscription'])->name('subscription.clinics');
