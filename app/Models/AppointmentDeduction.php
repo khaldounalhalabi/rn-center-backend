@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int               clinic_transaction_id
  * @property int               appointment_id
  * @property int               clinic_id
+ * @property int|null          transaction_id
  * @property string            date
  * @property ClinicTransaction clinicTransaction
  * @property Appointment       appointment
@@ -30,6 +31,7 @@ class AppointmentDeduction extends Model
         'appointment_id',
         'clinic_id',
         'date',
+        'transaction_id'
     ];
 
     protected $casts = [
@@ -119,5 +121,10 @@ class AppointmentDeduction extends Model
                 'name' => 'clinic_id'
             ]
         ];
+    }
+
+    public function transaction(): BelongsTo
+    {
+        return $this->belongsTo(Transaction::class);
     }
 }

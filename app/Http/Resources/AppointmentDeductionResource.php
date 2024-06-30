@@ -26,6 +26,10 @@ class AppointmentDeductionResource extends BaseResource
             'clinic'                => new ClinicResource($this->whenLoaded('clinic')),
             $this->mergeWhen(auth()->user()?->isClinic(), [
                 'type' => $this->amount > 0 ? "Debt To The System" : "Debt To Me",
+            ]),
+            $this->mergeWhen(auth()->user()?->isAdmin(), [
+                'transaction_id' => $this->transaction_id,
+                'transaction'    => $this->whenLoaded('transaction'),
             ])
         ];
     }

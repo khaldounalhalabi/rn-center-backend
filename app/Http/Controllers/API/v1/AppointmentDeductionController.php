@@ -85,17 +85,25 @@ class AppointmentDeductionController extends ApiController
         return $this->appointmentDeductionService->export($ids);
     }
 
-    public function getImportExample()
+    public function toggleStatus($appointmentDeductionId)
     {
-        return $this->appointmentDeductionService->getImportExample();
+        $result = $this->appointmentDeductionService->toggleStatus($appointmentDeductionId);
+
+        if ($result) {
+            return $this->apiResponse($result, self::STATUS_OK, __('site.success'));
+        }
+
+        return $this->noData();
     }
 
-    public function import(Request $request)
+    public function getByClinic($clinicId)
     {
-        $request->validate([
-            'excel_file' => 'required|mimes:xls,xlsx',
-        ]);
+        $data = $this->appointmentDeductionService->getByClinic($clinicId, ['appointment'], $this->countable);
+        
+        if ($data) {
+            return $this->apiResponse(AppointmentDeductionResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
+        }
 
-        $this->appointmentDeductionService->import();
+        return $this->noData();
     }
 }
