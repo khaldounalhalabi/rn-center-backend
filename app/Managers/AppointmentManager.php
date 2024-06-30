@@ -204,7 +204,7 @@ class AppointmentManager
         $clinicOffersIds = [];
         if (isset($data['offers'])) {
             $clinicOffers = OfferRepository::make()
-                ->getByIds($data['offers'], $data['clinic_id']);
+                ->getByIds($data['offers'], $data['clinic_id'] ?? $appointment?->clinic_id);
             $clinicOffersTotal = $clinicOffers
                 ->sum(fn(Offer $offer) => $offer->type == OfferTypeEnum::FIXED->value
                     ? $offer->value
@@ -220,7 +220,7 @@ class AppointmentManager
         $systemOffersIds = [];
         if (isset($data['system_offers'])) {
             $systemOffers = SystemOfferRepository::make()
-                ->getByIds($data['system_offers'], $data['clinic_id']);
+                ->getByIds($data['system_offers'], $data['clinic_id'] ?? $appointment?->clinic_id);
             $systemOffersTotal = $systemOffers
                 ->sum(fn(SystemOffer $offer) => $offer->type == OfferTypeEnum::FIXED->value
                     ? $offer->amount
@@ -377,7 +377,7 @@ class AppointmentManager
                 'appointment_id'      => $appointment->id,
                 'actor_id'            => auth()->user()->id,
                 'affected_id'         => $data['customer_id'] ?? $appointment->customer_id,
-                'event'               => "appointment has been created in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en
+                'event'               => "appointment has been created in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->full_name->en
             ]);
         } else {
             AppointmentLogRepository::make()->create([
@@ -385,9 +385,9 @@ class AppointmentManager
                 'status'              => $data['status'],
                 'happen_in'           => now(),
                 'appointment_id'      => $appointment->id,
-                'actor_id'            => auth()->user()->id,
+                'actor_id'            => auth()->user()?->id,
                 'affected_id'         => $data['customer_id'] ?? $appointment->customer_id,
-                'event'               => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en
+                'event'               => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->full_name->en
             ]);
         }
     }
