@@ -22,7 +22,7 @@ return new class extends Migration {
             $table->date('date')->default(now());
             $table->foreignIdFor(ClinicTransaction::class)->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(Appointment::class)->nullable()->constrained()->nullOnDelete();
-            $table->foreignIdFor(Clinic::class)->constrained()->nullOnDelete();
+            $table->foreignIdFor(Clinic::class)->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(Transaction::class)->nullable()->constrained()->nullOnDelete();
 
             $table->timestamps();
