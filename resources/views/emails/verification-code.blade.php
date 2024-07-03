@@ -73,7 +73,7 @@
                                                         <tr>
                                                             <td align="center" class="esd-block-text">
                                                                 <p style="font-size: 18px; color: #8e8e93;"><strong>Only
-                                                                        one step left to become a part of Cohort
+                                                                        one step left to become a part of Planet Of Medicine
                                                                         Family.</strong></p>
                                                             </td>
                                                         </tr>
