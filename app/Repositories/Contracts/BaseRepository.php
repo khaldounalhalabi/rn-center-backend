@@ -130,8 +130,9 @@ abstract class BaseRepository
      */
     private function addSearch(Builder $query): Builder
     {
-        if (request()->has('search')) {
-            $keyword = request()->search;
+        $keyword = $this->unsetEmptyParams(request("search", null));
+
+        if ($keyword) {
             if (count($this->searchableKeys) > 0) {
                 foreach ($this->searchableKeys as $search_attribute) {
                     $query->orWhere("{$this->tableName}.{$search_attribute}", 'REGEXP', "(?i).*$keyword.*");
@@ -169,6 +170,7 @@ abstract class BaseRepository
             $callback = $filterFields['query'] ?? null;
             $value = request($field);
             $range = is_array($value);
+            $value = $this->unsetEmptyParams($value);
 
             if (!$value) {
                 continue;
@@ -212,6 +214,7 @@ abstract class BaseRepository
     private function orderQueryBy(Builder $query): Builder
     {
         $sortCol = request()->sort_col;
+        $sortCol = $this->unsetEmptyParams($sortCol);
         $sortDir = request()->sort_dir ?? "DESC";
 
         if (!isset($sortCol)) {
@@ -467,5 +470,14 @@ abstract class BaseRepository
     public function import(): void
     {
         Excel::import(new BaseImporter($this->model), request()->file('excel_file'));
+    }
+
+    protected function unsetEmptyParams(string $param): ?string
+    {
+        if (strlen(preg_replace('/\s*/', '', $param)) == 0) {
+            return null;
+        } else {
+            return $param;
+        }
     }
 }
