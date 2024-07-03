@@ -472,8 +472,11 @@ abstract class BaseRepository
         Excel::import(new BaseImporter($this->model), request()->file('excel_file'));
     }
 
-    protected function unsetEmptyParams(string $param): ?string
+    protected function unsetEmptyParams(?string $param = null): ?string
     {
+        if (!$param){
+            return null;
+        }
         if (strlen(preg_replace('/\s*/', '', $param)) == 0) {
             return null;
         } else {
