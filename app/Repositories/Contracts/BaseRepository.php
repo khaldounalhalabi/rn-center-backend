@@ -6,6 +6,7 @@ use App\Enums\MediaTypeEnum;
 use App\Excel\BaseExporter;
 use App\Excel\BaseImporter;
 use App\Traits\FileHandler;
+use Cubeta\CubetaStarter\Helpers\FileUtils;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -477,7 +478,7 @@ abstract class BaseRepository
         if (!$param){
             return null;
         }
-        if (strlen(preg_replace('/\s*/', '', $param)) == 0) {
+        if (strlen(trim(preg_replace('/\s+/', '', $param))) == 0) {
             return null;
         } else {
             return $param;
