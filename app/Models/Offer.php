@@ -63,7 +63,12 @@ class Offer extends Model implements ActionsMustBeAuthorized, HasMedia
     public static function searchableArray(): array
     {
         return [
+            'title',
             'type',
+            'value',
+            'start_at',
+            'end_at',
+            'is_active',
         ];
     }
 
