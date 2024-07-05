@@ -381,4 +381,12 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
             get: fn($value, array $attributes) => (($this->activeSubscription?->deduction_cost ?? 0) * $this->appointment_cost) / 100,
         );
     }
+
+    public function hasActiveSubscription(): ?bool
+    {
+        return (
+            $this->activeSubscription?->end_time?->isAfter(now())
+            && $this->activeSubscription?->start_time?->lessThanOrEqualTo(now())
+        ) ?? false;
+    }
 }
