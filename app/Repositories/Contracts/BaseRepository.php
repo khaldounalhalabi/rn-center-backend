@@ -6,7 +6,6 @@ use App\Enums\MediaTypeEnum;
 use App\Excel\BaseExporter;
 use App\Excel\BaseImporter;
 use App\Traits\FileHandler;
-use Cubeta\CubetaStarter\Helpers\FileUtils;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -473,10 +472,17 @@ abstract class BaseRepository
         Excel::import(new BaseImporter($this->model), request()->file('excel_file'));
     }
 
-    protected function unsetEmptyParams(?string $param = null): ?string
+    protected function unsetEmptyParams(string|array|null $param = null): string|array|null
     {
-        if (!$param){
+        if (!$param) {
             return null;
+        }
+        if (is_array($param)){
+            foreach ($param as $value){
+                if (strlen(trim(preg_replace('/\s+/', '', $value))) != 0) {
+                    return $param;
+                }
+            }
         }
         if (strlen(trim(preg_replace('/\s+/', '', $param))) == 0) {
             return null;
