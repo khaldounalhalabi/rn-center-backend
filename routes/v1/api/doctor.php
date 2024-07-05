@@ -94,6 +94,7 @@ Route::apiResource('/clinic-employees', v1\ClinicEmployeeController::class)
         'staff_can:manage-employees,' . ClinicEmployee::class,
     ])->names('clinic.employees');
 
+Route::get('clinic-transactions/summary', [v1\ClinicTransactionController::class, 'summary'])->name('clinic.transactions.summary');
 Route::get('clinic-transactions/export', [v1\ClinicTransactionController::class, 'export'])->name('clinic.transactions.export');
 Route::apiResource('clinic-transactions', v1\ClinicTransactionController::class)->names('clinic.transactions');
 

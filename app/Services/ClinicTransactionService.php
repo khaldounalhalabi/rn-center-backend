@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\ClinicTransactionTypeEnum;
 use App\Models\ClinicTransaction;
 use App\Repositories\ClinicTransactionRepository;
 use App\Services\Contracts\BaseService;
@@ -50,5 +51,20 @@ class ClinicTransactionService extends BaseService
 
         $transaction->delete();
         return true;
+    }
+
+    public function summary(): array
+    {
+        //TODO::handle clinic balance here
+        $data['clinic_balance'] = 0;
+        $data['pending_amount'] = $this->repository->getPendingTransactions()->sum(function (ClinicTransaction $clinicTransaction) {
+            if (in_array($clinicTransaction->type, [ClinicTransactionTypeEnum::OUTCOME->value, ClinicTransactionTypeEnum::SYSTEM_DEBT->value])) {
+                return -($clinicTransaction->amount);
+            } else {
+                return $clinicTransaction->amount;
+            }
+        });
+
+        return $data;
     }
 }

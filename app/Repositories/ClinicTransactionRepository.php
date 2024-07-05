@@ -2,10 +2,12 @@
 
 namespace App\Repositories;
 
+use App\Enums\ClinicTransactionStatusEnum;
 use App\Models\ClinicTransaction;
 use App\Repositories\Contracts\BaseRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
@@ -35,5 +37,17 @@ class ClinicTransactionRepository extends BaseRepository
             ->pluck('id')
             ->toArray();
         return parent::export($ids);
+    }
+
+    /**
+     * @param array $relations
+     * @param array $countable
+     * @return Collection<ClinicTransaction>|ClinicTransaction[]
+     */
+    public function getPendingTransactions(array $relations = [], array $countable = []): Collection|array
+    {
+        return $this->globalQuery($relations, $countable)
+            ->where('status', ClinicTransactionStatusEnum::PENDING->value)
+            ->get();
     }
 }

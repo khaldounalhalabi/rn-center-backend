@@ -80,17 +80,12 @@ class ClinicTransactionController extends ApiController
         return $this->clinicTransactionService->export($ids);
     }
 
-    public function getImportExample()
+    public function summary()
     {
-        return $this->clinicTransactionService->getImportExample();
-    }
-
-    public function import(Request $request)
-    {
-        $request->validate([
-            'excel_file' => 'required|mimes:xls,xlsx',
-        ]);
-
-        $this->clinicTransactionService->import();
+        return $this->apiResponse(
+            $this->clinicTransactionService->summary() ,
+            self::STATUS_OK ,
+            __('site.get_successfully')
+        );
     }
 }
