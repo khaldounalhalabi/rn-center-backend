@@ -73,4 +73,23 @@ class AppointmentDeductionService extends BaseService
     {
         return $this->repository->getByClinic($clinicId, $relations, $countable);
     }
+
+    /**
+     * @return array
+     */
+    public function summary(): array
+    {
+        $year = request('year', now()->year);
+        $month = request('month', now()->monthName);
+        $deductions = $this->repository->getByYearAndMonth($year, $month);
+        $data['appointments_deductions'] = $deductions->sum('amount');
+        $data['subscription_cost'] = auth()->user()?->clinic?->activeSubscription?->subscription?->cost;
+        $data['total_cost'] = $data['appointments_deductions'] + $data['subscription_cost'];
+        $data['subscription_start'] = auth()->user()?->clinic?->activeSubscription?->start_time?->format('Y-m-d');
+        $data['subscription_end'] = auth()->user()?->clinic?->activeSubscription?->end_time?->format('Y-m-d');
+        //TODO::handle clinic balance here
+        $data['clinic_balance'] = 0;
+
+        return $data;
+    }
 }

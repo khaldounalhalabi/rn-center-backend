@@ -17,7 +17,7 @@ Route::post('refresh', [v1\DoctorAuthController::class, 'refresh'])->middleware(
 Route::post('logout', [v1\DoctorAuthController::class, 'logout'])->middleware('auth:api')->name('logout');
 Route::post('update-user-data', [v1\DoctorAuthController::class, 'updateUserDetails'])->name('update-user-data');
 Route::get('me', [v1\DoctorAuthController::class, 'userDetails'])->name('me');
-Route::get('/available-times' , [v1\ClinicController::class , 'getCurrentClinicAvailableTime'])->name('available-times');
+Route::get('/available-times', [v1\ClinicController::class, 'getCurrentClinicAvailableTime'])->name('available-times');
 
 Route::put('/clinic/update', [v1\ClinicController::class, 'updateDoctorClinic'])
     ->middleware([
@@ -97,7 +97,7 @@ Route::apiResource('/clinic-employees', v1\ClinicEmployeeController::class)
 Route::get('clinic-transactions/export', [v1\ClinicTransactionController::class, 'export'])->name('clinic.transactions.export');
 Route::apiResource('clinic-transactions', v1\ClinicTransactionController::class)->names('clinic.transactions');
 
-Route::get('/appointments/export' , [v1\AppointmentController::class , 'export'])->name('appointments.export');
+Route::get('/appointments/export', [v1\AppointmentController::class, 'export'])->name('appointments.export');
 Route::put('appointments/{appointmentId}/update-date', [v1\AppointmentController::class, 'updateAppointmentDate'])->name('appointments.update.date');
 Route::post('appointments/{appointmentId}/toggle-status', [v1\AppointmentController::class, 'toggleAppointmentStatus'])->name('appointments.status.toggle');
 Route::get('appointment-logs/{appointmentLogId}', [v1\AppointmentLogController::class, 'show'])->name('appointment.log.show');
@@ -106,6 +106,7 @@ Route::get('customers/{customerId}/last-appointment', [v1\AppointmentController:
 Route::apiResource('/appointments', v1\AppointmentController::class)
     ->except(['destroy'])->names('appointments');
 
+Route::get('appointment-deductions/summary', [v1\AppointmentDeductionController::class, 'summary'])->name('appointment.deduction.summary');
 Route::get('appointment-deductions/export', [v1\AppointmentDeductionController::class, 'export'])
     ->name('appointment.deductions.export');
 Route::get('appointment-deductions', [v1\AppointmentDeductionController::class, 'index'])

@@ -2,10 +2,12 @@
 
 namespace App\Repositories;
 
+use App\Enums\AppointmentDeductionStatusEnum;
 use App\Models\AppointmentDeduction;
 use App\Repositories\Contracts\BaseRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
@@ -51,5 +53,22 @@ class AppointmentDeductionRepository extends BaseRepository
             ];
         }
         return null;
+    }
+
+    /**
+     * @param string $year
+     * @param string $month
+     * @param array  $relations
+     * @param array  $countable
+     * @return Collection<AppointmentDeduction>|AppointmentDeduction[]
+     */
+    public function getByYearAndMonth(string $year , string $month , array $relations = [] , array $countable = []): Collection|array
+    {
+        $date = Carbon::parse("$month-$year");
+        return $this->globalQuery($relations , $countable)
+            ->where('date', '>=', $date->firstOfMonth()->format('Y-m-d'))
+            ->where('date', '<=', $date->lastOfMonth()->format('Y-m-d'))
+            ->where('status' , AppointmentDeductionStatusEnum::PENDING->value)
+            ->get();
     }
 }

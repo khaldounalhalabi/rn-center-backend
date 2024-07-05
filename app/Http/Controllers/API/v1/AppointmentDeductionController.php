@@ -99,11 +99,20 @@ class AppointmentDeductionController extends ApiController
     public function getByClinic($clinicId)
     {
         $data = $this->appointmentDeductionService->getByClinic($clinicId, ['appointment'], $this->countable);
-        
+
         if ($data) {
             return $this->apiResponse(AppointmentDeductionResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
         }
 
         return $this->noData();
+    }
+
+    public function summary()
+    {
+        return $this->apiResponse(
+            $this->appointmentDeductionService->summary() ,
+            self::STATUS_OK,
+            __('site.get_successfully')
+        );
     }
 }
