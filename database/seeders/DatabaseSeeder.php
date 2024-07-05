@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             CitySeeder::class,
+            SubscriptionSeeder::class,
         ]);
 
         //fake data
@@ -35,7 +36,6 @@ class DatabaseSeeder extends Seeder
             MedicineSeeder::class,
             PrescriptionSeeder::class,
             BlockedItemSeeder::class,
-            SubscriptionSeeder::class,
             ClinicSubscriptionSeeder::class,
             EnquirySeeder::class,
             OfferSeeder::class,
