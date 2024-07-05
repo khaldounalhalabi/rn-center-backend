@@ -172,16 +172,17 @@ class Appointment extends Model implements ActionsMustBeAuthorized
             'note',
             'extra_fees',
             'total_cost',
+            'discount',
             'type',
             'date',
-            'from',
-            'to',
             'status',
-            'device_type',
             'appointment_sequence',
-            'qr_code',
-            'clinic.name',
             'service.name',
+            'clinicTransaction.amount',
+            'clinicTransaction.status',
+            'clinicTransaction.type',
+            'appointmentDeduction.amount',
+            'appointmentDeduction.status',
         ];
     }
 

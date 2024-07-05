@@ -77,19 +77,6 @@ class AppointmentController extends ApiController
         return $this->appointmentService->export($ids);
     }
 
-    public function getImportExample()
-    {
-        return $this->appointmentService->getImportExample();
-    }
-
-    public function import(Request $request)
-    {
-        $request->validate([
-            'excel_file' => 'required|mimes:xls,xlsx',
-        ]);
-        $this->appointmentService->import();
-    }
-
     public function getClinicAppointments($clinicId)
     {
         $data = $this->appointmentService->getClinicAppointments($clinicId, $this->relations);

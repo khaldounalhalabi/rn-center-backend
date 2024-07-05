@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Enums\AppointmentStatusEnum;
+use App\Excel\BaseExporter;
 use App\Models\Appointment;
 use App\Models\AppointmentLog;
 use App\Repositories\Contracts\BaseRepository;
@@ -10,6 +11,8 @@ use Carbon\Carbon;
 use DateTime;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
  * @extends  BaseRepository<Appointment>
@@ -116,5 +119,24 @@ class AppointmentRepository extends BaseRepository
             ->orderBy('date', 'DESC')
             ->where('status', AppointmentStatusEnum::CHECKOUT->value)
             ->first();
+    }
+
+    public function export(array $ids = []): BinaryFileResponse
+    {
+        $year = request('year', now()->year);
+        $month = request('month', now()->monthName);
+        $date = Carbon::parse("$month-$year");
+        $collection = $this->globalQuery()
+            ->where('date', '>=', $date->firstOfMonth()->format('Y-m-d'))
+            ->where('date', '<=', $date->lastOfMonth()->format('Y-m-d'))
+            ->when(auth()->user()?->isClinic(), function (Builder $query) {
+                $query->where('clinic_id', auth()->user()?->getClinicId());
+            })
+            ->get();
+        $requestedColumns = request("columns") ?? null;
+        return Excel::download(
+            new BaseExporter($collection, $this->model, $requestedColumns),
+            $this->model->getTable() . ".xlsx",
+        );
     }
 }
