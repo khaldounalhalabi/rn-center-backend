@@ -18,6 +18,7 @@ Route::post('logout', [v1\DoctorAuthController::class, 'logout'])->middleware('a
 Route::post('update-user-data', [v1\DoctorAuthController::class, 'updateUserDetails'])->name('update-user-data');
 Route::get('me', [v1\DoctorAuthController::class, 'userDetails'])->name('me');
 Route::get('/available-times', [v1\ClinicController::class, 'getCurrentClinicAvailableTime'])->name('available-times');
+Route::get('clinic-subscriptions' , [v1\ClinicSubscriptionController::class , 'getCurrentClinicSubscriptions'])->name('clinic.subscriptions');
 
 Route::put('/clinic/update', [v1\ClinicController::class, 'updateDoctorClinic'])
     ->middleware([

@@ -18,7 +18,11 @@ class ClinicSubscriptionController extends ApiController
         $this->clinicSubscriptionService = ClinicSubscriptionService::make();
 
         // place the relations you want to return them within the response
-        $this->relations = ['subscription', 'clinic.user'];
+        if (auth()->user()?->isClinic()) {
+            $this->relations = ['subscription'];
+        } else {
+            $this->relations = ['subscription', 'clinic.user'];
+        }
     }
 
     public function show($clinicSubscriptionId)
@@ -67,6 +71,20 @@ class ClinicSubscriptionController extends ApiController
     public function getByClinic($clinicId)
     {
         $data = $this->clinicSubscriptionService->getClinicSubscriptions($clinicId, $this->relations);
+
+        if ($data) {
+            return $this->apiResponse(ClinicSubscriptionResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
+        }
+
+        return $this->noData([]);
+    }
+
+    public function getCurrentClinicSubscriptions()
+    {
+        if (!auth()->user()?->isClinic()) {
+            return $this->noData();
+        }
+        $data = $this->clinicSubscriptionService->getClinicSubscriptions(auth()->user()?->getClinicId(), $this->relations);
 
         if ($data) {
             return $this->apiResponse(ClinicSubscriptionResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
