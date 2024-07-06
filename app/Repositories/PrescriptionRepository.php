@@ -13,6 +13,14 @@ class PrescriptionRepository extends BaseRepository
 {
     protected string $modelClass = Prescription::class;
 
+    public function globalQuery(array $relations = [], array $countable = []): Builder
+    {
+        return parent::globalQuery($relations, $countable)
+            ->when(auth()->user()?->isClinic(), function (Builder $query) {
+                $query->where('clinic_id', auth()->user()?->getClinicId());
+            });
+    }
+
 
     /**
      * @param int   $appointmentId

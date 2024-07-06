@@ -18,7 +18,7 @@ Route::post('logout', [v1\DoctorAuthController::class, 'logout'])->middleware('a
 Route::post('update-user-data', [v1\DoctorAuthController::class, 'updateUserDetails'])->name('update-user-data');
 Route::get('me', [v1\DoctorAuthController::class, 'userDetails'])->name('me');
 Route::get('/available-times', [v1\ClinicController::class, 'getCurrentClinicAvailableTime'])->name('available-times');
-Route::get('clinic-subscriptions' , [v1\ClinicSubscriptionController::class , 'getCurrentClinicSubscriptions'])->name('clinic.subscriptions');
+Route::get('clinic-subscriptions', [v1\ClinicSubscriptionController::class, 'getCurrentClinicSubscriptions'])->name('clinic.subscriptions');
 
 Route::put('/clinic/update', [v1\ClinicController::class, 'updateDoctorClinic'])
     ->middleware([
@@ -72,6 +72,8 @@ Route::delete('customers/{customerId}', [v1\CustomerController::class, 'doctorDe
         'staff_can:manage-patients,' . Customer::class,
     ])->name('customers.delete');
 
+Route::get('/appointments/{appointmentId}/prescriptions', [v1\PrescriptionController::class, 'getAppointmentPrescriptions'])->name('appointments.prescriptions');
+Route::delete('/prescriptions/medicine-data/{medicineDataId}', [v1\PrescriptionController::class, 'removeMedicine'])->name('prescription.medicine.remove');
 Route::get('/customers/{customerId}/prescriptions', [v1\PrescriptionController::class, 'getCustomerPrescriptions'])->name('customer.prescriptions');
 Route::apiResource('/prescriptions', v1\PrescriptionController::class)->except(['index'])->names('prescriptions');
 

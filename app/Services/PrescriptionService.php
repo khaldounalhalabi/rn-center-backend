@@ -43,7 +43,9 @@ class PrescriptionService extends BaseService
     {
         if (isset($data['appointment_id'])) {
             $appointment = AppointmentRepository::make()->find($data['appointment_id']);
-            if (!$appointment) return null;
+            if (!$appointment?->canUpdate()) {
+                return null;
+            }
             $data['customer_id'] = $appointment->customer_id;
         }
         $prescription = $this->repository->create($data);
@@ -63,7 +65,9 @@ class PrescriptionService extends BaseService
 
         if (isset($data['appointment_id'])) {
             $appointment = AppointmentRepository::make()->find($data['appointment_id']);
-            if (!$appointment) return null;
+            if (!$appointment?->canUpdate()) {
+                return null;
+            }
             $data['customer_id'] = $appointment->customer_id;
         }
 
