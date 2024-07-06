@@ -155,8 +155,12 @@ class CustomerService extends BaseService
     {
         $patientProfile = PatientProfileRepository::make()->getByClinicAndCustomer(auth()->user()?->getClinicId(), $customer->id);
 
-        if ($patientProfile && $patientProfile->canUpdate()) {
-            PatientProfileRepository::make()->update($data, $patientProfile);
+        if ($patientProfile) {
+            if ($patientProfile->canUpdate()) {
+                PatientProfileRepository::make()->update($data, $patientProfile);
+            } else {
+                return null;
+            }
         } else {
             PatientProfileRepository::make()->create([
                 'customer_id' => $customer->id,
