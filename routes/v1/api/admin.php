@@ -16,6 +16,7 @@ Route::delete('/users/{userId}/toggle-archive', [v1\UserController::class, 'togg
 Route::get('/users/{userId}/toggle-block', [v1\UserController::class, 'toggleBlock'])->name('user.block.toggle');
 Route::apiResource('/users', v1\UserController::class)->except(['store'])->names('users');
 
+Route::get('system-offers/{systemOfferId}/clinics', [v1\ClinicController::class, 'getBySystemOffer'])->name('system.offers.clinics');
 Route::get('/clinics/{clinicId}/toggle-status', [v1\ClinicController::class, 'toggleClinicStatus'])->name('clinic.status.toggle');
 Route::get('/subscriptions/{subscriptionId}/clinics', [v1\ClinicController::class, 'getBySubscription'])->name('subscription.clinics');
 Route::apiResource('/clinics', v1\ClinicController::class)->names('clinics');

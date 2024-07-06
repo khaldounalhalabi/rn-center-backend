@@ -42,4 +42,14 @@ class ClinicRepository extends BaseRepository
             return null;
         }
     }
+
+    public function getBySystemOffer($systemOfferId, array $relations = [], array $countable = []): ?array
+    {
+        return $this->paginate(
+            $this->globalQuery($relations, $countable)
+                ->whereHas('systemOffers', function (Builder $query) use ($systemOfferId) {
+                    $query->where('system_offers.id', $systemOfferId);
+                })->available()
+        );
+    }
 }

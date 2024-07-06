@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Enums\ClinicStatusEnum;
 use App\Enums\RolesPermissionEnum;
-use App\Exceptions\RoleDoesNotExistException;
 use App\Models\Appointment;
 use App\Models\Clinic;
 use App\Models\User;
@@ -195,5 +194,10 @@ class ClinicService extends BaseService
     public function getBySubscription($subscriptionId, array $relations = [], array $countable = [], int $perPage = 10): ?array
     {
         return $this->repository->byActiveSubscription($subscriptionId, $relations, $countable, $perPage);
+    }
+
+    public function getBySystemOffer($systemOfferId, array $relations = [], array $countable = []): ?array
+    {
+        return $this->repository->getBySystemOffer($systemOfferId, $relations, $countable);
     }
 }

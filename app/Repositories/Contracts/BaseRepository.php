@@ -124,6 +124,20 @@ abstract class BaseRepository
         return $query;
     }
 
+    protected function paginate(Builder $query, int $perPage = 10): ?array
+    {
+        $perPage = request('per_page', $perPage);
+        $data = $query->paginate($perPage);
+        if ($data->count()) {
+            return [
+                'data'            => $data,
+                'pagination_data' => $this->formatPaginateData($data),
+            ];
+        }
+
+        return null;
+    }
+
     /**
      * @param Builder $query
      * @return Builder|T
@@ -477,8 +491,8 @@ abstract class BaseRepository
         if (!$param) {
             return null;
         }
-        if (is_array($param)){
-            foreach ($param as $value){
+        if (is_array($param)) {
+            foreach ($param as $value) {
                 if (strlen(trim(preg_replace('/\s+/', '', $value))) != 0) {
                     return $param;
                 }
