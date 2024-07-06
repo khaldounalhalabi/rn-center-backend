@@ -84,7 +84,7 @@ class StoreUpdateClinicRequest extends FormRequest
             'appointment_day_range'        => 'nullable|integer|min:1|max:1000',
             'about_us'                     => 'string|nullable|min:3|max:10000',
             'experience'                   => 'string|nullable|min:3|max:10000',
-            'work_gallery'                 => 'array|nullable',
+            'work_gallery'                 => ['array', 'nullable', Rule::excludeIf(fn() => auth()->user()?->isAdmin())],
             'work_gallery.*'               => 'required_with:work_gallery|image|mimes:jpeg,png,jpg|max:5000',
 
             'user'             => ['array', 'nullable', Rule::excludeIf(fn() => $authUser?->isClinic())],
