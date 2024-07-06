@@ -95,11 +95,11 @@
                                                         <tr>
                                                             <td align="center" class="esd-block-text es-p30t es-p30b"><a
                                                                     class="esd-anchor"
-                                                                    name="mailto:support@cohort.com"></a>
+                                                                    name="mailto:support@planetofmedicine.com"></a>
                                                                 <p style="font-size: 18px; color: #8e8e93;">
                                                                     <strong><span>If you didn't request this email or if you think something is wrong, feel free to contact our support team at <span
                                                                                 style="color:#32ADE6;"><a
-                                                                                    href="mailto:support@pom.com">support@pom.com</a></span><span
+                                                                                    href="mailto:support@pom.com">support@planetofmedicine.com</a></span><span
                                                                                 style="color:#8e8e93;">.</span></span></strong><strong><span> We're here to help!</span></strong>
                                                                 </p>
                                                             </td>
