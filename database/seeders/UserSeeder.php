@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::factory()->create(['email' => 'admin@pom.com', 'password' => '123456789'])->assignRole(RolesPermissionEnum::ADMIN['role']);
-        $clinic = User::factory()
+        $user = User::factory()
             ->has(Clinic::factory()->allRelations())
             ->create([
                 'email'    => 'khaldounalhalabi42@gmail.com',
@@ -28,13 +28,13 @@ class UserSeeder extends Seeder
         ClinicSubscription::create([
             'start_time'      => now()->subDay(),
             'end_time'        => now()->addYear(),
-            'clinic_id'       => $clinic->id,
+            'clinic_id'       => $user->getClinicId(),
             'status'          => SubscriptionStatusEnum::ACTIVE->value,
             'deduction_cost'  => 10,
-            'subscription_id' => 1,
+            'subscription_id' => 2,
             'type'            => SubscriptionTypeEnum::MONTHLY_PAID_BASED->value,
         ]);
-        $clinic = User::factory()
+        $user = User::factory()
             ->has(Clinic::factory()->allRelations())
             ->create([
                 'email'    => 'asasimr55@gmail.com',
@@ -45,10 +45,10 @@ class UserSeeder extends Seeder
         ClinicSubscription::create([
             'start_time'      => now()->subDay(),
             'end_time'        => now()->addYear(),
-            'clinic_id'       => $clinic->id,
+            'clinic_id'       => $user->getClinicId(),
             'status'          => SubscriptionStatusEnum::ACTIVE->value,
             'deduction_cost'  => 10,
-            'subscription_id' => 1,
+            'subscription_id' => 2,
             'type'            => SubscriptionTypeEnum::MONTHLY_PAID_BASED->value,
         ]);
 
