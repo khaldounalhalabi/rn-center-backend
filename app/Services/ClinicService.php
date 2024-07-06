@@ -122,7 +122,7 @@ class ClinicService extends BaseService
         }
 
         if (isset($data['address'])) {
-            $user->address()->update($data['address']);
+            $user->address()->updateOrCreate($data['address']);
         }
 
         if (isset($data['speciality_ids'])) {
