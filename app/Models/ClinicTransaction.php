@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ClinicTransactionTypeEnum;
 use App\Observers\ClinicTransactionObserver;
 use App\Traits\HasClinic;
 use Carbon\Carbon;
@@ -127,5 +128,21 @@ class ClinicTransaction extends Model
     public function appointmentDeduction(): HasOne
     {
         return $this->hasOne(AppointmentDeduction::class, 'clinic_transaction_id', 'id');
+    }
+
+    public function isMinus(): bool
+    {
+        return in_array($this->type, [
+            ClinicTransactionTypeEnum::OUTCOME->value,
+            ClinicTransactionTypeEnum::SYSTEM_DEBT->value,
+        ]);
+    }
+
+    public function isPlus(): bool
+    {
+        return in_array($this->type, [
+            ClinicTransactionTypeEnum::INCOME->value,
+            ClinicTransactionTypeEnum::DEBT_TO_ME->value,
+        ]);
     }
 }

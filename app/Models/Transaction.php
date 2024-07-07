@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\TransactionTypeEnum;
 use App\Observers\TransactionObserver;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -108,5 +109,15 @@ class Transaction extends Model
     public function appointmentDeduction(): HasOne
     {
         return $this->hasOne(AppointmentDeduction::class, 'transaction_id', 'id');
+    }
+
+    public function isMinus(): bool
+    {
+        return $this->type == TransactionTypeEnum::OUTCOME->value;
+    }
+
+    public function isPlus(): bool
+    {
+        return $this->type == TransactionTypeEnum::INCOME->value;
     }
 }
