@@ -257,6 +257,11 @@ class AppointmentManager
             return true;
         }
 
+        if ($status != AppointmentStatusEnum::CHECKOUT->value
+            && $appointment->status == AppointmentStatusEnum::CHECKOUT->value) {
+            return false;
+        }
+
         if ($status == AppointmentStatusEnum::CANCELLED->value
             && $appointment->status != AppointmentStatusEnum::CHECKOUT->value) {
             return true;

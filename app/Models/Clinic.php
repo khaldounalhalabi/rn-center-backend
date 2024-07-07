@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -388,5 +389,15 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
             $this->activeSubscription?->end_time?->isAfter(now())
             && $this->activeSubscription?->start_time?->lessThanOrEqualTo(now())
         ) ?? false;
+    }
+
+    public function balance(): MorphOne
+    {
+        return $this->morphOne(
+            Balance::class,
+            'balanceable',
+            'balanceable_type',
+            'balanceable_id'
+        )->latestOfMany();
     }
 }

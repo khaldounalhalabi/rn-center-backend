@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Observers\TransactionObserver;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property integer actor_id
  * @property User    actor
  */
+#[ObservedBy([TransactionObserver::class])]
 class Transaction extends Model
 {
     use HasFactory;

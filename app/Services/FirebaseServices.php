@@ -3,10 +3,8 @@
 namespace App\Services;
 
 use App\Enums\RolesPermissionEnum;
-use App\Services\Notification\byRole;
-use App\Services\Notification\many;
-use App\Services\Notification\one;
 use App\Traits\NotificationSender;
+use Illuminate\Database\Eloquent\Builder;
 
 class FirebaseServices
 {
@@ -15,6 +13,8 @@ class FirebaseServices
     const ONE = "one";
     const MANY = "many";
     const ByRole = "byRole";
+    const ToQuery = 'byQuery';
+
     private static $instance;
     private $notification;
     private array $data;
@@ -42,11 +42,13 @@ class FirebaseServices
 
     public function send(): void
     {
-        if ($this->method != 'sendToRole') {
+        if ($this->method == "sendToQuery" && $this->to) {
+            $this->{$this->method}($this->to, $this->notification, $this->data);
+        } elseif ($this->method != 'sendToRole') {
             $this->{$this->method}($this->notification, $this->data, $this->to);
-            return;
+        } else {
+            $this->{$this->method}($this->notification, $this->data, $this->role);
         }
-        $this->{$this->method}($this->notification, $this->data, $this->role);
     }
 
     public function setData($data): static
@@ -78,7 +80,7 @@ class FirebaseServices
     }
 
     /**
-     * @param byRole|one|many $method
+     * @param string $method
      * @return $this
      */
     public function setMethod(string $method): static
@@ -86,7 +88,8 @@ class FirebaseServices
         $this->method = match ($method) {
             'one', null => 'sendForOneDevice',
             'many' => 'sendForMultiDevices',
-            'byRole' => 'sendToRole'
+            'byRole' => 'sendToRole',
+            'byQuery' => 'sendToQuery'
         };
 
         return $this;
@@ -105,5 +108,10 @@ class FirebaseServices
     private function sendToRole($notification, array $data, ?string $role = 'admin'): void
     {
         $this->sendToUsersByRole($notification, $data, $role);
+    }
+
+    private function sendToQuery(Builder $query, $notification, array $data): void
+    {
+        $this->sendByQuery($query, $data, $notification);
     }
 }

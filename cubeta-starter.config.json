@@ -1441,6 +1441,32 @@
                     }
                 ]
             }
+        },
+        {
+            "model_name": "Balance",
+            "table_name": "balances",
+            "attributes": [
+                {
+                    "name": "balanceable_type",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "balanceable_id",
+                    "type": "bigInteger",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "balance",
+                    "type": "double",
+                    "nullable": false,
+                    "unique": false
+                }
+            ],
+            "relations": [],
+            "version": "v1"
         }
     ],
     "frontend_type": "None"

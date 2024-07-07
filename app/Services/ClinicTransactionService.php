@@ -55,8 +55,11 @@ class ClinicTransactionService extends BaseService
 
     public function summary(): array
     {
-        //TODO::handle clinic balance here
-        $data['clinic_balance'] = 0;
+        if (!auth()->user()?->isClinic()) {
+            return [];
+        }
+
+        $data['clinic_balance'] = auth()->user()?->clinic?->balance?->balance ?? 0;
         $data['pending_amount'] = $this->repository->getPendingTransactions()->sum(function (ClinicTransaction $clinicTransaction) {
             if (in_array($clinicTransaction->type, [ClinicTransactionTypeEnum::OUTCOME->value, ClinicTransactionTypeEnum::SYSTEM_DEBT->value])) {
                 return -($clinicTransaction->amount);

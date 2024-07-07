@@ -82,6 +82,7 @@ class Appointment extends Model implements ActionsMustBeAuthorized
             'type',
             'status',
             'device_type',
+            'date',
         ];
     }
 
@@ -150,7 +151,7 @@ class Appointment extends Model implements ActionsMustBeAuthorized
 
             FirebaseServices::make()
                 ->setData([
-                    'remaining_time' => $appointment,
+                    'remaining_time' => $appointment->remaining_time,
                     'message'        => "Your appointment booked in ({$appointment->clinic->name}) clinic in {$appointment->date->format('Y-m-d')} has an approximate time of : {$appointment->remaining_time}",
                     'appointment_id' => $appointment->id,
                     'clinic_id'      => $appointment->clinic_id,

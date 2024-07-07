@@ -286,4 +286,15 @@ class User extends Authenticatable implements HasMedia, JWTSubject
     {
         return !$this->is_blocked && !$this->is_archived;
     }
+
+    /**
+     * to get admin current balance
+     * where user type is for admin and clinic type is for clinics users
+     * @return Balance|null
+     */
+    public function balance(): ?Balance
+    {
+        return Balance::where('balanceable_type', User::class)
+            ->latest()->first();
+    }
 }
