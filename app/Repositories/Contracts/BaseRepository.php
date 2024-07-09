@@ -497,8 +497,8 @@ abstract class BaseRepository
                     return $param;
                 }
             }
-        }
-        if (strlen(trim(preg_replace('/\s+/', '', $param))) == 0) {
+            return null;
+        } elseif (strlen(trim(preg_replace('/\s+/', '', $param))) == 0) {
             return null;
         } else {
             return $param;
