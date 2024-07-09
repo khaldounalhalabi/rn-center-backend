@@ -88,4 +88,14 @@ class ClinicTransactionController extends ApiController
             __('site.get_successfully')
         );
     }
+
+    public function all()
+    {
+        $data = $this->clinicTransactionService->index($this->relations , $this->countable);
+        if ($data){
+            return $this->apiResponse(ClinicTransactionResource::collection($data) , self::STATUS_OK , __('site.get_successfully'));
+        }
+
+        return $this->noData();
+    }
 }

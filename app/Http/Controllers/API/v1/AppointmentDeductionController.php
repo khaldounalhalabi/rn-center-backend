@@ -115,4 +115,14 @@ class AppointmentDeductionController extends ApiController
             __('site.get_successfully')
         );
     }
+
+    public function all()
+    {
+        $data = $this->appointmentDeductionService->index($this->relations , $this->countable);
+        if ($data){
+            return $this->apiResponse(AppointmentDeductionResource::collection($data) , self::STATUS_OK , __('site.get_successfully'));
+        }
+
+        return $this->noData();
+    }
 }

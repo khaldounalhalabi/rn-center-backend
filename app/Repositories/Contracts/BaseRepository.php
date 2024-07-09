@@ -43,6 +43,7 @@ abstract class BaseRepository
     private array $customOrders = [];
     private string $tableName;
     protected bool $filtered = false;
+    protected $perPage;
 
     /**
      * @param T $model
@@ -75,6 +76,7 @@ abstract class BaseRepository
         $this->filtered = (request()->header('filtered') ?? request()->header('Filtered', false)) ?? false;
 
         $this->modelTableColumns = $this->getTableColumns();
+        $this->perPage = request('per_page' , 10);
     }
 
     public function getTableColumns(): array
@@ -272,8 +274,11 @@ abstract class BaseRepository
      */
     public function all_with_pagination(array $relationships = [], array $countable = [], int $per_page = 10): ?array
     {
-        $per_page = request('per_page') ?? $per_page;
-        $all = $this->globalQuery($relationships)->withCount($countable)->paginate($per_page);
+        if ($this->perPage == "all"){
+            $all = $this->globalQuery($relationships)->withCount($countable)->get();
+        }else{
+            $all = $this->globalQuery($relationships)->withCount($countable)->paginate($this->perPage);
+        }
         if (count($all) > 0) {
             $pagination_data = $this->formatPaginateData($all);
             return ['data' => $all->items(), 'pagination_data' => $pagination_data];

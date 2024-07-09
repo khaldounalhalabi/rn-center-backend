@@ -97,19 +97,22 @@ Route::apiResource('/clinic-employees', v1\ClinicEmployeeController::class)
         'staff_can:manage-employees,' . ClinicEmployee::class,
     ])->names('clinic.employees');
 
+Route::get('clinic-transactions/all', [v1\ClinicTransactionController::class, 'all'])->name('clinic.transaction.all');
 Route::get('clinic-transactions/summary', [v1\ClinicTransactionController::class, 'summary'])->name('clinic.transactions.summary');
 Route::get('clinic-transactions/export', [v1\ClinicTransactionController::class, 'export'])->name('clinic.transactions.export');
 Route::apiResource('clinic-transactions', v1\ClinicTransactionController::class)->names('clinic.transactions');
 
+Route::get('/appointments/all', [v1\AppointmentController::class, 'all'])->name('appointments.all');
 Route::get('/appointments/export', [v1\AppointmentController::class, 'export'])->name('appointments.export');
-Route::put('appointments/{appointmentId}/update-date', [v1\AppointmentController::class, 'updateAppointmentDate'])->name('appointments.update.date');
-Route::post('appointments/{appointmentId}/toggle-status', [v1\AppointmentController::class, 'toggleAppointmentStatus'])->name('appointments.status.toggle');
-Route::get('appointment-logs/{appointmentLogId}', [v1\AppointmentLogController::class, 'show'])->name('appointment.log.show');
-Route::get('appointments/{appointmentId}/logs', [v1\AppointmentLogController::class, 'getAppointmentLogs'])->name('appointments.logs');
-Route::get('customers/{customerId}/last-appointment', [v1\AppointmentController::class, 'getCustomerLastAppointment'])->name('customers.clinics.last-appointment');
+Route::put('/appointments/{appointmentId}/update-date', [v1\AppointmentController::class, 'updateAppointmentDate'])->name('appointments.update.date');
+Route::post('/appointments/{appointmentId}/toggle-status', [v1\AppointmentController::class, 'toggleAppointmentStatus'])->name('appointments.status.toggle');
+Route::get('/appointment-logs/{appointmentLogId}', [v1\AppointmentLogController::class, 'show'])->name('appointment.log.show');
+Route::get('/appointments/{appointmentId}/logs', [v1\AppointmentLogController::class, 'getAppointmentLogs'])->name('appointments.logs');
+Route::get('/customers/{customerId}/last-appointment', [v1\AppointmentController::class, 'getCustomerLastAppointment'])->name('customers.clinics.last-appointment');
 Route::apiResource('/appointments', v1\AppointmentController::class)
     ->except(['destroy'])->names('appointments');
 
+Route::get('/appointment-deductions/all', [v1\AppointmentController::class, 'all'])->name('appointment.deductions.all');
 Route::get('appointment-deductions/summary', [v1\AppointmentDeductionController::class, 'summary'])->name('appointment.deduction.summary');
 Route::get('appointment-deductions/export', [v1\AppointmentDeductionController::class, 'export'])
     ->name('appointment.deductions.export');

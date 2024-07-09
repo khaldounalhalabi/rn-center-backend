@@ -126,4 +126,14 @@ class AppointmentController extends ApiController
 
         return $this->apiResponse(null, self::STATUS_INVALID_TIME_TO_BOOK, __('site.doctor_dont_has_vacant_in_this_time'));
     }
+
+    public function all()
+    {
+        $data = $this->appointmentService->index($this->relations , $this->countable);
+        if ($data){
+            return $this->apiResponse(AppointmentResource::collection($data) , self::STATUS_OK , __('site.get_successfully'));
+        }
+
+        return $this->noData();
+    }
 }
