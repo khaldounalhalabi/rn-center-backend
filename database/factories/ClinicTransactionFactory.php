@@ -20,7 +20,7 @@ class ClinicTransactionFactory extends Factory
      */
     public function definition(): array
     {
-        $clinic = Clinic::inRandomOrder()->first();
+        $clinic = Clinic::first() ?? Clinic::factory()->create();
         $appointment = Appointment::where('clinic_id', $clinic->id)->inRandomOrder()->first();
 
         return [
