@@ -318,7 +318,7 @@ class Appointment extends Model implements ActionsMustBeAuthorized
         return $this->offers
             ->sum(fn(Offer $offer) => $offer->type == OfferTypeEnum::FIXED->value
                 ? $offer->amount
-                : ($offer->amount * $this->clinic->appointment_cost) / 100
+                : ($offer->amount * ($this->clinic->appointment_cost - $this->getSystemOffersTotal())) / 100
             );
     }
 }

@@ -200,22 +200,6 @@ class AppointmentManager
 
     private function handleAppointmentOffers(array $data, $appointmentCost, ?Appointment $appointment = null): array
     {
-        $clinicOffersTotal = 0;
-        $clinicOffersIds = [];
-        if (isset($data['offers'])) {
-            $clinicOffers = OfferRepository::make()
-                ->getByIds($data['offers'], $data['clinic_id'] ?? $appointment?->clinic_id);
-            $clinicOffersTotal = $clinicOffers
-                ->sum(fn(Offer $offer) => $offer->type == OfferTypeEnum::FIXED->value
-                    ? $offer->value
-                    : ($offer->value * $appointmentCost) / 100
-                );
-            $clinicOffersIds = $clinicOffers->pluck('id')->toArray();
-        } elseif ($appointment) {
-            $clinicOffersTotal = $appointment->getClinicOfferTotal();
-            $clinicOffersIds = null;
-        }
-
         $systemOffersTotal = 0;
         $systemOffersIds = [];
         if (isset($data['system_offers'])) {
@@ -231,6 +215,27 @@ class AppointmentManager
             $systemOffersTotal = $appointment->getSystemOffersTotal();
             $systemOffersIds = null;
         }
+
+        $clinicOffersTotal = 0;
+        $clinicOffersIds = [];
+        if (isset($data['offers'])) {
+            $appointmentCost = $appointmentCost
+                - (isset($data['system_offers'])
+                    ? $systemOffersTotal
+                    : ($appointment?->getSystemOffersTotal() ?? 0));
+            $clinicOffers = OfferRepository::make()
+                ->getByIds($data['offers'], $data['clinic_id'] ?? $appointment?->clinic_id);
+            $clinicOffersTotal = $clinicOffers
+                ->sum(fn(Offer $offer) => $offer->type == OfferTypeEnum::FIXED->value
+                    ? $offer->value
+                    : ($offer->value * $appointmentCost) / 100
+                );
+            $clinicOffersIds = $clinicOffers->pluck('id')->toArray();
+        } elseif ($appointment) {
+            $clinicOffersTotal = $appointment->getClinicOfferTotal();
+            $clinicOffersIds = null;
+        }
+
         return [
             $clinicOffersTotal,
             $clinicOffersIds,
