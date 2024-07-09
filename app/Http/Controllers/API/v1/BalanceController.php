@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\ApiController;
-use App\Http\Requests\v1\Balance\StoreUpdateBalanceRequest;
-use App\Http\Resources\v1\BalanceResource;
+use App\Http\Requests\Balance\StoreUpdateBalanceRequest;
+use App\Http\Resources\BalanceResource;
 use App\Models\Balance;
 use App\Services\BalanceService;
 use Illuminate\Http\Request;

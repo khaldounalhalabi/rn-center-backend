@@ -1467,6 +1467,26 @@
             ],
             "relations": [],
             "version": "v1"
+        },
+        {
+            "model_name": "Setting",
+            "table_name": "settings",
+            "attributes": [
+                {
+                    "name": "label",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": true
+                },
+                {
+                    "name": "value",
+                    "type": "text",
+                    "nullable": false,
+                    "unique": false
+                }
+            ],
+            "relations": [],
+            "version": "v1"
         }
     ],
     "frontend_type": "None"

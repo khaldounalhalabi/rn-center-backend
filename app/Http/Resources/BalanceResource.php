@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Http\Resources\v1;
-
-use App\Http\Resources\BaseResource;
+namespace App\Http\Resources;
 
 /** @mixin \App\Models\Balance */
 class BalanceResource extends BaseResource

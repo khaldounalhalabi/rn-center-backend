@@ -7,6 +7,8 @@ return [
      */
     'project_name'             => 'Pom',
 
+    'version' => 'v1',
+
     /**
      * here define your project public url, so we can add it to the postman collection
      * if you let it null we will place it in the collection as below :
@@ -35,14 +37,14 @@ return [
     /**
      * api controller path and namespace
      */
-    'api_controller_namespace' => 'App\Http\Controllers\API\v1',
-    'api_controller_path'      => 'app/Http/Controllers/API/v1',
+    'api_controller_namespace' => 'App\Http\Controllers\API',
+    'api_controller_path'      => 'app/Http/Controllers/API',
 
     /**
      * web controller path and namespace
      */
-    'web_controller_namespace' => 'App\Http\Controllers\WEB\v1',
-    'web_controller_path'      => 'app/Http/Controllers/WEB/v1',
+    'web_controller_namespace' => 'App\Http\Controllers\WEB',
+    'web_controller_path'      => 'app/Http/Controllers/WEB',
 
     /**
      * requests path and namespace

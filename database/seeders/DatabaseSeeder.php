@@ -44,6 +44,7 @@ class DatabaseSeeder extends Seeder
             ClinicTransactionSeeder::class,
             SystemOfferSeeder::class,
             BalanceSeeder::class,
+            SettingSeeder::class,
         ]);
     }
 }

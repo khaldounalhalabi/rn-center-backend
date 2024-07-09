@@ -1,0 +1,28 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Setting;
+use Illuminate\Database\Seeder;
+
+class SettingSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        Setting::create([
+            'label' => 'zain_cash_number',
+            'value' => '654987531685498798',
+        ]);
+        Setting::create([
+            'label' => 'contact_number_1',
+            'value' => '07123456789',
+        ]);
+        Setting::create([
+            'label' => 'contact_number_2',
+            'value' => '07987654321',
+        ]);
+    }
+}

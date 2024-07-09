@@ -25,7 +25,7 @@ return new class () extends Migration {
             $table->date('date');
             $table->string('status')->default(AppointmentStatusEnum::PENDING->value);
             $table->string('device_type')->nullable();
-            $table->bigInteger('appointment_sequence')->default(0);
+            $table->bigInteger('appointment_sequence')->nullable();
             $table->string('qr_code')->nullable();
             $table->string('remaining_time')->nullable();
             $table->foreignIdFor(Customer::class)->constrained()->cascadeOnDelete();

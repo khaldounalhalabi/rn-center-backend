@@ -99,4 +99,6 @@ Route::get('/clinics/{clinicId}/appointment-deductions', [v1\AppointmentDeductio
 Route::apiResource('/appointment-deductions', v1\AppointmentDeductionController::class)
     ->only(['index', 'show'])->names('api.admin.appointment.deductions');
 
-
+Route::apiResource('settings', v1\SettingController::class)
+    ->only(['index', 'update'])
+    ->names('settings');
