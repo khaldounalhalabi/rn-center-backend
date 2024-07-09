@@ -105,11 +105,11 @@ class User extends Authenticatable implements HasMedia, JWTSubject
     {
         parent::booted();
         self::creating(function (User $user) {
-            $user->full_name = self::geuUserFullName($user->first_name->toJson(), $user->middle_name->toJson(), $user->last_name->toJson());
+            $user->full_name = self::getUserFullName($user->first_name->toJson(), $user->middle_name->toJson(), $user->last_name->toJson());
         });
     }
 
-    public static function geuUserFullName($firstName, $middleName, $lastName): string|false
+    public static function getUserFullName($firstName, $middleName, $lastName): string|false
     {
         if ($firstName instanceof TranslatableSerializer && $middleName instanceof TranslatableSerializer && $lastName instanceof TranslatableSerializer) {
             return json_encode([

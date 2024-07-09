@@ -87,7 +87,7 @@ class StoreUpdateUserRequest extends FormRequest
     {
         if ($this->input('last_name') && $this->input('first_name') && $this->input('middle_name')) {
             $this->merge([
-                'full_name' => User::geuUserFullName($this->input('first_name'), $this->input('middle_name'), $this->input('last_name'))
+                'full_name' => User::getUserFullName($this->input('first_name'), $this->input('middle_name'), $this->input('last_name'))
             ]);
         }
     }

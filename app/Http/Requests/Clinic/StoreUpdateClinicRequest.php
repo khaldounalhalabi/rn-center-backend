@@ -119,7 +119,7 @@ class StoreUpdateClinicRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        if ($this->input('address') != null) {
+        if ($this->input('address') != null && $this->input('address.map_iframe') != null) {
             $this->merge([
                 'address' => [
                     ...$this->input('address'),
@@ -132,7 +132,7 @@ class StoreUpdateClinicRequest extends FormRequest
             $this->merge([
                 'user' => [
                     ...$this->input('user'),
-                    'full_name' => User::geuUserFullName($this->input('user.first_name'), $this->input('user.middle_name'), $this->input('user.last_name'))
+                    'full_name' => User::getUserFullName($this->input('user.first_name'), $this->input('user.middle_name'), $this->input('user.last_name'))
                 ]
             ]);
         }
