@@ -45,7 +45,7 @@ class AppointmentController extends ApiController
             return $this->apiResponse(new AppointmentResource($item), self::STATUS_OK, __('site.get_successfully'));
         }
 
-        return $this->noData(null);
+        return $this->noData();
     }
 
     public function store(StoreUpdateAppointmentRequest $request)
@@ -84,7 +84,7 @@ class AppointmentController extends ApiController
             return $this->apiResponse(AppointmentResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
         }
 
-        return $this->noData(null);
+        return $this->noData();
     }
 
     public function toggleAppointmentStatus($appointmentId, ToggleAppointmentStatusRequest $request)
