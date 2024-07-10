@@ -54,6 +54,10 @@ class BaseAuthController extends ApiController
             return $this->apiResponse(null, self::STATUS_EXPIRED_SUBSCRIPTION, __('site.expired_subscription'));
         }
 
+        if ($user->isCustomer() && !$user->hasVerifiedEmail()){
+            return $this->apiResponse(null , self::STATUS_UN_VERIFIED_EMAIL , __('site.un_verified_email'));
+        }
+
         return $this->apiResponse([
             'user'          => new UserResource($user),
             'token'         => $token,

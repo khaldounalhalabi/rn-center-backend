@@ -5,13 +5,14 @@ namespace App\Http;
 use App\Http\Middleware\AcceptedLanguagesMiddleware;
 use App\Http\Middleware\AdminOnly;
 use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\ClinicEmployeeHasPermission;
 use App\Http\Middleware\CustomerMustVerifyEmail;
+use App\Http\Middleware\CustomerOnly;
 use App\Http\Middleware\DoctorOnly;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\NotBlocked;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Http\Middleware\RedirectIfAuthenticated;
-use App\Http\Middleware\ClinicEmployeeHasPermission;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\TrustProxies;
 use App\Http\Middleware\ValidateSignature;
@@ -90,9 +91,10 @@ class Kernel extends HttpKernel
         'throttle'          => ThrottleRequests::class,
         'verified'          => EnsureEmailIsVerified::class,
         'verified-customer' => CustomerMustVerifyEmail::class,
-        'admin'             => AdminOnly::class,
         'not_blocked'       => NotBlocked::class,
+        'admin'             => AdminOnly::class,
         'doctor'            => DoctorOnly::class,
         'staff_can'         => ClinicEmployeeHasPermission::class,
+        'customer'          => CustomerOnly::class,
     ];
 }

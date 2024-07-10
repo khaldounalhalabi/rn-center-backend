@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\AuthRequests;
 
+use App\Enums\BloodGroupEnum;
 use App\Enums\GenderEnum;
 use App\Models\User;
 use App\Rules\LanguageShape;
@@ -39,13 +40,14 @@ class UpdateUserRequest extends FormRequest
             'password'           => 'nullable|min:8|confirmed|max:255',
             'fcm_token'          => 'nullable|string|min:3|max:1000',
             'gender'             => 'nullable|string|' . Rule::in(GenderEnum::getAllValues()),
+            'blood_group'        => 'nullable|string|' . Rule::in(BloodGroupEnum::getAllValues()),
             'image'              => 'nullable|image|max:50000|mimes:jpg,png',
             'birth_date'         => 'nullable|date|date_format:Y-m-d',
             'address'            => ['nullable', 'array', Rule::excludeIf(fn() => $user?->isClinic())],
             'address.name'       => ['nullable', 'string', new LanguageShape(), Rule::excludeIf(fn() => $user?->isClinic())],
             'address.city_id'    => ['nullable', 'exists:cities,id', 'integer', Rule::excludeIf(fn() => $user?->isClinic())],
-            'address.lat'        => ['nullable', 'string', 'nullable_without:address.map_iframe', Rule::excludeIf(fn() => $user?->isClinic())],
-            'address.lng'        => ['nullable', 'string', 'nullable_without:address.map_iframe', Rule::excludeIf(fn() => $user?->isClinic())],
+            'address.lat'        => ['nullable', 'string', Rule::excludeIf(fn() => $user?->isClinic())],
+            'address.lng'        => ['nullable', 'string', Rule::excludeIf(fn() => $user?->isClinic())],
             'address.map_iframe' => ['nullable', 'string', Rule::excludeIf(fn() => $user?->isClinic())]
         ];
     }

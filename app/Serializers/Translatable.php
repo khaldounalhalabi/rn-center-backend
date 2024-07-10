@@ -5,6 +5,10 @@ namespace App\Serializers;
 use Exception;
 use JsonSerializable;
 
+/**
+ * @property string en
+ * @property string ar
+ */
 class Translatable implements JsonSerializable
 {
     private array $data = [];

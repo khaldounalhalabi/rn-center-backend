@@ -13,8 +13,8 @@ class UserResource extends BaseResource
         return [
             'id'              => $this->id,
             'email'           => $this->email,
-            'birth_date'      => $this->birth_date->format('Y-m-d'),
-            'age'             => now()->diffInYears($this->birth_date),
+            'birth_date'      => $this->birth_date?->format('Y-m-d'),
+            'age'             => $this->birth_date ? now()->diffInYears($this->birth_date) : null,
             'gender'          => $this->gender,
             'blood_group'     => $this->blood_group,
             'is_blocked'      => $this->is_blocked,
@@ -24,14 +24,14 @@ class UserResource extends BaseResource
             'first_name'      => $this->first_name,
             'middle_name'     => $this->middle_name,
             'last_name'       => $this->last_name,
-            'image'           => MediaResource::collection($this->whenLoaded('media')),
             'customer'        => new CustomerResource($this->whenLoaded('customer')),
             'clinic'          => new ClinicResource($this->whenLoaded('clinic')),
-            'phones'          => PhoneNumberResource::collection($this->whenLoaded('phones')),
             'address'         => new AddressResource($this->whenLoaded('address')),
+            'permissions'     => new PermissionCollection($this->whenLoaded('permissions')),
+            'image'           => MediaResource::collection($this->whenLoaded('media')),
+            'phones'          => PhoneNumberResource::collection($this->whenLoaded('phones')),
             'clinicEmployees' => ClinicEmployeeResource::collection($this->whenLoaded('clinicEmployees')),
             'role'            => RoleResource::collection($this->whenLoaded('roles')),
-            'permissions'     => new PermissionCollection($this->whenLoaded('permissions'))
         ];
     }
 }

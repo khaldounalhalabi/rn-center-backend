@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Enums\RolesPermissionEnum;
 use App\Exceptions\RoleDoesNotExistException;
 use App\Models\User;
+use App\Models\UserPlatform;
+use App\Notifications\Customer\NewLoginEmailNotification;
 use App\Notifications\SendVerificationCode;
 use App\Repositories\AddressRepository;
 use App\Repositories\CustomerRepository;
@@ -145,6 +147,24 @@ class UserService extends BaseService
             $this->clearFcmTokenFromOtherUsers($data['fcm_token']);
             $user->fcm_token = $data['fcm_token'];
             $user->save();
+        }
+
+        if ($user->isCustomer() && isset($data['platform'])) {
+            $platform = UserPlatform::where('user_id', $user->id)
+                ->firstOrCreate([
+                    'user_id'      => $user->id,
+                    'browser_type' => $data['platform']['browser_type'] ?? "Unknown",
+                    'device_type'  => $data['platform']['device_type'] ?? "Unknown",
+                    'ip'           => $data['platform']['ip'] ?? "Unknown",
+                ]);
+
+            if ($user?->hasVerifiedEmail()) {
+                $user->notify(new NewLoginEmailNotification(
+                    $platform->ip,
+                    $platform->device_type,
+                    $platform->browser_type
+                ));
+            }
         }
 
         foreach ($additionalData as $key => $value) {
@@ -298,9 +318,11 @@ class UserService extends BaseService
 
         if (!$user) return false;
 
-        if ($user->verification_code != $verificationCode) return false;
+        if ($user->verification_code != $verificationCode) {
+            return false;
+        }
 
-        $user->email_verified_at = now();
+        $user->markEmailAsVerified();
         $user->verification_code = null;
         $user->save();
 
@@ -357,7 +379,7 @@ class UserService extends BaseService
 
         if (!$user) return false;
 
-        if ($user->updated_at->addMinutes(10)->equalTo(now())) {
+        if ($user->updated_at->equalTo(now()->subMinutes(15))) {
             return false;
         }
 
@@ -370,7 +392,7 @@ class UserService extends BaseService
 
     /**
      * @param string[]|null $roles
-     * @param array       $relations
+     * @param array         $relations
      * @return User|Authenticatable|null
      */
     public function userDetails(?array $roles = null, array $relations = []): User|Authenticatable|null

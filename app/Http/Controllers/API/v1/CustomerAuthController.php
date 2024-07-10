@@ -15,7 +15,7 @@ class CustomerAuthController extends BaseAuthController
         $this->roleHook([
             RolesPermissionEnum::CUSTOMER['role'],
         ]);
-        $this->relations = ['customer', 'media', 'phones'];
+        $this->relations = ['customer', 'media', 'phones' , 'address' , 'address.city'];
     }
 
     public function verifyCustomerEmail(VerifyEmailRequest $request)
