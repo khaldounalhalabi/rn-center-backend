@@ -18,7 +18,7 @@ class ClinicRepository extends BaseRepository
     public function globalQuery(array $relations = [], array $countable = []): Builder
     {
         return parent::globalQuery($relations, $countable)
-            ->when($this->filtered, function (Builder $query) {
+            ->when($this->filtered || !auth()->user(), function (Builder $query) {
                 $query->available();
             });
     }

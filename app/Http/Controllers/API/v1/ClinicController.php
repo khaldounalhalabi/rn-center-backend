@@ -17,9 +17,14 @@ class ClinicController extends ApiController
         $this->clinicService = ClinicService::make();
         // place the relations you want to return them within the response
 
+        if (!auth()->user() || auth()->user()?->isCustomer()) {
+            $this->indexRelations = [];
+        } else {
+            $this->indexRelations = ['user', 'user.phones', 'user.address', 'user.address.city', 'lastSubscription'];
+            $this->countable = ['appointments', 'todayAppointments', 'upcomingAppointments'];
+        }
+
         $this->relations = ['media', 'user', 'user.address', "user.address.city", 'user.phones', 'specialities', 'hospital', 'user.media', 'activeSubscription.subscription'];
-        $this->indexRelations = ['user', 'user.phones', 'user.address', 'user.address.city' , 'lastSubscription'];
-        $this->countable = ['appointments', 'todayAppointments', 'upcomingAppointments'];
     }
 
     public function index()
@@ -83,7 +88,7 @@ class ClinicController extends ApiController
 
     public function getCurrentClinicAvailableTime()
     {
-        if (!auth()->user()?->isClinic()){
+        if (!auth()->user()?->isClinic()) {
             return $this->noData();
         }
 
@@ -142,9 +147,9 @@ class ClinicController extends ApiController
 
     public function getBySystemOffer($systemOfferId)
     {
-        $data = $this->clinicService->getBySystemOffer($systemOfferId , $this->indexRelations , $this->countable);
-        if ($data){
-            return $this->apiResponse(ClinicResource::collection($data['data']) , self::STATUS_OK , __('site.get_successfully'));
+        $data = $this->clinicService->getBySystemOffer($systemOfferId, $this->indexRelations, $this->countable);
+        if ($data) {
+            return $this->apiResponse(ClinicResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'));
         }
 
         return $this->noData();

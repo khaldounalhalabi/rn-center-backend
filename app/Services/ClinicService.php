@@ -122,11 +122,11 @@ class ClinicService extends BaseService
         }
 
         if (isset($data['address'])) {
-           if ($user->address){
-               $user->address->update($data['address']);
-           }else{
-               $user->address()->create($data['address']);
-           }
+            if ($user->address) {
+                $user->address->update($data['address']);
+            } else {
+                $user->address()->create($data['address']);
+            }
         }
 
         if (isset($data['speciality_ids'])) {
@@ -193,7 +193,7 @@ class ClinicService extends BaseService
      * @param array $relations
      * @param array $countable
      * @param int   $perPage
-     * @return ?array
+     * @return array|null
      */
     public function getBySubscription($subscriptionId, array $relations = [], array $countable = [], int $perPage = 10): ?array
     {
