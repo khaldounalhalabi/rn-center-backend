@@ -98,9 +98,9 @@ class StoreUpdateClinicRequest extends FormRequest
             'user.gender'      => ['nullable', 'string', Rule::in(GenderEnum::getAllValues()), Rule::excludeIf(fn() => $authUser?->isClinic())],
             'user.image'       => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:5000', Rule::excludeIf(fn() => $authUser?->isClinic())],
 
-            'address'            => 'array|nullable',
-            'address.name'       => ['nullable', 'json', 'min:3', new LanguageShape()],
-            'address.city_id'    => ['nullable', 'numeric', 'exists:cities,id'],
+            'address'            => ['array', 'nullable'],
+            'address.name'       => ['nullable', 'json', 'min:3', new LanguageShape(), Rule::requiredIf(fn() => !auth()->user()?->address)],
+            'address.city_id'    => ['nullable', 'numeric', 'exists:cities,id', Rule::requiredIf(fn() => !auth()->user()?->address)],
             'address.map_iframe' => ['nullable', 'string'],
 
 
