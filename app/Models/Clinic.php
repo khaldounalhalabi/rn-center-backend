@@ -85,9 +85,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
     {
         return [
             'user'              => [
-                'first_name',
-                'middle_name',
-                'last_name',
                 'full_name',
             ],
             'user.address.city' => [
@@ -95,7 +92,7 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
             ],
             'user.phoneNumbers' => [
                 'phone',
-            ],
+            ]
         ];
     }
 
@@ -399,5 +396,10 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
             'balanceable_type',
             'balanceable_id'
         )->latestOfMany();
+    }
+
+    public function followers(): HasMany
+    {
+        return $this->hasMany(Follower::class);
     }
 }

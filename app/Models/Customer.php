@@ -17,17 +17,17 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property Appointment    appointments
  * @property string         mother_full_name
  * @property string         medical_condition
- * @property integer        user_id
+ * @property int            user_id
  */
 class Customer extends Model implements ActionsMustBeAuthorized
 {
-    use HasFactory;
     use HasClinic;
+    use HasFactory;
 
     public static function authorizedActions(): array
     {
         return [
-            'manage-patients'
+            'manage-patients',
         ];
     }
 
@@ -42,10 +42,10 @@ class Customer extends Model implements ActionsMustBeAuthorized
     public static function relationsSearchableArray(): array
     {
         return [
-            'user' => [
+            'user'      => [
                 'email',
-                'full_name'
-            ],
+                'full_name',
+            ]
         ];
     }
 
@@ -56,11 +56,11 @@ class Customer extends Model implements ActionsMustBeAuthorized
                 return $query->join('users', 'users.id', '=', 'customers.user_id')
                     ->select('customers.*', 'users.full_name AS customer_first_name')
                     ->orderBy('customer_first_name', $dir);
-            }
+            },
         ];
     }
 
-    public function user(): belongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -120,5 +120,10 @@ class Customer extends Model implements ActionsMustBeAuthorized
     public function systemOffers(): BelongsToMany
     {
         return $this->belongsToMany(SystemOffer::class, 'customer_system_offers');
+    }
+
+    public function followers(): HasMany
+    {
+        return $this->hasMany(Follower::class);
     }
 }

@@ -8,6 +8,7 @@ use App\Models\AppointmentDeduction;
 use App\Models\Clinic;
 use App\Models\ClinicHoliday;
 use App\Models\ClinicTransaction;
+use App\Models\Follower;
 use App\Models\Medicine;
 use App\Models\Offer;
 use App\Models\Prescription;
@@ -148,5 +149,10 @@ class ClinicFactory extends Factory
     public function withAppointmentDeductions($count = 1): ClinicFactory
     {
         return $this->has(AppointmentDeduction::factory($count));
+    }
+
+    public function withFollowers($count = 1): ClinicFactory
+    {
+        return $this->has(Follower::factory($count));
     }
 }

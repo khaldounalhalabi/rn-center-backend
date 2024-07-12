@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Appointment;
+use App\Models\Follower;
+use App\Models\PatientProfile;
 use App\Models\Prescription;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -37,8 +39,14 @@ class CustomerFactory extends Factory
     {
         return $this->has(Prescription::factory($count));
     }
-    public function withPatientProfiles($count = 1)
+
+    public function withPatientProfiles($count = 1): CustomerFactory
     {
-        return $this->has(\App\Models\PatientProfile::factory($count));
+        return $this->has(PatientProfile::factory($count));
+    }
+
+    public function withFollowers($count = 1): CustomerFactory
+    {
+        return $this->has(Follower::factory($count));
     }
 }

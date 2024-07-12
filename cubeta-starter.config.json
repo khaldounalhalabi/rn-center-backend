@@ -1487,6 +1487,39 @@
             ],
             "relations": [],
             "version": "v1"
+        },
+        {
+            "model_name": "Follower",
+            "table_name": "followers",
+            "attributes": [
+                {
+                    "name": "clinic_id",
+                    "type": "key",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "customer_id",
+                    "type": "key",
+                    "nullable": false,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "belongsTo": [
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Clinic",
+                        "key": "clinic_id"
+                    },
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Customer",
+                        "key": "customer_id"
+                    }
+                ]
+            },
+            "version": "v1"
         }
     ],
     "frontend_type": "None"
