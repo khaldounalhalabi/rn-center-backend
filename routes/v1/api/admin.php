@@ -86,6 +86,7 @@ Route::apiResource('offers', v1\OfferController::class)->names('offers');
 
 Route::apiResource('/patient-profiles', v1\PatientProfileController::class)->names('patient.profiles');
 
+Route::get('transactions/summary', [v1\TransactionController::class, 'summary'])->name('transaction.summary');
 Route::apiResource('/transactions', v1\TransactionController::class)->names('transactions');
 
 Route::apiResource('/blood-donation-requests', v1\BloodDonationRequestController::class)->names('blood.donation.requests');

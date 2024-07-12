@@ -11,5 +11,4 @@ use App\Repositories\Contracts\BaseRepository;
 class TransactionRepository extends BaseRepository
 {
     protected string $modelClass = Transaction::class;
-
 }

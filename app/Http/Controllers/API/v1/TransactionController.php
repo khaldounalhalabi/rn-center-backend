@@ -82,17 +82,12 @@ class TransactionController extends ApiController
         return $this->transactionService->export($ids);
     }
 
-    public function getImportExample()
+    public function summary()
     {
-        return $this->transactionService->getImportExample();
-    }
-
-    public function import(Request $request)
-    {
-        $request->validate([
-            'excel_file' => 'required|mimes:xls,xlsx',
-        ]);
-
-        $this->transactionService->import();
+        return $this->apiResponse(
+            $this->transactionService->summary(),
+            self::STATUS_OK,
+            __('site.get_successfully')
+        );
     }
 }

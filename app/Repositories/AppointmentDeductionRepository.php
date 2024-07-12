@@ -62,13 +62,25 @@ class AppointmentDeductionRepository extends BaseRepository
      * @param array  $countable
      * @return Collection<AppointmentDeduction>|AppointmentDeduction[]
      */
-    public function getByYearAndMonth(string $year , string $month , array $relations = [] , array $countable = []): Collection|array
+    public function getByYearAndMonth(string $year, string $month, array $relations = [], array $countable = []): Collection|array
     {
         $date = Carbon::parse("$month-$year");
-        return $this->globalQuery($relations , $countable)
+        return $this->globalQuery($relations, $countable)
             ->where('date', '>=', $date->firstOfMonth()->format('Y-m-d'))
             ->where('date', '<=', $date->lastOfMonth()->format('Y-m-d'))
-            ->where('status' , AppointmentDeductionStatusEnum::PENDING->value)
+            ->where('status', AppointmentDeductionStatusEnum::PENDING->value)
+            ->get();
+    }
+
+    /**
+     * @param array $relations
+     * @param array $countable
+     * @return Collection<AppointmentDeduction>|AppointmentDeduction[]
+     */
+    public function getPendingDeductions(array $relations = [], array $countable = []): Collection|array
+    {
+        return $this->globalQuery($relations, $countable)
+            ->where('status', AppointmentDeductionStatusEnum::PENDING->value)
             ->get();
     }
 }

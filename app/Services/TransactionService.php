@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Enums\RolesPermissionEnum;
 use App\Models\Transaction;
+use App\Repositories\AppointmentDeductionRepository;
 use App\Repositories\TransactionRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
@@ -37,5 +37,15 @@ class TransactionService extends BaseService
         }
         $data['actor_id'] = $authUser->id;
         return parent::update($data, $id, $relationships, $countable);
+    }
+
+    public function summary(): array
+    {
+        $data['pending_amount'] = AppointmentDeductionRepository::make()
+            ->getPendingDeductions()
+            ->sum('amount');
+
+        $data['balance'] = auth()->user()?->balance()?->balance ?? 0;
+        return $data;
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Enums\ClinicTransactionTypeEnum;
 use App\Models\ClinicTransaction;
 use App\Repositories\ClinicTransactionRepository;
 use App\Services\Contracts\BaseService;
@@ -60,13 +59,12 @@ class ClinicTransactionService extends BaseService
         }
 
         $data['clinic_balance'] = auth()->user()?->clinic?->balance?->balance ?? 0;
-        $data['pending_amount'] = $this->repository->getPendingTransactions()->sum(function (ClinicTransaction $clinicTransaction) {
-            if (in_array($clinicTransaction->type, [ClinicTransactionTypeEnum::OUTCOME->value, ClinicTransactionTypeEnum::SYSTEM_DEBT->value])) {
-                return -($clinicTransaction->amount);
-            } else {
-                return $clinicTransaction->amount;
-            }
-        });
+        $data['pending_amount'] = $this->repository
+            ->getPendingTransactions(auth()->user()?->getClinicId())
+            ->sum(fn(ClinicTransaction $clinicTransaction) => $clinicTransaction->isMinus()
+                ? -($clinicTransaction->amount)
+                : $clinicTransaction->amount
+            );
 
         return $data;
     }

@@ -44,10 +44,11 @@ class ClinicTransactionRepository extends BaseRepository
      * @param array $countable
      * @return Collection<ClinicTransaction>|ClinicTransaction[]
      */
-    public function getPendingTransactions(array $relations = [], array $countable = []): Collection|array
+    public function getPendingTransactions($clinicId , array $relations = [], array $countable = []): Collection|array
     {
         return $this->globalQuery($relations, $countable)
             ->where('status', ClinicTransactionStatusEnum::PENDING->value)
+            ->where('clinic_id' , $clinicId)
             ->get();
     }
 }
