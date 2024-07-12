@@ -20,27 +20,6 @@ class ReviewController extends ApiController
         $this->relations = [];
     }
 
-    public function index()
-    {
-        $items = $this->reviewService->indexWithPagination($this->relations);
-        if ($items) {
-            return $this->apiResponse(ReviewResource::collection($items['data']), self::STATUS_OK, __('site.get_successfully'), $items['pagination_data']);
-        }
-
-        return $this->noData([]);
-    }
-
-    public function show($reviewId)
-    {
-        /** @var Review|null $item */
-        $item = $this->reviewService->view($reviewId, $this->relations);
-        if ($item) {
-            return $this->apiResponse(new ReviewResource($item), self::STATUS_OK, __('site.get_successfully'));
-        }
-
-        return $this->noData(null);
-    }
-
     public function store(StoreUpdateReviewRequest $request)
     {
         /** @var Review|null $item */
