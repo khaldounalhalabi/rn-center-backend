@@ -45,6 +45,7 @@ class DatabaseSeeder extends Seeder
             SystemOfferSeeder::class,
             BalanceSeeder::class,
             SettingSeeder::class,
+            ReviewSeeder::class,
         ]);
     }
 }
