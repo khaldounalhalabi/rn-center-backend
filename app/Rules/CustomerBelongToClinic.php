@@ -34,6 +34,8 @@ class CustomerBelongToClinic implements ValidationRule
         $patientProfile = Customer::where('id', $value)
             ->whereHas('patientProfiles', function (Builder $builder) {
                 $builder->where('clinic_id', $this->clinicId);
+            })->orWhereHas('appointments', function (Builder $builder) {
+                $builder->where('clinic_id', $this->clinicId);
             })->exists();
 
         if (!$patientProfile) {

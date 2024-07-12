@@ -6,12 +6,12 @@ use App\Models\Clinic;
 use App\Models\Hospital;
 use App\Models\Schedule;
 use App\Repositories\Contracts\BaseRepository;
-use App\Repositories\Contracts\IBaseRepository;
+
 use Illuminate\Database\Eloquent\Collection;
 
 /**
  * @extends  BaseRepository<Schedule>
- * @implements IBaseRepository<Schedule>
+ * <Schedule>
  */
 class ScheduleRepository extends BaseRepository
 {

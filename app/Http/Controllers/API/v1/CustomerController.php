@@ -136,4 +136,13 @@ class CustomerController extends ApiController
 
         return $this->noData();
     }
+
+    public function getByClinic($clinicId)
+    {
+        $data = $this->customerService->getByClinic($clinicId, $this->relations, $this->countable);
+        if ($data) {
+            return $this->apiResponse(CustomerResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
+        }
+        return $this->noData();
+    }
 }

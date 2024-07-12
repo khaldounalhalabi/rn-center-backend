@@ -4,12 +4,12 @@ namespace App\Repositories;
 
 use App\Models\Speciality;
 use App\Repositories\Contracts\BaseRepository;
-use App\Repositories\Contracts\IBaseRepository;
+
 use LaravelIdea\Helper\App\Models\_IH_Speciality_C;
 
 /**
  * @extends  BaseRepository<Speciality>
- * @implements IBaseRepository<Speciality>
+ * <Speciality>
  */
 class SpecialityRepository extends BaseRepository
 {

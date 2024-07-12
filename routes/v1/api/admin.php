@@ -30,6 +30,7 @@ Route::controller(v1\ScheduleController::class)
         Route::get('/clinics/{clinicId}/available-times', [v1\ClinicController::class, 'getClinicAvailableTimes'])->name('clinic.get.clinic.available.times');
     });
 
+Route::get('/clinics/{clinicId}/customers', [v1\CustomerController::class, 'getByClinic'])->name('clinics.customers');
 Route::get('customers/{customerId}/patient-profiles', [v1\PatientProfileController::class, 'getCustomerPatientProfiles']);
 Route::apiResource('/customers', v1\CustomerController::class)->names('customers');
 

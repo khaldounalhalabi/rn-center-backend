@@ -171,4 +171,9 @@ class CustomerService extends BaseService
 
         return $customer->load($relations)->loadCount($countable);
     }
+
+    public function getByClinic($clinicId, array $relations = [], array $countable = []): ?array
+    {
+        return $this->repository->getClinicCustomers($clinicId , $relations , $countable);
+    }
 }

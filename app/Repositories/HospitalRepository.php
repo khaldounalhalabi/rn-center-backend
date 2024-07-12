@@ -5,12 +5,12 @@ namespace App\Repositories;
 use App\Enums\HospitalStatusEnum;
 use App\Models\Hospital;
 use App\Repositories\Contracts\BaseRepository;
-use App\Repositories\Contracts\IBaseRepository;
+
 use Illuminate\Database\Eloquent\Builder;
 
 /**
  * @extends  BaseRepository<Hospital>
- * @implements IBaseRepository<Hospital>
+ * <Hospital>
  */
 class HospitalRepository extends BaseRepository
 {

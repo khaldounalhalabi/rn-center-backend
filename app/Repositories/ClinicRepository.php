@@ -4,12 +4,12 @@ namespace App\Repositories;
 
 use App\Models\Clinic;
 use App\Repositories\Contracts\BaseRepository;
-use App\Repositories\Contracts\IBaseRepository;
+
 use Illuminate\Database\Eloquent\Builder;
 
 /**
  * @extends  BaseRepository<Clinic>
- * @implements IBaseRepository<Clinic>
+ * <Clinic>
  */
 class ClinicRepository extends BaseRepository
 {
