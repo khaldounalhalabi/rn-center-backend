@@ -1565,6 +1565,12 @@
                 ]
             },
             "version": "v1"
+        },
+        {
+            "model_name": "Category",
+            "table_name": "categories",
+            "attributes": [],
+            "version": "v1"
         }
     ],
     "frontend_type": "None"
