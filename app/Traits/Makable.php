@@ -1,11 +1,16 @@
 <?php
 
 namespace App\Traits;
-
+/**
+ * @template Service
+ */
 trait Makable
 {
     private static $instance;
 
+    /**
+     * @return Service
+     */
     public static function make(): static
     {
         if (is_null(self::$instance)) {

@@ -9,7 +9,7 @@ use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
 
 /**
- * @extends FollowerService<Follower>
+ * @extends BaseService<Follower>
  * @property FollowerRepository $repository
  */
 class FollowerService extends BaseService

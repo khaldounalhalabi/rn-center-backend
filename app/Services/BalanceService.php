@@ -8,7 +8,7 @@ use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
 
 /**
- * @extends BalanceService<Balance>
+ * @extends BaseService<Balance>
  *
  * @property BalanceRepository $repository
  */

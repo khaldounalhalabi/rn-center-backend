@@ -8,7 +8,7 @@ use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
 
 /**
- * @extends SettingService<Setting>
+ * @extends BaseService<Setting>
  * @property SettingRepository $repository
  */
 class SettingService extends BaseService

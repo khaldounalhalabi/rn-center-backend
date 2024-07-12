@@ -402,4 +402,9 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
     {
         return $this->hasMany(Follower::class);
     }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
+    }
 }

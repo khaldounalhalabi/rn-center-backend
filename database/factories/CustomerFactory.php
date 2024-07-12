@@ -6,6 +6,7 @@ use App\Models\Appointment;
 use App\Models\Follower;
 use App\Models\PatientProfile;
 use App\Models\Prescription;
+use App\Models\Review;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -16,6 +17,7 @@ class CustomerFactory extends Factory
 {
     /**
      * Define the model's default state.
+     *
      * @return array<string, mixed>
      */
     public function definition(): array
@@ -48,5 +50,10 @@ class CustomerFactory extends Factory
     public function withFollowers($count = 1): CustomerFactory
     {
         return $this->has(Follower::factory($count));
+    }
+
+    public function withReviews($count = 1): CustomerFactory
+    {
+        return $this->has(Review::factory($count));
     }
 }

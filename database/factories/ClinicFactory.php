@@ -12,6 +12,7 @@ use App\Models\Follower;
 use App\Models\Medicine;
 use App\Models\Offer;
 use App\Models\Prescription;
+use App\Models\Review;
 use App\Models\Schedule;
 use App\Models\Service;
 use App\Models\Speciality;
@@ -154,5 +155,10 @@ class ClinicFactory extends Factory
     public function withFollowers($count = 1): ClinicFactory
     {
         return $this->has(Follower::factory($count));
+    }
+
+    public function withReviews($count = 1): ClinicFactory
+    {
+        return $this->has(Review::factory($count));
     }
 }

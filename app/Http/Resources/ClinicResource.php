@@ -50,9 +50,14 @@ class ClinicResource extends BaseResource
             'systemOffers'                 => SystemOfferResource::collection($this->whenLoaded('systemOffers')),
             'clinic_transactions'          => ClinicTransactionResource::collection($this->whenLoaded('clinicTransactions')),
             'appointment_deductions'       => AppointmentDeductionResource::collection($this->whenLoaded('appointmentDeductions')),
+            'reviews'                      => ReviewResource::collection($this->whenLoaded('reviews')),
             $this->mergeWhen(auth()?->user()?->isCustomer() && $this->relationLoaded('followers'), [
                 'is_followed' => (bool)$this->followers->where('customer_id', auth()?->user()?->customer?->id)->count(),
-            ])
+
+            ]),
+            $this->mergeWhen($this->relationLoaded('reviews'), [
+                'rate' => $this->reviews->sum('rate') / $this->reviews_count,
+            ]),
         ];
     }
 }
