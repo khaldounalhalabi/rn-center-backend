@@ -113,7 +113,7 @@ Route::apiResource('/appointments', v1\AppointmentController::class)
     ->except(['destroy'])->names('appointments');
 
 Route::get('/appointment-deductions/all', [v1\AppointmentController::class, 'all'])->name('appointment.deductions.all');
-Route::get('appointment-deductions/summary', [v1\AppointmentDeductionController::class, 'summary'])->name('appointment.deduction.summary');
+Route::get('appointment-deductions/summary', [v1\AppointmentDeductionController::class, 'clinicSummary'])->name('appointment.deduction.summary');
 Route::get('appointment-deductions/export', [v1\AppointmentDeductionController::class, 'export'])
     ->name('appointment.deductions.export');
 Route::get('appointment-deductions', [v1\AppointmentDeductionController::class, 'index'])

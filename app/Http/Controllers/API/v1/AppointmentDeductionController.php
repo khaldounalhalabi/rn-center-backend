@@ -107,10 +107,10 @@ class AppointmentDeductionController extends ApiController
         return $this->noData();
     }
 
-    public function summary()
+    public function clinicSummary()
     {
         return $this->apiResponse(
-            $this->appointmentDeductionService->summary() ,
+            $this->appointmentDeductionService->clinicSummary() ,
             self::STATUS_OK,
             __('site.get_successfully')
         );
@@ -124,5 +124,14 @@ class AppointmentDeductionController extends ApiController
         }
 
         return $this->noData();
+    }
+
+    public function adminSummary()
+    {
+        return $this->apiResponse(
+            $this->appointmentDeductionService->adminSummary(),
+            self::STATUS_OK ,
+            __('site.get_successfully')
+        );
     }
 }
