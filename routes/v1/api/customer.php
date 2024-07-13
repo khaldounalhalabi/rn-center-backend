@@ -13,3 +13,11 @@ Route::get('/followed', [v1\FollowerController::class, 'getFollowedClinics'])->n
 
 Route::apiResource('reviews', v1\ReviewController::class)
     ->except(['show', 'index'])->names('reviews');
+
+Route::get('/appointments/today', [v1\AppointmentController::class, 'getCustomerTodayAppointments'])
+    ->name('appointments.today');
+Route::put('/appointments/{appointmentId}/change-date', [v1\AppointmentController::class, 'updateAppointmentDate'])
+    ->name('appointments.change.date');
+Route::apiResource('appointments', v1\AppointmentController::class)
+    ->except(['destroy', 'update'])
+    ->names('appointments');

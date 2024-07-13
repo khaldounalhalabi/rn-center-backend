@@ -174,4 +174,15 @@ class AppointmentService extends BaseService
 
         return $appointment->load($relationships)->loadCount($countable);
     }
+
+    public function getCustomerTodayAppointments(array $relations = [], array $countable = [])
+    {
+        return $this->repository->getByDate(
+            now()->format('Y-m-d'),
+            auth()->user()?->customer?->id,
+            null,
+            $relations,
+            $countable
+        );
+    }
 }

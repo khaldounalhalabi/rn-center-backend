@@ -56,7 +56,7 @@ class ClinicResource extends BaseResource
 
             ]),
             $this->mergeWhen($this->relationLoaded('reviews'), [
-                'rate' => $this->reviews->sum('rate') / $this->reviews_count,
+                'rate' => $this->reviews_count > 0 ? $this->reviews->sum('rate') / $this->reviews_count : 0,
             ]),
         ];
     }

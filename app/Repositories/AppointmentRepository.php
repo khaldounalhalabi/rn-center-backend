@@ -141,4 +141,15 @@ class AppointmentRepository extends BaseRepository
             $this->model->getTable() . ".xlsx",
         );
     }
+
+    public function getByDate($date, $customerId = null, $clinicId = null, array $relations = [], array $countable = [])
+    {
+        return $this->globalQuery($relations, $countable)
+            ->where('date', $date)
+            ->when(isset($customerId), function (Builder $query) use ($customerId) {
+                $query->where('customer_id', $customerId);
+            })->when(isset($clinicId), function (Builder $query) use ($clinicId) {
+                $query->where('clinic_id', $clinicId);
+            })->get();
+    }
 }

@@ -310,4 +310,20 @@ class Appointment extends Model implements ActionsMustBeAuthorized
                 : ($offer->amount * ($this->clinic->appointment_cost - $this->getSystemOffersTotal())) / 100
             );
     }
+
+    public function canShow(): bool
+    {
+        return
+            ($this->clinic_id == auth()?->user()?->getClinicId() && $this->clinic->isAvailable())
+            || ($this->customer_id == auth()?->user()?->customer?->id && $this->clinic->isAvailable())
+            || auth()->user()?->isAdmin();
+    }
+
+    public function canUpdate(): bool
+    {
+        return
+            ($this->clinic_id == auth()?->user()?->getClinicId() && $this->clinic->isAvailable())
+            || ($this->customer_id == auth()?->user()?->customer?->id && $this->clinic->isAvailable())
+            || auth()->user()?->isAdmin();
+    }
 }
