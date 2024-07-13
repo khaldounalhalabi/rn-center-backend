@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Enums\ClinicTransactionTypeEnum;
 use App\Observers\ClinicTransactionObserver;
-use App\Traits\HasClinic;
+use App\Traits\HasAbilities;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 #[ObservedBy([ClinicTransactionObserver::class])]
 class ClinicTransaction extends Model
 {
-    use HasClinic;
+    use HasAbilities;
     use HasFactory;
 
     protected $fillable = [

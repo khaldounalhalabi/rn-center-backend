@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Traits\HasClinic;
+use App\Traits\HasAbilities;
 use Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class AppointmentLog extends Model
 {
     use HasFactory;
-    use HasClinic;
+    use HasAbilities;
 
     protected $fillable = [
         'appointment_id',

@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Casts\Translatable;
 use App\Enums\MediaTypeEnum;
 use App\Interfaces\ActionsMustBeAuthorized;
-use App\Traits\HasClinic;
+use App\Traits\HasAbilities;
 use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -28,7 +28,7 @@ class Service extends Model implements HasMedia , ActionsMustBeAuthorized
     use HasFactory;
     use Translations;
     use InteractsWithMedia;
-    use HasClinic;
+    use HasAbilities;
 
     public static function authorizedActions(): array
     {

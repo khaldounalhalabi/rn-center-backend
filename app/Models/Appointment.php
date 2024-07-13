@@ -7,7 +7,7 @@ use App\Enums\OfferTypeEnum;
 use App\Interfaces\ActionsMustBeAuthorized;
 use App\Notifications\Customer\AppointmentRemainingTimeNotification;
 use App\Services\FirebaseServices;
-use App\Traits\HasClinic;
+use App\Traits\HasAbilities;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Exception;
@@ -39,7 +39,7 @@ use JetBrains\PhpStorm\ArrayShape;
  */
 class Appointment extends Model implements ActionsMustBeAuthorized
 {
-    use HasClinic;
+    use HasAbilities;
     use HasFactory;
 
     public static function authorizedActions(): array
@@ -281,17 +281,6 @@ class Appointment extends Model implements ActionsMustBeAuthorized
     public function offers(): BelongsToMany
     {
         return $this->belongsToMany(Offer::class, 'appointment_offers');
-    }
-
-    public function canUpdate(): bool
-    {
-        return (
-                (
-                    $this->clinic_id == auth()?->user()?->getClinicId()
-                )
-                || auth()->user()?->isAdmin()
-            )
-            && $this->clinic->isAvailable();
     }
 
     public function clinicTransaction(): HasOne

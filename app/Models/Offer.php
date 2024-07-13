@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Casts\Translatable;
 use App\Enums\MediaTypeEnum;
 use App\Interfaces\ActionsMustBeAuthorized;
-use App\Traits\HasClinic;
+use App\Traits\HasAbilities;
 use App\Traits\Translations;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -28,7 +28,7 @@ class Offer extends Model implements ActionsMustBeAuthorized, HasMedia
 {
     use HasFactory;
     use Translations;
-    use HasClinic;
+    use HasAbilities;
     use InteractsWithMedia;
 
     public static function authorizedActions(): array

@@ -75,6 +75,10 @@ abstract class BaseRepository
 
         $this->filtered = (request()->header('filtered') ?? request()->header('Filtered', false)) ?? false;
 
+        if (!auth()->user()?->isAdmin()){
+            $this->filtered = true;
+        }
+
         $this->modelTableColumns = $this->getTableColumns();
         $this->perPage = request('per_page' , 10);
     }

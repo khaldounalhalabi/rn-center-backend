@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Casts\Translatable;
 use App\Interfaces\ActionsMustBeAuthorized;
-use App\Traits\HasClinic;
+use App\Traits\HasAbilities;
 use App\Traits\Translations;
 use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,7 +22,7 @@ class ClinicHoliday extends Model implements ActionsMustBeAuthorized
 {
     use HasFactory;
     use Translations;
-    use HasClinic;
+    use HasAbilities;
 
 
     protected $fillable = [

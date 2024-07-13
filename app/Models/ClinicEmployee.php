@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Interfaces\ActionsMustBeAuthorized;
-use App\Traits\HasClinic;
+use App\Traits\HasAbilities;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ClinicEmployee extends Model implements ActionsMustBeAuthorized
 {
     use HasFactory;
-    use HasClinic;
+    use HasAbilities;
 
     public static function authorizedActions(): array
     {
@@ -81,28 +81,28 @@ class ClinicEmployee extends Model implements ActionsMustBeAuthorized
 
     public function canDelete(): bool
     {
-        return ($this->clinic_id == auth()?->user()?->getClinicId()
-                || auth()->user()?->isAdmin()
-                || auth()->user()?->id == $this->user_id
-            ) && $this->clinic->isAvailable()
-            && $this->user->isAvailable();
+        return (
+            ($this->clinic_id == auth()?->user()?->getClinicId() && $this->clinic->isAvailable() && $this->user->isAvailable())
+            || (auth()->user()?->id == $this->user_id && $this->clinic->isAvailable() && $this->user->isAvailable())
+            || auth()->user()?->isAdmin()
+        );
     }
 
     public function canShow(): bool
     {
-        return ($this->clinic_id == auth()?->user()?->getClinicId()
-                || auth()->user()?->isAdmin()
-                || auth()->user()?->id == $this->user_id
-            ) && $this->clinic->isAvailable()
-            && $this->user->isAvailable();
+        return (
+            ($this->clinic_id == auth()?->user()?->getClinicId() && $this->clinic->isAvailable() && $this->user->isAvailable())
+            || (auth()->user()?->id == $this->user_id && $this->clinic->isAvailable() && $this->user->isAvailable())
+            || auth()->user()?->isAdmin()
+        );
     }
 
     public function canUpdate(): bool
     {
-        return ($this->clinic_id == auth()?->user()?->getClinicId()
-                || auth()->user()?->isAdmin()
-                || auth()->user()?->id == $this->user_id
-            ) && $this->clinic->isAvailable()
-            && $this->user->isAvailable();
+        return (
+            ($this->clinic_id == auth()?->user()?->getClinicId() && $this->clinic->isAvailable() && $this->user->isAvailable())
+            || (auth()->user()?->id == $this->user_id && $this->clinic->isAvailable() && $this->user->isAvailable())
+            || auth()->user()?->isAdmin()
+        );
     }
 }

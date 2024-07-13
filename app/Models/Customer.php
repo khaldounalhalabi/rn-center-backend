@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Interfaces\ActionsMustBeAuthorized;
-use App\Traits\HasClinic;
+use App\Traits\HasAbilities;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  */
 class Customer extends Model implements ActionsMustBeAuthorized
 {
-    use HasClinic;
+    use HasAbilities;
     use HasFactory;
 
     public static function authorizedActions(): array
@@ -94,8 +94,8 @@ class Customer extends Model implements ActionsMustBeAuthorized
     {
         return (
                 auth()->user()?->isClinic()
-                && $this->patientProfiles()
-                    ->where('clinic_id', auth()?->user()?->getClinicId())->exists()
+                && $this->patientProfiles()->where('clinic_id', auth()?->user()?->getClinicId())->exists()
+                && $this->user->isAvailable()
             ) || auth()->user()?->isAdmin();
     }
 
@@ -103,8 +103,8 @@ class Customer extends Model implements ActionsMustBeAuthorized
     {
         return (
                 auth()->user()?->isClinic()
-                && $this->patientProfiles()
-                    ->where('clinic_id', auth()?->user()?->getClinicId())->exists()
+                && $this->patientProfiles()->where('clinic_id', auth()?->user()?->getClinicId())->exists()
+                && $this->user->isAvailable()
             ) || auth()->user()?->isAdmin();
     }
 
@@ -130,7 +130,7 @@ class Customer extends Model implements ActionsMustBeAuthorized
         return $this->hasMany(Follower::class);
     }
 
-    public function reviews()
+    public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
     }

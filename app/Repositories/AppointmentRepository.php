@@ -32,6 +32,8 @@ class AppointmentRepository extends BaseRepository
                 });
             })->when(auth()->user()?->isClinic(), function (Builder $query) {
                 $query->where('clinic_id', auth()->user()?->getClinicId());
+            })->when(auth()->user()?->isCustomer(), function (Builder $query) {
+                $query->where('customer_id', auth()->user()?->customer?->id);
             });
     }
 

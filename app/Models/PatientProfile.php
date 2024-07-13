@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Enums\MediaTypeEnum;
-use App\Traits\HasClinic;
+use App\Traits\HasAbilities;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -23,7 +23,7 @@ class PatientProfile extends Model implements HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;
-    use HasClinic;
+    use HasAbilities;
 
     protected $fillable = [
         'customer_id',

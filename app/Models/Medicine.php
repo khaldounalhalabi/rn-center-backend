@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Interfaces\ActionsMustBeAuthorized;
-use App\Traits\HasClinic;
+use App\Traits\HasAbilities;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Medicine extends Model implements ActionsMustBeAuthorized
 {
     use HasFactory;
-    use HasClinic;
+    use HasAbilities;
 
     public static function authorizedActions(): array
     {
