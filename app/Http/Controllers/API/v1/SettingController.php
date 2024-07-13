@@ -40,4 +40,13 @@ class SettingController extends ApiController
 
         return $this->noData(null);
     }
+
+    public function show($settingId)
+    {
+        $item = $this->settingService->view($settingId, $this->relations);
+        if ($item) {
+            return $this->apiResponse(new SettingResource($item), self::STATUS_OK, __('site.get_successfully'));
+        }
+        return $this->noData();
+    }
 }
