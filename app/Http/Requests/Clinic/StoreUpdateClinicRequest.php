@@ -101,7 +101,7 @@ class StoreUpdateClinicRequest extends FormRequest
             'address'            => ['array', 'nullable'],
             'address.name'       => ['nullable', 'json', 'min:3', new LanguageShape(), Rule::requiredIf(fn() => !auth()->user()?->address)],
             'address.city_id'    => ['nullable', 'numeric', 'exists:cities,id', Rule::requiredIf(fn() => !auth()->user()?->address)],
-            'address.map_iframe' => ['nullable', 'string'],
+            'address.map_iframe' => ['nullable', 'string' , Rule::excludeIf(fn() => $this->input('address.map_iframe') == null)],
 
 
             'speciality_ids'   => 'array|nullable',
