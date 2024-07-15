@@ -105,7 +105,7 @@ abstract class BaseService
      * @param array $ids
      * @return BinaryFileResponse
      */
-    public function export(array $ids = []): BinaryFileResponse
+    public function export(array $ids = null): BinaryFileResponse
     {
         return $this->repository->export($ids);
     }

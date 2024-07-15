@@ -461,9 +461,9 @@ abstract class BaseRepository
      * @param array $ids
      * @return BinaryFileResponse
      */
-    public function export(array $ids = []): BinaryFileResponse
+    public function export(array $ids = null): BinaryFileResponse
     {
-        if (!count($ids)) {
+        if ($ids) {
             $collection = $this->globalQuery()->get();
         } else {
             $collection = $this->globalQuery()->whereIn('id', $ids)->get();

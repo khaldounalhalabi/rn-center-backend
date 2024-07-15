@@ -25,7 +25,7 @@ class ClinicTransactionRepository extends BaseRepository
             });
     }
 
-    public function export(array $ids = []): BinaryFileResponse
+    public function export(array $ids = null): BinaryFileResponse
     {
         $year = request('year', now()->year);
         $month = request('month', now()->monthName);
