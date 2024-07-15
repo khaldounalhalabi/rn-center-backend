@@ -82,9 +82,8 @@ class AppointmentDeductionService extends BaseService
         if (!auth()->user()?->isClinic()) {
             return [];
         }
-        $year = request('year', now()->year);
-        $month = request('month', now()->monthName);
-        $deductions = $this->repository->getPendingByYearAndMonth($year, $month);
+
+        $deductions = $this->repository->getPendingDeductions();
         $clinic = auth()->user()?->clinic;
         $activeSubscription = $clinic?->activeSubscription;
         $data['appointments_deductions'] = $deductions->sum('amount');
@@ -99,13 +98,11 @@ class AppointmentDeductionService extends BaseService
 
     public function adminSummary(): array
     {
-        $year = request('year', now()->year);
-        $month = request('month', now()->monthName);
         $data['pending_appointment_deductions'] = $this->repository
-            ->getPendingByYearAndMonth($year, $month)
+            ->getPendingDeductions()
             ->sum('amount');
         $data['done_appointment_deductions'] = $this->repository
-            ->getDoneByYearAndMonth($year, $month)
+            ->getDoneDeductions()
             ->sum('amount');
         $data['balance'] = auth()->user()?->balance()?->balance ?? 0;
 

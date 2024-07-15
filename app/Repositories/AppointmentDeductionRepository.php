@@ -72,12 +72,9 @@ class AppointmentDeductionRepository extends BaseRepository
             ->get();
     }
 
-    public function getDoneByYearAndMonth(string $year, string $month, array $relations = [], array $countable = []): Collection|array
+    public function getDoneDeductions(array $relations = [], array $countable = []): Collection|array
     {
-        $date = Carbon::parse("$month-$year");
         return $this->globalQuery($relations, $countable)
-            ->where('date', '>=', $date->firstOfMonth()->format('Y-m-d'))
-            ->where('date', '<=', $date->lastOfMonth()->format('Y-m-d'))
             ->where('status', AppointmentDeductionStatusEnum::DONE->value)
             ->get();
     }
