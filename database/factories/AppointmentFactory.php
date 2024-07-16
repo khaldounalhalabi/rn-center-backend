@@ -28,6 +28,7 @@ class AppointmentFactory extends Factory
      */
     public function definition(): array
     {
+        $type = fake()->randomElement(AppointmentTypeEnum::getAllValues());
         return [
             'customer_id'          => Customer::inRandomOrder()->first()->id,
             'clinic_id'            => Clinic::inRandomOrder()->first()->id,
@@ -35,9 +36,11 @@ class AppointmentFactory extends Factory
             'service_id'           => Service::inRandomOrder()->first()->id,
             'extra_fees'           => fake()->randomFloat(1, 2000),
             'total_cost'           => fake()->randomFloat(2, 0, 1000),
-            'type'                 => fake()->randomElement(AppointmentTypeEnum::getAllValues()),
+            'type'                 => $type,
             'date'                 => fake()->dateTimeBetween('-5 days', '+20 days'),
-            'status'               => AppointmentStatusEnum::PENDING->value,
+            'status'               => $type == AppointmentTypeEnum::MANUAL->value
+                ? AppointmentStatusEnum::BOOKED->value
+                : AppointmentStatusEnum::PENDING->value,
             'device_type'          => fake()->word(),
             'appointment_sequence' => fake()->numberBetween(1, 10),
         ];
