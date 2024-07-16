@@ -16,7 +16,7 @@ return new class () extends Migration {
             $table->id();
             $table->text('medical_condition');
             $table->text('note')->nullable();
-            $table->json('other_data');
+            $table->json('other_data')->default("{}");
             $table->foreignIdFor(Customer::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Clinic::class)->constrained()->cascadeOnDelete();
             $table->unique(['clinic_id', 'customer_id']);
