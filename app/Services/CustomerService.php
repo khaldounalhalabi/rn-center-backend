@@ -136,7 +136,6 @@ class CustomerService extends BaseService
     public function view($id, array $relationships = [], array $countable = []): ?Model
     {
         $customer = parent::view($id, $relationships, $countable);
-
         if ($customer?->canShow()) {
             return $customer;
         }
