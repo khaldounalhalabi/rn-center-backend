@@ -95,6 +95,7 @@ class Customer extends Model implements ActionsMustBeAuthorized
         return (
                 auth()->user()?->isClinic()
                 && $this->patientProfiles()->where('clinic_id', auth()?->user()?->getClinicId())->exists()
+                && $this->appointments()->where('clinic_id', auth()?->user()?->getClinicId())->exists()
                 && $this->user->isAvailable()
             ) || auth()->user()?->isAdmin();
     }
@@ -104,6 +105,7 @@ class Customer extends Model implements ActionsMustBeAuthorized
         return (
                 auth()->user()?->isClinic()
                 && $this->patientProfiles()->where('clinic_id', auth()?->user()?->getClinicId())->exists()
+                && $this->appointments()->where('clinic_id', auth()?->user()?->getClinicId())->exists()
                 && $this->user->isAvailable()
             ) || auth()->user()?->isAdmin();
     }
