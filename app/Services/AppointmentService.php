@@ -8,6 +8,7 @@ use App\Models\Appointment;
 use App\Repositories\AppointmentLogRepository;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\Contracts\BaseRepository;
+use App\Repositories\CustomerRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
 use Illuminate\Database\Eloquent\Model;
@@ -184,5 +185,15 @@ class AppointmentService extends BaseService
             $relations,
             $countable
         );
+    }
+
+    public function getByCustomer($customerId, array $relations = [], array $countable = []): ?array
+    {
+        $customer = CustomerRepository::make()->find($customerId);
+        if (!$customer?->canShow()) {
+            return null;
+        }
+
+        return $this->repository->getByCustomer($customerId, $relations, $countable);
     }
 }

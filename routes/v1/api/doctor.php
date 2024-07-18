@@ -103,6 +103,7 @@ Route::get('clinic-transactions/export', [v1\ClinicTransactionController::class,
 Route::apiResource('clinic-transactions', v1\ClinicTransactionController::class)->names('clinic.transactions');
 
 Route::get('/appointments/all', [v1\AppointmentController::class, 'all'])->name('appointments.all');
+Route::get('/customers/{customerId}/appointments', [v1\AppointmentController::class, 'getByCustomer'])->name('customers.appointments');
 Route::get('/appointments/export', [v1\AppointmentController::class, 'export'])->name('appointments.export');
 Route::put('/appointments/{appointmentId}/update-date', [v1\AppointmentController::class, 'updateAppointmentDate'])->name('appointments.update.date');
 Route::post('/appointments/{appointmentId}/toggle-status', [v1\AppointmentController::class, 'toggleAppointmentStatus'])->name('appointments.status.toggle');

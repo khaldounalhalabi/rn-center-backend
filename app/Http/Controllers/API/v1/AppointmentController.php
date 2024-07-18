@@ -142,4 +142,14 @@ class AppointmentController extends ApiController
         $data = $this->appointmentService->getCustomerTodayAppointments($this->relations, $this->countable);
         return $this->apiResponse(AppointmentResource::collection($data), self::STATUS_OK, __('site.get_successfully'));
     }
+
+    public function getByCustomer($customerId)
+    {
+        $data = $this->appointmentService->getByCustomer($customerId, $this->relations, $this->countable);
+
+        if ($data) {
+            return $this->apiResponse(AppointmentResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
+        }
+        return $this->noData();
+    }
 }
