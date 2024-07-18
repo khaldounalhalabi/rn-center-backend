@@ -13,6 +13,7 @@ Route::post('/fcm/store-token', [v1\AdminAuthController::class, 'storeFcmToken']
 Route::get('/fcm/get-token', [v1\AdminAuthController::class, 'getUserFcmToken'])->name('fcm.getToken');
 
 Route::get('notifications', [v1\NotificationController::class, 'getUserNotification'])->name('notifications');
+Route::get('notifications/unread/count', [v1\NotificationController::class, 'unreadCount'])->name('notification.unread.count');
 Route::get('/notifications/{notificationId}/mark-as-read', [v1\NotificationController::class, 'markAsRead'])->name('notifications');
 
 Route::delete('/users/{userId}/toggle-archive', [v1\UserController::class, 'toggleArchive'])->name('users.toggle.archive');

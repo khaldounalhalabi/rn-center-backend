@@ -18,7 +18,7 @@ class BaseNotification extends Notification
     private string $messageAR;
 
     /** @var class-string */
-    private string $type = self::class;
+    private string $type = BaseNotification::class;
 
     /**
      * Create a new notification instance.

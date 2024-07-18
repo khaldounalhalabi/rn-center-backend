@@ -28,11 +28,20 @@ class NotificationController extends ApiController
     {
         $item = $this->notificationService->update([
             'read_at' => now()
-        ] , $notificationId);
+        ], $notificationId);
 
-        if ($item){
-            return $this->apiResponse(true , self::STATUS_OK , __('site.success'));
+        if ($item) {
+            return $this->apiResponse(true, self::STATUS_OK, __('site.success'));
         }
         return $this->noData(false);
+    }
+
+    public function unreadCount()
+    {
+        return $this->apiResponse(
+            auth()->user()?->unread_notifications_count,
+            self::STATUS_OK,
+            __('site.success')
+        );
     }
 }
