@@ -8,6 +8,11 @@ Route::post('logout', [v1\CustomerAuthController::class, 'logout'])->name('logou
 Route::post('update-user-data', [v1\CustomerAuthController::class, 'updateUserDetails'])->name('update.user.data');
 Route::get('me', [v1\CustomerAuthController::class, 'userDetails'])->name('me');
 
+Route::get('notifications', [v1\NotificationController::class, 'getUserNotification'])->name('notifications');
+Route::get('notifications/unread/count', [v1\NotificationController::class, 'unreadCount'])->name('notification.unread.count');
+Route::get('/notifications/{notificationId}/mark-as-read', [v1\NotificationController::class, 'markAsRead'])->name('notifications');
+
+
 Route::get('/clinics/{clinicId}/toggle-follow', [v1\FollowerController::class, 'toggleFollow'])->name('follower.follow.toggle');
 Route::get('/followed', [v1\FollowerController::class, 'getFollowedClinics'])->name('followed');
 

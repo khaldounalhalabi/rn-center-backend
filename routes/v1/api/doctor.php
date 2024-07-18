@@ -20,6 +20,11 @@ Route::get('me', [v1\DoctorAuthController::class, 'userDetails'])->name('me');
 Route::get('/available-times', [v1\ClinicController::class, 'getCurrentClinicAvailableTime'])->name('available-times');
 Route::get('clinic-subscriptions', [v1\ClinicSubscriptionController::class, 'getCurrentClinicSubscriptions'])->name('clinic.subscriptions');
 
+Route::get('notifications', [v1\NotificationController::class, 'getUserNotification'])->name('notifications');
+Route::get('notifications/unread/count', [v1\NotificationController::class, 'unreadCount'])->name('notification.unread.count');
+Route::get('/notifications/{notificationId}/mark-as-read', [v1\NotificationController::class, 'markAsRead'])->name('notifications');
+
+
 Route::put('/clinic/update', [v1\ClinicController::class, 'updateDoctorClinic'])
     ->middleware([
         'staff_can:edit-clinic-profile,' . Clinic::class,

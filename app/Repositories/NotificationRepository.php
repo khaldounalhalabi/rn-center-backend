@@ -5,11 +5,17 @@ namespace App\Repositories;
 use App\Models\Notification;
 use App\Models\User;
 use App\Repositories\Contracts\BaseRepository;
+use Illuminate\Database\Eloquent\Builder;
 
 class NotificationRepository extends BaseRepository
 {
     protected string $modelClass = Notification::class;
 
+    public function globalQuery(array $relations = [], array $countable = []): Builder
+    {
+        return parent::globalQuery($relations, $countable)
+            ->where('type', 'NOT LIKE', '%App\Notifications\RealTime%');
+    }
 
     public function getUserNotifications($notifiableId, $notifiableType = User::class, int $per_page = 10): ?array
     {
