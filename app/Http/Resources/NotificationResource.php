@@ -20,7 +20,7 @@ class NotificationResource extends JsonResource
         return [
             'id'         => $this->id,
             'data'       => $this->data,
-            'type'       => $this->type,
+            'type'       => str_replace("App\\Notifications\\", "", $this->type),
             'message'    => $this->getMessage(),
             'read_at'    => $this->read_at,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
