@@ -4,6 +4,7 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\Fcm\Exceptions\CouldNotSendNotification;
 use NotificationChannels\Fcm\FcmChannel;
 use NotificationChannels\Fcm\FcmMessage;
 
@@ -49,8 +50,9 @@ class BaseNotification extends Notification
      * Get the mail representation of the notification.
      * @param mixed $notifiable
      * @return FcmMessage
+     * @throws CouldNotSendNotification
      */
-    public function toFcm($notifiable): FcmMessage
+    public function toFcm(mixed $notifiable): FcmMessage
     {
         return FcmMessage::create()
             ->setData([
