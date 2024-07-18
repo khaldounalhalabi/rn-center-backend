@@ -39,7 +39,7 @@ class NotificationController extends ApiController
     public function unreadCount()
     {
         return $this->apiResponse(
-            auth()->user()?->unread_notifications_count,
+            auth()->user()?->unreadNotifications()->count(),
             self::STATUS_OK,
             __('site.success')
         );
