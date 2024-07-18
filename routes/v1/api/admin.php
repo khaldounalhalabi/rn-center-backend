@@ -12,6 +12,9 @@ Route::get('/me', [v1\AdminAuthController::class, 'userDetails'])->name('me');
 Route::post('/fcm/store-token', [v1\AdminAuthController::class, 'storeFcmToken'])->name('fcm.storeToken');
 Route::get('/fcm/get-token', [v1\AdminAuthController::class, 'getUserFcmToken'])->name('fcm.getToken');
 
+Route::get('notifications', [v1\NotificationController::class, 'getUserNotification'])->name('notifications');
+Route::get('/notifications/{notificationId}/mark-as-read', [v1\NotificationController::class, 'markAsRead'])->name('notifications');
+
 Route::delete('/users/{userId}/toggle-archive', [v1\UserController::class, 'toggleArchive'])->name('users.toggle.archive');
 Route::get('/users/{userId}/toggle-block', [v1\UserController::class, 'toggleBlock'])->name('user.block.toggle');
 Route::apiResource('/users', v1\UserController::class)->except(['store'])->names('users');
@@ -103,7 +106,7 @@ Route::apiResource('/appointment-deductions', v1\AppointmentDeductionController:
     ->only(['index', 'show'])->names('api.admin.appointment.deductions');
 
 Route::apiResource('settings', v1\SettingController::class)
-    ->only(['index', 'update' , 'show'])
+    ->only(['index', 'update', 'show'])
     ->names('settings');
 
 Route::get('clinics/{clinicId}/reviews', [v1\ReviewController::class, 'getByClinic'])->name('clinics.reviews');

@@ -14,11 +14,10 @@ class NotificationRepository extends BaseRepository
     public function getUserNotifications($notifiableId, $notifiableType = User::class, int $per_page = 10): ?array
     {
         $all = $this->notificationsBaseQuery($notifiableId, $notifiableType)
-            ->paginate($per_page);
+            ->paginate($this->perPage);
 
         if (count($all) > 0) {
-            $pagination_data = $this->formatPaginateData($all);
-            return ['data' => $all, 'pagination_data' => $pagination_data];
+            return ['data' => $all, 'pagination_data' => $this->formatPaginateData($all)];
         }
 
         return null;
@@ -26,7 +25,7 @@ class NotificationRepository extends BaseRepository
 
     private function notificationsBaseQuery($notifiableId, $notifiableType = User::class, bool $isAvailable = true)
     {
-        return Notification::query()
+        return $this->globalQuery()
             ->when($isAvailable, fn($q) => $q->available())
             ->where('notifiable_id', $notifiableId)
             ->where('notifiable_type', $notifiableType);
