@@ -27,6 +27,8 @@ return new class () extends Migration {
             $table->foreignIdFor(Hospital::class)->nullable()->constrained();
             $table->timestamps();
             $table->index(['created_at']);
+            $table->index(['status']);
+            $table->index(['name']);
         });
     }
 

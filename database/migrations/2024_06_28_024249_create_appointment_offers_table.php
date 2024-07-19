@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignIdFor(\App\Models\Appointment::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(\App\Models\Offer::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
+            $table->index(['created_at']);
         });
     }
 

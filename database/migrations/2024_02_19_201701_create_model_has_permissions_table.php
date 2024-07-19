@@ -17,6 +17,7 @@ return new class () extends Migration {
 
             $table->index(['model_id', 'model_type']);
             $table->index(['model_id', 'model_type', 'model_name']);
+            $table->index(['created_at']);
         });
     }
 

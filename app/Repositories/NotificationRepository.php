@@ -11,7 +11,7 @@ class NotificationRepository extends BaseRepository
 {
     protected string $modelClass = Notification::class;
 
-    public function globalQuery(array $relations = [], array $countable = []): Builder
+    public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
     {
         return parent::globalQuery($relations, $countable)
             ->where('type', 'NOT LIKE', '%RealTime%');

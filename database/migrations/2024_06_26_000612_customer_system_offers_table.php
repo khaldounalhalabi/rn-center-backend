@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->foreignIdFor(\App\Models\SystemOffer::class);
 
             $table->timestamps();
+            $table->index(['created_at']);
         });
     }
 

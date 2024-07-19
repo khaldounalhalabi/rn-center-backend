@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->string('device_type')->default('Unknown');
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
+            $table->index(['created_at']);
         });
     }
 

@@ -26,6 +26,7 @@ return new class () extends Migration {
             $table->unsignedInteger('order_column')->nullable()->index();
 
             $table->nullableTimestamps();
+            $table->index(['created_at']);
         });
     }
 };

@@ -25,6 +25,11 @@ return new class extends Migration {
             $table->date('date')->default(now());
 
             $table->timestamps();
+            $table->index(['created_at']);
+            $table->index(['date']);
+            $table->index(['amount']);
+            $table->index(['type']);
+            $table->index(['status']);
         });
     }
 

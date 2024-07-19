@@ -24,6 +24,7 @@ return new class extends Migration
             $table->foreignIdFor(City::class)->constrained()->cascadeOnDelete();
 
             $table->timestamps();
+            $table->index(['created_at']);
         });
     }
 

@@ -10,24 +10,6 @@ use JetBrains\PhpStorm\ArrayShape;
 trait RestTrait
 {
     /**
-     * to handle validations
-     */
-    public function apiValidation($request, $array): JsonResponse|array
-    {
-        $validator = Validator::make($request->all(), $array);
-        if ($validator->fails()) {
-            $msg = [
-                'text'   => 'the given data is invalid',
-                'errors' => $validator->errors(),
-            ];
-
-            return $this->apiResponse(null, ApiController::STATUS_VALIDATION, $msg);
-        }
-
-        return $validator->valid();
-    }
-
-    /**
      * this function will determine the api response structure to make all responses has the same structure
      * @param null $data
      * @param null $message
@@ -44,23 +26,6 @@ trait RestTrait
         ];
 
         return response()->json($arrayResponse, $code, [], JSON_PRETTY_PRINT);
-    }
-
-    /**
-     * standard for pagination
-     */
-    #[ArrayShape(['currentPage' => 'mixed', 'from' => 'mixed', 'to' => 'mixed', 'total' => 'mixed', 'per_page' => 'mixed'])]
-    public function formatPaginateData($data): array
-    {
-        $paginated_arr = $data->toArray();
-
-        return [
-            'currentPage' => $paginated_arr['current_page'],
-            'from'        => $paginated_arr['from'],
-            'to'          => $paginated_arr['to'],
-            'total'       => $paginated_arr['total'],
-            'per_page'    => $paginated_arr['per_page'],
-        ];
     }
 
     /**

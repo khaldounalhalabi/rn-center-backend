@@ -204,4 +204,9 @@ class ClinicService extends BaseService
     {
         return $this->repository->getBySystemOffer($systemOfferId, $relations, $countable);
     }
+
+    public function getFeaturedClinics(array $relations = [], array $countable = []): ?array
+    {
+        return $this->repository->getClinicsOrderedByFeatured($relations, $countable);
+    }
 }

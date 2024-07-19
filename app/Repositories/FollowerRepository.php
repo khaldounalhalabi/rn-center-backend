@@ -18,7 +18,7 @@ class FollowerRepository extends BaseRepository
      * @param array $countable
      * @return Builder|Follower
      */
-    public function globalQuery(array $relations = [], array $countable = []): Builder
+    public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
     {
         return parent::globalQuery($relations, $countable)
             ->whereHas('clinic', function (Builder $query) {

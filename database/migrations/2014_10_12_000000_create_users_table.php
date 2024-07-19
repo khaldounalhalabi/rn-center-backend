@@ -33,6 +33,15 @@ return new class () extends Migration {
 
             $table->rememberToken();
             $table->timestamps();
+            $table->index(['created_at']);
+            $table->index(['is_blocked']);
+            $table->index(['is_archived']);
+            $table->index(['is_blocked', 'is_archived']);
+            $table->index(['full_name']);
+            $table->index(['first_name']);
+            $table->index(['middle_name']);
+            $table->index(['last_name']);
+            $table->index(['email']);
         });
     }
 

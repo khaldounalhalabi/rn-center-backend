@@ -23,6 +23,10 @@ return new class extends Migration {
             $table->date('to')->default(now()->addDay());
 
             $table->timestamps();
+            $table->index(['created_at']);
+            $table->index(['from', 'to']);
+            $table->index(['from']);
+            $table->index(['to']);
         });
     }
 

@@ -15,6 +15,7 @@ return new class () extends Migration {
             $table->timestamps();
 
             $table->index(['modelsHasRole_id', 'modelsHasRole_type', 'role_id'], 'model_role_index');
+            $table->index(['created_at']);
         });
     }
 };

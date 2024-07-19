@@ -15,6 +15,7 @@ return new class () extends Migration {
             $table->json('name');
             $table->timestamps();
             $table->index(['created_at']);
+            $table->index(['name']);
         });
     }
 

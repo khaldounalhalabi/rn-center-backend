@@ -26,6 +26,10 @@ return new class extends Migration {
             $table->foreignIdFor(Transaction::class)->nullable()->constrained()->nullOnDelete();
 
             $table->timestamps();
+            $table->index(['created_at']);
+            $table->index(['date']);
+            $table->index(['amount']);
+            $table->index(['status']);
         });
     }
 

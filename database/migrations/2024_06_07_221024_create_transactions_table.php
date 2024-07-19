@@ -19,6 +19,10 @@ return new class () extends Migration {
             $table->foreignId('actor_id')->nullable()->references('id')->on('users')->nullOnDelete();
 
             $table->timestamps();
+            $table->index(['created_at']);
+            $table->index(['date']);
+            $table->index(['amount']);
+            $table->index(['type']);
         });
     }
 

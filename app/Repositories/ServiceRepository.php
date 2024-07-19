@@ -14,7 +14,7 @@ class ServiceRepository extends BaseRepository
 {
     protected string $modelClass = Service::class;
 
-    public function globalQuery(array $relations = [], array $countable = []): Builder
+    public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
     {
         $query = parent::globalQuery($relations, $countable);
 

@@ -13,7 +13,7 @@ class CustomerRepository extends BaseRepository
 {
     protected string $modelClass = Customer::class;
 
-    public function globalQuery(array $relations = [], array $countable = []): Builder
+    public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
     {
         return parent::globalQuery($relations, $countable)
             ->when($this->filtered, function (Builder $query) {

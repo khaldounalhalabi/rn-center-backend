@@ -24,6 +24,10 @@ return new class () extends Migration {
             $table->foreignIdFor(Clinic::class)->constrained()->cascadeOnDelete();
 
             $table->timestamps();
+            $table->index(['created_at']);
+            $table->index(['start_at', 'end_at']);
+            $table->index(['start_at']);
+            $table->index(['end_at']);
         });
     }
 

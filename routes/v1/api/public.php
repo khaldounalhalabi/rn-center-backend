@@ -48,7 +48,7 @@ Route::get('/service-categories', [v1\ServiceCategoryController::class, 'index']
 
 Route::get('/clinics/{clinicId}/system-offers', [v1\SystemOfferController::class, 'getByClinic'])->name('clinics.system.offers');
 Route::get('/clinics/{clinicId}/offers', [v1\OfferController::class, 'getByClinic'])->name('clinics.offers');
-Route::get('/clinics', [v1\ClinicController::class, 'index'])->name('clinics.index');
+Route::get('/clinics', [v1\ClinicController::class, 'featured'])->name('clinics.featured');
 Route::get('/clinics/{clinicId}', [v1\ClinicController::class, 'show'])->name('clinics.show');
 
 Route::get('/check-role', [v1\BaseAuthController::class, 'checkRole'])->name('check-role');

@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->text('note')->nullable();
             $table->index(['balanceable_type', 'balanceable_id']);
             $table->timestamps();
+            $table->index(['created_at']);
         });
     }
 

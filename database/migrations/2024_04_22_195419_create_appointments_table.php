@@ -33,6 +33,9 @@ return new class () extends Migration {
             $table->foreignIdFor(Service::class)->nullable()->constrained()->cascadeOnDelete();
             $table->timestamps();
             $table->index(['created_at']);
+            $table->index(['date']);
+            $table->index(['type']);
+            $table->index(['appointment_sequence']);
         });
     }
 
