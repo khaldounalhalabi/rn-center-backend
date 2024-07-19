@@ -16,12 +16,10 @@ class ServiceRepository extends BaseRepository
 
     public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
     {
-        $query = parent::globalQuery($relations, $countable);
-
-        return $query->when(auth()->user()?->isClinic(), function (Builder $query) {
-            $query->where('clinic_id', auth()->user()?->getClinicId());
-        })
-            ->when($this->filtered, function (Builder $query) {
+        return parent::globalQuery($relations, $countable)
+            ->when(auth()->user()?->isClinic(), function (Builder $query) {
+                $query->where('clinic_id', auth()->user()?->getClinicId());
+            })->when($this->filtered, function (Builder $query) {
                 $query->where('status', ServiceStatusEnum::ACTIVE->value);
             });
     }

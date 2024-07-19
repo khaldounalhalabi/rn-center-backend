@@ -75,12 +75,12 @@ abstract class BaseRepository
 
         $this->filtered = (request()->header('filtered') ?? request()->header('Filtered', false)) ?? false;
 
-        if (!auth()->user()?->isAdmin()){
+        if (!auth()->user()?->isAdmin()) {
             $this->filtered = true;
         }
 
         $this->modelTableColumns = $this->getTableColumns();
-        $this->perPage = request('per_page' , 10);
+        $this->perPage = request('per_page', 10);
     }
 
     public function getTableColumns(): array
@@ -110,13 +110,24 @@ abstract class BaseRepository
         return $this->globalQuery($relationships)->get();
     }
 
+    protected function unsetNullable(array $data = []): array
+    {
+        foreach ($data as $key => $value) {
+            if ($value == null) {
+                unset($data[$key]);
+            }
+        }
+
+        return $data;
+    }
+
     /**
      * @param array $relations
      * @param array $countable
      * @param bool  $defaultOrder
      * @return Builder
      */
-    public function globalQuery(array $relations = [], array $countable = [] , bool $defaultOrder = true): Builder
+    public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
     {
         $query = $this->model->with($relations)->withCount($countable);
 
@@ -125,7 +136,7 @@ abstract class BaseRepository
             $query = $query->where(function ($q) {
                 return $this->addSearch($q);
             });
-            $query = $this->orderQueryBy($query , $defaultOrder);
+            $query = $this->orderQueryBy($query, $defaultOrder);
         }
 
         return $query;
@@ -230,9 +241,10 @@ abstract class BaseRepository
 
     /**
      * @param Builder $query
-     * @return Builder|T
+     * @param bool    $defaultOrder
+     * @return Builder
      */
-    private function orderQueryBy(Builder $query , bool $defaultOrder = true): Builder
+    private function orderQueryBy(Builder $query, bool $defaultOrder = true): Builder
     {
         $sortCol = request()->sort_col;
         $sortCol = $this->unsetEmptyParams($sortCol);
@@ -279,9 +291,9 @@ abstract class BaseRepository
      */
     public function all_with_pagination(array $relationships = [], array $countable = [], int $per_page = 10): ?array
     {
-        if ($this->perPage == "all"){
+        if ($this->perPage == "all") {
             $all = $this->globalQuery($relationships)->withCount($countable)->get();
-        }else{
+        } else {
             $all = $this->globalQuery($relationships)->withCount($countable)->paginate($this->perPage);
         }
         if (count($all) > 0) {
@@ -324,6 +336,8 @@ abstract class BaseRepository
                 unset($receivedData[$colName]);
             }
         }
+
+        $receivedData = $this->unsetNullable($receivedData);
 
         /** @var T $result */
         $result = $this->model->create($receivedData);
@@ -444,6 +458,8 @@ abstract class BaseRepository
                     unset($receivedData[$colName]);
                 }
             }
+
+            $receivedData = $this->unsetNullable($receivedData);
 
             $item->fill($receivedData);
             $item->save();

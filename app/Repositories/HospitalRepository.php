@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 /**
  * @extends  BaseRepository<Hospital>
- * <Hospital>
  */
 class HospitalRepository extends BaseRepository
 {

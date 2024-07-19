@@ -16,6 +16,7 @@ class FollowerRepository extends BaseRepository
     /**
      * @param array $relations
      * @param array $countable
+     * @param bool  $defaultOrder
      * @return Builder|Follower
      */
     public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder

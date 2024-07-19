@@ -53,11 +53,6 @@ class ClinicRepository extends BaseRepository
         );
     }
 
-    public function getOrderedByReviews(array $relations = [], array $countable = [])
-    {
-        $data = $this->globalQuery($relations, $countable, false);
-    }
-
     public function getClinicsOrderedByFeatured(array $relations = [], array $countable = []): ?array
     {
         $data = $this->globalQuery($relations, $countable, false)

@@ -10,6 +10,7 @@ use App\Repositories\Contracts\BaseRepository;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -21,6 +22,12 @@ class AppointmentRepository extends BaseRepository
 {
     protected string $modelClass = Appointment::class;
 
+    /**
+     * @param array $relations
+     * @param array $countable
+     * @param bool  $defaultOrder
+     * @return Builder|Appointment
+     */
     public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
     {
         return parent::globalQuery($relations, $countable)
@@ -42,7 +49,7 @@ class AppointmentRepository extends BaseRepository
      * @param string|null $date
      * @return Appointment|null
      */
-    public function getClinicLastAppointmentInDay($clinicId, ?string $date = null): ?Appointment
+    public function getClinicLastAppointmentInDay($clinicId, ?string $date = null): null|Appointment
     {
         if (!$date) $date = now()->format('Y-m-d');
 
@@ -85,6 +92,7 @@ class AppointmentRepository extends BaseRepository
      */
     public function updatePreviousCheckinClinicAppointments($clinicId, $appointmentSequence, string|Carbon|DateTime $date, array $data): bool|int
     {
+        $data = $this->unsetNullable($data);
         return $this->globalQuery()
             ->where('clinic_id', $clinicId)
             ->where('date', $date)

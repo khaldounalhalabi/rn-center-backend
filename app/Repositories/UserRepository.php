@@ -16,6 +16,12 @@ class UserRepository extends BaseRepository
 {
     protected string $modelClass = User::class;
 
+    /**
+     * @param array $relations
+     * @param array $countable
+     * @param bool  $defaultOrder
+     * @return Builder|User
+     */
     public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
     {
         return parent::globalQuery($relations, $countable)
