@@ -5,7 +5,6 @@ namespace App\Repositories;
 use App\Enums\HospitalStatusEnum;
 use App\Models\Hospital;
 use App\Repositories\Contracts\BaseRepository;
-
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -22,5 +21,22 @@ class HospitalRepository extends BaseRepository
             ->when($this->filtered, function (Builder $query) {
                 $query->where('status', HospitalStatusEnum::ACTIVE->value);
             });
+    }
+
+    public function getByUserCity($cityId, array $relations = [], array $countable = []): ?array
+    {
+        $data = $this->globalQuery($relations, $countable)
+            ->whereHas('address', function (Builder $query) use ($cityId) {
+                $query->where('city_id', $cityId);
+            })->paginate($this->perPage);
+
+        if ($data->count()) {
+            return [
+                'data'            => $data,
+                'pagination_data' => $this->formatPaginateData($data)
+            ];
+        }
+
+        return null;
     }
 }

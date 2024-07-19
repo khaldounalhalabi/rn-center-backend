@@ -88,4 +88,15 @@ class HospitalController extends ApiController
 
         return $this->noData();
     }
+
+    public function getByUserCity()
+    {
+        $data = $this->hospitalService->getByUserCity(auth()->user());
+
+        if ($data) {
+            return $this->apiResponse(HospitalResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
+        }
+
+        return $this->noData();
+    }
 }

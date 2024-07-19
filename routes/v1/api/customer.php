@@ -28,3 +28,5 @@ Route::put('/appointments/{appointmentId}/change-date', [v1\AppointmentControlle
 Route::apiResource('appointments', v1\AppointmentController::class)
     ->except(['destroy', 'update'])
     ->names('appointments');
+
+Route::get('/hospitals' , [v1\HospitalController::class , 'getByUserCity'])->name('hospitals');

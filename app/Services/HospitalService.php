@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\HospitalStatusEnum;
 use App\Models\Hospital;
+use App\Models\User;
 use App\Repositories\AddressRepository;
 use App\Repositories\HospitalRepository;
 use App\Repositories\PhoneNumberRepository;
@@ -87,5 +88,13 @@ class HospitalService extends BaseService
         }
 
         return $hospital;
+    }
+
+    public function getByUserCity(?User $user = null, array $relations = [], array $countable = []): ?array
+    {
+        if (!$user?->address?->city_id) {
+            return null;
+        }
+        return $this->repository->getByUserCity($user?->address?->city_id, $relations, $countable);
     }
 }
