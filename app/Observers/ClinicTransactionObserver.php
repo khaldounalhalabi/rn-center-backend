@@ -70,6 +70,7 @@ class ClinicTransactionObserver
         elseif ($prevTransaction['status'] == ClinicTransactionStatusEnum::PENDING->value
             && $transaction->status == ClinicTransactionStatusEnum::DONE->value) {
             $this->handleTheAdditionOfNewBalanceRecord($transaction, $latestBalance, $clinic);
+            $this->sendBalanceChangeNotification($latestBalance?->balance ?? 0, $clinic->id);
         } /**
          * prev status is done and the current is pending then we remove it from the balance
          */
