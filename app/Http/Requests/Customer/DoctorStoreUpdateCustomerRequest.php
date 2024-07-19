@@ -8,7 +8,6 @@ use App\Models\Customer;
 use App\Models\User;
 use App\Rules\LanguageShape;
 use App\Rules\NotInBlocked;
-use App\Rules\UniquePhoneNumber;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -52,36 +51,7 @@ class DoctorStoreUpdateCustomerRequest extends FormRequest
                 'images.*'          => ['nullable', 'image', 'max:50000'],
             ];
         }
-        $currentCustomer = Customer::where('id', request()->route('customerId'))->with(['user'])->first();
-
         return [
-            'first_name'        => ['json', 'nullable', new LanguageShape(), 'min:3', 'max:60'],
-            'middle_name'       => ['json', 'nullable', new LanguageShape(), 'min:3', 'max:60'],
-            'last_name'         => ['json', 'nullable', new LanguageShape(), 'min:3', 'max:60'],
-            'full_name'         => ['string', 'nullable', new NotInBlocked()],
-            'email'             => [
-                'nullable',
-                'email',
-                'max:255',
-                'min:3',
-                'string',
-                'unique:users,email,' . $currentCustomer?->user?->email ?? "",
-                new NotInBlocked()
-            ],
-            'birth_date'        => 'date_format:Y-m-d|date|nullable',
-            'gender'            => ['nullable', 'string', Rule::in(GenderEnum::getAllValues())],
-            'blood_group'     => ['required', 'string', Rule::in(BloodGroupEnum::getAllValues())],
-            'address'           => 'array|nullable',
-            'address.name'      => ['nullable', 'required_with:address', 'json', 'min:3', new LanguageShape()],
-            'address.city_id'   => ['nullable', 'required_with:address', 'numeric', 'exists:cities,id'],
-            'phone_numbers'     => 'array|nullable',
-            'phone_numbers.*'   => [
-                'required',
-                'string',
-                new UniquePhoneNumber($currentCustomer?->user?->id),
-                'regex:/^07\d{9}$/',
-                new NotInBlocked()
-            ],
             'medical_condition' => ['nullable', 'string'],
             'note'              => ['nullable', 'string'],
             'other_data'        => ['nullable', 'json'],
@@ -99,7 +69,7 @@ class DoctorStoreUpdateCustomerRequest extends FormRequest
         }
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'phone_numbers.*' => 'phone number',
