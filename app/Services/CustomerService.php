@@ -105,9 +105,6 @@ class CustomerService extends BaseService
         if (!$customer?->canUpdate()) {
             return null;
         }
-
-        $this->userService->update($data, $customer->user_id);
-
         return $this->createUpdateClinicPatientProfile($customer, $data, $relations, $countable);
     }
 
