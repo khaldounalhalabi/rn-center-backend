@@ -17,13 +17,15 @@ Route::post('refresh', [v1\DoctorAuthController::class, 'refresh'])->middleware(
 Route::post('logout', [v1\DoctorAuthController::class, 'logout'])->middleware('auth:api')->name('logout');
 Route::post('update-user-data', [v1\DoctorAuthController::class, 'updateUserDetails'])->name('update-user-data');
 Route::get('me', [v1\DoctorAuthController::class, 'userDetails'])->name('me');
-Route::get('/available-times', [v1\ClinicController::class, 'getCurrentClinicAvailableTime'])->name('available-times');
-Route::get('clinic-subscriptions', [v1\ClinicSubscriptionController::class, 'getCurrentClinicSubscriptions'])->name('clinic.subscriptions');
+Route::post('fcm/store-token', [v1\AdminAuthController::class, 'storeFcmToken'])->name('fcm.storeToken');
+Route::get('fcm/get-token', [v1\AdminAuthController::class, 'getUserFcmToken'])->name('fcm.getToken');
 
 Route::get('notifications', [v1\NotificationController::class, 'getUserNotification'])->name('notifications');
 Route::get('notifications/unread/count', [v1\NotificationController::class, 'unreadCount'])->name('notification.unread.count');
-Route::get('/notifications/{notificationId}/mark-as-read', [v1\NotificationController::class, 'markAsRead'])->name('notifications');
+Route::get('notifications/{notificationId}/mark-as-read', [v1\NotificationController::class, 'markAsRead'])->name('notifications');
 
+Route::get('available-times', [v1\ClinicController::class, 'getCurrentClinicAvailableTime'])->name('available-times');
+Route::get('clinic-subscriptions', [v1\ClinicSubscriptionController::class, 'getCurrentClinicSubscriptions'])->name('clinic.subscriptions');
 
 Route::put('/clinic/update', [v1\ClinicController::class, 'updateDoctorClinic'])
     ->middleware([
