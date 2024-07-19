@@ -10,7 +10,6 @@ use App\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
@@ -303,5 +302,11 @@ class User extends Authenticatable implements HasMedia, JWTSubject
     public function platform(): HasOne
     {
         return $this->hasOne(UserPlatform::class, 'user_id');
+    }
+
+    public function unreadNotifications()
+    {
+        return $this->notifications()->unread()
+            ->where('type', 'NOT LIKE', '%RealTime%');
     }
 }

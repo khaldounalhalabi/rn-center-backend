@@ -14,7 +14,7 @@ class NotificationRepository extends BaseRepository
     public function globalQuery(array $relations = [], array $countable = []): Builder
     {
         return parent::globalQuery($relations, $countable)
-            ->where('type', 'NOT LIKE', '%App\Notifications\RealTime%');
+            ->where('type', 'NOT LIKE', '%RealTime%');
     }
 
     public function getUserNotifications($notifiableId, $notifiableType = User::class, int $per_page = 10): ?array
@@ -49,16 +49,5 @@ class NotificationRepository extends BaseRepository
         return $this->notificationsBaseQuery($notifiableId, $notifiableType)
             ->whereNull('read_at')
             ->update(['read_at' => now()->format('Y-m-d H:i:s')]);
-    }
-
-    public function disableUserNotifications($userId): void
-    {
-        if (!app()->environment('testing')) {
-            Notification::where('notifiable_id', $userId)
-                ->orWhereJsonContains('users', $userId)
-                ->update([
-                    'is_available' => false
-                ]);
-        }
     }
 }
