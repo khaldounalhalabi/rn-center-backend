@@ -47,7 +47,11 @@ Route::get('/subscriptions', [v1\SubscriptionController::class, 'index'])->name(
 Route::get('/service-categories', [v1\ServiceCategoryController::class, 'index'])->name('service.category.index');
 
 Route::get('/clinics/{clinicId}/system-offers', [v1\SystemOfferController::class, 'getByClinic'])->name('clinics.system.offers');
+Route::get('/system-offers', [v1\SystemOfferController::class, 'index'])->name('system.offers.index');
+Route::get('/system-offers/{systemOfferId}', [v1\SystemOfferController::class, 'show'])->name('system.offers.show');
+
 Route::get('/clinics/{clinicId}/offers', [v1\OfferController::class, 'getByClinic'])->name('clinics.offers');
+
 Route::get('/clinics', [v1\ClinicController::class, 'featured'])->name('clinics.featured');
 Route::get('/clinics/{clinicId}', [v1\ClinicController::class, 'show'])->name('clinics.show');
 

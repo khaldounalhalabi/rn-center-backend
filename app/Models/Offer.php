@@ -87,7 +87,7 @@ class Offer extends Model implements ActionsMustBeAuthorized, HasMedia
     {
         parent::booted();
         self::creating(function (Offer $offer) {
-            if ($offer->end_at->isBefore(now())) {
+            if ($offer->end_at->isBefore(now()) || $offer->start_at->isAfter(now())) {
                 $offer->is_active = false;
             } else {
                 $offer->is_active = true;

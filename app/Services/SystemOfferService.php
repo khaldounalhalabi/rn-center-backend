@@ -48,4 +48,22 @@ class SystemOfferService extends BaseService
     {
         return $this->repository->getByClinic($clinicId, $relations, $countable, $perPage);
     }
+
+    /**
+     * @param       $id
+     * @param array $relationships
+     * @param array $countable
+     * @return SystemOffer|null
+     */
+    public function view($id, array $relationships = [], array $countable = []): ?SystemOffer
+    {
+        /** @var SystemOffer $offer */
+        $offer = parent::view($id, $relationships, $countable);
+
+        if (!auth()?->user()?->isAdmin() && !$offer?->isActive()){
+            return null;
+        }
+
+        return $offer;
+    }
 }

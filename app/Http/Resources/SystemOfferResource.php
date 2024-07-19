@@ -25,6 +25,9 @@ class SystemOfferResource extends BaseResource
             'clinics'      => ClinicResource::collection($this->whenLoaded('clinics')),
             'appointments' => AppointmentResource::collection($this->whenLoaded('appointments')),
             'image'        => MediaResource::collection($this->whenLoaded('media')),
+            $this->mergeWhen(auth()?->user()?->isCustomer() && $this->relationLoaded('customers'), [
+                'can_use' => !($this->customers->firstWhere('id', auth()?->user()?->customer?->id) && !$this->allow_reuse)
+            ])
         ];
     }
 }
