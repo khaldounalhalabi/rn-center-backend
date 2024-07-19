@@ -18,6 +18,7 @@ class SpecialityResource extends BaseResource
             'name'        => $this->name,
             'description' => $this->description,
             'tags'        => $this->tags,
+            'clinics_count' => $this->whenCounted('clinics'),
             'clinics'     => ClinicResource::collection($this->whenLoaded('clinics')),
             'image'       => MediaResource::collection($this->whenLoaded('media'))
         ];

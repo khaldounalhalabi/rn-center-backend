@@ -16,4 +16,9 @@ class SpecialityService extends BaseService
     use Makable;
 
     protected string $repositoryClass = SpecialityRepository::class;
+
+    public function getOrderedByClinicsCount(array $relations = [], array $countable = []): ?array
+    {
+        return $this->repository->getOrderedByClinicsCount($relations, $countable);
+    }
 }

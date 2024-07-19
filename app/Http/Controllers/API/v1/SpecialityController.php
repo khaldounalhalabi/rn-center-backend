@@ -73,4 +73,15 @@ class SpecialityController extends ApiController
 
         return $this->noData(false);
     }
+
+    public function getOrderedByClinicsCount()
+    {
+        $data = $this->specialityService->getOrderedByClinicsCount($this->relations , $this->countable);
+
+        if ($data){
+            return $this->apiResponse(SpecialityResource::collection($data['data']) , self::STATUS_OK , __('site.get_successfully') , $data['pagination_data']);
+        }
+
+        return $this->noData();
+    }
 }

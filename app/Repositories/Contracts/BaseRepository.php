@@ -115,7 +115,7 @@ abstract class BaseRepository
      * @param array $countable
      * @return Builder|T
      */
-    public function globalQuery(array $relations = [], array $countable = []): Builder
+    public function globalQuery(array $relations = [], array $countable = [] , bool $defaultOrder = true): Builder
     {
         $query = $this->model->with($relations)->withCount($countable);
 
@@ -124,7 +124,7 @@ abstract class BaseRepository
             $query = $query->where(function ($q) {
                 return $this->addSearch($q);
             });
-            $query = $this->orderQueryBy($query);
+            $query = $this->orderQueryBy($query , $defaultOrder);
         }
 
         return $query;
@@ -231,13 +231,13 @@ abstract class BaseRepository
      * @param Builder $query
      * @return Builder|T
      */
-    private function orderQueryBy(Builder $query): Builder
+    private function orderQueryBy(Builder $query , bool $defaultOrder = true): Builder
     {
         $sortCol = request()->sort_col;
         $sortCol = $this->unsetEmptyParams($sortCol);
         $sortDir = request()->sort_dir ?? "DESC";
 
-        if (!isset($sortCol)) {
+        if (!isset($sortCol) && $defaultOrder) {
             return $query->orderBy('created_at', 'DESC');
         }
         if (in_array($sortCol, array_keys($this->customOrders))) {
