@@ -23,9 +23,7 @@ class NotBlocked
             return $this->apiResponse(null, ApiController::STATUS_UNAUTHORIZED, __('site.unauthorized_user'));
         }
 
-        if ($authUser->isBlocked()) {
-            $authUser->is_blocked = true;
-            $authUser->save();
+        if ($authUser->is_blocked) {
             return $this->apiResponse(null, ApiController::STATUS_BLOCKED, __('site.your_account_has_been_blocked'));
         }
         return $next($request);

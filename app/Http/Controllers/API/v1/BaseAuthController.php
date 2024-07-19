@@ -19,9 +19,6 @@ class BaseAuthController extends ApiController
     protected UserService $userService;
     private ?array $roles = null;
 
-    /**
-     * @throws Exception
-     */
     public function __construct()
     {
         $this->userService = UserService::make();
@@ -46,7 +43,7 @@ class BaseAuthController extends ApiController
             return $this->apiResponse(null, self::STATUS_ARCHIVED, __('site.archived'));
         }
 
-        if ($user->is_blocked) {
+        if ($user->isBlocked()) {
             return $this->apiResponse(null, self::STATUS_BLOCKED, __('site.blocked'));
         }
 
