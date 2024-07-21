@@ -167,19 +167,13 @@ class AppointmentManager
 
     private function handleAppointmentSequence(array $data, Clinic $clinic): float|int|string|null
     {
-        if (!in_array($data['status'], [
-            AppointmentStatusEnum::CANCELLED->value,
-            AppointmentStatusEnum::PENDING->value
-        ])) {
-            /** @var Appointment $lastAppointmentInDay */
-            $lastAppointmentInDay = AppointmentRepository::make()->getClinicLastAppointmentInDay($clinic->id, $data['date']);
-            if ($lastAppointmentInDay) {
-                return $lastAppointmentInDay->appointment_sequence + 1;
-            } else {
-                return 1;
-            }
+        /** @var Appointment $lastAppointmentInDay */
+        $lastAppointmentInDay = AppointmentRepository::make()->getClinicLastAppointmentInDay($clinic->id, $data['date']);
+        if ($lastAppointmentInDay) {
+            return $lastAppointmentInDay->appointment_sequence + 1;
+        } else {
+            return 1;
         }
-        return null;
     }
 
     private function getServiceCost(array $data, ?Appointment $appointment = null)

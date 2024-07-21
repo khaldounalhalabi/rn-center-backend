@@ -44,7 +44,7 @@ class SystemOfferController extends ApiController
             return $this->apiResponse(new SystemOfferResource($item), self::STATUS_OK, __('site.get_successfully'));
         }
 
-        return $this->noData(null);
+        return $this->noData();
     }
 
     public function store(StoreUpdateSystemOfferRequest $request)
@@ -66,7 +66,7 @@ class SystemOfferController extends ApiController
             return $this->apiResponse(new SystemOfferResource($item), self::STATUS_OK, __('site.update_successfully'));
         }
 
-        return $this->noData(null);
+        return $this->noData();
     }
 
     public function destroy($systemOfferId)
