@@ -203,7 +203,7 @@ abstract class BaseRepository
             $value = request($field);
             $range = is_array($value);
             $value = $this->unsetEmptyParams($value);
-            if ($range){
+            if ($range && isset($value)){
                 $value = array_values($value);
             }
 
