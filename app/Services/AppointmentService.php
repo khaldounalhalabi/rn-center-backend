@@ -80,7 +80,7 @@ class AppointmentService extends BaseService
         $appointmentManager->checkoutPreviousAppointmentsIfNewStatusIsCheckin($appointment, $prevStatus);
         $appointmentManager->handleAppointmentRemainingTime($appointment, $prevStatus);
         $appointmentManager->handleChangeAppointmentNotifications($appointment, $oldStatus);
-        AppointmentManager::make()->handleTransactionsWhenChangeStatus($appointment, $prevStatus);
+        $appointmentManager->handleTransactionsWhenChangeStatus($appointment, $prevStatus);
 
         AppointmentLogRepository::make()->create([
             'cancellation_reason' => $data['cancellation_reason'] ?? "",
@@ -162,6 +162,7 @@ class AppointmentService extends BaseService
             'affected_id'    => $appointment->customer_id,
             'event'          => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en
         ]);
+        AppointmentManager::make()->handleChangeAppointmentNotifications($appointment->status);
         return $appointment;
     }
 
