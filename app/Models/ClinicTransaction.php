@@ -37,6 +37,8 @@ class ClinicTransaction extends Model
         'notes',
         'status',
         'date',
+        'before_balance',
+        'after_balance',
     ];
 
     protected $casts = [

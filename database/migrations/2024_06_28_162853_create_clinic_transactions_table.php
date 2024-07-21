@@ -23,6 +23,8 @@ return new class extends Migration {
             $table->foreignIdFor(Appointment::class)->nullable()->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Clinic::class)->constrained()->cascadeOnDelete();
             $table->date('date')->default(now());
+            $table->double('before_balance', 15, 4)->default(0.0000);
+            $table->double('after_balance', 15, 4)->default(0.0000);
 
             $table->timestamps();
             $table->index(['created_at']);

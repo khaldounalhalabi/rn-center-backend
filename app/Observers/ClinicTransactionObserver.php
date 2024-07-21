@@ -60,6 +60,10 @@ class ClinicTransactionObserver
                     'balanceable_type' => Clinic::class,
                     'note'             => $note
                 ]);
+                $transaction->updateQuietly([
+                    'after_balance'  => $newBalance?->balance ?? 0,
+                    'before_balance' => $latestBalance?->balance ?? 0,
+                ]);
                 $this->sendBalanceChangeNotification($newBalance->balance, $clinic->id);
             }
         } /**
@@ -90,6 +94,10 @@ class ClinicTransactionObserver
                     'balanceable_type' => Clinic::class,
                     'note'             => $note
                 ]);
+                $transaction->updateQuietly([
+                    'after_balance'  => $newBalance?->balance ?? 0,
+                    'before_balance' => $latestBalance?->balance ?? 0,
+                ]);
                 $this->sendBalanceChangeNotification($newBalance->balance, $clinic->id);
             }
         } /**
@@ -109,6 +117,10 @@ class ClinicTransactionObserver
                 'balanceable_type' => Clinic::class,
                 'note'             => $note
             ]);
+            $transaction->updateQuietly([
+                'after_balance'  => $newBalance?->balance ?? 0,
+                'before_balance' => $latestBalance?->balance ?? 0,
+            ]);
             $this->sendBalanceChangeNotification($newBalance->balance, $clinic->id);
         } /**
          * the prev type is an "income" type and the current is "outcome" type
@@ -126,6 +138,10 @@ class ClinicTransactionObserver
                 'balanceable_id'   => $clinic->id,
                 'balanceable_type' => Clinic::class,
                 'note'             => $note
+            ]);
+            $transaction->updateQuietly([
+                'after_balance'  => $newBalance?->balance ?? 0,
+                'before_balance' => $latestBalance?->balance ?? 0,
             ]);
             $this->sendBalanceChangeNotification($newBalance->balance, $clinic->id);
         }
@@ -213,6 +229,10 @@ class ClinicTransactionObserver
                 'balanceable_id'   => $clinic->id,
                 'balanceable_type' => Clinic::class,
                 'note'             => $note
+            ]);
+            $transaction->updateQuietly([
+                'after_balance'  => $newBalance?->balance ?? 0,
+                'before_balance' => $latestBalance?->balance ?? 0,
             ]);
             $this->sendBalanceChangeNotification($newBalance->balance, $clinic->id);
         }

@@ -16,6 +16,8 @@ class ClinicTransactionResource extends BaseResource
         return [
             'id'                    => $this->id,
             'amount'                => $this->amount,
+            'after_balance'         => $this->after_balance,
+            'before_balance'        => $this->before_balance,
             'appointment_id'        => $this->appointment_id,
             'type'                  => $this->type,
             'clinic_id'             => $this->clinic_id,
