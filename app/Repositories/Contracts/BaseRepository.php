@@ -203,6 +203,9 @@ abstract class BaseRepository
             $value = request($field);
             $range = is_array($value);
             $value = $this->unsetEmptyParams($value);
+            if ($range){
+                $value = array_values($value);
+            }
 
             if (!$value) {
                 continue;
@@ -217,7 +220,19 @@ abstract class BaseRepository
                 $query = $query->whereRelation($relation, function (Builder $q) use ($col, $relation, $range, $field, $method, $operator, $value) {
                     $relTable = $q->getModel()->getTable();
                     if ($range) {
-                        return $q->whereBetween("$relTable.{$col}", $value);
+                        if (count($value) == 2) {
+                            if (!isset($value[0]) && isset($value[1])) {
+                                $q = $q->where("$relTable.$col", '<=', $value[1]);
+                            } elseif (isset($value[0]) && !isset($value[1])) {
+                                $q->where("$relTable.$col", '>=', $value[0]);
+                            } elseif (isset($value[0]) && isset($value[1])) {
+                                $q = $q->whereBetween("$relTable.$col", [$value[0], $value[1]])
+                                    ->orWhereBetween("$relTable.$col", [$value[1], $value[0]]);
+                            }
+                        } elseif (count($value) > 2) {
+                            $q->whereIn("$relTable.$col", array_filter($value, fn($item) => $item != null));
+                        }
+                        return $q;
                     }
                     if ($operator === "like") {
                         return $q->{$method}("$relTable.$col", $operator, "%" . $value . "%");
@@ -228,7 +243,18 @@ abstract class BaseRepository
                 $query = call_user_func($callback, $query, $value);
             } else {
                 if ($range) {
-                    $query = $query->whereBetween($this->tableName . '.' . $field, $value);
+                    if (count($value) == 2) {
+                        if (!isset($value[0]) && isset($value[1])) {
+                            $query = $query->where($this->tableName . "." . $field, '<=', $value[1]);
+                        } elseif (isset($value[0]) && !isset($value[1])) {
+                            $query->where($this->tableName . "." . $field, '>=', $value[0]);
+                        } elseif (isset($value[0]) && isset($value[1])) {
+                            $query = $query->whereBetween($this->tableName . '.' . $field, [$value[0], $value[1]])
+                                ->orWhereBetween($this->tableName . '.' . $field, [$value[1], $value[0]]);
+                        }
+                    } elseif (count($value) > 2) {
+                        $query->whereIn($this->tableName . "." . $field, array_filter($value, fn($item) => $item != null));
+                    }
                 } elseif ($operator == 'like') {
                     $query = $query->{$method}($this->tableName . '.' . $field, $operator, "%" . $value . "%");
                 } else {
