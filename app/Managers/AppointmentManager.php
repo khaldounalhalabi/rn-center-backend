@@ -122,6 +122,10 @@ class AppointmentManager
             return null;
         }
 
+        if ($appointment->status == AppointmentStatusEnum::CHECKOUT->value && $appointment->type == AppointmentTypeEnum::ONLINE->value) {
+            return null;
+        }
+
         $oldStatus = $appointment->status;
         if (isset($data['status'])
             && $data['status'] != $appointment->status
