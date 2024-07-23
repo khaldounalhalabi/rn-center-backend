@@ -162,7 +162,7 @@ class AppointmentService extends BaseService
             'affected_id'    => $appointment->customer_id,
             'event'          => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en
         ]);
-        AppointmentManager::make()->handleChangeAppointmentNotifications($appointment->status);
+        AppointmentManager::make()->handleChangeAppointmentNotifications($appointment);
         return $appointment;
     }
 
