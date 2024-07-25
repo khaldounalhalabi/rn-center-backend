@@ -17,7 +17,7 @@ use App\Models\SystemOffer;
 use App\Models\User;
 use App\Notifications\Clinic\NewOnlineAppointmentNotification;
 use App\Notifications\Customer\CustomerAppointmentChangedNotification;
-use App\Notifications\RealTime\AppointmentStatusChangeNotification;
+use App\Notifications\RealTime\AppointmentChangeNotification;
 use App\Repositories\AppointmentDeductionRepository;
 use App\Repositories\AppointmentLogRepository;
 use App\Repositories\AppointmentRepository;
@@ -365,7 +365,7 @@ class AppointmentManager
             ])
             ->setMethod(FirebaseServices::ByRole)
             ->setRole(RolesPermissionEnum::ADMIN['role'])
-            ->setNotification(AppointmentStatusChangeNotification::class)
+            ->setNotification(AppointmentChangeNotification::class)
             ->send();
 
         FirebaseServices::make()
@@ -381,7 +381,7 @@ class AppointmentManager
                     })->orWhereHas('clinicEmployee', function (Builder $builder) use ($appointment) {
                         $builder->where('clinic_id', $appointment->clinic_id);
                     })
-            )->setNotification(AppointmentStatusChangeNotification::class)
+            )->setNotification(AppointmentChangeNotification::class)
             ->send();
     }
 

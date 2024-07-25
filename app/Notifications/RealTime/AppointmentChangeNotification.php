@@ -5,7 +5,7 @@ namespace App\Notifications\RealTime;
 use App\Models\Appointment;
 use App\Notifications\BaseNotification;
 
-class AppointmentStatusChangeNotification extends BaseNotification
+class AppointmentChangeNotification extends BaseNotification
 {
     /**
      * @param array{appointment:Appointment} $data
@@ -18,6 +18,6 @@ class AppointmentStatusChangeNotification extends BaseNotification
 
         parent::__construct($newData);
         $this->setData($newData);
-        $this->setType(AppointmentStatusChangeNotification::class);
+        $this->setType(AppointmentChangeNotification::class);
     }
 }
