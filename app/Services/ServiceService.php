@@ -6,6 +6,7 @@ use App\Models\Service;
 use App\Repositories\ServiceRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -55,5 +56,13 @@ class ServiceService extends BaseService
     public function getClinicServices($clinicId, array $relations = [], array $countable = [], $perPage = 10): ?array
     {
         return $this->repository->getByClinic($clinicId, $relations, $countable, $perPage);
+    }
+
+    /**
+     * @return Collection<Service>|Service[]
+     */
+    public function getClinicServicesNames(): Collection|array
+    {
+        return $this->repository->getClinicServicesNames();
     }
 }

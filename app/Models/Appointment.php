@@ -228,14 +228,8 @@ class Appointment extends Model implements ActionsMustBeAuthorized
                 'name' => 'date',
             ],
             [
-                'name'     => 'from',
-                'method'   => 'whereTime',
-                'operator' => '>=',
-            ],
-            [
-                'name'     => 'to',
-                'method'   => 'whereTime',
-                'operator' => '<=',
+                'name'     => 'service_id',
+                'operator' => '=',
             ],
         ];
     }

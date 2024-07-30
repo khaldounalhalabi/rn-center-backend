@@ -6,6 +6,7 @@ use App\Enums\ServiceStatusEnum;
 use App\Models\Service;
 use App\Repositories\Contracts\BaseRepository;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * @extends  BaseRepository<Service>
@@ -33,10 +34,18 @@ class ServiceRepository extends BaseRepository
 
         if ($data->count()) {
             return [
-                'data'            => $data->getCollection(),
+                'data' => $data->getCollection(),
                 'pagination_data' => $this->formatPaginateData($data),
             ];
         }
         return null;
+    }
+
+    /**
+     * @return Collection<Service>|Service[]
+     */
+    public function getClinicServicesNames(): Collection|array
+    {
+        return $this->globalQuery()->select(['name', 'id'])->where('clinic_id', auth()->user()?->getClinicId())->get();
     }
 }

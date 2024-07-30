@@ -48,6 +48,7 @@ Route::apiResource('clinic-holidays', v1\ClinicHolidayController::class)
         'staff_can:manage-holidays,' . ClinicHoliday::class,
     ])->except(['index'])->names('holidays');
 
+Route::get('services/names', [v1\ServiceController::class, 'getClinicServicesNames'])->name('services.names');
 Route::get('services', [v1\ServiceController::class, 'index'])->name('service.index');
 Route::apiResource('services', v1\ServiceController::class)
     ->middleware([
