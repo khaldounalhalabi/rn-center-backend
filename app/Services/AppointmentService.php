@@ -197,4 +197,9 @@ class AppointmentService extends BaseService
 
         return $this->repository->getByCustomer($customerId, $relations, $countable);
     }
+
+    public function getClinicTodayAppointments(array $relations = [] , array $countable = []): ?array
+    {
+        return $this->repository->getTodayAppointments(auth()->user()?->getClinicId() , $relations, $countable);
+    }
 }

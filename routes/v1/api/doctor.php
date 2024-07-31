@@ -80,6 +80,7 @@ Route::delete('customers/{customerId}', [v1\CustomerController::class, 'doctorDe
         'staff_can:manage-patients,' . Customer::class,
     ])->name('customers.delete');
 
+Route::get('/appointments/today',  [v1\AppointmentController::class , 'todayAppointments'])->name('appointments.today');
 Route::get('/appointments/{appointmentId}/prescriptions', [v1\PrescriptionController::class, 'getAppointmentPrescriptions'])->name('appointments.prescriptions');
 Route::delete('/prescriptions/medicine-data/{medicineDataId}', [v1\PrescriptionController::class, 'removeMedicine'])->name('prescription.medicine.remove');
 Route::get('/customers/{customerId}/prescriptions', [v1\PrescriptionController::class, 'getCustomerPrescriptions'])->name('customer.prescriptions');

@@ -76,7 +76,7 @@ class AppointmentRepository extends BaseRepository
         if (count($data)) {
             return [
                 'data'            => $data,
-                'pagination_data' => $this->formatPaginateData($data)
+                'pagination_data' => $this->formatPaginateData($data),
             ];
         }
 
@@ -108,7 +108,7 @@ class AppointmentRepository extends BaseRepository
                         'appointment_id'      => $appointment->id,
                         'actor_id'            => auth()->user()?->id,
                         'affected_id'         => $data['customer_id'] ?? $appointment->customer_id,
-                        'event'               => "appointment status has been changed to {$data['status']} in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en
+                        'event'               => "appointment status has been changed to {$data['status']} in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en,
                     ]);
                 }
             });
@@ -125,7 +125,7 @@ class AppointmentRepository extends BaseRepository
     {
         return $this->globalQuery($relations, $countable)
             ->where('customer_id', $customerId)
-            ->when($clinicId, fn(Builder $query) => $query->where('clinic_id', $clinicId))
+            ->when($clinicId, fn (Builder $query) => $query->where('clinic_id', $clinicId))
             ->orderBy('date', 'DESC')
             ->where('status', AppointmentStatusEnum::CHECKOUT->value)
             ->first();
@@ -173,6 +173,23 @@ class AppointmentRepository extends BaseRepository
                 'pagination_data' => $this->formatPaginateData($data),
             ];
         }
+        return null;
+    }
+
+    public function getTodayAppointments($clinicId, array $relations = [], array $countable = []): ?array
+    {
+        $data = $this->globalQuery($relations, $countable)
+            ->where('date', now()->format('Y-m-d'))
+            ->where('clinic_id', $clinicId)
+            ->paginate($this->perPage);
+
+        if ($data->count()) {
+            return [
+                'data'            => $data,
+                'pagination_data' => $this->formatPaginateData($data),
+            ];
+        }
+
         return null;
     }
 }
