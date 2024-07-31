@@ -86,13 +86,14 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
         return [
             'user'              => [
                 'full_name',
+                'email',
             ],
             'user.address.city' => [
                 'name',
             ],
             'user.phoneNumbers' => [
                 'phone',
-            ]
+            ],
         ];
     }
 
@@ -376,7 +377,7 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
     protected function deductionCost(): Attribute
     {
         return Attribute::make(
-            get: fn($value, array $attributes) => (($this->activeSubscription?->deduction_cost ?? 0) * $this->appointment_cost) / 100,
+            get: fn ($value, array $attributes) => (($this->activeSubscription?->deduction_cost ?? 0) * $this->appointment_cost) / 100,
         );
     }
 
