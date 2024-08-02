@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::factory()->create(['email' => 'admin@pom.com', 'password' => '123456789'])->assignRole(RolesPermissionEnum::ADMIN['role']);
-        $user = User::factory()
+        $user1 = User::factory()
             ->has(Clinic::factory()->allRelations())
             ->create([
                 'email' => 'khaldounalhalabi42@gmail.com',
@@ -29,20 +29,20 @@ class UserSeeder extends Seeder
             ])
             ->assignRole(RolesPermissionEnum::DOCTOR['role']);
         Appointment::factory(10)->create([
-            'clinic_id' => $user?->getClinicId(),
+            'clinic_id' => $user1?->getClinicId(),
             'status' => AppointmentStatusEnum::PENDING,
             'type' => AppointmentTypeEnum::ONLINE->value,
         ]);
         ClinicSubscription::create([
             'start_time' => now()->subDay(),
             'end_time' => now()->addYear(),
-            'clinic_id' => $user->getClinicId(),
+            'clinic_id' => $user1->getClinicId(),
             'status' => SubscriptionStatusEnum::ACTIVE->value,
             'deduction_cost' => 10,
             'subscription_id' => 2,
             'type' => SubscriptionTypeEnum::MONTHLY_PAID_BASED->value,
         ]);
-        $user = User::factory()
+        $user2 = User::factory()
             ->has(Clinic::factory()->allRelations())
             ->create([
                 'email' => 'asasimr55@gmail.com',
@@ -51,7 +51,7 @@ class UserSeeder extends Seeder
             ->assignRole(RolesPermissionEnum::DOCTOR['role']);
 
         Appointment::factory(10)->create([
-            'clinic_id' => $user?->getClinicId(),
+            'clinic_id' => $user2?->getClinicId(),
             'status' => AppointmentStatusEnum::PENDING,
             'type' => AppointmentTypeEnum::ONLINE->value,
         ]);
@@ -59,7 +59,7 @@ class UserSeeder extends Seeder
         ClinicSubscription::create([
             'start_time' => now()->subDay(),
             'end_time' => now()->addYear(),
-            'clinic_id' => $user->getClinicId(),
+            'clinic_id' => $user2->getClinicId(),
             'status' => SubscriptionStatusEnum::ACTIVE->value,
             'deduction_cost' => 10,
             'subscription_id' => 2,
