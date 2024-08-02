@@ -3,6 +3,10 @@
 namespace App\Providers;
 
 use App\Channels\DataBaseChannel;
+use App\Models\ClinicTransaction;
+use App\Models\Transaction;
+use App\Observers\ClinicTransactionObserver;
+use App\Observers\TransactionObserver;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Notifications\Channels\DatabaseChannel as LaravelDatabaseChannel;
 
@@ -23,5 +27,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->app->instance(LaravelDatabaseChannel::class, new DataBaseChannel());
+        ClinicTransaction::observe(ClinicTransactionObserver::class);
+        Transaction::observe(TransactionObserver::class);
     }
 }
