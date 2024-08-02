@@ -26,8 +26,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        ClinicTransaction::observe(ClinicTransactionObserver::class);
-        Transaction::observe(TransactionObserver::class);
         $this->app->instance(LaravelDatabaseChannel::class, new DataBaseChannel());
     }
 }
