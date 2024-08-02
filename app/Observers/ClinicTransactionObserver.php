@@ -12,6 +12,7 @@ use App\Notifications\RealTime\BalanceChangeNotification;
 use App\Services\FirebaseServices;
 use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Log;
 
 class ClinicTransactionObserver implements ShouldHandleEventsAfterCommit
 {
@@ -20,8 +21,10 @@ class ClinicTransactionObserver implements ShouldHandleEventsAfterCommit
      */
     public function created(ClinicTransaction $transaction): void
     {
+        Log::info("I am In The Created event");
         $clinic = $transaction->clinic;
         if ($transaction->status == ClinicTransactionStatusEnum::DONE->value) {
+            Log::info("I am In The condition");
             $latestBalance = $clinic->balance;
             $this->handleTheAdditionOfNewBalanceRecord($transaction, $latestBalance, $clinic);
         }
@@ -218,13 +221,16 @@ class ClinicTransactionObserver implements ShouldHandleEventsAfterCommit
     private function handleTheAdditionOfNewBalanceRecord(ClinicTransaction $transaction, ?Balance $latestBalance, Clinic $clinic): void
     {
         if (in_array($transaction->type, [ClinicTransactionTypeEnum::INCOME->value, ClinicTransactionTypeEnum::DEBT_TO_ME->value])) {
+            Log::info("Its Income");
             $balance = ($latestBalance?->balance ?? 0) + $transaction->amount;
             $note = $transaction->notes;
         } elseif (in_array($transaction->type, [ClinicTransactionTypeEnum::OUTCOME->value, ClinicTransactionTypeEnum::SYSTEM_DEBT->value])) {
+            Log::info("Its Outcome");
             $balance = ($latestBalance?->balance ?? 0) - $transaction->amount;
             $note = $transaction->notes;
         }
         if (isset($balance, $note)) {
+            Log::info("creating balance");
             $newBalance = Balance::create([
                 'balance'          => $balance,
                 'balanceable_id'   => $clinic->id,
