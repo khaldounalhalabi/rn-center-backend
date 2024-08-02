@@ -21,10 +21,8 @@ class ClinicTransactionObserver implements ShouldHandleEventsAfterCommit
      */
     public function created(ClinicTransaction $transaction): void
     {
-        Log::info("I am In The Created event");
         $clinic = $transaction->clinic;
         if ($transaction->status == ClinicTransactionStatusEnum::DONE->value) {
-            Log::info("I am In The condition");
             $latestBalance = $clinic->balance;
             $this->handleTheAdditionOfNewBalanceRecord($transaction, $latestBalance, $clinic);
         }
@@ -57,12 +55,12 @@ class ClinicTransactionObserver implements ShouldHandleEventsAfterCommit
                 $balance = (($latestBalance?->balance ?? 0) + $prevTransaction['amount']) - $transaction->amount;
                 $note = "[EDIT] " . $transaction->notes;
             }
-            if (isset($balance, $note)) {
+            if (isset($balance)) {
                 $newBalance = Balance::create([
                     'balance'          => $balance,
                     'balanceable_id'   => $clinic->id,
                     'balanceable_type' => Clinic::class,
-                    'note'             => $note
+                    'note'             => $note ?? "",
                 ]);
                 $transaction->updateQuietly([
                     'after_balance'  => $newBalance?->balance ?? 0,
@@ -91,12 +89,12 @@ class ClinicTransactionObserver implements ShouldHandleEventsAfterCommit
                 $balance = ($latestBalance?->balance ?? 0) + $transaction->amount;
                 $note = "[EDIT][CHANGING_STATUS] " . $transaction->notes;
             }
-            if (isset($balance, $note)) {
+            if (isset($balance)) {
                 $newBalance = Balance::create([
                     'balance'          => $balance,
                     'balanceable_id'   => $clinic->id,
                     'balanceable_type' => Clinic::class,
-                    'note'             => $note
+                    'note'             => $note ?? "",
                 ]);
                 $transaction->updateQuietly([
                     'after_balance'  => $newBalance?->balance ?? 0,
@@ -119,7 +117,7 @@ class ClinicTransactionObserver implements ShouldHandleEventsAfterCommit
                 'balance'          => $balance,
                 'balanceable_id'   => $clinic->id,
                 'balanceable_type' => Clinic::class,
-                'note'             => $note
+                'note'             => $note ?? "",
             ]);
             $transaction->updateQuietly([
                 'after_balance'  => $newBalance?->balance ?? 0,
@@ -141,7 +139,7 @@ class ClinicTransactionObserver implements ShouldHandleEventsAfterCommit
                 'balance'          => $balance,
                 'balanceable_id'   => $clinic->id,
                 'balanceable_type' => Clinic::class,
-                'note'             => $note
+                'note'             => $note ?? "",
             ]);
             $transaction->updateQuietly([
                 'after_balance'  => $newBalance?->balance ?? 0,
@@ -167,12 +165,12 @@ class ClinicTransactionObserver implements ShouldHandleEventsAfterCommit
                 $note = "[DELETED] " . $transaction->notes ?? "";
             }
 
-            if (isset($balance, $note)) {
+            if (isset($balance)) {
                 $newBalance = Balance::create([
                     'balance'          => $balance,
-                    'note'             => $note,
+                    'note'             => $note ?? "",
                     'balanceable_type' => Clinic::class,
-                    'balanceable_id'   => $clinic->id
+                    'balanceable_id'   => $clinic->id,
                 ]);
                 $this->sendBalanceChangeNotification($newBalance->balance, $clinic->isDeductable());
             }
@@ -199,7 +197,7 @@ class ClinicTransactionObserver implements ShouldHandleEventsAfterCommit
     {
         FirebaseServices::make()
             ->setData([
-                'balance' => $balance
+                'balance' => $balance,
             ])
             ->setMethod(FirebaseServices::ToQuery)
             ->setTo(
@@ -221,21 +219,18 @@ class ClinicTransactionObserver implements ShouldHandleEventsAfterCommit
     private function handleTheAdditionOfNewBalanceRecord(ClinicTransaction $transaction, ?Balance $latestBalance, Clinic $clinic): void
     {
         if (in_array($transaction->type, [ClinicTransactionTypeEnum::INCOME->value, ClinicTransactionTypeEnum::DEBT_TO_ME->value])) {
-            Log::info("Its Income");
             $balance = ($latestBalance?->balance ?? 0) + $transaction->amount;
             $note = $transaction->notes;
         } elseif (in_array($transaction->type, [ClinicTransactionTypeEnum::OUTCOME->value, ClinicTransactionTypeEnum::SYSTEM_DEBT->value])) {
-            Log::info("Its Outcome");
             $balance = ($latestBalance?->balance ?? 0) - $transaction->amount;
             $note = $transaction->notes;
         }
-        if (isset($balance, $note)) {
-            Log::info("creating balance");
+        if (isset($balance)) {
             $newBalance = Balance::create([
                 'balance'          => $balance,
                 'balanceable_id'   => $clinic->id,
                 'balanceable_type' => Clinic::class,
-                'note'             => $note
+                'note'             => $note ?? "",
             ]);
             $transaction->updateQuietly([
                 'after_balance'  => $newBalance?->balance ?? 0,
