@@ -23,7 +23,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property Clinic           clinic
  * @property Carbon           date
  */
-#[ObservedBy([ClinicTransactionObserver::class])]
 class ClinicTransaction extends Model
 {
     use HasAbilities;

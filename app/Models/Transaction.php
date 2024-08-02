@@ -19,7 +19,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property integer actor_id
  * @property User    actor
  */
-#[ObservedBy([TransactionObserver::class])]
 class Transaction extends Model
 {
     use HasFactory;
