@@ -80,7 +80,7 @@ Route::delete('customers/{customerId}', [v1\CustomerController::class, 'doctorDe
         'staff_can:manage-patients,' . Customer::class,
     ])->name('customers.delete');
 
-Route::get('/appointments/today',  [v1\AppointmentController::class , 'todayAppointments'])->name('appointments.today');
+Route::get('/appointments/today', [v1\AppointmentController::class, 'todayAppointments'])->name('appointments.today');
 Route::get('/appointments/{appointmentId}/prescriptions', [v1\PrescriptionController::class, 'getAppointmentPrescriptions'])->name('appointments.prescriptions');
 Route::delete('/prescriptions/medicine-data/{medicineDataId}', [v1\PrescriptionController::class, 'removeMedicine'])->name('prescription.medicine.remove');
 Route::get('/customers/{customerId}/prescriptions', [v1\PrescriptionController::class, 'getCustomerPrescriptions'])->name('customer.prescriptions');
@@ -130,3 +130,5 @@ Route::get('appointment-deductions', [v1\AppointmentDeductionController::class, 
     ->name('appointment.deductions.index');
 Route::get('appointment-deductions/{appointmentDeduction}', [v1\AppointmentDeductionController::class, 'show'])
     ->name('appointment.deductions.show');
+
+Route::get('/statistics/index-page', [v1\StatisticsController::class, 'doctorIndexStatistics'])->name('doctor.index.statistics');
