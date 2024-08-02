@@ -10,9 +10,10 @@ use App\Models\ClinicTransaction;
 use App\Models\User;
 use App\Notifications\RealTime\BalanceChangeNotification;
 use App\Services\FirebaseServices;
+use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 use Illuminate\Database\Eloquent\Builder;
 
-class ClinicTransactionObserver
+class ClinicTransactionObserver implements ShouldHandleEventsAfterCommit
 {
     /**
      * Handle the ClinicTransaction "created" event.

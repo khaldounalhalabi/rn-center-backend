@@ -9,8 +9,9 @@ use App\Models\Transaction;
 use App\Models\User;
 use App\Notifications\RealTime\BalanceChangeNotification;
 use App\Services\FirebaseServices;
+use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 
-class TransactionObserver
+class TransactionObserver implements ShouldHandleEventsAfterCommit
 {
     /**
      * Handle the Transaction "created" event.
@@ -31,7 +32,7 @@ class TransactionObserver
                 'balance'          => $balance,
                 'note'             => $note,
                 'balanceable_type' => User::class,
-                'balanceable_id'   => $user->id
+                'balanceable_id'   => $user->id,
             ]);
             $this->sendBalanceChangeNotification($newBalance->balance);
         }
@@ -77,7 +78,7 @@ class TransactionObserver
                 'balance'          => $balance,
                 'note'             => $note,
                 'balanceable_type' => User::class,
-                'balanceable_id'   => $user->id
+                'balanceable_id'   => $user->id,
             ]);
             $this->sendBalanceChangeNotification($newBalance->balance);
         }
@@ -104,7 +105,7 @@ class TransactionObserver
                 'balance'          => $balance,
                 'note'             => $note,
                 'balanceable_type' => User::class,
-                'balanceable_id'   => $user->id
+                'balanceable_id'   => $user->id,
             ]);
             $this->sendBalanceChangeNotification($newBalance->balance);
         }
@@ -130,7 +131,7 @@ class TransactionObserver
     {
         FirebaseServices::make()
             ->setData([
-                'balance' => $balance
+                'balance' => $balance,
             ])->setMethod(FirebaseServices::ByRole)
             ->setRole(RolesPermissionEnum::ADMIN['role'])
             ->setNotification(BalanceChangeNotification::class)
