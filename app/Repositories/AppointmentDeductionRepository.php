@@ -8,6 +8,7 @@ use App\Repositories\Contracts\BaseRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
@@ -19,10 +20,18 @@ class AppointmentDeductionRepository extends BaseRepository
 
     public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
     {
-        return parent::globalQuery($relations, $countable)
+        $query =  parent::globalQuery($relations, $countable)
             ->when(auth()->user()?->isClinic(), function (Builder $query) {
                 $query->where('clinic_id', auth()->user()?->getClinicId());
             });
+
+        Log::info("Query Raw Sql");
+        Log::info($query->toRawSql());
+
+        Log::info("Query To Sql");
+        Log::info($query->toSql());
+
+        return $query;
     }
 
     public function export(array $ids = null): BinaryFileResponse
