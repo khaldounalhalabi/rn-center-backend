@@ -47,18 +47,19 @@ class BaseAuthController extends ApiController
             return $this->apiResponse(null, self::STATUS_BLOCKED, __('site.blocked'));
         }
 
-        if ($user->isClinic() && !$user->clinic?->hasActiveSubscription()) {
+        if (($user->isDoctor() && !$user->clinic?->hasActiveSubscription())
+            || ($user?->isClinicEmployee() && !$user?->clinicEmployee?->clinic?->hasActiveSubscription())) {
             return $this->apiResponse(null, self::STATUS_EXPIRED_SUBSCRIPTION, __('site.expired_subscription'));
         }
 
-        if ($user->isCustomer() && !$user->hasVerifiedEmail()){
-            return $this->apiResponse(null , self::STATUS_UN_VERIFIED_EMAIL , __('site.un_verified_email'));
+        if ($user->isCustomer() && !$user->hasVerifiedEmail()) {
+            return $this->apiResponse(null, self::STATUS_UN_VERIFIED_EMAIL, __('site.un_verified_email'));
         }
 
         return $this->apiResponse([
             'user'          => new UserResource($user),
             'token'         => $token,
-            'refresh_token' => $refresh_token
+            'refresh_token' => $refresh_token,
         ], self::STATUS_OK, __('site.successfully_logged_in'));
     }
 
@@ -76,7 +77,7 @@ class BaseAuthController extends ApiController
             return $this->apiResponse([
                 'user'          => new UserResource($user),
                 'token'         => $token,
-                'refresh_token' => $refresh_token
+                'refresh_token' => $refresh_token,
             ], self::STATUS_OK, __('site.token_refreshed_successfully'));
         }
 
@@ -90,7 +91,7 @@ class BaseAuthController extends ApiController
         return $this->apiResponse([
             'user'          => new UserResource($user),
             'token'         => $token,
-            'refresh_token' => $refresh_token
+            'refresh_token' => $refresh_token,
         ], self::STATUS_OK, __('site.registered_successfully'));
     }
 
@@ -127,7 +128,7 @@ class BaseAuthController extends ApiController
             return $this->apiResponse([
                 'user'          => new UserResource($user),
                 'token'         => $token,
-                'refresh_token' => $refresh_token
+                'refresh_token' => $refresh_token,
             ], self::STATUS_OK, __('site.update_successfully'));
         }
 
@@ -165,11 +166,11 @@ class BaseAuthController extends ApiController
             $user->save();
 
             return response()->json([
-                'message' => 'Token Stored Successfully'
+                'message' => 'Token Stored Successfully',
             ]);
         } catch (Exception) {
             return response()->json([
-                'message' => "There Is Been An Error Registering FCM Token"
+                'message' => "There Is Been An Error Registering FCM Token",
             ], 403);
         }
     }
@@ -177,7 +178,7 @@ class BaseAuthController extends ApiController
     public function getUserFcmToken()
     {
         return $this->apiResponse([
-            'fcm_token' => auth()->user()?->fcm_token
+            'fcm_token' => auth()->user()?->fcm_token,
         ], self::STATUS_OK, __('site.success'));
     }
 }
