@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\AppointmentDeduction\BulkToggleStatusRequest;
 use App\Http\Requests\AppointmentDeduction\StoreUpdateAppointmentDeductionRequest;
 use App\Http\Resources\AppointmentDeductionResource;
 use App\Models\AppointmentDeduction;
@@ -110,7 +111,7 @@ class AppointmentDeductionController extends ApiController
     public function clinicSummary()
     {
         return $this->apiResponse(
-            $this->appointmentDeductionService->clinicSummary() ,
+            $this->appointmentDeductionService->clinicSummary(),
             self::STATUS_OK,
             __('site.get_successfully')
         );
@@ -118,9 +119,9 @@ class AppointmentDeductionController extends ApiController
 
     public function all()
     {
-        $data = $this->appointmentDeductionService->index($this->relations , $this->countable);
-        if ($data){
-            return $this->apiResponse(AppointmentDeductionResource::collection($data) , self::STATUS_OK , __('site.get_successfully'));
+        $data = $this->appointmentDeductionService->index($this->relations, $this->countable);
+        if ($data) {
+            return $this->apiResponse(AppointmentDeductionResource::collection($data), self::STATUS_OK, __('site.get_successfully'));
         }
 
         return $this->noData();
@@ -130,8 +131,14 @@ class AppointmentDeductionController extends ApiController
     {
         return $this->apiResponse(
             $this->appointmentDeductionService->adminSummary(),
-            self::STATUS_OK ,
+            self::STATUS_OK,
             __('site.get_successfully')
         );
+    }
+
+    public function bulkToggleStatus(BulkToggleStatusRequest $request)
+    {
+        $this->appointmentDeductionService->bulkToggleStatus($request->validated());
+        return $this->apiResponse(true, self::STATUS_OK, __('site.update_successfully'));
     }
 }

@@ -8,6 +8,7 @@ use App\Repositories\Contracts\BaseRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection as CollectionAlias;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
@@ -20,7 +21,7 @@ class AppointmentDeductionRepository extends BaseRepository
 
     public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
     {
-        $query =  parent::globalQuery($relations, $countable)
+        $query = parent::globalQuery($relations, $countable)
             ->when(auth()->user()?->isClinic(), function (Builder $query) {
                 $query->where('clinic_id', auth()->user()?->getClinicId());
             });
@@ -98,5 +99,15 @@ class AppointmentDeductionRepository extends BaseRepository
         return $this->globalQuery($relations, $countable)
             ->where('status', AppointmentDeductionStatusEnum::PENDING->value)
             ->get();
+    }
+
+    public function bulk(\Closure $callable, array $ids = []): void
+    {
+        $this->globalQuery()->whereIn('id', $ids)
+            ->chunk(10, function (CollectionAlias $deductions) use ($callable) {
+                $deductions->each(function (AppointmentDeduction $deduction) use ($callable) {
+                    $callable($deduction);
+                });
+            });
     }
 }

@@ -59,7 +59,7 @@ class AppointmentDeductionService extends BaseService
             TransactionRepository::make()->delete($deduction->transaction_id);
             $deduction->update([
                 'status'         => AppointmentDeductionStatusEnum::PENDING->value,
-                'transaction_id' => null
+                'transaction_id' => null,
             ]);
             $deduction->clinicTransaction->update([
                 'status' => ClinicTransactionStatusEnum::PENDING->value,
@@ -107,5 +107,44 @@ class AppointmentDeductionService extends BaseService
         $data['balance'] = auth()->user()?->balance()?->balance ?? 0;
 
         return $data;
+    }
+
+    public function bulkToggleStatus(array $data): void
+    {
+        $status = $data['status'];
+
+        $this->repository->bulk(function (AppointmentDeduction $deduction) use ($status) {
+            if (
+                $deduction->status == AppointmentDeductionStatusEnum::PENDING->value
+                && $status == AppointmentDeductionStatusEnum::DONE->value
+            ) {
+                $adminTransaction = TransactionRepository::make()->create([
+                    'amount'      => abs($deduction->amount),
+                    'date'        => now(),
+                    'type'        => $deduction->amount > 0 ? TransactionTypeEnum::INCOME->value : TransactionTypeEnum::OUTCOME->value,
+                    'actor_id'    => auth()->user()?->id,
+                    'description' => "An appointment deduction for the appointment with id : $deduction->appointment_id in {$deduction->clinic?->name}",
+                ]);
+                $deduction->update([
+                    'status'         => AppointmentDeductionStatusEnum::DONE->value,
+                    'transaction_id' => $adminTransaction->id,
+                ]);
+                $deduction->clinicTransaction->update([
+                    'status' => ClinicTransactionStatusEnum::DONE->value,
+                ]);
+            } elseif (
+                $deduction->status == AppointmentDeductionStatusEnum::DONE->value
+                && $status == AppointmentDeductionStatusEnum::PENDING->value
+            ) {
+                TransactionRepository::make()->delete($deduction->transaction_id);
+                $deduction->update([
+                    'status'         => AppointmentDeductionStatusEnum::PENDING->value,
+                    'transaction_id' => null,
+                ]);
+                $deduction->clinicTransaction->update([
+                    'status' => ClinicTransactionStatusEnum::PENDING->value,
+                ]);
+            }
+        }, $data['ids']);
     }
 }
