@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Subscription;
 
+use App\Enums\SubscriptionPeriodUnitEnum;
 use Closure;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -35,6 +36,7 @@ class StoreUpdateSubscriptionRequest extends FormRequest
                         $fail($attribute . ' must not be less than -1.');
                     }
                 }],
+                'period_unit'  => ['required', Rule::in(SubscriptionPeriodUnitEnum::getAllValues())],
                 'allow_period' => ['required', 'numeric', 'min:0'],
                 'cost'         => ['required', 'numeric', 'min:0'],
             ];
@@ -53,6 +55,7 @@ class StoreUpdateSubscriptionRequest extends FormRequest
                     $fail($attribute . ' must not be less than -1.');
                 }
             }],
+            'period_unit'  => ['required', Rule::in(SubscriptionPeriodUnitEnum::getAllValues())],
             'allow_period' => ['nullable', 'numeric', 'min:0'],
             'cost'         => ['nullable', 'numeric', 'min:0'],
         ];

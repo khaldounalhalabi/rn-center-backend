@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\SubscriptionPeriodUnitEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,6 +16,7 @@ return new class () extends Migration {
             $table->string('name')->unique();
             $table->text('description')->nullable();
             $table->integer('period')->default(1);
+            $table->string('period_unit')->default(SubscriptionPeriodUnitEnum::MONTH->value);
             $table->integer('allow_period')->default(0);
             $table->unsignedDouble("cost", 15, 4)->default(0.0000);
             $table->timestamps();

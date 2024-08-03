@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\SubscriptionPeriodUnitEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -21,6 +22,7 @@ class Subscription extends Model
         'name',
         'description',
         'period',
+        'period_unit',
         'allow_period',
         'cost',
     ];
@@ -43,12 +45,22 @@ class Subscription extends Model
             'description',
             'period',
             'allow_period',
-            'cost'
+            'cost',
         ];
     }
 
     public function clinics(): BelongsToMany
     {
         return $this->belongsToMany(Clinic::class);
+    }
+
+    public function dayUnit(): bool
+    {
+        return $this->period_unit == SubscriptionPeriodUnitEnum::DAY->value;
+    }
+
+    public function monthUnit(): bool
+    {
+        return $this->period_unit == SubscriptionPeriodUnitEnum::MONTH->value;
     }
 }

@@ -18,6 +18,7 @@ class SubscriptionResource extends BaseResource
             'name'         => $this->name,
             'description'  => $this->description,
             'period'       => $this->period,
+            'period_unit'  => $this->period_unit,
             'allow_period' => $this->allow_period,
             'cost'         => $this->cost,
             'clinics'      => ClinicResource::collection($this->whenLoaded('clinics')),

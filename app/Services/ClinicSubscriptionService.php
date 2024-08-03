@@ -43,9 +43,12 @@ class ClinicSubscriptionService extends BaseService
         }
 
         $data['start_time'] = now();
-        $data['end_time'] = $subscription->period < 0
+        $data['end_time'] = $subscription->period == -1
             ? now()->addYears(200)  // lifetime
-            : now()->addMonths($subscription->period);
+            : ($subscription->dayUnit()
+                ? now()->addDays($subscription->period)
+                : now()->addMonths($subscription->period)
+            );
 
         $data['status'] = SubscriptionStatusEnum::ACTIVE->value;
 
@@ -70,8 +73,11 @@ class ClinicSubscriptionService extends BaseService
             }
 
             $data['ends_at'] = $subscription->period == -1
-                ? $clinicSubscription->start_time->addYears(1000)  // lifetime
-                : $clinicSubscription->start_time->addMonths($subscription->period);
+                ? $clinicSubscription->start_time->addYears(200)  // lifetime
+                : ($subscription->dayUnit()
+                    ? $clinicSubscription->start_time->addDays($subscription->period)
+                    : $clinicSubscription->start_time->addMonths($subscription->period)
+                );
 
             $data['status'] = $data['ends_at']->isAfter(now())
                 ? SubscriptionStatusEnum::ACTIVE->value
