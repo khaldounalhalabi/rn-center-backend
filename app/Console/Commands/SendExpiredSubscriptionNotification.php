@@ -30,7 +30,7 @@ class SendExpiredSubscriptionNotification extends Command
      */
     public function handle()
     {
-        $before = (int)Setting::where('label', 'days_before_notify_for_expiration')->first()?->value ?? 7;
+        $before = intval(Setting::where('label', 'days_before_notify_for_expiration')->first()?->value ?? 7);
         FirebaseServices::make()
             ->setMethod(FirebaseServices::ToQuery)
             ->setTo(
