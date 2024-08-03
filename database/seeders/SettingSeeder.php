@@ -24,5 +24,9 @@ class SettingSeeder extends Seeder
             'label' => 'contact_number_2',
             'value' => '07987654321',
         ]);
+        Setting::create([
+            'label' => 'days_before_notify_for_expiration',
+            'value' => 5
+        ]);
     }
 }
