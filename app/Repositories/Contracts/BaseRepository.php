@@ -132,7 +132,9 @@ abstract class BaseRepository
         $query = $this->model->with($relations)->withCount($countable);
 
         if (request()->method() == 'GET') {
-            $query = $this->filterFields($query);
+            $query = $query->where(function (Builder $builder) {
+                return $this->filterFields($builder);
+            });
             $query = $query->where(function ($q) {
                 return $this->addSearch($q);
             });
@@ -203,7 +205,7 @@ abstract class BaseRepository
             $value = request($field);
             $range = is_array($value);
             $value = $this->unsetEmptyParams($value);
-            if ($range && isset($value)){
+            if ($range && isset($value)) {
                 $value = array_values($value);
             }
 
@@ -230,7 +232,7 @@ abstract class BaseRepository
                                     ->orWhereBetween("$relTable.$col", [$value[1], $value[0]]);
                             }
                         } elseif (count($value) > 2) {
-                            $q->whereIn("$relTable.$col", array_filter($value, fn($item) => $item != null));
+                            $q->whereIn("$relTable.$col", array_filter($value, fn ($item) => $item != null));
                         }
                         return $q;
                     }
@@ -253,7 +255,7 @@ abstract class BaseRepository
                                 ->orWhereBetween($this->tableName . '.' . $field, [$value[1], $value[0]]);
                         }
                     } elseif (count($value) > 2) {
-                        $query->whereIn($this->tableName . "." . $field, array_filter($value, fn($item) => $item != null));
+                        $query->whereIn($this->tableName . "." . $field, array_filter($value, fn ($item) => $item != null));
                     }
                 } elseif ($operator == 'like') {
                     $query = $query->{$method}($this->tableName . '.' . $field, $operator, "%" . $value . "%");
