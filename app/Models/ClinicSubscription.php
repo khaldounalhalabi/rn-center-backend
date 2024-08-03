@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\SubscriptionStatusEnum;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,12 +19,12 @@ class ClinicSubscription extends Model
         'end_time',
         'status',
         'deduction_cost',
-        'type'
+        'type',
     ];
 
     protected $casts = [
         'start_time' => 'datetime',
-        'end_time'   => 'datetime'
+        'end_time'   => 'datetime',
     ];
 
     public function clinic(): BelongsTo
@@ -41,5 +43,16 @@ class ClinicSubscription extends Model
             return $this->end_time->diffInDays(now());
         }
         return null;
+    }
+
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->where('end_time', '>', now()->format('Y-m-d'))
+            ->where('status', SubscriptionStatusEnum::ACTIVE->value);
+    }
+
+    public function scopeInActive(Builder $query): Builder
+    {
+        return $query->where('end_time' , '<=' , now()->format('Y-m-d'));
     }
 }

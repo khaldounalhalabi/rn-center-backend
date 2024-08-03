@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\SubscriptionStatusEnum;
 use App\Models\Clinic;
 
 /** @mixin Clinic */
@@ -29,11 +30,6 @@ class ClinicResource extends BaseResource
             'created_at'                   => $this->created_at->format('Y-m-d'),
             'updated_at'                   => $this->updated_at->format('Y-m-d'),
             'approximate_appointment_time' => $this->approximate_appointment_time,
-            'total_appointments'           => $this->whenCounted('appointments'),
-            'today_appointments_count'     => $this->whenCounted('todayAppointments'),
-            'upcoming_appointments_count'  => $this->whenCounted('upcomingAppointments'),
-            'last_subscription'            => new ClinicSubscriptionResource($this->whenLoaded('lastSubscription')),
-            'active_subscription'          => new ClinicSubscriptionResource($this->whenLoaded('activeSubscription')),
             'hospital'                     => new HospitalResource($this->whenLoaded('hospital')),
             'user'                         => new UserResource($this->whenLoaded('user')),
             'schedules'                    => ScheduleResource::collection($this->whenLoaded('schedules')),
@@ -42,25 +38,32 @@ class ClinicResource extends BaseResource
             'services'                     => ServiceResource::collection($this->whenLoaded('services')),
             'appointments'                 => AppointmentResource::collection($this->whenLoaded('appointments')),
             'work_gallery'                 => MediaResource::collection($this->whenLoaded('media')),
-            'medicines'                    => MedicineResource::collection($this->whenLoaded('medicines')),
-            'prescriptions'                => PrescriptionResource::collection($this->whenLoaded('prescriptions')),
             'offers'                       => OfferResource::collection($this->whenLoaded('offers')),
-            'patientProfiles'              => PatientProfileResource::collection($this->whenLoaded('patientProfiles')),
-            'clinicEmployees'              => ClinicEmployeeResource::collection($this->whenLoaded('clinicEmployees')),
             'systemOffers'                 => SystemOfferResource::collection($this->whenLoaded('systemOffers')),
-            'clinic_transactions'          => ClinicTransactionResource::collection($this->whenLoaded('clinicTransactions')),
-            'appointment_deductions'       => AppointmentDeductionResource::collection($this->whenLoaded('appointmentDeductions')),
             'reviews'                      => ReviewResource::collection($this->whenLoaded('reviews')),
             $this->mergeWhen(auth()?->user()?->isCustomer() && $this->relationLoaded('followers'), [
                 'is_followed' => (bool)$this->followers->where('customer_id', auth()?->user()?->customer?->id)->count(),
-
             ]),
             $this->mergeWhen($this->relationLoaded('reviews'), [
                 'rate' => $this->reviews->count() > 0 ? round($this->reviews->sum('rate') / $this->reviews->count(), 1) : 0,
             ]),
             $this->mergeWhen($this->score, [
                 'featured_score' => round($this->score, 1),
-            ])
+            ]),
+            $this->mergeWhen(auth()?->user()?->isAdmin() || auth()?->user()?->isClinic(), [
+                'total_appointments'          => $this->whenCounted('appointments'),
+                'today_appointments_count'    => $this->whenCounted('todayAppointments'),
+                'upcoming_appointments_count' => $this->whenCounted('upcomingAppointments'),
+                'last_subscription'           => new ClinicSubscriptionResource($this->whenLoaded('lastSubscription')),
+                'active_subscription'         => new ClinicSubscriptionResource($this->whenLoaded('activeSubscription')),
+                'appointment_deductions'      => AppointmentDeductionResource::collection($this->whenLoaded('appointmentDeductions')),
+                'patientProfiles'             => PatientProfileResource::collection($this->whenLoaded('patientProfiles')),
+                'clinicEmployees'             => ClinicEmployeeResource::collection($this->whenLoaded('clinicEmployees')),
+                'prescriptions'               => PrescriptionResource::collection($this->whenLoaded('prescriptions')),
+                'medicines'                   => MedicineResource::collection($this->whenLoaded('medicines')),
+                'clinic_transactions'         => ClinicTransactionResource::collection($this->whenLoaded('clinicTransactions')),
+                'subscription_status'         => $this->activeSubscription ? SubscriptionStatusEnum::ACTIVE->value : SubscriptionStatusEnum::IN_ACTIVE->value,
+            ]),
         ];
     }
 }
