@@ -74,7 +74,9 @@ Route::apiResource('prescriptions', v1\PrescriptionController::class)->names('pr
 
 Route::apiResource('/blocked-items', v1\BlockedItemController::class)->names('blocked.items');
 
-Route::apiResource('/subscriptions', v1\SubscriptionController::class)->names('subscriptions');
+Route::apiResource('/subscriptions', v1\SubscriptionController::class)
+    ->except(['update'])
+    ->names('subscriptions');
 
 Route::post('/enquiries/{enquiryId}/reply', [v1\EnquiryController::class, 'reply'])->name('enquiries.reply');
 Route::apiResource('/enquiries', v1\EnquiryController::class)

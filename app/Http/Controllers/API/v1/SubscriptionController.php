@@ -54,16 +54,16 @@ class SubscriptionController extends ApiController
         return $this->apiResponse(null, self::STATUS_OK, __('site.something_went_wrong'));
     }
 
-    public function update($subscriptionId, StoreUpdateSubscriptionRequest $request)
-    {
-        /** @var Subscription|null $item */
-        $item = $this->subscriptionService->update($request->validated(), $subscriptionId, $this->relations);
-        if ($item) {
-            return $this->apiResponse(new SubscriptionResource($item), self::STATUS_OK, __('site.update_successfully'));
-        }
-
-        return $this->noData(null);
-    }
+//    public function update($subscriptionId, StoreUpdateSubscriptionRequest $request)
+//    {
+//        /** @var Subscription|null $item */
+//        $item = $this->subscriptionService->update($request->validated(), $subscriptionId, $this->relations);
+//        if ($item) {
+//            return $this->apiResponse(new SubscriptionResource($item), self::STATUS_OK, __('site.update_successfully'));
+//        }
+//
+//        return $this->noData(null);
+//    }
 
     public function destroy($subscriptionId)
     {

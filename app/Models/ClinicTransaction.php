@@ -42,7 +42,7 @@ class ClinicTransaction extends Model
 
     protected $casts = [
         'amount' => 'double',
-        'date'   => 'date',
+        'date'   => 'datetime',
     ];
 
     public function exportable(): array

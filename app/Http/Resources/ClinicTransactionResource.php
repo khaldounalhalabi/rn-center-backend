@@ -23,7 +23,7 @@ class ClinicTransactionResource extends BaseResource
             'clinic_id'             => $this->clinic_id,
             'notes'                 => $this->notes,
             'status'                => $this->status,
-            'date'                  => $this->date->format('Y-m-d'),
+            'date'                  => $this->date->format('Y-m-d H:i'),
             'appointment'           => new AppointmentResource($this->whenLoaded('appointment')),
             'clinic'                => new ClinicResource($this->whenLoaded('clinic')),
             'appointment_deduction' => new AppointmentDeductionResource($this->whenLoaded('appointmentDeduction')),

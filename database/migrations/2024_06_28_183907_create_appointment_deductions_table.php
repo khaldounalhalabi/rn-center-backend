@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->id();
             $table->double('amount', 15, 4)->default(0.0000);
             $table->string('status')->default(AppointmentDeductionStatusEnum::PENDING->value);
-            $table->date('date')->default(now());
+            $table->dateTime('date')->default(now());
             $table->foreignIdFor(ClinicTransaction::class)->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(Appointment::class)->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(Clinic::class)->nullable()->constrained()->nullOnDelete();

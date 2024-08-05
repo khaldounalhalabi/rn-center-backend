@@ -28,7 +28,7 @@ class StoreUpdateAppointmentDeductionRequest extends FormRequest
                 'clinic_transaction_id' => ['required', 'numeric', 'exists:clinic_transactions,id'],
                 'appointment_id'        => ['required', 'numeric', 'exists:appointments,id'],
                 'clinic_id'             => ['required', 'numeric', 'exists:clinics,id'],
-                'date'                  => ['required', 'date'],
+                'date'                  => ['required', 'date', 'date_format:Y-m-d H:i'],
             ];
         }
 

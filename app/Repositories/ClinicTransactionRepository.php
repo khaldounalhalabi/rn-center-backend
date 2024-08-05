@@ -40,6 +40,7 @@ class ClinicTransactionRepository extends BaseRepository
     }
 
     /**
+     * @param       $clinicId
      * @param array $relations
      * @param array $countable
      * @return Collection<ClinicTransaction>|ClinicTransaction[]
