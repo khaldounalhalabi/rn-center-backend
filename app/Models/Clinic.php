@@ -230,7 +230,10 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
     {
         $date = Carbon::parse($date);
 
-        return !($date->subDays($this->appointment_day_range)->isAfter(now()));
+        return !($date->subDays(($this->appointment_day_range ?? 0) > 0
+            ? $this->appointment_day_range - 1
+            : 0
+        )->isAfter(now()));
     }
 
     public function hasHolidayIn(string $date): bool
