@@ -199,7 +199,16 @@ class AppointmentRepository extends BaseRepository
         return $this->globalQuery($relations, $countable)
             ->validNotEnded()
             ->where('clinic_id', $clinic->id)
-            ->whereBetween('date', [now()->format('Y-m-d'), now()->addDays($clinic->appointment_day_range ?? 0)->format('Y-m-d')])
+            ->whereBetween(
+                'date',
+                [
+                    now()->format('Y-m-d'),
+                    now()->addDays(
+                        ($clinic->appointment_day_range ?? 0) > 0
+                            ? $clinic->appointment_day_range - 1
+                            : 0
+                    )->format('Y-m-d'),
+                ])
             ->get();
     }
 }
