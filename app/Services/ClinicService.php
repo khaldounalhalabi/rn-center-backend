@@ -8,6 +8,7 @@ use App\Models\Appointment;
 use App\Models\Clinic;
 use App\Models\User;
 use App\Repositories\AddressRepository;
+use App\Repositories\AppointmentRepository;
 use App\Repositories\ClinicRepository;
 use App\Repositories\PhoneNumberRepository;
 use App\Repositories\UserRepository;
@@ -148,12 +149,20 @@ class ClinicService extends BaseService
     public function getClinicAvailableTimes($clinicId): array
     {
         $clinic = $this->repository->find($clinicId, ['validAppointments', 'schedules', 'validHolidays']);
-        $bookedTimes = $clinic->validAppointments->groupBy('date')
-            ->map(fn(Collection $appointments, $index) => [
-                'date'  => Carbon::parse($index)->format('Y-m-d'),
-                'times' => $appointments->map(fn(Appointment $appointment) => [
-                ]),
-            ])->values();
+
+        if (!$clinic) {
+            return [
+                'booked_times'    => [],
+                'clinic_schedule' => [],
+                'clinic_holidays' => [],
+            ];
+        }
+
+        $bookedTimes = AppointmentRepository::make()->getByClinicDayRange($clinic)
+        ->groupBy('date')
+        ->map(function (Collection $appointments) {
+            return $appointments->count();
+        });
 
         $schedules = $clinic->schedules->groupBy('day_of_week');
         $holidays = $clinic->validHolidays;
@@ -161,7 +170,7 @@ class ClinicService extends BaseService
         return [
             'booked_times'    => $bookedTimes,
             'clinic_schedule' => $schedules,
-            'clinic_holidays' => $holidays
+            'clinic_holidays' => $holidays,
         ];
     }
 

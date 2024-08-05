@@ -6,6 +6,7 @@ use App\Enums\AppointmentStatusEnum;
 use App\Excel\BaseExporter;
 use App\Models\Appointment;
 use App\Models\AppointmentLog;
+use App\Models\Clinic;
 use App\Repositories\Contracts\BaseRepository;
 use Carbon\Carbon;
 use DateTime;
@@ -191,5 +192,14 @@ class AppointmentRepository extends BaseRepository
         }
 
         return null;
+    }
+
+    public function getByClinicDayRange(Clinic $clinic, array $relations = [], array $countable = []): array|\Illuminate\Database\Eloquent\Collection|\LaravelIdea\Helper\App\Models\_IH_Appointment_C
+    {
+        return $this->globalQuery($relations, $countable)
+            ->validNotEnded()
+            ->where('clinic_id', $clinic->id)
+            ->whereBetween('date', [now()->format('Y-m-d'), now()->addDays($clinic->appointment_day_range ?? 0)->format('Y-m-d')])
+            ->get();
     }
 }
