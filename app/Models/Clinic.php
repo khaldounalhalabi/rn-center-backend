@@ -223,7 +223,7 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
         $this->loadCount('validAppointments');
 
         // checking if the current clinic reached the maximum appointments per day
-        return !($this->valid_appointments_count >= $this->max_appointments);
+        return !($this->validAppointments()->count() >= $this->max_appointments);
     }
 
     public function validAppointmentDateTime(string $date): bool
