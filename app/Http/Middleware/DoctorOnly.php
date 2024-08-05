@@ -18,11 +18,19 @@ class DoctorOnly
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->user()?->isClinic()) {
+        $user = auth()->user();
+        $isDoctor = $user?->isDoctor();
+        $isEmployee = $user?->isClinicEmployee();
+
+        if ((!$user) || (!$isDoctor && !$isEmployee)) {
             return $this->apiResponse(null, ApiController::STATUS_UNAUTHORIZED, __('site.unauthorized_user'));
         }
 
-        if (!auth()->user()?->clinic->hasActiveSubscription()) {
+        if ($isDoctor && !$user->clinic?->hasActiveSubscription()){
+            return $this->apiResponse(null, ApiController::STATUS_EXPIRED_SUBSCRIPTION, __('site.expired_subscription'));
+        }
+
+        if ($isEmployee && !$user->clinicEmployee?->clinic?->hasActiveSubscription()){
             return $this->apiResponse(null, ApiController::STATUS_EXPIRED_SUBSCRIPTION, __('site.expired_subscription'));
         }
 
