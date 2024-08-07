@@ -135,7 +135,7 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
                     request('subscription_status') == SubscriptionStatusEnum::ACTIVE->value, function (Builder $active) {
                     $active->whereHas('activeSubscription');
                 })->when(request('subscription_status') == SubscriptionStatusEnum::IN_ACTIVE->value, function (Builder $inActive) {
-                    $inActive->whereDoesntHave('lastSubscription');
+                    $inActive->whereDoesntHave('activeSubscription');
                 }),
             ],
         ];
