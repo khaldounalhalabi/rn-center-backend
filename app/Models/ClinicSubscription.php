@@ -37,7 +37,7 @@ class ClinicSubscription extends Model
         return $this->belongsTo(Subscription::class);
     }
 
-    public function remainingTime(): ?string
+    public function remainingTime(): string
     {
         return str_replace(['before', 'after'], '', $this->end_time->diffForHumans(now()));
     }
