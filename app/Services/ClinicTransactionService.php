@@ -58,10 +58,10 @@ class ClinicTransactionService extends BaseService
             return [];
         }
 
-        $data['clinic_balance'] = auth()->user()?->clinic?->balance?->balance ?? 0;
+        $data['clinic_balance'] = auth()->user()?->getClinic()?->balance?->balance ?? 0;
         $data['pending_amount'] = $this->repository
             ->getPendingTransactions(auth()->user()?->getClinicId())
-            ->sum(fn(ClinicTransaction $clinicTransaction) => $clinicTransaction->isMinus()
+            ->sum(fn (ClinicTransaction $clinicTransaction) => $clinicTransaction->isMinus()
                 ? -($clinicTransaction->amount)
                 : $clinicTransaction->amount
             );

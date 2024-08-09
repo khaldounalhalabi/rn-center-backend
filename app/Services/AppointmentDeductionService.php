@@ -7,6 +7,7 @@ use App\Enums\ClinicTransactionStatusEnum;
 use App\Enums\TransactionTypeEnum;
 use App\Models\AppointmentDeduction;
 use App\Repositories\AppointmentDeductionRepository;
+use App\Repositories\ClinicRepository;
 use App\Repositories\TransactionRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
@@ -75,16 +76,22 @@ class AppointmentDeductionService extends BaseService
     }
 
     /**
+     * @param int|null $clinicId
      * @return array
      */
-    public function clinicSummary(): array
+    public function clinicSummary(?int $clinicId = null): array
     {
-        if (!auth()->user()?->isClinic()) {
+        if (!auth()->user()?->isClinic() && !$clinicId) {
             return [];
         }
 
+        if ($clinicId) {
+            $clinic = ClinicRepository::make()->find($clinicId, ['activeSubscription', 'activeSubscription.subscription', 'balance']);
+        } else {
+            $clinic = auth()->user()?->clinic;
+        }
+
         $deductions = $this->repository->getPendingDeductions();
-        $clinic = auth()->user()?->clinic;
         $activeSubscription = $clinic?->activeSubscription;
         $data['appointments_deductions'] = $deductions->sum('amount');
         $data['subscription_cost'] = $activeSubscription?->subscription?->cost;
