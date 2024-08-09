@@ -41,8 +41,8 @@ return [
     'duplicated_schedule'       => 'The Provided Schedule Data Already Defined',
     'uncompleted_schedule_data' => 'Uncompleted Schedule Data',
 
-    'blocked'                   => "Your Account Has Been Blocked",
-    'archived'                  => "Your Account Has Been Suspended",
-    'un_verified_email'         => 'You Have To Verify Your Email First , Check Your Email Or Your Email Spam For A Verification Code Email From Us',
-    'site.expired_subscription' => "Your Subscription Has Been Expired",
+    'blocked'              => "Your Account Has Been Blocked",
+    'archived'             => "Your Account Has Been Suspended",
+    'un_verified_email'    => 'You Have To Verify Your Email First , Check Your Email Or Your Email Spam For A Verification Code Email From Us',
+    'expired_subscription' => "Your Subscription Has Been Expired",
 ];
