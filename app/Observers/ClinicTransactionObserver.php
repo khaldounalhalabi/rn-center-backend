@@ -209,6 +209,7 @@ class ClinicTransactionObserver implements ShouldHandleEventsAfterCommit
                     'balanceable_id'   => $clinic->id,
                 ]);
                 $this->sendBalanceChangeNotification($newBalance->balance, $clinic->id);
+                Log::info("################ Delete Transaction Notification Send ################");
             }
         }
     }
