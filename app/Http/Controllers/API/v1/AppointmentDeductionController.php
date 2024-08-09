@@ -117,6 +117,15 @@ class AppointmentDeductionController extends ApiController
         );
     }
 
+    public function getSummaryByClinicId($clinicId)
+    {
+        return $this->apiResponse(
+            $this->appointmentDeductionService->clinicSummary($clinicId),
+            self::STATUS_OK,
+            __('site.get_successfully')
+        );
+    }
+
     public function all()
     {
         $data = $this->appointmentDeductionService->index($this->relations, $this->countable);

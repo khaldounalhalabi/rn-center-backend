@@ -99,6 +99,7 @@ Route::apiResource('/blood-donation-requests', v1\BloodDonationRequestController
 
 Route::apiResource('/system-offers', v1\SystemOfferController::class)->names('system.offers');
 
+Route::get('clinics/{clinicId}/appointment-deductions/summary', [v1\AppointmentDeductionController::class, 'getSummaryByClinicId'])->name('clinics.appointment.deduction.summary');
 Route::post('appointment-deductions/bulk/toggle-status', [v1\AppointmentDeductionController::class, 'bulkToggleStatus'])
     ->name('appointment.deduction.bulk.toggle.status');
 Route::get('appointment-deductions/summary', [v1\AppointmentDeductionController::class, 'adminSummary'])->name('appointment.deduction.summary');

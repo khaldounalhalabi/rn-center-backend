@@ -41,7 +41,7 @@ class DoctorStoreUpdateCustomerRequest extends FormRequest
                 'address'         => 'array|nullable',
                 'address.name'    => ['nullable', 'required_with:address', 'json', 'min:3', new LanguageShape()],
                 'address.city_id' => ['nullable', 'required_with:address', 'numeric', 'exists:cities,id'],
-                'phone_numbers'   => 'array|nullable',
+                'phone_numbers'   => 'array|nullable|max:2',
                 'phone_numbers.*' => ['required', 'string', 'regex:/^07\d{9}$/', new NotInBlocked()],
 
                 'medical_condition' => ['required', 'string'],
@@ -64,7 +64,7 @@ class DoctorStoreUpdateCustomerRequest extends FormRequest
     {
         if ($this->input('last_name') && $this->input('first_name') && $this->input('middle_name')) {
             $this->merge([
-                'full_name' => User::getUserFullName($this->input('first_name'), $this->input('middle_name'), $this->input('last_name'))
+                'full_name' => User::getUserFullName($this->input('first_name'), $this->input('middle_name'), $this->input('last_name')),
             ]);
         }
     }
@@ -73,7 +73,7 @@ class DoctorStoreUpdateCustomerRequest extends FormRequest
     {
         return [
             'phone_numbers.*' => 'phone number',
-            'images.*'        => 'images'
+            'images.*'        => 'images',
         ];
     }
 }
