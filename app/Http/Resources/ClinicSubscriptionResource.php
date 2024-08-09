@@ -25,7 +25,7 @@ class ClinicSubscriptionResource extends JsonResource
             'deduction_cost'  => $this->deduction_cost,
             'subscription_id' => $this->subscription_id,
             'clinic_id'       => $this->clinic_id,
-            'remaining'       => $this->remainingTime() ? $this->remainingTime() . " Days Left" : null,
+            'remaining'       => $this->remainingTime(),
             'type'            => $this->type,
             'clinic'          => new ClinicResource($this->whenLoaded('clinic')),
             'subscription'    => new SubscriptionResource($this->whenLoaded('subscription')),
