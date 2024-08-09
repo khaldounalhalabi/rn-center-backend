@@ -25,7 +25,7 @@ class AuthLoginRequest extends FormRequest
     {
         return [
             'email'                 => ['required', 'email', 'exists:users,email', 'max:255', new NotInBlocked()],
-            'password'              => 'required|min:8|max:255',
+            'password'              => 'required|string',
             'fcm_token'             => 'nullable|string|max:1000',
             'platform.device_type'  => 'nullable|string|max:255',
             'platform.browser_type' => 'nullable|string|max:255',
