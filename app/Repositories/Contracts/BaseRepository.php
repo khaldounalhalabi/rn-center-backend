@@ -114,7 +114,9 @@ abstract class BaseRepository
     {
         foreach ($data as $key => $value) {
             if ($value == null) {
-                unset($data[$key]);
+                if ($key != "service_id") {
+                    unset($data[$key]);
+                }
             }
         }
 
