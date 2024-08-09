@@ -172,7 +172,7 @@ class ClinicTransactionObserver implements ShouldHandleEventsAfterCommit
                     'balanceable_type' => Clinic::class,
                     'balanceable_id'   => $clinic->id,
                 ]);
-                $this->sendBalanceChangeNotification($newBalance->balance, $clinic->isDeductable());
+                $this->sendBalanceChangeNotification($newBalance->balance, $clinic->id);
             }
         }
     }
