@@ -89,8 +89,8 @@ class AppointmentDeductionService extends BaseService
         $data['appointments_deductions'] = $deductions->sum('amount');
         $data['subscription_cost'] = $activeSubscription?->subscription?->cost;
         $data['total_cost'] = $data['appointments_deductions'] + $data['subscription_cost'];
-        $data['subscription_start'] = $activeSubscription?->start_time?->format('Y-m-d');
-        $data['subscription_end'] = $activeSubscription?->end_time?->format('Y-m-d');
+        $data['subscription_start'] = $activeSubscription?->start_time?->format('Y-m-d H:i');
+        $data['subscription_end'] = $activeSubscription?->end_time?->format('Y-m-d H:i');
         $data['clinic_balance'] = $clinic->balance?->balance ?? 0;
 
         return $data;

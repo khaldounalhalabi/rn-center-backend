@@ -37,10 +37,10 @@ class ClinicSubscription extends Model
         return $this->belongsTo(Subscription::class);
     }
 
-    public function remainingTime(): ?int
+    public function remainingTime(): ?string
     {
         if ($this->subscription->period >= 0) {
-            return $this->end_time->diffInDays(now());
+            return str_replace(['before', 'after'], '', $this->end_time->diffForHumans(now()));
         }
         return null;
     }
@@ -53,6 +53,6 @@ class ClinicSubscription extends Model
 
     public function scopeInActive(Builder $query): Builder
     {
-        return $query->where('end_time' , '<=' , now()->format('Y-m-d'));
+        return $query->where('end_time', '<=', now()->format('Y-m-d'));
     }
 }
