@@ -188,9 +188,29 @@ class ClinicTransactionObserver implements ShouldHandleEventsAfterCommit
     /**
      * Handle the ClinicTransaction "force deleted" event.
      */
-    public function forceDeleted(ClinicTransaction $clinicTransaction): void
+    public function forceDeleted(ClinicTransaction $transaction): void
     {
-        //
+        if ($transaction->status == ClinicTransactionStatusEnum::DONE->value) {
+            $clinic = $transaction->clinic;
+            $latestBalance = $clinic?->balance?->balance ?? 0;
+            if (in_array($transaction->type, [ClinicTransactionTypeEnum::INCOME->value, ClinicTransactionTypeEnum::DEBT_TO_ME->value])) {
+                $balance = $latestBalance - $transaction->amount;
+                $note = "[DELETED] " . $transaction->notes ?? "";
+            } elseif (in_array($transaction->type, [ClinicTransactionTypeEnum::OUTCOME->value, ClinicTransactionTypeEnum::SYSTEM_DEBT->value])) {
+                $balance = $latestBalance + $transaction->amount;
+                $note = "[DELETED] " . $transaction->notes ?? "";
+            }
+
+            if (isset($balance)) {
+                $newBalance = Balance::create([
+                    'balance'          => $balance,
+                    'note'             => $note ?? "",
+                    'balanceable_type' => Clinic::class,
+                    'balanceable_id'   => $clinic->id,
+                ]);
+                $this->sendBalanceChangeNotification($newBalance->balance, $clinic->id);
+            }
+        }
     }
 
     private function sendBalanceChangeNotification($balance, $clinicId): void
