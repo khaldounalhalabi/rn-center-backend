@@ -158,9 +158,13 @@ class ClinicTransactionObserver implements ShouldHandleEventsAfterCommit
             $clinic = $transaction->clinic;
             $latestBalance = $clinic?->balance?->balance ?? 0;
             if (in_array($transaction->type, [ClinicTransactionTypeEnum::INCOME->value, ClinicTransactionTypeEnum::DEBT_TO_ME->value])) {
+                Log::info("################ [ClinicTransactionTypeEnum::INCOME->value, ClinicTransactionTypeEnum::DEBT_TO_ME->value] ################");
+
                 $balance = $latestBalance - $transaction->amount;
                 $note = "[DELETED] " . $transaction->notes ?? "";
             } elseif (in_array($transaction->type, [ClinicTransactionTypeEnum::OUTCOME->value, ClinicTransactionTypeEnum::SYSTEM_DEBT->value])) {
+                Log::info("################ [ClinicTransactionTypeEnum::OUTCOME->value, ClinicTransactionTypeEnum::SYSTEM_DEBT->value] ################");
+
                 $balance = $latestBalance + $transaction->amount;
                 $note = "[DELETED] " . $transaction->notes ?? "";
             }
@@ -173,6 +177,7 @@ class ClinicTransactionObserver implements ShouldHandleEventsAfterCommit
                     'balanceable_id'   => $clinic->id,
                 ]);
                 $this->sendBalanceChangeNotification($newBalance->balance, $clinic->id);
+                Log::info("################ Delete Transaction Notification Send ################");
             }
         }
     }
@@ -190,28 +195,7 @@ class ClinicTransactionObserver implements ShouldHandleEventsAfterCommit
      */
     public function forceDeleted(ClinicTransaction $transaction): void
     {
-        if ($transaction->status == ClinicTransactionStatusEnum::DONE->value) {
-            $clinic = $transaction->clinic;
-            $latestBalance = $clinic?->balance?->balance ?? 0;
-            if (in_array($transaction->type, [ClinicTransactionTypeEnum::INCOME->value, ClinicTransactionTypeEnum::DEBT_TO_ME->value])) {
-                $balance = $latestBalance - $transaction->amount;
-                $note = "[DELETED] " . $transaction->notes ?? "";
-            } elseif (in_array($transaction->type, [ClinicTransactionTypeEnum::OUTCOME->value, ClinicTransactionTypeEnum::SYSTEM_DEBT->value])) {
-                $balance = $latestBalance + $transaction->amount;
-                $note = "[DELETED] " . $transaction->notes ?? "";
-            }
 
-            if (isset($balance)) {
-                $newBalance = Balance::create([
-                    'balance'          => $balance,
-                    'note'             => $note ?? "",
-                    'balanceable_type' => Clinic::class,
-                    'balanceable_id'   => $clinic->id,
-                ]);
-                $this->sendBalanceChangeNotification($newBalance->balance, $clinic->id);
-                Log::info("################ Delete Transaction Notification Send ################");
-            }
-        }
     }
 
     private function sendBalanceChangeNotification($balance, $clinicId): void
