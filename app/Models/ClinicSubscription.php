@@ -39,10 +39,7 @@ class ClinicSubscription extends Model
 
     public function remainingTime(): ?string
     {
-        if ($this->subscription->period >= 0) {
-            return str_replace(['before', 'after'], '', $this->end_time->diffForHumans(now()));
-        }
-        return null;
+        return str_replace(['before', 'after'], '', $this->end_time->diffForHumans(now()));
     }
 
     public function scopeActive(Builder $query): Builder
