@@ -37,9 +37,9 @@ class ClinicSubscription extends Model
         return $this->belongsTo(Subscription::class);
     }
 
-    public function remainingTime(): string
+    public function remainingTime(): int
     {
-        return str_replace(['before', 'after'], '', $this->end_time->diffForHumans(now()));
+        return $this->end_time->diffInDays(now());
     }
 
     public function scopeActive(Builder $query): Builder
