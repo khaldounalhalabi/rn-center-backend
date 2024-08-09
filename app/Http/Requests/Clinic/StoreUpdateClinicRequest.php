@@ -53,7 +53,7 @@ class StoreUpdateClinicRequest extends FormRequest
                 'user.full_name'   => ['string', 'nullable', new NotInBlocked()],
                 'user.email'       => ['required', 'email', 'max:255', 'min:3', 'string', 'unique:users,email', new NotInBlocked()],
                 'user.password'    => 'string|min:8|max:20|required|confirmed',
-                'user.birth_date'  => 'date_format:Y-m-d|date|before:20 years ago|required',
+                'user.birth_date'  => 'date_format:Y-m-d|date|before:20 years ago|nullable',
                 'user.gender'      => ['required', 'string', Rule::in(GenderEnum::getAllValues())],
                 'user.image'       => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
 
