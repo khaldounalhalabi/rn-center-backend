@@ -35,7 +35,7 @@ class AppointmentDeduction extends Model
     ];
 
     protected $casts = [
-        'date' => 'date',
+        'date' => 'datetime',
     ];
 
     public function exportable(): array

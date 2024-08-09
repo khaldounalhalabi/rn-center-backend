@@ -25,13 +25,6 @@ class AppointmentDeductionRepository extends BaseRepository
             ->when(auth()->user()?->isClinic(), function (Builder $query) {
                 $query->where('clinic_id', auth()->user()?->getClinicId());
             });
-
-        Log::info("Query Raw Sql");
-        Log::info($query->toRawSql());
-
-        Log::info("Query To Sql");
-        Log::info($query->toSql());
-
         return $query;
     }
 
