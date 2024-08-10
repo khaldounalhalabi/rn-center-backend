@@ -17,7 +17,9 @@
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "propaganistas/laravel-phone": "^5.1",
-        "spatie/laravel-medialibrary": "^11.4"
+        "smsgateway24/smsgateway24-php-sdk": "^2.0",
+        "spatie/laravel-medialibrary": "^11.4",
+        "ext-curl": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

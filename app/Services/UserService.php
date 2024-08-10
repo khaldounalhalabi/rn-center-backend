@@ -4,9 +4,9 @@ namespace App\Services;
 
 use App\Enums\RolesPermissionEnum;
 use App\Exceptions\RoleDoesNotExistException;
+use App\Models\PhoneNumber;
 use App\Models\User;
 use App\Models\UserPlatform;
-use App\Notifications\Customer\NewLoginEmailNotification;
 use App\Notifications\SendVerificationCode;
 use App\Repositories\AddressRepository;
 use App\Repositories\CustomerRepository;
@@ -18,6 +18,7 @@ use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * @extends BaseService<User>
@@ -71,7 +72,7 @@ class UserService extends BaseService
             $user->address()->updateOrCreate([
                 ...$data['address'],
                 'name'    => $data['address']['name'] ?? '{"en":"" , "ar":""}',
-                'city_id' => $data['city_id'] ?? 1
+                'city_id' => $data['city_id'] ?? 1,
             ]);
         }
 
@@ -80,14 +81,19 @@ class UserService extends BaseService
             $this->phoneNumberRepository->insert($data['phone_numbers'], User::class, $user->id);
         }
 
+        /** @noinspection PhpVoidFunctionResultUsedInspection */
         $token = auth()->login($user);
 
-        $refresh_token = auth()->setTTL(ttl: env('JWT_REFRESH_TTL', 20160))->refresh();
+        /** @noinspection LaravelFunctionsInspection */
+        $refresh_token = auth()->setTTL(ttl: env('JWT_REFRESH_TTL', 60 * 24 * 7))->refresh();
 
         return [$user->load($relations), $token, $refresh_token,];
 
     }
 
+    /**
+     * @throws RoleDoesNotExistException
+     */
     public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
     {
         $user = $this->repository->update($data, $id);
@@ -158,13 +164,14 @@ class UserService extends BaseService
                     'ip'           => $data['platform']['ip'] ?? "Unknown",
                 ]);
 
-            if ($user?->hasVerifiedEmail()) {
-                $user->notify(new NewLoginEmailNotification(
-                    $platform->ip,
-                    $platform->device_type,
-                    $platform->browser_type
-                ));
-            }
+            //TODO::convert it to use otp
+//            if ($user->hasVerifiedEmail()) {
+//                $user->notify(new NewLoginEmailNotification(
+//                    $platform->ip,
+//                    $platform->device_type,
+//                    $platform->browser_type
+//                ));
+//            }
         }
 
         foreach ($additionalData as $key => $value) {
@@ -172,7 +179,8 @@ class UserService extends BaseService
             $user->save();
         }
 
-        $refresh_token = auth()->setTTL(ttl: env('JWT_REFRESH_TTL', 20160))->refresh();
+        /** @noinspection LaravelFunctionsInspection */
+        $refresh_token = auth()->setTTL(ttl: env('JWT_REFRESH_TTL', 60 * 24 * 7))->refresh();
 
         return [$user->load($relations), $token, $refresh_token,];
     }
@@ -208,7 +216,9 @@ class UserService extends BaseService
     {
         try {
             $user = auth()->user();
+            /** @noinspection LaravelFunctionsInspection */
             $token = auth()->setTTL(env('JWT_TTL', 10080))->refresh();
+            /** @noinspection LaravelFunctionsInspection */
             $refresh_token = auth()->setTTL(env('JWT_REFRESH_TTL', 20160))->refresh();
 
             return [$user->load($relations), $token, $refresh_token];
@@ -246,19 +256,28 @@ class UserService extends BaseService
                     $this->addressRepository->create([
                         ...$data['address'],
                         'addressable_id'   => $user->id,
-                        'addressable_type' => User::class
+                        'addressable_type' => User::class,
                     ]);
                 }
 
-                $this->requestVerificationCode($user);
+                if (isset($data['phone_number'])) {
+                    $number = array_values($data['phone_number'])[0];
+                    if ($number) {
+                        PhoneNumberService::make()->requestNumberVerificationCode($number, $user);
+                    }
+                } else {
+                    throw new Exception("Phone number is required in register customer");
+                }
 
                 DB::commit();
                 return [$user->load($relations), null, null];
             }
 
+            /** @noinspection PhpVoidFunctionResultUsedInspection */
             $token = auth()->login($user);
 
-            $refresh_token = auth()->setTTL(ttl: env('JWT_REFRESH_TTL', 20160))->refresh();
+            /** @noinspection LaravelFunctionsInspection */
+            $refresh_token = auth()->setTTL(ttl: env('JWT_REFRESH_TTL', 60 * 24 * 7))->refresh();
 
             DB::commit();
             return [$user->load($relations), $token, $refresh_token,];
@@ -369,13 +388,13 @@ class UserService extends BaseService
     }
 
     /**
-     * @param string $reset_password_code
+     * @param string $emailResetCode
      * @param string $password
      * @return bool
      */
-    public function passwordReset(string $reset_password_code, string $password): bool
+    public function passwordReset(string $emailResetCode, string $password): bool
     {
-        $user = $this->getUserByPasswordResetCode($reset_password_code);
+        $user = $this->getUserByPasswordResetCode($emailResetCode);
 
         if (!$user) return false;
 
@@ -423,6 +442,9 @@ class UserService extends BaseService
         return $user->is_archived ? "archived" : "not_archived";
     }
 
+    /**
+     * @throws RoleDoesNotExistException
+     */
     public function store(array $data, array $relationships = [], array $countable = []): ?Model
     {
         /** @var User $user */
@@ -456,9 +478,94 @@ class UserService extends BaseService
         }
 
         $user = $this->repository->update([
-            'is_blocked' => !$user->is_blocked
+            'is_blocked' => !$user->is_blocked,
         ], $user);
 
         return $user->is_blocked ? "blocked" : "not_blocked";
+    }
+
+    public function passwordResetRequestByPhone(string $phone): ?bool
+    {
+        $phoneNumber = PhoneNumberRepository::make()->getByPhone($phone);
+
+        if ($phoneNumber) {
+            $code = PhoneNumberService::make()->generateNumberVerificationCode();
+
+            $phoneNumber->update([
+                'verification_code' => $code,
+            ]);
+
+            try {
+                SmsService::make()->sendVerificationCode($code, $phoneNumber->phone, $phoneNumber->phoneable_id);
+            } catch (Exception) {
+                return null;
+            }
+
+            return true;
+        }
+
+        return null;
+    }
+
+    public function passwordResetByPhone($phoneCode, $password): bool
+    {
+        $phone = PhoneNumberRepository::make()->getByVerificationCode($phoneCode);
+
+        if (!$phone) {
+            return false;
+        }
+
+        /** @var null|User $user */
+        $user = $phone->phoneable_type == User::class ? $phone->phoneable : null;
+
+        if (!$user) return false;
+
+        if ($phone->updated_at->equalTo(now()->subMinutes(15))) {
+            return false;
+        }
+
+        $user->password = $password;
+        $user->save();
+
+        $phone->verification_code = null;
+        $phone->save();
+
+        return true;
+    }
+
+    /**
+     * @param array $data
+     * @return array{User , string , string , PhoneNumber}|null
+     */
+    public function loginByPhone(array $data): ?array
+    {
+        $phoneNumber = PhoneNumberRepository::make()->getByPhone($data['phone'], ['phoneable']);
+
+        if (!$phoneNumber) {
+            return null;
+        }
+
+        /** @var User|null $user */
+        $user = $phoneNumber->phoneable_type == User::class ? $phoneNumber->phoneable : null;
+
+        if (!$user) {
+            return null;
+        }
+
+        if (!Hash::check($data['password'], $user->password)) {
+            return null;
+        }
+
+        /** @noinspection PhpVoidFunctionResultUsedInspection */
+        $token = auth()->login($user);
+        /** @noinspection LaravelFunctionsInspection */
+        $refreshToken = auth()->setTTL(ttl: env('JWT_REFRESH_TTL', 60 * 24 * 7))->refresh();
+
+        return [
+            $user,
+            $token,
+            $refreshToken,
+            $phoneNumber,
+        ];
     }
 }

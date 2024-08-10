@@ -12,6 +12,7 @@ return [
     'failed'                        => 'Failed',
     'password_reset_code_sent'      => 'Password reset code sent',
     'wrong_email'                   => 'Wrong email',
+    'wrong_phone'                   => 'Wrong phone number',
     'code_correct'                  => 'Code correct',
     'password_reset_successful'     => 'Password reset successfully',
     'code_incorrect'                => 'Code incorrect',
@@ -24,6 +25,7 @@ return [
     'google_token_expired'          => 'Google token expired',
     'you_should_login'              => 'You should login',
     'email_verification_code_sent'  => 'An email with a verification code has been sent to your email',
+    'sms_verification_code_sent'    => 'An sms with a verification code has been sent to your phone number',
     'your_email_is_not_verified'    => 'Your email address is not verified.',
 
     /****** crud messages ******/
@@ -45,4 +47,5 @@ return [
     'archived'             => "Your Account Has Been Suspended",
     'un_verified_email'    => 'You Have To Verify Your Email First , Check Your Email Or Your Email Spam For A Verification Code Email From Us',
     'expired_subscription' => "Your Subscription Has Been Expired",
+    'un_verified_phone'    => "Your phone number is not verified",
 ];

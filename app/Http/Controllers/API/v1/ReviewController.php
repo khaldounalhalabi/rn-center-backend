@@ -6,7 +6,7 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\Review\StoreUpdateReviewRequest;
 use App\Http\Resources\ReviewResource;
 use App\Models\Review;
-use App\Services\v1\Review\ReviewService;
+use App\Services\ReviewService;
 
 class ReviewController extends ApiController
 {

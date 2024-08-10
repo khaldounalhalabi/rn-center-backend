@@ -8,7 +8,6 @@ use App\Repositories\Contracts\BaseRepository;
 
 /**
  * @extends  BaseRepository<PhoneNumber>
- * <PhoneNumber>
  */
 class PhoneNumberRepository extends BaseRepository
 {
@@ -39,5 +38,15 @@ class PhoneNumberRepository extends BaseRepository
         }
 
         PhoneNumber::insert($data);
+    }
+
+    public function getByVerificationCode(string $code): ?PhoneNumber
+    {
+        return $this->globalQuery()->where('verification_code', $code)->first();
+    }
+
+    public function getByPhone(string $phone, array $relations = [], array $countable = []): ?PhoneNumber
+    {
+        return $this->globalQuery($relations, $countable)->where('phone', $phone)->first();
     }
 }

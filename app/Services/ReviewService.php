@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\v1\Review;
+namespace App\Services;
 
 use App\Models\Review;
 use App\Repositories\ReviewRepository;
@@ -17,7 +17,7 @@ class ReviewService extends BaseService
 
     protected string $repositoryClass = ReviewRepository::class;
 
-    public function getByClinic($clinicId, array $relations = [], array $countable = [])
+    public function getByClinic($clinicId, array $relations = [], array $countable = []): ?array
     {
         return $this->repository->getByClinic($clinicId, $relations, $countable);
     }

@@ -16,6 +16,8 @@ return new class () extends Migration {
             $table->string('phone')->unique();
             $table->unsignedBigInteger("phoneable_id");
             $table->string("phoneable_type");
+            $table->string('verification_code')->nullable();
+            $table->boolean('is_verified')->default(false);
             $table->timestamps();
             $table->index(['created_at']);
         });

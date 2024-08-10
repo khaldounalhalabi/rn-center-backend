@@ -320,4 +320,9 @@ class User extends Authenticatable implements HasMedia, JWTSubject
             return null;
         }
     }
+
+    public function hasVerifiedPhoneNumber(): bool
+    {
+        return $this->phoneNumbers()->where('is_verified', true)->exists();
+    }
 }

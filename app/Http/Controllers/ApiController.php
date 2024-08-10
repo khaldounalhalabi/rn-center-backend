@@ -29,6 +29,7 @@ class ApiController extends Controller
     public const STATUS_ARCHIVED = 431;
     public const STATUS_EXPIRED_SUBSCRIPTION = 432;
     public const STATUS_UN_VERIFIED_EMAIL = 433;
+    public const STATUS_UNVERIFIED_PHONE_NUMBER = 434;
 
     protected array $relations = [];
     protected array $indexRelations = [];

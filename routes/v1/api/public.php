@@ -11,12 +11,11 @@ Route::prefix('/customer')
     ->name('customer.')
     ->group(function () {
         Route::post('/register', 'register')->name("register");
-        Route::post('/login', 'login')->name("login");
-        Route::post('/password-reset-request', 'passwordResetRequest')->name("reset-password-request");
-        Route::post('/check-reset-password-code', 'checkPasswordResetCode')->name("check-reset-password-code");
-        Route::post('/reset-password', 'passwordReset')->name("password-reset");
-        Route::post('/verify-email', 'verifyCustomerEmail')->name('verify-email');
-        Route::post('/request-verification-code', 'requestVerificationCode')->name('request-verification-code');
+        Route::post('/login', 'loginByPhone')->name("login");
+        Route::post('/password-reset-request', 'requestResetPasswordCodeByPhone')->name("reset-password-request");
+        Route::post('/reset-password', 'passwordResetByPhone')->name("password-reset");
+        Route::post('/verify-phone', 'verifyCustomerPhone')->name('verify-phone');
+        Route::post('/request-verification-code', 'requestVerificationCodeByPhone')->name('request-verification-code');
     });
 
 Route::prefix('/admin')

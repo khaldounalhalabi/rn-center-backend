@@ -127,7 +127,7 @@ abstract class BaseRepository
      * @param array $relations
      * @param array $countable
      * @param bool  $defaultOrder
-     * @return Builder
+     * @return Builder|T
      */
     public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
     {

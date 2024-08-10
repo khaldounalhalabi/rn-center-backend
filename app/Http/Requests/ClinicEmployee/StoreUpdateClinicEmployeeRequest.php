@@ -39,9 +39,9 @@ class StoreUpdateClinicEmployeeRequest extends FormRequest
                 'birth_date'      => 'date_format:Y-m-d|date|nullable',
                 'gender'          => ['required', 'string', Rule::in(GenderEnum::getAllValues())],
                 'image'           => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
-                'address'         => 'array|required',
-                'address.name'    => ['required', 'json', 'min:3', new LanguageShape()],
-                'address.city_id' => ['required', 'numeric', 'exists:cities,id'],
+                'address'         => 'array|nullable',
+                'address.name'    => ['nullable', 'json', 'min:3', new LanguageShape()],
+                'address.city_id' => ['nullable', 'numeric', 'exists:cities,id'],
                 'phone_numbers'   => 'array|required',
                 'phone_numbers.*' => ['required', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/', new NotInBlocked()],
             ];
@@ -71,7 +71,7 @@ class StoreUpdateClinicEmployeeRequest extends FormRequest
     {
         if (auth()->user()?->isClinic()) {
             $this->merge([
-                'clinic_id' => auth()->user()?->getClinicId()
+                'clinic_id' => auth()->user()?->getClinicId(),
             ]);
         }
     }

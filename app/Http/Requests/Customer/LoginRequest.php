@@ -5,24 +5,26 @@ namespace App\Http\Requests\Customer;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class VerifyEmailRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
      * Get the validation rules that apply to the request.
+     *
      * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
         return [
-            'verification_code' => ['string', 'required', 'min:4', 'max:10', 'exists:users,verification_code']
+            'phone'    => 'required|string|regex:/^07\d{9}$/|exists:phone_numbers,phone',
+            'password' => 'required|string',
         ];
     }
 }
