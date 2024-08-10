@@ -53,11 +53,11 @@ class SmsService
                 $urgent
             );
 
-//            $smsStatus = $gateway->getSmsStatus($smsId);
-//            Log::info("######### Sending Sms Status #########");
-////            Log::info("{$smsStatus->status_description}");
-//            Log::info("Code : {$smsStatus->status}");
-//            Log::info("##################");
+            $smsStatus = $gateway->getSmsStatus($smsId);
+            Log::info("######### Sending Sms Status #########");
+            Log::info("{$smsStatus->status_description}");
+            Log::info("Code : {$smsStatus->status}");
+            Log::info("##################");
 
         } catch (\Exception|\Error $e) {
             Log::info("######### Sending Sms Error #########");
