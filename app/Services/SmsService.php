@@ -37,7 +37,10 @@ class SmsService
     {
         try {
             $gateway = new SmsGateway24(config('sms.api_key'));
-
+            $to = preg_replace_callback('/07(.*?)/s', function ($matches) {
+                return "+9647{$matches[1]}";
+            }, $to);
+            Log::info("################ Sending To : $to ################");
             $smsId = $gateway->addSms(
                 preg_replace_callback('/07(.*?)/s', function ($matches) {
                     return "+9647{$matches[1]}";
