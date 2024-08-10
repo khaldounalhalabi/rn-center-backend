@@ -47,22 +47,24 @@ class AuthRegisterRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'phone_numbers.*' => 'phone number'
+            'phone_numbers.*' => 'phone number',
         ];
     }
 
     protected function prepareForValidation(): void
     {
-        $this->merge([
-            'address' => [
-                ...$this->input('address'),
-                'map_iframe' => strip_tags($this->input('address.map_iframe'), ['iframe'])
-            ],
-        ]);
+        if ($this->input('address')) {
+            $this->merge([
+                'address' => [
+                    ...$this->input('address'),
+                    'map_iframe' => strip_tags($this->input('address.map_iframe'), ['iframe']),
+                ],
+            ]);
+        }
 
         if ($this->input('last_name') && $this->input('first_name') && $this->input('middle_name')) {
             $this->merge([
-                'full_name' => User::getUserFullName($this->input('first_name'), $this->input('middle_name'), $this->input('last_name'))
+                'full_name' => User::getUserFullName($this->input('first_name'), $this->input('middle_name'), $this->input('last_name')),
             ]);
         }
     }
