@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\AppointmentStatusEnum;
 use App\Interfaces\ActionsMustBeAuthorized;
 use App\Traits\HasAbilities;
 use Illuminate\Database\Eloquent\Builder;
@@ -33,6 +34,10 @@ class Customer extends Model implements ActionsMustBeAuthorized
 
     protected $fillable = [
         'user_id',
+    ];
+
+    protected $casts = [
+        'created_at' => 'datetime',
     ];
 
     /**
@@ -139,5 +144,11 @@ class Customer extends Model implements ActionsMustBeAuthorized
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function validAppointments(): HasMany
+    {
+        return $this->hasMany(Appointment::class)
+            ->whereNotIn('status', [AppointmentStatusEnum::CANCELLED->value, AppointmentStatusEnum::PENDING->value]);
     }
 }

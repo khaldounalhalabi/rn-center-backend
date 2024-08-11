@@ -39,10 +39,19 @@ class CustomerRepository extends BaseRepository
         if ($data?->count()) {
             return [
                 'data'            => $data->getCollection(),
-                'pagination_data' => $this->formatPaginateData($data)
+                'pagination_data' => $this->formatPaginateData($data),
             ];
         }
 
         return null;
+    }
+
+    public function getRecent(array $relations = [], array $countable = []): ?array
+    {
+        return $this->paginateQuery(
+            $this->globalQuery($relations, $countable)
+                ->where('created_at', '>=', now()->subDays(3)->format('Y-m-d'))
+                ->where('created_at', '<=', now()->format('Y-m-d'))
+        );
     }
 }

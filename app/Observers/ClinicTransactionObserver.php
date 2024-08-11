@@ -224,10 +224,10 @@ class ClinicTransactionObserver implements ShouldHandleEventsAfterCommit
     private function handleTheAdditionOfNewBalanceRecord(ClinicTransaction $transaction, ?Balance $latestBalance, Clinic $clinic): void
     {
         if (in_array($transaction->type, [ClinicTransactionTypeEnum::INCOME->value, ClinicTransactionTypeEnum::DEBT_TO_ME->value])) {
-            $balance = ($latestBalance?->balance ?? 0) + $transaction->amount;
+            $balance = ($latestBalance?->balance ?? 0) + abs($transaction->amount);
             $note = $transaction->notes;
         } elseif (in_array($transaction->type, [ClinicTransactionTypeEnum::OUTCOME->value, ClinicTransactionTypeEnum::SYSTEM_DEBT->value])) {
-            $balance = ($latestBalance?->balance ?? 0) - $transaction->amount;
+            $balance = ($latestBalance?->balance ?? 0) - abs($transaction->amount);
             $note = $transaction->notes;
         }
         if (isset($balance)) {

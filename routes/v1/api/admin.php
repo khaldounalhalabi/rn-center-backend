@@ -34,6 +34,7 @@ Route::controller(v1\ScheduleController::class)
         Route::get('/clinics/{clinicId}/available-times', [v1\ClinicController::class, 'getClinicAvailableTimes'])->name('clinic.get.clinic.available.times');
     });
 
+Route::get('/customers/recent', [v1\CustomerController::class, 'getRecent'])->name('customers.recent');
 Route::get('/clinics/{clinicId}/customers', [v1\CustomerController::class, 'getByClinic'])->name('clinics.customers');
 Route::get('customers/{customerId}/patient-profiles', [v1\PatientProfileController::class, 'getCustomerPatientProfiles']);
 Route::apiResource('/customers', v1\CustomerController::class)->names('customers');
@@ -99,6 +100,7 @@ Route::apiResource('/blood-donation-requests', v1\BloodDonationRequestController
 
 Route::apiResource('/system-offers', v1\SystemOfferController::class)->names('system.offers');
 
+Route::get('appointment-deductions/all', [v1\AppointmentDeductionController::class, 'all'])->name('appointment.deduction.all');
 Route::get('clinics/{clinicId}/appointment-deductions/summary', [v1\AppointmentDeductionController::class, 'getSummaryByClinicId'])->name('clinics.appointment.deduction.summary');
 Route::post('appointment-deductions/bulk/toggle-status', [v1\AppointmentDeductionController::class, 'bulkToggleStatus'])
     ->name('appointment.deduction.bulk.toggle.status');
@@ -116,3 +118,5 @@ Route::apiResource('settings', v1\SettingController::class)
     ->names('settings');
 
 Route::get('clinics/{clinicId}/reviews', [v1\ReviewController::class, 'getByClinic'])->name('clinics.reviews');
+
+Route::get('/statistics/index', [v1\StatisticsController::class, 'adminStatistics'])->name('statistics.index');

@@ -155,10 +155,38 @@ class AppointmentController extends ApiController
 
     public function todayAppointments()
     {
-        $data = $this->appointmentService->getClinicTodayAppointments($this->relations , $this->countable);
-        if ($data){
-            return $this->apiResponse(AppointmentResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully') , $data['pagination_data']);
+        $data = $this->appointmentService->getClinicTodayAppointments($this->relations, $this->countable);
+        if ($data) {
+            return $this->apiResponse(AppointmentResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
         }
+        return $this->noData();
+    }
+
+    public function getAppointmentsCountInMonth()
+    {
+        return $this->apiResponse(
+            $this->appointmentService->appointmentsCountInMonth(),
+            self::STATUS_OK,
+            __('site.get_successfully'),
+        );
+    }
+
+    public function getAppointmentsCompletedCountInMonth()
+    {
+        return $this->apiResponse(
+            $this->appointmentService->getAllCompletedCountMonthly(),
+            self::STATUS_OK,
+            __('site.get_successfully'),
+        );
+    }
+
+    public function recentAppointments()
+    {
+        $data = $this->appointmentService->recentAppointments(['customer.user']);
+        if ($data) {
+            return $this->apiResponse(AppointmentResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
+        }
+
         return $this->noData();
     }
 }

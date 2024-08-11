@@ -25,7 +25,7 @@ class CustomerController extends ApiController
                 'user.phones',
                 'user.media',
                 'currentClinicPatientProfile',
-                'user'
+                'user',
             ];
         } else {
             $this->relations = [
@@ -33,7 +33,11 @@ class CustomerController extends ApiController
                 'user.address',
                 'user.address.city',
                 'user.phones',
-                'user.media'
+                'user.media',
+            ];
+
+            $this->indexRelations = [
+                'user',
             ];
         }
     }
@@ -94,7 +98,7 @@ class CustomerController extends ApiController
     public function getDoctorCustomers()
     {
         $data = $this->customerService->getDoctorCustomers([
-            'user', 'user.address', 'user.address.city', 'user.phones'
+            'user', 'user.address', 'user.address.city', 'user.phones',
         ]);
 
         if ($data) {
@@ -143,6 +147,16 @@ class CustomerController extends ApiController
         if ($data) {
             return $this->apiResponse(CustomerResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
         }
+        return $this->noData();
+    }
+
+    public function getRecent()
+    {
+        $data = $this->customerService->getRecent($this->indexRelations, ['validAppointments']);
+        if ($data) {
+            return $this->apiResponse(CustomerResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
+        }
+
         return $this->noData();
     }
 }

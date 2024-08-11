@@ -119,8 +119,7 @@ class AppointmentDeductionService extends BaseService
     public function bulkToggleStatus(array $data): void
     {
         $status = $data['status'];
-
-        $this->repository->bulk(function (AppointmentDeduction $deduction) use ($status) {
+        $this->repository->bulk(function (AppointmentDeduction $deduction) use ($status, &$clinicIds) {
             if (
                 $deduction->status == AppointmentDeductionStatusEnum::PENDING->value
                 && $status == AppointmentDeductionStatusEnum::DONE->value

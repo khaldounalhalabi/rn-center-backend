@@ -207,7 +207,7 @@ class AppointmentManager
             $systemOffers = SystemOfferRepository::make()
                 ->getByIds($data['system_offers'], $data['clinic_id'] ?? $appointment?->clinic_id);
             $systemOffersTotal = $systemOffers
-                ->sum(fn(SystemOffer $offer) => $offer->type == OfferTypeEnum::FIXED->value
+                ->sum(fn (SystemOffer $offer) => $offer->type == OfferTypeEnum::FIXED->value
                     ? $offer->amount
                     : ($offer->amount * $appointmentCost) / 100
                 );
@@ -227,7 +227,7 @@ class AppointmentManager
             $clinicOffers = OfferRepository::make()
                 ->getByIds($data['offers'], $data['clinic_id'] ?? $appointment?->clinic_id);
             $clinicOffersTotal = $clinicOffers
-                ->sum(fn(Offer $offer) => $offer->type == OfferTypeEnum::FIXED->value
+                ->sum(fn (Offer $offer) => $offer->type == OfferTypeEnum::FIXED->value
                     ? $offer->value
                     : ($offer->value * $appointmentCost) / 100
                 );
@@ -241,7 +241,7 @@ class AppointmentManager
             $clinicOffersTotal,
             $clinicOffersIds,
             $systemOffersTotal,
-            $systemOffersIds
+            $systemOffersIds,
         ];
     }
 
@@ -277,7 +277,7 @@ class AppointmentManager
             $appointment->status == AppointmentStatusEnum::PENDING->value
             && !in_array($status, [
                 AppointmentStatusEnum::PENDING->value,
-                AppointmentStatusEnum::BOOKED->value
+                AppointmentStatusEnum::BOOKED->value,
             ])
         ) {
             return false;
@@ -286,14 +286,14 @@ class AppointmentManager
         if (
             $appointment->status == AppointmentStatusEnum::BOOKED->value
             && !in_array($status, AppointmentStatusEnum::getAllValues([
-                AppointmentStatusEnum::PENDING
+                AppointmentStatusEnum::PENDING,
             ]))
         ) {
             return false;
         }
         if ($appointment->status == AppointmentStatusEnum::CHECKIN->value
             && !in_array($status, AppointmentStatusEnum::getAllValues([
-                AppointmentStatusEnum::PENDING, AppointmentStatusEnum::BOOKED
+                AppointmentStatusEnum::PENDING, AppointmentStatusEnum::BOOKED,
             ]))) {
             return false;
         }
@@ -341,7 +341,7 @@ class AppointmentManager
                 $appointment->appointment_sequence,
                 $appointment->date,
                 [
-                    'status' => AppointmentStatusEnum::CHECKOUT->value
+                    'status' => AppointmentStatusEnum::CHECKOUT->value,
                 ]);
         }
     }
@@ -351,7 +351,7 @@ class AppointmentManager
         if ($oldStatus != $appointment->status) {
             FirebaseServices::make()
                 ->setData([
-                    'appointment' => $appointment
+                    'appointment' => $appointment,
                 ])
                 ->setMethod(FirebaseServices::ONE)
                 ->setTo($appointment->customer->user)
@@ -395,7 +395,7 @@ class AppointmentManager
                 'appointment_id'      => $appointment->id,
                 'actor_id'            => auth()->user()->id,
                 'affected_id'         => $data['customer_id'] ?? $appointment->customer_id,
-                'event'               => "appointment has been created in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->full_name->en
+                'event'               => "appointment has been created in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->full_name->en,
             ]);
         } else {
             AppointmentLogRepository::make()->create([
@@ -405,7 +405,7 @@ class AppointmentManager
                 'appointment_id'      => $appointment->id,
                 'actor_id'            => auth()->user()?->id,
                 'affected_id'         => $data['customer_id'] ?? $appointment->customer_id,
-                'event'               => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->full_name->en
+                'event'               => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->full_name->en,
             ]);
         }
     }
@@ -479,7 +479,7 @@ class AppointmentManager
             : ClinicTransactionTypeEnum::DEBT_TO_ME->value;
 
         $clinicTransaction = ClinicTransactionRepository::make()->create([
-            'amount'         => $deductionAmount,
+            'amount'         => abs($deductionAmount),
             'appointment_id' => $appointment->id,
             'type'           => $clinicTransactionType,
             'clinic_id'      => $clinic->id,

@@ -35,7 +35,7 @@ class CustomerService extends BaseService
         $user = $this->userService->store($data);
         $user->assignRole(RolesPermissionEnum::CUSTOMER['role']);
         return $this->repository->create([
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ], $relationships);
     }
 
@@ -76,14 +76,14 @@ class CustomerService extends BaseService
     {
         $user = UserRepository::make()->getExistCustomerUser([
             'email'         => $data['email'] ?? null,
-            'phone_numbers' => $data['phone_numbers'] ?? null
+            'phone_numbers' => $data['phone_numbers'] ?? null,
         ]);
 
         if (!$user) {
             $data['role'] = RolesPermissionEnum::CUSTOMER['role'];
             $user = $this->userService->store($data);
             $customer = $this->repository->create([
-                'user_id' => $user->id
+                'user_id' => $user->id,
             ]);
         } else {
             $customer = $this->repository->getByUserId($user->id);
@@ -91,7 +91,7 @@ class CustomerService extends BaseService
 
         if (!$customer) {
             $customer = $this->repository->create([
-                'user_id' => $user->id
+                'user_id' => $user->id,
             ]);
         }
 
@@ -161,7 +161,7 @@ class CustomerService extends BaseService
             PatientProfileRepository::make()->create([
                 'customer_id' => $customer->id,
                 'clinic_id'   => auth()->user()?->getClinicId(),
-                ...$data
+                ...$data,
             ]);
         }
 
@@ -170,6 +170,11 @@ class CustomerService extends BaseService
 
     public function getByClinic($clinicId, array $relations = [], array $countable = []): ?array
     {
-        return $this->repository->getClinicCustomers($clinicId , $relations , $countable);
+        return $this->repository->getClinicCustomers($clinicId, $relations, $countable);
+    }
+
+    public function getRecent(array $relations = [], array $countable = []): ?array
+    {
+        return $this->repository->getRecent($relations, $countable);
     }
 }

@@ -11,6 +11,7 @@ use App\Repositories\Contracts\BaseRepository;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Facades\Excel;
@@ -194,7 +195,7 @@ class AppointmentRepository extends BaseRepository
         return null;
     }
 
-    public function getByClinicDayRange(Clinic $clinic, array $relations = [], array $countable = []): array|\Illuminate\Database\Eloquent\Collection|\LaravelIdea\Helper\App\Models\_IH_Appointment_C
+    public function getByClinicDayRange(Clinic $clinic, array $relations = [], array $countable = []): array|EloquentCollection|\LaravelIdea\Helper\App\Models\_IH_Appointment_C
     {
         return $this->globalQuery($relations, $countable)
             ->validNotEnded()
@@ -210,5 +211,51 @@ class AppointmentRepository extends BaseRepository
                     )->format('Y-m-d'),
                 ])
             ->get();
+    }
+
+    /**
+     * @return Collection
+     */
+    public function appointmentsCountInMonth(): Collection
+    {
+        $year = request('year', now()->year);
+        return $this->globalQuery()->selectRaw("COUNT(*) as appointment_count, DATE_FORMAT(date,'%Y-%M') as formatted_date")
+            ->whereRaw("YEAR(date) = $year")
+            ->groupByRaw("formatted_date")
+            ->get()->map(function (Appointment $appointment) {
+                return [
+                    'appointment_count' => $appointment->appointment_count,
+                    'date'              => Carbon::parse($appointment->formatted_date)->format('Y-m'),
+                ];
+            });
+    }
+
+    /**
+     * @return Appointment[]|EloquentCollection<Appointment>|Collection<Appointment>
+     */
+    public function getAllCompletedInCountInMonth(): array|EloquentCollection|Collection
+    {
+        $year = request('year', now()->year);
+        return $this->globalQuery()
+            ->selectRaw("COUNT(*) as appointment_count, DATE_FORMAT(date,'%Y-%M') as formatted_date")
+            ->whereRaw("YEAR(date) = $year")
+            ->where('status', AppointmentStatusEnum::CHECKOUT->value)
+            ->groupByRaw("formatted_date")
+            ->get()->map(function (Appointment $appointment) {
+                return [
+                    'appointment_count' => $appointment->appointment_count,
+                    'date'              => Carbon::parse($appointment->formatted_date)->format('Y-m'),
+                ];
+            });
+    }
+
+    public function recentAppointments(array $relations = [], array $countable = []): ?array
+    {
+        return $this->paginateQuery(
+            $this->globalQuery($relations, $countable)
+                ->where('date', '>=', now()->subDays(3)->format('Y-m-d'))
+                ->where('date', '>=', now()->format('Y-m-d'))
+                ->where('status', '!=', AppointmentStatusEnum::CANCELLED->value)
+        );
     }
 }

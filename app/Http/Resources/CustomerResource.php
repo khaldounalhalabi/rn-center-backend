@@ -16,6 +16,8 @@ class CustomerResource extends BaseResource
         return [
             'id'                          => $this->id,
             'user_id'                     => $this->user_id,
+            'created_at'                   => $this->created_at->format('Y-m-d H:i:s'),
+            'total_appointments'          => $this->whenCounted('validAppointments'),
             'user'                        => new UserResource($this->whenLoaded('user')),
             'currentClinicPatientProfile' => new PatientProfileResource($this->whenLoaded('currentClinicPatientProfile')),
             'appointments'                => AppointmentResource::collection($this->whenLoaded('appointments')),

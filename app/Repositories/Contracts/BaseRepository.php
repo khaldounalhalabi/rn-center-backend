@@ -171,7 +171,7 @@ abstract class BaseRepository
         if ($keyword) {
             if (count($this->searchableKeys) > 0) {
                 foreach ($this->searchableKeys as $search_attribute) {
-                    $query->orWhere("{$this->tableName}.{$search_attribute}", 'REGEXP', "(?i).*$keyword.*");
+                    $query->orWhere("$this->tableName.{$search_attribute}", 'REGEXP', "(?i).*$keyword.*");
                 }
             }
 
@@ -215,7 +215,9 @@ abstract class BaseRepository
                 continue;
             }
 
-            if ($relation) {
+            if ($callback && is_callable($callback)) {
+                $query = call_user_func($callback, $query, $value);
+            } elseif ($relation) {
                 $tables = explode('.', $relation);
                 $col = $tables[count($tables) - 1];
                 unset($tables[count($tables) - 1]);
@@ -224,41 +226,16 @@ abstract class BaseRepository
                 $query = $query->whereRelation($relation, function (Builder $q) use ($col, $relation, $range, $field, $method, $operator, $value) {
                     $relTable = $q->getModel()->getTable();
                     if ($range) {
-                        if (count($value) == 2) {
-                            if (!isset($value[0]) && isset($value[1])) {
-                                $q = $q->where("$relTable.$col", '<=', $value[1]);
-                            } elseif (isset($value[0]) && !isset($value[1])) {
-                                $q->where("$relTable.$col", '>=', $value[0]);
-                            } elseif (isset($value[0]) && isset($value[1])) {
-                                $q = $q->whereBetween("$relTable.$col", [$value[0], $value[1]])
-                                    ->orWhereBetween("$relTable.$col", [$value[1], $value[0]]);
-                            }
-                        } elseif (count($value) > 2) {
-                            $q->whereIn("$relTable.$col", array_filter($value, fn ($item) => $item != null));
-                        }
-                        return $q;
+                        return $this->handleRangeQuery($value, $q, $relTable, $col);
                     }
                     if ($operator === "like") {
                         return $q->{$method}("$relTable.$col", $operator, "%" . $value . "%");
                     }
                     return $q->{$method}("$relTable.$col", $operator, $value);
                 });
-            } elseif ($callback && is_callable($callback)) {
-                $query = call_user_func($callback, $query, $value);
             } else {
                 if ($range) {
-                    if (count($value) == 2) {
-                        if (!isset($value[0]) && isset($value[1])) {
-                            $query = $query->where($this->tableName . "." . $field, '<=', $value[1]);
-                        } elseif (isset($value[0]) && !isset($value[1])) {
-                            $query->where($this->tableName . "." . $field, '>=', $value[0]);
-                        } elseif (isset($value[0]) && isset($value[1])) {
-                            $query = $query->whereBetween($this->tableName . '.' . $field, [$value[0], $value[1]])
-                                ->orWhereBetween($this->tableName . '.' . $field, [$value[1], $value[0]]);
-                        }
-                    } elseif (count($value) > 2) {
-                        $query->whereIn($this->tableName . "." . $field, array_filter($value, fn ($item) => $item != null));
-                    }
+                    $query = $this->handleRangeQuery($value, $query, $this->tableName, $field);
                 } elseif ($operator == 'like') {
                     $query = $query->{$method}($this->tableName . '.' . $field, $operator, "%" . $value . "%");
                 } else {
@@ -505,7 +482,7 @@ abstract class BaseRepository
     }
 
     /**
-     * @param array $ids
+     * @param array|null $ids
      * @return BinaryFileResponse
      */
     public function export(array $ids = null): BinaryFileResponse
@@ -558,6 +535,47 @@ abstract class BaseRepository
             return null;
         } else {
             return $param;
+        }
+    }
+
+    /**
+     * @param mixed   $value
+     * @param Builder $query
+     * @param string  $table
+     * @param string  $column
+     * @return Builder
+     */
+    private function handleRangeQuery(array $value, Builder $query, string $table, string $column): Builder
+    {
+        if (count($value) == 2) {
+            if (!isset($value[0]) && isset($value[1])) {
+                $query = $query->where("$table.$column", '<=', $value[1]);
+            } elseif (isset($value[0]) && !isset($value[1])) {
+                $query->where("$table.$column", '<=', $value[0]);
+            } elseif (isset($value[0]) && isset($value[1])) {
+                $query = $query->where("$table.$column", '>=', $value[0])
+                    ->where("$table.$column", ">=", $value[1]);
+            }
+        } elseif (count($value) > 2) {
+            $query->whereIn("$table.$column", array_values(array_filter($value)));
+        }
+        return $query;
+    }
+
+    /**
+     * @param Builder $query
+     * @return array{data:Collection<T>|RegularCollection<T>|T[] , pagination_data:array}|null
+     */
+    public function paginateQuery(Builder $query): ?array
+    {
+        $data = $query->paginate($this->perPage ?? 10);
+        if ($data->count()) {
+            return [
+                'data'            => $data,
+                'pagination_data' => $this->formatPaginateData($data),
+            ];
+        } else {
+            return null;
         }
     }
 }

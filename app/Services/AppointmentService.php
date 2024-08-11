@@ -11,7 +11,9 @@ use App\Repositories\Contracts\BaseRepository;
 use App\Repositories\CustomerRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection as CollectionAlias;
 
 /**
  * @extends BaseService<Appointment , BaseRepository>
@@ -74,7 +76,7 @@ class AppointmentService extends BaseService
 
         $appointment = $this->repository->update([
             'status'              => $data['status'],
-            'cancellation_reason' => $data['cancellation_reason'] ?? ""
+            'cancellation_reason' => $data['cancellation_reason'] ?? "",
         ], $appointment, ['customer.user', 'clinic.user']);
 
         $appointmentManager->checkoutPreviousAppointmentsIfNewStatusIsCheckin($appointment, $prevStatus);
@@ -89,7 +91,7 @@ class AppointmentService extends BaseService
             'appointment_id'      => $appointment->id,
             'actor_id'            => auth()->user()->id,
             'affected_id'         => $data['customer_id'] ?? $appointment->customer_id,
-            'event'               => "appointment status has been changed to {$data['status']} in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en
+            'event'               => "appointment status has been changed to {$data['status']} in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en,
         ]);
 
         return $appointment;
@@ -160,7 +162,7 @@ class AppointmentService extends BaseService
             'appointment_id' => $appointment->id,
             'actor_id'       => auth()->user()->id,
             'affected_id'    => $appointment->customer_id,
-            'event'          => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en
+            'event'          => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en,
         ]);
         AppointmentManager::make()->handleChangeAppointmentNotifications($appointment);
         return $appointment;
@@ -198,8 +200,23 @@ class AppointmentService extends BaseService
         return $this->repository->getByCustomer($customerId, $relations, $countable);
     }
 
-    public function getClinicTodayAppointments(array $relations = [] , array $countable = []): ?array
+    public function getClinicTodayAppointments(array $relations = [], array $countable = []): ?array
     {
-        return $this->repository->getTodayAppointments(auth()->user()?->getClinicId() , $relations, $countable);
+        return $this->repository->getTodayAppointments(auth()->user()?->getClinicId(), $relations, $countable);
+    }
+
+    public function getAllCompletedCountMonthly(): array|Collection|CollectionAlias
+    {
+        return $this->repository->getAllCompletedInCountInMonth();
+    }
+
+    public function appointmentsCountInMonth(): CollectionAlias
+    {
+        return $this->repository->appointmentsCountInMonth();
+    }
+
+    public function recentAppointments(array $relations = [], array $countable = []): ?array
+    {
+        return $this->repository->recentAppointments($relations, $countable);
     }
 }
