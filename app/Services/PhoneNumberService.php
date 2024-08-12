@@ -42,7 +42,7 @@ class PhoneNumberService extends BaseService
     public function generateNumberVerificationCode(): string
     {
         do {
-            $code = sprintf('%06d', mt_rand(1, 999999));
+            $code = app()->environment('local') ? "0000" : sprintf('%06d', mt_rand(1, 999999));
             $tempNumber = $this->repository->getByVerificationCode($code);
         } while ($tempNumber != null);
         return $code;

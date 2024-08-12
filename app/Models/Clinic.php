@@ -34,7 +34,7 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
     use InteractsWithMedia;
     use Translations;
 
-    protected static function booted()
+    protected static function booted(): void
     {
         static::addGlobalScope('available_online', function (Builder $builder) {
             $builder->when(
