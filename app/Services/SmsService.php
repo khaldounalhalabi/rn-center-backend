@@ -43,12 +43,12 @@ class SmsService
             Log::info("################ Sending To : $to ################");
             $smsId = $gateway->addSms(
                 preg_replace_callback('/07(.*?)/s', function ($matches) {
-                    return "9647{$matches[1]}";
+                    return "009647{$matches[1]}";
                 }, $to),
                 $message,
                 config('sms.device_id'),
-                now()->format('Y-m-d H:i:s'),
                 null,
+                0,
                 $customerId,
                 $urgent
             );

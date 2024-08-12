@@ -12,7 +12,7 @@ class RequestVerificationCodeByPhoneRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,7 @@ class RequestVerificationCodeByPhoneRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'phone_number' => 'required|string|exists:phone_numbers,phone|regex:/^07\d{9}$',
+            'phone_number' => 'required|string|exists:phone_numbers,phone|regex:/^07\d{9}$/',
         ];
     }
 }

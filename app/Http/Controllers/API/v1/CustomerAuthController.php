@@ -6,7 +6,6 @@ use App\Enums\RolesPermissionEnum;
 use App\Http\Requests\Customer\CustomerPasswordResetRequest;
 use App\Http\Requests\Customer\CustomerRequestResetPasswordRequest;
 use App\Http\Requests\Customer\LoginRequest;
-use App\Http\Requests\Customer\RequestVerificationCode;
 use App\Http\Requests\Customer\RequestVerificationCodeByPhoneRequest;
 use App\Http\Requests\Customer\VerifyPhoneNumberRequest;
 use App\Http\Resources\PhoneNumberResource;
@@ -33,7 +32,7 @@ class CustomerAuthController extends BaseAuthController
             return $this->apiResponse(null, self::STATUS_NOT_FOUND, __('wrong_verification_code'));
         }
 
-        $result = PhoneNumberService::make()($data['verification_code']);
+        $result = PhoneNumberService::make()->verify($data['verification_code']);
 
         if ($result) {
             return $this->apiResponse(true, self::STATUS_OK, __('site.code_correct'));
@@ -103,11 +102,6 @@ class CustomerAuthController extends BaseAuthController
 
         if ($user->isBlocked()) {
             return $this->apiResponse(null, self::STATUS_BLOCKED, __('site.blocked'));
-        }
-
-        if (($user->isDoctor() && !$user->clinic?->hasActiveSubscription())
-            || ($user?->isClinicEmployee() && !$user?->clinicEmployee?->clinic?->hasActiveSubscription())) {
-            return $this->apiResponse(null, self::STATUS_EXPIRED_SUBSCRIPTION, __('site.expired_subscription'));
         }
 
         if (!$phone->is_verified) {

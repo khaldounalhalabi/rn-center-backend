@@ -10,6 +10,7 @@ use App\Http\Middleware\CustomerMustVerifyEmail;
 use App\Http\Middleware\CustomerOnly;
 use App\Http\Middleware\DoctorOnly;
 use App\Http\Middleware\EncryptCookies;
+use App\Http\Middleware\MustVerifyPhone;
 use App\Http\Middleware\NotBlocked;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Http\Middleware\RedirectIfAuthenticated;
@@ -96,5 +97,6 @@ class Kernel extends HttpKernel
         'doctor'            => DoctorOnly::class,
         'staff_can'         => ClinicEmployeeHasPermission::class,
         'customer'          => CustomerOnly::class,
+        'verified-phone'    => MustVerifyPhone::class,
     ];
 }

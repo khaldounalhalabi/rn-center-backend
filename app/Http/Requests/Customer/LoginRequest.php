@@ -12,7 +12,7 @@ class LoginRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'phone'    => 'required|string|regex:/^07\d{9}$/|exists:phone_numbers,phone',
+            'phone_number'    => 'required|string|regex:/^07\d{9}$/|exists:phone_numbers,phone',
             'password' => 'required|string',
         ];
     }
