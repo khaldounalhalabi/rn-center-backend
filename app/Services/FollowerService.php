@@ -22,7 +22,7 @@ class FollowerService extends BaseService
     {
         $clinic = ClinicRepository::make()->find($clinicId);
 
-        if (!$clinic?->isAvailable()) {
+        if (!$clinic?->isAvailable() && $clinic->availableOnline()) {
             return null;
         }
 
@@ -40,7 +40,7 @@ class FollowerService extends BaseService
         }
     }
 
-    public function getByCustomer($customerId, array $relations = [], array $countable = [])
+    public function getByCustomer($customerId, array $relations = [], array $countable = []): ?array
     {
         return $this->repository->getByCustomer($customerId, $relations, $countable);
     }

@@ -34,6 +34,21 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
     use InteractsWithMedia;
     use Translations;
 
+    protected static function booted()
+    {
+        static::addGlobalScope('available_online', function (Builder $builder) {
+            $builder->when(
+                !auth()->user() || auth()->user()?->isCustomer(),
+                function (Builder $q) {
+                    $q->whereHas('clinicSubscriptions', function (Builder|ClinicSubscription $b) {
+                        $b->where('type', SubscriptionTypeEnum::BOOKING_COST_BASED->value)
+                            ->active();
+                    });
+                }
+            );
+        });
+    }
+
     public static function authorizedActions(): array
     {
         return [
@@ -349,7 +364,8 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
     public function canShow(): bool
     {
         return auth()->user()?->isAdmin()
-            || auth()->user()?->getClinicId() == $this->id;
+            || auth()->user()?->getClinicId() == $this->id
+            || !auth()->user() && $this->availableOnline();
     }
 
     public function canDelete(): bool
@@ -435,7 +451,10 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
         });
     }
 
-    public function availableOnline()
+    /**
+     * @return bool
+     */
+    public function availableOnline(): bool
     {
         return $this->clinicSubscriptions()
             ->where('type', SubscriptionTypeEnum::BOOKING_COST_BASED->value)

@@ -2,8 +2,10 @@
 
 namespace App\Repositories;
 
+use App\Models\Clinic;
 use App\Models\Review;
 use App\Repositories\Contracts\BaseRepository;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * @extends  BaseRepository<Review>
@@ -16,12 +18,15 @@ class ReviewRepository extends BaseRepository
     {
         $data = $this->globalQuery($relations, $countable)
             ->where('clinic_id', $clinicId)
+            ->whereHas('clinic', function (Builder|Clinic $q) {
+                $q->online();
+            })
             ->paginate($this->perPage);
 
         if ($data->count()) {
             return [
                 'data'            => $data,
-                'pagination_data' => $this->formatPaginateData($data)
+                'pagination_data' => $this->formatPaginateData($data),
             ];
         }
 
