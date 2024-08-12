@@ -34,7 +34,7 @@ class Offer extends Model implements ActionsMustBeAuthorized, HasMedia
     public static function authorizedActions(): array
     {
         return [
-            'manage-offers'
+            'manage-offers',
         ];
     }
 
@@ -135,5 +135,17 @@ class Offer extends Model implements ActionsMustBeAuthorized, HasMedia
     public function appointments(): BelongsToMany
     {
         return $this->belongsToMany(Appointment::class, 'appointment_offers');
+    }
+
+    public function canShow(): bool
+    {
+        return ($this->clinic_id == auth()?->user()?->getClinicId() && $this->clinic?->isAvailable())
+            || auth()->user()?->isAdmin()
+            || (
+                (!auth()->user() || auth()->user()?->isCustomer())
+                && $this->clinic?->isAvailable()
+                && $this->clinic?->availableOnline()
+                && $this->is_active
+            );
     }
 }

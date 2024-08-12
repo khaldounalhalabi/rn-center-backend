@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use App\Models\Clinic;
+use App\Models\Customer;
 use App\Models\PatientProfile;
 use App\Repositories\Contracts\BaseRepository;
 use Illuminate\Database\Eloquent\Builder;
@@ -15,11 +17,11 @@ class PatientProfileRepository extends BaseRepository
 
     public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
     {
-        return parent::globalQuery($relations , $countable)
-            ->when($this->filtered, function (Builder $query) {
-                $query->whereHas('customer', function (Builder $builder) {
+        return parent::globalQuery($relations, $countable)
+            ->when($this->filtered || auth()->user()?->isCustomer(), function (Builder $query) {
+                $query->whereHas('customer', function (Builder|Customer $builder) {
                     $builder->available();
-                })->whereHas('clinic', function (Builder $query) {
+                })->whereHas('clinic', function (Builder|Clinic $query) {
                     $query->available();
                 });
             });
@@ -35,7 +37,7 @@ class PatientProfileRepository extends BaseRepository
         if ($data->count()) {
             return [
                 'data'            => $data->getCollection(),
-                'pagination_data' => $this->formatPaginateData($data)
+                'pagination_data' => $this->formatPaginateData($data),
             ];
         }
 

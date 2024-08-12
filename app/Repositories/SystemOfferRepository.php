@@ -16,7 +16,7 @@ class SystemOfferRepository extends BaseRepository
     public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
     {
         return parent::globalQuery($relations, $countable)
-            ->when($this->filtered, function (Builder $query) {
+            ->when($this->filtered, function (Builder|SystemOffer $query) {
                 $query->active();
             });
     }
@@ -27,7 +27,7 @@ class SystemOfferRepository extends BaseRepository
             ->whereIn('id', $ids)
             ->active()
             ->when($clinicId,
-                fn(Builder $query) => $query->whereHas('clinics',
+                fn (Builder $query) => $query->whereHas('clinics',
                     function (Builder $q) use ($clinicId) {
                         $q->where('clinics.id', $clinicId);
                     }))->get();
@@ -45,7 +45,7 @@ class SystemOfferRepository extends BaseRepository
         if ($data->count()) {
             return [
                 'data'            => $data->getCollection(),
-                'pagination_data' => $this->formatPaginateData($data)
+                'pagination_data' => $this->formatPaginateData($data),
             ];
         }
 

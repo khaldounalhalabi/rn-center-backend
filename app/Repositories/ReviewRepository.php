@@ -19,7 +19,7 @@ class ReviewRepository extends BaseRepository
         $data = $this->globalQuery($relations, $countable)
             ->where('clinic_id', $clinicId)
             ->whereHas('clinic', function (Builder|Clinic $q) {
-                $q->online();
+                $q->online()->available();
             })
             ->paginate($this->perPage);
 

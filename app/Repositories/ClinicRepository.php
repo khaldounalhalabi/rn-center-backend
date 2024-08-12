@@ -18,7 +18,7 @@ class ClinicRepository extends BaseRepository
     public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
     {
         return parent::globalQuery($relations, $countable)
-            ->when($this->filtered || !auth()->user(), function (Builder $query) {
+            ->when($this->filtered || !auth()->user()?->isAdmin(), function (Builder $query) {
                 $query->available();
             });
     }
@@ -66,7 +66,7 @@ class ClinicRepository extends BaseRepository
         if ($data->count()) {
             return [
                 'data'            => $data,
-                'pagination_data' => $this->formatPaginateData($data)
+                'pagination_data' => $this->formatPaginateData($data),
             ];
         }
         return null;

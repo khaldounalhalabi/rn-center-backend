@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Enums\ServiceStatusEnum;
+use App\Models\Clinic;
 use App\Models\Service;
 use App\Repositories\Contracts\BaseRepository;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,10 +19,15 @@ class ServiceRepository extends BaseRepository
     public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
     {
         return parent::globalQuery($relations, $countable)
-            ->when(auth()->user()?->isClinic(), function (Builder $query) {
-                $query->where('clinic_id', auth()->user()?->getClinicId());
-            })->when($this->filtered, function (Builder $query) {
-                $query->where('status', ServiceStatusEnum::ACTIVE->value);
+            ->when(auth()->user()?->isClinic(), function (Builder $builder) {
+                $builder->where('clinic_id', auth()->user()?->getClinicId());
+            })->when($this->filtered, function (Builder $q) {
+                $q->where('status', ServiceStatusEnum::ACTIVE->value);
+            })->when(!auth()->user()?->isAdmin() && !auth()->user()?->isClinic(), function (Builder|Service $b) {
+                $b->where('status', ServiceStatusEnum::ACTIVE->value)
+                    ->whereHas('clinic', function (Builder|Clinic $q2) {
+                        $q2->available()->online();
+                    });
             });
     }
 
@@ -34,7 +40,7 @@ class ServiceRepository extends BaseRepository
 
         if ($data->count()) {
             return [
-                'data' => $data->getCollection(),
+                'data'            => $data->getCollection(),
                 'pagination_data' => $this->formatPaginateData($data),
             ];
         }

@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use App\Models\Clinic;
+use App\Models\Customer;
 use App\Models\Follower;
 use App\Repositories\Contracts\BaseRepository;
 use Illuminate\Database\Eloquent\Builder;
@@ -22,9 +24,9 @@ class FollowerRepository extends BaseRepository
     public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
     {
         return parent::globalQuery($relations, $countable)
-            ->whereHas('clinic', function (Builder $query) {
-                $query->available();
-            })->whereHas('customer', function (Builder $q) {
+            ->whereHas('clinic', function (Builder|Clinic $query) {
+                $query->available()->online();
+            })->whereHas('customer', function (Builder|Customer $q) {
                 $q->available();
             });
     }

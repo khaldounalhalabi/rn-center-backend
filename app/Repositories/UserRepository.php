@@ -25,7 +25,7 @@ class UserRepository extends BaseRepository
     public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
     {
         return parent::globalQuery($relations, $countable)
-            ->when($this->filtered, function (Builder $query) {
+            ->when($this->filtered, function (Builder|User $query) {
                 $query->available();
             });
     }

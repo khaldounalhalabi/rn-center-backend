@@ -19,6 +19,7 @@ class OfferService extends BaseService
 
     public function view($id, array $relationships = [], array $countable = []): ?Offer
     {
+        /** @var Offer $offer */
         $offer = parent::view($id, $relationships, $countable);
 
         if ($offer?->canShow()) {

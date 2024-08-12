@@ -14,7 +14,6 @@ class SpecialityRepository extends BaseRepository
 {
     protected string $modelClass = Speciality::class;
 
-
     /**
      * @param array<integer> $ids
      * @return _IH_Speciality_C|array
