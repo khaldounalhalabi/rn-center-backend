@@ -144,7 +144,7 @@ class AppointmentService extends BaseService
         if (
             isset($data['date'])
             && $data['date'] != $appointment->date
-            && $appointment->status == AppointmentStatusEnum::BOOKED->value
+            && $appointment->status != AppointmentStatusEnum::CANCELLED->value
         ) {
             /** @var Appointment $appointment */
             $lastAppointmentInDay = $this->repository->getClinicLastAppointmentInDay($clinic->id, $data['date']);

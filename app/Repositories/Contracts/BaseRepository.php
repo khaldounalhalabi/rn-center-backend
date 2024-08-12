@@ -551,10 +551,10 @@ abstract class BaseRepository
             if (!isset($value[0]) && isset($value[1])) {
                 $query = $query->where("$table.$column", '<=', $value[1]);
             } elseif (isset($value[0]) && !isset($value[1])) {
-                $query->where("$table.$column", '<=', $value[0]);
+                $query->where("$table.$column", '>=', $value[0]);
             } elseif (isset($value[0]) && isset($value[1])) {
                 $query = $query->where("$table.$column", '>=', $value[0])
-                    ->where("$table.$column", ">=", $value[1]);
+                    ->where("$table.$column", "<=", $value[1]);
             }
         } elseif (count($value) > 2) {
             $query->whereIn("$table.$column", array_values(array_filter($value)));
