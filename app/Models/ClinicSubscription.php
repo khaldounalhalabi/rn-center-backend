@@ -44,7 +44,8 @@ class ClinicSubscription extends Model
 
     public function scopeActive(Builder $query): Builder
     {
-        return $query->where('end_time', '>', now()->format('Y-m-d'))
+        return $query->where('end_time', '>', now()->format('Y-m-d H:i:s'))
+            ->where('start_time', '<=', now()->format('Y-m-d H:i:s'))
             ->where('status', SubscriptionStatusEnum::ACTIVE->value);
     }
 

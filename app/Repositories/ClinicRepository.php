@@ -60,6 +60,7 @@ class ClinicRepository extends BaseRepository
             ->leftJoin(DB::raw('(SELECT clinic_id, AVG(rate) AS avg_rate FROM reviews GROUP BY clinic_id) as avg_reviews'), 'clinics.id', '=', 'avg_reviews.clinic_id')
             ->leftJoin(DB::raw('(SELECT clinic_id, COUNT(customer_id) AS followers_count FROM followers GROUP BY clinic_id) as followers'), 'clinics.id', '=', 'followers.clinic_id')
             ->orderBy('score', 'desc')
+            ->online()
             ->paginate($this->perPage);
 
         if ($data->count()) {

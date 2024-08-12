@@ -7,6 +7,7 @@ use App\Enums\AppointmentStatusEnum;
 use App\Enums\ClinicStatusEnum;
 use App\Enums\MediaTypeEnum;
 use App\Enums\SubscriptionStatusEnum;
+use App\Enums\SubscriptionTypeEnum;
 use App\Interfaces\ActionsMustBeAuthorized;
 use App\Traits\Translations;
 use Carbon\Carbon;
@@ -24,6 +25,9 @@ use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
+/**
+ * @method Builder|Clinic online
+ */
 class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
 {
     use HasFactory;
@@ -421,5 +425,21 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function scopeOnline(Builder $query): Builder
+    {
+        return $query->whereHas('clinicSubscriptions', function (Builder|ClinicSubscription $query) {
+            $query->where('type', SubscriptionTypeEnum::BOOKING_COST_BASED->value)
+                ->active();
+        });
+    }
+
+    public function availableOnline()
+    {
+        return $this->clinicSubscriptions()
+            ->where('type', SubscriptionTypeEnum::BOOKING_COST_BASED->value)
+            ->active()
+            ->exists();
     }
 }

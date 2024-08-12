@@ -488,13 +488,15 @@ class AppointmentManager
             'date'           => now(),
         ]);
 
-        AppointmentDeductionRepository::make()->create([
-            'amount'                => $clinic->deduction_cost - $systemOffersTotal,
-            'status'                => AppointmentDeductionStatusEnum::PENDING->value,
-            'clinic_transaction_id' => $clinicTransaction->id,
-            'appointment_id'        => $appointment->id,
-            'clinic_id'             => $clinic->id,
-            'date'                  => now(),
-        ]);
+        if ($clinic->availableOnline()) {
+            AppointmentDeductionRepository::make()->create([
+                'amount'                => $clinic->deduction_cost - $systemOffersTotal,
+                'status'                => AppointmentDeductionStatusEnum::PENDING->value,
+                'clinic_transaction_id' => $clinicTransaction->id,
+                'appointment_id'        => $appointment->id,
+                'clinic_id'             => $clinic->id,
+                'date'                  => now(),
+            ]);
+        }
     }
 }

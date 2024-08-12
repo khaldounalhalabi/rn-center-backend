@@ -153,6 +153,12 @@ class AppointmentService extends BaseService
             } else {
                 $data['appointment_sequence'] = 1;
             }
+
+            if (auth()->user()?->isCustomer()
+                && !in_array($appointment->status, [AppointmentStatusEnum::PENDING->value, AppointmentStatusEnum::BOOKED->value])
+            ) {
+                $data['status'] = AppointmentStatusEnum::PENDING->value;
+            }
         }
         $appointment = $this->repository->update($data, $appointment, $relationships, $countable);
 
