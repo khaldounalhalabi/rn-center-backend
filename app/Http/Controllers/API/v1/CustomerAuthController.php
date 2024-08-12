@@ -84,7 +84,7 @@ class CustomerAuthController extends BaseAuthController
 
     public function loginByPhone(LoginRequest $request)
     {
-        $result = $this->userService->loginByPhone($request->validated());
+        $result = $this->userService->loginByPhone($request->validated(), $this->relations, $this->countable);
 
         if (!$result) {
             return $this->apiResponse(null, self::STATUS_UNAUTHORIZED, __('site.credentials_not_match_records'));

@@ -29,4 +29,7 @@ Route::apiResource('appointments', v1\AppointmentController::class)
     ->except(['destroy', 'update'])
     ->names('appointments');
 
-Route::get('/hospitals' , [v1\HospitalController::class , 'getByUserCity'])->name('hospitals');
+Route::get('/hospitals', [v1\HospitalController::class, 'getByUserCity'])->name('hospitals');
+
+Route::get('patient-profiles', [v1\PatientProfileController::class, 'getByCurrentCustomer'])->name('patient.profiles');
+Route::get('patient-profiles/{patientProfileId}', [v1\PatientProfileController::class, 'show'])->name('patient.profiles.show');

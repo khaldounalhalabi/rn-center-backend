@@ -58,14 +58,14 @@ class PatientProfile extends Model implements HasMedia
     {
         return [
             'clinic'        => [
-                'name'
+                'name',
             ],
             'clinic.user'   => [
-                'full_name'
+                'full_name',
             ],
             'customer.user' => [
-                'full_name'
-            ]
+                'full_name',
+            ],
         ];
     }
 
@@ -98,7 +98,15 @@ class PatientProfile extends Model implements HasMedia
     public function filesKeys(): array
     {
         return [
-            'images' => ['type' => MediaTypeEnum::MULTIPLE->value]
+            'images' => ['type' => MediaTypeEnum::MULTIPLE->value],
         ];
+    }
+
+    public function canShow(): bool
+    {
+        return
+            ($this->clinic_id == auth()?->user()?->getClinicId() && $this->clinic->isAvailable())
+            || auth()->user()?->isAdmin()
+            || (auth()->user()?->isCustomer() && $this->customer_id == auth()->user()?->customer->id);
     }
 }

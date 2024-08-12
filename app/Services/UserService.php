@@ -537,9 +537,9 @@ class UserService extends BaseService
      * @param array $data
      * @return array{User , string , string , PhoneNumber}|null
      */
-    public function loginByPhone(array $data): ?array
+    public function loginByPhone(array $data, array $relations = [], array $countable = []): ?array
     {
-        $phoneNumber = PhoneNumberRepository::make()->getByPhone($data['phone'], ['phoneable']);
+        $phoneNumber = PhoneNumberRepository::make()->getByPhone($data['phone_number'], ['phoneable']);
 
         if (!$phoneNumber) {
             return null;
@@ -562,7 +562,7 @@ class UserService extends BaseService
         $refreshToken = auth()->setTTL(ttl: env('JWT_REFRESH_TTL', 60 * 24 * 7))->refresh();
 
         return [
-            $user,
+            $user->load($relations)->loadCount($countable),
             $token,
             $refreshToken,
             $phoneNumber,
