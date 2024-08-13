@@ -2,6 +2,7 @@
 
 namespace App\Notifications\Clinic;
 
+use App\Models\Appointment;
 use App\Notifications\BaseNotification;
 
 class NewOnlineAppointmentNotification extends BaseNotification
@@ -12,9 +13,15 @@ class NewOnlineAppointmentNotification extends BaseNotification
      */
     public function __construct(array $data)
     {
+        /** @var Appointment $appointment */
         parent::__construct($data);
-        $this->setData($data);
-        $this->setMessage($data['message']);
+        $appointment = $data['appointment'];
+        $this->setData([
+            'appointment_id' => $appointment->id,
+        ]);
+        $this->setMessageAR("لديك موعد جديد في {$appointment->date->format('Y-m-d')}");
+        $this->setMessage("You have new online appointment at {$appointment->date->format('Y-m-d')}");
         $this->setType(NewOnlineAppointmentNotification::class);
+        $this->setTitle("You have new appointment");
     }
 }

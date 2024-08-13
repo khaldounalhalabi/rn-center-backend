@@ -100,8 +100,7 @@ class AppointmentManager
             && $appointment->status == AppointmentStatusEnum::PENDING->value) {
             FirebaseServices::make()
                 ->setData([
-                    'appointment_id' => $appointment->id,
-                    'message'        => "You have new online appointment at {$appointment->date->format('Y-m-d')}",
+                    'appointment' => $appointment,
                 ])
                 ->setMethod(FirebaseServices::MANY)
                 ->setTo([$appointment->clinic->user->id, ...$clinic->clinicEmployees->pluck('user_id')->toArray()])
@@ -160,10 +159,8 @@ class AppointmentManager
             && $prevAppointmentType != AppointmentTypeEnum::ONLINE->value) {
             FirebaseServices::make()
                 ->setData([
-                    'appointment_id' => $appointment->id,
-                    'message'        => "You have new online appointment at {$appointment->date->format('Y-m-d')}",
-                ])
-                ->setMethod(FirebaseServices::MANY)
+                    'appointment_id' => $appointment,
+                ])->setMethod(FirebaseServices::MANY)
                 ->setTo([$appointment->clinic->user->id, ...$clinic->clinicEmployees->pluck('user_id')->toArray()])
                 ->setNotification(NewOnlineAppointmentNotification::class)
                 ->send();

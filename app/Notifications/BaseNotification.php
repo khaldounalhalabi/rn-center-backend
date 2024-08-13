@@ -18,6 +18,8 @@ class BaseNotification extends Notification
 
     private string $messageAR;
 
+    private string $title;
+
     /** @var class-string */
     private string $type = BaseNotification::class;
 
@@ -30,6 +32,12 @@ class BaseNotification extends Notification
         $this->data = [];
         $this->message = '';
         $this->messageAR = '';
+    }
+
+    public function setTitle(string $title = "New notification"): self
+    {
+        $this->title = $title;
+        return $this;
     }
 
     /**
@@ -57,11 +65,11 @@ class BaseNotification extends Notification
         return FcmMessage::create()
             ->setData([
                 'data'       => json_encode($this->data),
-                'title'      => env('APP_NAME', 'Rakeen Jawaher'),
+                'title'      => $this->title,
                 'body'       => $this->message,
                 'message'    => $this->message,
-                'body_ar'    => $this->messageAR,
                 'message_ar' => $this->messageAR,
+                'body_ar'    => $this->messageAR,
                 "type"       => $this->type,
             ]);
     }
@@ -104,10 +112,5 @@ class BaseNotification extends Notification
     public function fcmProject($notifiable, $message): string
     {
         return 'app'; // name of the firebase project to use
-    }
-
-    public function getFrontUrl(): string
-    {
-        return "http://localhost:3000/" . app()->getLocale() . "/";
     }
 }
