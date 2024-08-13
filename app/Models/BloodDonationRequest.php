@@ -28,11 +28,11 @@ class BloodDonationRequest extends Model
         'blood_group',
         'nearest_hospital',
         'notes',
-        'can_wait_until'
+        'can_wait_until',
     ];
 
     protected $casts = [
-
+        'can_wait_until' => 'datetime',
     ];
 
     public function exportable(): array
@@ -89,7 +89,7 @@ class BloodDonationRequest extends Model
     {
         return [
             'city' => [
-                'name'
+                'name',
             ],
         ];
     }

@@ -30,7 +30,7 @@ class StoreUpdateBloodDonationRequestRequest extends FormRequest
                 'city_id'          => ['required', 'numeric', 'exists:cities,id'],
                 'blood_group'      => ['required', 'string', Rule::in(BloodGroupEnum::getAllValues())],
                 'nearest_hospital' => ['required', 'string'],
-                'can_wait_until'   => ['required', 'date', 'date_format:Y-m-d H:i'],
+                'can_wait_until'   => ['required', 'date', 'date_format:Y-m-d H:i', 'after:now'],
                 'notes'            => ['nullable', 'string'],
             ];
         }
@@ -38,7 +38,7 @@ class StoreUpdateBloodDonationRequestRequest extends FormRequest
         return [
             'full_name'        => ['nullable', 'string', 'min:3', 'max:255'],
             'contact_phone'    => ['nullable', 'string', 'regex:/^07\d{9}$/'],
-            'address'          => ['nullable', 'string', 'min:3' , 'max:255'],
+            'address'          => ['nullable', 'string', 'min:3', 'max:255'],
             'city_id'          => ['nullable', 'numeric', 'exists:cities,id'],
             'blood_group'      => ['nullable', 'string', Rule::in(BloodGroupEnum::getAllValues())],
             'nearest_hospital' => ['nullable', 'string'],

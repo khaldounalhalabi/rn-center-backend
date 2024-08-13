@@ -61,3 +61,7 @@ Route::get('/clinics/{clinicId}', [v1\ClinicController::class, 'show'])->name('c
 Route::get('/check-role', [v1\BaseAuthController::class, 'checkRole'])->name('check-role');
 
 Route::delete('/media/{mediaId}', [v1\MediaController::class, 'delete'])->name('media.delete');
+
+Route::apiResource('blood-donations', v1\BloodDonationRequestController::class)
+    ->except(['update', 'destroy'])
+    ->names('blood.donations.request');

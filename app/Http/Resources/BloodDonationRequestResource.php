@@ -22,7 +22,7 @@ class BloodDonationRequestResource extends BaseResource
             'blood_group'      => $this->blood_group,
             'nearest_hospital' => $this->nearest_hospital,
             'notes'            => $this->notes,
-            'can_wait_until'   => $this->can_wait_until,
+            'can_wait_until'   => $this->can_wait_until->format('Y-m-d H:i'),
             'city'             => new CityResource($this->whenLoaded('city')),
         ];
     }
