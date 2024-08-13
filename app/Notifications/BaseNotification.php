@@ -12,13 +12,13 @@ class BaseNotification extends Notification
 {
     use Queueable;
 
-    private array $data;
+    private array $data = [];
 
-    private string $message;
+    private string $message = "";
 
-    private string $messageAR;
+    private string $messageAR = "";
 
-    private string $title;
+    private string $title = "";
 
     /** @var class-string */
     private string $type = BaseNotification::class;
