@@ -14,6 +14,7 @@ class YourSubscriptionIsAboutToExpire extends BaseNotification
      */
     public function __construct(array $data)
     {
+        parent::__construct($data);
         $leftDays = $data['left_days'];
         $this->setData([
             'left_days' => $leftDays,
@@ -22,6 +23,5 @@ class YourSubscriptionIsAboutToExpire extends BaseNotification
         $this->setMessageAR(" إن اشتراكك اقترب على الانتهاء , لديك $leftDays أيام متبقية في اشتراكك ");
         $this->setType(YourSubscriptionIsAboutToExpire::class);
 
-        parent::__construct($data);
     }
 }
