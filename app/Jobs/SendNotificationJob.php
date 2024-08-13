@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\User;
+use Error;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -12,6 +13,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
+use Throwable;
 
 class SendNotificationJob implements ShouldQueue
 {
@@ -41,7 +43,7 @@ class SendNotificationJob implements ShouldQueue
             Notification::send($this->users, new $this->notification($this->data));
             Log::info('***************************************');
             Log::info('***************************************');
-        } catch (Exception $exception) {
+        } catch (Exception|Error|Throwable $exception) {
             Log::info('***************************************');
             Log::info("$this->notification could not be send to : \n" . print_r($this->users->pluck(['id', 'email']), 1));
             Log::info($exception->getMessage());
