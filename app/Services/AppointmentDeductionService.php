@@ -53,7 +53,7 @@ class AppointmentDeductionService extends BaseService
                 'status'         => AppointmentDeductionStatusEnum::DONE->value,
                 'transaction_id' => $adminTransaction->id,
             ]);
-            $deduction->clinicTransaction->update([
+            $deduction->clinicTransaction?->update([
                 'status' => ClinicTransactionStatusEnum::DONE->value,
             ]);
         } elseif ($deduction->status == AppointmentDeductionStatusEnum::DONE->value) {
@@ -62,7 +62,7 @@ class AppointmentDeductionService extends BaseService
                 'status'         => AppointmentDeductionStatusEnum::PENDING->value,
                 'transaction_id' => null,
             ]);
-            $deduction->clinicTransaction->update([
+            $deduction->clinicTransaction?->update([
                 'status' => ClinicTransactionStatusEnum::PENDING->value,
             ]);
         }
