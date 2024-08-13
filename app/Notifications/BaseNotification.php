@@ -32,6 +32,7 @@ class BaseNotification extends Notification
         $this->data = [];
         $this->message = '';
         $this->messageAR = '';
+        $this->title = "";
     }
 
     public function setTitle(string $title = "New notification"): self
