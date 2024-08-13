@@ -35,11 +35,14 @@ class SendExpiredSubscriptionNotification extends Command
             ->setMethod(FirebaseServices::ToQuery)
             ->setTo(
                 User::whereHas('clinic', function (Builder $builder) use ($before) {
-                    $builder->whereHas('activeSubscription', function (Builder $builder) use ($before) {
-                        $builder->whereDate('end_time', '=', now()->addDays($before));
-                    });
+                    $builder->withoutGlobalScope('available_online')
+                        ->whereHas('activeSubscription', function (Builder $builder) use ($before) {
+                            $builder->whereDate('end_time', '=', now()->addDays($before));
+                        });
                 })->orWhereHas('clinicEmployee', function (Builder $query) use ($before) {
-                    $query->whereHas('clinic', function (Builder $q) use ($before) {
+                    $query
+                        ->withoutGlobalScope('available_online')
+                        ->whereHas('clinic', function (Builder $q) use ($before) {
                         $q->whereHas('activeSubscription', function (Builder $b) use ($before) {
                             $b->whereDate('end_time', '=', now()->addDays($before));
                         });

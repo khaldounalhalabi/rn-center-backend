@@ -131,11 +131,11 @@ class AppointmentDeductionService extends BaseService
                     'actor_id'    => auth()->user()?->id,
                     'description' => "An appointment deduction for the appointment with id : $deduction->appointment_id in {$deduction->clinic?->name}",
                 ]);
-                $deduction->update([
+                $deduction?->update([
                     'status'         => AppointmentDeductionStatusEnum::DONE->value,
                     'transaction_id' => $adminTransaction->id,
                 ]);
-                $deduction->clinicTransaction->update([
+                $deduction->clinicTransaction?->update([
                     'status' => ClinicTransactionStatusEnum::DONE->value,
                 ]);
             } elseif (
@@ -143,7 +143,7 @@ class AppointmentDeductionService extends BaseService
                 && $status == AppointmentDeductionStatusEnum::PENDING->value
             ) {
                 TransactionRepository::make()->delete($deduction->transaction_id);
-                $deduction->update([
+                $deduction?->update([
                     'status'         => AppointmentDeductionStatusEnum::PENDING->value,
                     'transaction_id' => null,
                 ]);
