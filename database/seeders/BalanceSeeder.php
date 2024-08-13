@@ -40,7 +40,7 @@ class BalanceSeeder extends Seeder
 
         Transaction::orderBy('date')->get()->each(function (Transaction $transaction) {
             if ($transaction->isPlus()) {
-                $latestBalance = $transaction->actor?->balance() ?? 0;
+                $latestBalance = $transaction->actor?->balance()->balance ?? 0;
                 Balance::create([
                     'balance'          => $latestBalance + $transaction->amount,
                     'balanceable_id'   => $transaction->actor_id,
@@ -48,7 +48,7 @@ class BalanceSeeder extends Seeder
                 ]);
             }
             if ($transaction->isMinus()) {
-                $latestBalance = $transaction->actor?->balance() ?? 0;
+                $latestBalance = $transaction->actor?->balance()->balance ?? 0;
                 Balance::create([
                     'balance'          => $latestBalance - $transaction->amount,
                     'balanceable_id'   => $transaction->actor_id,
