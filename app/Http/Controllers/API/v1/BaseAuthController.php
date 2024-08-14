@@ -86,7 +86,7 @@ class BaseAuthController extends ApiController
 
     public function register(AuthRegisterRequest $request)
     {
-        [$user, $token, $refresh_token] = $this->userService->register($request->validated(), $this->roles, $this->relations);
+        [$user, $token, $refresh_token] = $this->userService->register($request->all(), $this->roles, $this->relations);
 
         return $this->apiResponse([
             'user'          => new UserResource($user),

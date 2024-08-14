@@ -28,7 +28,9 @@ class PhoneNumberService extends BaseService
     {
         $code = $this->generateNumberVerificationCode();
 
-        SmsService::make()->sendVerificationCode($code, $phone, $user->id);
+        if (!app()->environment('local')) {
+            SmsService::make()->sendVerificationCode($code, $phone, $user->id);
+        }
 
         $phoneNumber = $this->repository->getByPhone($phone);
         $phoneNumber->update([
@@ -41,11 +43,15 @@ class PhoneNumberService extends BaseService
      */
     public function generateNumberVerificationCode(): string
     {
-        do {
-            $code = app()->environment('local') ? "0000" : sprintf('%06d', mt_rand(1, 999999));
-            $tempNumber = $this->repository->getByVerificationCode($code);
-        } while ($tempNumber != null);
-        return $code;
+        if (app()->environment('local')) {
+            return "0000";
+        } else {
+            do {
+                $code = sprintf('%06d', mt_rand(1, 999999));
+                $tempNumber = $this->repository->getByVerificationCode($code);
+            } while ($tempNumber != null);
+            return $code;
+        }
     }
 
     public function getByPhone(string $phone): ?PhoneNumber
