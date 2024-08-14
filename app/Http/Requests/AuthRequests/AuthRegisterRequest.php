@@ -36,11 +36,11 @@ class AuthRegisterRequest extends FormRequest
             'phone_number.*'  => ['required', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/', new NotInBlocked()],
             'password'        => 'required|min:8|confirmed|max:255',
             'fcm_token'       => 'nullable|string|min:3|max:1000',
-            'gender'          => 'required|string|' . Rule::in(GenderEnum::getAllValues()),
+            'gender'          => 'nullable|string|' . Rule::in(GenderEnum::getAllValues()),
             'image'           => 'image|max:50000|mimes:jpg,png|nullable',
-            'address'         => 'required|array',
-            'address.name'    => ['required', 'string', new LanguageShape()],
-            'address.city_id' => ['required', 'exists:cities,id', 'integer'],
+            'address'         => 'nullable|array',
+            'address.name'    => ['nullable', 'string', new LanguageShape()],
+            'address.city_id' => ['nullable', 'exists:cities,id', 'integer'],
         ];
     }
 
