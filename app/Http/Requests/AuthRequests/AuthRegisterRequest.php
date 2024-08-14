@@ -28,9 +28,9 @@ class AuthRegisterRequest extends FormRequest
     {
         //customer register
         return [
-            'first_name'      => ['required', 'string', 'max:255', 'min:3', new LanguageShape()],
-            'middle_name'     => ['required', 'string', 'max:255', 'min:3', new LanguageShape()],
-            'last_name'       => ['required', 'string', 'max:255', 'min:3', new LanguageShape()],
+            'first_name'      => ['required', 'string', 'max:255', 'min:3'],
+            'middle_name'     => ['required', 'string', 'max:255', 'min:3'],
+            'last_name'       => ['required', 'string', 'max:255', 'min:3'],
             'full_name'       => ['nullable', 'string', new NotInBlocked()],
             'phone_number'    => ['array', 'required'],
             'phone_number.*'  => ['required', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/', new NotInBlocked()],
@@ -61,11 +61,36 @@ class AuthRegisterRequest extends FormRequest
                 ],
             ]);
         }
+    }
 
-        if ($this->input('last_name') && $this->input('first_name') && $this->input('middle_name')) {
-            $this->merge([
-                'full_name' => User::getUserFullName($this->input('first_name'), $this->input('middle_name'), $this->input('last_name')),
-            ]);
+    protected function passedValidation(): void
+    {
+        $firstName = $this->isArabic($this->input('first_name'))
+            ? json_encode(['ar' => $this->input('first_name'), "en" => ""])
+            : json_encode(['en' => $this->input('first_name'), "ar" => ""]);
+
+        $middleName = $this->isArabic($this->input('middle_name'))
+            ? json_encode(['ar' => $this->input('middle_name'), "en" => ""])
+            : json_encode(['en' => $this->input('middle_name'), "ar" => ""]);
+
+        $lastName = $this->isArabic($this->input('last_name'))
+            ? json_encode(['ar' => $this->input('last_name'), "en" => ""])
+            : json_encode(['en' => $this->input('last_name'), "ar" => ""]);
+
+        $this->replace([
+            'first_name'  => $firstName,
+            'middle_name' => $middleName,
+            'last_name'   => $lastName,
+            'full_name'   => User::getUserFullName($firstName, $middleName, $lastName),
+        ]);
+    }
+
+    private function isArabic($string): bool
+    {
+        if (preg_match('/[\x{0600}-\x{06FF}\x{0750}-\x{077F}\x{08A0}-\x{08FF}\x{FB50}-\x{FDFF}\x{FE70}-\x{FEFF}]/u', $string)) {
+            return true;
+        } else {
+            return false;
         }
     }
 }
