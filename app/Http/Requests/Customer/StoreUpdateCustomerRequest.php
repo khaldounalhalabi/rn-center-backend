@@ -47,7 +47,7 @@ class StoreUpdateCustomerRequest extends FormRequest
                 'address.city_id'    => ['required', 'numeric', 'exists:cities,id'],
                 'address.map_iframe' => ['nullable', 'string'],
 
-                'phone_numbers'   => 'array|required',
+                'phone_numbers'   => 'array|required|min:1',
                 'phone_numbers.*' => ['required', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/', new NotInBlocked()],
             ];
         }

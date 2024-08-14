@@ -41,7 +41,7 @@ class DoctorStoreUpdateCustomerRequest extends FormRequest
                 'address'         => 'array|nullable',
                 'address.name'    => ['nullable', 'required_with:address', 'json', 'min:3', new LanguageShape()],
                 'address.city_id' => ['nullable', 'required_with:address', 'numeric', 'exists:cities,id'],
-                'phone_numbers'   => 'array|nullable|max:2',
+                'phone_numbers'   => 'array|required|max:2|min:1',
                 'phone_numbers.*' => ['required', 'string', 'regex:/^07\d{9}$/', new NotInBlocked()],
 
                 'medical_condition' => ['required', 'string'],
