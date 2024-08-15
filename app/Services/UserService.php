@@ -535,6 +535,8 @@ class UserService extends BaseService
 
     /**
      * @param array $data
+     * @param array $relations
+     * @param array $countable
      * @return array{User , string , string , PhoneNumber}|null
      */
     public function loginByPhone(array $data, array $relations = [], array $countable = []): ?array

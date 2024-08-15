@@ -17,7 +17,7 @@ class ValidPhoneVerificationCode implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $phoneNumber = PhoneNumber::where('verification_code', $value)->first();
-        if ($phoneNumber->updated_at->addMinutes(15)->equalTo(now())) {
+        if ($phoneNumber?->updated_at?->addMinutes(15)?->equalTo(now())) {
             $fail("Your $attribute Has Expired Request New One");
         }
     }
