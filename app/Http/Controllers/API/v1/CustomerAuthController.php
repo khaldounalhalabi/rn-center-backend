@@ -22,7 +22,7 @@ class CustomerAuthController extends BaseAuthController
         $this->roleHook([
             RolesPermissionEnum::CUSTOMER['role'],
         ]);
-        $this->relations = ['customer', 'media', 'phones', 'address', 'address.city'];
+        $this->relations = ['customer', 'media', 'phones', 'address', 'address.city', 'roles'];
     }
 
     public function verifyCustomerPhone(VerifyPhoneNumberRequest $request)
