@@ -16,6 +16,7 @@ Route::prefix('/customer')
         Route::post('/reset-password', 'passwordResetByPhone')->name("password-reset");
         Route::post('/verify-phone', 'verifyCustomerPhone')->name('verify-phone');
         Route::post('/request-verification-code', 'requestVerificationCodeByPhone')->name('request-verification-code');
+        Route::post('/validate-reset-code', [CustomerAuthController::class, 'validateResetCode'])->name('validate.reset.code');
     });
 
 Route::prefix('/admin')

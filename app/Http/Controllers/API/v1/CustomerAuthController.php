@@ -7,6 +7,7 @@ use App\Http\Requests\Customer\CustomerPasswordResetRequest;
 use App\Http\Requests\Customer\CustomerRequestResetPasswordRequest;
 use App\Http\Requests\Customer\LoginRequest;
 use App\Http\Requests\Customer\RequestVerificationCodeByPhoneRequest;
+use App\Http\Requests\Customer\ValidateResetPasswordCodeRequest;
 use App\Http\Requests\Customer\VerifyPhoneNumberRequest;
 use App\Http\Resources\PhoneNumberResource;
 use App\Http\Resources\UserResource;
@@ -114,5 +115,11 @@ class CustomerAuthController extends BaseAuthController
             'refresh_token' => $refreshToken,
             'phone'         => new PhoneNumberResource($phone),
         ], self::STATUS_OK, __('site.successfully_logged_in'));
+    }
+
+    public function validateResetCode(ValidateResetPasswordCodeRequest $request)
+    {
+        $request->validated();
+        return $this->apiResponse(true, self::STATUS_OK, __('site.code_correct'));
     }
 }
