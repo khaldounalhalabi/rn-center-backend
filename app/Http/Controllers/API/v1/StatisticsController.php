@@ -87,7 +87,7 @@ class StatisticsController extends ApiController
         $data[0]->total_active_doctors = Clinic::whereHas('activeSubscription')->available()->count();
 
         return $this->apiResponse(
-            $data[0] ?? [],
+            array_map(fn ($item) => is_null($item) ? 0 : floatval($item), $data),
             self::STATUS_OK,
             __('site.get_successfully')
         );
