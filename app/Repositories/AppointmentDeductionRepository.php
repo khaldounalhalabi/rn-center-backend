@@ -103,4 +103,22 @@ class AppointmentDeductionRepository extends BaseRepository
                 });
             });
     }
+
+    public function deductionsSummedByMonth()
+    {
+        $year = request('year', now()->year);
+        return $this->globalQuery()
+            ->selectRaw("SUM(amount) as earnings, DATE_FORMAT(date,'%Y-%M') as formatted_date")
+            ->whereRaw("YEAR(date) = $year")
+            ->where('status', AppointmentDeductionStatusEnum::DONE->value)
+            ->groupByRaw("formatted_date")
+            ->get()
+            ->sortByDesc('formatted_date')
+            ->map(function ($deduction) {
+                return [
+                    'earnings' => $deduction->earnings,
+                    'date'     => Carbon::parse($deduction->formatted_date)->format('Y-m'),
+                ];
+            });
+    }
 }

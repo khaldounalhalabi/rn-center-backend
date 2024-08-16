@@ -153,4 +153,9 @@ class AppointmentDeductionService extends BaseService
             }
         }, $data['ids']);
     }
+
+    public function deductionsSummedByMonth()
+    {
+        return $this->repository->deductionsSummedByMonth();
+    }
 }

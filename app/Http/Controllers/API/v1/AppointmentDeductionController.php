@@ -150,4 +150,13 @@ class AppointmentDeductionController extends ApiController
         $this->appointmentDeductionService->bulkToggleStatus($request->validated());
         return $this->apiResponse(true, self::STATUS_OK, __('site.update_successfully'));
     }
+
+    public function deductionsSummedByMonth()
+    {
+        return $this->apiResponse(
+            $this->appointmentDeductionService->deductionsSummedByMonth(),
+            self::STATUS_OK,
+            __('site.get_successfully')
+        );
+    }
 }
