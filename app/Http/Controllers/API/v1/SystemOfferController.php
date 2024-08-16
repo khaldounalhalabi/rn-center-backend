@@ -17,7 +17,7 @@ class SystemOfferController extends ApiController
     {
         $this->systemOfferService = SystemOfferService::make();
         // place the relations you want to return them within the response
-        if (auth()?->user()?->isCustomer()) {
+        if (auth()?->user()?->isCustomer() || !auth()->user()) {
             $this->indexRelations = ['customers', 'media'];
             $this->relations = ['media', 'clinics', 'customers'];
         } else {
