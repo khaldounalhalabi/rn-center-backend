@@ -67,8 +67,8 @@ class StatisticsController extends ApiController
                         (SELECT COUNT(*) FROM appointments) AS total_appointments,
                         (SELECT COUNT(*) FROM appointments WHERE date >= ?) AS upcoming_appointments,
                         (SELECT COUNT(*) FROM appointments WHERE date = $today and status != 'cancelled') AS today_appointments,
-                        (SELECT SUM(amount) FROM appointment_deductions WHERE date >= ? AND date <= ?) AS total_deductions_current_month,
-                        (SELECT SUM(amount) FROM appointment_deductions WHERE date >= ? AND date <= ?) AS total_deductions_prev_month
+                        (SELECT SUM(amount) FROM appointment_deductions WHERE date >= ? AND date <= ? AND status = 'done') AS total_deductions_current_month,
+                        (SELECT SUM(amount) FROM appointment_deductions WHERE date >= ? AND date <= ? AND status = 'done') AS total_deductions_prev_month
                   ",
             [
                 now()->format('Y-m-d'),
