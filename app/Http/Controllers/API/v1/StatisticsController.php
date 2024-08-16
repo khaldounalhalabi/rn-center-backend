@@ -6,6 +6,8 @@ use App\Enums\AppointmentStatusEnum;
 use App\Enums\ClinicTransactionTypeEnum;
 use App\Http\Controllers\ApiController;
 use App\Models\Appointment;
+use App\Models\Clinic;
+use App\Models\Customer;
 use Illuminate\Support\Facades\DB;
 
 class StatisticsController extends ApiController
@@ -58,11 +60,13 @@ class StatisticsController extends ApiController
 
     public function adminStatistics()
     {
+        $today = now()->format('Y-m-d');
         $data = DB::select(
             "
                     SELECT
                         (SELECT COUNT(*) FROM appointments) AS total_appointments,
                         (SELECT COUNT(*) FROM appointments WHERE date >= ?) AS upcoming_appointments,
+                        (SELECT COUNT(*) FROM appointments WHERE date = $today and status != 'cancelled') AS today_appointments,
                         (SELECT SUM(amount) FROM appointment_deductions WHERE date >= ? AND date <= ?) AS total_deductions_current_month,
                         (SELECT SUM(amount) FROM appointment_deductions WHERE date >= ? AND date <= ?) AS total_deductions_prev_month
                   ",
@@ -74,8 +78,16 @@ class StatisticsController extends ApiController
                 now()->subMonth()->lastOfMonth()->format('Y-m-d'),
             ]);
 
+        $customers = Customer::selectRaw("
+            COUNT(*) as total_patients ,
+            SUM(IF(DATE_FORMAT(created_at,'%Y-%M-%D') = $today , 1 , 0)) as today_registered_patients
+        ")->get()->first()->toArray();
+        $data[0]->today_registered_patients = $customers['today_registered_patients'];
+        $data[0]->total_patients = $customers['total_patients'];
+        $data[0]->total_active_doctors = Clinic::whereHas('activeSubscription')->available()->count();
+
         return $this->apiResponse(
-            collect($data[0] ?? [])->map(fn ($value) => $value === null ? 0 : $value),
+            $data[0] ?? [],
             self::STATUS_OK,
             __('site.get_successfully')
         );
