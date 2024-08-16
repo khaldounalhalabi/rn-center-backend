@@ -241,7 +241,9 @@ class AppointmentRepository extends BaseRepository
             ->whereRaw("YEAR(date) = $year")
             ->where('status', AppointmentStatusEnum::CHECKOUT->value)
             ->groupByRaw("formatted_date")
-            ->get()->map(function (Appointment $appointment) {
+            ->get()
+            ->sortByDesc('formatted_date')
+            ->map(function (Appointment $appointment) {
                 return [
                     'appointment_count' => $appointment->appointment_count,
                     'date'              => Carbon::parse($appointment->formatted_date)->format('Y-m'),
