@@ -240,12 +240,7 @@ class AppointmentService extends BaseService
             && $appointment->status == AppointmentStatusEnum::PENDING->value
             && $appointment->status == AppointmentStatusEnum::BOOKED->value
         ) {
-            if (auth()->user()?->isCustomer()
-                && !in_array($appointment->status, [AppointmentStatusEnum::PENDING->value, AppointmentStatusEnum::BOOKED->value])
-            ) {
-                $data['status'] = AppointmentStatusEnum::CANCELLED->value;
-            }
-
+            $data['status'] = AppointmentStatusEnum::CANCELLED->value;
             $appointment = $this->repository->update($data, $appointment, $relations, $countable);
 
             AppointmentLogRepository::make()->create([
