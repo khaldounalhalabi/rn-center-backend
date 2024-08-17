@@ -22,6 +22,8 @@ class AppointmentController extends ApiController
 
         if (auth()->user()?->isClinic()) {
             $this->relations = ['customer.user', 'service', 'systemOffers', 'offers'];
+        } elseif (auth()->user()?->isCustomer()) {
+            $this->relations = ['service', 'systemOffers', 'offers', 'clinic', 'clinic.user.address', 'clinic.user.address.city',];
         } else {
             $this->relations = ['clinic', 'clinic.user', 'customer.user', 'service', 'systemOffers', 'offers'];
         }
