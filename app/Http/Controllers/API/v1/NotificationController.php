@@ -27,7 +27,7 @@ class NotificationController extends ApiController
     public function markAsRead($notificationId)
     {
         $item = $this->notificationService->update([
-            'read_at' => now()
+            'read_at' => now(),
         ], $notificationId);
 
         if ($item) {
@@ -43,5 +43,11 @@ class NotificationController extends ApiController
             self::STATUS_OK,
             __('site.success')
         );
+    }
+
+    public function markAllAsRead()
+    {
+        auth()?->user()?->notifications()->update(['read_at' => now()]);
+        return $this->apiResponse(true, self::STATUS_OK, __('site.success'));
     }
 }
