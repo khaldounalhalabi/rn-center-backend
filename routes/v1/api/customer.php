@@ -35,3 +35,5 @@ Route::get('/hospitals', [v1\HospitalController::class, 'getByUserCity'])->name(
 
 Route::get('patient-profiles', [v1\PatientProfileController::class, 'getByCurrentCustomer'])->name('patient.profiles');
 Route::get('patient-profiles/{patientProfileId}', [v1\PatientProfileController::class, 'show'])->name('patient.profiles.show');
+
+Route::get('/clinics/{clinicId}/available-times', [v1\ClinicController::class, 'getClinicAvailableTimes'])->name('clinic.get.clinic.available.times');
