@@ -18,7 +18,7 @@ class ClinicController extends ApiController
         // place the relations you want to return them within the response
 
         if (!auth()->user() || auth()->user()?->isCustomer()) {
-            $this->indexRelations = ['followers', 'reviews'];
+            $this->indexRelations = ['followers', 'reviews', 'specialities', 'user', 'user.media', 'user.address', 'user.address.city'];
             $this->countable = ['reviews'];
         } else {
             $this->indexRelations = ['user', 'user.phones', 'user.address', 'user.address.city', 'lastSubscription'];
@@ -158,7 +158,7 @@ class ClinicController extends ApiController
 
     public function featured()
     {
-        $data = $this->clinicService->getFeaturedClinics($this->indexRelations , $this->countable);
+        $data = $this->clinicService->getFeaturedClinics($this->indexRelations, $this->countable);
         if ($data) {
             return $this->apiResponse(ClinicResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'));
         }
