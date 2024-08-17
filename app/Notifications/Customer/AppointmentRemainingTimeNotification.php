@@ -14,6 +14,7 @@ class AppointmentRemainingTimeNotification extends BaseNotification
         parent::__construct($data);
         $this->setData($data);
         $this->setMessage($data['message']);
+        $this->setMessageAR($data['message_ar']);
         $this->setType(AppointmentRemainingTimeNotification::class);
     }
 }

@@ -153,6 +153,7 @@ class Appointment extends Model implements ActionsMustBeAuthorized
                 ->setData([
                     'remaining_time' => $appointment->remaining_time,
                     'message'        => "Your appointment booked in ({$appointment->clinic->name}) clinic in {$appointment->date->format('Y-m-d')} has an approximate time of : {$appointment->remaining_time}",
+                    "message_ar"     => $appointment->remaining_time . "لديه من الوقت المتوفع " . $appointment->clinic->name->ar . "عند عيادة" . $appointment->date->format('Y-m-d') . "موعدك المحجوز في تاريخ",
                     'appointment_id' => $appointment->id,
                     'clinic_id'      => $appointment->clinic_id,
                     // TODO::update open route for this when you do the customer pages or configure another way for handling the notification

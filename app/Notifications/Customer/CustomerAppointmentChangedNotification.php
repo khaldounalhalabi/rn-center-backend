@@ -20,6 +20,7 @@ class CustomerAppointmentChangedNotification extends BaseNotification
         parent::__construct($newData);
         $this->setData($newData);
         $this->setMessage("Your Appointment Booked In " . $appointment->date->format('Y-m-d') . " In " . $appointment->clinic->name->en . " Clinic Has Been Changed To " . $appointment->status);
+        $this->setMessageAR($appointment->status . "تغيرت حالته إلى " . $appointment->clinic->name->ar . "عند عيادة" . $appointment->date->format('Y-m-d') . "موعدك المحجوز في تاريخ");
         $this->setType(CustomerAppointmentChangedNotification::class);
     }
 }
