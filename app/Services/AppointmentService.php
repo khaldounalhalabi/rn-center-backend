@@ -236,7 +236,7 @@ class AppointmentService extends BaseService
         }
 
         if (
-            $appointment->date->greaterThanOrEqualTo(now())
+            $appointment->date->greaterThanOrEqualTo(now()->format('Y-m-d'))
             && $appointment->status == AppointmentStatusEnum::PENDING->value
             && $appointment->status == AppointmentStatusEnum::BOOKED->value
         ) {
