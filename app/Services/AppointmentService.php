@@ -237,8 +237,8 @@ class AppointmentService extends BaseService
 
         if (
             $appointment->date->greaterThanOrEqualTo(now()->format('Y-m-d'))
-            && $appointment->status == AppointmentStatusEnum::PENDING->value
-            && $appointment->status == AppointmentStatusEnum::BOOKED->value
+            && ($appointment->status == AppointmentStatusEnum::PENDING->value
+                || $appointment->status == AppointmentStatusEnum::BOOKED->value)
         ) {
             $data['status'] = AppointmentStatusEnum::CANCELLED->value;
             $appointment = $this->repository->update($data, $appointment, $relations, $countable);
