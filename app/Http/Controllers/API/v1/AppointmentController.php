@@ -191,4 +191,14 @@ class AppointmentController extends ApiController
 
         return $this->noData();
     }
+
+    public function customerCancelAppointment($appointmentId)
+    {
+        $appointment = $this->appointmentService->customerCancelAppointment($appointmentId);
+        if ($appointment) {
+            return $this->apiResponse(new AppointmentResource($appointment), self::STATUS_OK, __('site.success'));
+        }
+
+        return $this->noData();
+    }
 }

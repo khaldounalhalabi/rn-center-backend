@@ -13,7 +13,7 @@ Route::get('/fcm/get-token', [v1\AdminAuthController::class, 'getUserFcmToken'])
 Route::get('notifications', [v1\NotificationController::class, 'getUserNotification'])->name('notifications');
 Route::get('notifications/unread/count', [v1\NotificationController::class, 'unreadCount'])->name('notification.unread.count');
 Route::get('/notifications/{notificationId}/mark-as-read', [v1\NotificationController::class, 'markAsRead'])->name('notifications');
-Route::get('/notifications/mark-all-as-read' , [v1\NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
+Route::get('/notifications/mark-all-as-read', [v1\NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
 
 
 Route::get('/clinics/{clinicId}/toggle-follow', [v1\FollowerController::class, 'toggleFollow'])->name('follower.follow.toggle');
@@ -22,6 +22,7 @@ Route::get('/followed', [v1\FollowerController::class, 'getFollowedClinics'])->n
 Route::apiResource('reviews', v1\ReviewController::class)
     ->except(['show', 'index'])->names('reviews');
 
+Route::get('/appointments/{appointmentId}/cancel', [v1\AppointmentController::class, 'customerCancelAppointment'])->name('appointments.cancel');
 Route::get('/appointments/today', [v1\AppointmentController::class, 'getCustomerTodayAppointments'])
     ->name('appointments.today');
 Route::put('/appointments/{appointmentId}/change-date', [v1\AppointmentController::class, 'updateAppointmentDate'])

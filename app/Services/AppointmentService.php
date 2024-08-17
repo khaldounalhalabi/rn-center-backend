@@ -225,4 +225,41 @@ class AppointmentService extends BaseService
     {
         return $this->repository->recentAppointments($relations, $countable);
     }
+
+    public function customerCancelAppointment($appointmentId, array $relations = [], array $countable = [])
+    {
+        /** @var Appointment $appointment */
+        $appointment = $this->repository->find($appointmentId);
+
+        if (!$appointment?->canUpdate()) {
+            return null;
+        }
+
+        if (
+            $appointment->date->greaterThanOrEqualTo(now())
+            && $appointment->status == AppointmentStatusEnum::PENDING->value
+            && $appointment->status == AppointmentStatusEnum::BOOKED->value
+        ) {
+            if (auth()->user()?->isCustomer()
+                && !in_array($appointment->status, [AppointmentStatusEnum::PENDING->value, AppointmentStatusEnum::BOOKED->value])
+            ) {
+                $data['status'] = AppointmentStatusEnum::CANCELLED->value;
+            }
+
+            $appointment = $this->repository->update($data, $appointment, $relations, $countable);
+
+            AppointmentLogRepository::make()->create([
+                'status'         => $appointment->status,
+                'happen_in'      => now(),
+                'appointment_id' => $appointment->id,
+                'actor_id'       => auth()->user()->id,
+                'affected_id'    => $appointment->customer_id,
+                'event'          => "appointment has been cancelled in " . now()->format('Y-m-d H:i:s') . " By The Patient : " . auth()->user()->full_name->en . " With Id : " . auth()?->user()?->customer?->id,
+            ]);
+            AppointmentManager::make()->handleChangeAppointmentNotifications($appointment);
+            return $appointment;
+        }
+
+        return null;
+    }
 }
