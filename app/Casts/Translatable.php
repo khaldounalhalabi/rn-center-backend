@@ -34,7 +34,10 @@ class Translatable implements CastsAttributes
         } else {
             $arrVal = json_decode($value, true);
             if (!$arrVal) {
-                throw new Exception("Invalid Translatable Data , it should be either : array , json string , Translatable Object");
+                return json_encode([
+                    'en' => $value,
+                    'ar' => "",
+                ]);
             }
             return $value;
         }
