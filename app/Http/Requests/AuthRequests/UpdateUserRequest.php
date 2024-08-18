@@ -70,32 +70,34 @@ class UpdateUserRequest extends FormRequest
 
     protected function passedValidation(): void
     {
-        $firstName = $this->isArabic($this->input('first_name'))
-            ? json_encode(['ar' => $this->input('first_name'), "en" => ""])
-            : json_encode(['en' => $this->input('first_name'), "ar" => ""]);
+        if (auth()->user()?->isCustomer()) {
+            $firstName = $this->isArabic($this->input('first_name'))
+                ? json_encode(['ar' => $this->input('first_name'), "en" => ""])
+                : json_encode(['en' => $this->input('first_name'), "ar" => ""]);
 
-        $middleName = $this->isArabic($this->input('middle_name'))
-            ? json_encode(['ar' => $this->input('middle_name'), "en" => ""])
-            : json_encode(['en' => $this->input('middle_name'), "ar" => ""]);
+            $middleName = $this->isArabic($this->input('middle_name'))
+                ? json_encode(['ar' => $this->input('middle_name'), "en" => ""])
+                : json_encode(['en' => $this->input('middle_name'), "ar" => ""]);
 
-        $lastName = $this->isArabic($this->input('last_name'))
-            ? json_encode(['ar' => $this->input('last_name'), "en" => ""])
-            : json_encode(['en' => $this->input('last_name'), "ar" => ""]);
+            $lastName = $this->isArabic($this->input('last_name'))
+                ? json_encode(['ar' => $this->input('last_name'), "en" => ""])
+                : json_encode(['en' => $this->input('last_name'), "ar" => ""]);
 
-        $address = $this->isArabic($this->input('address.name'))
-            ? json_encode(['ar' => $this->input('address.name'), "en" => ""])
-            : json_encode(['en' => $this->input('address.name'), "ar" => ""]);
+            $address = $this->isArabic($this->input('address.name'))
+                ? json_encode(['ar' => $this->input('address.name'), "en" => ""])
+                : json_encode(['en' => $this->input('address.name'), "ar" => ""]);
 
-        $this->merge([
-            'first_name'  => $firstName,
-            'middle_name' => $middleName,
-            'last_name'   => $lastName,
-            'full_name'   => User::getUserFullName($firstName, $middleName, $lastName),
-            'address'     => [
-                ...$this->input('address'),
-                'name' => $address,
-            ],
-        ]);
+            $this->merge([
+                'first_name'  => $firstName,
+                'middle_name' => $middleName,
+                'last_name'   => $lastName,
+                'full_name'   => User::getUserFullName($firstName, $middleName, $lastName),
+                'address'     => [
+                    ...$this->input('address'),
+                    'name' => $address,
+                ],
+            ]);
+        }
     }
 
 
