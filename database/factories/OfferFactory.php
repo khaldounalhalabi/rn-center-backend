@@ -22,7 +22,7 @@ class OfferFactory extends Factory
     public function definition(): array
     {
         return [
-            'title'     => $this->fakeTranslation('title'),
+            'title'     => $this->fakeTranslation('word'),
             'value'     => fake()->randomFloat(2, 0, 100),
             'note'      => $this->fakeTranslation('sentence'),
             'start_at'  => now()->subDays(5),

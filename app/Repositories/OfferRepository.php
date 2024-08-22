@@ -18,13 +18,16 @@ class OfferRepository extends BaseRepository
     {
         $query = parent::globalQuery($relations, $countable);
 
-        return $query->when(auth()->user()?->isClinic(), function (Builder|Offer $builder) {
-            $builder->where('clinic_id', auth()->user()?->getClinicId());
-        })->when(!auth()->user() || auth()->user()?->isCustomer(), function (Builder|Offer $q) {
-            $q->isActive()->whereHas('clinic', function (Builder|Clinic $b) {
-                $b->available()->online();
+        return
+            $query->when(auth()->user()?->isClinic(), function (Builder|Offer $builder) {
+                $builder->where('clinic_id', auth()->user()?->getClinicId());
+            })->when(!auth()->user() || auth()->user()?->isCustomer(), function (Builder|Offer $q) {
+                $q->isActive()->whereHas('clinic', function (Builder|Clinic $b) {
+                    $b->available()->online();
+                });
+            })->when($this->filtered , function (Builder $builder) {
+                $builder->isActive();
             });
-        });
     }
 
     public function getByIds(array $ids = [], ?int $clinicId = null, array $relations = [], array $countable = [])
