@@ -398,7 +398,7 @@ class UserService extends BaseService
 
         if (!$user) return false;
 
-        if ($user->updated_at->equalTo(now()->subMinutes(15))) {
+        if (now()->subMinutes(15)->greaterThanOrEqualTo($user->updated_at)) {
             return false;
         }
 
