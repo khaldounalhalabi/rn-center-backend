@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\RolesPermissionEnum;
+use App\Exceptions\RoleDoesNotExistException;
 use App\Models\ClinicEmployee;
 use App\Repositories\ClinicEmployeeRepository;
 use App\Services\Contracts\BaseService;
@@ -20,6 +21,9 @@ class ClinicEmployeeService extends BaseService
 
     protected string $repositoryClass = ClinicEmployeeRepository::class;
 
+    /**
+     * @throws RoleDoesNotExistException
+     */
     public function store(array $data, array $relationships = [], array $countable = []): ?ClinicEmployee
     {
         $data['role'] = RolesPermissionEnum::CLINIC_EMPLOYEE['role'];
