@@ -30,12 +30,21 @@ class HospitalFactory extends Factory
         ];
     }
 
-    public function withMedia(): HospitalFactory
+    public function allRelations(): HospitalFactory
     {
-        return $this->afterCreating(function (Hospital $h) {
-            $h->addMedia(
-                new File(storage_path('/app/required/download.png'))
-            )->preservingOriginal()->toMediaCollection();
+        return $this->withMedia()
+            ->withAvailableDepartments()
+            ->withPhoneNumbers()
+            ->withAddress();
+    }
+
+    public function withAddress(): HospitalFactory
+    {
+        return $this->afterCreating(function (Hospital $hos) {
+            Address::factory()->create([
+                'addressable_type' => Hospital::class,
+                'addressable_id'   => $hos->id,
+            ]);
         });
     }
 
@@ -49,21 +58,12 @@ class HospitalFactory extends Factory
         return $this->has(AvailableDepartment::factory($count), 'availableDepartments');
     }
 
-    public function withAddress(): HospitalFactory
+    public function withMedia(): HospitalFactory
     {
-        return $this->afterCreating(function (Hospital $hos) {
-            Address::factory()->create([
-                'addressable_type' => Hospital::class,
-                'addressable_id'   => $hos->id
-            ]);
+        return $this->afterCreating(function (Hospital $h) {
+            $h->addMedia(
+                new File(storage_path('/app/required/download.png'))
+            )->preservingOriginal()->toMediaCollection();
         });
-    }
-
-    public function allRelations(): HospitalFactory
-    {
-        return $this->withMedia()
-            ->withAvailableDepartments()
-            ->withPhoneNumbers()
-            ->withAddress();
     }
 }

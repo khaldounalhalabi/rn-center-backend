@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\City;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
  * @extends Factory
@@ -19,13 +18,13 @@ class BloodDonationRequestFactory extends Factory
     public function definition(): array
     {
         return [
-            'full_name' => fake()->word(),
-            'contact_phone' => fake()->phoneNumber(),
-            'address' => fake()->address(),
-            'city_id' => City::inRandomOrder()->first()->id,
-            'blood_group' => fake()->word(),
+            'full_name'        => fake()->word(),
+            'contact_phone'    => fake()->phoneNumber(),
+            'address'          => fake()->address(),
+            'city_id'          => City::inRandomOrder()->first()->id,
+            'blood_group'      => fake()->word(),
             'nearest_hospital' => fake()->address(),
-            'notes' => fake()->text(),
+            'notes'            => fake()->text(),
         ];
     }
 }

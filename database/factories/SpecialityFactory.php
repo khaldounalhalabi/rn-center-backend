@@ -28,11 +28,6 @@ class SpecialityFactory extends Factory
         ];
     }
 
-    public function withClinics($count = 1): SpecialityFactory
-    {
-        return $this->has(Clinic::factory($count));
-    }
-
     public function allRelations(): SpecialityFactory
     {
         return $this->withClinics()->withMedia();
@@ -45,5 +40,10 @@ class SpecialityFactory extends Factory
                 new File(storage_path('/app/required/download.png'))
             )->preservingOriginal()->toMediaCollection();
         });
+    }
+
+    public function withClinics($count = 1): SpecialityFactory
+    {
+        return $this->has(Clinic::factory($count));
     }
 }

@@ -2,8 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Clinic;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
  * @extends Factory
@@ -18,8 +19,8 @@ class ClinicEmployeeFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => \App\Models\User::factory(),
-            'clinic_id' => \App\Models\Clinic::factory(),
+            'user_id'   => User::factory(),
+            'clinic_id' => Clinic::factory(),
 
         ];
     }

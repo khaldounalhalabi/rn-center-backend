@@ -6,7 +6,6 @@ use App\Enums\OfferTypeEnum;
 use App\Models\Clinic;
 use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
  * @extends Factory
@@ -29,7 +28,7 @@ class OfferFactory extends Factory
             'end_at'    => now()->addDays(5),
             'is_active' => true,
             'type'      => fake()->randomElement(OfferTypeEnum::getAllValues()),
-            'clinic_id' => Clinic::factory(),
+            'clinic_id' => Clinic::inRandomOrder()->first()->id,
         ];
     }
 }

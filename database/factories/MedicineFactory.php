@@ -5,7 +5,6 @@ namespace Database\Factories;
 use App\Models\Clinic;
 use App\Models\Prescription;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
  * @extends Factory
@@ -21,7 +20,7 @@ class MedicineFactory extends Factory
         return [
             'name'        => fake()->firstName(),
             'description' => fake()->text(),
-            'clinic_id'   => Clinic::factory()->withSchedules(),
+            'clinic_id'   => Clinic::inRandomOrder()->first()->id,
         ];
     }
 

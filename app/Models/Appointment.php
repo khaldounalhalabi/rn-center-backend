@@ -115,9 +115,6 @@ class Appointment extends Model implements ActionsMustBeAuthorized
     protected static function booted(): void
     {
         parent::booted();
-        self::creating(function (Appointment $appointment) {
-            self::handleRemainingTime($appointment);
-        });
     }
 
     public static function handleRemainingTime(Appointment $appointment): Appointment
@@ -134,9 +131,9 @@ class Appointment extends Model implements ActionsMustBeAuthorized
                 return $appointment;
             }
 
-            $appointment_gap = $appointment->clinic->schedules->pluck('appointment_gap')->unique()->first();
-            $approximate_appointment_time = $appointment->clinic->approximate_appointment_time;
-            $diffDays = $appointment->date->diffInDays(now()->format('Y-m-d'));
+            $appointment_gap = $appointment?->clinic?->schedules?->pluck('appointment_gap')->unique()->first();
+            $approximate_appointment_time = $appointment?->clinic?->approximate_appointment_time;
+            $diffDays = $appointment?->date?->diffInDays(now()->format('Y-m-d'));
             $diffMinutes = ($approximate_appointment_time + $appointment_gap) * $beforeAppointmentsCount;
 
             try {
@@ -152,15 +149,15 @@ class Appointment extends Model implements ActionsMustBeAuthorized
             FirebaseServices::make()
                 ->setData([
                     'remaining_time' => $appointment->remaining_time,
-                    'message'        => "Your appointment booked in ({$appointment->clinic->name}) clinic in {$appointment->date->format('Y-m-d')} has an approximate time of : {$appointment->remaining_time}",
-                    "message_ar"     => $appointment->remaining_time . "لديه من الوقت المتوفع " . $appointment->clinic->name->ar . "عند عيادة" . $appointment->date->format('Y-m-d') . "موعدك المحجوز في تاريخ",
-                    'appointment_id' => $appointment->id,
-                    'clinic_id'      => $appointment->clinic_id,
+                    'message'        => "Your appointment booked in ({$appointment?->clinic?->name}) clinic in {$appointment?->date?->format('Y-m-d')} has an approximate time of : {$appointment?->remaining_time}",
+                    "message_ar"     => $appointment?->remaining_time . "لديه من الوقت المتوفع " . $appointment?->clinic?->name?->ar . "عند عيادة" . $appointment?->date?->format('Y-m-d') . "موعدك المحجوز في تاريخ",
+                    'appointment_id' => $appointment?->id,
+                    'clinic_id'      => $appointment?->clinic_id,
                     // TODO::update open route for this when you do the customer pages or configure another way for handling the notification
                     'url'            => '#',
                 ])
                 ->setMethod(FirebaseServices::ONE)
-                ->setTo($appointment->customer->user)
+                ->setTo($appointment?->customer?->user)
                 ->setNotification(AppointmentRemainingTimeNotification::class)
                 ->send();
         }

@@ -19,10 +19,10 @@ class ReviewFactory extends Factory
     public function definition(): array
     {
         return [
-            'clinic_id' => Clinic::factory(),
-            'customer_id' => Customer::factory(),
-            'rate' => fake()->numberBetween(1, 5),
-            'review' => fake()->sentence(),
+            'clinic_id'   => Clinic::inRandomOrder()->first()->id,
+            'customer_id' => Customer::inRandomOrder()->first()->id,
+            'rate'        => fake()->numberBetween(1, 5),
+            'review'      => fake()->sentence(),
         ];
     }
 }

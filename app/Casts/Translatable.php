@@ -6,6 +6,10 @@ use App\Serializers\Translatable as SerializersTranslatable;
 use Exception;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 
+/**
+ * @property string en
+ * @property string ar
+ */
 class Translatable implements CastsAttributes
 {
     /**

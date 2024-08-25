@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Enums\BloodGroupEnum;
 use App\Enums\GenderEnum;
+use App\Enums\RolesPermissionEnum;
 use App\Models\Address;
 use App\Models\Clinic;
 use App\Models\ClinicEmployee;
@@ -24,29 +25,19 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'first_name' => $this->fakeTranslation('firstName'),
-            'middle_name' => $this->fakeTranslation('lastName'),
-            'last_name' => $this->fakeTranslation('lastName'),
-            'email' => $this->faker->unique()->safeEmail(),
-            'birth_date' => Carbon::now()->subYear(20),
-            'gender' => $this->faker->randomElement(GenderEnum::getAllValues()),
-            'blood_group' => $this->faker->randomElement(BloodGroupEnum::getAllValues()),
-            'tags' => $this->faker->text(),
+            'first_name'        => $this->fakeTranslation('firstName'),
+            'middle_name'       => $this->fakeTranslation('lastName'),
+            'last_name'         => $this->fakeTranslation('lastName'),
+            'email'             => $this->faker->unique()->safeEmail(),
+            'birth_date'        => Carbon::now()->subYear(20),
+            'gender'            => $this->faker->randomElement(GenderEnum::getAllValues()),
+            'blood_group'       => $this->faker->randomElement(BloodGroupEnum::getAllValues()),
+            'tags'              => $this->faker->text(),
             'email_verified_at' => Carbon::now(),
-            'password' => '123456789',
-            'is_blocked' => false,
-            'is_archived' => false,
+            'password'          => '123456789',
+            'is_blocked'        => false,
+            'is_archived'       => false,
         ];
-    }
-
-    public function withAddress(): UserFactory
-    {
-        return $this->afterCreating(function (User $user) {
-            Address::factory()->create([
-                'addressable_id' => $user->id,
-                'addressable_type' => User::class,
-            ]);
-        });
     }
 
     public function allRelations(): UserFactory
@@ -54,11 +45,6 @@ class UserFactory extends Factory
         return $this->withPhoneNumbers(1)
             ->withAddress()
             ->withMedia();
-    }
-
-    public function customer(): UserFactory
-    {
-        return $this->has(Customer::factory());
     }
 
     public function withMedia(): UserFactory
@@ -70,9 +56,14 @@ class UserFactory extends Factory
         });
     }
 
-    public function clinic(): UserFactory
+    public function withAddress(): UserFactory
     {
-        return $this->has(Clinic::factory()->withSchedules());
+        return $this->afterCreating(function (User $user) {
+            Address::factory()->create([
+                'addressable_id'   => $user->id,
+                'addressable_type' => User::class,
+            ]);
+        });
     }
 
     public function withPhoneNumbers($count = 1): UserFactory
@@ -80,8 +71,35 @@ class UserFactory extends Factory
         return $this->afterCreating(function (User $user) use ($count) {
             PhoneNumber::factory($count)->create([
                 'phoneable_type' => User::class,
-                'phoneable_id' => $user->id,
+                'phoneable_id'   => $user->id,
             ]);
+        });
+    }
+
+    public function customer(): UserFactory
+    {
+        return $this->afterCreating(function (User $user) {
+            $user->assignRole(RolesPermissionEnum::CUSTOMER['role']);
+            Customer::factory()->create([
+                'user_id' => $user->id,
+            ]);
+        });
+    }
+
+    public function clinic(): UserFactory
+    {
+        return $this->afterCreating(function (User $user) {
+            $user->assignRole(RolesPermissionEnum::DOCTOR['role']);
+            Clinic::factory()->withSchedules()->create([
+                'user_id' => $user->id,
+            ]);
+        });
+    }
+
+    public function admin(): UserFactory
+    {
+        return $this->afterCreating(function (User $user) {
+            $user->assignRole(RolesPermissionEnum::ADMIN['role']);
         });
     }
 

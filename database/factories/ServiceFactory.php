@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Appointment;
 use App\Models\Clinic;
 use App\Models\ServiceCategory;
 use App\Traits\Translations;
@@ -23,16 +24,16 @@ class ServiceFactory extends Factory
         return [
             'name'                 => $this->fakeTranslation('word'),
             'approximate_duration' => fake()->numberBetween(1, 2000),
-            'service_category_id'  => ServiceCategory::factory(),
+            'service_category_id'  => ServiceCategory::inRandomOrder()->first()->id,
             'price'                => fake()->randomFloat(2, 0, 1000),
             'status'               => fake()->numberBetween(1, 2000),
             'description'          => $this->fakeTranslation('word'),
-            'clinic_id'            => Clinic::factory()->withSchedules(),
+            'clinic_id'            => Clinic::inRandomOrder()->first()->id,
         ];
     }
 
     public function withAppointments($count = 1): ServiceFactory
     {
-        return $this->has(\App\Models\Appointment::factory($count));
+        return $this->has(Appointment::factory($count));
     }
 }

@@ -2,15 +2,17 @@
 
 namespace Database\Factories;
 
+use App\Models\Address;
+use App\Models\BloodDonationRequest;
+use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
  * @extends Factory
  */
 class CityFactory extends Factory
 {
-    use \App\Traits\Translations;
+    use Translations;
 
     /**
      * Define the model's default state.
@@ -26,11 +28,11 @@ class CityFactory extends Factory
 
     public function withAddresses($count = 1): CityFactory
     {
-        return $this->has(\App\Models\Address::factory($count));
+        return $this->has(Address::factory($count));
     }
 
     public function withBloodDonationRequests($count = 1): CityFactory
     {
-        return $this->has(\App\Models\BloodDonationRequest::factory($count));
+        return $this->has(BloodDonationRequest::factory($count));
     }
 }

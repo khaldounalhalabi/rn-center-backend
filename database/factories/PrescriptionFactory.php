@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Appointment;
 use App\Models\Clinic;
 use App\Models\Customer;
+use App\Models\Medicine;
 use App\Models\MedicinePrescription;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,6 +20,8 @@ class PrescriptionFactory extends Factory
      */
     public function definition(): array
     {
+        $clinicId = Clinic::inRandomOrder()->first()->id;
+
         $physicalInformation = [
             "High Blood Pressure" => fake()->sentence(5),
             "Diabetic"            => fake()->sentence(5),
@@ -36,9 +39,9 @@ class PrescriptionFactory extends Factory
             "Temperature"         => fake()->sentence(5),
         ];
         return [
-            'clinic_id'            => Clinic::factory()->withSchedules(),
-            'customer_id'          => Customer::factory(),
-            'appointment_id'       => Appointment::factory(),
+            'clinic_id'            => $clinicId,
+            'customer_id'          => Customer::inRandomOrder()->first()->id,
+            'appointment_id'       => Appointment::inRandomOrder()->where('clinic_id', $clinicId)->first()->id,
             'physical_information' => json_encode($physicalInformation),
             'problem_description'  => fake()->text(),
             'test'                 => fake()->text(),
@@ -51,13 +54,13 @@ class PrescriptionFactory extends Factory
         return $this->withMedicineData();
     }
 
-    public function withMedicines($count = 1): PrescriptionFactory
-    {
-        return $this->has(\App\Models\Medicine::factory($count));
-    }
-
     public function withMedicineData($count = 1): PrescriptionFactory
     {
         return $this->has(MedicinePrescription::factory($count), 'medicinesData');
+    }
+
+    public function withMedicines($count = 1): PrescriptionFactory
+    {
+        return $this->has(Medicine::factory($count));
     }
 }

@@ -4,10 +4,8 @@ namespace Database\Factories;
 
 use App\Enums\AppointmentStatusEnum;
 use App\Models\Appointment;
-use App\Models\Clinic;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
  * @extends Factory
@@ -21,13 +19,13 @@ class AppointmentLogFactory extends Factory
     public function definition(): array
     {
         return [
-            'appointment_id'      => Appointment::inRandomOrder()->first()->id,
+            'appointment_id'      => Appointment::factory(),
             'cancellation_reason' => fake()->text(),
             'status'              => fake()->randomElement(AppointmentStatusEnum::getAllValues()),
             'actor_id'            => User::factory(),
             'affected_id'         => User::factory(),
             'happen_in'           => now(),
-            'event'               => "appointment created in " . now()->format('Y-m-d H:i:s') . "By " . fake()->name
+            'event'               => "appointment created in " . now()->format('Y-m-d H:i:s') . "By " . fake()->name,
         ];
     }
 }

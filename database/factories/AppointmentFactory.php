@@ -30,10 +30,10 @@ class AppointmentFactory extends Factory
     {
         $type = fake()->randomElement(AppointmentTypeEnum::getAllValues());
         return [
-            'customer_id'          => Customer::inRandomOrder()->first()->id,
-            'clinic_id'            => Clinic::inRandomOrder()->first()->id,
+            'customer_id'          => Customer::inRandomOrder()->first()?->id,
+            'clinic_id'            => Clinic::inRandomOrder()->first()?->id,
             'note'                 => fake()->text(),
-            'service_id'           => Service::inRandomOrder()->first()->id,
+            'service_id'           => Service::inRandomOrder()->first()?->id,
             'extra_fees'           => fake()->randomFloat(1, 2000),
             'total_cost'           => fake()->randomFloat(2, 0, 1000),
             'type'                 => $type,
@@ -44,6 +44,11 @@ class AppointmentFactory extends Factory
             'device_type'          => fake()->word(),
             'appointment_sequence' => fake()->numberBetween(1, 10),
         ];
+    }
+
+    public function allRelations(): AppointmentFactory
+    {
+        return $this->withAppointmentLogs();
     }
 
     public function withAppointmentLogs(): AppointmentFactory
@@ -57,11 +62,6 @@ class AppointmentFactory extends Factory
                 'happen_in'      => now(),
             ]);
         });
-    }
-
-    public function allRelations(): AppointmentFactory
-    {
-        return $this->withAppointmentLogs();
     }
 
     public function withSystemOffers($count = 1): AppointmentFactory

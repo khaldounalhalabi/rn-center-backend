@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Enums\BlockTypeEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 use JetBrains\PhpStorm\ArrayShape;
 
 /**

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Collection as CollectionAlias;
 use Illuminate\Support\Facades\Log;
+use LaravelIdea\Helper\App\Models\_IH_AppointmentDeduction_C;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
@@ -98,9 +99,7 @@ class AppointmentDeductionRepository extends BaseRepository
     {
         $this->globalQuery()->whereIn('id', $ids)
             ->chunk(10, function (CollectionAlias $deductions) use ($callable) {
-                $deductions->each(function (AppointmentDeduction $deduction) use ($callable) {
-                    $callable($deduction);
-                });
+                $deductions->each(fn (AppointmentDeduction $deduction) => $callable($deduction));
             });
     }
 
@@ -120,5 +119,19 @@ class AppointmentDeductionRepository extends BaseRepository
                     'date'     => Carbon::parse($deduction->formatted_date)->format('Y-m'),
                 ];
             });
+    }
+
+    /**
+     * @param       $clinicId
+     * @param array $date
+     * @return Collection<AppointmentDeduction>|AppointmentDeduction[]
+     */
+    public function getByDateRange($clinicId, $startDate, $endDate): Collection|array
+    {
+        return $this->globalQuery()
+            ->where('clinic_id', $clinicId)
+            ->where('date', '>=', $startDate)
+            ->where('date', '<=', $endDate)
+            ->get();
     }
 }

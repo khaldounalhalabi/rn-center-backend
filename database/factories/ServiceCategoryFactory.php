@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Service;
 use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -23,14 +24,14 @@ class ServiceCategoryFactory extends Factory
         ];
     }
 
-    public function withServices($count = 1): ServiceCategoryFactory
-    {
-        return $this->has(\App\Models\Service::factory($count));
-    }
-
     public function allRelations(): ServiceCategoryFactory
     {
         return $this->withServices(5);
+    }
+
+    public function withServices($count = 1): ServiceCategoryFactory
+    {
+        return $this->has(Service::factory($count));
     }
 
 }

@@ -2,11 +2,19 @@
 
 namespace App\Services;
 
+use App\Enums\ClinicTransactionStatusEnum;
+use App\Enums\ClinicTransactionTypeEnum;
 use App\Enums\SubscriptionStatusEnum;
 use App\Enums\SubscriptionTypeEnum;
+use App\Enums\TransactionTypeEnum;
 use App\Models\ClinicSubscription;
+use App\Models\ClinicTransaction;
+use App\Models\Transaction;
+use App\Repositories\ClinicRepository;
 use App\Repositories\ClinicSubscriptionRepository;
+use App\Repositories\ClinicTransactionRepository;
 use App\Repositories\SubscriptionRepository;
+use App\Repositories\TransactionRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
 use Illuminate\Database\Eloquent\Model;
@@ -101,5 +109,47 @@ class ClinicSubscriptionService extends BaseService
     public function getClinicSubscriptions($clinicId, array $relations = [], int $perPage = 10): ?array
     {
         return $this->repository->getByClinic($clinicId, $relations, $perPage);
+    }
+
+    /**
+     * @param $clinicId
+     * @return ClinicSubscription|null
+     */
+    public function makeItPaid($clinicId): ?ClinicSubscription
+    {
+        $clinic = ClinicRepository::make()->find($clinicId);
+
+        if (!$clinic || !$clinic?->hasActiveSubscription()) {
+            return null;
+        }
+
+        if ($clinic->activeSubscription?->is_paid){
+            return null;
+        }
+
+        $subscription = $clinic->activeSubscription->subscription;
+
+        TransactionRepository::make()->create([
+            'type'        => TransactionTypeEnum::INCOME->value,
+            'date'        => now(),
+            'actor_id'    => auth()->user()?->id,
+            'amount'      => $subscription->cost,
+            'description' => "A pay from {$clinic->name?->en} for its subscription",
+        ]);
+
+        ClinicTransactionRepository::make()->create([
+            'amount'    => $subscription->cost,
+            'date'      => now(),
+            'type'      => ClinicTransactionTypeEnum::OUTCOME->value,
+            'clinic_id' => $clinicId,
+            'status'    => ClinicTransactionStatusEnum::DONE->value,
+            'notes'     => "A pay for the system subscription",
+        ]);
+
+        $clinic->activeSubscription->update([
+            'is_paid' => true,
+        ]);
+
+        return $clinic->activeSubscription;
     }
 }

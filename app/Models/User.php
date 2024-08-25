@@ -241,7 +241,7 @@ class User extends Authenticatable implements HasMedia, JWTSubject
 
     public function isDoctor(): bool
     {
-        return $this->hasRole(RolesPermissionEnum::DOCTOR['role']) && $this->clinic->exists();
+        return $this->hasRole(RolesPermissionEnum::DOCTOR['role']) && $this?->clinic?->exists();
     }
 
     public function isAdmin(): bool

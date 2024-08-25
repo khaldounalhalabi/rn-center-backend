@@ -158,4 +158,13 @@ class AppointmentDeductionService extends BaseService
     {
         return $this->repository->deductionsSummedByMonth();
     }
+
+    public function collectForThisMonth($clinicId): void
+    {
+        $ids = $this->repository->getByDateRange($clinicId, now()->firstOfMonth(), now()->lastOfMonth())->pluck('id');
+        $this->bulkToggleStatus([
+            'status' => AppointmentDeductionStatusEnum::DONE->value,
+            'ids'    => $ids->toArray(),
+        ]);
+    }
 }

@@ -24,7 +24,7 @@ class AddressFactory extends Factory
         $userChance = fake()->boolean;
         return [
             'name'             => $this->fakeTranslation('address'),
-            'city_id'          => City::inRandomOrder()->first()->id,
+            'city_id'          => City::factory(),
             'lat'              => fake()->latitude(),
             'lng'              => fake()->longitude(),
             'country'          => fake()->country(),

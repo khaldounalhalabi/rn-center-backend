@@ -100,6 +100,7 @@ Route::apiResource('/blood-donation-requests', v1\BloodDonationRequestController
 
 Route::apiResource('/system-offers', v1\SystemOfferController::class)->names('system.offers');
 
+Route::get('/clinics/{clinicId}/appointment-deductions/current-month/collect', [v1\AppointmentDeductionController::class, 'collectForThisMonth'])->name('appointment.deduction.current.month.collect');
 Route::get('/appointment-deductions/earnings', [v1\AppointmentDeductionController::class, 'deductionsSummedByMonth'])->name('appointment.deductions.earnings');
 Route::get('appointment-deductions/all', [v1\AppointmentDeductionController::class, 'all'])->name('appointment.deduction.all');
 Route::get('clinics/{clinicId}/appointment-deductions/summary', [v1\AppointmentDeductionController::class, 'getSummaryByClinicId'])->name('clinics.appointment.deduction.summary');

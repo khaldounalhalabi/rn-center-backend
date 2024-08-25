@@ -6,11 +6,13 @@ use App\Enums\WeekDayEnum;
 use App\Models\Appointment;
 use App\Models\AppointmentDeduction;
 use App\Models\Clinic;
+use App\Models\ClinicEmployee;
 use App\Models\ClinicHoliday;
 use App\Models\ClinicTransaction;
 use App\Models\Follower;
 use App\Models\Medicine;
 use App\Models\Offer;
+use App\Models\PatientProfile;
 use App\Models\Prescription;
 use App\Models\Review;
 use App\Models\Schedule;
@@ -63,6 +65,21 @@ class ClinicFactory extends Factory
             ->withPrescriptions();
     }
 
+    public function withPrescriptions($count = 1): ClinicFactory
+    {
+        return $this->has(Prescription::factory($count));
+    }
+
+    public function withClinicHolidays($count = 1): ClinicFactory
+    {
+        return $this->has(ClinicHoliday::factory($count));
+    }
+
+    public function withServices($count = 1): ClinicFactory
+    {
+        return $this->has(Service::factory($count));
+    }
+
     public function withSpecialities($count = 1): ClinicFactory
     {
         return $this->has(Speciality::factory($count));
@@ -92,16 +109,6 @@ class ClinicFactory extends Factory
         });
     }
 
-    public function withClinicHolidays($count = 1): ClinicFactory
-    {
-        return $this->has(ClinicHoliday::factory($count));
-    }
-
-    public function withServices($count = 1): ClinicFactory
-    {
-        return $this->has(Service::factory($count));
-    }
-
     public function withAppointments($count = 1): ClinicFactory
     {
         return $this->has(Appointment::factory($count));
@@ -110,11 +117,6 @@ class ClinicFactory extends Factory
     public function withMedicines($count = 1): ClinicFactory
     {
         return $this->has(Medicine::factory($count));
-    }
-
-    public function withPrescriptions($count = 1): ClinicFactory
-    {
-        return $this->has(Prescription::factory($count));
     }
 
     public function withSubscriptions($count = 1): ClinicFactory
@@ -129,12 +131,12 @@ class ClinicFactory extends Factory
 
     public function withPatientProfiles($count = 1): ClinicFactory
     {
-        return $this->has(\App\Models\PatientProfile::factory($count));
+        return $this->has(PatientProfile::factory($count));
     }
 
     public function withClinicEmployees($count = 1): ClinicFactory
     {
-        return $this->has(\App\Models\ClinicEmployee::factory($count));
+        return $this->has(ClinicEmployee::factory($count));
     }
 
     public function withSystemOffers($count = 1): ClinicFactory

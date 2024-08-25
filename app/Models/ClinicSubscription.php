@@ -20,6 +20,7 @@ class ClinicSubscription extends Model
         'status',
         'deduction_cost',
         'type',
+        'is_paid',
     ];
 
     protected $casts = [

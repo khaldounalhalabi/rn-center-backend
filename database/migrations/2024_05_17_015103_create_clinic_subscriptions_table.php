@@ -24,6 +24,7 @@ return new class () extends Migration {
             $table->string('status')->default(SubscriptionStatusEnum::ACTIVE->value);
             $table->unsignedFloat('deduction_cost')->default(0.00);
             $table->string("type")->default(SubscriptionTypeEnum::BOOKING_COST_BASED->value);
+            $table->boolean('is_paid')->default(false);
             $table->timestamps();
             $table->index(['created_at']);
         });

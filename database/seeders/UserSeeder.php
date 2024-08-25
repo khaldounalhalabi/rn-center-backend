@@ -2,12 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Enums\AppointmentStatusEnum;
-use App\Enums\AppointmentTypeEnum;
 use App\Enums\RolesPermissionEnum;
 use App\Enums\SubscriptionStatusEnum;
 use App\Enums\SubscriptionTypeEnum;
-use App\Models\Appointment;
 use App\Models\Clinic;
 use App\Models\ClinicSubscription;
 use App\Models\User;
@@ -21,59 +18,51 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create(['email' => 'admin@pom.com', 'password' => '123456789'])->assignRole(RolesPermissionEnum::ADMIN['role']);
-        $user1 = User::factory()
-            ->has(
-                Clinic::factory()
-                    ->state([
-                        'name' => new Translatable(['en' => 'Dark Lord', 'ar' => 'عيادة المحبة']),
-                    ])->allRelations()
-            )->create([
-                'email'    => 'khaldounalhalabi42@gmail.com',
-                'password' => '123456789',
-            ])
-            ->assignRole(RolesPermissionEnum::DOCTOR['role']);
-        Appointment::factory(10)->create([
-            'clinic_id' => $user1?->getClinicId(),
-            'status'    => AppointmentStatusEnum::PENDING,
-            'type'      => AppointmentTypeEnum::ONLINE->value,
-        ]);
-        ClinicSubscription::create([
-            'start_time'      => now()->subDay(),
-            'end_time'        => now()->addYear(),
-            'clinic_id'       => $user1->getClinicId(),
-            'status'          => SubscriptionStatusEnum::ACTIVE->value,
-            'deduction_cost'  => 10,
-            'subscription_id' => 2,
-            'type'            => SubscriptionTypeEnum::MONTHLY_PAID_BASED->value,
-        ]);
-        $user2 = User::factory()
-            ->has(Clinic::factory()
-                ->state([
-                    'name' => new Translatable(['en' => 'pom', 'ar' => 'pom']),
-                ])->allRelations())
-            ->create([
-                'email'    => 'asasimr55@gmail.com',
-                'password' => '123456789',
-            ])
-            ->assignRole(RolesPermissionEnum::DOCTOR['role']);
+        User::factory()->create(['email' => 'admin@pom.com', 'password' => '123456789'])
+            ->assignRole(RolesPermissionEnum::ADMIN['role']);
 
-        Appointment::factory(10)->create([
-            'clinic_id' => $user2?->getClinicId(),
-            'status'    => AppointmentStatusEnum::PENDING,
-            'type'      => AppointmentTypeEnum::ONLINE->value,
+        $user1 = User::factory()->create([
+            'email'    => 'khaldounalhalabi42@gmail.com',
+            'password' => '123456789',
+        ])->assignRole(RolesPermissionEnum::DOCTOR['role']);
+
+        $clinic = Clinic::factory()->create([
+            'name'    => new Translatable(['en' => 'Almahaba', 'ar' => 'عيادة المحبة']),
+            'user_id' => $user1->id,
         ]);
 
         ClinicSubscription::create([
             'start_time'      => now()->subDay(),
             'end_time'        => now()->addYear(),
-            'clinic_id'       => $user2->getClinicId(),
+            'clinic_id'       => $clinic->id,
             'status'          => SubscriptionStatusEnum::ACTIVE->value,
             'deduction_cost'  => 10,
             'subscription_id' => 2,
             'type'            => SubscriptionTypeEnum::MONTHLY_PAID_BASED->value,
         ]);
 
-        User::factory(10)->allRelations()->create();
+
+        $user2 = User::factory()->create([
+            'email'    => 'asasimr55@gmail.com',
+            'password' => '123456789',
+        ])->assignRole(RolesPermissionEnum::DOCTOR['role']);
+
+        $clinic = Clinic::factory()->create([
+            'name'    => new Translatable(['en' => 'pom', 'ar' => 'pom']),
+            'user_id' => $user2->id,
+        ]);
+
+        ClinicSubscription::create([
+            'start_time'      => now()->subDay(),
+            'end_time'        => now()->addYear(),
+            'clinic_id'       => $clinic->id,
+            'status'          => SubscriptionStatusEnum::ACTIVE->value,
+            'deduction_cost'  => 10,
+            'subscription_id' => 2,
+            'type'            => SubscriptionTypeEnum::MONTHLY_PAID_BASED->value,
+        ]);
+
+        User::factory(2)->clinic()->create();
+        User::factory(2)->customer()->create();
     }
 }

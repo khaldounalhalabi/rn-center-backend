@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
  * @extends Factory
@@ -19,8 +18,8 @@ class BalanceFactory extends Factory
     {
         return [
             'balanceable_type' => fake()->word(),
-            'balanceable_id' => fake()->numberBetween(1, 2000),
-            'balance' => fake()->randomFloat(1, 1, 100),
+            'balanceable_id'   => fake()->numberBetween(1, 2000),
+            'balance'          => fake()->randomFloat(1, 1, 100),
         ];
     }
 }

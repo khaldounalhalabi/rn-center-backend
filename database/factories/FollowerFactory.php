@@ -5,7 +5,6 @@ namespace Database\Factories;
 use App\Models\Clinic;
 use App\Models\Customer;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
  * @extends Factory
@@ -20,7 +19,7 @@ class FollowerFactory extends Factory
     public function definition(): array
     {
         return [
-            'clinic_id' => Clinic::factory(),
+            'clinic_id'   => Clinic::factory(),
             'customer_id' => Customer::factory(),
         ];
     }
