@@ -29,6 +29,7 @@ class ClinicHolidayService extends BaseService
 
     public function view($id, array $relationships = [], array $countable = []): ?Model
     {
+        /** @var ClinicHoliday $holiday */
         $holiday = parent::view($id, $relationships, $countable);
 
         if ($holiday?->canShow()) {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\ClinicHoliday;
 
+use App\Rules\CanHasHolidayIn;
 use App\Rules\LanguageShape;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -27,7 +28,7 @@ class StoreUpdateClinicHolidayRequest extends FormRequest
             return [
                 'clinic_id'  => ['required', 'numeric', 'exists:clinics,id'],
                 'start_date' => ['required', 'date'],
-                'end_date'   => ['required', 'date'],
+                'end_date'   => ['required', 'date', new CanHasHolidayIn($this->input('start_date'), $this->input('end_date'), $this->input('clinic_id'))],
                 'reason'     => ['required', 'json', new LanguageShape()],
             ];
         }
@@ -35,7 +36,7 @@ class StoreUpdateClinicHolidayRequest extends FormRequest
         return [
             'clinic_id'  => ['nullable', 'numeric', 'exists:clinics,id'],
             'start_date' => ['nullable', 'date'],
-            'end_date'   => ['nullable', 'date'],
+            'end_date'   => ['nullable', 'date', new CanHasHolidayIn($this->input('start_date'), $this->input('end_date'), $this->input('clinic_id'))],
             'reason'     => ['nullable', 'json', new LanguageShape()],
         ];
     }
@@ -44,7 +45,7 @@ class StoreUpdateClinicHolidayRequest extends FormRequest
     {
         if (auth()->user()?->isClinic()) {
             $this->merge([
-                'clinic_id' => auth()->user()?->getClinicId()
+                'clinic_id' => auth()->user()?->getClinicId(),
             ]);
         }
     }
