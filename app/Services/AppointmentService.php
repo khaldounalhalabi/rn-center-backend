@@ -81,7 +81,6 @@ class AppointmentService extends BaseService
 
         $appointmentManager->checkoutPreviousAppointmentsIfNewStatusIsCheckin($appointment, $prevStatus);
         $appointmentManager->handleAppointmentRemainingTime($appointment, $prevStatus);
-        $appointmentManager->handleChangeAppointmentNotifications($appointment, $oldStatus);
         $appointmentManager->handleTransactionsWhenChangeStatus($appointment, $prevStatus);
 
         AppointmentLogRepository::make()->create([
@@ -94,6 +93,7 @@ class AppointmentService extends BaseService
             'event'               => "appointment status has been changed to {$data['status']} in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en,
         ]);
 
+        $appointmentManager->handleChangeAppointmentNotifications($appointment, $oldStatus);
         return $appointment;
     }
 
