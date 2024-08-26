@@ -92,4 +92,13 @@ class ClinicSubscriptionController extends ApiController
 
         return $this->noData([]);
     }
+
+    public function makeItPaid($clinicId)
+    {
+        $result = $this->clinicSubscriptionService->makeItPaid($clinicId);
+        if ($result) {
+            return $this->apiResponse(true, self::STATUS_OK, __('site.update_successfully'));
+        }
+        return $this->noData();
+    }
 }

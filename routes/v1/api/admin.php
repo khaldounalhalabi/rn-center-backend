@@ -84,6 +84,7 @@ Route::apiResource('/enquiries', v1\EnquiryController::class)
     ->except(['update', 'store', 'destroy'])
     ->names('enquiries');
 
+Route::get('/clinics/{clinicId}/clinic-subscriptions/current/pay', [v1\ClinicSubscriptionController::class, 'makeItPaid'])->name('clinics.clinic.subscriptions.current.pay');
 Route::get('clinics/{clinicId}/subscriptions', [v1\ClinicSubscriptionController::class, 'getByClinic'])->name('clinics.subscriptions');
 Route::apiResource('/clinic-subscriptions', v1\ClinicSubscriptionController::class)
     ->except(['index'])
