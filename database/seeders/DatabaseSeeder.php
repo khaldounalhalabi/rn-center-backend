@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
         ]);
 
-//        fake data
+        //fake data
         $this->call([
             SpecialitySeeder::class,
             ServiceCategorySeeder::class,
@@ -30,9 +30,9 @@ class DatabaseSeeder extends Seeder
             MedicineSeeder::class,
             PrescriptionSeeder::class,
             EnquirySeeder::class,
-            OfferSeeder::class,
+//            OfferSeeder::class,
             BloodDonationRequestSeeder::class,
-            SystemOfferSeeder::class,
+//            SystemOfferSeeder::class,
             SettingSeeder::class,
             ReviewSeeder::class,
         ]);
