@@ -26,7 +26,12 @@ class SettingSeeder extends Seeder
         ]);
         Setting::create([
             'label' => 'days_before_notify_for_expiration',
-            'value' => 5
+            'value' => 5,
+        ]);
+
+        Setting::create([
+            'label' => "terms_of_service",
+            'value' => 'some text',
         ]);
     }
 }

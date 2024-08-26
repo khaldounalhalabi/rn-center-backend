@@ -20,7 +20,8 @@ class PrescriptionFactory extends Factory
      */
     public function definition(): array
     {
-        $clinicId = Clinic::inRandomOrder()->first()->id;
+        $clinicId = Clinic::inRandomOrder()->first()?->id;
+        $customerId = Customer::inRandomOrder()->first()?->id;
 
         $physicalInformation = [
             "High Blood Pressure" => fake()->sentence(5),
@@ -40,8 +41,13 @@ class PrescriptionFactory extends Factory
         ];
         return [
             'clinic_id'            => $clinicId,
-            'customer_id'          => Customer::inRandomOrder()->first()->id,
-            'appointment_id'       => Appointment::inRandomOrder()->where('clinic_id', $clinicId)->first()->id,
+            'customer_id'          => $customerId,
+            'appointment_id'       => Appointment::inRandomOrder()
+                    ->where('customer_id', $customerId)
+                    ->where('clinic_id', $clinicId)->first()->id ?? Appointment::factory()->create([
+                    'clinic_id'   => $clinicId,
+                    'customer_id' => $customerId,
+                ])->id,
             'physical_information' => json_encode($physicalInformation),
             'problem_description'  => fake()->text(),
             'test'                 => fake()->text(),

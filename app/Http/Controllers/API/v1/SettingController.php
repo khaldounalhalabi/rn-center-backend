@@ -49,4 +49,14 @@ class SettingController extends ApiController
         }
         return $this->noData();
     }
+
+    public function getByLabel($label)
+    {
+        $item = $this->settingService->getByLabel($label);
+        if ($item) {
+            return $this->apiResponse(new SettingResource($item), self::STATUS_OK, __('site.get_successfully'));
+        }
+
+        return $this->noData();
+    }
 }

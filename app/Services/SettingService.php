@@ -16,4 +16,9 @@ class SettingService extends BaseService
     use Makable;
 
     protected string $repositoryClass = SettingRepository::class;
+
+    public function getByLabel(string $label): ?Setting
+    {
+        return $this->repository->getByLabel($label);
+    }
 }
