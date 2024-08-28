@@ -118,7 +118,7 @@ Route::apiResource('/appointment-deductions', v1\AppointmentDeductionController:
 
 Route::get('/settings/{label}', [v1\SettingController::class, 'getByLabel'])->name('settings.label');
 Route::apiResource('settings', v1\SettingController::class)
-    ->only(['index', 'update', 'show'])
+    ->only(['index', 'update'])
     ->names('settings');
 
 Route::get('clinics/{clinicId}/reviews', [v1\ReviewController::class, 'getByClinic'])->name('clinics.reviews');
