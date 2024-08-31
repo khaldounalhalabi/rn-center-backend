@@ -18,7 +18,7 @@ class UserResource extends BaseResource
             'gender'          => $this->gender,
             'blood_group'     => $this->blood_group,
             'is_blocked'      => $this->is_blocked,
-            'tags'            => explode(',', $this->tags ?? ""),
+            'tags'            => $this->tags,
             'fcm_token'       => $this->fcm_token,
             'is_archived'     => $this->is_archived,
             'first_name'      => $this->first_name,
