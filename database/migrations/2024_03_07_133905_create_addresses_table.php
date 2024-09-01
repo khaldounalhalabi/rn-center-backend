@@ -13,8 +13,8 @@ return new class () extends Migration {
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
-            $table->json('name');
-            $table->foreignIdFor(City::class)->constrained()->cascadeOnDelete();
+            $table->json('name')->default('{"en":"" , "ar":""}');
+            $table->foreignIdFor(City::class)->nullable()->constrained()->cascadeOnDelete();
             $table->text('lat')->nullable();
             $table->text('lng')->nullable();
             $table->text("map_iframe")->nullable();
