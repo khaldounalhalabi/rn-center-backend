@@ -40,8 +40,8 @@ class StoreUpdateClinicEmployeeRequest extends FormRequest
                 'gender'          => ['required', 'string', Rule::in(GenderEnum::getAllValues())],
                 'image'           => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
                 'address'         => 'array|nullable',
-                'address.name'    => ['required_with:address', 'json', 'min:3', new LanguageShape()],
-                'address.city_id' => ['required_with:address', 'numeric', 'exists:cities,id'],
+                'address.name'    => ['required_with:address.city_id', 'json', 'min:3', new LanguageShape()],
+                'address.city_id' => ['required_with:address.name', 'numeric', 'exists:cities,id'],
                 'phone_numbers'   => 'array|required',
                 'phone_numbers.*' => ['required', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/', new NotInBlocked()],
             ];
