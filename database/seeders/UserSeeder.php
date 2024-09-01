@@ -18,13 +18,17 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create(['email' => 'admin@pom.com', 'password' => '123456789'])
+        User::factory()
+            ->withPhoneNumbers()
+            ->withAddress()->create(['email' => 'admin@pom.com', 'password' => '123456789'])
             ->assignRole(RolesPermissionEnum::ADMIN['role']);
 
-        $user1 = User::factory()->create([
-            'email'    => 'khaldounalhalabi42@gmail.com',
-            'password' => '123456789',
-        ])->assignRole(RolesPermissionEnum::DOCTOR['role']);
+        $user1 = User::factory()
+            ->withPhoneNumbers()
+            ->withAddress()->create([
+                'email'    => 'khaldounalhalabi42@gmail.com',
+                'password' => '123456789',
+            ])->assignRole(RolesPermissionEnum::DOCTOR['role']);
 
         $clinic = Clinic::factory()->create([
             'name'    => new Translatable(['en' => 'Almahaba', 'ar' => 'عيادة المحبة']),
@@ -42,10 +46,13 @@ class UserSeeder extends Seeder
         ]);
 
 
-        $user2 = User::factory()->create([
-            'email'    => 'asasimr55@gmail.com',
-            'password' => '123456789',
-        ])->assignRole(RolesPermissionEnum::DOCTOR['role']);
+        $user2 = User::factory()
+            ->withPhoneNumbers()
+            ->withAddress()
+            ->create([
+                'email'    => 'asasimr55@gmail.com',
+                'password' => '123456789',
+            ])->assignRole(RolesPermissionEnum::DOCTOR['role']);
 
         $clinic = Clinic::factory()->create([
             'name'    => new Translatable(['en' => 'pom', 'ar' => 'pom']),
@@ -62,7 +69,16 @@ class UserSeeder extends Seeder
             'type'            => SubscriptionTypeEnum::MONTHLY_PAID_BASED->value,
         ]);
 
-        User::factory(2)->clinic()->create();
-        User::factory(2)->customer()->create();
+        User::factory(2)
+            ->withPhoneNumbers()
+            ->withAddress()
+            ->clinic()
+            ->create();
+
+        User::factory(2)
+            ->withPhoneNumbers()
+            ->withAddress()
+            ->customer()
+            ->create();
     }
 }

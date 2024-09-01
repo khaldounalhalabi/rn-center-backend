@@ -475,7 +475,7 @@ abstract class BaseRepository
                 $this->handleFiles($item, $data, $colNames);
             }
 
-            return $item->load($relationships)->load($countable);
+            return $item->load($relationships)->loadCount($countable);
         }
 
         return null;
