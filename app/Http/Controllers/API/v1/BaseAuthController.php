@@ -47,8 +47,10 @@ class BaseAuthController extends ApiController
             return $this->apiResponse(null, self::STATUS_BLOCKED, __('site.blocked'));
         }
 
-        if (($user->isDoctor() && !$user->clinic?->hasActiveSubscription())
-            || ($user?->isClinicEmployee() && !$user?->clinicEmployee?->clinic?->hasActiveSubscription())) {
+        if (
+            ($user->isDoctor() && !$user->clinic?->hasActiveSubscription())
+            || ($user?->isClinicEmployee() && !$user?->clinicEmployee?->clinic?->hasActiveSubscription())
+        ) {
             return $this->apiResponse(null, self::STATUS_EXPIRED_SUBSCRIPTION, __('site.expired_subscription'));
         }
 
