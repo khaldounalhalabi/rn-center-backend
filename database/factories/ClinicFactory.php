@@ -26,7 +26,6 @@ use App\Traits\Translations;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Http\File;
-use Random\RandomException;
 
 /**
  * @extends Factory
@@ -40,7 +39,6 @@ class ClinicFactory extends Factory
      * Define the model's default state.
      *
      * @return array<string, mixed>
-     * @throws RandomException
      */
     public function definition(): array
     {
