@@ -275,6 +275,7 @@ class AppointmentManager
             && !in_array($status, [
                 AppointmentStatusEnum::PENDING->value,
                 AppointmentStatusEnum::BOOKED->value,
+                AppointmentStatusEnum::CANCELLED->value,
             ])
         ) {
             return false;
@@ -284,6 +285,7 @@ class AppointmentManager
             $appointment->status == AppointmentStatusEnum::BOOKED->value
             && !in_array($status, AppointmentStatusEnum::getAllValues([
                 AppointmentStatusEnum::PENDING,
+                AppointmentStatusEnum::CANCELLED->value,
             ]))
         ) {
             return false;
@@ -291,6 +293,7 @@ class AppointmentManager
         if ($appointment->status == AppointmentStatusEnum::CHECKIN->value
             && !in_array($status, AppointmentStatusEnum::getAllValues([
                 AppointmentStatusEnum::PENDING, AppointmentStatusEnum::BOOKED,
+                AppointmentStatusEnum::CANCELLED->value,
             ]))) {
             return false;
         }
