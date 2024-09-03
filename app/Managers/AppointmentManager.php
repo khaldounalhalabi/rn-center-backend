@@ -135,7 +135,7 @@ class AppointmentManager
         $prevAppointmentType = $appointment->type;
         $clinic = $appointment->clinic;
         $this->logAppointment($data, $appointment, true);
-        $servicePrice = $this->getServiceCost($data, $appointment);
+        $servicePrice = $this->getServiceCost($data);
         [$clinicOffersTotal, $clinicOffersIds, $systemOffersTotal, $systemOffersIds] = $this->handleAppointmentOffers($data, $clinic->appointment_cost, $appointment);
         $data['total_cost'] = $this->calculateAppointmentTotalCost($data, $servicePrice, $systemOffersTotal, $clinicOffersTotal, $clinic, $appointment);
         $prevStatus = $appointment->status;
@@ -180,7 +180,7 @@ class AppointmentManager
         }
     }
 
-    private function getServiceCost(array $data, ?Appointment $appointment = null)
+    private function getServiceCost(array $data)
     {
         if (isset($data['service_id'])) {
             $service = ServiceRepository::make()->find($data['service_id']);
@@ -189,8 +189,6 @@ class AppointmentManager
             }
 
             return $service->price;
-        } elseif ($appointment) {
-            return $appointment->service?->price ?? 0;
         } else {
             return 0;
         }
