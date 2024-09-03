@@ -92,8 +92,8 @@ class ClinicFactory extends Factory
                 Schedule::create([
                     'schedulable_id'   => $clinic->id,
                     'day_of_week'      => $day,
-                    'start_time'       => Carbon::parse('12:00'),
-                    'end_time'         => Carbon::parse('00:00'),
+                    'start_time'       => Carbon::parse('09:00'),
+                    'end_time'         => Carbon::parse('21:00'),
                     'schedulable_type' => Clinic::class,
                 ]);
             }

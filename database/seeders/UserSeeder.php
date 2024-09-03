@@ -54,9 +54,12 @@ class UserSeeder extends Seeder
                 'password' => '123456789',
             ])->assignRole(RolesPermissionEnum::DOCTOR['role']);
 
-        $clinic = Clinic::factory()->create([
+        $clinic = Clinic::factory()
+            ->withSchedules()
+            ->create([
             'name'    => new Translatable(['en' => 'pom', 'ar' => 'pom']),
             'user_id' => $user2->id,
+            'appointment_cost' => 25000 ,
         ]);
 
         ClinicSubscription::create([
