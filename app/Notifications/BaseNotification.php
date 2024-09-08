@@ -27,7 +27,7 @@ class BaseNotification extends Notification
      * Create a new notification instance.
      * @return void
      */
-    public function __construct(array $data)
+    public function __construct(array $data = [])
     {
         $this->data = [];
         $this->message = '';

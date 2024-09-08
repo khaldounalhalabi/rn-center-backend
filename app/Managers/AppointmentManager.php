@@ -18,6 +18,7 @@ use App\Models\User;
 use App\Notifications\Clinic\NewOnlineAppointmentNotification;
 use App\Notifications\Customer\CustomerAppointmentChangedNotification;
 use App\Notifications\RealTime\AppointmentChangeNotification;
+use App\Notifications\RealTime\NewAppointmentNotification;
 use App\Repositories\AppointmentDeductionRepository;
 use App\Repositories\AppointmentLogRepository;
 use App\Repositories\AppointmentRepository;
@@ -103,13 +104,28 @@ class AppointmentManager
                     'appointment' => $appointment,
                 ])
                 ->setMethod(FirebaseServices::MANY)
-                ->setTo([$appointment->clinic->user->id, ...$clinic->clinicEmployees->pluck('user_id')->toArray()])
+                ->setTo([$appointment?->clinic?->user?->id, ...$clinic?->clinicEmployees?->pluck('user_id')->toArray()])
                 ->setNotification(NewOnlineAppointmentNotification::class)
                 ->send();
         }
 
         $this->logAppointment($data, $appointment);
         $this->handleChangeAppointmentNotifications($appointment);
+
+        FirebaseServices::make()
+            ->setData([])
+            ->setMethod(FirebaseServices::MANY)
+            ->setTo([$appointment?->clinic?->user?->id, ...$clinic?->clinicEmployees?->pluck('user_id')->toArray()])
+            ->setNotification(NewAppointmentNotification::class)
+            ->send();
+
+        FirebaseServices::make()
+            ->setData([])
+            ->setMethod(FirebaseServices::ToQuery)
+            ->setTo(User::query()->byRole(RolesPermissionEnum::ADMIN['role']))
+            ->setNotification(NewAppointmentNotification::class)
+            ->send();
+
         return $appointment->load($relationships)->loadCount($countable);
     }
 
