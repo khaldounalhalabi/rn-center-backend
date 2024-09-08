@@ -2,12 +2,9 @@
 
 namespace App\Http\Requests\AuthRequests;
 
-use App\Enums\GenderEnum;
 use App\Models\User;
-use App\Rules\LanguageShape;
 use App\Rules\NotInBlocked;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class AuthRegisterRequest extends FormRequest
 {
@@ -28,9 +25,9 @@ class AuthRegisterRequest extends FormRequest
     {
         //customer register
         return [
-            'first_name'     => ['required', 'string', 'max:255', 'min:3'],
-            'middle_name'    => ['required', 'string', 'max:255', 'min:3'],
-            'last_name'      => ['required', 'string', 'max:255', 'min:3'],
+            'first_name'     => ['required', 'string', 'max:255'],
+            'middle_name'    => ['required', 'string', 'max:255'],
+            'last_name'      => ['required', 'string', 'max:255'],
             'full_name'      => ['nullable', 'string', new NotInBlocked()],
             'phone_number'   => ['array', 'required'],
             'phone_number.*' => ['required', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/', new NotInBlocked()],

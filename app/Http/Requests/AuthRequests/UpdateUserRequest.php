@@ -30,9 +30,9 @@ class UpdateUserRequest extends FormRequest
     {
         $user = auth()->user();
         return [
-            'first_name'         => ['nullable', 'string', 'max:255', 'min:3'],
-            'middle_name'        => ['nullable', 'string', 'max:255', 'min:3'],
-            'last_name'          => ['nullable', 'string', 'max:255', 'min:3'],
+            'first_name'         => ['nullable', 'string', 'max:255'],
+            'middle_name'        => ['nullable', 'string', 'max:255'],
+            'last_name'          => ['nullable', 'string', 'max:255'],
             'full_name'          => ['nullable', 'string', new NotInBlocked()],
             'phone_numbers'      => ['array', 'nullable', Rule::excludeIf(fn () => $user?->isClinic())],
             'phone_numbers.*'    => ['nullable', 'string', 'regex:/^07\d{9}$/', new UniquePhoneNumber($user?->id), new NotInBlocked(), Rule::excludeIf(fn () => $user?->isClinic())],

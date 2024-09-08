@@ -30,9 +30,9 @@ class StoreUpdateClinicEmployeeRequest extends FormRequest
             return [
                 'clinic_id' => ['required', 'numeric', 'exists:clinics,id'],
 
-                'first_name'      => ['json', 'required', new LanguageShape(), 'min:3', 'max:60'],
-                'middle_name'     => ['json', 'required', new LanguageShape(), 'min:3', 'max:60'],
-                'last_name'       => ['json', 'required', new LanguageShape(), 'min:3', 'max:60'],
+                'first_name'      => ['json', 'required', new LanguageShape(), 'max:60'],
+                'middle_name'     => ['json', 'required', new LanguageShape(), 'max:60'],
+                'last_name'       => ['json', 'required', new LanguageShape(), 'max:60'],
                 'full_name'       => ['string', 'nullable', new NotInBlocked()],
                 'email'           => ['required', 'email', 'max:255', 'min:3', 'string', 'unique:users,email', new NotInBlocked()],
                 'password'        => 'string|min:8|max:20|required|confirmed',
@@ -50,9 +50,9 @@ class StoreUpdateClinicEmployeeRequest extends FormRequest
         $userId = ClinicEmployee::findOrFail(request()->route('clinic_employee'))?->user?->id;
         return [
             'clinic_id'       => ['nullable', 'numeric', 'exists:clinics,id'],
-            'first_name'      => ['json', 'nullable', new LanguageShape(), 'min:3', 'max:60'],
-            'middle_name'     => ['json', 'nullable', new LanguageShape(), 'min:3', 'max:60'],
-            'last_name'       => ['json', 'nullable', new LanguageShape(), 'min:3', 'max:60'],
+            'first_name'      => ['json', 'nullable', new LanguageShape(), 'max:60'],
+            'middle_name'     => ['json', 'nullable', new LanguageShape(), 'max:60'],
+            'last_name'       => ['json', 'nullable', new LanguageShape(), 'max:60'],
             'full_name'       => ['string', 'nullable', new NotInBlocked()],
             'email'           => ['nullable', 'email', 'max:255', 'min:3', 'string', 'unique:users,email,' . $userId, new NotInBlocked()],
             'password'        => 'string|min:8|max:20|nullable|confirmed',

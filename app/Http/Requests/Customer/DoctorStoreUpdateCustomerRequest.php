@@ -4,7 +4,6 @@ namespace App\Http\Requests\Customer;
 
 use App\Enums\BloodGroupEnum;
 use App\Enums\GenderEnum;
-use App\Models\Customer;
 use App\Models\User;
 use App\Rules\LanguageShape;
 use App\Rules\NotInBlocked;
@@ -30,9 +29,9 @@ class DoctorStoreUpdateCustomerRequest extends FormRequest
     {
         if (request()->method() == "POST") {
             return [
-                'first_name'      => ['json', 'required', new LanguageShape(), 'min:3', 'max:60'],
-                'middle_name'     => ['json', 'required', new LanguageShape(), 'min:3', 'max:60'],
-                'last_name'       => ['json', 'required', new LanguageShape(), 'min:3', 'max:60'],
+                'first_name'      => ['json', 'required', new LanguageShape(), 'max:60'],
+                'middle_name'     => ['json', 'required', new LanguageShape(), 'max:60'],
+                'last_name'       => ['json', 'required', new LanguageShape(), 'max:60'],
                 'full_name'       => ['string', 'nullable', new NotInBlocked()],
                 'email'           => ['nullable', 'email', 'max:255', 'min:3', 'string', 'unique:users,email', new NotInBlocked()],
                 'birth_date'      => 'nullable|date_format:Y-m-d|date',
