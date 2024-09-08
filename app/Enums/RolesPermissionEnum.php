@@ -3,6 +3,7 @@
 namespace App\Enums;
 
 use App\Models\Appointment;
+use App\Models\AppointmentDeduction;
 use App\Models\Clinic;
 use App\Models\ClinicEmployee;
 use App\Models\ClinicHoliday;
@@ -11,6 +12,7 @@ use App\Models\Medicine;
 use App\Models\Offer;
 use App\Models\Schedule;
 use App\Models\Service;
+use App\Models\Transaction;
 
 /**
  * Class RolesPermissionEnum
@@ -54,15 +56,16 @@ class RolesPermissionEnum
     public const CLINIC_EMPLOYEE = [
         'role'        => 'clinic-employee',
         'permissions' => [
-            'manage-schedules'    => Schedule::class,
-            'manage-holidays'     => ClinicHoliday::class,
-            'manage-services'     => Service::class,
-            'manage-offers'       => Offer::class,
-            'manage-patients'     => Customer::class,
-            'manage-medicines'    => Medicine::class,
-            'manage-appointments' => Appointment::class,
-            'edit-clinic-profile' => Clinic::class,
-            'manage-employees'    => ClinicEmployee::class,
+            'manage-schedules'      => Schedule::class,
+            'manage-holidays'       => ClinicHoliday::class,
+            'manage-services'       => Service::class,
+            'manage-offers'         => Offer::class,
+            'manage-patients'       => Customer::class,
+            'manage-medicines'      => Medicine::class,
+            'manage-appointments'   => Appointment::class,
+            'edit-clinic-profile'   => Clinic::class,
+            'manage-employees'      => ClinicEmployee::class,
+            'accountant-management' => Transaction::class,
         ],
     ];
     //*************************//

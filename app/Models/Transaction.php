@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\TransactionTypeEnum;
+use App\Interfaces\ActionsMustBeAuthorized;
 use App\Observers\TransactionObserver;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -19,7 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property integer actor_id
  * @property User    actor
  */
-class Transaction extends Model
+class Transaction extends Model implements ActionsMustBeAuthorized
 {
     use HasFactory;
 
@@ -118,5 +119,12 @@ class Transaction extends Model
     public function isPlus(): bool
     {
         return $this->type == TransactionTypeEnum::INCOME->value;
+    }
+
+    public static function authorizedActions(): array
+    {
+        return [
+            'accountant-management',
+        ];
     }
 }

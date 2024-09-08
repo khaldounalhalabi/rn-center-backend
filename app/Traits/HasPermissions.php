@@ -33,12 +33,12 @@ trait HasPermissions
 
         if (isset($ownerPermission)) {
             $ownerPermission->update([
-                'permissions' => array_merge($ownerPermission->permissions, $permission)
+                'permissions' => array_merge($ownerPermission->permissions, $permission),
             ]);
         } else {
             $this->permissions()->create([
                 'model_name'  => $model,
-                'permissions' => $permission
+                'permissions' => $permission,
             ]);
 
         }
@@ -74,7 +74,7 @@ trait HasPermissions
         }
 
         $permission->permissions = collect($permission->permissions)
-            ->filter(fn($value) => ($value != $permissionName))
+            ->filter(fn ($value) => ($value != $permissionName))
             ->values()
             ->toArray();
 
@@ -95,9 +95,9 @@ trait HasPermissions
      * if the provided permission isn't in the authorizedActions() returned array in the provided model the method will
      * return true . Additional action is that you can provide an instance of the model to check for the abilities that
      * is correspond to the provided permission
-     * @param string     $permission
-     * @param string     $model
-     * @param Model|null $modelInstance
+     * @param string              $permission
+     * @param class-string<Model> $model
+     * @param Model|null          $modelInstance
      * @return bool
      */
     public function hasPermission(string $permission, string $model, ?Model $modelInstance = null): bool

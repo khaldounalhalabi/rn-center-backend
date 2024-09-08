@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\v1;
+use App\Http\Controllers\API\v1\ClinicTransactionController;
 use App\Models\Clinic;
 use App\Models\ClinicEmployee;
 use App\Models\ClinicHoliday;
@@ -9,6 +10,7 @@ use App\Models\Medicine;
 use App\Models\Offer;
 use App\Models\Schedule;
 use App\Models\Service;
+use App\Models\Transaction;
 use Illuminate\Support\Facades\Route;
 
 //add-your-routes-here
@@ -100,20 +102,31 @@ Route::apiResource('medicines', v1\MedicineController::class)
 Route::put('clinic-employees/{clinicEmployeeId}/update-permissions', [v1\ClinicEmployeeController::class, 'updateEmployeePermissions'])
     ->middleware([
         'staff_can:manage-employees,' . ClinicEmployee::class,
-    ])
-    ->name('clinic-employee.permissions-update');
+    ])->name('clinic-employee.permissions-update');
+
 Route::get('clinic-employees', [v1\ClinicEmployeeController::class, 'index'])
     ->name('clinic.employees.index');
+
 Route::apiResource('/clinic-employees', v1\ClinicEmployeeController::class)
     ->except(['index'])
     ->middleware([
         'staff_can:manage-employees,' . ClinicEmployee::class,
     ])->names('clinic.employees');
 
-Route::get('clinic-transactions/all', [v1\ClinicTransactionController::class, 'all'])->name('clinic.transaction.all');
-Route::get('clinic-transactions/summary', [v1\ClinicTransactionController::class, 'summary'])->name('clinic.transactions.summary');
-Route::get('clinic-transactions/export', [v1\ClinicTransactionController::class, 'export'])->name('clinic.transactions.export');
-Route::apiResource('clinic-transactions', v1\ClinicTransactionController::class)->names('clinic.transactions');
+Route::prefix('clinic-transactions')
+    ->name('clinic.transactions.')
+    ->middleware([
+        'staff_can:accountant-management,' . Transaction::class,
+    ])->controller(ClinicTransactionController::class)
+    ->group(function () {
+        Route::get('/all', 'all')->name('all');
+        Route::get('/summary', 'summary')->name('summary');
+        Route::get('/export', 'export')->name('export');
+    });
+Route::apiResource('clinic-transactions', v1\ClinicTransactionController::class)
+    ->middleware([
+        'staff_can:accountant-management,' . Transaction::class,
+    ])->names('clinic.transactions');
 
 Route::get('/appointments/all', [v1\AppointmentController::class, 'all'])->name('appointments.all');
 Route::get('/customers/{customerId}/appointments', [v1\AppointmentController::class, 'getByCustomer'])->name('customers.appointments');
@@ -126,13 +139,17 @@ Route::get('/customers/{customerId}/last-appointment', [v1\AppointmentController
 Route::apiResource('/appointments', v1\AppointmentController::class)
     ->except(['destroy'])->names('appointments');
 
-Route::get('/appointment-deductions/all', [v1\AppointmentController::class, 'all'])->name('appointment.deductions.all');
-Route::get('appointment-deductions/summary', [v1\AppointmentDeductionController::class, 'clinicSummary'])->name('appointment.deduction.summary');
-Route::get('appointment-deductions/export', [v1\AppointmentDeductionController::class, 'export'])
-    ->name('appointment.deductions.export');
-Route::get('appointment-deductions', [v1\AppointmentDeductionController::class, 'index'])
-    ->name('appointment.deductions.index');
-Route::get('appointment-deductions/{appointmentDeduction}', [v1\AppointmentDeductionController::class, 'show'])
-    ->name('appointment.deductions.show');
+Route::prefix('appointment-deductions')
+    ->name('appointment.deductions.')
+    ->middleware([
+        'staff_can:accountant-management,' . Transaction::class,
+    ])->controller(v1\AppointmentDeductionController::class)
+    ->group(function () {
+        Route::get('/all', 'all')->name('all');
+        Route::get('/summary', 'clinicSummary')->name('summary');
+        Route::get('/export', 'export')->name('export');
+        Route::get('/', 'index')->name('index');
+        Route::get('/{appointmentDeduction}', 'show')->name('show');
+    });
 
 Route::get('/statistics/index-page', [v1\StatisticsController::class, 'doctorIndexStatistics'])->name('doctor.index.statistics');
