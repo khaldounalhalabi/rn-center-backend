@@ -168,20 +168,14 @@ class Appointment extends Model implements ActionsMustBeAuthorized
     public function exportable(): array
     {
         return [
-            'note',
-            'extra_fees',
-            'total_cost',
-            'discount',
-            'type',
-            'date',
-            'status',
-            'appointment_sequence',
+            'id',
+            'customer.name',
             'service.name',
-            'clinicTransaction.amount',
-            'clinicTransaction.status',
-            'clinicTransaction.type',
-            'appointmentDeduction.amount',
-            'appointmentDeduction.status',
+            'status',
+            'type',
+            'total_cost',
+            'appointment_sequence',
+            'date',
         ];
     }
 
