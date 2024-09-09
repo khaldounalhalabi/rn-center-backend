@@ -4,7 +4,6 @@ namespace App\Traits;
 
 use App\Jobs\SendNotificationJob;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
 
 trait NotificationSender
 {
@@ -43,7 +42,7 @@ trait NotificationSender
         User::query()
             ->whereIn('id', $users_ids)
             ->chunk(25,
-                fn($users) => $this->sendNotification($notification, $data, $users)
+                fn ($users) => $this->sendNotification($notification, $data, $users)
             );
     }
 
@@ -59,14 +58,14 @@ trait NotificationSender
         User::whereHas('roles', function ($q) use ($role) {
             $q->where('name', $role);
         })->chunk(25,
-            fn($users) => $this->sendNotification($notification, $data, $users)
+            fn ($users) => $this->sendNotification($notification, $data, $users)
         );
     }
 
-    public function sendByQuery(Builder $query, array $data, $notification): void
+    public function sendByQuery($query, array $data, $notification): void
     {
         $query->chunk(25,
-            fn($users) => $this->sendNotification($notification, $data, $users)
+            fn ($users) => $this->sendNotification($notification, $data, $users)
         );
     }
 }

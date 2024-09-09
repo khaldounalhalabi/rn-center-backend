@@ -14,7 +14,6 @@ use App\Models\Appointment;
 use App\Models\Clinic;
 use App\Models\Offer;
 use App\Models\SystemOffer;
-use App\Models\User;
 use App\Notifications\Clinic\NewOnlineAppointmentNotification;
 use App\Notifications\Customer\CustomerAppointmentChangedNotification;
 use App\Notifications\RealTime\AppointmentChangeNotification;
@@ -28,7 +27,6 @@ use App\Repositories\OfferRepository;
 use App\Repositories\ServiceRepository;
 use App\Repositories\SystemOfferRepository;
 use App\Services\FirebaseServices;
-use Illuminate\Database\Eloquent\Builder;
 
 class AppointmentManager
 {
@@ -107,24 +105,23 @@ class AppointmentManager
                 ->setTo([$appointment?->clinic?->user?->id, ...$clinic?->clinicEmployees?->pluck('user_id')->toArray()])
                 ->setNotification(NewOnlineAppointmentNotification::class)
                 ->send();
+        } else {
+            FirebaseServices::make()
+                ->setData([])
+                ->setMethod(FirebaseServices::MANY)
+                ->setTo([$appointment?->clinic?->user?->id, ...$clinic?->clinicEmployees?->pluck('user_id')->toArray()])
+                ->setNotification(NewAppointmentNotification::class)
+                ->send();
+
+            FirebaseServices::make()
+                ->setData([])
+                ->setMethod(FirebaseServices::ByRole)
+                ->setRole(RolesPermissionEnum::ADMIN['role'])
+                ->setNotification(NewAppointmentNotification::class)
+                ->send();
         }
 
         $this->logAppointment($data, $appointment);
-        $this->handleChangeAppointmentNotifications($appointment);
-
-        FirebaseServices::make()
-            ->setData([])
-            ->setMethod(FirebaseServices::MANY)
-            ->setTo([$appointment?->clinic?->user?->id, ...$clinic?->clinicEmployees?->pluck('user_id')->toArray()])
-            ->setNotification(NewAppointmentNotification::class)
-            ->send();
-
-        FirebaseServices::make()
-            ->setData([])
-            ->setMethod(FirebaseServices::ByRole)
-            ->setRole(RolesPermissionEnum::ADMIN['role'])
-            ->setNotification(NewAppointmentNotification::class)
-            ->send();
 
         return $appointment->load($relationships)->loadCount($countable);
     }
@@ -385,17 +382,11 @@ class AppointmentManager
         FirebaseServices::make()
             ->setData([
                 'appointment' => $appointment,
-            ])
-            ->setMethod(FirebaseServices::ToQuery)
-            ->setTo(
-                User::query()
-                    ->available()
-                    ->whereHas('clinic', function (Builder $query) use ($appointment) {
-                        $query->where('id', $appointment->clinic_id);
-                    })->orWhereHas('clinicEmployee', function (Builder $builder) use ($appointment) {
-                        $builder->where('clinic_id', $appointment->clinic_id);
-                    })
-            )->setNotification(AppointmentChangeNotification::class)
+            ])->setMethod(FirebaseServices::MANY)
+            ->setTo([
+                $appointment->clinic?->user?->id,
+                ...($appointment->clinic?->clinicEmployees?->pluck('user_id')?->toArray() ?? []),
+            ])->setNotification(AppointmentChangeNotification::class)
             ->send();
     }
 
