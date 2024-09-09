@@ -7,6 +7,7 @@ use App\Enums\MediaTypeEnum;
 use App\Enums\RolesPermissionEnum;
 use App\Serializers\Translatable as TranslatableSerializer;
 use App\Traits\HasRoles;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,6 +27,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property TranslatableSerializer first_name
  * @property TranslatableSerializer middle_name
  * @property TranslatableSerializer last_name
+ * @property Carbon                 reset_code_valid_until
  * @mixin Builder
  */
 class User extends Authenticatable implements HasMedia, JWTSubject
@@ -45,7 +47,7 @@ class User extends Authenticatable implements HasMedia, JWTSubject
         'tags', 'image', 'email_verified_at',
         'password', 'fcm_token', 'reset_password_code',
         'is_archived', 'remember_token', 'verification_code',
-        'full_name',
+        'full_name', 'reset_code_valid_until',
     ];
 
     protected $hidden = [
@@ -54,17 +56,18 @@ class User extends Authenticatable implements HasMedia, JWTSubject
     ];
 
     protected $casts = [
-        'id'                => 'integer',
-        'email_verified_at' => 'datetime',
-        'birth_date'        => 'datetime',
-        'is_blocked'        => 'boolean',
-        'is_archived'       => 'boolean',
-        'created_at'        => 'datetime:Y-m-d H:i:s',
-        'updated_at'        => 'datetime:Y-m-d H:i:s',
-        'first_name'        => Translatable::class,
-        'middle_name'       => Translatable::class,
-        'last_name'         => Translatable::class,
-        'full_name'         => Translatable::class,
+        'id'                     => 'integer',
+        'email_verified_at'      => 'datetime',
+        'birth_date'             => 'datetime',
+        'is_blocked'             => 'boolean',
+        'is_archived'            => 'boolean',
+        'created_at'             => 'datetime:Y-m-d H:i:s',
+        'updated_at'             => 'datetime:Y-m-d H:i:s',
+        'reset_code_valid_until' => 'datetime:Y-m-d H:i:s',
+        'first_name'             => Translatable::class,
+        'middle_name'            => Translatable::class,
+        'last_name'              => Translatable::class,
+        'full_name'              => Translatable::class,
     ];
 
     /**
@@ -77,8 +80,7 @@ class User extends Authenticatable implements HasMedia, JWTSubject
             'first_name', 'middle_name', 'last_name',
             'email', 'birth_date',
             'gender', 'blood_group', 'is_blocked',
-            'tags', 'is_archived',
-            'full_name',
+            'tags', 'is_archived', 'full_name',
         ];
     }
 

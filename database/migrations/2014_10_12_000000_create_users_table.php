@@ -30,6 +30,7 @@ return new class () extends Migration {
             $table->string('fcm_token')->nullable();
             $table->string('reset_password_code')->nullable();
             $table->boolean('is_archived')->default(false);
+            $table->dateTime('reset_code_valid_until')->nullable();
 
             $table->rememberToken();
             $table->timestamps();

@@ -360,6 +360,7 @@ class UserService extends BaseService
             $code = $this->generateUserVerificationCode();
 
             $user->reset_password_code = $code;
+            $user->reset_code_valid_until = now()->addMinutes(15);
             $user->save();
 
             try {
@@ -398,7 +399,7 @@ class UserService extends BaseService
 
         if (!$user) return false;
 
-        if (now()->subMinutes(15)->greaterThanOrEqualTo($user->updated_at)) {
+        if (!$user->reset_code_valid_until->isAfter(now())) {
             return false;
         }
 

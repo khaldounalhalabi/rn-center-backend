@@ -15,7 +15,7 @@ return [
     'wrong_phone'                   => 'Wrong phone number',
     'code_correct'                  => 'Code correct',
     'password_reset_successful'     => 'Password reset successfully',
-    'code_incorrect'                => 'Code incorrect',
+    'code_incorrect'                => 'Invalid Reset Code',
     'success'                       => 'Success',
     'token_not_valid'               => 'Token not valid',
     'user_is_already_exists'        => 'User is already exists',
