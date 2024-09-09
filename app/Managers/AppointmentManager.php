@@ -121,8 +121,8 @@ class AppointmentManager
 
         FirebaseServices::make()
             ->setData([])
-            ->setMethod(FirebaseServices::ToQuery)
-            ->setTo(User::query()->byRole(RolesPermissionEnum::ADMIN['role']))
+            ->setMethod(FirebaseServices::ByRole)
+            ->setRole(RolesPermissionEnum::ADMIN['role'])
             ->setNotification(NewAppointmentNotification::class)
             ->send();
 
