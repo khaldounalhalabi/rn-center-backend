@@ -47,7 +47,6 @@ class SendNotificationJob implements ShouldQueue
             Log::info('***************************************');
             Log::info("$this->notification could not be send to : \n" . print_r($this->users->pluck(['id', 'email']), 1));
             Log::info($exception->getMessage());
-            Log::info($exception->getTraceAsString());
             Log::info('***************************************');
         }
     }
