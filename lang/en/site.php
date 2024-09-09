@@ -16,6 +16,7 @@ return [
     'code_correct'                  => 'Code correct',
     'password_reset_successful'     => 'Password reset successfully',
     'code_incorrect'                => 'Invalid Reset Code',
+    'code_expired'                  => "This verification code has been expired",
     'success'                       => 'Success',
     'token_not_valid'               => 'Token not valid',
     'user_is_already_exists'        => 'User is already exists',

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\AuthRequests;
 
+use App\Services\UserService;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CheckPasswordResetRequest extends FormRequest
@@ -22,7 +23,23 @@ class CheckPasswordResetRequest extends FormRequest
     public function rules()
     {
         return [
-            'reset_password_code' => 'required|string|exists:users,reset_password_code|max:10',
+            'reset_password_code' => [
+                'required',
+                'string',
+                'exists:users,reset_password_code',
+                'max:10',
+                function ($attribute, $value, $fail) {
+                    $user = UserService::make()->getUserByPasswordResetCode($value);
+
+                    if (!$user) {
+                        $fail(__('site.code_incorrect'));
+                    }
+
+                    if (!$user->reset_code_valid_until?->isAfter(now())) {
+                        $fail(__('site.code_expired'));
+                    }
+                },
+            ],
         ];
     }
 }

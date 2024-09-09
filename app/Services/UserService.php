@@ -399,10 +399,6 @@ class UserService extends BaseService
 
         if (!$user) return false;
 
-        if (!$user->reset_code_valid_until->isAfter(now())) {
-            return false;
-        }
-
         $user->password = $password;
         $user->reset_password_code = null;
         $user->save();
