@@ -75,7 +75,7 @@ abstract class BaseRepository
 
         $this->filtered = (request()->header('filtered') ?? request()->header('Filtered', false)) ?? false;
 
-        if (!auth()->user()?->isAdmin()) {
+        if (!auth()->user()?->isAdmin() && !auth()->user()->isClinic()) {
             $this->filtered = true;
         }
 

@@ -13,8 +13,6 @@ use App\Models\Service;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Route;
 
-//add-your-routes-here
-
 Route::post('refresh', [v1\DoctorAuthController::class, 'refresh'])->middleware('auth:api')->name('refresh-token');
 Route::post('logout', [v1\DoctorAuthController::class, 'logout'])->middleware('auth:api')->name('logout');
 Route::post('update-user-data', [v1\DoctorAuthController::class, 'updateUserDetails'])->name('update-user-data');
