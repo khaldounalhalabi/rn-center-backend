@@ -25,15 +25,14 @@ class AuthRegisterRequest extends FormRequest
     {
         //customer register
         return [
-            'first_name'     => ['required', 'string', 'max:255'],
-            'middle_name'    => ['required', 'string', 'max:255'],
-            'last_name'      => ['required', 'string', 'max:255'],
-            'full_name'      => ['nullable', 'string', new NotInBlocked()],
-            'phone_number'   => ['array', 'required'],
-            'phone_number.*' => ['required', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/', new NotInBlocked()],
-            'password'       => 'required|min:8|confirmed|max:255',
-            'fcm_token'      => 'nullable|string|min:3|max:1000',
-            'image'          => 'image|max:50000|mimes:jpg,png|nullable',
+            'first_name'   => ['required', 'string', 'max:255'],
+            'middle_name'  => ['required', 'string', 'max:255'],
+            'last_name'    => ['required', 'string', 'max:255'],
+            'full_name'    => ['nullable', 'string', new NotInBlocked()],
+            'phone_number' => ['required', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/', new NotInBlocked()],
+            'password'     => 'required|min:8|confirmed|max:255',
+            'fcm_token'    => 'nullable|string|min:3|max:1000',
+            'image'        => 'image|max:50000|mimes:jpg,png|nullable',
         ];
     }
 

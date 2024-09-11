@@ -250,7 +250,11 @@ class UserService extends BaseService
             if ($roles and in_array(RolesPermissionEnum::CUSTOMER['role'], $roles)) {
                 $data = array_merge($data, ['user_id' => $user->id]);
                 $this->customerRepository->create($data);
-                $this->phoneNumberRepository->insert($data['phone_number'] ?? [], User::class, $user->id);
+                $this->phoneNumberRepository->create([
+                    'phone'          => $data['phone_number'],
+                    'phoneable_type' => User::class,
+                    'phoneable_id'   => $user->id,
+                ]);
 
                 if (isset($data['address'])) {
                     $this->addressRepository->create([
@@ -261,10 +265,7 @@ class UserService extends BaseService
                 }
 
                 if (isset($data['phone_number'])) {
-                    $number = array_values($data['phone_number'])[0];
-                    if ($number) {
-                        PhoneNumberService::make()->requestNumberVerificationCode($number, $user);
-                    }
+                    PhoneNumberService::make()->requestNumberVerificationCode($data['phone_number'], $user);
                 } else {
                     throw new Exception("Phone number is required in register customer");
                 }

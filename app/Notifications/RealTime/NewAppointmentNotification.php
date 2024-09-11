@@ -15,5 +15,6 @@ class NewAppointmentNotification extends BaseNotification
     public function __construct(array $data = [])
     {
         parent::__construct($data);
+        $this->setType(NewAppointmentNotification::class);
     }
 }
