@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\API\v1;
 
-use App\Enums\AppointmentStatusEnum;
 use App\Enums\ClinicTransactionTypeEnum;
 use App\Http\Controllers\ApiController;
 use App\Models\Appointment;
@@ -14,7 +13,7 @@ class StatisticsController extends ApiController
 {
     public function doctorIndexStatistics()
     {
-        $clinic = auth()->user()?->getClinic();
+        $clinic = auth()->user()?->getClinic([], ['appointments', 'upcomingAppointments', 'todayAppointments']);
 
         $data = Appointment::selectRaw(
             "
@@ -29,17 +28,13 @@ class StatisticsController extends ApiController
             ->first()
             ->toArray();
 
-        $data['total_upcoming'] = $clinic?->upcomingAppointments()->count() ?? 0;
+        $data['total_upcoming'] = $clinic?->upcoming_appointments_count ?? 0;
 
-        $data['total_appointments'] = $clinic?->appointments()
-            ->whereNotIn('status', [AppointmentStatusEnum::CANCELLED->value, AppointmentStatusEnum::PENDING->value])
-            ->count() ?? 0;
+        $data['total_appointments'] = $clinic?->appointments_count ?? 0;
 
-        $data['today_appointments'] = $clinic?->appointments()
-            ->whereDate('date', now()->format('Y-m-d'))
-            ->count() ?? 0;
+        $data['today_appointments'] = $clinic?->today_appointments_count ?? 0;
 
-        $data['upcoming_appointments'] = $clinic?->upcomingAppointments()->count();
+        $data['upcoming_appointments'] = $clinic?->upcoming_appointments_count ?? 0;
         $data['total_income_current_month'] = $clinic?->clinicTransactions()
             ->where('type', ClinicTransactionTypeEnum::INCOME->value)
             ->where('date', '>=', now()->firstOfMonth()->format('Y-m-d'))
@@ -52,7 +47,7 @@ class StatisticsController extends ApiController
             ->sum('amount') ?? 0;
 
         return $this->apiResponse(
-            array_map(fn ($item) => is_null($item) ? 0 : floatval($item), $data),
+            array_map(fn($item) => is_null($item) ? 0 : floatval($item), $data),
             self::STATUS_OK,
             __('site.get_successfully')
         );
@@ -87,7 +82,7 @@ class StatisticsController extends ApiController
         $data[0]->total_active_doctors = Clinic::whereHas('activeSubscription')->available()->count();
 
         return $this->apiResponse(
-            collect($data[0] ?? [])->map(fn ($item) => is_null($item) ? 0 : floatval($item)),
+            collect($data[0] ?? [])->map(fn($item) => is_null($item) ? 0 : floatval($item)),
             self::STATUS_OK,
             __('site.get_successfully')
         );

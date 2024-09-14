@@ -237,7 +237,7 @@ class User extends Authenticatable implements HasMedia, JWTSubject
     protected function password(): Attribute
     {
         return Attribute::make(
-            set: fn (?string $value) => Hash::make($value)
+            set: fn(?string $value) => Hash::make($value)
         );
     }
 
@@ -312,10 +312,10 @@ class User extends Authenticatable implements HasMedia, JWTSubject
             ->where('type', 'NOT LIKE', '%RealTime%');
     }
 
-    public function getClinic()
+    public function getClinic(array $relations = [], array $countable = [])
     {
         if (auth()?->user()?->isDoctor()) {
-            return $this->clinic;
+            return $this->clinic->load($relations)->loadCount($countable);
         } elseif (auth()?->user()?->isClinicEmployee()) {
             return $this->clinicEmployee->clinic;
         } else {
