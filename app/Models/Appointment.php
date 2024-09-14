@@ -42,6 +42,10 @@ class Appointment extends Model implements ActionsMustBeAuthorized
     use HasAbilities;
     use HasFactory;
 
+    protected $observables = [
+        'statusChange'
+    ];
+
     public static function authorizedActions(): array
     {
         return [

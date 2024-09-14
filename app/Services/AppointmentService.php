@@ -59,8 +59,6 @@ class AppointmentService extends BaseService
             return null;
         }
 
-        $oldStatus = $appointment->status;
-
         if ($data['status'] == AppointmentStatusEnum::CANCELLED->value && !isset($data['cancellation_reason'])) {
             return null;
         }
@@ -72,16 +70,11 @@ class AppointmentService extends BaseService
             return null;
         }
 
-        $prevStatus = $appointment->status;
 
         $appointment = $this->repository->update([
             'status'              => $data['status'],
             'cancellation_reason' => $data['cancellation_reason'] ?? "",
         ], $appointment, ['customer.user', 'clinic.user']);
-
-        $appointmentManager->checkoutPreviousAppointmentsIfNewStatusIsCheckin($appointment, $prevStatus);
-        $appointmentManager->handleAppointmentRemainingTime($appointment, $prevStatus);
-        $appointmentManager->handleTransactionsWhenChangeStatus($appointment, $prevStatus);
 
         AppointmentLogRepository::make()->create([
             'cancellation_reason' => $data['cancellation_reason'] ?? "",
@@ -93,7 +86,6 @@ class AppointmentService extends BaseService
             'event'               => "appointment status has been changed to {$data['status']} in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en,
         ]);
 
-        $appointmentManager->handleChangeAppointmentNotifications($appointment, $oldStatus);
         return $appointment;
     }
 
@@ -170,7 +162,6 @@ class AppointmentService extends BaseService
             'affected_id'    => $appointment->customer_id,
             'event'          => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en,
         ]);
-        AppointmentManager::make()->handleChangeAppointmentNotifications($appointment);
         return $appointment;
     }
 
@@ -251,7 +242,6 @@ class AppointmentService extends BaseService
                 'affected_id'    => $appointment->customer_id,
                 'event'          => "appointment has been cancelled in " . now()->format('Y-m-d H:i:s') . " By The Patient : " . auth()->user()->full_name->en . " With Id : " . auth()?->user()?->customer?->id,
             ]);
-            AppointmentManager::make()->handleChangeAppointmentNotifications($appointment);
             return $appointment;
         }
 
