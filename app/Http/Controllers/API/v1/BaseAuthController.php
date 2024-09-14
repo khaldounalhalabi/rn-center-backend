@@ -173,7 +173,7 @@ class BaseAuthController extends ApiController
         } catch (Exception) {
             return response()->json([
                 'message' => "There Is Been An Error Registering FCM Token",
-            ], 403);
+            ], 500);
         }
     }
 

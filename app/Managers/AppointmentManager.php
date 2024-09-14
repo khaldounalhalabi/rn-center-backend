@@ -95,8 +95,7 @@ class AppointmentManager
             $appointment->offers()->sync($clinicOffersIds);
         }
 
-        if ($appointment->type == AppointmentTypeEnum::ONLINE->value
-            && $appointment->status == AppointmentStatusEnum::PENDING->value) {
+        if ($appointment->type == AppointmentTypeEnum::ONLINE->value) {
             FirebaseServices::make()
                 ->setData([
                     'appointment' => $appointment,
@@ -105,21 +104,21 @@ class AppointmentManager
                 ->setTo([$appointment?->clinic?->user?->id, ...$clinic?->clinicEmployees?->pluck('user_id')->toArray()])
                 ->setNotification(NewOnlineAppointmentNotification::class)
                 ->send();
-        } else {
-            FirebaseServices::make()
-                ->setData([])
-                ->setMethod(FirebaseServices::MANY)
-                ->setTo([$appointment?->clinic?->user?->id, ...$clinic?->clinicEmployees?->pluck('user_id')->toArray()])
-                ->setNotification(NewAppointmentNotification::class)
-                ->send();
-
-            FirebaseServices::make()
-                ->setData([])
-                ->setMethod(FirebaseServices::ByRole)
-                ->setRole(RolesPermissionEnum::ADMIN['role'])
-                ->setNotification(NewAppointmentNotification::class)
-                ->send();
         }
+
+        FirebaseServices::make()
+            ->setData([])
+            ->setMethod(FirebaseServices::MANY)
+            ->setTo([$appointment?->clinic?->user?->id, ...$clinic?->clinicEmployees?->pluck('user_id')->toArray()])
+            ->setNotification(NewAppointmentNotification::class)
+            ->send();
+
+        FirebaseServices::make()
+            ->setData([])
+            ->setMethod(FirebaseServices::ByRole)
+            ->setRole(RolesPermissionEnum::ADMIN['role'])
+            ->setNotification(NewAppointmentNotification::class)
+            ->send();
 
         $this->logAppointment($data, $appointment);
 
@@ -215,7 +214,7 @@ class AppointmentManager
             $systemOffers = SystemOfferRepository::make()
                 ->getByIds($data['system_offers'], $data['clinic_id'] ?? $appointment?->clinic_id);
             $systemOffersTotal = $systemOffers
-                ->sum(fn (SystemOffer $offer) => $offer->type == OfferTypeEnum::FIXED->value
+                ->sum(fn(SystemOffer $offer) => $offer->type == OfferTypeEnum::FIXED->value
                     ? $offer->amount
                     : ($offer->amount * $appointmentCost) / 100
                 );
@@ -235,7 +234,7 @@ class AppointmentManager
             $clinicOffers = OfferRepository::make()
                 ->getByIds($data['offers'], $data['clinic_id'] ?? $appointment?->clinic_id);
             $clinicOffersTotal = $clinicOffers
-                ->sum(fn (Offer $offer) => $offer->type == OfferTypeEnum::FIXED->value
+                ->sum(fn(Offer $offer) => $offer->type == OfferTypeEnum::FIXED->value
                     ? $offer->value
                     : ($offer->value * $appointmentCost) / 100
                 );
