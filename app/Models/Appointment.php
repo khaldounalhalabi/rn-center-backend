@@ -169,7 +169,7 @@ class Appointment extends Model implements ActionsMustBeAuthorized
     {
         return [
             'id',
-            'customer.name',
+            'customer.user.full_name',
             'service.name',
             'status',
             'type',
@@ -282,7 +282,7 @@ class Appointment extends Model implements ActionsMustBeAuthorized
     public function getSystemOffersTotal()
     {
         return $this->systemOffers
-            ->sum(fn (SystemOffer $offer) => $offer->type == OfferTypeEnum::FIXED->value
+            ->sum(fn(SystemOffer $offer) => $offer->type == OfferTypeEnum::FIXED->value
                 ? $offer->value
                 : ($offer->value * $this->clinic->appointment_cost) / 100
             );
@@ -291,7 +291,7 @@ class Appointment extends Model implements ActionsMustBeAuthorized
     public function getClinicOfferTotal()
     {
         return $this->offers
-            ->sum(fn (Offer $offer) => $offer->type == OfferTypeEnum::FIXED->value
+            ->sum(fn(Offer $offer) => $offer->type == OfferTypeEnum::FIXED->value
                 ? $offer->amount
                 : ($offer->amount * ($this->clinic->appointment_cost - $this->getSystemOffersTotal())) / 100
             );
@@ -315,5 +315,12 @@ class Appointment extends Model implements ActionsMustBeAuthorized
                 && in_array($this->status, [AppointmentStatusEnum::PENDING->value, AppointmentStatusEnum::BOOKED->value])
             )
             || auth()->user()?->isAdmin();
+    }
+
+    public function cancelLog(): HasOne
+    {
+        return $this->hasOne(AppointmentLog::class)
+            ->where('status', AppointmentStatusEnum::CANCELLED->value)
+            ->latestOfMany();
     }
 }

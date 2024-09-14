@@ -48,14 +48,14 @@ class ClinicTransaction extends Model
     public function exportable(): array
     {
         return [
-            'amount',
+            'appointment.id',
+            'appointment.customer.user.full_name',
             'type',
+            'amount',
             'notes',
             'status',
-            'appointment.id',
-            'appointment.date',
-            'appointment.customer.user.full_name',
             'date',
+            'appointment.date',
         ];
     }
 

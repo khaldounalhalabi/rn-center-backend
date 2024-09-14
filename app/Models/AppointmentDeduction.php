@@ -44,11 +44,7 @@ class AppointmentDeduction extends Model
             'amount',
             'status',
             'date',
-            'clinicTransaction.amount',
-            'appointment.id',
-            'appointment.customer.user.full_name',
-            'appointment.clinic.user.full_name',
-            'clinic.name',
+            'appointment.date',
         ];
     }
 

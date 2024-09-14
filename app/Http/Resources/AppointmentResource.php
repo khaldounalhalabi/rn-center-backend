@@ -28,6 +28,7 @@ class AppointmentResource extends BaseResource
             'device_type'           => $this->device_type,
             'appointment_sequence'  => $this->appointment_sequence,
             'remaining_time'        => $this->remaining_time,
+            'cancellation_reason'   => $this->whenLoaded('cancelLog')?->cancellation_reason,
             'customer'              => new CustomerResource($this->whenLoaded('customer')),
             'clinic'                => new ClinicResource($this->whenLoaded('clinic')),
             'service'               => new ServiceResource($this->whenLoaded('service')),

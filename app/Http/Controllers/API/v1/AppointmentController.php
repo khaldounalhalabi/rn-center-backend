@@ -42,7 +42,7 @@ class AppointmentController extends ApiController
     public function show($appointmentId)
     {
         /** @var Appointment|null $item */
-        $item = $this->appointmentService->view($appointmentId, $this->relations);
+        $item = $this->appointmentService->view($appointmentId, [...$this->relations, 'cancelLog']);
         if ($item) {
             return $this->apiResponse(new AppointmentResource($item), self::STATUS_OK, __('site.get_successfully'));
         }
