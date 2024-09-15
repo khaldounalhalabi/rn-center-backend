@@ -186,8 +186,8 @@ class AppointmentObserver
             $appointment->clinicTransaction()->delete();
             $appointment->customer->systemOffers()->detach();
         } elseif (
-            $prevStatus == AppointmentStatusEnum::PENDING->value
-            && $appointment->status == AppointmentStatusEnum::BOOKED->value
+            !in_array($prevStatus, [AppointmentStatusEnum::BOOKED->value, AppointmentStatusEnum::CHECKIN->value, AppointmentStatusEnum::CHECKOUT->value])
+            && in_array($appointment->status, [AppointmentStatusEnum::BOOKED->value, AppointmentStatusEnum::CHECKIN->value, AppointmentStatusEnum::CHECKOUT->value])
             && $appointment->type == AppointmentTypeEnum::ONLINE->value
         ) {
             AppointmentManager::make()
@@ -209,6 +209,7 @@ class AppointmentObserver
         } elseif (
             $prevStatus == AppointmentStatusEnum::CHECKOUT->value
             && $appointment->status != AppointmentStatusEnum::CHECKOUT->value
+            && $appointment->type != AppointmentTypeEnum::ONLINE->value
         ) {
             $appointment->clinicTransaction()->delete();
         } elseif (

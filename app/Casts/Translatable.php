@@ -5,6 +5,7 @@ namespace App\Casts;
 use App\Serializers\Translatable as SerializersTranslatable;
 use Exception;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
+use Illuminate\Support\Str;
 
 /**
  * @property string en
@@ -35,15 +36,12 @@ class Translatable implements CastsAttributes
 
         if (is_array($value)) {
             return json_encode($value, JSON_UNESCAPED_SLASHES + JSON_UNESCAPED_UNICODE);
-        } else {
-            $arrVal = json_decode($value, true);
-            if (!$arrVal) {
-                return json_encode([
-                    'en' => $value,
-                    'ar' => "",
-                ]);
-            }
+        } elseif (Str::isJson($value)) {
             return $value;
+        } elseif (is_string($value)) {
+            return json_encode([app()->getLocale() => $value], JSON_UNESCAPED_SLASHES + JSON_UNESCAPED_UNICODE);
+        } else {
+            throw new Exception("Invalid Translatable Data , it should be either : array , json string , Translatable Object");
         }
     }
 }
