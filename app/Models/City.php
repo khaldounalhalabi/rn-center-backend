@@ -34,7 +34,6 @@ class City extends Model
     {
         return [
             'name',
-
         ];
     }
 
@@ -70,5 +69,10 @@ class City extends Model
     public function bloodDonationRequests(): HasMany
     {
         return $this->hasMany(BloodDonationRequest::class);
+    }
+
+    public function clinicJoinRequests(): HasMany
+    {
+        return $this->hasMany(ClinicJoinRequest::class);
     }
 }

@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder
 //            SystemOfferSeeder::class,
             SettingSeeder::class,
             ReviewSeeder::class,
+            ClinicJoinRequestSeeder::class,
         ]);
     }
 }

@@ -36,8 +36,9 @@ class SpecialityFactory extends Factory
     public function withMedia(): SpecialityFactory
     {
         return $this->afterCreating(function (Speciality $spec) {
+            $num = fake()->numberBetween(1, 4);
             $spec->addMedia(
-                new File(storage_path('/app/required/download.png'))
+                new File(storage_path("/app/required/img$num.png"))
             )->preservingOriginal()->toMediaCollection();
         });
     }

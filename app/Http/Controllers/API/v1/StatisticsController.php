@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\v1;
 
+use App\Enums\AppointmentStatusEnum;
 use App\Enums\ClinicTransactionTypeEnum;
 use App\Http\Controllers\ApiController;
 use App\Models\Appointment;
@@ -86,5 +87,13 @@ class StatisticsController extends ApiController
             self::STATUS_OK,
             __('site.get_successfully')
         );
+    }
+
+    public function landingPage()
+    {
+        return $this->apiResponse([
+            'clinics_count'              => Clinic::withoutGlobalScope('available_online')->count(),
+            'success_appointments_count' => Appointment::where('status', AppointmentStatusEnum::CHECKOUT->value)->count(),
+        ], self::STATUS_OK, __('site.get_successfully'));
     }
 }

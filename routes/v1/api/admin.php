@@ -108,13 +108,13 @@ Route::get('clinics/{clinicId}/appointment-deductions/summary', [v1\AppointmentD
 Route::post('appointment-deductions/bulk/toggle-status', [v1\AppointmentDeductionController::class, 'bulkToggleStatus'])
     ->name('appointment.deduction.bulk.toggle.status');
 Route::get('appointment-deductions/summary', [v1\AppointmentDeductionController::class, 'adminSummary'])->name('appointment.deduction.summary');
-Route::get('/appointment-deductions/export', [v1\AppointmentDeductionController::class, 'export'])->name('api.admin.appointment.deductions.export');
+Route::get('/appointment-deductions/export', [v1\AppointmentDeductionController::class, 'export'])->name('appointment.deductions.export');
 Route::get('/appointment-deductions/{appointmentDeductionId}/toggle-status', [v1\AppointmentDeductionController::class, 'toggleStatus'])
     ->name('appointment.deduction.status.toggle');
 Route::get('/clinics/{clinicId}/appointment-deductions', [v1\AppointmentDeductionController::class, 'getByClinic'])
     ->name('clinics.appointment.deductions');
 Route::apiResource('/appointment-deductions', v1\AppointmentDeductionController::class)
-    ->only(['index', 'show'])->names('api.admin.appointment.deductions');
+    ->only(['index', 'show'])->names('appointment.deductions');
 
 Route::get('/settings/by-label/{label}', [v1\SettingController::class, 'getByLabel'])->name('settings.label');
 Route::apiResource('settings', v1\SettingController::class)
@@ -124,3 +124,9 @@ Route::apiResource('settings', v1\SettingController::class)
 Route::get('clinics/{clinicId}/reviews', [v1\ReviewController::class, 'getByClinic'])->name('clinics.reviews');
 
 Route::get('/statistics/index', [v1\StatisticsController::class, 'adminStatistics'])->name('statistics.index');
+
+Route::apiResource('clinic-join-requests', v1\ClinicJoinRequestController::class)
+    ->except([
+        'store',
+        'update',
+    ])->names('clinic.join.requests');

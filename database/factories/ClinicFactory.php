@@ -37,7 +37,6 @@ class ClinicFactory extends Factory
 
     /**
      * Define the model's default state.
-     *
      * @return array<string, mixed>
      */
     public function definition(): array
@@ -103,8 +102,9 @@ class ClinicFactory extends Factory
     public function withMedia(): ClinicFactory
     {
         return $this->afterCreating(function (Clinic $clinic) {
+            $num = fake()->numberBetween(1, 4);
             $clinic->addMedia(
-                new File(storage_path('/app/required/download.png'))
+                new File(storage_path("/app/required/img$num.png"))
             )->preservingOriginal()->toMediaCollection();
         });
     }
