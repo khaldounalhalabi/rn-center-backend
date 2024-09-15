@@ -2,14 +2,15 @@
 
 namespace App\Providers;
 
+use App\Models\Appointment;
 use App\Models\ClinicTransaction;
 use App\Models\Transaction;
+use App\Observers\AppointmentObserver;
 use App\Observers\ClinicTransactionObserver;
 use App\Observers\TransactionObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -30,6 +31,7 @@ class EventServiceProvider extends ServiceProvider
     {
         ClinicTransaction::observe(ClinicTransactionObserver::class);
         Transaction::observe(TransactionObserver::class);
+        Appointment::observe(AppointmentObserver::class);
     }
 
     /**

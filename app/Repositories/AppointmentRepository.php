@@ -12,7 +12,6 @@ use Carbon\Carbon;
 use DateTime;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -101,8 +100,8 @@ class AppointmentRepository extends BaseRepository
             ->where('status', AppointmentStatusEnum::CHECKIN->value)
             ->where('appointment_sequence', '<', $appointmentSequence)
             ->chunk(5, function (Collection $appointments) use ($data) {
-                foreach ($appointments as $appointment) {
-                    $appointment->update($data);
+                foreach ($appointments as /** @var Appointment $appointment */ $appointment) {
+                    $appointment->updateQuietly($data);
                     AppointmentLog::create([
                         'cancellation_reason' => $data['cancellation_reason'] ?? "",
                         'status'              => $data['status'] ?? $appointment->status,
@@ -127,7 +126,7 @@ class AppointmentRepository extends BaseRepository
     {
         return $this->globalQuery($relations, $countable)
             ->where('customer_id', $customerId)
-            ->when($clinicId, fn (Builder $query) => $query->where('clinic_id', $clinicId))
+            ->when($clinicId, fn(Builder $query) => $query->where('clinic_id', $clinicId))
             ->orderBy('date', 'DESC')
             ->where('status', AppointmentStatusEnum::CHECKOUT->value)
             ->first();

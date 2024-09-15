@@ -41,7 +41,7 @@ class UpdateAppointmentRemainingTimeJob implements ShouldQueue
             ->chunk(5, function (Collection /** @var Collection<Appointment> $appointments */ $appointments) {
                 Log::info(print_r($appointments->toArray(), 1));
                 foreach ($appointments as $appointment) {
-                    Appointment::handleRemainingTime($appointment)->save();
+                    Appointment::handleRemainingTime($appointment)->saveQuietly();
                 }
             });
     }

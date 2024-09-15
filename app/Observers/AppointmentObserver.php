@@ -171,7 +171,7 @@ class AppointmentObserver
             && $prevStatus != AppointmentStatusEnum::BOOKED->value
         ) {
             $appointment = Appointment::handleRemainingTime($appointment);
-            $appointment->save();
+            $appointment->saveQuietly();
         }
     }
 
