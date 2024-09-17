@@ -37,7 +37,15 @@ class OfferService extends BaseService
             return null;
         }
 
-        return $this->repository->update($data, $offer, $relationships, $countable);
+        $offer = $this->repository->update($data, $offer, $relationships, $countable);
+
+        if ($offer->start_at?->lessThanOrEqualTo(now()) && $offer->end_at?->greaterThanOrEqualTo(now())) {
+            $offer->update([
+                'is_active' => true,
+            ]);
+        }
+
+        return $offer;
     }
 
     public function delete($id): ?bool
