@@ -168,7 +168,7 @@ class AppointmentDeductionService extends BaseService
         ]);
     }
 
-    public function getDeductionsTotalForCurrentMonth($clinicId): int
+    public function getDeductionsTotalForCurrentMonth($clinicId)
     {
         return $this->repository
             ->getByDateRange($clinicId, now()->firstOfMonth(), now()->lastOfMonth())
