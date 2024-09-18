@@ -79,7 +79,7 @@ abstract class BaseRepository
             $this->filtered = true;
         }
 
-        $this->modelTableColumns = $this->getTableColumns();
+        $this->modelTableColumns = $this->model->getFillable();
         $this->perPage = request('per_page', 10);
     }
 
