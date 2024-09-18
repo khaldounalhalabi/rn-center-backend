@@ -59,7 +59,7 @@ Route::apiResource('/service-categories', v1\ServiceCategoryController::class)->
 Route::get('/clinics/{clinicId}/services', [v1\ServiceController::class, 'getClinicServices'])->name('get-clinic-services');
 Route::apiResource('/services', v1\ServiceController::class)->names('services');
 
-Route::put('/appointments/{appointmentId}/update-date', [v1\AppointmentController::class, 'updateAppointmentDate'])->name('appointments.update.date');
+Route::put('appointments/{appointmentId}/update-date', [v1\AppointmentController::class, 'updateAppointmentDate'])->name('appointments.update.date');
 Route::post('appointments/{appointmentId}/toggle-status', [v1\AppointmentController::class, 'toggleAppointmentStatus'])->name('appointments.status.toggle');
 Route::get('appointments/{appointmentId}/prescriptions/', [v1\PrescriptionController::class, 'getAppointmentPrescriptions'])->name('appointments.prescriptions');
 Route::get('appointment-logs/{appointmentLogId}', [v1\AppointmentLogController::class, 'show'])->name('appointment.log.show');
@@ -101,18 +101,28 @@ Route::apiResource('/blood-donation-requests', v1\BloodDonationRequestController
 
 Route::apiResource('/system-offers', v1\SystemOfferController::class)->names('system.offers');
 
-Route::get('/clinics/{clinicId}/appointment-deductions/current-month/collect', [v1\AppointmentDeductionController::class, 'collectForThisMonth'])->name('appointment.deduction.current.month.collect');
-Route::get('/appointment-deductions/earnings', [v1\AppointmentDeductionController::class, 'deductionsSummedByMonth'])->name('appointment.deductions.earnings');
-Route::get('appointment-deductions/all', [v1\AppointmentDeductionController::class, 'all'])->name('appointment.deduction.all');
-Route::get('clinics/{clinicId}/appointment-deductions/summary', [v1\AppointmentDeductionController::class, 'getSummaryByClinicId'])->name('clinics.appointment.deduction.summary');
-Route::post('appointment-deductions/bulk/toggle-status', [v1\AppointmentDeductionController::class, 'bulkToggleStatus'])
-    ->name('appointment.deduction.bulk.toggle.status');
-Route::get('appointment-deductions/summary', [v1\AppointmentDeductionController::class, 'adminSummary'])->name('appointment.deduction.summary');
-Route::get('/appointment-deductions/export', [v1\AppointmentDeductionController::class, 'export'])->name('appointment.deductions.export');
-Route::get('/appointment-deductions/{appointmentDeductionId}/toggle-status', [v1\AppointmentDeductionController::class, 'toggleStatus'])
-    ->name('appointment.deduction.status.toggle');
-Route::get('/clinics/{clinicId}/appointment-deductions', [v1\AppointmentDeductionController::class, 'getByClinic'])
-    ->name('clinics.appointment.deductions');
+Route::controller(v1\AppointmentDeductionController::class)
+    ->group(function () {
+        Route::prefix('/clinics/{clinicId}/appointment-deductions')
+            ->name('clinics.appointment.deductions.')
+            ->group(function () {
+                Route::get('/current-month/total', 'getDeductionsTotalForThisMonth')->name('current.month.total');
+                Route::get('/current-month/collect', 'collectForThisMonth')->name('current.month.collect');
+                Route::get('/summary', 'getSummaryByClinicId')->name('summary');
+                Route::get('/', 'getByClinic')->name('index');
+            });
+
+        Route::prefix('appointment-deductions')
+            ->name('appointment.deductions.')
+            ->group(function () {
+                Route::get('/earnings', 'deductionsSummedByMonth')->name('earnings');
+                Route::get('/all', 'all')->name('all');
+                Route::post('/bulk/toggle-status', 'bulkToggleStatus')->name('bulk.toggle.status');
+                Route::get('/summary', 'adminSummary')->name('summary');
+                Route::get('/export', 'export')->name('export');
+                Route::get('/{appointmentDeductionId}/toggle-status', 'toggleStatus')->name('status.toggle');
+            });
+    });
 Route::apiResource('/appointment-deductions', v1\AppointmentDeductionController::class)
     ->only(['index', 'show'])->names('appointment.deductions');
 

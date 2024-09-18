@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\AppointmentDeductionStatusEnum;
+use App\Enums\AppointmentStatusEnum;
 use App\Traits\HasAbilities;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -122,5 +124,15 @@ class AppointmentDeduction extends Model
     public function transaction(): BelongsTo
     {
         return $this->belongsTo(Transaction::class);
+    }
+
+    public function isPending(): bool
+    {
+        return $this->status == AppointmentStatusEnum::PENDING->value;
+    }
+
+    public function isDone(): bool
+    {
+        return $this->status == AppointmentDeductionStatusEnum::DONE->value;
     }
 }

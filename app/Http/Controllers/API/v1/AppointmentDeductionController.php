@@ -165,4 +165,13 @@ class AppointmentDeductionController extends ApiController
         $this->appointmentDeductionService->collectForThisMonth($clinicId);
         return $this->apiResponse(true, self::STATUS_OK, __('site.update_successfully'));
     }
+
+    public function getDeductionsTotalForThisMonth($clinicId)
+    {
+        return $this->apiResponse(
+            $this->appointmentDeductionService->getDeductionsTotalForCurrentMonth($clinicId),
+            self::STATUS_OK,
+            __('site.get_successfully')
+        );
+    }
 }

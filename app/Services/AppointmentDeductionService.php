@@ -131,7 +131,7 @@ class AppointmentDeductionService extends BaseService
                     'actor_id'    => auth()->user()?->id,
                     'description' => "An appointment deduction for the appointment with id : $deduction->appointment_id in {$deduction->clinic?->name}",
                 ]);
-                $deduction?->update([
+                $deduction->update([
                     'status'         => AppointmentDeductionStatusEnum::DONE->value,
                     'transaction_id' => $adminTransaction->id,
                 ]);
@@ -143,7 +143,7 @@ class AppointmentDeductionService extends BaseService
                 && $status == AppointmentDeductionStatusEnum::PENDING->value
             ) {
                 TransactionRepository::make()->delete($deduction->transaction_id);
-                $deduction?->update([
+                $deduction->update([
                     'status'         => AppointmentDeductionStatusEnum::PENDING->value,
                     'transaction_id' => null,
                 ]);
@@ -166,5 +166,12 @@ class AppointmentDeductionService extends BaseService
             'status' => AppointmentDeductionStatusEnum::DONE->value,
             'ids'    => $ids->toArray(),
         ]);
+    }
+
+    public function getDeductionsTotalForCurrentMonth($clinicId): int
+    {
+        return $this->repository
+            ->getByDateRange($clinicId, now()->firstOfMonth(), now()->lastOfMonth())
+            ->sum(fn(AppointmentDeduction $deduction) => $deduction->status == $deduction->isPending() ? $deduction->amount : 0);
     }
 }
