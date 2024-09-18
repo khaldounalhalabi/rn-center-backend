@@ -26,6 +26,7 @@ class ClinicSubscription extends Model
     protected $casts = [
         'start_time' => 'datetime',
         'end_time'   => 'datetime',
+        'is_paid'    => 'boolean',
     ];
 
     public function clinic(): BelongsTo

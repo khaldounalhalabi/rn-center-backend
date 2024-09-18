@@ -3,8 +3,6 @@
 use App\Http\Controllers\API\v1;
 use Illuminate\Support\Facades\Route;
 
-//add-your-routes-here
-
 Route::post('/refresh', [v1\AdminAuthController::class, 'refresh'])->name('refresh-token');
 Route::post('/logout', [v1\AdminAuthController::class, 'logout'])->name('logout');
 Route::post('/update-user-data', [v1\AdminAuthController::class, 'updateUserDetails'])->name('update-user-data');
