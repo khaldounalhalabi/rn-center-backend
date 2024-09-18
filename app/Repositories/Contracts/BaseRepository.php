@@ -83,13 +83,6 @@ abstract class BaseRepository
         $this->perPage = request('per_page', 10);
     }
 
-    public function getTableColumns(): array
-    {
-        $table = $this->model->getTable();
-
-        return Schema::getColumnListing($table);
-    }
-
     public static function make(): static
     {
         if (is_null(self::$instance)) {

@@ -3,10 +3,6 @@
 namespace App\Providers;
 
 use App\Channels\DataBaseChannel;
-use App\Models\ClinicTransaction;
-use App\Models\Transaction;
-use App\Observers\ClinicTransactionObserver;
-use App\Observers\TransactionObserver;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Notifications\Channels\DatabaseChannel as LaravelDatabaseChannel;
 

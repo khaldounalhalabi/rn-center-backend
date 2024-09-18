@@ -20,6 +20,7 @@ use App\Repositories\ClinicTransactionRepository;
 use App\Repositories\OfferRepository;
 use App\Repositories\ServiceRepository;
 use App\Repositories\SystemOfferRepository;
+use Illuminate\Support\Facades\Log;
 
 class AppointmentManager
 {
@@ -57,6 +58,10 @@ class AppointmentManager
 
         $appointment = AppointmentRepository::make()->create($data);
 
+        Log::info("status : {$appointment->status}\nin array ? : " . !in_array($appointment->status, [
+            AppointmentStatusEnum::CANCELLED->value,
+            AppointmentStatusEnum::PENDING->value,
+        ]) ? "true" : "false");
         if (
             $appointment->type == AppointmentTypeEnum::ONLINE->value
             && !in_array($appointment->status, [
@@ -64,6 +69,7 @@ class AppointmentManager
                 AppointmentStatusEnum::PENDING->value,
             ])
         ) {
+            Log::info("Deductions conditions entered");
             $this->addDeductionCostTransactions($clinic, $systemOffersTotal, $appointment);
         }
 
@@ -306,6 +312,7 @@ class AppointmentManager
         ]);
 
         if ($clinic->availableOnline()) {
+            Log::info("Clinic Available Online");
             AppointmentDeductionRepository::make()->create([
                 'amount'                => $clinic->deduction_cost - $systemOffersTotal,
                 'status'                => AppointmentDeductionStatusEnum::PENDING->value,
@@ -314,6 +321,8 @@ class AppointmentManager
                 'clinic_id'             => $clinic->id,
                 'date'                  => now(),
             ]);
+        } else {
+            Log::info("Clinic is not Available Online");
         }
     }
 }
