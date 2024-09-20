@@ -8,8 +8,6 @@ use App\Enums\SubscriptionStatusEnum;
 use App\Enums\SubscriptionTypeEnum;
 use App\Enums\TransactionTypeEnum;
 use App\Models\ClinicSubscription;
-use App\Models\ClinicTransaction;
-use App\Models\Transaction;
 use App\Repositories\ClinicRepository;
 use App\Repositories\ClinicSubscriptionRepository;
 use App\Repositories\ClinicTransactionRepository;
@@ -112,22 +110,43 @@ class ClinicSubscriptionService extends BaseService
     }
 
     /**
-     * @param $clinicId
+     * @param int|null $clinicId
+     * @param int|null $clinicSubscriptionId
      * @return ClinicSubscription|null
      */
-    public function makeItPaid($clinicId): ?ClinicSubscription
+    public function makeItPaid(?int $clinicId = null, ?int $clinicSubscriptionId = null): ?ClinicSubscription
     {
-        $clinic = ClinicRepository::make()->find($clinicId);
+        if ($clinicId) {
+            $clinic = ClinicRepository::make()->find($clinicId);
 
-        if (!$clinic || !$clinic?->hasActiveSubscription()) {
+            if (!$clinic?->hasActiveSubscription()) {
+                return null;
+            }
+
+            $clinicSubscription = $clinic->activeSubscription;
+
+            if ($clinicSubscription?->is_paid) {
+                return null;
+            }
+
+            $subscription = $clinicSubscription->subscription;
+        } elseif ($clinicSubscriptionId) {
+            $clinicSubscription = $this->repository->find($clinicSubscriptionId, ['clinic', 'subscription']);
+
+            if (!$clinicSubscription) {
+                return null;
+            }
+
+            if ($clinicSubscription->is_paid) {
+                return null;
+            }
+
+            $subscription = $clinicSubscription->subscription;
+
+            $clinic = $clinicSubscription->clinic;
+        } else {
             return null;
         }
-
-        if ($clinic->activeSubscription?->is_paid){
-            return null;
-        }
-
-        $subscription = $clinic->activeSubscription->subscription;
 
         TransactionRepository::make()->create([
             'type'        => TransactionTypeEnum::INCOME->value,
@@ -141,15 +160,15 @@ class ClinicSubscriptionService extends BaseService
             'amount'    => $subscription->cost,
             'date'      => now(),
             'type'      => ClinicTransactionTypeEnum::OUTCOME->value,
-            'clinic_id' => $clinicId,
+            'clinic_id' => $clinic->id,
             'status'    => ClinicTransactionStatusEnum::DONE->value,
             'notes'     => "A pay for the system subscription",
         ]);
 
-        $clinic->activeSubscription->update([
+       $clinicSubscription->update([
             'is_paid' => true,
         ]);
 
-        return $clinic->activeSubscription;
+        return $clinicSubscription;
     }
 }
