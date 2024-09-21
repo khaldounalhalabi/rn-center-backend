@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\RolesPermissionEnum;
 use App\Exceptions\RoleDoesNotExistException;
 use App\Models\ClinicEmployee;
+use App\Notifications\RealTime\PermissionsChangeNotification;
 use App\Repositories\ClinicEmployeeRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
@@ -95,6 +96,13 @@ class ClinicEmployeeService extends BaseService
                     $user->assignPermission($permission, $model);
                 }
             }
+            FirebaseServices::make()
+                ->setData([])
+                ->setMethod(FirebaseServices::ONE)
+                ->setTo($user)
+                ->setNotification(PermissionsChangeNotification::class)
+                ->send();
+
             return $clinicEmployee->load($relations)->loadCount($countable);
         } catch (Exception) {
             return null;
