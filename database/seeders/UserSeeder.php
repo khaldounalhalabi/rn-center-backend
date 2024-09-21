@@ -6,6 +6,7 @@ use App\Enums\RolesPermissionEnum;
 use App\Enums\SubscriptionStatusEnum;
 use App\Enums\SubscriptionTypeEnum;
 use App\Models\Clinic;
+use App\Models\ClinicEmployee;
 use App\Models\ClinicSubscription;
 use App\Models\User;
 use App\Serializers\Translatable;
@@ -35,6 +36,21 @@ class UserSeeder extends Seeder
             'user_id' => $user1->id,
         ]);
 
+        ClinicEmployee::factory()
+            ->create([
+                'user_id'   => User::factory()
+                    ->create([
+                        'email'       => 'khaldoun1222@hotmail.com',
+                        'password'    => '123456789',
+                        'first_name'  => 'staff',
+                        'middle_name' => 'staff',
+                        'last_name'   => 'staff',
+                        'is_blocked'  => false,
+                        'is_archived' => false
+                    ])->id,
+                'clinic_id' => $clinic->id
+            ]);
+
         ClinicSubscription::create([
             'start_time'      => now()->subDay(),
             'end_time'        => now()->addYear(),
@@ -57,10 +73,10 @@ class UserSeeder extends Seeder
         $clinic = Clinic::factory()
             ->withSchedules()
             ->create([
-            'name'    => new Translatable(['en' => 'pom', 'ar' => 'pom']),
-            'user_id' => $user2->id,
-            'appointment_cost' => 25000 ,
-        ]);
+                'name'             => new Translatable(['en' => 'pom', 'ar' => 'pom']),
+                'user_id'          => $user2->id,
+                'appointment_cost' => 25000,
+            ]);
 
         ClinicSubscription::create([
             'start_time'      => now()->subDay(),
