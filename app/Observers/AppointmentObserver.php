@@ -206,7 +206,7 @@ class AppointmentObserver
                 });
 
             AppointmentDeduction::where('appointment_id', $appointment->id)
-                ->chunk(10, function (/** @var Collection<AppointmentDeduction> $deductions */ $transactions) {
+                ->chunk(10, function (/** @var Collection<AppointmentDeduction> $deductions */ $deductions) {
                     $deductions->each(function (AppointmentDeduction $deduction) {
                         $deduction->clinicTransaction?->delete();
                         $deduction->delete();
