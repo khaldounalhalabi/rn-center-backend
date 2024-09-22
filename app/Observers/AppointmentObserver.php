@@ -13,6 +13,7 @@ use App\Models\Appointment;
 use App\Notifications\Clinic\NewOnlineAppointmentNotification;
 use App\Notifications\Customer\CustomerAppointmentChangedNotification;
 use App\Notifications\RealTime\AppointmentChangeNotification;
+use App\Notifications\RealTime\BalanceChangeNotification;
 use App\Notifications\RealTime\NewAppointmentNotification;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\ClinicTransactionRepository;
@@ -221,5 +222,12 @@ class AppointmentObserver
                     'date'           => now(),
                 ]);
         }
+
+        FirebaseServices::make()
+            ->setData([])
+            ->setMethod(FirebaseServices::MANY)
+            ->setTo([$appointment->clinic_id, ...$appointment->clinic?->clinicEmployees?->pluck('id')?->toArray()])
+            ->setNotification(BalanceChangeNotification::class)
+            ->send();
     }
 }
