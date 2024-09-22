@@ -181,21 +181,35 @@ class AppointmentObserver
             $prevStatus != AppointmentStatusEnum::CANCELLED->value
             && $appointment->status == AppointmentStatusEnum::CANCELLED->value
         ) {
-            $appointment->appointmentDeduction?->clinicTransaction()->delete();
-            $appointment->appointmentDeduction()->delete();
-            $appointment->clinicTransaction()->delete();
+            $appointment->clinicTransaction?->delete();
+            $appointment->appointmentDeduction?->clinicTransaction?->delete();
+            $appointment->appointmentDeduction?->delete();
+            $appointment->clinicTransaction?->delete();
             $appointment->customer->systemOffers()->detach();
         } elseif (
-            !in_array($prevStatus, [AppointmentStatusEnum::BOOKED->value, AppointmentStatusEnum::CHECKIN->value, AppointmentStatusEnum::CHECKOUT->value])
-            && in_array($appointment->status, [AppointmentStatusEnum::BOOKED->value, AppointmentStatusEnum::CHECKIN->value, AppointmentStatusEnum::CHECKOUT->value])
-            && $appointment->type == AppointmentTypeEnum::ONLINE->value
+            $prevStatus == AppointmentStatusEnum::CHECKOUT->value
+            && $appointment->status != AppointmentStatusEnum::CHECKOUT->value
         ) {
-            AppointmentManager::make()
-                ->addDeductionCostTransactions($appointment->clinic, $appointment->getSystemOffersTotal(), $appointment);
+            $appointment->clinicTransaction?->delete();
+            $appointment->appointmentDeduction?->clinicTransaction?->delete();
+            $appointment->appointmentDeduction?->delete();
+            $appointment->clinicTransaction?->delete();
         } elseif (
             $prevStatus != AppointmentStatusEnum::CHECKOUT->value
             && $appointment->status == AppointmentStatusEnum::CHECKOUT->value
+            && !$appointment->clinicTransaction()->exists()
         ) {
+            if ($appointment->type == AppointmentTypeEnum::ONLINE->value
+                && !$appointment->appointmentDeduction()->exists()
+            ) {
+                AppointmentManager::make()
+                    ->addDeductionCostTransactions($appointment->clinic, $appointment->getSystemOffersTotal(), $appointment);
+            }
+            $appointment
+                ->customer
+                ->systemOffers()
+                ->sync($appointment->systemOffers->pluck('id')->toArray());
+
             ClinicTransactionRepository::make()
                 ->create([
                     'amount'         => $appointment->total_cost,
@@ -206,36 +220,6 @@ class AppointmentObserver
                     'status'         => ClinicTransactionStatusEnum::DONE->value,
                     'date'           => now(),
                 ]);
-        } elseif (
-            $prevStatus == AppointmentStatusEnum::CHECKOUT->value
-            && $appointment->status != AppointmentStatusEnum::CHECKOUT->value
-            && $appointment->type != AppointmentTypeEnum::ONLINE->value
-        ) {
-            $appointment->clinicTransaction()->delete();
-        } elseif (
-            $prevStatus == AppointmentStatusEnum::CANCELLED->value
-            && !in_array($appointment->status, [AppointmentStatusEnum::CANCELLED->value, AppointmentStatusEnum::PENDING])
-            && $appointment->type == AppointmentTypeEnum::ONLINE->value
-        ) {
-            AppointmentManager::make()
-                ->addDeductionCostTransactions($appointment->clinic, $appointment->getSystemOffersTotal(), $appointment);
-            $appointment
-                ->customer
-                ->systemOffers()
-                ->sync($appointment->systemOffers->pluck('id')->toArray());
-
-            if ($appointment->status == AppointmentStatusEnum::CHECKOUT->value) {
-                ClinicTransactionRepository::make()
-                    ->create([
-                        'amount'         => $appointment->total_cost,
-                        'appointment_id' => $appointment->id,
-                        'type'           => ClinicTransactionTypeEnum::INCOME->value,
-                        'clinic_id'      => $appointment->clinic_id,
-                        'notes'          => "An income from the cost of the appointment with id : $appointment->id , Patient name : {$appointment->customer->user->full_name}",
-                        'status'         => ClinicTransactionStatusEnum::DONE->value,
-                        'date'           => now(),
-                    ]);
-            }
         }
     }
 }
