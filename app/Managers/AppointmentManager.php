@@ -303,7 +303,7 @@ class AppointmentManager
 
         $clinicTransaction = ClinicTransactionRepository::make()->create([
             'amount'         => abs($deductionAmount),
-            'appointment_id' => $appointment->id,
+            'appointment_id' => null,
             'type'           => $clinicTransactionType,
             'clinic_id'      => $clinic->id,
             'notes'          => "An Appointment Deduction For The Appointment With Id : $appointment->id , Patient name : {$appointment->customer->user->full_name}",
@@ -311,18 +311,14 @@ class AppointmentManager
             'date'           => now(),
         ]);
 
-        if ($clinic->availableOnline()) {
-            Log::info("Clinic Available Online");
-            AppointmentDeductionRepository::make()->create([
-                'amount'                => $clinic->deduction_cost - $systemOffersTotal,
-                'status'                => AppointmentDeductionStatusEnum::PENDING->value,
-                'clinic_transaction_id' => $clinicTransaction->id,
-                'appointment_id'        => $appointment->id,
-                'clinic_id'             => $clinic->id,
-                'date'                  => now(),
-            ]);
-        } else {
-            Log::info("Clinic is not Available Online");
-        }
+        Log::info("Clinic Available Online");
+        AppointmentDeductionRepository::make()->create([
+            'amount'                => $clinic->deduction_cost - $systemOffersTotal,
+            'status'                => AppointmentDeductionStatusEnum::PENDING->value,
+            'clinic_transaction_id' => $clinicTransaction->id,
+            'appointment_id'        => $appointment->id,
+            'clinic_id'             => $clinic->id,
+            'date'                  => now(),
+        ]);
     }
 }
