@@ -221,7 +221,7 @@ class AppointmentObserver
         FirebaseServices::make()
             ->setData([])
             ->setMethod(FirebaseServices::MANY)
-            ->setTo([$appointment->clinic_id, ...$appointment->clinic?->clinicEmployees?->pluck('id')?->toArray()])
+            ->setTo([$appointment->clinic?->user?->id, ...$appointment->clinic?->clinicEmployees?->pluck('user_id')->toArray()])
             ->setNotification(BalanceChangeNotification::class)
             ->send();
     }
