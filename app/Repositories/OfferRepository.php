@@ -25,7 +25,7 @@ class OfferRepository extends BaseRepository
                 $q->isActive()->whereHas('clinic', function (Builder|Clinic $b) {
                     $b->available()->online();
                 });
-            })->when($this->filtered , function (Builder $builder) {
+            })->when($this->filtered, function (Builder $builder) {
                 $builder->isActive();
             });
     }
@@ -34,26 +34,17 @@ class OfferRepository extends BaseRepository
     {
         return $this->globalQuery($relations, $countable)
             ->whereIn('id', $ids)
-            ->when($clinicId, fn (Builder $query) => $query->where('clinic_id', $clinicId))
+            ->when($clinicId, fn(Builder $query) => $query->where('clinic_id', $clinicId))
             ->isActive()
             ->get();
     }
 
     public function getByClinicId($clinicId, array $relations = [], array $countable = [], int $perPage = 10): ?array
     {
-        $perPage = request('per_page', $perPage);
-        $data = $this->globalQuery($relations, $countable)
-            ->where('clinic_id', $clinicId)
-            ->isActive()
-            ->paginate($perPage);
-
-        if ($data->count()) {
-            return [
-                'data'            => $data->getCollection(),
-                'pagination_data' => $this->formatPaginateData($data),
-            ];
-        }
-
-        return null;
+        return $this->paginateQuery(
+            $this->globalQuery($relations, $countable)
+                ->where('clinic_id', $clinicId)
+                ->isActive()
+        );
     }
 }

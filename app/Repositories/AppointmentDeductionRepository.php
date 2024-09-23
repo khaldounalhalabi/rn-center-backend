@@ -9,8 +9,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Collection as CollectionAlias;
-use Illuminate\Support\Facades\Log;
-use LaravelIdea\Helper\App\Models\_IH_AppointmentDeduction_C;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
@@ -45,18 +43,8 @@ class AppointmentDeductionRepository extends BaseRepository
 
     public function getByClinic($clinicId, array $relations = [], array $countable = [], int $perPage = 10): ?array
     {
-        $perPage = request('per_page', $perPage);
-        $data = $this->globalQuery($relations, $countable)
-            ->where('clinic_id', $clinicId)
-            ->paginate($perPage);
-
-        if ($data->count()) {
-            return [
-                'data'            => $data->getCollection(),
-                'pagination_data' => $this->formatPaginateData($data),
-            ];
-        }
-        return null;
+        return $this->paginateQuery($this->globalQuery($relations, $countable)
+            ->where('clinic_id', $clinicId));
     }
 
     /**
@@ -99,7 +87,7 @@ class AppointmentDeductionRepository extends BaseRepository
     {
         $this->globalQuery()->whereIn('id', $ids)
             ->chunk(10, function (CollectionAlias $deductions) use ($callable) {
-                $deductions->each(fn (AppointmentDeduction $deduction) => $callable($deduction));
+                $deductions->each(fn(AppointmentDeduction $deduction) => $callable($deduction));
             });
     }
 

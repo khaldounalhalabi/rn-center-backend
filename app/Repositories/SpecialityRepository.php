@@ -25,18 +25,10 @@ class SpecialityRepository extends BaseRepository
 
     public function getOrderedByClinicsCount(array $relations = [], array $countable = []): ?array
     {
-        $data = $this->globalQuery($relations, $countable , false)
-            ->withCount('clinics')
-            ->orderByDesc('clinics_count')
-            ->paginate($this->perPage);
-
-        if ($data->count()) {
-            return [
-                'data'            => $data,
-                'pagination_data' => $this->formatPaginateData($data)
-            ];
-        }
-
-        return null;
+        return $this->paginateQuery(
+            $this->globalQuery($relations, $countable, false)
+                ->withCount('clinics')
+                ->orderByDesc('clinics_count')
+        );
     }
 }

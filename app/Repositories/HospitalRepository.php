@@ -24,18 +24,11 @@ class HospitalRepository extends BaseRepository
 
     public function getByUserCity($cityId, array $relations = [], array $countable = []): ?array
     {
-        $data = $this->globalQuery($relations, $countable)
-            ->whereHas('address', function (Builder $query) use ($cityId) {
-                $query->where('city_id', $cityId);
-            })->paginate($this->perPage);
-
-        if ($data->count()) {
-            return [
-                'data'            => $data,
-                'pagination_data' => $this->formatPaginateData($data),
-            ];
-        }
-
-        return null;
+        return $this->paginateQuery(
+            $this->globalQuery($relations, $countable)
+                ->whereHas('address', function (Builder $query) use ($cityId) {
+                    $query->where('city_id', $cityId);
+                })
+        );
     }
 }

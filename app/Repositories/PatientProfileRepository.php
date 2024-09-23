@@ -29,19 +29,10 @@ class PatientProfileRepository extends BaseRepository
 
     public function getByCustomerId($customerId, array $relations, array $countable = [], int $perPage = 10): ?array
     {
-        $perPage = request('per_page') ?? $perPage;
-        $data = $this->globalQuery($relations, $countable)
-            ->where('customer_id', $customerId)
-            ->paginate($perPage);
-
-        if ($data->count()) {
-            return [
-                'data'            => $data->getCollection(),
-                'pagination_data' => $this->formatPaginateData($data),
-            ];
-        }
-
-        return null;
+        return $this->paginateQuery(
+            $this->globalQuery($relations, $countable)
+                ->where('customer_id', $customerId)
+        );
     }
 
     public function getByClinicAndCustomer($clinicId, $customerId): ?PatientProfile

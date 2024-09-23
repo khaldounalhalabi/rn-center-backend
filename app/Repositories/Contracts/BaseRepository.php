@@ -6,17 +6,15 @@ use App\Enums\MediaTypeEnum;
 use App\Excel\BaseExporter;
 use App\Excel\BaseImporter;
 use App\Traits\FileHandler;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection as RegularCollection;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
-use JetBrains\PhpStorm\ArrayShape;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
@@ -142,7 +140,7 @@ abstract class BaseRepository
     protected function paginate(Builder $query, int $perPage = 10): ?array
     {
         $perPage = request('per_page', $perPage);
-        $data = $query->paginate($perPage);
+        $data = $query->simplePaginate($perPage);
         if ($data->count()) {
             return [
                 'data'            => $data,
@@ -294,7 +292,7 @@ abstract class BaseRepository
         if ($this->perPage == "all") {
             $all = $this->globalQuery($relationships)->withCount($countable)->get();
         } else {
-            $all = $this->globalQuery($relationships)->withCount($countable)->paginate($this->perPage);
+            $all = $this->globalQuery($relationships)->withCount($countable)->simplePaginate($this->perPage);
         }
         if (count($all) > 0) {
             $pagination_data = $this->formatPaginateData($all);
@@ -304,19 +302,17 @@ abstract class BaseRepository
     }
 
     /**
-     * @param LengthAwarePaginator<T> $data
+     * @param Paginator $data
      * @return array
      */
-    #[ArrayShape(['currentPage' => "mixed", 'from' => "mixed", 'to' => "mixed", 'total' => "mixed", 'per_page' => "mixed", 'total_pages' => "float", 'isFirst' => "bool", 'isLast' => "bool"])]
-    public function formatPaginateData(LengthAwarePaginator $data): array
+    public function formatPaginateData(Paginator $data): array
     {
         return [
-            'currentPage' => $data->currentPage(),
-            'total'       => $data->total(),
-            'per_page'    => $data->perPage(),
-            'total_pages' => $data->lastPage(),
-            'isFirst'     => $data->onFirstPage(),
-            'isLast'      => $data->onLastPage(),
+            'current_page' => $data->currentPage(),
+            'per_page'     => $data->perPage(),
+            'is_first'     => $data->onFirstPage(),
+            'is_last'      => $data->onLastPage(),
+            'has_more'     => $data->hasMorePages(),
         ];
     }
 
@@ -561,7 +557,7 @@ abstract class BaseRepository
      */
     public function paginateQuery(Builder $query): ?array
     {
-        $data = $query->paginate($this->perPage ?? 10);
+        $data = $query->simplePaginate($this->perPage ?? 10);
         if ($data->count()) {
             return [
                 'data'            => $data,

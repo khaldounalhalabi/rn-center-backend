@@ -69,19 +69,8 @@ class AppointmentRepository extends BaseRepository
      */
     public function getByClinic($clinicId, array $relations = [], int $perPage = 10): ?array
     {
-        $perPage = request('per_page') ?? $perPage;
-        $data = $this->globalQuery($relations)
-            ->where('clinic_id', $clinicId)
-            ->paginate($perPage);
-
-        if (count($data)) {
-            return [
-                'data'            => $data,
-                'pagination_data' => $this->formatPaginateData($data),
-            ];
-        }
-
-        return null;
+        return $this->paginateQuery($this->globalQuery($relations)
+            ->where('clinic_id', $clinicId));
     }
 
     /**
@@ -164,34 +153,15 @@ class AppointmentRepository extends BaseRepository
 
     public function getByCustomer($customerId, array $relations = [], array $countable = []): ?array
     {
-        $data = $this->globalQuery($relations, $countable)
-            ->where('customer_id', $customerId)
-            ->paginate($this->perPage);
-
-        if ($data->count()) {
-            return [
-                'data'            => $data,
-                'pagination_data' => $this->formatPaginateData($data),
-            ];
-        }
-        return null;
+        return $this->paginateQuery($this->globalQuery($relations, $countable)
+            ->where('customer_id', $customerId));
     }
 
     public function getTodayAppointments($clinicId, array $relations = [], array $countable = []): ?array
     {
-        $data = $this->globalQuery($relations, $countable)
+        return $this->paginateQuery($this->globalQuery($relations, $countable)
             ->where('date', now()->format('Y-m-d'))
-            ->where('clinic_id', $clinicId)
-            ->paginate($this->perPage);
-
-        if ($data->count()) {
-            return [
-                'data'            => $data,
-                'pagination_data' => $this->formatPaginateData($data),
-            ];
-        }
-
-        return null;
+            ->where('clinic_id', $clinicId));
     }
 
     public function getByClinicDayRange(Clinic $clinic, array $relations = [], array $countable = []): array|EloquentCollection|\LaravelIdea\Helper\App\Models\_IH_Appointment_C

@@ -19,14 +19,9 @@ class NotificationRepository extends BaseRepository
 
     public function getUserNotifications($notifiableId, $notifiableType = User::class, int $per_page = 10): ?array
     {
-        $all = $this->notificationsBaseQuery($notifiableId, $notifiableType)
-            ->paginate($this->perPage);
-
-        if (count($all) > 0) {
-            return ['data' => $all, 'pagination_data' => $this->formatPaginateData($all)];
-        }
-
-        return null;
+        return $this->paginateQuery(
+            $this->notificationsBaseQuery($notifiableId, $notifiableType)
+        );
     }
 
     private function notificationsBaseQuery($notifiableId, $notifiableType = User::class, bool $isAvailable = true)

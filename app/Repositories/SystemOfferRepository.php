@@ -27,7 +27,7 @@ class SystemOfferRepository extends BaseRepository
             ->whereIn('id', $ids)
             ->active()
             ->when($clinicId,
-                fn (Builder $query) => $query->whereHas('clinics',
+                fn(Builder $query) => $query->whereHas('clinics',
                     function (Builder $q) use ($clinicId) {
                         $q->where('clinics.id', $clinicId);
                     }))->get();
@@ -35,20 +35,12 @@ class SystemOfferRepository extends BaseRepository
 
     public function getByClinic($clinicId, array $relations = [], array $countable = [], ?int $perPage = 10): ?array
     {
-        $perPage = request('per_page') ?? $perPage;
-        $data = $this->globalQuery($relations, $countable)
-            ->active()
-            ->whereHas('clinics', function (Builder $query) use ($clinicId) {
-                $query->where('clinics.id', $clinicId);
-            })->paginate($perPage);
-
-        if ($data->count()) {
-            return [
-                'data'            => $data->getCollection(),
-                'pagination_data' => $this->formatPaginateData($data),
-            ];
-        }
-
-        return null;
+        return $this->paginateQuery(
+            $this->globalQuery($relations, $countable)
+                ->active()
+                ->whereHas('clinics', function (Builder $query) use ($clinicId) {
+                    $query->where('clinics.id', $clinicId);
+                })
+        );
     }
 }

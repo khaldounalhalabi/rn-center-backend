@@ -16,20 +16,12 @@ class ReviewRepository extends BaseRepository
 
     public function getByClinic($clinicId, array $relations = [], array $countable = []): ?array
     {
-        $data = $this->globalQuery($relations, $countable)
-            ->where('clinic_id', $clinicId)
-            ->whereHas('clinic', function (Builder|Clinic $q) {
-                $q->online()->available();
-            })
-            ->paginate($this->perPage);
-
-        if ($data->count()) {
-            return [
-                'data'            => $data,
-                'pagination_data' => $this->formatPaginateData($data),
-            ];
-        }
-
-        return null;
+        return $this->paginateQuery(
+            $this->globalQuery($relations, $countable)
+                ->where('clinic_id', $clinicId)
+                ->whereHas('clinic', function (Builder|Clinic $q) {
+                    $q->online()->available();
+                })
+        );
     }
 }

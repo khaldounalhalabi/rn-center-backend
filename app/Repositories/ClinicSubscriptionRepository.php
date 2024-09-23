@@ -24,20 +24,10 @@ class ClinicSubscriptionRepository extends BaseRepository
     #[ArrayShape(['data' => "mixed", 'pagination_data' => "array"])]
     public function getByClinic($clinicId, array $relations = [], int $perPage = 10): ?array
     {
-        $perPage = request('per_page') ?? $perPage;
-
-        $data = $this->globalQuery($relations)
-            ->where('clinic_id', $clinicId)
-            ->paginate($perPage);
-
-        if (count($data)) {
-            return [
-                'data'            => $data,
-                'pagination_data' => $this->formatPaginateData($data)
-            ];
-        }
-
-        return null;
+        return $this->paginateQuery(
+            $this->globalQuery($relations)
+                ->where('clinic_id', $clinicId)
+        );
     }
 
     public function deactivatePreviousSubscriptions($clinicId): void

@@ -28,22 +28,14 @@ class CustomerRepository extends BaseRepository
 
     public function getClinicCustomers($clinicId, array $relations = [], array $countable = [], int $perPage = 10): ?array
     {
-        $perPage = request('per_page') ?? $perPage;
-        $data = $this->globalQuery($relations, $countable)
-            ->whereHas('patientProfiles', function (Builder $query) use ($clinicId) {
-                $query->where('clinic_id', $clinicId);
-            })->orWhereHas('appointments', function (Builder $q) use ($clinicId) {
-                $q->where('clinic_id', $clinicId);
-            })->paginate($perPage);
-
-        if ($data?->count()) {
-            return [
-                'data'            => $data->getCollection(),
-                'pagination_data' => $this->formatPaginateData($data),
-            ];
-        }
-
-        return null;
+        return $this->paginateQuery(
+            $this->globalQuery($relations, $countable)
+                ->whereHas('patientProfiles', function (Builder $query) use ($clinicId) {
+                    $query->where('clinic_id', $clinicId);
+                })->orWhereHas('appointments', function (Builder $q) use ($clinicId) {
+                    $q->where('clinic_id', $clinicId);
+                })
+        );
     }
 
     public function getRecent(array $relations = [], array $countable = []): ?array

@@ -46,16 +46,9 @@ class FollowerRepository extends BaseRepository
 
     public function getByCustomer($customerId, array $relations = [], array $countable = []): ?array
     {
-        $data = $this->globalQuery($relations, $countable)
-            ->where('customer_id', $customerId)
-            ->paginate($this->perPage);
-
-        if ($data->count()) {
-            return [
-                'data'            => $data,
-                'pagination_data' => $this->formatPaginateData($data)
-            ];
-        }
-        return null;
+        return $this->paginateQuery(
+            $this->globalQuery($relations, $countable)
+                ->where('customer_id', $customerId)
+        );
     }
 }
