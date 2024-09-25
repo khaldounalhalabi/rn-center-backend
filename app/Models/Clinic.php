@@ -134,7 +134,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
             [
                 'name'     => 'day_of_week',
                 'relation' => 'schedules.day_of_week',
-                'method'   => 'whereTime',
             ],
             [
                 'name'     => 'start_time',
