@@ -5,14 +5,8 @@
 <body class="antialiased">
 @php
     dd(
-        Browser::deviceType(),
-        Browser::deviceFamily() ,
-        Browser::platformFamily(),
-        Browser::deviceModel(),
-        Browser::platformName(),
-        Browser::browserFamily(),
-        Browser::browserName(),
-        )
+       "hey"
+        );
 @endphp
 </body>
 </html>
