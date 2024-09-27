@@ -1,0 +1,19 @@
+stages:
+  - build
+  - deploy
+
+build-job:
+  stage: build
+  script:
+    - composer install
+    - php artisan migrate
+    - php artisan optimize:clear
+
+deploy-job:
+  stage: deploy
+  script:
+    - sudo supervisorctl reread
+    - sudo supervisorctl update
+    - sudo supervisorctl start "laravel-worker:*"
+    - supervisorctl restart "laravel-worker:*"
+
