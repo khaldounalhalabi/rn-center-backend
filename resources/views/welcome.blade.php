@@ -1,12 +1,13 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<!doctype html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
 </head>
-<body class="antialiased">
-@php
-    dd(
-       "hey asdasdasdasdasdasd"
-        );
-@endphp
+<body>
+<h1>
+    Heyyyyy
+</h1>
 </body>
 </html>
