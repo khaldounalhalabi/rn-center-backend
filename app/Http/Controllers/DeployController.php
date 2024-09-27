@@ -6,7 +6,6 @@ class DeployController extends Controller
 {
     public function frontend()
     {
-        set_time_limit(0);
         try {
             $output = shell_exec('
                 export PATH=/opt/cpanel/ea-nodejs18/bin/:$PATH
