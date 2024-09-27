@@ -18,5 +18,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/deploy', [\App\Http\Controllers\DeployController::class, 'frontend']);
+Route::post('/deploy', [\App\Http\Controllers\DeployController::class, 'frontend']);
 
