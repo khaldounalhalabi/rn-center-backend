@@ -1,21 +1,42 @@
 stages:
-  - build
+  - install
+  - test
   - deploy
 
-build-job:
-  stage: build
-  script:
-    - composer install
-    - php artisan migrate
-    - php artisan optimize:clear
+# Define the cache to speed up builds by caching Composer dependencies
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - vendor/
+    - node_modules/
 
-deploy-job:
+# Install dependencies stage
+install-dependencies:
+  stage: install
+  script:
+    - echo "Installing PHP dependencies"
+    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
+  artifacts:
+    paths:
+      - vendor/
+  only:
+    - dev  # or remove this to run for all branches
+
+# Run tests stage
+test:
+  stage: test
+  script:
+    - echo "Running Laravel tests"
+    - php artisan config:cache  # Optimize configuration loading
+    - php artisan migrate --env=testing --force  # Run database migrations for testing
+  only:
+    - dev  # or run on specific branch
+
+# Deploy stage (Optional, add your custom deploy commands)
+deploy:
   stage: deploy
   script:
-    - sudo supervisorctl reread
-    - sudo supervisorctl update
-    - sudo supervisorctl start "laravel-worker:*"
-    - supervisorctl restart "laravel-worker:*"
-
+    - echo "Deploying to server"
+    - ssh user@server "cd /path/to/your/project && git pull origin dev && composer install --no-dev && php artisan migrate --force && php artisan optimize:clear"
   only:
-    - dev
+    - dev  # Run deploy only on dev branch
