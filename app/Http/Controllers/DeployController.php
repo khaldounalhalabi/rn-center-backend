@@ -7,7 +7,7 @@ class DeployController extends Controller
     public function frontend()
     {
         try {
-            $output = shell_exec('cd ../../ && ./deploy-main.sh');
+            $output = shell_exec('./home/pom/deploy-main.sh');
             return response()->json([
                 'message' => 'success',
                 'output'  => $output
