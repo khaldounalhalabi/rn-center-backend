@@ -5,7 +5,7 @@
 <body class="antialiased">
 @php
     dd(
-       "hey daddy"
+       "hey asdasdasdasdasdasd"
         );
 @endphp
 </body>
