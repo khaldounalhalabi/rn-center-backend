@@ -17,3 +17,5 @@ deploy-job:
     - sudo supervisorctl start "laravel-worker:*"
     - supervisorctl restart "laravel-worker:*"
 
+  only:
+    - dev
