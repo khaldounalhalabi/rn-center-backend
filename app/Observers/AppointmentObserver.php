@@ -224,5 +224,12 @@ class AppointmentObserver
             ->setTo([$appointment->clinic?->user?->id, ...$appointment->clinic?->clinicEmployees?->pluck('user_id')->toArray()])
             ->setNotification(BalanceChangeNotification::class)
             ->send();
+
+        FirebaseServices::make()
+            ->setData([])
+            ->setMethod(FirebaseServices::ByRole)
+            ->setRole(RolesPermissionEnum::ADMIN['role'])
+            ->setNotification(BalanceChangeNotification::class)
+            ->send();
     }
 }
