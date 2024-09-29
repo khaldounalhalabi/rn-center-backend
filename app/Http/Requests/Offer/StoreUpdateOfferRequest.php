@@ -26,9 +26,9 @@ class StoreUpdateOfferRequest extends FormRequest
     {
         if (request()->method() == 'POST') {
             return [
-                'title'     => ['required', 'min:3', 'max:255', 'json', new LanguageShape()],
+                'title'     => ['required', 'min:3', 'max:255', new LanguageShape()],
                 'value'     => ['required', 'numeric', 'min:0'],
-                'note'      => ['nullable', 'json', new LanguageShape()],
+                'note'      => ['nullable', new LanguageShape()],
                 'start_at'  => ['required', 'date', 'date_format:Y-m-d', 'after_or_equal:today'],
                 'end_at'    => ['required', 'date', 'date_format:Y-m-d', 'after:start_at'],
                 'type'      => ['required', 'string', 'min:3', 'max:255', Rule::in(OfferTypeEnum::getAllValues())],
@@ -38,9 +38,9 @@ class StoreUpdateOfferRequest extends FormRequest
         }
 
         return [
-            'title'    => ['nullable', 'min:3', 'max:255', 'json', new LanguageShape()],
+            'title'    => ['nullable', 'min:3', 'max:255', new LanguageShape()],
             'value'    => ['nullable', 'numeric', 'min:0'],
-            'note'     => ['nullable', 'json', new LanguageShape()],
+            'note'     => ['nullable', new LanguageShape()],
             'start_at' => ['nullable', 'date', 'date_format:Y-m-d'],
             'end_at'   => ['nullable', 'date', 'date_format:Y-m-d', 'after:start_at'],
             'type'     => ['nullable', 'string', 'min:3', 'max:255', Rule::in(OfferTypeEnum::getAllValues())],

@@ -25,13 +25,13 @@ class StoreUpdateCityRequest extends FormRequest
     {
         if (request()->method() == 'POST') {
             return [
-                'name' => ['required', 'json', new LanguageShape()],
+                'name' => ['required', new LanguageShape()],
 
             ];
         }
 
         return [
-            'name' => ['nullable', 'json', new LanguageShape()],
+            'name' => ['nullable', new LanguageShape()],
         ];
     }
 }

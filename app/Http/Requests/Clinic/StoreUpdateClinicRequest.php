@@ -37,7 +37,7 @@ class StoreUpdateClinicRequest extends FormRequest
 
         if (request()->method() == "POST") {
             return [
-                'name'                         => ['required', 'json', 'min:3', 'max:255', new LanguageShape()],
+                'name'                         => ['required', 'min:3', 'max:255', new LanguageShape()],
                 'appointment_cost'             => 'required|numeric|min:0',
                 'max_appointments'             => 'required|numeric|integer|min:2',
                 'phone_numbers'                => 'array|required|max:2',
@@ -47,9 +47,9 @@ class StoreUpdateClinicRequest extends FormRequest
                 'approximate_appointment_time' => 'numeric|required|max:420|integer|min:5',
 
                 'user'             => 'array|required',
-                'user.first_name'  => ['json', 'required', new LanguageShape(), 'max:60'],
-                'user.middle_name' => ['json', 'required', new LanguageShape(), 'max:60'],
-                'user.last_name'   => ['json', 'required', new LanguageShape(), 'max:60'],
+                'user.first_name'  => ['required', new LanguageShape(), 'max:60'],
+                'user.middle_name' => ['required', new LanguageShape(), 'max:60'],
+                'user.last_name'   => ['required', new LanguageShape(), 'max:60'],
                 'user.full_name'   => ['string', 'nullable', new NotInBlocked()],
                 'user.email'       => ['required', 'email', 'max:255', 'min:3', 'string', 'unique:users,email', new NotInBlocked()],
                 'user.password'    => 'string|min:8|max:20|required|confirmed',
@@ -59,7 +59,7 @@ class StoreUpdateClinicRequest extends FormRequest
                 'user.tags'        => ['nullable', 'string'],
 
                 'address'            => 'array|required',
-                'address.name'       => ['required', 'json', 'min:3', new LanguageShape()],
+                'address.name'       => ['required', 'min:3', new LanguageShape()],
                 'address.city_id'    => ['required', 'numeric', 'exists:cities,id'],
                 'address.map_iframe' => ['required', 'string'],
 
@@ -73,8 +73,8 @@ class StoreUpdateClinicRequest extends FormRequest
         }
 
         return [
-            'name'                         => ['nullable', 'json', 'min:3', 'max:255', new LanguageShape()],
-            'appointment_cost'             => ['nullable', 'numeric', 'min:0', Rule::excludeIf(fn () => $authUser?->isClinic())],
+            'name'                         => ['nullable', 'min:3', 'max:255', new LanguageShape()],
+            'appointment_cost'             => ['nullable', 'numeric', 'min:0', Rule::excludeIf(fn() => $authUser?->isClinic())],
             'max_appointments'             => 'nullable|numeric|min:2',
             'phone_numbers'                => 'array|nullable',
             'phone_numbers.*'              => ['nullable', 'string', new UniquePhoneNumber($userId), 'regex:/^07\d{9}$/', new NotInBlocked()],
@@ -85,25 +85,25 @@ class StoreUpdateClinicRequest extends FormRequest
             'appointment_day_range'        => 'nullable|integer|min:1|max:1000',
             'about_us'                     => 'string|nullable|min:3|max:10000',
             'experience'                   => 'string|nullable|min:3|max:10000',
-            'work_gallery'                 => ['array', 'nullable', Rule::excludeIf(fn () => auth()->user()?->isAdmin())],
+            'work_gallery'                 => ['array', 'nullable', Rule::excludeIf(fn() => auth()->user()?->isAdmin())],
             'work_gallery.*'               => 'required_with:work_gallery|image|mimes:jpeg,png,jpg|max:5000',
 
-            'user'             => ['array', 'nullable', Rule::excludeIf(fn () => $authUser?->isClinic())],
-            'user.first_name'  => ['json', 'nullable', new LanguageShape(), 'max:60', Rule::excludeIf(fn () => $authUser?->isClinic())],
-            'user.middle_name' => ['json', 'nullable', new LanguageShape(), 'max:60', Rule::excludeIf(fn () => $authUser?->isClinic())],
-            'user.last_name'   => ['json', 'nullable', new LanguageShape(), 'max:60', Rule::excludeIf(fn () => $authUser?->isClinic())],
-            'user.full_name'   => ['nullable', 'string', new NotInBlocked(), Rule::excludeIf(fn () => $authUser?->isClinic())],
-            'user.email'       => ['nullable', 'email', 'max:255', 'min:3', 'string', 'unique:users,email,' . $userId, new NotInBlocked(), Rule::excludeIf(fn () => $authUser?->isClinic())],
-            'user.password'    => ['string', 'min:8', 'max:20', 'nullable', 'confirmed', Rule::excludeIf(fn () => $authUser?->isClinic())],
-            'user.birth_date'  => ['date_format:Y-m-d', 'date', 'before:20 years ago', 'nullable', Rule::excludeIf(fn () => $authUser?->isClinic())],
-            'user.gender'      => ['nullable', 'string', Rule::in(GenderEnum::getAllValues()), Rule::excludeIf(fn () => $authUser?->isClinic())],
-            'user.image'       => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:5000', Rule::excludeIf(fn () => $authUser?->isClinic())],
+            'user'             => ['array', 'nullable', Rule::excludeIf(fn() => $authUser?->isClinic())],
+            'user.first_name'  => ['nullable', new LanguageShape(), 'max:60', Rule::excludeIf(fn() => $authUser?->isClinic())],
+            'user.middle_name' => ['nullable', new LanguageShape(), 'max:60', Rule::excludeIf(fn() => $authUser?->isClinic())],
+            'user.last_name'   => ['nullable', new LanguageShape(), 'max:60', Rule::excludeIf(fn() => $authUser?->isClinic())],
+            'user.full_name'   => ['nullable', 'string', new NotInBlocked(), Rule::excludeIf(fn() => $authUser?->isClinic())],
+            'user.email'       => ['nullable', 'email', 'max:255', 'min:3', 'string', 'unique:users,email,' . $userId, new NotInBlocked(), Rule::excludeIf(fn() => $authUser?->isClinic())],
+            'user.password'    => ['string', 'min:8', 'max:20', 'nullable', 'confirmed', Rule::excludeIf(fn() => $authUser?->isClinic())],
+            'user.birth_date'  => ['date_format:Y-m-d', 'date', 'before:20 years ago', 'nullable', Rule::excludeIf(fn() => $authUser?->isClinic())],
+            'user.gender'      => ['nullable', 'string', Rule::in(GenderEnum::getAllValues()), Rule::excludeIf(fn() => $authUser?->isClinic())],
+            'user.image'       => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:5000', Rule::excludeIf(fn() => $authUser?->isClinic())],
             'user.tags'        => ['nullable', 'string'],
 
             'address'            => ['array', 'nullable'],
-            'address.name'       => ['nullable', 'json', 'min:3', new LanguageShape(), Rule::requiredIf(fn () => !auth()->user()?->address)],
-            'address.city_id'    => ['nullable', 'numeric', 'exists:cities,id', Rule::requiredIf(fn () => !auth()->user()?->address)],
-            'address.map_iframe' => ['nullable', 'string', Rule::excludeIf(fn () => $this->input('address.map_iframe') == null)],
+            'address.name'       => ['nullable', 'min:3', new LanguageShape(), Rule::requiredIf(fn() => !auth()->user()?->address)],
+            'address.city_id'    => ['nullable', 'numeric', 'exists:cities,id', Rule::requiredIf(fn() => !auth()->user()?->address)],
+            'address.map_iframe' => ['nullable', 'string', Rule::excludeIf(fn() => $this->input('address.map_iframe') == null)],
 
 
             'speciality_ids'   => 'array|nullable',

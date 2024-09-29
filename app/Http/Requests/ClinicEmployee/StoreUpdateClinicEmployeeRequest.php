@@ -30,9 +30,9 @@ class StoreUpdateClinicEmployeeRequest extends FormRequest
             return [
                 'clinic_id' => ['required', 'numeric', 'exists:clinics,id'],
 
-                'first_name'      => ['json', 'required', new LanguageShape(), 'max:60'],
-                'middle_name'     => ['json', 'required', new LanguageShape(), 'max:60'],
-                'last_name'       => ['json', 'required', new LanguageShape(), 'max:60'],
+                'first_name'      => ['required', new LanguageShape(), 'max:60'],
+                'middle_name'     => ['required', new LanguageShape(), 'max:60'],
+                'last_name'       => ['required', new LanguageShape(), 'max:60'],
                 'full_name'       => ['string', 'nullable', new NotInBlocked()],
                 'email'           => ['required', 'email', 'max:255', 'min:3', 'string', 'unique:users,email', new NotInBlocked()],
                 'password'        => 'string|min:8|max:20|required|confirmed',
@@ -40,7 +40,7 @@ class StoreUpdateClinicEmployeeRequest extends FormRequest
                 'gender'          => ['required', 'string', Rule::in(GenderEnum::getAllValues())],
                 'image'           => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
                 'address'         => 'array|nullable',
-                'address.name'    => ['nullable', 'json', 'min:3', new LanguageShape()],
+                'address.name'    => ['nullable', 'min:3', new LanguageShape()],
                 'address.city_id' => ['nullable', 'numeric', 'exists:cities,id'],
                 'phone_numbers'   => 'array|required',
                 'phone_numbers.*' => ['required', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/', new NotInBlocked()],
@@ -50,9 +50,9 @@ class StoreUpdateClinicEmployeeRequest extends FormRequest
         $userId = ClinicEmployee::findOrFail(request()->route('clinic_employee'))?->user?->id;
         return [
             'clinic_id'       => ['nullable', 'numeric', 'exists:clinics,id'],
-            'first_name'      => ['json', 'nullable', new LanguageShape(), 'max:60'],
-            'middle_name'     => ['json', 'nullable', new LanguageShape(), 'max:60'],
-            'last_name'       => ['json', 'nullable', new LanguageShape(), 'max:60'],
+            'first_name'      => ['nullable', new LanguageShape(), 'max:60'],
+            'middle_name'     => ['nullable', new LanguageShape(), 'max:60'],
+            'last_name'       => ['nullable', new LanguageShape(), 'max:60'],
             'full_name'       => ['string', 'nullable', new NotInBlocked()],
             'email'           => ['nullable', 'email', 'max:255', 'min:3', 'string', 'unique:users,email,' . $userId, new NotInBlocked()],
             'password'        => 'string|min:8|max:20|nullable|confirmed',
@@ -60,7 +60,7 @@ class StoreUpdateClinicEmployeeRequest extends FormRequest
             'gender'          => ['nullable', 'string', Rule::in(GenderEnum::getAllValues())],
             'image'           => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
             'address'         => 'array|nullable',
-            'address.name'    => ['nullable', 'json', 'min:3', new LanguageShape()],
+            'address.name'    => ['nullable', 'min:3', new LanguageShape()],
             'address.city_id' => ['nullable', 'numeric', 'exists:cities,id'],
             'phone_numbers'   => 'array|nullable',
             'phone_numbers.*' => ['required', 'string', 'regex:/^07\d{9}$/', new UniquePhoneNumber($userId), new NotInBlocked()],

@@ -29,16 +29,16 @@ class DoctorStoreUpdateCustomerRequest extends FormRequest
     {
         if (request()->method() == "POST") {
             return [
-                'first_name'      => ['json', 'required', new LanguageShape(), 'max:60'],
-                'middle_name'     => ['json', 'required', new LanguageShape(), 'max:60'],
-                'last_name'       => ['json', 'required', new LanguageShape(), 'max:60'],
+                'first_name'      => ['required', new LanguageShape(), 'max:60'],
+                'middle_name'     => ['required', new LanguageShape(), 'max:60'],
+                'last_name'       => ['required', new LanguageShape(), 'max:60'],
                 'full_name'       => ['string', 'nullable', new NotInBlocked()],
                 'email'           => ['nullable', 'email', 'max:255', 'min:3', 'string', 'unique:users,email', new NotInBlocked()],
                 'birth_date'      => 'nullable|date_format:Y-m-d|date',
                 'gender'          => ['required', 'string', Rule::in(GenderEnum::getAllValues())],
                 'blood_group'     => ['nullable', 'string', Rule::in(BloodGroupEnum::getAllValues())],
                 'address'         => 'array|nullable',
-                'address.name'    => ['nullable', 'required_with:address', 'json', 'min:3', new LanguageShape()],
+                'address.name'    => ['nullable', 'required_with:address', 'min:3', new LanguageShape()],
                 'address.city_id' => ['nullable', 'required_with:address', 'numeric', 'exists:cities,id'],
                 'phone_numbers'   => 'array|required|max:2|min:1',
                 'phone_numbers.*' => ['required', 'string', 'regex:/^07\d{9}$/', new NotInBlocked()],

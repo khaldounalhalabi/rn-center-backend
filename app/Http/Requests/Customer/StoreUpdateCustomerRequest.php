@@ -30,9 +30,9 @@ class StoreUpdateCustomerRequest extends FormRequest
     {
         if ($this->method() == "POST") {
             return [
-                'first_name'  => ['json', 'required', new LanguageShape(), 'max:60'],
-                'middle_name' => ['json', 'required', new LanguageShape(), 'max:60'],
-                'last_name'   => ['json', 'required', new LanguageShape(), 'max:60'],
+                'first_name'  => ['required', new LanguageShape(), 'max:60'],
+                'middle_name' => ['required', new LanguageShape(), 'max:60'],
+                'last_name'   => ['required', new LanguageShape(), 'max:60'],
                 'full_name'   => ['string', 'nullable', new NotInBlocked()],
                 'email'       => ['required', 'email', 'max:255', 'min:3', 'string', 'unique:users,email', new NotInBlocked()],
                 'password'    => 'string|min:8|max:20|required|confirmed',
@@ -43,7 +43,7 @@ class StoreUpdateCustomerRequest extends FormRequest
                 'blood_group' => 'nullable|string|' . Rule::in(BloodGroupEnum::getAllValues()),
 
                 'address'            => 'array|required',
-                'address.name'       => ['required', 'json', 'min:3', new LanguageShape()],
+                'address.name'       => ['required', 'min:3', new LanguageShape()],
                 'address.city_id'    => ['required', 'numeric', 'exists:cities,id'],
                 'address.map_iframe' => ['nullable', 'string'],
 
@@ -55,9 +55,9 @@ class StoreUpdateCustomerRequest extends FormRequest
         $userId = Customer::find(request()->route('customer'))?->user_id;
 
         return [
-            'first_name'  => ['json', 'nullable', new LanguageShape(), 'max:60'],
-            'middle_name' => ['json', 'nullable', new LanguageShape(), 'max:60'],
-            'last_name'   => ['json', 'nullable', new LanguageShape(), 'max:60'],
+            'first_name'  => ['nullable', new LanguageShape(), 'max:60'],
+            'middle_name' => ['nullable', new LanguageShape(), 'max:60'],
+            'last_name'   => ['nullable', new LanguageShape(), 'max:60'],
             'full_name'   => ['string', 'nullable', new NotInBlocked()],
             'email'       => ['nullable', 'email', 'max:255', 'min:3', 'string', 'unique:users,email,' . $userId, new NotInBlocked()],
             'password'    => 'string|min:8|max:20|nullable|confirmed',
@@ -68,7 +68,7 @@ class StoreUpdateCustomerRequest extends FormRequest
             'blood_group' => 'nullable|string|' . Rule::in(BloodGroupEnum::getAllValues()),
 
             'address'            => 'array|nullable',
-            'address.name'       => ['nullable', 'json', 'min:3', new LanguageShape()],
+            'address.name'       => ['nullable', 'min:3', new LanguageShape()],
             'address.city_id'    => ['nullable', 'numeric', 'exists:cities,id'],
             'address.map_iframe' => ['nullable', 'string'],
 

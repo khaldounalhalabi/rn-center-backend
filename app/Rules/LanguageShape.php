@@ -21,6 +21,10 @@ class LanguageShape implements ValidationRule
                 $translationArray = $value;
             }
 
+            if (!$value) {
+                $fail("Invalid $attribute value");
+            }
+
             // Check if the decoded JSON data is a simple object (not nested)
             if ($this->hasNestedArrays($translationArray)) {
                 $fail('The :attribute must be a simple not nested json object');

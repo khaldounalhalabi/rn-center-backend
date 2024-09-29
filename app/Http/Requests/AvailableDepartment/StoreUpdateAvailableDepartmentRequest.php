@@ -25,14 +25,14 @@ class StoreUpdateAvailableDepartmentRequest extends FormRequest
     {
         if (request()->method() == 'POST') {
             return [
-                'name'        => ['required', 'json', new LanguageShape()],
-                'description' => ['nullable', 'json', new LanguageShape()],
+                'name'        => ['required', new LanguageShape()],
+                'description' => ['nullable', new LanguageShape()],
             ];
         }
 
         return [
-            'name'        => ['nullable', 'json', new LanguageShape()],
-            'description' => ['nullable', 'json', new LanguageShape()],
+            'name'        => ['nullable', new LanguageShape()],
+            'description' => ['nullable', new LanguageShape()],
         ];
     }
 }

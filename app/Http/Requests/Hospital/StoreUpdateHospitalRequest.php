@@ -29,7 +29,7 @@ class StoreUpdateHospitalRequest extends FormRequest
     {
         if (request()->method() == 'POST') {
             return [
-                'name'                    => ['required', 'json', new LanguageShape()],
+                'name'                    => ['required', new LanguageShape()],
                 'status'                  => ['required', 'string', Rule::in(HospitalStatusEnum::getAllValues())],
                 'phone_numbers'           => 'array|required',
                 'phone_numbers.*'         => ['required', 'string', 'unique:phone_numbers,phone', 'min:1', 'max:255', new NotInBlocked()],
@@ -38,14 +38,14 @@ class StoreUpdateHospitalRequest extends FormRequest
                 "images"                  => 'array|nullable',
                 'images.*'                => 'required|image|mimes:jpeg,png,jpg|max:2048',
                 'address'                 => 'array|required',
-                'address.name'            => ['required', 'json', 'min:3', new LanguageShape()],
+                'address.name'            => ['required', 'min:3', new LanguageShape()],
                 'address.city_id'         => ['required', 'numeric', 'exists:cities,id'],
                 'address.map_iframe'      => ['required', 'string']
             ];
         }
 
         return [
-            'name'                    => ['nullable', 'json', new LanguageShape()],
+            'name'                    => ['nullable', new LanguageShape()],
             'status'                  => ['nullable', 'string', Rule::in(HospitalStatusEnum::getAllValues())],
             'phone_numbers'           => 'array|nullable',
             'phone_numbers.*'         => ['nullable', 'string', new UniquePhoneNumber(request()->route('hospital'), Hospital::class), new NotInBlocked()],
@@ -54,7 +54,7 @@ class StoreUpdateHospitalRequest extends FormRequest
             "images"                  => 'array|nullable',
             'images.*'                => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'address'                 => 'array|nullable',
-            'address.name'            => ['nullable', 'json', 'min:3', new LanguageShape()],
+            'address.name'            => ['nullable', 'min:3', new LanguageShape()],
             'address.city_id'         => ['nullable', 'numeric', 'exists:cities,id'],
             'address.map_iframe'      => ['nullable', 'string']
         ];
