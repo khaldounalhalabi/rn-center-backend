@@ -181,6 +181,7 @@ class AppointmentObserver
 
     public function handleTransactionsWhenChangeStatus(Appointment $appointment, string $prevStatus): void
     {
+        //TODO::make it handle every update so if the admin changed the system offers it recalculate the deduction
         if ($prevStatus != AppointmentStatusEnum::CHECKOUT->value
             && $appointment->status == AppointmentStatusEnum::CHECKOUT->value) {
             ClinicTransaction::create([
