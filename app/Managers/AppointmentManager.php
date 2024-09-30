@@ -58,10 +58,6 @@ class AppointmentManager
 
         $appointment = AppointmentRepository::make()->create($data);
 
-        Log::info("status : {$appointment->status}\nin array ? : " . !in_array($appointment->status, [
-            AppointmentStatusEnum::CANCELLED->value,
-            AppointmentStatusEnum::PENDING->value,
-        ]) ? "true" : "false");
         if (
             $appointment->type == AppointmentTypeEnum::ONLINE->value
             && !in_array($appointment->status, [
@@ -303,7 +299,7 @@ class AppointmentManager
 
         $clinicTransaction = ClinicTransactionRepository::make()->create([
             'amount'         => abs($deductionAmount),
-            'appointment_id' => null,
+            'appointment_id' => $appointment->id,
             'type'           => $clinicTransactionType,
             'clinic_id'      => $clinic->id,
             'notes'          => "An Appointment Deduction For The Appointment With Id : $appointment->id , Patient name : {$appointment->customer->user->full_name}",
@@ -311,7 +307,6 @@ class AppointmentManager
             'date'           => now(),
         ]);
 
-        Log::info("Clinic Available Online");
         AppointmentDeductionRepository::make()->create([
             'amount'                => $clinic->deduction_cost - $systemOffersTotal,
             'status'                => AppointmentDeductionStatusEnum::PENDING->value,
