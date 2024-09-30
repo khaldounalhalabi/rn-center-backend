@@ -238,18 +238,26 @@ abstract class BaseRepository
     }
 
     /**
-     * @param Builder $query
-     * @param bool    $defaultOrder
+     * @param Builder    $query
+     * @param bool       $defaultOrder
+     * @param array|null $defaultCols
      * @return Builder
      */
-    private function orderQueryBy(Builder $query, bool $defaultOrder = true): Builder
+    protected function orderQueryBy(Builder $query, bool $defaultOrder = true, ?array $defaultCols = null): Builder
     {
         $sortCol = request()->sort_col;
         $sortCol = $this->unsetEmptyParams($sortCol);
         $sortDir = request()->sort_dir ?? "DESC";
 
         if (!isset($sortCol) && $defaultOrder) {
-            return $query->orderBy('created_at', 'DESC');
+            if ($defaultCols) {
+                foreach ($defaultCols as $col => $dir) {
+                    $query = $query->orderBy($col, $dir);
+                }
+                return $query;
+            } else {
+                return $query->orderBy('created_at', 'DESC');
+            }
         }
         if (in_array($sortCol, array_keys($this->customOrders))) {
             $query = $this->customOrders[$sortCol]($query, $sortDir);

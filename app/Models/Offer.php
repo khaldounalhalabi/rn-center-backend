@@ -129,7 +129,7 @@ class Offer extends Model implements ActionsMustBeAuthorized, HasMedia
     {
         return $query->where('is_active', 1)
             ->where('start_at', '<=', now()->format('Y-m-d'))
-            ->where('end_at', '>', now()->format('Y-m-d'));
+            ->where('end_at', '>=', now()->format('Y-m-d'));
     }
 
     public function appointments(): BelongsToMany

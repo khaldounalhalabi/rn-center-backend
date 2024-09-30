@@ -23,6 +23,14 @@ class AppointmentRepository extends BaseRepository
 {
     protected string $modelClass = Appointment::class;
 
+    protected function orderQueryBy(Builder $query, bool $defaultOrder = true, ?array $defaultCols = null): Builder
+    {
+        return parent::orderQueryBy($query, $defaultOrder, [
+            'created_at'           => 'desc',
+            'appointment_sequence' => 'asc',
+        ]);
+    }
+
     /**
      * @param array $relations
      * @param array $countable
