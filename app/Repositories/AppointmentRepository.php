@@ -27,7 +27,7 @@ class AppointmentRepository extends BaseRepository
     {
         return parent::orderQueryBy($query, $defaultOrder, [
             'appointment_sequence' => 'asc',
-            'date'                 => 'desc'
+            'date'                 => 'asc'
         ]);
     }
 
