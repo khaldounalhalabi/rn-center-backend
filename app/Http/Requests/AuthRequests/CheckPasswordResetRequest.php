@@ -35,7 +35,7 @@ class CheckPasswordResetRequest extends FormRequest
                         $fail(__('site.code_incorrect'));
                     }
 
-                    if (!$user->reset_code_valid_until?->isAfter(now())) {
+                    if (!$user?->reset_code_valid_until?->isAfter(now())) {
                         $fail(__('site.code_expired'));
                     }
                 },
