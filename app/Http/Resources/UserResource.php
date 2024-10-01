@@ -26,16 +26,17 @@ class UserResource extends BaseResource
             'last_name' => $this->last_name,
             'full_name' => $this->full_name,
             'customer' => new CustomerResource($this->whenLoaded('customer')),
-            'clinic' => new ClinicResource($this->whenLoaded('clinic')),
             'address' => new AddressResource($this->whenLoaded('address')),
             'permissions' => new PermissionCollection($this->whenLoaded('permissions')),
             'image' => MediaResource::collection($this->whenLoaded('media')),
             'phones' => PhoneNumberResource::collection($this->whenLoaded('phones')),
             'clinicEmployees' => ClinicEmployeeResource::collection($this->whenLoaded('clinicEmployees')),
             'role' => RoleResource::collection($this->whenLoaded('roles')),
-            $this->mergeWhen($this->relationLoaded('clinicEmployee.clinic'), fn() => [
-                'clinic' => new ClinicResource($this->whenLoaded('clinicEmployee.clinic'))
-            ]),
+            $this->mergeWhen($this->relationLoaded('clinic') || $this->relationLoaded('clinicEmployee.clinic'), fn() => [
+                'clinic' => new ClinicResource($this->isDoctor()
+                    ? $this->clinic
+                    : ($this->clinicEmployee?->clinic)),
+            ])
         ];
     }
 }
