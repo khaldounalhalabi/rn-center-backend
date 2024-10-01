@@ -20,6 +20,9 @@ Route::get('me', [v1\DoctorAuthController::class, 'userDetails'])->name('me');
 Route::post('fcm/store-token', [v1\AdminAuthController::class, 'storeFcmToken'])->name('fcm.storeToken');
 Route::get('fcm/get-token', [v1\AdminAuthController::class, 'getUserFcmToken'])->name('fcm.getToken');
 
+Route::get('/contract/agree', [v1\ClinicController::class, 'agreeOnContract'])
+    ->withoutMiddleware(['contract'])->name('contract.agree');
+
 Route::get('notifications', [v1\NotificationController::class, 'getUserNotification'])->name('notifications');
 Route::get('notifications/unread/count', [v1\NotificationController::class, 'unreadCount'])->name('notification.unread.count');
 Route::get('notifications/{notificationId}/mark-as-read', [v1\NotificationController::class, 'markAsRead'])->name('notifications');

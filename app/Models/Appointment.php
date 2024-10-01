@@ -157,7 +157,6 @@ class Appointment extends Model implements ActionsMustBeAuthorized
                     "message_ar"     => $appointment?->remaining_time . "لديه من الوقت المتوفع " . $appointment?->clinic?->name?->ar . "عند عيادة" . $appointment?->date?->format('Y-m-d') . "موعدك المحجوز في تاريخ",
                     'appointment_id' => $appointment?->id,
                     'clinic_id'      => $appointment?->clinic_id,
-                    // TODO::update open route for this when you do the customer pages or configure another way for handling the notification
                     'url'            => '#',
                 ])
                 ->setMethod(FirebaseServices::ONE)

@@ -164,4 +164,14 @@ class ClinicController extends ApiController
         }
         return $this->noData();
     }
+
+    public function agreeOnContract()
+    {
+        $result = auth()?->user()?->clinic?->update(['agreed_on_contract' => true]);
+        if ($result) {
+            return $this->apiResponse(true, self::STATUS_OK, __('site.success'));
+        }
+
+        return $this->noData(false);
+    }
 }

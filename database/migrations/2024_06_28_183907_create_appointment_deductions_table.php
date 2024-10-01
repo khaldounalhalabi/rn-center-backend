@@ -30,6 +30,7 @@ return new class extends Migration {
             $table->index(['date']);
             $table->index(['amount']);
             $table->index(['status']);
+            $table->unique(['appointment_id']);
         });
     }
 

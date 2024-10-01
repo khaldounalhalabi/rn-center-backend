@@ -49,4 +49,5 @@ return [
     'un_verified_email'    => 'You Have To Verify Your Email First , Check Your Email Or Your Email Spam For A Verification Code Email From Us',
     'expired_subscription' => "Your Subscription Has Been Expired",
     'un_verified_phone'    => "Your phone number is not verified",
+    'must_agree_contract'  => 'Clinic Owner Must Agree On The Contract',
 ];

@@ -33,5 +33,10 @@ class SettingSeeder extends Seeder
             'label' => "terms_of_service",
             'value' => 'some text',
         ]);
+
+        Setting::create([
+            'label' => 'clinic_contract',
+            'value' => 'The clinics contract'
+        ]);
     }
 }

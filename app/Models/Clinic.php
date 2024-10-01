@@ -26,6 +26,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
+ * @property boolean agreed_on_contract
  * @method Builder|Clinic online
  */
 class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
@@ -69,6 +70,7 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
         'hospital_id',
         'status',
         'approximate_appointment_time',
+        'agreed_on_contract'
     ];
 
     protected $casts = [
@@ -78,6 +80,7 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
         'approximate_appointment_time' => 'integer',
         'appointment_day_range'        => 'integer',
         'appointment_cost'             => 'float',
+        'agreed_on_contract'           => 'bool'
     ];
 
     /**
@@ -149,7 +152,7 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
             ],
             [
                 'name'  => 'subscription_status',
-                'query' => fn (Builder $query) => $query->when(
+                'query' => fn(Builder $query) => $query->when(
                     Str::snake(request('subscription_status')) == SubscriptionStatusEnum::ACTIVE->value, function (Builder $active) {
                     $active->whereHas('activeSubscription');
                 })->when(Str::snake(request('subscription_status')) == SubscriptionStatusEnum::IN_ACTIVE->value, function (Builder $inActive) {
@@ -410,7 +413,7 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
     protected function deductionCost(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, array $attributes) => (($this->activeSubscription?->deduction_cost ?? 0) * $this->appointment_cost) / 100,
+            get: fn($value, array $attributes) => (($this->activeSubscription?->deduction_cost ?? 0) * $this->appointment_cost) / 100,
         );
     }
 

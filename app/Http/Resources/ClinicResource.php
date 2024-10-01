@@ -29,6 +29,7 @@ class ClinicResource extends BaseResource
             'experience'                   => $this->experience,
             'created_at'                   => $this->created_at->format('Y-m-d'),
             'updated_at'                   => $this->updated_at->format('Y-m-d'),
+            'agreed_on_contract'           => $this->agreed_on_contract,
             'approximate_appointment_time' => $this->approximate_appointment_time,
             'hospital'                     => new HospitalResource($this->whenLoaded('hospital')),
             'user'                         => new UserResource($this->whenLoaded('user')),

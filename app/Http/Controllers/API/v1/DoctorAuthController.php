@@ -14,6 +14,6 @@ class DoctorAuthController extends BaseAuthController
             RolesPermissionEnum::DOCTOR['role'],
             RolesPermissionEnum::CLINIC_EMPLOYEE['role']
         ]);
-        $this->relations = ['media', 'phoneNumbers', 'address.city', 'clinic', 'roles', 'permissions'];
+        $this->relations = ['media', 'phoneNumbers', 'address.city', 'clinic', 'roles', 'permissions', 'clinicEmployee.clinic'];
     }
 }

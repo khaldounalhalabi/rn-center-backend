@@ -70,3 +70,6 @@ Route::apiResource('blood-donations', v1\BloodDonationRequestController::class)
 Route::get('/statistics', [v1\StatisticsController::class, 'landingPage'])->name('statistics.landing.page');
 
 Route::post('clinic-join-requests', [v1\ClinicJoinRequestController::class, 'store'])->name('clinic.join.requests.store');
+
+Route::get('/settings/by-label/{label}', [v1\SettingController::class, 'getByLabel'])->name('settings.label');
+

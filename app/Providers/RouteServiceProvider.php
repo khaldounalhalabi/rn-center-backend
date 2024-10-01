@@ -32,7 +32,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->name('api.customer.')
                 ->group(base_path('routes/v1/api/customer.php'));
 
-            Route::middleware(['api', 'not_blocked', 'doctor'])
+            Route::middleware(['api', 'not_blocked', 'doctor', 'contract'])
                 ->prefix('api/doctor')
                 ->group(base_path('routes/v1/api/doctor.php'));
 

@@ -11,6 +11,7 @@ use App\Http\Middleware\CustomerOnly;
 use App\Http\Middleware\DoctorOnly;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\GuestMiddleware;
+use App\Http\Middleware\MustAcceptContractMiddleware;
 use App\Http\Middleware\MustVerifyPhone;
 use App\Http\Middleware\NotBlocked;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
@@ -100,5 +101,6 @@ class Kernel extends HttpKernel
         'customer'          => CustomerOnly::class,
         'verified-phone'    => MustVerifyPhone::class,
         'guest-header'      => GuestMiddleware::class,
+        'contract'          => MustAcceptContractMiddleware::class
     ];
 }
