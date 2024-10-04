@@ -218,4 +218,9 @@ class ClinicService extends BaseService
     {
         return $this->repository->getClinicsOrderedByFeatured($relations, $countable);
     }
+
+    public function getOnlineBySpecialityId($specialityId, array $relations = [], array $countable = []): ?array
+    {
+        return $this->repository->getOnlineClinicsBySpeciality($specialityId, $relations, $countable);
+    }
 }

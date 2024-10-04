@@ -174,4 +174,14 @@ class ClinicController extends ApiController
 
         return $this->noData(false);
     }
+
+    public function getOnlineBySpeciality($specialityId)
+    {
+        $data = $this->clinicService->getOnlineBySpecialityId($specialityId, $this->indexRelations, $this->countable);
+        if ($data) {
+            return $this->apiResponse(ClinicResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully') , $data['pagination_data']);
+        }
+
+        return $this->noData();
+    }
 }

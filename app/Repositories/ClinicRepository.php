@@ -55,4 +55,15 @@ class ClinicRepository extends BaseRepository
                 ->online()
         );
     }
+
+    public function getOnlineClinicsBySpeciality($specialityId, array $relations = [], array $countable = []): ?array
+    {
+        return $this->paginateQuery(
+            $this->globalQuery($relations , $countable)
+            ->online()
+            ->whereHas('specialities' , function (Builder $query) use ($specialityId) {
+                $query->where('specialities.id', $specialityId);
+            })
+        );
+    }
 }
