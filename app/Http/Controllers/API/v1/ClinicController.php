@@ -20,12 +20,12 @@ class ClinicController extends ApiController
         if (!auth()->user() || auth()->user()?->isCustomer()) {
             $this->indexRelations = ['followers', 'reviews', 'specialities', 'user', 'user.media', 'user.address', 'user.address.city'];
             $this->countable = ['reviews'];
+            $this->relations = ['media', 'user', 'user.address', "user.address.city", 'user.phones', 'specialities', 'hospital', 'user.media', 'schedules'];
         } else {
             $this->indexRelations = ['user', 'user.phones', 'user.address', 'user.address.city', 'lastSubscription'];
             $this->countable = ['appointments', 'todayAppointments', 'upcomingAppointments'];
+            $this->relations = ['media', 'user', 'user.address', "user.address.city", 'user.phones', 'specialities', 'hospital', 'user.media', 'activeSubscription.subscription'];
         }
-
-        $this->relations = ['media', 'user', 'user.address', "user.address.city", 'user.phones', 'specialities', 'hospital', 'user.media', 'activeSubscription.subscription'];
     }
 
     public function index()
@@ -179,7 +179,7 @@ class ClinicController extends ApiController
     {
         $data = $this->clinicService->getOnlineBySpecialityId($specialityId, $this->indexRelations, $this->countable);
         if ($data) {
-            return $this->apiResponse(ClinicResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully') , $data['pagination_data']);
+            return $this->apiResponse(ClinicResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
         }
 
         return $this->noData();

@@ -33,7 +33,7 @@ class ClinicResource extends BaseResource
             'approximate_appointment_time' => $this->approximate_appointment_time,
             'hospital'                     => new HospitalResource($this->whenLoaded('hospital')),
             'user'                         => new UserResource($this->whenLoaded('user')),
-            'schedules'                    => ScheduleResource::collection($this->whenLoaded('schedules')),
+            'schedules'                    => new ScheduleCollection($this->whenLoaded('schedules')),
             'clinicHolidays'               => ClinicHolidayResource::collection($this->whenLoaded('clinicHolidays')),
             'specialities'                 => SpecialityResource::collection($this->whenLoaded('specialities')),
             'services'                     => ServiceResource::collection($this->whenLoaded('services')),
