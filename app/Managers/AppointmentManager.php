@@ -111,13 +111,14 @@ class AppointmentManager
         $data['total_cost'] = $this->calculateAppointmentTotalCost($data, $servicePrice, $systemOffersTotal, $clinicOffersTotal, $clinic, $appointment);
         $appointment = AppointmentRepository::make()->update($data, $appointment);
 
-        $appointment->systemOffers()->detach();
-        $appointment->systemOffers()->sync($systemOffersIds);
-        $appointment->customer->systemOffers()->detach();
-        $appointment->customer->systemOffers()->sync($systemOffersIds);
-
-        $appointment->offers()->detach();
-        $appointment->offers()->sync($clinicOffersIds);
+        if (isset($systemOffersIds)) {
+            $appointment->systemOffers()->sync($systemOffersIds);
+            $appointment->customer->systemOffers()->detach();
+            $appointment->customer->systemOffers()->sync($systemOffersIds);
+        }
+        if (isset($clinicOffersIds)) {
+            $appointment->offers()->sync($clinicOffersIds);
+        }
 
         return $appointment->load($relationships)->loadCount($countable);
     }
@@ -149,29 +150,41 @@ class AppointmentManager
 
     private function handleAppointmentOffers(array $data, $appointmentCost, ?Appointment $appointment = null): array
     {
-        $systemOffers = SystemOfferRepository::make()
-            ->getByIds($data['system_offers'] ?? [], $data['clinic_id'] ?? $appointment?->clinic_id);
+        $systemOffersTotal = 0;
+        $systemOffersIds = [];
+        if (isset($data['system_offers'])) {
+            $systemOffers = SystemOfferRepository::make()
+                ->getByIds($data['system_offers'], $data['clinic_id'] ?? $appointment?->clinic_id);
+            $systemOffersTotal = $systemOffers
+                ->sum(fn(SystemOffer $offer) => $offer->type == OfferTypeEnum::FIXED->value
+                    ? $offer->amount
+                    : ($offer->amount * $appointmentCost) / 100
+                );
+            $systemOffersIds = $systemOffers->pluck('id')->toArray();
+        } elseif ($appointment) {
+            $systemOffersTotal = $appointment->getSystemOffersTotal();
+            $systemOffersIds = null;
+        }
 
-        $systemOffersTotal = $systemOffers
-            ->sum(fn(SystemOffer $offer) => $offer->type == OfferTypeEnum::FIXED->value
-                ? $offer->amount
-                : ($offer->amount * $appointmentCost) / 100
-            );
-
-        $systemOffersIds = $systemOffers->pluck('id')?->toArray() ?? [];
-
-        $appointmentCost = $appointmentCost - $systemOffersTotal;
-
-        $clinicOffers = OfferRepository::make()
-            ->getByIds($data['offers'] ?? [], $data['clinic_id'] ?? $appointment?->clinic_id);
-
-        $clinicOffersTotal = $clinicOffers
-            ->sum(fn(Offer $offer) => $offer->type == OfferTypeEnum::FIXED->value
-                ? $offer->value
-                : ($offer->value * $appointmentCost) / 100
-            );
-
-        $clinicOffersIds = $clinicOffers->pluck('id')->toArray();
+        $clinicOffersTotal = 0;
+        $clinicOffersIds = [];
+        if (isset($data['offers'])) {
+            $appointmentCost = $appointmentCost
+                - (isset($data['system_offers'])
+                    ? $systemOffersTotal
+                    : ($appointment?->getSystemOffersTotal() ?? 0));
+            $clinicOffers = OfferRepository::make()
+                ->getByIds($data['offers'], $data['clinic_id'] ?? $appointment?->clinic_id);
+            $clinicOffersTotal = $clinicOffers
+                ->sum(fn(Offer $offer) => $offer->type == OfferTypeEnum::FIXED->value
+                    ? $offer->value
+                    : ($offer->value * $appointmentCost) / 100
+                );
+            $clinicOffersIds = $clinicOffers->pluck('id')->toArray();
+        } elseif ($appointment) {
+            $clinicOffersTotal = $appointment->getClinicOfferTotal();
+            $clinicOffersIds = null;
+        }
 
         return [
             $clinicOffersTotal,
@@ -257,22 +270,22 @@ class AppointmentManager
         if (!$isUpdate) {
             AppointmentLogRepository::make()->create([
                 'cancellation_reason' => $data['cancellation_reason'] ?? null,
-                'status' => $data['status'],
-                'happen_in' => now(),
-                'appointment_id' => $appointment->id,
-                'actor_id' => auth()->user()->id,
-                'affected_id' => $data['customer_id'] ?? $appointment->customer_id,
-                'event' => "appointment has been created in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->full_name->en,
+                'status'              => $data['status'],
+                'happen_in'           => now(),
+                'appointment_id'      => $appointment->id,
+                'actor_id'            => auth()->user()->id,
+                'affected_id'         => $data['customer_id'] ?? $appointment->customer_id,
+                'event'               => "appointment has been created in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->full_name->en,
             ]);
         } else {
             AppointmentLogRepository::make()->create([
                 'cancellation_reason' => $data['cancellation_reason'] ?? null,
-                'status' => $data['status'],
-                'happen_in' => now(),
-                'appointment_id' => $appointment->id,
-                'actor_id' => auth()->user()?->id,
-                'affected_id' => $data['customer_id'] ?? $appointment->customer_id,
-                'event' => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->full_name->en,
+                'status'              => $data['status'],
+                'happen_in'           => now(),
+                'appointment_id'      => $appointment->id,
+                'actor_id'            => auth()->user()?->id,
+                'affected_id'         => $data['customer_id'] ?? $appointment->customer_id,
+                'event'               => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->full_name->en,
             ]);
         }
     }
@@ -285,22 +298,22 @@ class AppointmentManager
             : ClinicTransactionTypeEnum::DEBT_TO_ME->value;
 
         $clinicTransaction = ClinicTransactionRepository::make()->create([
-            'amount' => abs($deductionAmount),
+            'amount'         => abs($deductionAmount),
             'appointment_id' => $appointment->id,
-            'type' => $clinicTransactionType,
-            'clinic_id' => $clinic->id,
-            'notes' => "An Appointment Deduction For The Appointment With Id : $appointment->id , Patient name : {$appointment->customer->user->full_name}",
-            'status' => ClinicTransactionStatusEnum::PENDING->value,
-            'date' => now(),
+            'type'           => $clinicTransactionType,
+            'clinic_id'      => $clinic->id,
+            'notes'          => "An Appointment Deduction For The Appointment With Id : $appointment->id , Patient name : {$appointment->customer->user->full_name}",
+            'status'         => ClinicTransactionStatusEnum::PENDING->value,
+            'date'           => now(),
         ]);
 
         AppointmentDeductionRepository::make()->create([
-            'amount' => $clinic->deduction_cost - $systemOffersTotal,
-            'status' => AppointmentDeductionStatusEnum::PENDING->value,
+            'amount'                => $clinic->deduction_cost - $systemOffersTotal,
+            'status'                => AppointmentDeductionStatusEnum::PENDING->value,
             'clinic_transaction_id' => $clinicTransaction->id,
-            'appointment_id' => $appointment->id,
-            'clinic_id' => $clinic->id,
-            'date' => now(),
+            'appointment_id'        => $appointment->id,
+            'clinic_id'             => $clinic->id,
+            'date'                  => now(),
         ]);
     }
 }
