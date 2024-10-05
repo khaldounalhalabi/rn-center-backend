@@ -270,22 +270,22 @@ class AppointmentManager
         if (!$isUpdate) {
             AppointmentLogRepository::make()->create([
                 'cancellation_reason' => $data['cancellation_reason'] ?? null,
-                'status'              => $data['status'],
-                'happen_in'           => now(),
-                'appointment_id'      => $appointment->id,
-                'actor_id'            => auth()->user()->id,
-                'affected_id'         => $data['customer_id'] ?? $appointment->customer_id,
-                'event'               => "appointment has been created in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->full_name->en,
+                'status' => $data['status'],
+                'happen_in' => now(),
+                'appointment_id' => $appointment->id,
+                'actor_id' => auth()->user()->id,
+                'affected_id' => $data['customer_id'] ?? $appointment->customer_id,
+                'event' => "appointment has been created in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->full_name->en,
             ]);
         } else {
             AppointmentLogRepository::make()->create([
                 'cancellation_reason' => $data['cancellation_reason'] ?? null,
-                'status'              => $data['status'],
-                'happen_in'           => now(),
-                'appointment_id'      => $appointment->id,
-                'actor_id'            => auth()->user()?->id,
-                'affected_id'         => $data['customer_id'] ?? $appointment->customer_id,
-                'event'               => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->full_name->en,
+                'status' => $data['status'],
+                'happen_in' => now(),
+                'appointment_id' => $appointment->id,
+                'actor_id' => auth()->user()?->id,
+                'affected_id' => $data['customer_id'] ?? $appointment->customer_id,
+                'event' => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->full_name->en,
             ]);
         }
     }
@@ -298,22 +298,22 @@ class AppointmentManager
             : ClinicTransactionTypeEnum::DEBT_TO_ME->value;
 
         $clinicTransaction = ClinicTransactionRepository::make()->create([
-            'amount'         => abs($deductionAmount),
+            'amount' => abs($deductionAmount),
             'appointment_id' => $appointment->id,
-            'type'           => $clinicTransactionType,
-            'clinic_id'      => $clinic->id,
-            'notes'          => "An Appointment Deduction For The Appointment With Id : $appointment->id , Patient name : {$appointment->customer->user->full_name}",
-            'status'         => ClinicTransactionStatusEnum::PENDING->value,
-            'date'           => now(),
+            'type' => $clinicTransactionType,
+            'clinic_id' => $clinic->id,
+            'notes' => "An Appointment Deduction For The Appointment With Id : $appointment->id , Patient name : {$appointment->customer->user->full_name}",
+            'status' => ClinicTransactionStatusEnum::PENDING->value,
+            'date' => now(),
         ]);
 
         AppointmentDeductionRepository::make()->create([
-            'amount'                => $clinic->deduction_cost - $systemOffersTotal,
-            'status'                => AppointmentDeductionStatusEnum::PENDING->value,
+            'amount' => $clinic->deduction_cost - $systemOffersTotal,
+            'status' => AppointmentDeductionStatusEnum::PENDING->value,
             'clinic_transaction_id' => $clinicTransaction->id,
-            'appointment_id'        => $appointment->id,
-            'clinic_id'             => $clinic->id,
-            'date'                  => now(),
+            'appointment_id' => $appointment->id,
+            'clinic_id' => $clinic->id,
+            'date' => now(),
         ]);
     }
 }
