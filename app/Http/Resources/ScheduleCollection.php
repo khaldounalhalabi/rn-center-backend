@@ -21,7 +21,7 @@ class ScheduleCollection extends ResourceCollection
     {
         return [
             ...$this->collection->groupBy('day_of_week')->toArray(),
-            'appointment_gap' => $this->collection->first()->appointment_gap,
+            'appointment_gap' => $this->collection?->first()?->appointment_gap,
         ];
     }
 }
