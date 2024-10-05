@@ -18,8 +18,8 @@ class ClinicRepository extends BaseRepository
     public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
     {
         return parent::globalQuery($relations, $countable)
-            ->when($this->filtered || !auth()->user()?->isAdmin(), function (Builder $query) {
-                $query->available();
+            ->when($this->filtered || !auth()->user()?->isAdmin(), function (Builder|Clinic $query) {
+                $query->available()->online();
             });
     }
 
@@ -59,11 +59,11 @@ class ClinicRepository extends BaseRepository
     public function getOnlineClinicsBySpeciality($specialityId, array $relations = [], array $countable = []): ?array
     {
         return $this->paginateQuery(
-            $this->globalQuery($relations , $countable)
-            ->online()
-            ->whereHas('specialities' , function (Builder $query) use ($specialityId) {
-                $query->where('specialities.id', $specialityId);
-            })
+            $this->globalQuery($relations, $countable)
+                ->online()
+                ->whereHas('specialities', function (Builder $query) use ($specialityId) {
+                    $query->where('specialities.id', $specialityId);
+                })
         );
     }
 }
