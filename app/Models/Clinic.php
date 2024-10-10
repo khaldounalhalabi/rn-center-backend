@@ -278,6 +278,7 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
 
     public function availableScheduleIn(string $date): bool
     {
+        Carbon::setLocale("en");
         $date = Carbon::parse($date);
         $dayName = Str::lower($date->dayName);
 
