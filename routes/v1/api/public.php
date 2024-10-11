@@ -56,7 +56,7 @@ Route::get('/system-offers/{systemOfferId}', [v1\SystemOfferController::class, '
 Route::get('/clinics/{clinicId}/offers', [v1\OfferController::class, 'getByClinic'])->name('clinics.offers');
 Route::get('/offers/{offerId}', [v1\OfferController::class, 'show'])->name('offers.show');
 
-Route::get('/specialities/{specialityId}/clinics' , [v1\ClinicController::class , 'getOnlineBySpeciality'])->name('specialities.clinics');
+Route::get('/specialities/{specialityId}/clinics', [v1\ClinicController::class, 'getOnlineBySpeciality'])->name('specialities.clinics');
 Route::get('/clinics', [v1\ClinicController::class, 'featured'])->name('clinics.featured');
 Route::get('/clinics/{clinicId}', [v1\ClinicController::class, 'show'])->name('clinics.show');
 
@@ -74,4 +74,5 @@ Route::post('clinic-join-requests', [v1\ClinicJoinRequestController::class, 'sto
 
 Route::get('/settings/by-label/{label}', [v1\SettingController::class, 'getByLabel'])->name('settings.label');
 
+Route::get('search', [v1\SearchController::class, 'publicSearch'])->name('search');
 
