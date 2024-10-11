@@ -47,7 +47,7 @@ class UserSeeder extends Seeder
                         'last_name'   => 'staff',
                         'is_blocked'  => false,
                         'is_archived' => false,
-                    ])->assignRole(RolesPermissionEnum::CLINIC_EMPLOYEE)->id,
+                    ])->assignRole(RolesPermissionEnum::CLINIC_EMPLOYEE['role'])->id,
                 'clinic_id' => $clinic->id
             ]);
 
