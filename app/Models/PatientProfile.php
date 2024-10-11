@@ -7,6 +7,7 @@ use App\Traits\HasAbilities;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -57,10 +58,10 @@ class PatientProfile extends Model implements HasMedia
     public static function relationsSearchableArray(): array
     {
         return [
-            'clinic'        => [
+            'clinic' => [
                 'name',
             ],
-            'clinic.user'   => [
+            'clinic.user' => [
                 'full_name',
             ],
             'customer.user' => [
@@ -80,7 +81,7 @@ class PatientProfile extends Model implements HasMedia
         ];
     }
 
-    public function customer()
+    public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
     }
@@ -108,5 +109,11 @@ class PatientProfile extends Model implements HasMedia
             ($this->clinic_id == auth()?->user()?->getClinicId() && $this->clinic->isAvailable())
             || auth()->user()?->isAdmin()
             || (auth()->user()?->isCustomer() && $this->customer_id == auth()->user()?->customer->id);
+    }
+
+    public function lastAppointment(): HasOne
+    {
+        return $this->hasOne(Appointment::class, 'customer_id', 'customer_id')
+            ->latestOfMany();
     }
 }

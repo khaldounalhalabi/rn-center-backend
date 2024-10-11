@@ -2,16 +2,19 @@
 
 namespace App\Models;
 
+use App\Enums\MediaTypeEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property string label
  * @property string value
  */
-class Setting extends Model
+class Setting extends Model implements HasMedia
 {
-    use HasFactory;
+    use HasFactory, InteractsWithMedia;
 
     protected $fillable = [
         'label',
@@ -35,6 +38,13 @@ class Setting extends Model
         return [
             'label',
             'value',
+        ];
+    }
+
+    public function filesKeys(): array
+    {
+        return [
+            'image' => ['type' => MediaTypeEnum::SINGLE->value],
         ];
     }
 }

@@ -26,6 +26,7 @@ class CustomerController extends ApiController
                 'user.media',
                 'currentClinicPatientProfile',
                 'user',
+                'currentClinicPatientProfile.lastAppointment'
             ];
         } else {
             $this->relations = [

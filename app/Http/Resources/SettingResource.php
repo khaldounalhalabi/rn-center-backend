@@ -9,7 +9,6 @@ class SettingResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
-     *
      * @return array<string, mixed>
      */
     public function toArray($request): array
@@ -18,7 +17,7 @@ class SettingResource extends BaseResource
             'id' => $this->id,
             'label' => $this->label,
             'value' => $this->value,
-
+            'image' => MediaResource::collection($this->whenLoaded('media'))
         ];
     }
 }

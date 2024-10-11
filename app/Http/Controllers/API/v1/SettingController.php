@@ -17,7 +17,7 @@ class SettingController extends ApiController
         $this->settingService = SettingService::make();
 
         // place the relations you want to return them within the response
-        $this->relations = [];
+        $this->relations = ['media'];
     }
 
     public function index()

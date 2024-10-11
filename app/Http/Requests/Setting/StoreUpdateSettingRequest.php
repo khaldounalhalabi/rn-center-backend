@@ -22,7 +22,8 @@ class StoreUpdateSettingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'value' => ['required', 'string', 'min:1', 'max:5000'],
+            'value' => ['nullable', 'required_without:image', 'string', 'min:1', 'max:5000' , 'exclude_with:image'],
+            'image' => 'nullable|required_without:value|image|max:50000|exclude_with:value',
         ];
     }
 }

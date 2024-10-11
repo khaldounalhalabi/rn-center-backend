@@ -7,6 +7,7 @@ use App\Models\Hospital;
 use App\Models\Offer;
 use App\Models\PatientProfile;
 use App\Models\Service;
+use App\Models\Setting;
 use App\Models\Speciality;
 use App\Models\SystemOffer;
 use App\Models\User;
@@ -22,6 +23,7 @@ enum MediaTypeEnum: string
         Service::class        => 'service',
         Offer::class          => 'offer',
         SystemOffer::class    => 'system_offer',
+        Setting::class        => 'setting',
     ];
 
     case SINGLE = 'single';

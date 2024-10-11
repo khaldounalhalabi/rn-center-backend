@@ -38,5 +38,10 @@ class SettingSeeder extends Seeder
             'label' => 'clinic_contract',
             'value' => 'The clinics contract'
         ]);
+
+        Setting::create([
+            'label' => 'zain_cash_qr',
+            'value' => null
+        ]);
     }
 }
