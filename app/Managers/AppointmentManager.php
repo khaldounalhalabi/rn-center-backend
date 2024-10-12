@@ -80,7 +80,7 @@ class AppointmentManager
 
         $this->logAppointment($data, $appointment);
 
-        $patientProfile = PatientProfileRepository::make()->find($appointment->customer_id);
+        $patientProfile = PatientProfileRepository::make()->getByClinicAndCustomer($appointment->clinic_id,$appointment->customer_id);
 
         if (!$patientProfile){
             PatientProfileRepository::make()->create([
