@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Enums\AppointmentStatusEnum;
 use App\Enums\MediaTypeEnum;
 use App\Traits\HasAbilities;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -114,6 +116,12 @@ class PatientProfile extends Model implements HasMedia
     public function lastAppointment(): HasOne
     {
         return $this->hasOne(Appointment::class, 'customer_id', 'customer_id')
+            ->where('status' , AppointmentStatusEnum::CHECKOUT->value)
             ->latestOfMany();
+    }
+
+    public function appointments(): HasMany
+    {
+        return $this->hasMany(Appointment::class , 'customer_id' , 'customer_id');
     }
 }

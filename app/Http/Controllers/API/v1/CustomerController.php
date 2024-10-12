@@ -28,6 +28,7 @@ class CustomerController extends ApiController
                 'user',
                 'currentClinicPatientProfile.lastAppointment'
             ];
+            $this->countable = ['currentClinicPatientProfile.appointments'];
         } else {
             $this->relations = [
                 'user',
