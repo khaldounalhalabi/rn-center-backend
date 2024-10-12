@@ -57,7 +57,7 @@ class CustomerController extends ApiController
     public function show($customerId)
     {
         /** @var Customer|null $item */
-        $item = $this->customerService->view($customerId, $this->relations);
+        $item = $this->customerService->view($customerId, $this->relations , $this->countable);
         if ($item) {
             return $this->apiResponse(new CustomerResource($item), self::STATUS_OK, __('site.get_successfully'));
         }
