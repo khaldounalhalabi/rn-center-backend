@@ -122,6 +122,7 @@ class PatientProfile extends Model implements HasMedia
 
     public function appointments(): HasMany
     {
-        return $this->hasMany(Appointment::class , 'customer_id' , 'customer_id');
+        return $this->hasMany(Appointment::class , 'customer_id' , 'customer_id')
+            ->where('clinic_id' , $this->clinic_id);
     }
 }
