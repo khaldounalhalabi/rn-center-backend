@@ -26,9 +26,8 @@ class CustomerController extends ApiController
                 'user.media',
                 'currentClinicPatientProfile',
                 'user',
-                'currentClinicPatientProfile.lastAppointment'
+                'currentClinicPatientProfile.lastAppointment',
             ];
-            $this->countable = ['currentClinicPatientProfile.appointments'];
         } else {
             $this->relations = [
                 'user',
@@ -57,7 +56,7 @@ class CustomerController extends ApiController
     public function show($customerId)
     {
         /** @var Customer|null $item */
-        $item = $this->customerService->view($customerId, $this->relations , $this->countable);
+        $item = $this->customerService->view($customerId, [...$this->relations, 'currentClinicPatientProfile.appointments'], $this->countable);
         if ($item) {
             return $this->apiResponse(new CustomerResource($item), self::STATUS_OK, __('site.get_successfully'));
         }

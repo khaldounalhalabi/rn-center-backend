@@ -25,7 +25,9 @@ class PatientProfileResource extends BaseResource
             'clinic' => new ClinicResource($this->whenLoaded('clinic')),
             'images' => MediaResource::collection($this->whenLoaded('media')),
             'last_appointment' => new AppointmentResource($this->whenLoaded('lastAppointment')),
-            'appointments_count' => $this->whenCounted('appointments')
+            $this->mergeWhen($this->relationLoaded('appointments'), fn() => [
+                'appointments_count' => $this->appointments->count(),
+            ])
         ];
     }
 }
