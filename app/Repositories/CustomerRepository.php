@@ -32,8 +32,6 @@ class CustomerRepository extends BaseRepository
             $this->globalQuery($relations, $countable)
                 ->whereHas('patientProfiles', function (Builder $query) use ($clinicId) {
                     $query->where('clinic_id', $clinicId);
-                })->orWhereHas('appointments', function (Builder $q) use ($clinicId) {
-                    $q->where('clinic_id', $clinicId);
                 })
         );
     }
