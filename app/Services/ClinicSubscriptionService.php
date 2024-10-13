@@ -54,7 +54,7 @@ class ClinicSubscriptionService extends BaseService
             : ($subscription->dayUnit()
                 ? now()->addDays($subscription->period)
                 : now()->addMonths($subscription->period)
-            );
+            )->addDays($subscription->allow_period);
 
         $data['status'] = SubscriptionStatusEnum::ACTIVE->value;
 
@@ -83,7 +83,7 @@ class ClinicSubscriptionService extends BaseService
                 : ($subscription->dayUnit()
                     ? $clinicSubscription->start_time->addDays($subscription->period)
                     : $clinicSubscription->start_time->addMonths($subscription->period)
-                );
+                )->addDays($subscription->allow_period);
 
             $data['status'] = $data['ends_at']->isAfter(now())
                 ? SubscriptionStatusEnum::ACTIVE->value

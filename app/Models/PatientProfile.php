@@ -116,9 +116,12 @@ class PatientProfile extends Model implements HasMedia
     public function lastAppointment(): HasOne
     {
         return $this->hasOne(Appointment::class, 'customer_id', 'customer_id')
-            ->where('status', AppointmentStatusEnum::CHECKOUT->value)
-            ->where('clinic_id', auth()->user()?->getClinicId())
-            ->latestOfMany();
+            ->ofMany([
+                'date' => 'max'
+            ], function ($query) {
+                $query->where('status', AppointmentStatusEnum::CHECKOUT->value)
+                    ->where('clinic_id', auth()->user()?->getClinicId());
+            });
     }
 
     public function appointments(): HasMany
