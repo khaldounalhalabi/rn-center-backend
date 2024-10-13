@@ -317,7 +317,7 @@ class User extends Authenticatable implements HasMedia, JWTSubject
         if (auth()?->user()?->isDoctor()) {
             return $this->clinic->load($relations)->loadCount($countable);
         } elseif (auth()?->user()?->isClinicEmployee()) {
-            return $this->clinicEmployee->clinic;
+            return $this->clinicEmployee->clinic->load($relations)->loadCount($countable);
         } else {
             return null;
         }

@@ -74,13 +74,13 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
     ];
 
     protected $casts = [
-        'name'                         => Translatable::class,
-        'working_start_year'           => 'datetime',
-        'max_appointments'             => 'integer',
+        'name' => Translatable::class,
+        'working_start_year' => 'datetime',
+        'max_appointments' => 'integer',
         'approximate_appointment_time' => 'integer',
-        'appointment_day_range'        => 'integer',
-        'appointment_cost'             => 'float',
-        'agreed_on_contract'           => 'bool'
+        'appointment_day_range' => 'integer',
+        'appointment_cost' => 'float',
+        'agreed_on_contract' => 'bool'
     ];
 
     /**
@@ -106,7 +106,7 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
     public static function relationsSearchableArray(): array
     {
         return [
-            'user'              => [
+            'user' => [
                 'full_name',
                 'email',
             ],
@@ -123,35 +123,35 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
     {
         return [
             [
-                'name'     => 'is_archived',
+                'name' => 'is_archived',
                 'relation' => 'user.is_archived',
             ],
             [
                 'name' => 'status',
             ],
             [
-                'name'     => 'city_name',
+                'name' => 'city_name',
                 'relation' => 'user.address.city.name',
                 'operator' => 'like',
             ],
             [
-                'name'     => 'day_of_week',
+                'name' => 'day_of_week',
                 'relation' => 'schedules.day_of_week',
             ],
             [
-                'name'     => 'start_time',
+                'name' => 'start_time',
                 'relation' => 'schedules.start_time',
-                'method'   => 'whereTime',
+                'method' => 'whereTime',
                 'operator' => '>=',
             ],
             [
-                'name'     => 'end_time',
+                'name' => 'end_time',
                 'relation' => 'schedules.end_time',
-                'method'   => 'whereTime',
+                'method' => 'whereTime',
                 'operator' => '<=',
             ],
             [
-                'name'  => 'subscription_status',
+                'name' => 'subscription_status',
                 'query' => fn(Builder $query) => $query->when(
                     Str::snake(request('subscription_status')) == SubscriptionStatusEnum::ACTIVE->value, function (Builder $active) {
                     $active->whereHas('activeSubscription');
@@ -420,10 +420,8 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
 
     public function hasActiveSubscription(): ?bool
     {
-        return (
-            $this->activeSubscription?->end_time?->addDays($this->activeSubscription?->subscription?->allow_period)->isAfter(now())
-            && $this->activeSubscription?->start_time?->lessThanOrEqualTo(now())
-        ) ?? false;
+        return $this->activeSubscription?->end_time?->addDays($this->activeSubscription?->subscription?->allow_period)->isAfter(now())
+            && $this->activeSubscription?->start_time?->lessThanOrEqualTo(now());
     }
 
     public function balance(): MorphOne
