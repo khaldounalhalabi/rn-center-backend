@@ -72,7 +72,7 @@ Route::get('/statistics', [v1\StatisticsController::class, 'landingPage'])->name
 
 Route::post('clinic-join-requests', [v1\ClinicJoinRequestController::class, 'store'])->name('clinic.join.requests.store');
 
-Route::post('/settings/by-labels', [v1\SettingController::class, 'getByLabel'])->name('settings.by.label');
+Route::post('/settings/get-by-labels', [v1\SettingController::class, 'getByLabels'])->name('settings.by.label');
 Route::get('/settings/by-label/{label}', [v1\SettingController::class, 'getByLabel'])->name('settings.label');
 
 Route::get('search', [v1\SearchController::class, 'publicSearch'])->name('search');

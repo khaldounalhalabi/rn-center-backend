@@ -65,7 +65,7 @@ class SettingController extends ApiController
     public function getByLabels(Request $request)
     {
         $labels = $request->input('labels') ?? [];
-        $settings = SettingRepository::make()->globalQuery()->whereIn('label' , $labels);
+        $settings = SettingRepository::make()->globalQuery()->whereIn('label' , $labels)->get();
         return $this->apiResponse(SettingResource::collection($settings) , self::STATUS_OK, __('site.get_successfully'));
     }
 }
