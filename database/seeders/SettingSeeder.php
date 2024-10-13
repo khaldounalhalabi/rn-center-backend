@@ -43,5 +43,10 @@ class SettingSeeder extends Seeder
             'label' => 'zain_cash_qr',
             'value' => null
         ]);
+
+        Setting::create([
+            'label' => 'payment_way_description',
+            'value' => 'some kind of description for the way the clinic should pay'
+        ]);
     }
 }
