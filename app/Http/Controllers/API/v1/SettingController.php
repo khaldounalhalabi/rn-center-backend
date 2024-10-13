@@ -6,7 +6,9 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\Setting\StoreUpdateSettingRequest;
 use App\Http\Resources\SettingResource;
 use App\Models\Setting;
+use App\Repositories\SettingRepository;
 use App\Services\SettingService;
+use Illuminate\Http\Request;
 
 class SettingController extends ApiController
 {
@@ -58,5 +60,12 @@ class SettingController extends ApiController
         }
 
         return $this->noData();
+    }
+
+    public function getByLabels(Request $request)
+    {
+        $labels = $request->input('labels') ?? [];
+        $settings = SettingRepository::make()->globalQuery()->whereIn('label' , $labels);
+        return $this->apiResponse(SettingResource::collection($settings) , self::STATUS_OK, __('site.get_successfully'));
     }
 }
