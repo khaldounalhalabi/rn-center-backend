@@ -17,8 +17,8 @@ class SettingService extends BaseService
 
     protected string $repositoryClass = SettingRepository::class;
 
-    public function getByLabel(string $label): ?Setting
+    public function getByLabel(string $label , array $relations =[]): ?Setting
     {
-        return $this->repository->getByLabel($label);
+        return $this->repository->getByLabel($label , $relations);
     }
 }
