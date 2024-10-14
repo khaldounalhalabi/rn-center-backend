@@ -21,13 +21,28 @@ class ClinicSubscription extends Model
         'deduction_cost',
         'type',
         'is_paid',
+        'end_time_with_allow_period'
     ];
 
     protected $casts = [
         'start_time' => 'datetime',
-        'end_time'   => 'datetime',
-        'is_paid'    => 'boolean',
+        'end_time' => 'datetime',
+        'is_paid' => 'boolean',
+        'end_time_with_allow_period' => 'datetime'
     ];
+
+    protected static function booted()
+    {
+        self::creating(function (ClinicSubscription $clinicSubscription) {
+            $subscription = Subscription::find($clinicSubscription->subscription_id);
+            $clinicSubscription->end_time_with_allow_period = $clinicSubscription->end_time->addDays($subscription->allow_period);
+        });
+
+        self::updating(function (ClinicSubscription $clinicSubscription) {
+            $subscription = Subscription::find($clinicSubscription->subscription_id);
+            $clinicSubscription->end_time_with_allow_period = $clinicSubscription->end_time->addDays($subscription->allow_period);
+        });
+    }
 
     public function clinic(): BelongsTo
     {
@@ -46,13 +61,13 @@ class ClinicSubscription extends Model
 
     public function scopeActive(Builder $query): Builder
     {
-        return $query->where('end_time', '>', now()->format('Y-m-d H:i:s'))
+        return $query->where('end_time_with_allow_period', '>', now()->format('Y-m-d H:i:s'))
             ->where('start_time', '<=', now()->format('Y-m-d H:i:s'))
             ->where('status', SubscriptionStatusEnum::ACTIVE->value);
     }
 
     public function scopeInActive(Builder $query): Builder
     {
-        return $query->where('end_time', '<=', now()->format('Y-m-d'));
+        return $query->where('end_time_with_allow_period', '<=', now()->format('Y-m-d'));
     }
 }

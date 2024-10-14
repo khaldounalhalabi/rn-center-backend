@@ -25,6 +25,7 @@ return new class () extends Migration {
             $table->unsignedFloat('deduction_cost')->default(0.00);
             $table->string("type")->default(SubscriptionTypeEnum::BOOKING_COST_BASED->value);
             $table->boolean('is_paid')->default(false);
+            $table->dateTime('end_time_with_allow_period')->default(now()->addYear());
             $table->timestamps();
             $table->index(['created_at']);
         });

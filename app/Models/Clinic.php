@@ -420,7 +420,7 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
 
     public function hasActiveSubscription(): bool
     {
-        return $this->activeSubscription?->end_time?->isAfter(now())
+        return $this->activeSubscription?->end_time_with_allow_period?->isAfter(now())
             && $this->activeSubscription?->start_time?->lessThanOrEqualTo(now());
     }
 
