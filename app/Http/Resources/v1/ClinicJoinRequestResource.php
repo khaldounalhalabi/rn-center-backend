@@ -3,6 +3,7 @@
 namespace App\Http\Resources\v1;
 
 use App\Http\Resources\BaseResource;
+use App\Http\Resources\CityResource;
 use App\Models\ClinicJoinRequest;
 
 /** @mixin ClinicJoinRequest */
@@ -20,7 +21,7 @@ class ClinicJoinRequestResource extends BaseResource
             'clinic_name'  => $this->clinic_name,
             'phone_number' => $this->phone_number,
             'city_id'      => $this->city_id,
-
+            'city' => new CityResource($this->whenLoaded('city')),
         ];
     }
 }
