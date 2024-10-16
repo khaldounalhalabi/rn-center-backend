@@ -18,7 +18,7 @@ class ClinicJoinRequestController extends ApiController
         $this->clinicJoinRequestService = ClinicJoinRequestService::make();
 
         // place the relations you want to return them within the response
-        $this->relations = [];
+        $this->relations = ['city'];
     }
 
     public function index()
