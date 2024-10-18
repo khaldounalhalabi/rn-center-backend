@@ -92,7 +92,6 @@ class Customer extends Model implements ActionsMustBeAuthorized
     {
         return $this->hasOne(PatientProfile::class)
             ->where('clinic_id', auth()->user()?->getClinicId())
-            ->with(['lastAppointment' , 'media'])
             ->latestOfMany();
     }
 

@@ -61,21 +61,31 @@ class UserSeeder extends Seeder
             'type'            => SubscriptionTypeEnum::MONTHLY_PAID_BASED->value,
         ]);
 
-
-        $user2 = User::factory()
+        $user1 = User::factory()
             ->withPhoneNumbers()
-            ->withAddress()
-            ->create([
+            ->withAddress()->create([
                 'email'    => 'asasimr55@gmail.com',
                 'password' => '123456789',
             ])->assignRole(RolesPermissionEnum::DOCTOR['role']);
 
-        $clinic = Clinic::factory()
-            ->withSchedules()
+        $clinic = Clinic::factory()->create([
+            'name'    => new Translatable(['en' => 'POM', 'ar' => 'POM']),
+            'user_id' => $user1->id,
+        ]);
+
+        ClinicEmployee::factory()
             ->create([
-                'name'             => new Translatable(['en' => 'pom', 'ar' => 'pom']),
-                'user_id'          => $user2->id,
-                'appointment_cost' => 25000,
+                'user_id'   => User::factory()
+                    ->create([
+                        'email'       => 'asasimr55@staff.com',
+                        'password'    => '123456789',
+                        'first_name'  => 'staff',
+                        'middle_name' => 'staff',
+                        'last_name'   => 'staff',
+                        'is_blocked'  => false,
+                        'is_archived' => false,
+                    ])->assignRole(RolesPermissionEnum::CLINIC_EMPLOYEE['role'])->id,
+                'clinic_id' => $clinic->id
             ]);
 
         ClinicSubscription::create([
