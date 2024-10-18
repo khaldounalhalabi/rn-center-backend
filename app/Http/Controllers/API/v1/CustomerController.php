@@ -20,13 +20,11 @@ class CustomerController extends ApiController
 
         if (auth()->user()?->isClinic()) {
             $this->relations = [
-                'currentClinicPatientProfile.media',
+                'currentClinicPatientProfile',
                 'user.address.city',
                 'user.phones',
                 'user.media',
-                'currentClinicPatientProfile',
                 'user',
-                'currentClinicPatientProfile.lastAppointment',
             ];
         } else {
             $this->relations = [
