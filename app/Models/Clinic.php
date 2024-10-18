@@ -38,7 +38,7 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
     protected static function booted(): void
     {
         static::addGlobalScope('available_online', function (Builder $builder) {
-            if (request()->hasHeader('Guest') || auth()->user()?->isCustomer()) {
+            if (request()->hasHeader('Guest-Customer') || auth()->user()?->isCustomer()) {
                 $builder->whereHas('clinicSubscriptions', function (Builder|ClinicSubscription $b) {
                     $b->where('type', SubscriptionTypeEnum::BOOKING_COST_BASED->value)
                         ->active();
