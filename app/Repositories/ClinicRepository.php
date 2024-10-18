@@ -19,7 +19,7 @@ class ClinicRepository extends BaseRepository
     {
         return parent::globalQuery($relations, $countable)
             ->when($this->filtered || !auth()->user()?->isAdmin(), function (Builder|Clinic $query) {
-                $query->available()->online();
+                $query->available();
             });
     }
 
