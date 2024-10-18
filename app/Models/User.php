@@ -56,18 +56,18 @@ class User extends Authenticatable implements HasMedia, JWTSubject
     ];
 
     protected $casts = [
-        'id'                     => 'integer',
-        'email_verified_at'      => 'datetime',
-        'birth_date'             => 'datetime',
-        'is_blocked'             => 'boolean',
-        'is_archived'            => 'boolean',
-        'created_at'             => 'datetime:Y-m-d H:i:s',
-        'updated_at'             => 'datetime:Y-m-d H:i:s',
+        'id' => 'integer',
+        'email_verified_at' => 'datetime',
+        'birth_date' => 'datetime',
+        'is_blocked' => 'boolean',
+        'is_archived' => 'boolean',
+        'created_at' => 'datetime:Y-m-d H:i:s',
+        'updated_at' => 'datetime:Y-m-d H:i:s',
         'reset_code_valid_until' => 'datetime:Y-m-d H:i:s',
-        'first_name'             => Translatable::class,
-        'middle_name'            => Translatable::class,
-        'last_name'              => Translatable::class,
-        'full_name'              => Translatable::class,
+        'first_name' => Translatable::class,
+        'middle_name' => Translatable::class,
+        'last_name' => Translatable::class,
+        'full_name' => Translatable::class,
     ];
 
     /**
@@ -91,7 +91,7 @@ class User extends Authenticatable implements HasMedia, JWTSubject
     public static function relationsSearchableArray(): array
     {
         return [
-            'roles'        => [
+            'roles' => [
                 'name',
             ],
             'phoneNumbers' => [
@@ -269,8 +269,8 @@ class User extends Authenticatable implements HasMedia, JWTSubject
     public function getClinicId(): ?int
     {
         return $this->isDoctor()
-            ? $this?->clinic?->id
-            : $this->clinicEmployee?->clinic_id;
+            ? Clinic::where('user_id', $this->id)->first()->id
+            : ClinicEmployee::where('user_id', $this->id)->first()->clinic_id;
     }
 
     public function clinicEmployee(): HasOne
