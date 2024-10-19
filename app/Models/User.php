@@ -269,8 +269,8 @@ class User extends Authenticatable implements HasMedia, JWTSubject
     public function getClinicId(): ?int
     {
         return $this->isDoctor()
-            ? Clinic::where('user_id', $this->id)->first()->id
-            : ClinicEmployee::where('user_id', $this->id)->first()->clinic_id;
+            ? Clinic::withoutGlobalScopes()->where('user_id', $this->id)->first()?->id
+            : ClinicEmployee::where('user_id', $this->id)->first()?->clinic_id;
     }
 
     public function clinicEmployee(): HasOne

@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -38,7 +39,7 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
     protected static function booted(): void
     {
         static::addGlobalScope('available_online', function (Builder $builder) {
-            if (request()->hasHeader('Guest-Customer') || auth()->user()?->isCustomer()) {
+            if (!Auth::hasUser() || (Auth::hasUser() && Auth::user()->isCustomer())) {
                 $builder->whereHas('clinicSubscriptions', function (Builder|ClinicSubscription $b) {
                     $b->where('type', SubscriptionTypeEnum::BOOKING_COST_BASED->value)
                         ->active();
