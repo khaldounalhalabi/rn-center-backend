@@ -20,7 +20,7 @@ class MedicineFactory extends Factory
         return [
             'name'        => fake()->firstName(),
             'description' => fake()->text(),
-            'clinic_id'   => Clinic::inRandomOrder()->first()->id,
+            'clinic_id'   => Clinic::inRandomOrder()->first()?->id ?? Clinic::factory()->create()->id,
         ];
     }
 

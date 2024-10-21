@@ -20,8 +20,8 @@ class PrescriptionFactory extends Factory
      */
     public function definition(): array
     {
-        $clinicId = Clinic::inRandomOrder()->first()?->id;
-        $customerId = Customer::inRandomOrder()->first()?->id;
+        $clinicId = Clinic::inRandomOrder()->first()?->id ?? Clinic::factory()->create()->id;
+        $customerId = Customer::inRandomOrder()->first()?->id ?? Customer::factory()->create()->id;
 
         $physicalInformation = [
             "High Blood Pressure" => fake()->sentence(5),

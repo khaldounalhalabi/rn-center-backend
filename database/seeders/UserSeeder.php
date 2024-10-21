@@ -58,7 +58,7 @@ class UserSeeder extends Seeder
             'status'          => SubscriptionStatusEnum::ACTIVE->value,
             'deduction_cost'  => 10,
             'subscription_id' => 2,
-            'type'            => SubscriptionTypeEnum::MONTHLY_PAID_BASED->value,
+            'type'            => SubscriptionTypeEnum::BOOKING_COST_BASED->value,
         ]);
 
         $user1 = User::factory()
@@ -95,7 +95,7 @@ class UserSeeder extends Seeder
             'status'          => SubscriptionStatusEnum::ACTIVE->value,
             'deduction_cost'  => 10,
             'subscription_id' => 2,
-            'type'            => SubscriptionTypeEnum::MONTHLY_PAID_BASED->value,
+            'type'            => SubscriptionTypeEnum::BOOKING_COST_BASED->value,
         ]);
 
         User::factory(2)
