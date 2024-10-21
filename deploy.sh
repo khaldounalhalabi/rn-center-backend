@@ -1,5 +1,5 @@
 #! /bin/bash
-echo "Deploying ((((DEV)))) branch"
+echo "Deploying ((((PRODUCTION)))) branch"
 
 echo "Pulling ..."
 git reset --hard
@@ -18,5 +18,5 @@ php artisan optimize:clear
 echo "Restarting jobs"
 sudo supervisorctl reread
 sudo supervisorctl update
-sudo supervisorctl start "POM_BACKEND_QUEUE_WORKER_DEV:*"
-sudo supervisorctl restart "POM_BACKEND_QUEUE_WORKER_DEV:*"
+sudo supervisorctl start "POM_BACKEND_QUEUE_WORKER_PRODUCTION:*"
+sudo supervisorctl restart "POM_BACKEND_QUEUE_WORKER_PRODUCTION:*"
