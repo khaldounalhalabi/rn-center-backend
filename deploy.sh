@@ -18,5 +18,5 @@ php artisan optimize:clear
 echo "Restarting jobs"
 sudo supervisorctl reread
 sudo supervisorctl update
-sudo supervisorctl start "laravel-worker:laravel-worker-dev"
-supervisorctl restart "laravel-worker:laravel-worker-dev"
+sudo supervisorctl start "laravel-worker:laravel-worker"
+supervisorctl restart "laravel-worker:laravel-worker"
