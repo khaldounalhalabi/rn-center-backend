@@ -32,13 +32,13 @@ class AppointmentObserver
         if ($appointment->status == AppointmentStatusEnum::CHECKOUT->value) {
             ClinicTransactionRepository::make()
                 ->create([
-                    'amount'         => $appointment->total_cost,
+                    'amount' => $appointment->total_cost,
                     'appointment_id' => $appointment->id,
-                    'type'           => ClinicTransactionTypeEnum::INCOME->value,
-                    'clinic_id'      => $appointment->clinic_id,
-                    'notes'          => "An income from the cost of the appointment with id : $appointment->id , Patient name : {$appointment->customer->user->full_name}",
-                    'status'         => ClinicTransactionStatusEnum::DONE->value,
-                    'date'           => now(),
+                    'type' => ClinicTransactionTypeEnum::INCOME->value,
+                    'clinic_id' => $appointment->clinic_id,
+                    'notes' => "An income from the cost of the appointment with id : $appointment->id , Patient name : {$appointment->customer->user->full_name}",
+                    'status' => ClinicTransactionStatusEnum::DONE->value,
+                    'date' => now(),
                 ]);
         }
 
@@ -48,7 +48,7 @@ class AppointmentObserver
                     'appointment' => $appointment,
                 ])
                 ->setMethod(FirebaseServices::MANY)
-                ->setTo([$appointment->clinic?->user?->id, ...$appointment->clinic?->clinicEmployees?->pluck('user_id')->toArray()])
+                ->setTo([$appointment->clinic?->user?->id, ...$appointment->clinic?->clinicEmployees?->pluck('user_id')?->toArray() ?? []])
                 ->setNotification(NewOnlineAppointmentNotification::class)
                 ->send();
         }
@@ -56,7 +56,7 @@ class AppointmentObserver
         FirebaseServices::make()
             ->setData([])
             ->setMethod(FirebaseServices::MANY)
-            ->setTo([$appointment->clinic?->user?->id, ...$appointment->clinic?->clinicEmployees?->pluck('user_id')->toArray()])
+            ->setTo([$appointment->clinic?->user?->id, ...$appointment->clinic?->clinicEmployees?->pluck('user_id')?->toArray() ?? []])
             ->setNotification(NewAppointmentNotification::class)
             ->send();
 
@@ -91,7 +91,7 @@ class AppointmentObserver
                 ->setData([
                     'appointment_id' => $appointment,
                 ])->setMethod(FirebaseServices::MANY)
-                ->setTo([$appointment->clinic->user->id, ...$appointment->clinic?->clinicEmployees->pluck('user_id')->toArray()])
+                ->setTo([$appointment->clinic->user->id, ...$appointment->clinic?->clinicEmployees?->pluck('user_id')?->toArray() ?? []])
                 ->setNotification(NewOnlineAppointmentNotification::class)
                 ->send();
         }
@@ -186,12 +186,12 @@ class AppointmentObserver
             && $appointment->status == AppointmentStatusEnum::CHECKOUT->value) {
             ClinicTransaction::create([
                 'appointment_id' => $appointment->id,
-                'status'         => ClinicTransactionStatusEnum::DONE->value,
-                'type'           => ClinicTransactionTypeEnum::INCOME->value,
-                'clinic_id'      => $appointment->clinic_id,
-                'date'           => now(),
-                'amount'         => $appointment->total_cost,
-                'notes'          => "An income from the cost of the appointment with id : $appointment->id , Patient name : {$appointment->customer->user->full_name}",
+                'status' => ClinicTransactionStatusEnum::DONE->value,
+                'type' => ClinicTransactionTypeEnum::INCOME->value,
+                'clinic_id' => $appointment->clinic_id,
+                'date' => now(),
+                'amount' => $appointment->total_cost,
+                'notes' => "An income from the cost of the appointment with id : $appointment->id , Patient name : {$appointment->customer->user->full_name}",
             ]);
 
             if ($appointment->type == AppointmentTypeEnum::ONLINE->value) {
@@ -222,7 +222,7 @@ class AppointmentObserver
         FirebaseServices::make()
             ->setData([])
             ->setMethod(FirebaseServices::MANY)
-            ->setTo([$appointment->clinic?->user?->id, ...$appointment->clinic?->clinicEmployees?->pluck('user_id')->toArray()])
+            ->setTo([$appointment->clinic?->user?->id, ...$appointment->clinic?->clinicEmployees?->pluck('user_id')?->toArray() ?? []])
             ->setNotification(BalanceChangeNotification::class)
             ->send();
 
