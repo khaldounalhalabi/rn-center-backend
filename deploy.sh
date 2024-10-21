@@ -1,5 +1,5 @@
 #! /bin/bash
-echo "Heading to project directory"
+echo "Deploying main branch"
 
 echo "Pulling ..."
 git reset --hard
