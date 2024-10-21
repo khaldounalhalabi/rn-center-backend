@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
     {
         User::factory()
             ->withPhoneNumbers()
-            ->withAddress()->create(['email' => 'admin@pom.com', 'password' => '123456789'])
+            ->withAddress()->create(['email' => 'admin@pom.com', 'password' => 'BvgeGL9KDjAz3S'])
             ->assignRole(RolesPermissionEnum::ADMIN['role']);
     }
 }
