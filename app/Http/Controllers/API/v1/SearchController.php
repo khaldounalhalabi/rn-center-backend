@@ -16,7 +16,7 @@ class SearchController extends ApiController
     public function publicSearch()
     {
         $search = request('search', null);
-        if ($search == null || $search == '') {
+        if ($search == null || trim($search) == '') {
             return $this->noData();
         }
         $data = ClinicRepository::make()->globalQuery()
@@ -24,7 +24,7 @@ class SearchController extends ApiController
                 $query->where('tags', 'LIKE', "%$search%");
             })->get()->map(fn(Clinic $clinic) => [
                 'key' => 'clinic',
-                'label' => $clinic->user?->full_name,
+                'label' => $clinic->user?->full_name?->translate(),
                 'url' => '/customer/clinics/' . $clinic->id
             ]);
 
@@ -33,12 +33,12 @@ class SearchController extends ApiController
             ->get()
             ->map(fn(Speciality $spec) => [
                 'key' => 'speciality',
-                'label' => $spec->name,
+                'label' => $spec->name?->translate(),
                 'url' => '/customer/specialities/' . $spec->id
             ]);
 
         return $this->apiResponse(
-            $data->merge($specialities),
+            $data->push(...$specialities),
             self::STATUS_OK,
             __('site.get_successfully')
         );

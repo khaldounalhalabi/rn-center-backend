@@ -11,7 +11,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
- * @property string name
+ * @property \App\Serializers\Translatable name
  * @property string description
  * @property string tags
  */
