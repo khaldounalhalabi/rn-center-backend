@@ -76,7 +76,7 @@ class StatisticsController extends ApiController
 
         $customers = Customer::selectRaw("
             COUNT(*) as total_patients ,
-            SUM(IF(DATE_FORMAT(created_at,'%Y-%M-%D') = $today , 1 , 0)) as today_registered_patients
+            SUM(IF(DATE_FORMAT(created_at,'%Y-%m-%d') = $today , 1 , 0)) as today_registered_patients
         ")->get()->first()->toArray();
         $data[0]->today_registered_patients = $customers['today_registered_patients'];
         $data[0]->total_patients = $customers['total_patients'];
