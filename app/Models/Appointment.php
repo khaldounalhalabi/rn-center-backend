@@ -36,6 +36,7 @@ use JetBrains\PhpStorm\ArrayShape;
  * @property Customer customer
  * @property Clinic   clinic
  * @property Service  service
+ * @property string   appointment_unique_code
  */
 class Appointment extends Model implements ActionsMustBeAuthorized
 {
@@ -68,6 +69,7 @@ class Appointment extends Model implements ActionsMustBeAuthorized
         'appointment_sequence',
         'qr_code',
         'remaining_time',
+        'appointment_unique_code'
     ];
 
     protected $casts = [
@@ -87,6 +89,7 @@ class Appointment extends Model implements ActionsMustBeAuthorized
             'status',
             'device_type',
             'date',
+            'appointment_unique_code',
         ];
     }
 
@@ -104,10 +107,10 @@ class Appointment extends Model implements ActionsMustBeAuthorized
                 'middle_name',
                 'full_name',
             ],
-            'clinic'        => [
+            'clinic' => [
                 'name',
             ],
-            'clinic.user'   => [
+            'clinic.user' => [
                 'first_name',
                 'last_name',
                 'middle_name',
@@ -153,11 +156,11 @@ class Appointment extends Model implements ActionsMustBeAuthorized
             FirebaseServices::make()
                 ->setData([
                     'remaining_time' => $appointment->remaining_time,
-                    'message'        => "Your appointment booked in ({$appointment?->clinic?->name}) clinic in {$appointment?->date?->format('Y-m-d')} has an approximate time of : {$appointment?->remaining_time}",
-                    "message_ar"     => $appointment?->remaining_time . "لديه من الوقت المتوفع " . $appointment?->clinic?->name?->ar . "عند عيادة" . $appointment?->date?->format('Y-m-d') . "موعدك المحجوز في تاريخ",
+                    'message' => "Your appointment booked in ({$appointment?->clinic?->name}) clinic in {$appointment?->date?->format('Y-m-d')} has an approximate time of : {$appointment?->remaining_time}",
+                    "message_ar" => $appointment?->remaining_time . "لديه من الوقت المتوفع " . $appointment?->clinic?->name?->ar . "عند عيادة" . $appointment?->date?->format('Y-m-d') . "موعدك المحجوز في تاريخ",
                     'appointment_id' => $appointment?->id,
-                    'clinic_id'      => $appointment?->clinic_id,
-                    'url'            => '#',
+                    'clinic_id' => $appointment?->clinic_id,
+                    'url' => '#',
                 ])
                 ->setMethod(FirebaseServices::ONE)
                 ->setTo($appointment?->customer?->user)
@@ -223,7 +226,7 @@ class Appointment extends Model implements ActionsMustBeAuthorized
                 'name' => 'date',
             ],
             [
-                'name'     => 'service_id',
+                'name' => 'service_id',
                 'operator' => '=',
             ],
         ];
@@ -238,7 +241,7 @@ class Appointment extends Model implements ActionsMustBeAuthorized
     public function customOrders(): array
     {
         return [
-            'clinic.user.first_name'   => function (Builder $query, $dir) {
+            'clinic.user.first_name' => function (Builder $query, $dir) {
                 return $query->join('clinics', 'clinics.id', '=', 'appointments.clinic_id')
                     ->join('users', function ($join) {
                         $join->on('users.id', '=', 'clinics.user_id');

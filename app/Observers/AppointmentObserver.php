@@ -25,6 +25,20 @@ use Illuminate\Support\Collection;
 class AppointmentObserver
 {
     /**
+     * handle the Appointment "creating" event.
+     * @param Appointment $appointment
+     * @return void
+     */
+    public function creating(Appointment $appointment): void
+    {
+        $code = uniqid();
+        while (AppointmentRepository::make()->codeExists($code)) {
+            $code = uniqid();
+        }
+        $appointment->appointment_unique_code = $code;
+    }
+
+    /**
      * Handle the Appointment "created" event.
      */
     public function created(Appointment $appointment): void

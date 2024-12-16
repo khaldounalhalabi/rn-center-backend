@@ -43,6 +43,7 @@ class AppointmentFactory extends Factory
                 : AppointmentStatusEnum::PENDING->value,
             'device_type' => fake()->word(),
             'appointment_sequence' => fake()->numberBetween(1, 10),
+            'appointment_unique_code' => uniqid(),
         ];
     }
 
