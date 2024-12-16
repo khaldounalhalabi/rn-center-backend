@@ -237,6 +237,55 @@ class Appointment extends Model implements ActionsMustBeAuthorized
         return $this->hasMany(AppointmentLog::class);
     }
 
+    public function lastCheckinLog(): HasOne
+    {
+        return $this->hasOne(AppointmentLog::class)
+            ->ofMany([
+                'happen_in' => 'max',
+            ], function ($query) {
+                $query->where('status', AppointmentStatusEnum::CHECKIN->value);
+            });
+    }
+
+    public function lastBookedLog(): HasOne
+    {
+        return $this->hasOne(AppointmentLog::class)
+            ->ofMany([
+                'happen_in' => 'max',
+            ], function ($query) {
+                $query->where('status', AppointmentStatusEnum::BOOKED->value);
+            });
+    }
+
+    public function lastCheckoutLog(): HasOne
+    {
+        return $this->hasOne(AppointmentLog::class)
+            ->ofMany([
+                'happen_in' => 'max',
+            ], function ($query) {
+                $query->where('status', AppointmentStatusEnum::CHECKOUT->value);
+            });
+    }
+
+    public function lastCancelledLog(): HasOne
+    {
+        return $this->hasOne(AppointmentLog::class)
+            ->ofMany([
+                'happen_in' => 'max',
+            ], function ($query) {
+                $query->where('status', AppointmentStatusEnum::CANCELLED->value);
+            });
+    }
+
+    public function beforeAppointments(): HasMany
+    {
+        return $this->hasMany(Appointment::class, 'clinic_id', 'clinic_id')
+            ->where('date', $this->date->format('Y-m-d'))
+            ->where('appointment_sequence', '<', $this->appointment_sequence)
+            ->where('id', '!=', $this->id)
+            ->whereIn('status', [AppointmentStatusEnum::BOOKED->value, AppointmentStatusEnum::CHECKIN->value]);
+    }
+
     #[ArrayShape(['clinic.user.first_name' => "\Closure", 'customer.user.first_name' => "\Closure"])]
     public function customOrders(): array
     {

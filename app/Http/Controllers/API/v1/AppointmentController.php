@@ -201,4 +201,20 @@ class AppointmentController extends ApiController
 
         return $this->noData();
     }
+
+    public function getByCode($code)
+    {
+        $appointment = $this->appointmentService->getByCode($code, [
+            'lastBookedLog',
+            'lastCheckinLog',
+            'lastCheckoutLog',
+            'lastCancelledLog',
+            ...$this->relations,
+        ], [...$this->countable, 'beforeAppointments']);
+        if ($appointment) {
+            return $this->apiResponse(new AppointmentResource($appointment), self::STATUS_OK, __('site.get_successfully'));
+        }
+
+        return $this->noData();
+    }
 }

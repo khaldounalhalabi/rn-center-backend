@@ -238,8 +238,15 @@ class AppointmentRepository extends BaseRepository
         );
     }
 
-    public function codeExists($uniqueCode): bool
+    public function codeExists(string $uniqueCode): bool
     {
         return Appointment::withoutGlobalScopes()->where('appointment_unique_code', $uniqueCode)->exists();
+    }
+
+    public function getByCode(string $code, array $relations = [], array $countable = []): ?Appointment
+    {
+        return $this->globalQuery()
+            ->where('appointment_unique_code', $code)
+            ->first()?->load($relations)?->loadCount($countable);
     }
 }
