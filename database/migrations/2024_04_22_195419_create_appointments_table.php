@@ -31,6 +31,7 @@ return new class () extends Migration {
             $table->foreignIdFor(Customer::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Clinic::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Service::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->string('appointment_unique_code')->unique()->index();
             $table->timestamps();
             $table->index(['created_at']);
             $table->index(['date']);

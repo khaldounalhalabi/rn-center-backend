@@ -27,7 +27,7 @@ class AppointmentRepository extends BaseRepository
     {
         return parent::orderQueryBy($query, $defaultOrder, [
             'appointment_sequence' => 'asc',
-            'created_at'           => 'desc'
+            'created_at' => 'desc'
         ]);
     }
 
@@ -101,12 +101,12 @@ class AppointmentRepository extends BaseRepository
                     $appointment->updateQuietly($data);
                     AppointmentLog::create([
                         'cancellation_reason' => $data['cancellation_reason'] ?? "",
-                        'status'              => $data['status'] ?? $appointment->status,
-                        'happen_in'           => now(),
-                        'appointment_id'      => $appointment->id,
-                        'actor_id'            => auth()->user()?->id,
-                        'affected_id'         => $data['customer_id'] ?? $appointment->customer_id,
-                        'event'               => "appointment status has been changed to {$data['status']} in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en,
+                        'status' => $data['status'] ?? $appointment->status,
+                        'happen_in' => now(),
+                        'appointment_id' => $appointment->id,
+                        'actor_id' => auth()->user()?->id,
+                        'affected_id' => $data['customer_id'] ?? $appointment->customer_id,
+                        'event' => "appointment status has been changed to {$data['status']} in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en,
                     ]);
                 }
             });
@@ -202,7 +202,7 @@ class AppointmentRepository extends BaseRepository
             ->get()->map(function (Appointment $appointment) {
                 return [
                     'appointment_count' => $appointment->appointment_count,
-                    'date'              => Carbon::parse($appointment->formatted_date)->format('Y-m'),
+                    'date' => Carbon::parse($appointment->formatted_date)->format('Y-m'),
                 ];
             });
     }
@@ -223,7 +223,7 @@ class AppointmentRepository extends BaseRepository
             ->map(function (Appointment $appointment) {
                 return [
                     'appointment_count' => $appointment->appointment_count,
-                    'date'              => Carbon::parse($appointment->formatted_date)->format('Y-m'),
+                    'date' => Carbon::parse($appointment->formatted_date)->format('Y-m'),
                 ];
             });
     }
@@ -236,5 +236,17 @@ class AppointmentRepository extends BaseRepository
                 ->where('date', '>=', now()->format('Y-m-d'))
                 ->where('status', '!=', AppointmentStatusEnum::CANCELLED->value)
         );
+    }
+
+    public function codeExists(string $uniqueCode): bool
+    {
+        return Appointment::withoutGlobalScopes()->where('appointment_unique_code', $uniqueCode)->exists();
+    }
+
+    public function getByCode(string $code, array $relations = [], array $countable = []): ?Appointment
+    {
+        return $this->globalQuery()
+            ->where('appointment_unique_code', $code)
+            ->first()?->load($relations)?->loadCount($countable);
     }
 }

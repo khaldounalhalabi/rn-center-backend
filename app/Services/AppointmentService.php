@@ -72,18 +72,18 @@ class AppointmentService extends BaseService
 
 
         $appointment = $this->repository->update([
-            'status'              => $data['status'],
+            'status' => $data['status'],
             'cancellation_reason' => $data['cancellation_reason'] ?? "",
         ], $appointment, ['customer.user', 'clinic.user']);
 
         AppointmentLogRepository::make()->create([
             'cancellation_reason' => $data['cancellation_reason'] ?? "",
-            'status'              => $data['status'],
-            'happen_in'           => now(),
-            'appointment_id'      => $appointment->id,
-            'actor_id'            => auth()->user()->id,
-            'affected_id'         => $data['customer_id'] ?? $appointment->customer_id,
-            'event'               => "appointment status has been changed to {$data['status']} in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en,
+            'status' => $data['status'],
+            'happen_in' => now(),
+            'appointment_id' => $appointment->id,
+            'actor_id' => auth()->user()->id,
+            'affected_id' => $data['customer_id'] ?? $appointment->customer_id,
+            'event' => "appointment status has been changed to {$data['status']} in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en,
         ]);
 
         return $appointment;
@@ -155,12 +155,12 @@ class AppointmentService extends BaseService
         $appointment = $this->repository->update($data, $appointment, $relationships, $countable);
 
         AppointmentLogRepository::make()->create([
-            'status'         => $appointment->status,
-            'happen_in'      => now(),
+            'status' => $appointment->status,
+            'happen_in' => now(),
             'appointment_id' => $appointment->id,
-            'actor_id'       => auth()->user()->id,
-            'affected_id'    => $appointment->customer_id,
-            'event'          => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en,
+            'actor_id' => auth()->user()->id,
+            'affected_id' => $appointment->customer_id,
+            'event' => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()->full_name->en,
         ]);
         return $appointment;
     }
@@ -235,16 +235,21 @@ class AppointmentService extends BaseService
             $appointment = $this->repository->update($data, $appointment, $relations, $countable);
 
             AppointmentLogRepository::make()->create([
-                'status'         => $appointment->status,
-                'happen_in'      => now(),
+                'status' => $appointment->status,
+                'happen_in' => now(),
                 'appointment_id' => $appointment->id,
-                'actor_id'       => auth()->user()->id,
-                'affected_id'    => $appointment->customer_id,
-                'event'          => "appointment has been cancelled in " . now()->format('Y-m-d H:i:s') . " By The Patient : " . auth()->user()->full_name->en . " With Id : " . auth()?->user()?->customer?->id,
+                'actor_id' => auth()->user()->id,
+                'affected_id' => $appointment->customer_id,
+                'event' => "appointment has been cancelled in " . now()->format('Y-m-d H:i:s') . " By The Patient : " . auth()->user()->full_name->en . " With Id : " . auth()?->user()?->customer?->id,
             ]);
             return $appointment;
         }
 
         return null;
+    }
+
+    public function getByCode(string $code, array $relations = [], array $countable = []): ?Appointment
+    {
+        return $this->repository->getByCode($code, $relations, $countable);
     }
 }
