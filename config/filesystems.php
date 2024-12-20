@@ -41,7 +41,7 @@ return [
             'root'       => storage_path('app/public'),
             'url'        => env('APP_URL') . '/storage',
             'ACL'        => 'public-read',
-//            'visibility' => 'public',
+            'visibility' => 'public',
             'throw'      => false,
         ],
 
