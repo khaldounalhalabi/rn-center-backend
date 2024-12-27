@@ -80,9 +80,9 @@ class AppointmentManager
 
         $this->logAppointment($data, $appointment);
 
-        $patientProfile = PatientProfileRepository::make()->getByClinicAndCustomer($appointment->clinic_id,$appointment->customer_id);
+        $patientProfile = PatientProfileRepository::make()->getByClinicAndCustomer($appointment->clinic_id, $appointment->customer_id);
 
-        if (!$patientProfile){
+        if (!$patientProfile) {
             PatientProfileRepository::make()->create([
                 'clinic_id' => $clinic->id,
                 'customer_id' => $appointment->customer_id,
@@ -206,9 +206,16 @@ class AppointmentManager
 
     private function calculateAppointmentTotalCost(array $data, $servicePrice, $systemOffersTotal, $clinicOffersTotal, Clinic $clinic, ?Appointment $appointment = null)
     {
+        if ((isset($data['is_revision']) && $data['is_revision']) || $appointment?->is_revision) {
+            $appointmentCost = 0;
+            $servicePrice = 0;
+        } else {
+            $appointmentCost = $clinic->appointment_cost;
+        }
+
         return $servicePrice
             + ($data['extra_fees'] ?? ($appointment?->extra_fees ?? 0))
-            + ($clinic->appointment_cost - $systemOffersTotal - $clinicOffersTotal)
+            + ($appointmentCost - $systemOffersTotal - $clinicOffersTotal)
             - ($data['discount'] ?? ($appointment?->discount ?? 0));
     }
 

@@ -32,6 +32,7 @@ return new class () extends Migration {
             $table->foreignIdFor(Clinic::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Service::class)->nullable()->constrained()->cascadeOnDelete();
             $table->string('appointment_unique_code')->unique()->index();
+            $table->boolean('is_revision')->default(false);
             $table->timestamps();
             $table->index(['created_at']);
             $table->index(['date']);

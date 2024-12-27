@@ -29,6 +29,7 @@ class AppointmentResource extends BaseResource
             'appointment_sequence' => $this->appointment_sequence,
             'remaining_time' => $this->remaining_time,
             'appointment_unique_code' => $this->appointment_unique_code,
+            'is_revision' => $this->is_revision,
             $this->mergeWhen($this->relationLoaded('cancelLog'), [
                 'cancellation_reason' => $this->cancelLog?->cancellation_reason
             ], [

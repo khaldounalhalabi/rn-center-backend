@@ -37,6 +37,7 @@ use JetBrains\PhpStorm\ArrayShape;
  * @property Clinic   clinic
  * @property Service  service
  * @property string   appointment_unique_code
+ * @property boolean  is_revision
  */
 class Appointment extends Model implements ActionsMustBeAuthorized
 {
@@ -69,11 +70,13 @@ class Appointment extends Model implements ActionsMustBeAuthorized
         'appointment_sequence',
         'qr_code',
         'remaining_time',
-        'appointment_unique_code'
+        'appointment_unique_code',
+        'is_revision',
     ];
 
     protected $casts = [
         'date' => 'datetime:Y-m-d:',
+        'is_revision' => 'boolean',
     ];
 
     /**

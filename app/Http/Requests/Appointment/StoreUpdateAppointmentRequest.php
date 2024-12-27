@@ -32,47 +32,43 @@ class StoreUpdateAppointmentRequest extends FormRequest
     {
         if (request()->method() == 'POST') {
             return [
-                'customer_id'         => ['required', 'numeric', 'exists:customers,id', new CustomerBelongToClinic($this->input('clinic_id'))],
-                'clinic_id'           => ['required', 'numeric', 'exists:clinics,id'],
-                'note'                => ['nullable', 'string', Rule::excludeIf(fn () => auth()?->user()?->isCustomer())],
-                'service_id'          => ['nullable', 'numeric', 'exists:services,id', Rule::excludeIf(fn () => auth()?->user()?->isCustomer()), new ActiveService()],
-                'extra_fees'          => ['nullable', 'numeric', 'min:0', Rule::excludeIf(fn () => auth()?->user()?->isCustomer())],
-                'discount'            => ['nullable', 'numeric', 'min:0', Rule::excludeIf(fn () => auth()?->user()?->isCustomer())],
-                'type'                => ['required', 'string', 'min:3', 'max:255', Rule::in(AppointmentTypeEnum::getAllValues())],
-                'date'                => ['required', 'date', 'date_format:Y-m-d', 'after_or_equal:today'],
-                'status'              => ['required', 'string', 'min:3', 'max:255', Rule::in(AppointmentStatusEnum::getAllValues())],
-                'device_type'         => ['nullable', 'string', 'min:3', 'max:255'],
-                'cancellation_reason' => ['string', 'nullable', Rule::requiredIf($this->input('status') == AppointmentStatusEnum::CANCELLED->value), Rule::excludeIf(fn () => auth()?->user()?->isCustomer())],
-                'system_offers'       => ['array', 'nullable', Rule::excludeIf(
-                    fn () => auth()->user()?->isClinic() || $this->input('type') == AppointmentTypeEnum::MANUAL->value
+                'customer_id' => ['required', 'numeric', 'exists:customers,id', new CustomerBelongToClinic($this->input('clinic_id'))],
+                'clinic_id' => ['required', 'numeric', 'exists:clinics,id'],
+                'note' => ['nullable', 'string', Rule::excludeIf(fn() => auth()?->user()?->isCustomer())],
+                'service_id' => ['nullable', 'numeric', 'exists:services,id', Rule::excludeIf(fn() => auth()?->user()?->isCustomer()), new ActiveService()],
+                'extra_fees' => ['nullable', 'numeric', 'min:0', Rule::excludeIf(fn() => auth()?->user()?->isCustomer())],
+                'discount' => ['nullable', 'numeric', 'min:0', Rule::excludeIf(fn() => auth()?->user()?->isCustomer())],
+                'type' => ['required', 'string', 'min:3', 'max:255', Rule::in(AppointmentTypeEnum::getAllValues())],
+                'date' => ['required', 'date', 'date_format:Y-m-d', 'after_or_equal:today'],
+                'status' => ['required', 'string', 'min:3', 'max:255', Rule::in(AppointmentStatusEnum::getAllValues())],
+                'device_type' => ['nullable', 'string', 'min:3', 'max:255'],
+                'cancellation_reason' => ['string', 'nullable', Rule::requiredIf($this->input('status') == AppointmentStatusEnum::CANCELLED->value), Rule::excludeIf(fn() => auth()?->user()?->isCustomer())],
+                'system_offers' => ['array', 'nullable', Rule::excludeIf(
+                    fn() => auth()->user()?->isClinic() || $this->input('type') == AppointmentTypeEnum::MANUAL->value
                 )],
-                'system_offers.*'     => ['numeric', 'exists:system_offers,id', new ValidSystemOffer($this->input('customer_id')), new SystemOfferBelongToClinic($this->input('clinic_id'))],
-                'offers'              => ['array', 'nullable', Rule::excludeIf(fn () => auth()->user()?->isCustomer())],
-                'offers.*'            => ['numeric', 'exists:offers,id', new ClinicOfferBelongToClinic($this->input('clinic_id'))],
+                'system_offers.*' => ['numeric', 'exists:system_offers,id', new ValidSystemOffer($this->input('customer_id')), new SystemOfferBelongToClinic($this->input('clinic_id'))],
+                'offers' => ['array', 'nullable', Rule::excludeIf(fn() => auth()->user()?->isCustomer())],
+                'offers.*' => ['numeric', 'exists:offers,id', new ClinicOfferBelongToClinic($this->input('clinic_id'))],
+                'is_revision' => ['boolean', 'nullable']
             ];
         }
 
         $appointment = Appointment::find(request()->route('appointment'));
 
         return [
-            'note'                => ['nullable', 'string'],
-            'service_id'          => ['nullable', 'numeric', 'exists:services,id', new ActiveService()],
-            'extra_fees'          => ['nullable', 'numeric', 'min:0'],
-            'discount'            => ['nullable', 'numeric', 'min:0'],
-            'status'              => ['nullable', 'string', 'min:3', 'max:255', Rule::in(AppointmentStatusEnum::getAllValues())],
+            'note' => ['nullable', 'string'],
+            'service_id' => ['nullable', 'numeric', 'exists:services,id', new ActiveService()],
+            'extra_fees' => ['nullable', 'numeric', 'min:0'],
+            'discount' => ['nullable', 'numeric', 'min:0'],
+            'status' => ['nullable', 'string', 'min:3', 'max:255', Rule::in(AppointmentStatusEnum::getAllValues())],
             'cancellation_reason' => 'string|nullable|' . Rule::requiredIf($this->input('status') == AppointmentStatusEnum::CANCELLED->value),
 
-            'offers'   => ['array', 'nullable', Rule::excludeIf(fn () => auth()->user()?->isCustomer())],
+            'offers' => ['array', 'nullable', Rule::excludeIf(fn() => auth()->user()?->isCustomer())],
             'offers.*' => [
                 'numeric',
                 'exists:offers,id',
                 new ClinicOfferBelongToClinic($appointment?->clinic_id),
             ],
-
-//            'system_offers'       => ['array', 'nullable', Rule::excludeIf(
-//                fn () => auth()->user()?->isClinic() || $this->input('type') == AppointmentTypeEnum::MANUAL->value
-//            )],
-//            'system_offers.*'     => ['numeric', 'exists:system_offers,id', new ValidSystemOffer($this->input('customer_id')), new SystemOfferBelongToClinic($this->input('clinic_id'))],
         ];
     }
 
@@ -92,14 +88,14 @@ class StoreUpdateAppointmentRequest extends FormRequest
 
         if (auth()->user()?->isClinic()) {
             $this->merge([
-                'clinic_id'     => auth()->user()?->getClinicId(),
-                'type'          => AppointmentTypeEnum::MANUAL->value,
+                'clinic_id' => auth()->user()?->getClinicId(),
+                'type' => AppointmentTypeEnum::MANUAL->value,
                 'system_offers' => null,
             ]);
 
             if (request()->method() == "POST" && auth()?->user()?->isClinic()) {
                 $this->merge([
-                    'status'              => AppointmentStatusEnum::BOOKED->value,
+                    'status' => AppointmentStatusEnum::BOOKED->value,
                     'cancellation_reason' => null,
                 ]);
             }
@@ -107,8 +103,8 @@ class StoreUpdateAppointmentRequest extends FormRequest
 
         if (auth()?->user()?->isCustomer()) {
             $this->merge([
-                'type'        => AppointmentTypeEnum::ONLINE->value,
-                'status'      => AppointmentStatusEnum::PENDING->value,
+                'type' => AppointmentTypeEnum::ONLINE->value,
+                'status' => AppointmentStatusEnum::PENDING->value,
                 'customer_id' => auth()?->user()?->customer?->id,
                 'device_type' => str_replace(['Unknown-', '-Unknown'], "", Browser::deviceType() . '-' .
                     Browser::deviceFamily() . '-' .
