@@ -19,3 +19,4 @@ yarn-error.log
 /.vscode
 deploy-pom-back.sh
 scripts.sh
+deploy.sh
