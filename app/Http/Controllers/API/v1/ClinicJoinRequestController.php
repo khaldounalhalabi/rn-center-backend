@@ -47,7 +47,7 @@ class ClinicJoinRequestController extends ApiController
         /** @var ClinicJoinRequest|null $item */
         $item = $this->clinicJoinRequestService->store($request->validated(), $this->relations);
         if ($item) {
-            return $this->apiResponse(new ClinicJoinRequestResource($item), self::STATUS_OK, __('site.stored_successfully'));
+            return $this->apiResponse(new ClinicJoinRequestResource($item), self::STATUS_OK, __('site.join_request_success'));
         }
 
         return $this->apiResponse(null, self::STATUS_NOT_FOUND, __('site.something_went_wrong'));

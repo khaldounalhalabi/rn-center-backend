@@ -49,7 +49,7 @@ class StoreUpdateAppointmentRequest extends FormRequest
                 'system_offers.*' => ['numeric', 'exists:system_offers,id', new ValidSystemOffer($this->input('customer_id')), new SystemOfferBelongToClinic($this->input('clinic_id'))],
                 'offers' => ['array', 'nullable', Rule::excludeIf(fn() => auth()->user()?->isCustomer())],
                 'offers.*' => ['numeric', 'exists:offers,id', new ClinicOfferBelongToClinic($this->input('clinic_id'))],
-                'is_revision' => ['boolean', 'required']
+                'is_revision' => ['required', 'bool']
             ];
         }
 

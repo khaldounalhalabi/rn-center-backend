@@ -50,4 +50,5 @@ return [
     'expired_subscription' => "Your Subscription Has Been Expired",
     'un_verified_phone'    => "Your phone number is not verified",
     'must_agree_contract'  => 'Clinic Owner Must Agree On The Contract',
+    'join_request_success' => 'Your information has been submitted, our team will contact you soon.'
 ];
