@@ -19,21 +19,21 @@ class DatabaseSeeder extends Seeder
             AvailableDepartmentSeeder::class,
             HospitalSeeder::class,
             UserSeeder::class,
+            SettingSeeder::class,
         ]);
 
         //fake data
-        $this->call([
-            SpecialitySeeder::class,
-            ServiceCategorySeeder::class,
-            ServiceSeeder::class,
-            AppointmentSeeder::class,
-            MedicineSeeder::class,
-            PrescriptionSeeder::class,
-            EnquirySeeder::class,
-            BloodDonationRequestSeeder::class,
-            SettingSeeder::class,
-            ReviewSeeder::class,
-            ClinicJoinRequestSeeder::class,
-        ]);
+//        $this->call([
+//            SpecialitySeeder::class,
+//            ServiceCategorySeeder::class,
+//            ServiceSeeder::class,
+//            AppointmentSeeder::class,
+//            MedicineSeeder::class,
+//            PrescriptionSeeder::class,
+//            EnquirySeeder::class,
+//            BloodDonationRequestSeeder::class,
+//            ReviewSeeder::class,
+//            ClinicJoinRequestSeeder::class,
+//        ]);
     }
 }
