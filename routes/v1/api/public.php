@@ -58,7 +58,6 @@ Route::get('/clinics/{clinicId}/offers', [v1\OfferController::class, 'getByClini
 Route::get('/offers/{offerId}', [v1\OfferController::class, 'show'])->name('offers.show');
 
 Route::get('/specialities/{specialityId}/clinics', [v1\ClinicController::class, 'getOnlineBySpeciality'])->name('specialities.clinics');
-Route::get('/clinics', [v1\ClinicController::class, 'featured'])->name('clinics.featured');
 Route::get('/clinics/{clinicId}', [v1\ClinicController::class, 'show'])->name('clinics.show');
 
 Route::get('/check-role', [v1\BaseAuthController::class, 'checkRole'])->name('check-role');

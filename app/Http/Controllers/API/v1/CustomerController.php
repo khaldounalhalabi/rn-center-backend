@@ -15,7 +15,6 @@ class CustomerController extends ApiController
 
     public function __construct()
     {
-
         $this->customerService = CustomerService::make();
 
         if (auth()->user()?->isClinic()) {

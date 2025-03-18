@@ -15,10 +15,6 @@ Route::get('notifications/unread/count', [v1\NotificationController::class, 'unr
 Route::get('/notifications/{notificationId}/mark-as-read', [v1\NotificationController::class, 'markAsRead'])->name('notifications');
 Route::get('/notifications/mark-all-as-read', [v1\NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
 
-
-Route::get('/clinics/{clinicId}/toggle-follow', [v1\FollowerController::class, 'toggleFollow'])->name('follower.follow.toggle');
-Route::get('/followed', [v1\FollowerController::class, 'getFollowedClinics'])->name('followed');
-
 Route::apiResource('reviews', v1\ReviewController::class)
     ->except(['show', 'index'])->names('reviews');
 

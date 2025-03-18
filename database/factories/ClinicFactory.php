@@ -9,7 +9,6 @@ use App\Models\Clinic;
 use App\Models\ClinicEmployee;
 use App\Models\ClinicHoliday;
 use App\Models\ClinicTransaction;
-use App\Models\Follower;
 use App\Models\Medicine;
 use App\Models\Offer;
 use App\Models\PatientProfile;
@@ -26,6 +25,7 @@ use App\Traits\Translations;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Http\File;
+use Random\RandomException;
 
 /**
  * @extends Factory
@@ -38,18 +38,19 @@ class ClinicFactory extends Factory
     /**
      * Define the model's default state.
      * @return array<string, mixed>
+     * @throws RandomException
      */
     public function definition(): array
     {
         return [
-            'name'                         => $this->fakeTranslation('name'),
-            'appointment_cost'             => fake()->numberBetween(1, 100),
-            'user_id'                      => User::factory()->withPhoneNumbers()->withAddress(),
-            'working_start_year'           => fake()->date(),
-            'max_appointments'             => fake()->numberBetween(1, 10),
-            'appointment_day_range'        => 7,
-            'about_us'                     => fake()->sentence,
-            'experience'                   => fake()->sentence,
+            'name' => $this->fakeTranslation('name'),
+            'appointment_cost' => fake()->numberBetween(1, 100),
+            'user_id' => User::factory()->withPhoneNumbers()->withAddress(),
+            'working_start_year' => fake()->date(),
+            'max_appointments' => fake()->numberBetween(1, 10),
+            'appointment_day_range' => 7,
+            'about_us' => fake()->sentence,
+            'experience' => fake()->sentence,
             'approximate_appointment_time' => random_int(1, 30),
         ];
     }
@@ -89,10 +90,10 @@ class ClinicFactory extends Factory
         return $this->afterCreating(function (Clinic $clinic) {
             foreach (WeekDayEnum::getAllValues() as $day) {
                 Schedule::create([
-                    'schedulable_id'   => $clinic->id,
-                    'day_of_week'      => $day,
-                    'start_time'       => Carbon::parse('09:00'),
-                    'end_time'         => Carbon::parse('21:00'),
+                    'schedulable_id' => $clinic->id,
+                    'day_of_week' => $day,
+                    'start_time' => Carbon::parse('09:00'),
+                    'end_time' => Carbon::parse('21:00'),
                     'schedulable_type' => Clinic::class,
                 ]);
             }
@@ -152,11 +153,6 @@ class ClinicFactory extends Factory
     public function withAppointmentDeductions($count = 1): ClinicFactory
     {
         return $this->has(AppointmentDeduction::factory($count));
-    }
-
-    public function withFollowers($count = 1): ClinicFactory
-    {
-        return $this->has(Follower::factory($count));
     }
 
     public function withReviews($count = 1): ClinicFactory

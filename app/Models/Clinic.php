@@ -36,18 +36,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
     use InteractsWithMedia;
     use Translations;
 
-    protected static function booted(): void
-    {
-        static::addGlobalScope('available_online', function (Builder $builder) {
-            if (!Auth::hasUser() || (Auth::hasUser() && Auth::user()->isCustomer())) {
-                $builder->whereHas('clinicSubscriptions', function (Builder|ClinicSubscription $b) {
-                    $b->where('type', SubscriptionTypeEnum::BOOKING_COST_BASED->value)
-                        ->active();
-                });
-            }
-        });
-    }
-
     public static function authorizedActions(): array
     {
         return [
@@ -430,11 +418,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
             'balanceable_type',
             'balanceable_id'
         )->latestOfMany();
-    }
-
-    public function followers(): HasMany
-    {
-        return $this->hasMany(Follower::class);
     }
 
     public function reviews(): HasMany

@@ -136,11 +136,6 @@ class Customer extends Model implements ActionsMustBeAuthorized
         return $this->belongsToMany(SystemOffer::class, 'customer_system_offers');
     }
 
-    public function followers(): HasMany
-    {
-        return $this->hasMany(Follower::class);
-    }
-
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);

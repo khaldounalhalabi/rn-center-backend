@@ -44,18 +44,6 @@ class ClinicRepository extends BaseRepository
         );
     }
 
-    public function getClinicsOrderedByFeatured(array $relations = [], array $countable = []): ?array
-    {
-        return $this->paginateQuery(
-            $this->globalQuery($relations, $countable, false)
-                ->select('*', DB::raw('(COALESCE(avg_reviews.avg_rate, 0) + COALESCE(followers_count, 0))/2 AS score'))
-                ->leftJoin(DB::raw('(SELECT clinic_id, AVG(rate) AS avg_rate FROM reviews GROUP BY clinic_id) as avg_reviews'), 'clinics.id', '=', 'avg_reviews.clinic_id')
-                ->leftJoin(DB::raw('(SELECT clinic_id, COUNT(customer_id) AS followers_count FROM followers GROUP BY clinic_id) as followers'), 'clinics.id', '=', 'followers.clinic_id')
-                ->orderBy('score', 'desc')
-                ->online()
-        );
-    }
-
     public function getOnlineClinicsBySpeciality($specialityId, array $relations = [], array $countable = []): ?array
     {
         return $this->paginateQuery(
