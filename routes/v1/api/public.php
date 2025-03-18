@@ -63,10 +63,6 @@ Route::get('/check-role', [v1\BaseAuthController::class, 'checkRole'])->name('ch
 
 Route::delete('/media/{mediaId}', [v1\MediaController::class, 'delete'])->name('media.delete');
 
-Route::apiResource('blood-donations', v1\BloodDonationRequestController::class)
-    ->except(['update', 'destroy'])
-    ->names('blood.donations.request');
-
 Route::get('/statistics', [v1\StatisticsController::class, 'landingPage'])->name('statistics.landing.page');
 
 Route::post('clinic-join-requests', [v1\ClinicJoinRequestController::class, 'store'])->name('clinic.join.requests.store');

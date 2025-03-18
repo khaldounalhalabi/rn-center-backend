@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Address;
-use App\Models\BloodDonationRequest;
 use App\Models\ClinicJoinRequest;
 use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -29,11 +28,6 @@ class CityFactory extends Factory
     public function withAddresses($count = 1): CityFactory
     {
         return $this->has(Address::factory($count));
-    }
-
-    public function withBloodDonationRequests($count = 1): CityFactory
-    {
-        return $this->has(BloodDonationRequest::factory($count));
     }
 
     public function withClinicJoinRequests($count = 1): CityFactory

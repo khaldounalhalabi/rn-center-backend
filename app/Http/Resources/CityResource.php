@@ -18,7 +18,6 @@ class CityResource extends BaseResource
             'id' => $this->id,
             'name' => $this->name,
             'addresses' => AddressResource::collection($this->whenLoaded('addresses')),
-            'bloodDonationRequests' => BloodDonationRequestResource::collection($this->whenLoaded('bloodDonationRequests')),
         ];
     }
 }
