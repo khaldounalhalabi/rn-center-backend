@@ -420,11 +420,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
         )->latestOfMany();
     }
 
-    public function reviews(): HasMany
-    {
-        return $this->hasMany(Review::class);
-    }
-
     public function scopeOnline(Builder $query): Builder
     {
         return $query->whereHas('clinicSubscriptions', function (Builder|ClinicSubscription $query) {

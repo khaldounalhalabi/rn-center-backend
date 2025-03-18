@@ -47,12 +47,9 @@ class Customer extends Model implements ActionsMustBeAuthorized
     public static function relationsSearchableArray(): array
     {
         return [
-            'user'    => [
+            'user' => [
                 'email',
                 'full_name',
-            ],
-            'reviews' => [
-                'review',
             ],
         ];
     }
@@ -134,11 +131,6 @@ class Customer extends Model implements ActionsMustBeAuthorized
     public function systemOffers(): BelongsToMany
     {
         return $this->belongsToMany(SystemOffer::class, 'customer_system_offers');
-    }
-
-    public function reviews(): HasMany
-    {
-        return $this->hasMany(Review::class);
     }
 
     public function validAppointments(): HasMany

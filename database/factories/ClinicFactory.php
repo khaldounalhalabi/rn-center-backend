@@ -13,7 +13,6 @@ use App\Models\Medicine;
 use App\Models\Offer;
 use App\Models\PatientProfile;
 use App\Models\Prescription;
-use App\Models\Review;
 use App\Models\Schedule;
 use App\Models\Service;
 use App\Models\Speciality;
@@ -151,10 +150,5 @@ class ClinicFactory extends Factory
     public function withAppointmentDeductions($count = 1): ClinicFactory
     {
         return $this->has(AppointmentDeduction::factory($count));
-    }
-
-    public function withReviews($count = 1): ClinicFactory
-    {
-        return $this->has(Review::factory($count));
     }
 }

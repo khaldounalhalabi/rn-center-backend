@@ -130,7 +130,6 @@ Route::apiResource('settings', v1\SettingController::class)
     ->only(['index', 'update', 'show'])
     ->names('settings');
 
-Route::get('clinics/{clinicId}/reviews', [v1\ReviewController::class, 'getByClinic'])->name('clinics.reviews');
 
 Route::get('/statistics/index', [v1\StatisticsController::class, 'adminStatistics'])->name('statistics.index');
 

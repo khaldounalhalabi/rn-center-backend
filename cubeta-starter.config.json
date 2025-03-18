@@ -1489,51 +1489,6 @@
             "version": "v1"
         },
         {
-            "model_name": "Review",
-            "table_name": "reviews",
-            "attributes": [
-                {
-                    "name": "clinic_id",
-                    "type": "key",
-                    "nullable": false,
-                    "unique": false
-                },
-                {
-                    "name": "customer_id",
-                    "type": "key",
-                    "nullable": false,
-                    "unique": false
-                },
-                {
-                    "name": "rate",
-                    "type": "integer",
-                    "nullable": false,
-                    "unique": false
-                },
-                {
-                    "name": "review",
-                    "type": "string",
-                    "nullable": true,
-                    "unique": false
-                }
-            ],
-            "relations": {
-                "belongsTo": [
-                    {
-                        "type": "belongsTo",
-                        "model_name": "Clinic",
-                        "key": "clinic_id"
-                    },
-                    {
-                        "type": "belongsTo",
-                        "model_name": "Customer",
-                        "key": "customer_id"
-                    }
-                ]
-            },
-            "version": "v1"
-        },
-        {
             "model_name": "Category",
             "table_name": "categories",
             "attributes": [],

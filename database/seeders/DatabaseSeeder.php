@@ -32,7 +32,6 @@ class DatabaseSeeder extends Seeder
 //            PrescriptionSeeder::class,
 //            EnquirySeeder::class,
 //            BloodDonationRequestSeeder::class,
-//            ReviewSeeder::class,
 //            ClinicJoinRequestSeeder::class,
 //        ]);
     }

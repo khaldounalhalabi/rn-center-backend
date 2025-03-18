@@ -41,11 +41,7 @@ class ClinicResource extends BaseResource
             'work_gallery'                 => MediaResource::collection($this->whenLoaded('media')),
             'offers'                       => OfferResource::collection($this->whenLoaded('offers')),
             'systemOffers'                 => SystemOfferResource::collection($this->whenLoaded('systemOffers')),
-            'reviews'                      => ReviewResource::collection($this->whenLoaded('reviews')),
-            $this->mergeWhen($this->relationLoaded('reviews'), [
-                'rate' => $this->reviews->count() > 0 ? round($this->reviews->sum('rate') / $this->reviews->count(), 1) : 0,
-            ]),
-            
+
             $this->mergeWhen(auth()?->user()?->isAdmin() || auth()?->user()?->isClinic(), [
                 'total_appointments'          => $this->whenCounted('appointments'),
                 'today_appointments_count'    => $this->whenCounted('todayAppointments'),

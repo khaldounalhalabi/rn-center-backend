@@ -15,9 +15,6 @@ Route::get('notifications/unread/count', [v1\NotificationController::class, 'unr
 Route::get('/notifications/{notificationId}/mark-as-read', [v1\NotificationController::class, 'markAsRead'])->name('notifications');
 Route::get('/notifications/mark-all-as-read', [v1\NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
 
-Route::apiResource('reviews', v1\ReviewController::class)
-    ->except(['show', 'index'])->names('reviews');
-
 Route::get('/appointments/today', [v1\AppointmentController::class, 'getCustomerTodayAppointments'])
     ->name('appointments.today');
 Route::get('/appointments/{appointmentId}/cancel', [v1\AppointmentController::class, 'customerCancelAppointment'])->name('appointments.cancel');
