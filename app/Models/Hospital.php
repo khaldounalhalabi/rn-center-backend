@@ -79,11 +79,6 @@ class Hospital extends Model implements HasMedia
         ];
     }
 
-    public function availableDepartments(): BelongsToMany
-    {
-        return $this->belongsToMany(AvailableDepartment::class, 'department_hospitals');
-    }
-
     public function schedules(): MorphMany
     {
         return $this->morphMany(Schedule::class, 'schedulable');

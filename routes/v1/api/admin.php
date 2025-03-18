@@ -42,8 +42,6 @@ Route::apiResource('/hospitals', v1\HospitalController::class)->names('hospitals
 
 Route::apiResource('/phone-numbers', v1\PhoneNumberController::class)->names('phone.numbers');
 
-Route::apiResource('/available-departments', v1\AvailableDepartmentController::class)->names('available.departments');
-
 Route::apiResource('/specialities', v1\SpecialityController::class)->names('specialities');
 
 Route::apiResource('/addresses', v1\AddressController::class)->names('addresses');

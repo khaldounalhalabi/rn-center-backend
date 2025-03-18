@@ -33,7 +33,6 @@ class HospitalFactory extends Factory
     public function allRelations(): HospitalFactory
     {
         return $this->withMedia()
-            ->withAvailableDepartments()
             ->withPhoneNumbers()
             ->withAddress();
     }
@@ -51,11 +50,6 @@ class HospitalFactory extends Factory
     public function withPhoneNumbers($count = 1): HospitalFactory
     {
         return $this->has(PhoneNumber::factory($count), 'phones');
-    }
-
-    public function withAvailableDepartments($count = 1): HospitalFactory
-    {
-        return $this->has(AvailableDepartment::factory($count), 'availableDepartments');
     }
 
     public function withMedia(): HospitalFactory

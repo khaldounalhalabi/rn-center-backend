@@ -15,7 +15,6 @@ return new class extends Migration {
         Schema::create('department_hospitals', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Hospital::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(AvailableDepartment::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
             $table->index(['created_at']);
         });

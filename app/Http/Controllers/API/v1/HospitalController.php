@@ -17,7 +17,7 @@ class HospitalController extends ApiController
         $this->hospitalService = HospitalService::make();
 
         // place the relations you want to return them within the response
-        $this->relations = ['availableDepartments', 'phones', 'media', 'address', 'address.city'];
+        $this->relations = ['phones', 'media', 'address', 'address.city'];
     }
 
     public function getAll()
