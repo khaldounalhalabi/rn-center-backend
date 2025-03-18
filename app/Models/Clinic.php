@@ -53,7 +53,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
         'about_us',
         'experience',
         'user_id',
-        'hospital_id',
         'status',
         'approximate_appointment_time',
         'agreed_on_contract'
@@ -185,11 +184,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
     public function specialities(): BelongsToMany
     {
         return $this->belongsToMany(Speciality::class, 'clinic_specialities');
-    }
-
-    public function hospital(): BelongsTo
-    {
-        return $this->belongsTo(Hospital::class);
     }
 
     public function services(): HasMany

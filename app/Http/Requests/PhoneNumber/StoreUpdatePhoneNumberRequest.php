@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\PhoneNumber;
 
-use App\Models\Hospital;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -31,10 +30,10 @@ class StoreUpdatePhoneNumberRequest extends FormRequest
         }
 
         return [
-            'phone'          => 'nullable|string|max:255|min:6|unique:phone_numbers,phone,' . request()->route('phone_number'),
-            'label'          => 'string|nullable|min:3',
-            'phoneable_type' => 'required|string' . Rule::in([User::class, Hospital::class]),
-            'phoneable_id'   => 'required|numeric',
+            'phone' => 'nullable|string|max:255|min:6|unique:phone_numbers,phone,' . request()->route('phone_number'),
+            'label' => 'string|nullable|min:3',
+            'phoneable_type' => 'required|string' . Rule::in([User::class]),
+            'phoneable_id' => 'required|numeric',
         ];
     }
 }

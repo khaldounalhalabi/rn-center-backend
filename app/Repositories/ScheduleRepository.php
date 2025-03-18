@@ -3,10 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\Clinic;
-use App\Models\Hospital;
 use App\Models\Schedule;
 use App\Repositories\Contracts\BaseRepository;
-
 use Illuminate\Database\Eloquent\Collection;
 
 /**
@@ -42,8 +40,8 @@ class ScheduleRepository extends BaseRepository
     }
 
     /**
-     * @param int                           $schedulableId
-     * @param class-string<Clinic|Hospital> $schedulableType
+     * @param int                  $schedulableId
+     * @param class-string<Clinic> $schedulableType
      * @return bool|null
      */
     public function deleteAll(int $schedulableId, string $schedulableType): ?bool

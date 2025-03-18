@@ -3,7 +3,6 @@
 namespace App\Rules;
 
 use App\Models\Clinic;
-use App\Models\Hospital;
 use App\Models\Schedule;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -21,7 +20,7 @@ class UniqueSchedule implements ValidationRule
         $this->data = $data;
         if (isset($data['schedule_id'])) {
             $oldSchedule = Schedule::find($data['schedule_id']);
-            $this->data['schedulable_id'] = $data['clinic_id'] ?? $data['hospital_id'] ?? $oldSchedule->schedulable_id;
+            $this->data['schedulable_id'] = $data['clinic_id'] ?? $oldSchedule->schedulable_id;
             $this->data['schedulable_type'] = $oldSchedule->schedulable_type;
             $this->data['start_time'] = $data['start_time'] ?? $oldSchedule->start_time;
             $this->data['end_time'] = $data['end_time'] ?? $oldSchedule->end_time;
@@ -30,9 +29,6 @@ class UniqueSchedule implements ValidationRule
         } elseif (isset($data['clinic_id'])) {
             $this->data['schedulable_type'] = Clinic::class;
             $this->data['schedulable_id'] = $data['clinic_id'];
-        } elseif (isset($data['hospital_id'])) {
-            $this->data['schedulable_type'] = Hospital::class;
-            $this->data['schedulable_id'] = $data['hospital_id'];
         } else $this->data = null;
     }
 

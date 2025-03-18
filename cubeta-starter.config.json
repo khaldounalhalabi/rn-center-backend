@@ -283,12 +283,6 @@
                     "type": "time",
                     "nullable": false,
                     "unique": false
-                },
-                {
-                    "name": "hospital_id",
-                    "type": "foreign_key",
-                    "nullable": false,
-                    "unique": false
                 }
             ],
             "relations": {
@@ -297,55 +291,6 @@
                         "type": "belongsTo",
                         "model_name": "Clinic",
                         "key": "clinic_id"
-                    },
-                    {
-                        "type": "belongsTo",
-                        "model_name": "Hospital",
-                        "key": "hospital_id"
-                    }
-                ]
-            }
-        },
-        {
-            "model_name": "Hospital",
-            "table_name": "hospitals",
-            "attributes": [
-                {
-                    "name": "name",
-                    "type": "translatable",
-                    "nullable": false,
-                    "unique": false
-                },
-                {
-                    "name": "phone_numbers",
-                    "type": "json",
-                    "nullable": false,
-                    "unique": false
-                },
-                {
-                    "name": "images",
-                    "type": "file",
-                    "nullable": false,
-                    "unique": false
-                }
-            ],
-            "relations": {
-                "hasOne": [
-                    {
-                        "type": "hasOne",
-                        "model_name": "Address"
-                    }
-                ],
-                "hasMany": [
-                    {
-                        "type": "hasMany",
-                        "model_name": "PhoneNumber"
-                    }
-                ],
-                "manyToMany": [
-                    {
-                        "type": "hasMany",
-                        "model_name": "AvailableDepartment"
                     }
                 ]
             }
@@ -365,12 +310,6 @@
                     "type": "foreign_key",
                     "nullable": false,
                     "unique": false
-                },
-                {
-                    "name": "hospital_id",
-                    "type": "foreign_key",
-                    "nullable": false,
-                    "unique": false
                 }
             ],
             "relations": {
@@ -379,44 +318,6 @@
                         "type": "belongsTo",
                         "model_name": "User",
                         "key": "user_id"
-                    },
-                    {
-                        "type": "belongsTo",
-                        "model_name": "Hospital",
-                        "key": "hospital_id"
-                    }
-                ]
-            }
-        },
-        {
-            "model_name": "AvailableDepartment",
-            "table_name": "available_departments",
-            "attributes": [
-                {
-                    "name": "name",
-                    "type": "translatable",
-                    "nullable": false,
-                    "unique": false
-                },
-                {
-                    "name": "description",
-                    "type": "translatable",
-                    "nullable": false,
-                    "unique": false
-                },
-                {
-                    "name": "hospital_id",
-                    "type": "foreign_key",
-                    "nullable": false,
-                    "unique": false
-                }
-            ],
-            "relations": {
-                "belongsTo": [
-                    {
-                        "type": "belongsTo",
-                        "model_name": "Hospital",
-                        "key": "hospital_id"
                     }
                 ]
             }

@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Enums\WeekDayEnum;
 use App\Models\Clinic;
-use App\Models\Hospital;
 use App\Models\Schedule;
 use App\Repositories\ScheduleRepository;
 use App\Services\Contracts\BaseService;
@@ -44,9 +43,6 @@ class ScheduleService extends BaseService
         if (isset($data['clinic_id'])) {
             $data['schedulable_id'] = $data['clinic_id'];
             $data['schedulable_type'] = Clinic::class;
-        } elseif (isset($data['hospital_id'])) {
-            $data['schedulable_id'] = $data['hospital_id'];
-            $data['schedulable_type'] = Hospital::class;
         } else return false;
 
         $this->repository->deleteAll($data['schedulable_id'], $data['schedulable_type']);
@@ -55,14 +51,14 @@ class ScheduleService extends BaseService
 
         foreach ($data['schedules'] as $schedule) {
             $schedules->push([
-                'day_of_week'      => $schedule['day_of_week'],
-                'start_time'       => $schedule['start_time'],
-                'end_time'         => $schedule['end_time'],
-                'schedulable_id'   => $data['schedulable_id'],
+                'day_of_week' => $schedule['day_of_week'],
+                'start_time' => $schedule['start_time'],
+                'end_time' => $schedule['end_time'],
+                'schedulable_id' => $data['schedulable_id'],
                 'schedulable_type' => $data['schedulable_type'],
-                'appointment_gap'  => $data['appointment_gap'] ?? 10,
-                'created_at'       => now()->format('Y-m-d H:i:s'),
-                'updated_at'       => now()->format('Y-m-d H:i:s')
+                'appointment_gap' => $data['appointment_gap'] ?? 10,
+                'created_at' => now()->format('Y-m-d H:i:s'),
+                'updated_at' => now()->format('Y-m-d H:i:s')
             ]);
         }
 
@@ -88,14 +84,14 @@ class ScheduleService extends BaseService
 
         foreach (WeekDayEnum::getAllValues() as $day) {
             $schedules->push([
-                'day_of_week'      => $day,
-                'start_time'       => "09:00",
-                'end_time'         => "21:00",
-                'schedulable_id'   => $clinicId,
+                'day_of_week' => $day,
+                'start_time' => "09:00",
+                'end_time' => "21:00",
+                'schedulable_id' => $clinicId,
                 'schedulable_type' => Clinic::class,
-                'appointment_gap'  => 10,
-                'created_at'       => now()->format('Y-m-d H:i:s'),
-                'updated_at'       => now()->format('Y-m-d H:i:s')
+                'appointment_gap' => 10,
+                'created_at' => now()->format('Y-m-d H:i:s'),
+                'updated_at' => now()->format('Y-m-d H:i:s')
             ]);
         }
 

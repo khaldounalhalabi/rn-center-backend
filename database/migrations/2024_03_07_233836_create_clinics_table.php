@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Hospital;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -24,7 +23,6 @@ return new class () extends Migration {
             $table->text('experience')->nullable();
             $table->enum("status", \App\Enums\ClinicStatusEnum::getAllValues())->default(\App\Enums\ClinicStatusEnum::ACTIVE->value);
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Hospital::class)->nullable()->constrained();
             $table->boolean('agreed_on_contract')->default(false);
             $table->timestamps();
             $table->index(['created_at']);

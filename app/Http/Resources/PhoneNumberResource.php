@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Hospital;
 use App\Models\PhoneNumber;
 use App\Models\User;
 
@@ -16,10 +15,10 @@ class PhoneNumberResource extends BaseResource
     public function toArray($request): array
     {
         return [
-            'id'             => $this->id,
-            'phone'          => $this->phone,
-            'label'          => $this->label,
-            'phoneable_id'   => $this->phoneable_id,
+            'id' => $this->id,
+            'phone' => $this->phone,
+            'label' => $this->label,
+            'phoneable_id' => $this->phoneable_id,
             'phoneable_type' => $this->getPhoneableType($this->phoneable_type)
         ];
     }
@@ -32,7 +31,6 @@ class PhoneNumberResource extends BaseResource
     {
         return match ($className) {
             User::class => "user",
-            Hospital::class => "hospital",
         };
     }
 }

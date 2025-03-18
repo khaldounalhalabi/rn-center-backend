@@ -16,8 +16,6 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             CitySeeder::class,
             SubscriptionSeeder::class,
-            AvailableDepartmentSeeder::class,
-            HospitalSeeder::class,
             UserSeeder::class,
             SettingSeeder::class,
         ]);

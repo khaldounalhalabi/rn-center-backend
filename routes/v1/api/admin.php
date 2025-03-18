@@ -37,9 +37,6 @@ Route::get('/clinics/{clinicId}/customers', [v1\CustomerController::class, 'getB
 Route::get('customers/{customerId}/patient-profiles', [v1\PatientProfileController::class, 'getCustomerPatientProfiles']);
 Route::apiResource('/customers', v1\CustomerController::class)->names('customers');
 
-Route::get('/hospitals/{hospitalId}/toggle-status', [v1\HospitalController::class, 'toggleHospitalStatus'])->name('hospitals.toggle.status');
-Route::apiResource('/hospitals', v1\HospitalController::class)->names('hospitals');
-
 Route::apiResource('/phone-numbers', v1\PhoneNumberController::class)->names('phone.numbers');
 
 Route::apiResource('/specialities', v1\SpecialityController::class)->names('specialities');
