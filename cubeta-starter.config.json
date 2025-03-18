@@ -989,37 +989,6 @@
             }
         },
         {
-            "model_name": "Enquiry",
-            "table_name": "enquiries",
-            "attributes": [
-                {
-                    "name": "name",
-                    "type": "string",
-                    "nullable": false,
-                    "unique": false
-                },
-                {
-                    "name": "email",
-                    "type": "string",
-                    "nullable": false,
-                    "unique": false
-                },
-                {
-                    "name": "message",
-                    "type": "text",
-                    "nullable": false,
-                    "unique": false
-                },
-                {
-                    "name": "read_at",
-                    "type": "dateTime",
-                    "nullable": true,
-                    "unique": false
-                }
-            ],
-            "relations": []
-        },
-        {
             "model_name": "ClinicSubscription",
             "table_name": "clinic_subscriptions",
             "attributes": []

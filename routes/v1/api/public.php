@@ -4,7 +4,6 @@ use App\Http\Controllers\API\v1;
 use App\Http\Controllers\API\v1\AdminAuthController;
 use App\Http\Controllers\API\v1\CustomerAuthController;
 use App\Http\Controllers\API\v1\DoctorAuthController;
-use App\Http\Controllers\API\v1\EnquiryController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/customer')
@@ -76,6 +75,5 @@ Route::post('/settings/get-by-labels', [v1\SettingController::class, 'getByLabel
 Route::get('/settings/by-label/{label}', [v1\SettingController::class, 'getByLabel'])->name('settings.label');
 
 Route::get('search', [v1\SearchController::class, 'publicSearch'])->name('search');
-Route::post('enquiry/send', [EnquiryController::class, 'store'])->name('enquiry.send');
 
 Route::get('appointments/{code}/get-by-code', [v1\AppointmentController::class, 'getByCode'])->name('appointments.by.code');
