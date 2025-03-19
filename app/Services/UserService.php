@@ -19,6 +19,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Throwable;
 
 /**
  * @extends BaseService<User>
@@ -30,99 +31,67 @@ class UserService extends BaseService
 
     protected string $repositoryClass = UserRepository::class;
 
-    private CustomerRepository $customerRepository;
-
-    private PhoneNumberRepository $phoneNumberRepository;
-
-    private AddressRepository $addressRepository;
-
-    public function init(): void
-    {
-        $this->customerRepository = CustomerRepository::make();
-        $this->phoneNumberRepository = PhoneNumberRepository::make();
-        $this->addressRepository = AddressRepository::make();
-    }
 
     /**
      * @param array         $data
      * @param string[]|null $roles
      * @param array         $relations
-     * @return array{User , string , string}|User|null
+     * @return array{User , string , string}
+     * @throws RoleDoesNotExistException|Throwable
      */
-    public function updateUserDetails(array $data, ?array $roles = null, array $relations = []): array|User|null
+    public function register(array $data, ?array $roles = null, array $relations = []): array
     {
-        $user = auth()->user();
+        try {
+            DB::beginTransaction();
+            /** @var User $user */
+            $user = $this->repository->create($data);
 
-        if (!$user) {
-            return null;
+            if ($roles) {
+                foreach ($roles as $role) {
+                    $user->assignRole($role);
+                }
+            }
+
+            if ($roles and in_array(RolesPermissionEnum::CUSTOMER['role'], $roles)) {
+                $data = array_merge($data, ['user_id' => $user->id]);
+                CustomerRepository::make()->create($data);
+                PhoneNumberRepository::make()->create([
+                    'phone' => $data['phone_number'],
+                    'phoneable_type' => User::class,
+                    'phoneable_id' => $user->id,
+                ]);
+
+                if (isset($data['address'])) {
+                    AddressRepository::make()->create([
+                        ...$data['address'],
+                        'addressable_id' => $user->id,
+                        'addressable_type' => User::class,
+                    ]);
+                }
+
+                if (isset($data['phone_number'])) {
+                    PhoneNumberService::make()->requestNumberVerificationCode($data['phone_number'], $user);
+                } else {
+                    throw new Exception("Phone number is required in register customer");
+                }
+
+                DB::commit();
+                return [$user->load($relations), null, null];
+            }
+
+            /** @noinspection PhpVoidFunctionResultUsedInspection */
+            $token = auth()->login($user);
+
+            /** @noinspection LaravelFunctionsInspection */
+            /** @noinspection PhpPossiblePolymorphicInvocationInspection */
+            $refresh_token = auth()->setTTL(ttl: env('JWT_REFRESH_TTL', 60 * 24 * 7))->refresh();
+
+            DB::commit();
+            return [$user->load($relations), $token, $refresh_token,];
+        } catch (Exception $exception) {
+            DB::rollBack();
+            throw $exception;
         }
-
-        if ($roles && !$user->hasAnyRole($roles)) {
-            return null;
-        }
-
-        if (isset($data['password']) && $data['password'] == "") {
-            unset($data['password']);
-        }
-
-        /** @var User $user */
-        $user = $this->repository->update($data, $user->id);
-
-        if (isset($data['address'])) {
-            $user->address()->updateOrCreate([
-                ...$data['address'],
-                'name' => $data['address']['name'] ?? '{"en":"" , "ar":""}',
-                'city_id' => $data['city_id'] ?? 1,
-            ]);
-        }
-
-        if (isset($data['phone_numbers'])) {
-            $user->phones()->delete();
-            $this->phoneNumberRepository->insert($data['phone_numbers'], User::class, $user->id);
-        }
-
-        /** @noinspection PhpVoidFunctionResultUsedInspection */
-        $token = auth()->login($user);
-
-        /** @noinspection LaravelFunctionsInspection */
-        $refresh_token = auth()->setTTL(ttl: env('JWT_REFRESH_TTL', 60 * 24 * 7))->refresh();
-
-        return [$user->load($relations), $token, $refresh_token,];
-
-    }
-
-    /**
-     * @throws RoleDoesNotExistException
-     */
-    public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
-    {
-        $user = $this->repository->update($data, $id);
-
-        if (isset($data['address'])) {
-            $user->address()->update($data['address']);
-        }
-
-        if (isset($data['phone_numbers'])) {
-            $user->phones()->delete();
-            $this->phoneNumberRepository->insert($data['phone_numbers'], User::class, $user->id);
-        }
-
-        if (isset($data['role'])) {
-            $user->assignRole($data['role']);
-        }
-
-        return $user->load($relationships);
-    }
-
-    public function delete($id): ?bool
-    {
-        $user = $this->repository->find($id);
-
-        if ($user->isAdmin()) {
-            return null;
-        }
-
-        return parent::delete($id);
     }
 
     /**
@@ -180,10 +149,95 @@ class UserService extends BaseService
         }
 
         /** @noinspection LaravelFunctionsInspection */
+        /** @noinspection PhpPossiblePolymorphicInvocationInspection */
         $refresh_token = auth()->setTTL(ttl: env('JWT_REFRESH_TTL', 60 * 24 * 7))->refresh();
 
         return [$user->load($relations), $token, $refresh_token,];
     }
+
+    /**
+     * @param array         $data
+     * @param string[]|null $roles
+     * @param array         $relations
+     * @return array{User , string , string}|User|null
+     */
+    public function updateUserDetails(array $data, ?array $roles = null, array $relations = []): array|User|null
+    {
+        $user = auth()->user();
+
+        if (!$user) {
+            return null;
+        }
+
+        if ($roles && !$user->hasAnyRole($roles)) {
+            return null;
+        }
+
+        if (isset($data['password']) && $data['password'] == "") {
+            unset($data['password']);
+        }
+
+        /** @var User $user */
+        $user = $this->repository->update($data, $user->id);
+
+        if (isset($data['address'])) {
+            $user->address()->updateOrCreate([
+                ...$data['address'],
+                'name' => $data['address']['name'] ?? '{"en":"" , "ar":""}',
+                'city_id' => $data['city_id'] ?? 1,
+            ]);
+        }
+
+        if (isset($data['phone_numbers'])) {
+            $user->phones()->delete();
+            PhoneNumberRepository::make()->insert($data['phone_numbers'], User::class, $user->id);
+        }
+
+        /** @noinspection PhpVoidFunctionResultUsedInspection */
+        $token = auth()->login($user);
+
+        /** @noinspection LaravelFunctionsInspection */
+        /** @noinspection PhpPossiblePolymorphicInvocationInspection */
+        $refresh_token = auth()->setTTL(ttl: env('JWT_REFRESH_TTL', 60 * 24 * 7))->refresh();
+
+        return [$user->load($relations), $token, $refresh_token,];
+
+    }
+
+    /**
+     * @throws RoleDoesNotExistException
+     */
+    public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
+    {
+        $user = $this->repository->update($data, $id);
+
+        if (isset($data['address'])) {
+            $user->address()->update($data['address']);
+        }
+
+        if (isset($data['phone_numbers'])) {
+            $user->phones()->delete();
+            PhoneNumberRepository::make()->insert($data['phone_numbers'], User::class, $user->id);
+        }
+
+        if (isset($data['role'])) {
+            $user->assignRole($data['role']);
+        }
+
+        return $user->load($relationships);
+    }
+
+    public function delete($id): ?bool
+    {
+        $user = $this->repository->find($id);
+
+        if ($user->isAdmin()) {
+            return null;
+        }
+
+        return parent::delete($id);
+    }
+
 
     /**
      * @param       $fcm_token
@@ -217,93 +271,16 @@ class UserService extends BaseService
         try {
             $user = auth()->user();
             /** @noinspection LaravelFunctionsInspection */
+            /** @noinspection PhpPossiblePolymorphicInvocationInspection */
             $token = auth()->setTTL(env('JWT_TTL', 10080))->refresh();
             /** @noinspection LaravelFunctionsInspection */
+            /** @noinspection PhpPossiblePolymorphicInvocationInspection */
             $refresh_token = auth()->setTTL(env('JWT_REFRESH_TTL', 20160))->refresh();
 
             return [$user->load($relations), $token, $refresh_token];
         } catch (Exception) {
             return null;
         }
-    }
-
-    /**
-     * @param array         $data
-     * @param string[]|null $roles
-     * @param array         $relations
-     * @return array{User , string , string}
-     * @throws RoleDoesNotExistException
-     */
-    public function register(array $data, ?array $roles = null, array $relations = []): array
-    {
-        try {
-            DB::beginTransaction();
-            /** @var User $user */
-            $user = $this->repository->create($data);
-
-            if ($roles) {
-                foreach ($roles as $role) {
-                    $user->assignRole($role);
-                }
-            }
-
-            if ($roles and in_array(RolesPermissionEnum::CUSTOMER['role'], $roles)) {
-                $data = array_merge($data, ['user_id' => $user->id]);
-                $this->customerRepository->create($data);
-                $this->phoneNumberRepository->create([
-                    'phone' => $data['phone_number'],
-                    'phoneable_type' => User::class,
-                    'phoneable_id' => $user->id,
-                ]);
-
-                if (isset($data['address'])) {
-                    $this->addressRepository->create([
-                        ...$data['address'],
-                        'addressable_id' => $user->id,
-                        'addressable_type' => User::class,
-                    ]);
-                }
-
-                if (isset($data['phone_number'])) {
-                    PhoneNumberService::make()->requestNumberVerificationCode($data['phone_number'], $user);
-                } else {
-                    throw new Exception("Phone number is required in register customer");
-                }
-
-                DB::commit();
-                return [$user->load($relations), null, null];
-            }
-
-            /** @noinspection PhpVoidFunctionResultUsedInspection */
-            $token = auth()->login($user);
-
-            /** @noinspection LaravelFunctionsInspection */
-            $refresh_token = auth()->setTTL(ttl: env('JWT_REFRESH_TTL', 60 * 24 * 7))->refresh();
-
-            DB::commit();
-            return [$user->load($relations), $token, $refresh_token,];
-        } catch (Exception $exception) {
-            DB::rollBack();
-            throw $exception;
-        }
-    }
-
-    /**
-     * @param User $user
-     * @return void
-     */
-    public function requestVerificationCode(User $user): void
-    {
-        $code = $this->generateUserVerificationCode();
-
-        $user->notify(new SendVerificationCode(
-            $code,
-            'Verify Your Email',
-            'Your Email Verification Code Is : '
-        ));
-
-        $user->verification_code = $code;
-        $user->save();
     }
 
     /**
@@ -325,28 +302,6 @@ class UserService extends BaseService
     public function getUserByPasswordResetCode($token): ?User
     {
         return $this->repository->getUserByPasswordResetCode($token);
-    }
-
-    /**
-     * @param $verificationCode
-     * @return bool
-     */
-    public function verifyCustomerEmail($verificationCode): bool
-    {
-        /** @var User $user */
-        $user = $this->repository->getUserByVerificationCode($verificationCode);
-
-        if (!$user) return false;
-
-        if ($user->verification_code != $verificationCode) {
-            return false;
-        }
-
-        $user->markEmailAsVerified();
-        $user->verification_code = null;
-        $user->save();
-
-        return true;
     }
 
     /**
@@ -451,11 +406,11 @@ class UserService extends BaseService
         if (isset($data['address'])) {
             $data['address']['addressable_id'] = $user->id;
             $data['address']['addressable_type'] = User::class;
-            $this->addressRepository->create($data['address']);
+            AddressRepository::make()->create($data['address']);
         }
 
         if (isset($data['phone_numbers'])) {
-            $this->phoneNumberRepository->insert($data['phone_numbers'], User::class, $user->id);
+            PhoneNumberRepository::make()->insert($data['phone_numbers'], User::class, $user->id);
         }
 
         $user->assignRole($data['role'] ?? RolesPermissionEnum::CUSTOMER['role']);
@@ -559,6 +514,7 @@ class UserService extends BaseService
         /** @noinspection PhpVoidFunctionResultUsedInspection */
         $token = auth()->login($user);
         /** @noinspection LaravelFunctionsInspection */
+        /** @noinspection PhpPossiblePolymorphicInvocationInspection */
         $refreshToken = auth()->setTTL(ttl: env('JWT_REFRESH_TTL', 60 * 24 * 7))->refresh();
 
         return [
