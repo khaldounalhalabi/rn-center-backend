@@ -16,7 +16,6 @@ class DatabaseSeeder extends Seeder
             CitySeeder::class,
             SubscriptionSeeder::class,
             UserSeeder::class,
-            SettingSeeder::class,
         ]);
 
         $this->call([

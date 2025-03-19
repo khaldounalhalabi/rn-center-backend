@@ -111,10 +111,5 @@ Route::controller(v1\AppointmentDeductionController::class)
 Route::apiResource('/appointment-deductions', v1\AppointmentDeductionController::class)
     ->only(['index', 'show'])->names('appointment.deductions');
 
-Route::get('/settings/by-label/{label}', [v1\SettingController::class, 'getByLabel'])->name('settings.label');
-Route::apiResource('settings', v1\SettingController::class)
-    ->only(['index', 'update', 'show'])
-    ->names('settings');
-
 
 Route::get('/statistics/index', [v1\StatisticsController::class, 'adminStatistics'])->name('statistics.index');

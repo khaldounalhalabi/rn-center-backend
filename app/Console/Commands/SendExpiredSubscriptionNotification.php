@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Setting;
 use App\Models\User;
 use App\Notifications\Clinic\YourSubscriptionIsAboutToExpire;
 use App\Services\FirebaseServices;
@@ -26,9 +25,9 @@ class SendExpiredSubscriptionNotification extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
-        $before = intval(Setting::where('label', 'days_before_notify_for_expiration')->first()?->value ?? 7);
+        $before = 7;
         FirebaseServices::make()
             ->setMethod(FirebaseServices::ToQuery)
             ->setTo(
