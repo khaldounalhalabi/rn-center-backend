@@ -11,7 +11,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // needed data
         $this->call([
             RoleSeeder::class,
             CitySeeder::class,
@@ -20,14 +19,13 @@ class DatabaseSeeder extends Seeder
             SettingSeeder::class,
         ]);
 
-        //fake data
-//        $this->call([
-//            SpecialitySeeder::class,
-//            ServiceCategorySeeder::class,
-//            ServiceSeeder::class,
-//            AppointmentSeeder::class,
-//            MedicineSeeder::class,
-//            PrescriptionSeeder::class,
-//        ]);
+        $this->call([
+            SpecialitySeeder::class,
+            ServiceCategorySeeder::class,
+            ServiceSeeder::class,
+            AppointmentSeeder::class,
+            MedicineSeeder::class,
+            PrescriptionSeeder::class,
+        ]);
     }
 }
