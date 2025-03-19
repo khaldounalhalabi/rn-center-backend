@@ -1306,46 +1306,6 @@
             "table_name": "categories",
             "attributes": [],
             "version": "v1"
-        },
-        {
-            "model_name": "ClinicJoinRequest",
-            "table_name": "clinic_join_requests",
-            "attributes": [
-                {
-                    "name": "doctor_name",
-                    "type": "string",
-                    "nullable": false,
-                    "unique": false
-                },
-                {
-                    "name": "clinic_name",
-                    "type": "string",
-                    "nullable": false,
-                    "unique": false
-                },
-                {
-                    "name": "phone_number",
-                    "type": "string",
-                    "nullable": false,
-                    "unique": false
-                },
-                {
-                    "name": "city_id",
-                    "type": "key",
-                    "nullable": false,
-                    "unique": false
-                }
-            ],
-            "relations": {
-                "belongsTo": [
-                    {
-                        "type": "belongsTo",
-                        "model_name": "City",
-                        "key": "city_id"
-                    }
-                ]
-            },
-            "version": "v1"
         }
     ],
     "frontend_type": "None"

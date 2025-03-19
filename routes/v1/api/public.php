@@ -62,8 +62,6 @@ Route::delete('/media/{mediaId}', [v1\MediaController::class, 'delete'])->name('
 
 Route::get('/statistics', [v1\StatisticsController::class, 'landingPage'])->name('statistics.landing.page');
 
-Route::post('clinic-join-requests', [v1\ClinicJoinRequestController::class, 'store'])->name('clinic.join.requests.store');
-
 Route::post('/settings/get-by-labels', [v1\SettingController::class, 'getByLabels'])->name('settings.by.label');
 Route::get('/settings/by-label/{label}', [v1\SettingController::class, 'getByLabel'])->name('settings.label');
 

@@ -120,9 +120,3 @@ Route::apiResource('settings', v1\SettingController::class)
 
 
 Route::get('/statistics/index', [v1\StatisticsController::class, 'adminStatistics'])->name('statistics.index');
-
-Route::apiResource('clinic-join-requests', v1\ClinicJoinRequestController::class)
-    ->except([
-        'store',
-        'update',
-    ])->names('clinic.join.requests');

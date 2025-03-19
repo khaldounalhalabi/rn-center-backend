@@ -61,13 +61,7 @@ class City extends Model
     public function filesKeys(): array
     {
         return [
-
             //filesKeys
         ];
-    }
-
-    public function clinicJoinRequests(): HasMany
-    {
-        return $this->hasMany(ClinicJoinRequest::class);
     }
 }
