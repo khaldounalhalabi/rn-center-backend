@@ -6,7 +6,6 @@ use App\Enums\RolesPermissionEnum;
 use App\Exceptions\RoleDoesNotExistException;
 use App\Models\PhoneNumber;
 use App\Models\User;
-use App\Models\UserPlatform;
 use App\Notifications\SendVerificationCode;
 use App\Repositories\AddressRepository;
 use App\Repositories\CustomerRepository;
@@ -122,25 +121,6 @@ class UserService extends BaseService
             $this->clearFcmTokenFromOtherUsers($data['fcm_token']);
             $user->fcm_token = $data['fcm_token'];
             $user->save();
-        }
-
-        if ($user->isCustomer() && isset($data['platform'])) {
-            UserPlatform::where('user_id', $user->id)
-                ->firstOrCreate([
-                    'user_id' => $user->id,
-                    'browser_type' => $data['platform']['browser_type'] ?? "Unknown",
-                    'device_type' => $data['platform']['device_type'] ?? "Unknown",
-                    'ip' => $data['platform']['ip'] ?? "Unknown",
-                ]);
-
-            //TODO::convert it to use otp
-//            if ($user->hasVerifiedEmail()) {
-//                $user->notify(new NewLoginEmailNotification(
-//                    $platform->ip,
-//                    $platform->device_type,
-//                    $platform->browser_type
-//                ));
-//            }
         }
 
         foreach ($additionalData as $key => $value) {

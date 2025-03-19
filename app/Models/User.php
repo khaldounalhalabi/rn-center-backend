@@ -272,11 +272,6 @@ class User extends Authenticatable implements HasMedia, JWTSubject
             ->latest()->first();
     }
 
-    public function platform(): HasOne
-    {
-        return $this->hasOne(UserPlatform::class, 'user_id');
-    }
-
     public function unreadNotifications()
     {
         return $this->notifications()->unread()

@@ -106,11 +106,6 @@ class StoreUpdateAppointmentRequest extends FormRequest
                 'type' => AppointmentTypeEnum::ONLINE->value,
                 'status' => AppointmentStatusEnum::PENDING->value,
                 'customer_id' => auth()?->user()?->customer?->id,
-                'device_type' => str_replace(['Unknown-', '-Unknown'], "", Browser::deviceType() . '-' .
-                    Browser::deviceFamily() . '-' .
-                    Browser::platformFamily() . '-' .
-                    Browser::deviceModel() . '-' .
-                    Browser::platformName()),
             ]);
         }
     }

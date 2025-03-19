@@ -26,24 +26,6 @@ class AuthLoginRequest extends FormRequest
             'email' => ['required', 'email', 'exists:users,email', 'max:255'],
             'password' => 'required|string',
             'fcm_token' => 'nullable|string|max:1000',
-            'platform.device_type' => 'nullable|string|max:255',
-            'platform.browser_type' => 'nullable|string|max:255',
-            'platform.ip_address' => 'nullable|string|max:255',
         ];
-    }
-
-    protected function prepareForValidation()
-    {
-        $this->merge([
-            'platform' => [
-                'ip_address' => $this->ip(),
-                'browser_type' => str_replace(['Unknown-', '-Unknown'], '', Browser::browserFamily() . '-' . Browser::browserName()),
-                'device_type' => str_replace(['Unknown-', '-Unknown'], "", Browser::deviceType() . '-' .
-                    Browser::deviceFamily() . '-' .
-                    Browser::platformFamily() . '-' .
-                    Browser::deviceModel() . '-' .
-                    Browser::platformName()),
-            ],
-        ]);
     }
 }
