@@ -40,8 +40,35 @@ class ClinicTransaction extends Model
 
     protected $casts = [
         'amount' => 'double',
-        'date'   => 'datetime',
+        'date' => 'datetime',
     ];
+
+    /**
+     * add your searchable columns, so you can search within them in the
+     * index method
+     */
+    public static function searchableArray(): array
+    {
+        return [
+            'type',
+            'notes',
+            'status',
+            'date',
+        ];
+    }
+
+    /**
+     * add your relations and their searchable columns,
+     * so you can search within them in the index method
+     */
+    public static function relationsSearchableArray(): array
+    {
+        return [
+            'appointment.customer.user' => [
+                'full_name',
+            ],
+        ];
+    }
 
     public function exportable(): array
     {
@@ -79,20 +106,6 @@ class ClinicTransaction extends Model
         ];
     }
 
-    /**
-     * add your searchable columns, so you can search within them in the
-     * index method
-     */
-    public static function searchableArray(): array
-    {
-        return [
-            'type',
-            'notes',
-            'status',
-            'date',
-        ];
-    }
-
     public function filterArray(): array
     {
         return [
@@ -107,19 +120,6 @@ class ClinicTransaction extends Model
             ],
             [
                 'name' => 'amount',
-            ],
-        ];
-    }
-
-    /**
-     * add your relations and their searchable columns,
-     * so you can search within them in the index method
-     */
-    public static function relationsSearchableArray(): array
-    {
-        return [
-            'appointment.customer.user' => [
-                'full_name',
             ],
         ];
     }

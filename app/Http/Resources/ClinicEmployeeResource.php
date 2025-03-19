@@ -14,11 +14,11 @@ class ClinicEmployeeResource extends BaseResource
     public function toArray($request): array
     {
         return [
-            'id'        => $this->id,
-            'user_id'   => $this->user_id,
+            'id' => $this->id,
+            'user_id' => $this->user_id,
             'clinic_id' => $this->clinic_id,
-            'user'      => new UserResource($this->whenLoaded('user')),
-            'clinic'    => new ClinicResource($this->whenLoaded('clinic')),
+            'user' => new UserResource($this->whenLoaded('user')),
+            'clinic' => new ClinicResource($this->whenLoaded('clinic')),
         ];
     }
 }

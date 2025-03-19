@@ -203,11 +203,6 @@ class User extends Authenticatable implements HasMedia, JWTSubject
         return $this->morphMany(PhoneNumber::class, 'phoneable');
     }
 
-    public function phoneNumbers(): MorphMany
-    {
-        return $this->morphMany(PhoneNumber::class, 'phoneable');
-    }
-
     public function address(): MorphOne
     {
         return $this->morphOne(Address::class, 'addressable');
@@ -216,18 +211,6 @@ class User extends Authenticatable implements HasMedia, JWTSubject
     public function routeNotificationForFcm()
     {
         return $this->fcm_token;
-    }
-
-    protected function password(): Attribute
-    {
-        return Attribute::make(
-            set: fn(?string $value) => Hash::make($value)
-        );
-    }
-
-    public function isDoctor(): bool
-    {
-        return $this->hasRole(RolesPermissionEnum::DOCTOR['role']) && $this?->clinic?->exists();
     }
 
     public function isAdmin(): bool
@@ -240,14 +223,19 @@ class User extends Authenticatable implements HasMedia, JWTSubject
         return $this->hasRole(RolesPermissionEnum::CUSTOMER['role']);
     }
 
-    public function isClinicEmployee(): bool
-    {
-        return $this->hasRole(RolesPermissionEnum::CLINIC_EMPLOYEE['role']) && $this?->clinicEmployee?->clinic?->exists();
-    }
-
     public function isClinic(): bool
     {
         return $this->isDoctor() || $this->isClinicEmployee();
+    }
+
+    public function isDoctor(): bool
+    {
+        return $this->hasRole(RolesPermissionEnum::DOCTOR['role']) && $this?->clinic?->exists();
+    }
+
+    public function isClinicEmployee(): bool
+    {
+        return $this->hasRole(RolesPermissionEnum::CLINIC_EMPLOYEE['role']) && $this?->clinicEmployee?->clinic?->exists();
     }
 
     public function getClinicId(): ?int
@@ -284,7 +272,6 @@ class User extends Authenticatable implements HasMedia, JWTSubject
             ->latest()->first();
     }
 
-
     public function platform(): HasOne
     {
         return $this->hasOne(UserPlatform::class, 'user_id');
@@ -310,5 +297,17 @@ class User extends Authenticatable implements HasMedia, JWTSubject
     public function hasVerifiedPhoneNumber(): bool
     {
         return $this->phoneNumbers()->where('is_verified', true)->exists();
+    }
+
+    public function phoneNumbers(): MorphMany
+    {
+        return $this->morphMany(PhoneNumber::class, 'phoneable');
+    }
+
+    protected function password(): Attribute
+    {
+        return Attribute::make(
+            set: fn(?string $value) => Hash::make($value)
+        );
     }
 }

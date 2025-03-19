@@ -16,7 +16,7 @@ class BaseResource extends JsonResource
     protected bool $detailed = false;
     protected ?array $extra;
 
-    public static function collectionWithExtra(DBCollection|LengthAwarePaginator $data, ?array $extra = null, bool $withFilters = false): Collection
+    public static function collectionWithExtra(DBCollection|LengthAwarePaginator $data, ?array $extra = null): Collection
     {
         return collect()
             ->wrap($data)
@@ -49,7 +49,7 @@ class BaseResource extends JsonResource
             $filters = $filters->merge(
                 [
                     "filters" => $filterCols->map(fn($item) => [
-                        "field"    => isset($item["relation"]) ? $item["relation"] . '.' . ($item["field"] ?? $item["name"]) : ($item["field"] ?? $item["name"]),
+                        "field" => isset($item["relation"]) ? $item["relation"] . '.' . ($item["field"] ?? $item["name"]) : ($item["field"] ?? $item["name"]),
                         "operator" => $item['operator'] ?? '='
                     ])
                 ]
@@ -63,11 +63,10 @@ class BaseResource extends JsonResource
      * @param DBCollection|LengthAwarePaginator $data
      * @param array                             $itemAbilities
      * @param array                             $generalAbilities
-     * @param array|null                        $extra
      * @param bool                              $withFilters
      * @return Collection<T>
      */
-    public static function collectionWithAbilities(DBCollection|LengthAwarePaginator $data, array $itemAbilities = [], array $generalAbilities = [], ?array $extra = null, bool $withFilters = false): Collection
+    public static function collectionWithAbilities(DBCollection|LengthAwarePaginator $data, array $itemAbilities = [], array $generalAbilities = [], bool $withFilters = false): Collection
     {
         $collection = $data->map(function ($item) use ($itemAbilities) {
             $itemAbs = [];
@@ -119,10 +118,10 @@ class BaseResource extends JsonResource
         if (!method_exists($class, self::AuthorizedActions)) {
             return true;
         }
-        return (bool)(!in_array($ability, call_user_func([$class, self::AuthorizedActions])));
+        return !in_array($ability, call_user_func([$class, self::AuthorizedActions]));
     }
 
-    public static function collectionWithDetail(DBCollection|LengthAwarePaginator $data, array $extra = null, bool $withFilters = false): Collection
+    public static function collectionWithDetail(DBCollection|LengthAwarePaginator $data, array $extra = null): Collection
     {
         return collect()
             ->wrap($data)

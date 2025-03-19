@@ -26,28 +26,6 @@ class Balance extends Model
 
     ];
 
-    public function exportable(): array
-    {
-        return [
-            'balanceable_type',
-            'balanceable_id',
-            'balance',
-            'note'
-        ];
-    }
-
-    /**
-     * define your columns which you want to treat them as files
-     * so the base repository can store them in the storage without
-     * any additional files procedures
-     */
-    public function filesKeys(): array
-    {
-        return [
-            //filesKeys
-        ];
-    }
-
     /**
      * add your searchable columns, so you can search within them in the
      * index method
@@ -67,6 +45,28 @@ class Balance extends Model
     {
         return [
 
+        ];
+    }
+
+    public function exportable(): array
+    {
+        return [
+            'balanceable_type',
+            'balanceable_id',
+            'balance',
+            'note'
+        ];
+    }
+
+    /**
+     * define your columns which you want to treat them as files
+     * so the base repository can store them in the storage without
+     * any additional files procedures
+     */
+    public function filesKeys(): array
+    {
+        return [
+            //filesKeys
         ];
     }
 

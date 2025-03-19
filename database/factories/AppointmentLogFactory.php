@@ -19,13 +19,13 @@ class AppointmentLogFactory extends Factory
     public function definition(): array
     {
         return [
-            'appointment_id'      => Appointment::factory(),
+            'appointment_id' => Appointment::factory(),
             'cancellation_reason' => fake()->text(),
-            'status'              => fake()->randomElement(AppointmentStatusEnum::getAllValues()),
-            'actor_id'            => User::factory(),
-            'affected_id'         => User::factory(),
-            'happen_in'           => now(),
-            'event'               => "appointment created in " . now()->format('Y-m-d H:i:s') . "By " . fake()->name,
+            'status' => fake()->randomElement(AppointmentStatusEnum::getAllValues()),
+            'actor_id' => User::factory(),
+            'affected_id' => User::factory(),
+            'happen_in' => now(),
+            'event' => "appointment created in " . now()->format('Y-m-d H:i:s') . "By " . fake()->name,
         ];
     }
 }

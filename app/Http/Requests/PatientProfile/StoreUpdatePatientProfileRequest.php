@@ -24,24 +24,24 @@ class StoreUpdatePatientProfileRequest extends FormRequest
     {
         if (request()->method() == 'POST') {
             return [
-                'customer_id'       => ['required', 'numeric', 'exists:customers,id', new UniquePatientProfile($this->input('clinic_id'), $this->input('customer_id'))],
-                'clinic_id'         => ['required', 'numeric', 'exists:clinics,id'],
+                'customer_id' => ['required', 'numeric', 'exists:customers,id', new UniquePatientProfile($this->input('clinic_id'), $this->input('customer_id'))],
+                'clinic_id' => ['required', 'numeric', 'exists:clinics,id'],
                 'medical_condition' => ['required', 'string'],
-                'note'              => ['nullable', 'string'],
-                'other_data'        => ['nullable', 'json'],
-                'images'            => ['nullable', 'array', 'max:20'],
-                'images.*'          => ['nullable', 'image', 'max:50000'],
+                'note' => ['nullable', 'string'],
+                'other_data' => ['nullable', 'json'],
+                'images' => ['nullable', 'array', 'max:20'],
+                'images.*' => ['nullable', 'image', 'max:50000'],
             ];
         }
 
         return [
-            'customer_id'       => ['nullable', 'numeric', 'exists:customers,id', new UniquePatientProfile($this->input('clinic_id'), $this->input('customer_id'), request()->route('patient_profile'))],
-            'clinic_id'         => ['nullable', 'numeric', 'exists:clinics,id',],
+            'customer_id' => ['nullable', 'numeric', 'exists:customers,id', new UniquePatientProfile($this->input('clinic_id'), $this->input('customer_id'), request()->route('patient_profile'))],
+            'clinic_id' => ['nullable', 'numeric', 'exists:clinics,id',],
             'medical_condition' => ['nullable', 'string'],
-            'note'              => ['nullable', 'string'],
-            'other_data'        => ['nullable', 'json'],
-            'images'            => ['nullable', 'array', 'max:20'],
-            'images.*'          => ['nullable', 'image', 'max:50000'],
+            'note' => ['nullable', 'string'],
+            'other_data' => ['nullable', 'json'],
+            'images' => ['nullable', 'array', 'max:20'],
+            'images.*' => ['nullable', 'image', 'max:50000'],
         ];
     }
 }

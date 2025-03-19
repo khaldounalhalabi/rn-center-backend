@@ -11,13 +11,7 @@ class NotificationRepository extends BaseRepository
 {
     protected string $modelClass = Notification::class;
 
-    public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
-    {
-        return parent::globalQuery($relations, $countable)
-            ->where('type', 'NOT LIKE', '%RealTime%');
-    }
-
-    public function getUserNotifications($notifiableId, $notifiableType = User::class, int $per_page = 10): ?array
+    public function getUserNotifications($notifiableId, $notifiableType = User::class): ?array
     {
         return $this->paginateQuery(
             $this->notificationsBaseQuery($notifiableId, $notifiableType)
@@ -30,6 +24,12 @@ class NotificationRepository extends BaseRepository
             ->when($isAvailable, fn($q) => $q->available())
             ->where('notifiable_id', $notifiableId)
             ->where('notifiable_type', $notifiableType);
+    }
+
+    public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
+    {
+        return parent::globalQuery($relations, $countable)
+            ->where('type', 'NOT LIKE', '%RealTime%');
     }
 
     public function getUnreadNotificationCounter($notifiableId, $notifiableType = User::class): int

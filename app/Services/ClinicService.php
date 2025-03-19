@@ -13,6 +13,7 @@ use App\Repositories\PhoneNumberRepository;
 use App\Repositories\UserRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
+use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -91,7 +92,7 @@ class ClinicService extends BaseService
             return $clinic->refresh()
                 ->load($relationships)
                 ->loadCount($countable);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             logger()->info($exception->getMessage());
             DB::rollBack();
             return null;
@@ -151,7 +152,7 @@ class ClinicService extends BaseService
 
             DB::commit();
             return $clinic->load($relationships)->loadCount($countable);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             logger()->info($exception->getMessage());
             DB::rollBack();
             return null;
@@ -222,7 +223,7 @@ class ClinicService extends BaseService
      */
     public function getBySubscription($subscriptionId, array $relations = [], array $countable = [], int $perPage = 10): ?array
     {
-        return $this->repository->byActiveSubscription($subscriptionId, $relations, $countable, $perPage);
+        return $this->repository->byActiveSubscription($subscriptionId, $relations, $countable);
     }
 
     public function getBySystemOffer($systemOfferId, array $relations = [], array $countable = []): ?array

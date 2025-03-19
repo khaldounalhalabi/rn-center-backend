@@ -15,7 +15,7 @@ class ClinicHolidayTest extends MainTestCase
     protected string $resource = ClinicHolidayResource::class;
 
     // define the actor
-    protected string $userType  = "admin";
+    protected string $userType = "admin";
 
     // the named route eg: 'user.products.'
     //!!! Note: the dot "." in the end of the baseUrl is important !!!
@@ -40,7 +40,7 @@ class ClinicHolidayTest extends MainTestCase
     {
         $this->requestPathHook($this->baseUrl . 'store');
         $this->storeTest(['start_date' => now()->format('Y-m-d H:i:s'),
-                          'end_date'   => now()->format('Y-m-d H:i:s'),
+                          'end_date' => now()->format('Y-m-d H:i:s'),
         ]);
     }
 

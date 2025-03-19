@@ -54,7 +54,7 @@ class NotificationService extends BaseService
         try {
             auth()->user()->unreadNotifications()->latest()->limit(5)->get()->markAsRead();
             return true;
-        } catch (Exception $e) {
+        } catch (Exception) {
             return false;
         }
     }

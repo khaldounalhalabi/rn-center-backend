@@ -17,14 +17,6 @@ class ClinicTransactionRepository extends BaseRepository
 {
     protected string $modelClass = ClinicTransaction::class;
 
-    public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
-    {
-        return parent::globalQuery($relations, $countable)
-            ->when(auth()->user()?->isClinic(), function (Builder $query) {
-                $query->where('clinic_id', auth()->user()?->getClinicId());
-            });
-    }
-
     public function export(array $ids = null): BinaryFileResponse
     {
         $year = request('year', now()->year);
@@ -39,17 +31,25 @@ class ClinicTransactionRepository extends BaseRepository
         return parent::export($ids);
     }
 
+    public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
+    {
+        return parent::globalQuery($relations, $countable)
+            ->when(auth()->user()?->isClinic(), function (Builder $query) {
+                $query->where('clinic_id', auth()->user()?->getClinicId());
+            });
+    }
+
     /**
      * @param       $clinicId
      * @param array $relations
      * @param array $countable
      * @return Collection<ClinicTransaction>|ClinicTransaction[]
      */
-    public function getPendingTransactions($clinicId , array $relations = [], array $countable = []): Collection|array
+    public function getPendingTransactions($clinicId, array $relations = [], array $countable = []): Collection|array
     {
         return $this->globalQuery($relations, $countable)
             ->where('status', ClinicTransactionStatusEnum::PENDING->value)
-            ->where('clinic_id' , $clinicId)
+            ->where('clinic_id', $clinicId)
             ->get();
     }
 }

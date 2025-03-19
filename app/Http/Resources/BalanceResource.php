@@ -2,12 +2,13 @@
 
 namespace App\Http\Resources;
 
-/** @mixin \App\Models\Balance */
+use App\Models\Balance;
+
+/** @mixin Balance */
 class BalanceResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
-     *
      * @return array<string, mixed>
      */
     public function toArray($request): array

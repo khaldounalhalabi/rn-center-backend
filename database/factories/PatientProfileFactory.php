@@ -18,11 +18,11 @@ class PatientProfileFactory extends Factory
     public function definition(): array
     {
         return [
-            'customer_id'       => Customer::inRandomOrder()->first()->id,
-            'clinic_id'         => Clinic::inRandomOrder()->first()->id,
+            'customer_id' => Customer::inRandomOrder()->first()->id,
+            'clinic_id' => Clinic::inRandomOrder()->first()->id,
             'medical_condition' => fake()->text(),
-            'note'              => fake()->text(),
-            'other_data'        => json_encode([fake()->word() => fake()->word()]),
+            'note' => fake()->text(),
+            'other_data' => json_encode([fake()->word() => fake()->word()]),
         ];
     }
 }

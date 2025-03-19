@@ -61,7 +61,7 @@ class ScheduleController extends ApiController
 
     public function storeUpdateSchedules(StoreUpdateScheduleRequest $request)
     {
-        $item = $this->scheduleService->storeUpdateSchedules($request->validated(), $this->relations);
+        $item = $this->scheduleService->storeUpdateSchedules($request->validated());
         if ($item) {
             return $this->apiResponse(true, self::STATUS_OK, __('site.stored_successfully'));
         }

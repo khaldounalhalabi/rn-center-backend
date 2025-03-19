@@ -26,11 +26,11 @@ class DoctorOnly
             return $this->apiResponse(null, ApiController::STATUS_UNAUTHORIZED, __('site.unauthorized_user'));
         }
 
-        if ($isDoctor && !$user->clinic?->hasActiveSubscription()){
+        if ($isDoctor && !$user->clinic?->hasActiveSubscription()) {
             return $this->apiResponse(null, ApiController::STATUS_EXPIRED_SUBSCRIPTION, __('site.expired_subscription'));
         }
 
-        if ($isEmployee && !$user->clinicEmployee?->clinic?->hasActiveSubscription()){
+        if ($isEmployee && !$user->clinicEmployee?->clinic?->hasActiveSubscription()) {
             return $this->apiResponse(null, ApiController::STATUS_EXPIRED_SUBSCRIPTION, __('site.expired_subscription'));
         }
 

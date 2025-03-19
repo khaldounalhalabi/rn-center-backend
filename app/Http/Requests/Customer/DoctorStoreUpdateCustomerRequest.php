@@ -58,6 +58,14 @@ class DoctorStoreUpdateCustomerRequest extends FormRequest
         ];
     }
 
+    public function attributes(): array
+    {
+        return [
+            'phone_numbers.*' => 'phone number',
+            'images.*' => 'images',
+        ];
+    }
+
     protected function prepareForValidation(): void
     {
         if ($this->input('last_name') && $this->input('first_name') && $this->input('middle_name')) {
@@ -65,13 +73,5 @@ class DoctorStoreUpdateCustomerRequest extends FormRequest
                 'full_name' => User::getUserFullName($this->input('first_name'), $this->input('middle_name'), $this->input('last_name')),
             ]);
         }
-    }
-
-    public function attributes(): array
-    {
-        return [
-            'phone_numbers.*' => 'phone number',
-            'images.*' => 'images',
-        ];
     }
 }

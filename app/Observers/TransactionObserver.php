@@ -29,13 +29,24 @@ class TransactionObserver implements ShouldHandleEventsAfterCommit
         }
         if (isset($balance, $note)) {
             $newBalance = Balance::create([
-                'balance'          => $balance,
-                'note'             => $note,
+                'balance' => $balance,
+                'note' => $note,
                 'balanceable_type' => User::class,
-                'balanceable_id'   => $user->id,
+                'balanceable_id' => $user->id,
             ]);
             $this->sendBalanceChangeNotification($newBalance->balance);
         }
+    }
+
+    private function sendBalanceChangeNotification($balance): void
+    {
+        FirebaseServices::make()
+            ->setData([
+                'balance' => $balance,
+            ])->setMethod(FirebaseServices::ByRole)
+            ->setRole(RolesPermissionEnum::ADMIN['role'])
+            ->setNotification(BalanceChangeNotification::class)
+            ->send();
     }
 
     /**
@@ -45,7 +56,6 @@ class TransactionObserver implements ShouldHandleEventsAfterCommit
     {
         //
     }
-
 
     /**
      * Handle the Transaction "updating" event.
@@ -75,10 +85,10 @@ class TransactionObserver implements ShouldHandleEventsAfterCommit
 
         if (isset($balance, $note)) {
             $newBalance = Balance::create([
-                'balance'          => $balance,
-                'note'             => $note,
+                'balance' => $balance,
+                'note' => $note,
                 'balanceable_type' => User::class,
-                'balanceable_id'   => $user->id,
+                'balanceable_id' => $user->id,
             ]);
             $this->sendBalanceChangeNotification($newBalance->balance);
         }
@@ -102,10 +112,10 @@ class TransactionObserver implements ShouldHandleEventsAfterCommit
 
         if (isset($balance, $note)) {
             $newBalance = Balance::create([
-                'balance'          => $balance,
-                'note'             => $note,
+                'balance' => $balance,
+                'note' => $note,
                 'balanceable_type' => User::class,
-                'balanceable_id'   => $user->id,
+                'balanceable_id' => $user->id,
             ]);
             $this->sendBalanceChangeNotification($newBalance->balance);
         }
@@ -125,16 +135,5 @@ class TransactionObserver implements ShouldHandleEventsAfterCommit
     public function forceDeleted(Transaction $transaction): void
     {
         //
-    }
-
-    private function sendBalanceChangeNotification($balance): void
-    {
-        FirebaseServices::make()
-            ->setData([
-                'balance' => $balance,
-            ])->setMethod(FirebaseServices::ByRole)
-            ->setRole(RolesPermissionEnum::ADMIN['role'])
-            ->setNotification(BalanceChangeNotification::class)
-            ->send();
     }
 }

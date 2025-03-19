@@ -13,14 +13,12 @@ class SendExpiredSubscriptionNotification extends Command
 {
     /**
      * The name and signature of the console command.
-     *
      * @var string
      */
     protected $signature = 'app:send-expired-subscription-notification';
 
     /**
      * The console command description.
-     *
      * @var string
      */
     protected $description = 'Command description';
@@ -43,10 +41,10 @@ class SendExpiredSubscriptionNotification extends Command
                     $query
                         ->withoutGlobalScope('available_online')
                         ->whereHas('clinic', function (Builder $q) use ($before) {
-                        $q->whereHas('activeSubscription', function (Builder $b) use ($before) {
-                            $b->whereDate('end_time', '=', now()->addDays($before));
+                            $q->whereHas('activeSubscription', function (Builder $b) use ($before) {
+                                $b->whereDate('end_time', '=', now()->addDays($before));
+                            });
                         });
-                    });
                 })
             )->setData([
                 'left_days' => $before,

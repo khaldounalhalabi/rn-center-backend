@@ -31,6 +31,8 @@ abstract class BaseRepository
      */
     protected string $modelClass = Model::class;
     protected Model $model;
+    protected bool $filtered = false;
+    protected $perPage;
     private Filesystem $fileSystem;
     private array $filterKeys = [];
     private array $fileColumnsName = [];
@@ -40,11 +42,8 @@ abstract class BaseRepository
     private array $searchableKeys = [];
     private array $customOrders = [];
     private string $tableName;
-    protected bool $filtered = false;
-    protected $perPage;
 
     /**
-     * @param T $model
      */
     public function __construct()
     {
@@ -98,20 +97,7 @@ abstract class BaseRepository
      */
     public function all(array $relationships = [], array $countable = []): Collection|array|RegularCollection
     {
-        return $this->globalQuery($relationships)->get();
-    }
-
-    protected function unsetNullable(array $data = []): array
-    {
-        foreach ($data as $key => $value) {
-            if ($value == null) {
-                if ($key != "service_id") {
-                    unset($data[$key]);
-                }
-            }
-        }
-
-        return $data;
+        return $this->globalQuery($relationships, $countable)->get();
     }
 
     /**
@@ -120,7 +106,7 @@ abstract class BaseRepository
      * @param bool  $defaultOrder
      * @return Builder|T
      */
-    public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
+    public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder|Model
     {
         $query = $this->model->with($relations)->withCount($countable);
 
@@ -132,51 +118,6 @@ abstract class BaseRepository
                 return $this->addSearch($q);
             });
             $query = $this->orderQueryBy($query, $defaultOrder);
-        }
-
-        return $query;
-    }
-
-    protected function paginate(Builder $query, int $perPage = 10): ?array
-    {
-        $perPage = request('per_page', $perPage);
-        $data = $query->simplePaginate($perPage);
-        if ($data->count()) {
-            return [
-                'data'            => $data,
-                'pagination_data' => $this->formatPaginateData($data),
-            ];
-        }
-
-        return null;
-    }
-
-    /**
-     * @param Builder $query
-     * @return Builder|T
-     */
-    private function addSearch(Builder $query): Builder
-    {
-        $keyword = $this->unsetEmptyParams(request("search", null));
-
-        if ($keyword) {
-            if (count($this->searchableKeys) > 0) {
-                foreach ($this->searchableKeys as $search_attribute) {
-                    $query->orWhere("$this->tableName.{$search_attribute}", 'REGEXP', "(?i).*$keyword.*");
-                }
-            }
-
-            if (count($this->relationSearchableKeys) > 0) {
-                foreach ($this->relationSearchableKeys as $relation => $values) {
-                    foreach ($values as $search_attribute) {
-                        $query->orWhereRelation($relation, function (Builder $q) use ($relation, $keyword, $search_attribute) {
-                            $relTable = $q->getModel()->getTable();
-                            $q->where("{$relTable}.{$search_attribute}", 'REGEXP', "(?i).*$keyword.*");
-                        });
-                    }
-                }
-            }
-            $query->orWhere($this->tableName . '.id', $keyword);
         }
 
         return $query;
@@ -237,6 +178,80 @@ abstract class BaseRepository
         return $query;
     }
 
+    protected function unsetEmptyParams(string|array|null $param = null): string|array|null
+    {
+        if (!$param) {
+            return null;
+        }
+        if (is_array($param)) {
+            foreach ($param as $value) {
+                if (strlen(trim(preg_replace('/\s+/', '', $value))) != 0) {
+                    return $param;
+                }
+            }
+            return null;
+        } elseif (strlen(trim(preg_replace('/\s+/', '', $param))) == 0) {
+            return null;
+        } else {
+            return $param;
+        }
+    }
+
+    /**
+     * @param mixed   $value
+     * @param Builder $query
+     * @param string  $table
+     * @param string  $column
+     * @return Builder
+     */
+    private function handleRangeQuery(array $value, Builder $query, string $table, string $column): Builder
+    {
+        if (count($value) == 2) {
+            if (!isset($value[0]) && isset($value[1])) {
+                $query = $query->where("$table.$column", '<=', $value[1]);
+            } elseif (isset($value[0]) && !isset($value[1])) {
+                $query->where("$table.$column", '>=', $value[0]);
+            } elseif (isset($value[0]) && isset($value[1])) {
+                $query = $query->where("$table.$column", '>=', $value[0])
+                    ->where("$table.$column", "<=", $value[1]);
+            }
+        } elseif (count($value) > 2) {
+            $query->whereIn("$table.$column", array_values(array_filter($value)));
+        }
+        return $query;
+    }
+
+    /**
+     * @param Builder $query
+     * @return Builder|T
+     */
+    private function addSearch(Builder $query): Builder
+    {
+        $keyword = $this->unsetEmptyParams(request("search", null));
+
+        if ($keyword) {
+            if (count($this->searchableKeys) > 0) {
+                foreach ($this->searchableKeys as $search_attribute) {
+                    $query->orWhere("$this->tableName.{$search_attribute}", 'REGEXP', "(?i).*$keyword.*");
+                }
+            }
+
+            if (count($this->relationSearchableKeys) > 0) {
+                foreach ($this->relationSearchableKeys as $relation => $values) {
+                    foreach ($values as $search_attribute) {
+                        $query->orWhereRelation($relation, function (Builder $q) use ($relation, $keyword, $search_attribute) {
+                            $relTable = $q->getModel()->getTable();
+                            $q->where("{$relTable}.{$search_attribute}", 'REGEXP', "(?i).*$keyword.*");
+                        });
+                    }
+                }
+            }
+            $query->orWhere($this->tableName . '.id', $keyword);
+        }
+
+        return $query;
+    }
+
     /**
      * @param Builder    $query
      * @param bool       $defaultOrder
@@ -292,10 +307,9 @@ abstract class BaseRepository
     /**
      * @param array $relationships
      * @param array $countable
-     * @param int   $per_page
      * @return array{data:Collection<T>|array|RegularCollection<T> , pagination_data:array}|null
      */
-    public function all_with_pagination(array $relationships = [], array $countable = [], int $per_page = 10): ?array
+    public function all_with_pagination(array $relationships = [], array $countable = []): ?array
     {
         if ($this->perPage == "all") {
             $all = $this->globalQuery($relationships)->withCount($countable)->get();
@@ -307,21 +321,6 @@ abstract class BaseRepository
             return ['data' => $all->items(), 'pagination_data' => $pagination_data];
         }
         return null;
-    }
-
-    /**
-     * @param Paginator $data
-     * @return array
-     */
-    public function formatPaginateData(Paginator $data): array
-    {
-        return [
-            'current_page' => $data->currentPage(),
-            'per_page'     => $data->perPage(),
-            'is_first'     => $data->onFirstPage(),
-            'is_last'      => $data->onLastPage(),
-            'has_more'     => $data->hasMorePages(),
-        ];
     }
 
     /**
@@ -368,6 +367,19 @@ abstract class BaseRepository
             }
         }
         return $keys;
+    }
+
+    protected function unsetNullable(array $data = []): array
+    {
+        foreach ($data as $key => $value) {
+            if ($value == null) {
+                if ($key != "service_id") {
+                    unset($data[$key]);
+                }
+            }
+        }
+
+        return $data;
     }
 
     /**
@@ -444,7 +456,7 @@ abstract class BaseRepository
      * @param array   $countable
      * @return T|null
      */
-    public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
+    public function update(array $data, mixed $id, array $relationships = [], array $countable = []): ?Model
     {
         $receivedData = $data;
 
@@ -516,49 +528,6 @@ abstract class BaseRepository
         Excel::import(new BaseImporter($this->model), request()->file('excel_file'));
     }
 
-    protected function unsetEmptyParams(string|array|null $param = null): string|array|null
-    {
-        if (!$param) {
-            return null;
-        }
-        if (is_array($param)) {
-            foreach ($param as $value) {
-                if (strlen(trim(preg_replace('/\s+/', '', $value))) != 0) {
-                    return $param;
-                }
-            }
-            return null;
-        } elseif (strlen(trim(preg_replace('/\s+/', '', $param))) == 0) {
-            return null;
-        } else {
-            return $param;
-        }
-    }
-
-    /**
-     * @param mixed   $value
-     * @param Builder $query
-     * @param string  $table
-     * @param string  $column
-     * @return Builder
-     */
-    private function handleRangeQuery(array $value, Builder $query, string $table, string $column): Builder
-    {
-        if (count($value) == 2) {
-            if (!isset($value[0]) && isset($value[1])) {
-                $query = $query->where("$table.$column", '<=', $value[1]);
-            } elseif (isset($value[0]) && !isset($value[1])) {
-                $query->where("$table.$column", '>=', $value[0]);
-            } elseif (isset($value[0]) && isset($value[1])) {
-                $query = $query->where("$table.$column", '>=', $value[0])
-                    ->where("$table.$column", "<=", $value[1]);
-            }
-        } elseif (count($value) > 2) {
-            $query->whereIn("$table.$column", array_values(array_filter($value)));
-        }
-        return $query;
-    }
-
     /**
      * @param Builder $query
      * @return array{data:Collection<T>|RegularCollection<T>|T[] , pagination_data:array}|null
@@ -568,11 +537,40 @@ abstract class BaseRepository
         $data = $query->simplePaginate($this->perPage ?? 10);
         if ($data->count()) {
             return [
-                'data'            => $data,
+                'data' => $data,
                 'pagination_data' => $this->formatPaginateData($data),
             ];
         } else {
             return null;
         }
+    }
+
+    protected function paginate(Builder $query, int $perPage = 10): ?array
+    {
+        $perPage = request('per_page', $perPage);
+        $data = $query->simplePaginate($perPage);
+        if ($data->count()) {
+            return [
+                'data' => $data,
+                'pagination_data' => $this->formatPaginateData($data),
+            ];
+        }
+
+        return null;
+    }
+
+    /**
+     * @param Paginator $data
+     * @return array
+     */
+    public function formatPaginateData(Paginator $data): array
+    {
+        return [
+            'current_page' => $data->currentPage(),
+            'per_page' => $data->perPage(),
+            'is_first' => $data->onFirstPage(),
+            'is_last' => $data->onLastPage(),
+            'has_more' => $data->hasMorePages(),
+        ];
     }
 }

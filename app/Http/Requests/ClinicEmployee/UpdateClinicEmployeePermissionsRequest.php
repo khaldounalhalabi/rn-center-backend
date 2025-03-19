@@ -3,6 +3,7 @@
 namespace App\Http\Requests\ClinicEmployee;
 
 use App\Enums\RolesPermissionEnum;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -18,12 +19,12 @@ class UpdateClinicEmployeePermissionsRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
         return [
-            'permissions'   => 'array|required',
+            'permissions' => 'array|required',
             'permissions.*' => ['string', Rule::in(array_keys(RolesPermissionEnum::CLINIC_EMPLOYEE['permissions']))]
         ];
     }

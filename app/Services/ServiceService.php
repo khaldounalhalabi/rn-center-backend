@@ -55,7 +55,7 @@ class ServiceService extends BaseService
 
     public function getClinicServices($clinicId, array $relations = [], array $countable = [], $perPage = 10): ?array
     {
-        return $this->repository->getByClinic($clinicId, $relations, $countable, $perPage);
+        return $this->repository->getByClinic($clinicId, $relations, $countable);
     }
 
     /**

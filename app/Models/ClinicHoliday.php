@@ -33,9 +33,9 @@ class ClinicHoliday extends Model implements ActionsMustBeAuthorized
     ];
 
     protected $casts = [
-        'reason'     => Translatable::class,
+        'reason' => Translatable::class,
         'start_date' => 'datetime:Y-m-d',
-        'end_date'   => 'datetime:Y-m-d',
+        'end_date' => 'datetime:Y-m-d',
     ];
 
     /**
@@ -64,6 +64,13 @@ class ClinicHoliday extends Model implements ActionsMustBeAuthorized
         ];
     }
 
+    public static function authorizedActions(): array
+    {
+        return [
+            'manage-holidays'
+        ];
+    }
+
     public function clinic(): BelongsTo
     {
         return $this->belongsTo(Clinic::class);
@@ -85,23 +92,16 @@ class ClinicHoliday extends Model implements ActionsMustBeAuthorized
     {
         return [
             [
-                'name'     => 'start_date',
-                'method'   => 'whereDate',
+                'name' => 'start_date',
+                'method' => 'whereDate',
                 'operator' => '>=',
 
             ],
             [
-                'name'     => 'end_date',
-                'method'   => 'whereDate',
+                'name' => 'end_date',
+                'method' => 'whereDate',
                 'operator' => '<=',
             ],
-        ];
-    }
-
-    public static function authorizedActions(): array
-    {
-        return [
-            'manage-holidays'
         ];
     }
 }

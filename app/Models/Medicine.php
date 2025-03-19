@@ -21,22 +21,21 @@ class Medicine extends Model implements ActionsMustBeAuthorized
     use HasFactory;
     use HasAbilities;
 
+    protected $fillable = [
+        'name',
+        'description',
+        'clinic_id',
+    ];
+    protected $casts = [
+
+    ];
+
     public static function authorizedActions(): array
     {
         return [
             'manage-medicines'
         ];
     }
-
-    protected $fillable = [
-        'name',
-        'description',
-        'clinic_id',
-    ];
-
-    protected $casts = [
-
-    ];
 
     /**
      * add your searchable columns, so you can search within them in the
@@ -57,7 +56,7 @@ class Medicine extends Model implements ActionsMustBeAuthorized
     public static function relationsSearchableArray(): array
     {
         return [
-            'clinic'      => [
+            'clinic' => [
                 'name'
             ],
             'clinic.user' => [

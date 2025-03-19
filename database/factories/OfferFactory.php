@@ -21,13 +21,13 @@ class OfferFactory extends Factory
     public function definition(): array
     {
         return [
-            'title'     => $this->fakeTranslation('word'),
-            'value'     => fake()->randomFloat(2, 0, 100),
-            'note'      => $this->fakeTranslation('sentence'),
-            'start_at'  => now()->subDays(5),
-            'end_at'    => now()->addDays(5),
+            'title' => $this->fakeTranslation('word'),
+            'value' => fake()->randomFloat(2, 0, 100),
+            'note' => $this->fakeTranslation('sentence'),
+            'start_at' => now()->subDays(5),
+            'end_at' => now()->addDays(5),
             'is_active' => true,
-            'type'      => fake()->randomElement(OfferTypeEnum::getAllValues()),
+            'type' => fake()->randomElement(OfferTypeEnum::getAllValues()),
             'clinic_id' => Clinic::inRandomOrder()->first()->id,
         ];
     }

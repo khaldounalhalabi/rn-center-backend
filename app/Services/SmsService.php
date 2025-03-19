@@ -4,8 +4,9 @@ namespace App\Services;
 
 use App\Jobs\SendSmsJob;
 use App\Traits\Makable;
+use Error;
+use Exception;
 use Illuminate\Support\Facades\Log;
-use SmsGateway24\Exceptions\SDKException;
 use SmsGateway24\SmsGateway24;
 
 class SmsService
@@ -59,7 +60,7 @@ class SmsService
             Log::info("Code : {$smsStatus->status}");
             Log::info("##################");
 
-        } catch (\Exception|\Error $e) {
+        } catch (Exception|Error $e) {
             Log::info("######### Sending Sms Error #########");
             Log::info("{$e->getMessage()} \n {$e->getFile()} \n Line: {$e->getLine()}");
             Log::info("######### To : $to #########");

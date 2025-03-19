@@ -19,6 +19,14 @@ class ClinicEmployee extends Model implements ActionsMustBeAuthorized
     use HasFactory;
     use HasAbilities;
 
+    protected $fillable = [
+        'user_id',
+        'clinic_id',
+    ];
+    protected $casts = [
+
+    ];
+
     public static function authorizedActions(): array
     {
         return [
@@ -26,14 +34,19 @@ class ClinicEmployee extends Model implements ActionsMustBeAuthorized
         ];
     }
 
-    protected $fillable = [
-        'user_id',
-        'clinic_id',
-    ];
-
-    protected $casts = [
-
-    ];
+    /**
+     * add your relations and their searchable columns,
+     * so you can search within them in the index method
+     */
+    public static function relationsSearchableArray(): array
+    {
+        return [
+            'user' => [
+                'full_name',
+                'email'
+            ],
+        ];
+    }
 
     public function exportable(): array
     {
@@ -41,11 +54,6 @@ class ClinicEmployee extends Model implements ActionsMustBeAuthorized
             'user.first_name',
             'clinic.name',
         ];
-    }
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
     }
 
     public function clinic(): BelongsTo
@@ -65,20 +73,6 @@ class ClinicEmployee extends Model implements ActionsMustBeAuthorized
         ];
     }
 
-    /**
-     * add your relations and their searchable columns,
-     * so you can search within them in the index method
-     */
-    public static function relationsSearchableArray(): array
-    {
-        return [
-            'user' => [
-                'full_name',
-                'email'
-            ],
-        ];
-    }
-
     public function canDelete(): bool
     {
         return (
@@ -86,6 +80,11 @@ class ClinicEmployee extends Model implements ActionsMustBeAuthorized
             || (auth()->user()?->id == $this->user_id && $this->clinic->isAvailable() && $this->user->isAvailable())
             || auth()->user()?->isAdmin()
         );
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function canShow(): bool

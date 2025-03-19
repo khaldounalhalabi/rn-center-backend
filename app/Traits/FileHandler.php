@@ -60,67 +60,6 @@ trait FileHandler
     }
 
     /**
-     * store requested keys as files
-     * @param array $data
-     * @param array $filesKeys
-     * @param bool  $is_store
-     * @param null  $item
-     * @param bool  $to_compress
-     * @param bool  $is_base_64
-     * @param int   $width
-     * @return array
-     */
-    private function storeOrUpdateRequestedFiles(array $data, array $filesKeys = [], bool $is_store = true, $item = null, bool $to_compress = true, bool $is_base_64 = false, int $width = 300): array
-    {
-        $model_files = [];
-        if (count($filesKeys) > 0) {
-            foreach ($filesKeys as $file) {
-                if (in_array($file, $data)) {
-                    if ($is_store) {
-                        $model_files["{$file}"] = $this->storeFile($data["{$file}"], $this->model->getTable(), $to_compress, $is_base_64, $width);
-                    } else {
-                        $model_files["{$file}"] = $this->updateFile($data["{$file}"], $item->{"{$file}"}, $this->model->getTable(), $to_compress, $is_base_64, $width);
-                    }
-                    unset($data["{$file}"]);
-                }
-            }
-            $data = array_merge($data, $model_files);
-        }
-
-        return $data;
-    }
-
-    /**
-     * this function takes a base64 encoded image and store it in the filesystem and return the name of it
-     * (ex. 12546735.png) that will be stored in DB
-     * @param         $file
-     * @param         $dir
-     * @param bool    $to_compress
-     * @param bool    $is_base_64
-     * @param int     $width
-     * @return string
-     */
-    public function storeFile($file, $dir, bool $to_compress = true, bool $is_base_64 = false, int $width = 300): string
-    {
-        $this->files = new Filesystem();
-        $this->makeDirectory(storage_path('app/public/' . $dir));
-        if ($is_base_64) {
-            $name = $dir . '/' . str_replace([':', '\\', '/', '*'], '', bcrypt(microtime(true))) . '.' . explode('/', explode(':', explode(';', $file)[0])[1])[1];
-        } else {
-            $name = $dir . '/' . $file->hashName();
-        }
-        if ($to_compress) {
-            Image::make($file)->resize($width, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save(storage_path('app/public/') . $name);
-        } else {
-            Image::make($file)->save(storage_path('app/public/') . $name);
-        }
-
-        return $name;
-    }
-
-    /**
      * this function takes $newImage(base64 encoded) and $oldImage(DB name) ,
      * it deletes the $oldImage from the filesystem and store the $newImage and return its name that will be stored in
      * DB
@@ -156,5 +95,35 @@ trait FileHandler
         }
 
         return false;
+    }
+
+    /**
+     * this function takes a base64 encoded image and store it in the filesystem and return the name of it
+     * (ex. 12546735.png) that will be stored in DB
+     * @param         $file
+     * @param         $dir
+     * @param bool    $to_compress
+     * @param bool    $is_base_64
+     * @param int     $width
+     * @return string
+     */
+    public function storeFile($file, $dir, bool $to_compress = true, bool $is_base_64 = false, int $width = 300): string
+    {
+        $this->files = new Filesystem();
+        $this->makeDirectory(storage_path('app/public/' . $dir));
+        if ($is_base_64) {
+            $name = $dir . '/' . str_replace([':', '\\', '/', '*'], '', bcrypt(microtime(true))) . '.' . explode('/', explode(':', explode(';', $file)[0])[1])[1];
+        } else {
+            $name = $dir . '/' . $file->hashName();
+        }
+        if ($to_compress) {
+            Image::make($file)->resize($width, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save(storage_path('app/public/') . $name);
+        } else {
+            Image::make($file)->save(storage_path('app/public/') . $name);
+        }
+
+        return $name;
     }
 }

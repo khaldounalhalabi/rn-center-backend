@@ -31,13 +31,6 @@ class Offer extends Model implements ActionsMustBeAuthorized, HasMedia
     use HasAbilities;
     use InteractsWithMedia;
 
-    public static function authorizedActions(): array
-    {
-        return [
-            'manage-offers',
-        ];
-    }
-
     protected $fillable = [
         'title',
         'value',
@@ -49,12 +42,19 @@ class Offer extends Model implements ActionsMustBeAuthorized, HasMedia
         'clinic_id',
     ];
     protected $casts = [
-        'title'     => Translatable::class,
-        'note'      => Translatable::class,
-        'start_at'  => 'datetime',
-        'end_at'    => 'datetime',
+        'title' => Translatable::class,
+        'note' => Translatable::class,
+        'start_at' => 'datetime',
+        'end_at' => 'datetime',
         'is_active' => 'boolean',
     ];
+
+    public static function authorizedActions(): array
+    {
+        return [
+            'manage-offers',
+        ];
+    }
 
     /**
      * add your searchable columns, so you can search within them in the

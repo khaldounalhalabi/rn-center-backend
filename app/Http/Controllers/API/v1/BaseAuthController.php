@@ -102,6 +102,7 @@ class BaseAuthController extends ApiController
 
     public function checkPasswordResetCode(CheckPasswordResetRequest $request)
     {
+        $request->validated();
         return $this->apiResponse(null, self::STATUS_OK, __('site.code_correct'));
     }
 

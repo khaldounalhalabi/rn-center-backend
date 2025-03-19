@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Enums\RolesPermissionEnum;
 use App\Http\Controllers\ApiController;
 use App\Traits\RestTrait;
 use Closure;

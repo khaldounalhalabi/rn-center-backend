@@ -21,7 +21,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -36,14 +35,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
     use InteractsWithMedia;
     use Translations;
 
-    public static function authorizedActions(): array
-    {
-        return [
-            'edit-clinic-profile',
-            'show-clinic-profile',
-        ];
-    }
-
     protected $fillable = [
         'name',
         'appointment_cost',
@@ -57,7 +48,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
         'approximate_appointment_time',
         'agreed_on_contract'
     ];
-
     protected $casts = [
         'name' => Translatable::class,
         'working_start_year' => 'datetime',
@@ -67,6 +57,14 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
         'appointment_cost' => 'float',
         'agreed_on_contract' => 'bool'
     ];
+
+    public static function authorizedActions(): array
+    {
+        return [
+            'edit-clinic-profile',
+            'show-clinic-profile',
+        ];
+    }
 
     /**
      * add your searchable columns,so you can search within them in the
@@ -147,11 +145,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
         ];
     }
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
-
     /**
      * define your columns which you want to treat them as files
      * so the base repository can store them in the storage without
@@ -207,7 +200,7 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
             ->whereNotIn('status', [AppointmentStatusEnum::CANCELLED->value, AppointmentStatusEnum::PENDING->value]);
     }
 
-    public function canHasAppointmentIn(string $date, int $customerId): bool
+    public function canHasAppointmentIn(string $date): bool
     {
         if (!$this->validAppointmentDateTime($date)) {
             return false;
@@ -300,11 +293,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
         return $this->belongsToMany(Subscription::class);
     }
 
-    public function clinicSubscriptions(): HasMany
-    {
-        return $this->hasMany(ClinicSubscription::class);
-    }
-
     public function activeSubscription(): HasOne
     {
         return $this->hasOne(ClinicSubscription::class)
@@ -344,11 +332,32 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
             || auth()->user()?->getClinicId() == $this->id;
     }
 
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function canShow(): bool
     {
         return auth()->user()?->isAdmin()
             || auth()->user()?->getClinicId() == $this->id
             || !auth()->user() && $this->availableOnline();
+    }
+
+    /**
+     * @return bool
+     */
+    public function availableOnline(): bool
+    {
+        return $this->clinicSubscriptions()
+            ->where('type', SubscriptionTypeEnum::BOOKING_COST_BASED->value)
+            ->active()
+            ->exists();
+    }
+
+    public function clinicSubscriptions(): HasMany
+    {
+        return $this->hasMany(ClinicSubscription::class);
     }
 
     public function canDelete(): bool
@@ -391,13 +400,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
         return $this->hasMany(AppointmentDeduction::class);
     }
 
-    protected function deductionCost(): Attribute
-    {
-        return Attribute::make(
-            get: fn($value, array $attributes) => (($this->activeSubscription?->deduction_cost ?? 0) * $this->appointment_cost) / 100,
-        );
-    }
-
     public function hasActiveSubscription(): bool
     {
         return $this->activeSubscription?->end_time_with_allow_period?->isAfter(now())
@@ -422,14 +424,10 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
         });
     }
 
-    /**
-     * @return bool
-     */
-    public function availableOnline(): bool
+    protected function deductionCost(): Attribute
     {
-        return $this->clinicSubscriptions()
-            ->where('type', SubscriptionTypeEnum::BOOKING_COST_BASED->value)
-            ->active()
-            ->exists();
+        return Attribute::make(
+            get: fn($value, array $attributes) => (($this->activeSubscription?->deduction_cost ?? 0) * $this->appointment_cost) / 100,
+        );
     }
 }

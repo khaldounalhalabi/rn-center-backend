@@ -60,17 +60,6 @@ class ClinicController extends ApiController
         return $this->apiResponse(null, self::STATUS_OK, __('site.something_went_wrong'));
     }
 
-    public function update($clinicId, StoreUpdateClinicRequest $request)
-    {
-        /** @var Clinic|null $item */
-        $item = $this->clinicService->update($request->validated(), $clinicId, $this->relations, $this->countable);
-        if ($item) {
-            return $this->apiResponse(new ClinicResource($item), self::STATUS_OK, __('site.update_successfully'));
-        }
-
-        return $this->noData(null);
-    }
-
     public function destroy($clinicId)
     {
         $item = $this->clinicService->delete($clinicId);
@@ -81,12 +70,6 @@ class ClinicController extends ApiController
         return $this->noData(false);
     }
 
-    public function getClinicAvailableTimes($clinicId)
-    {
-        $data = $this->clinicService->getClinicAvailableTimes($clinicId);
-        return $this->apiResponse($data, self::STATUS_OK, __('site.get_successfully'));
-    }
-
     public function getCurrentClinicAvailableTime()
     {
         if (!auth()->user()?->isClinic()) {
@@ -94,6 +77,12 @@ class ClinicController extends ApiController
         }
 
         $data = $this->clinicService->getClinicAvailableTimes(auth()->user()?->getClinicId());
+        return $this->apiResponse($data, self::STATUS_OK, __('site.get_successfully'));
+    }
+
+    public function getClinicAvailableTimes($clinicId)
+    {
+        $data = $this->clinicService->getClinicAvailableTimes($clinicId);
         return $this->apiResponse($data, self::STATUS_OK, __('site.get_successfully'));
     }
 
@@ -123,6 +112,17 @@ class ClinicController extends ApiController
             return $this->noData();
         }
 
+        $item = $this->clinicService->update($request->validated(), $clinicId, $this->relations, $this->countable);
+        if ($item) {
+            return $this->apiResponse(new ClinicResource($item), self::STATUS_OK, __('site.update_successfully'));
+        }
+
+        return $this->noData(null);
+    }
+
+    public function update($clinicId, StoreUpdateClinicRequest $request)
+    {
+        /** @var Clinic|null $item */
         $item = $this->clinicService->update($request->validated(), $clinicId, $this->relations, $this->countable);
         if ($item) {
             return $this->apiResponse(new ClinicResource($item), self::STATUS_OK, __('site.update_successfully'));

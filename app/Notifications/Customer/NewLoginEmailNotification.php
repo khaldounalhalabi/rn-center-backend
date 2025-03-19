@@ -44,8 +44,8 @@ class NewLoginEmailNotification extends Notification
         return (new MailMessage)
             ->subject("POM - New Login To Your Account")
             ->view('emails.new-login', [
-                'ip'          => $this->ip,
-                'deviceType'  => $this->deviceType,
+                'ip' => $this->ip,
+                'deviceType' => $this->deviceType,
                 'browserType' => $this->browserType,
             ]);
     }

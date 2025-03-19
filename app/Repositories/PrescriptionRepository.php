@@ -13,6 +13,18 @@ class PrescriptionRepository extends BaseRepository
 {
     protected string $modelClass = Prescription::class;
 
+    /**
+     * @param int   $appointmentId
+     * @param array $relations
+     * @return array|null
+     */
+    public function getByAppointmentId(int $appointmentId, array $relations = []): ?array
+    {
+        return $this->paginateQuery(
+            $this->globalQuery($relations)->where('appointment_id', $appointmentId)
+        );
+    }
+
     public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
     {
         return parent::globalQuery($relations, $countable)
@@ -23,21 +35,7 @@ class PrescriptionRepository extends BaseRepository
             });
     }
 
-
-    /**
-     * @param int   $appointmentId
-     * @param array $relations
-     * @param int   $perPage
-     * @return array|null
-     */
-    public function getByAppointmentId(int $appointmentId, array $relations = [], int $perPage = 10): ?array
-    {
-        return $this->paginateQuery(
-            $this->globalQuery($relations)->where('appointment_id', $appointmentId)
-        );
-    }
-
-    public function getClinicCustomerPrescriptions($clinicId, $customerId, array $relations = [], array $countable = [], int $perPage = 10): ?array
+    public function getClinicCustomerPrescriptions($clinicId, $customerId, array $relations = [], array $countable = []): ?array
     {
         return $this->paginateQuery(
             $this->globalQuery($relations, $countable)

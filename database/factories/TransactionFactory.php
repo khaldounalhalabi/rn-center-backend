@@ -19,11 +19,11 @@ class TransactionFactory extends Factory
     public function definition(): array
     {
         return [
-            'type'        => fake()->randomElement(TransactionTypeEnum::getAllValues()),
-            'amount'      => fake()->randomFloat(1, 2000),
+            'type' => fake()->randomElement(TransactionTypeEnum::getAllValues()),
+            'amount' => fake()->randomFloat(1, 2000),
             'description' => fake()->text(),
-            'date'        => fake()->dateTimeBetween('-5 days', '+30 days'),
-            'actor_id'    => User::inRandomOrder()->byRole(RolesPermissionEnum::ADMIN['role'])->first()->id,
+            'date' => fake()->dateTimeBetween('-5 days', '+30 days'),
+            'actor_id' => User::inRandomOrder()->byRole(RolesPermissionEnum::ADMIN['role'])->first()->id,
         ];
     }
 }

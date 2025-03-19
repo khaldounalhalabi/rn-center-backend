@@ -47,14 +47,6 @@ class Appointment extends Model implements ActionsMustBeAuthorized
     protected $observables = [
         'statusChange'
     ];
-
-    public static function authorizedActions(): array
-    {
-        return [
-            'manage-appointments',
-        ];
-    }
-
     protected $fillable = [
         'customer_id',
         'clinic_id',
@@ -73,11 +65,17 @@ class Appointment extends Model implements ActionsMustBeAuthorized
         'appointment_unique_code',
         'is_revision',
     ];
-
     protected $casts = [
         'date' => 'datetime:Y-m-d:',
         'is_revision' => 'boolean',
     ];
+
+    public static function authorizedActions(): array
+    {
+        return [
+            'manage-appointments',
+        ];
+    }
 
     /**
      * add your searchable columns, so you can search within them in the
@@ -120,11 +118,6 @@ class Appointment extends Model implements ActionsMustBeAuthorized
                 'full_name',
             ],
         ];
-    }
-
-    protected static function booted(): void
-    {
-        parent::booted();
     }
 
     public static function handleRemainingTime(Appointment $appointment): Appointment
@@ -172,6 +165,11 @@ class Appointment extends Model implements ActionsMustBeAuthorized
         }
 
         return $appointment;
+    }
+
+    protected static function booted(): void
+    {
+        parent::booted();
     }
 
     public function exportable(): array
@@ -337,21 +335,21 @@ class Appointment extends Model implements ActionsMustBeAuthorized
         return $this->hasOne(AppointmentDeduction::class, 'appointment_id', 'id');
     }
 
-    public function getSystemOffersTotal()
-    {
-        return $this->systemOffers
-            ->sum(fn(SystemOffer $offer) => $offer->type == OfferTypeEnum::FIXED->value
-                ? $offer->value
-                : ($offer->value * $this->clinic->appointment_cost) / 100
-            );
-    }
-
     public function getClinicOfferTotal()
     {
         return $this->offers
             ->sum(fn(Offer $offer) => $offer->type == OfferTypeEnum::FIXED->value
                 ? $offer->amount
                 : ($offer->amount * ($this->clinic->appointment_cost - $this->getSystemOffersTotal())) / 100
+            );
+    }
+
+    public function getSystemOffersTotal()
+    {
+        return $this->systemOffers
+            ->sum(fn(SystemOffer $offer) => $offer->type == OfferTypeEnum::FIXED->value
+                ? $offer->value
+                : ($offer->value * $this->clinic->appointment_cost) / 100
             );
     }
 

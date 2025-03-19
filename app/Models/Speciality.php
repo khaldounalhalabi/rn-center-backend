@@ -12,8 +12,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property \App\Serializers\Translatable name
- * @property string description
- * @property string tags
+ * @property string                        description
+ * @property string                        tags
  */
 class Speciality extends Model implements HasMedia
 {

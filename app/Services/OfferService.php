@@ -62,6 +62,6 @@ class OfferService extends BaseService
 
     public function getByClinic($clinicId, array $relations = [], array $countable = [], int $perPage = 10): ?array
     {
-        return $this->repository->getByClinicId($clinicId, $relations, $countable, $perPage);
+        return $this->repository->getByClinicId($clinicId, $relations, $countable);
     }
 }

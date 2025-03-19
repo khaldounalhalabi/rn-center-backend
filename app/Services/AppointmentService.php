@@ -44,7 +44,7 @@ class AppointmentService extends BaseService
      */
     public function getClinicAppointments($clinicId, array $relations = [], int $perPage = 10): ?array
     {
-        return $this->repository->getByClinic($clinicId, $relations, $perPage);
+        return $this->repository->getByClinic($clinicId, $relations);
     }
 
     /**
@@ -127,8 +127,7 @@ class AppointmentService extends BaseService
         $clinic = $appointment->clinic;
 
         if (!$clinic->canHasAppointmentIn(
-            $data['date'],
-            $appointment->customer_id
+            $data['date']
         )) {
             return null;
         }

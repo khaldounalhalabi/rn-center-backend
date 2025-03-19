@@ -77,18 +77,18 @@ class PatientProfileController extends ApiController
         return $this->noData(false);
     }
 
-    public function getCustomerPatientProfiles($customerId)
+    public function getByCurrentCustomer()
     {
-        $data = $this->patientProfileService->getCustomerPatientProfiles($customerId, $this->relations);
+        $data = $this->patientProfileService->getCustomerPatientProfiles(auth()?->user()?->customer?->id, $this->relations);
         if ($data) {
             return $this->apiResponse($data['data'], self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
         }
         return $this->noData();
     }
 
-    public function getByCurrentCustomer()
+    public function getCustomerPatientProfiles($customerId)
     {
-        $data = $this->patientProfileService->getCustomerPatientProfiles(auth()?->user()?->customer?->id, $this->relations);
+        $data = $this->patientProfileService->getCustomerPatientProfiles($customerId, $this->relations);
         if ($data) {
             return $this->apiResponse($data['data'], self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
         }

@@ -24,12 +24,12 @@ class ClinicTransactionFactory extends Factory
         $appointment = Appointment::where('clinic_id', $clinic->id)->inRandomOrder()->first();
 
         return [
-            'amount'         => fake()->randomNumber(1, 10),
+            'amount' => fake()->randomNumber(1, 10),
             'appointment_id' => $appointment?->id,
-            'type'           => ClinicTransactionTypeEnum::INCOME->value,
-            'clinic_id'      => $clinic->id,
-            'notes'          => fake()->text(),
-            'status'         => ClinicTransactionStatusEnum::PENDING->value,
+            'type' => ClinicTransactionTypeEnum::INCOME->value,
+            'clinic_id' => $clinic->id,
+            'notes' => fake()->text(),
+            'status' => ClinicTransactionStatusEnum::PENDING->value,
         ];
     }
 

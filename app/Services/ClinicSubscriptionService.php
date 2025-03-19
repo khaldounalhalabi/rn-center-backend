@@ -63,40 +63,6 @@ class ClinicSubscriptionService extends BaseService
         return parent::store($data, $relationships, $countable);
     }
 
-    public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
-    {
-        $clinicSubscription = $this->repository->find($id);
-
-        if (!$clinicSubscription) {
-            return null;
-        }
-
-        if ($data['subscription_id'] != $clinicSubscription->subscription_id) {
-            $subscription = $this->subscriptionRepository->find($data['subscription_id']);
-
-            if (!$subscription) {
-                return null;
-            }
-
-            $data['ends_at'] = $subscription->period == -1
-                ? $clinicSubscription->start_time->addYears(200)  // lifetime
-                : ($subscription->dayUnit()
-                    ? $clinicSubscription->start_time->addDays($subscription->period)
-                    : $clinicSubscription->start_time->addMonths($subscription->period)
-                );
-
-            $data['status'] = $data['ends_at']->isAfter(now())
-                ? SubscriptionStatusEnum::ACTIVE->value
-                : SubscriptionStatusEnum::IN_ACTIVE->value;
-        }
-
-        if (isset($data['type']) && $data['type'] == SubscriptionTypeEnum::MONTHLY_PAID_BASED->value) {
-            $data['deduction_cost'] = 0;
-        }
-
-        return $this->repository->update($data, $clinicSubscription, $relationships);
-    }
-
     /**
      * @param       $clinicId
      * @param array $relations
@@ -106,7 +72,7 @@ class ClinicSubscriptionService extends BaseService
     #[ArrayShape(['data' => "mixed", 'pagination_data' => "array"])]
     public function getClinicSubscriptions($clinicId, array $relations = [], int $perPage = 10): ?array
     {
-        return $this->repository->getByClinic($clinicId, $relations, $perPage);
+        return $this->repository->getByClinic($clinicId, $relations);
     }
 
     /**
@@ -170,5 +136,39 @@ class ClinicSubscriptionService extends BaseService
         ]);
 
         return $clinicSubscription;
+    }
+
+    public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
+    {
+        $clinicSubscription = $this->repository->find($id);
+
+        if (!$clinicSubscription) {
+            return null;
+        }
+
+        if ($data['subscription_id'] != $clinicSubscription->subscription_id) {
+            $subscription = $this->subscriptionRepository->find($data['subscription_id']);
+
+            if (!$subscription) {
+                return null;
+            }
+
+            $data['ends_at'] = $subscription->period == -1
+                ? $clinicSubscription->start_time->addYears(200)  // lifetime
+                : ($subscription->dayUnit()
+                    ? $clinicSubscription->start_time->addDays($subscription->period)
+                    : $clinicSubscription->start_time->addMonths($subscription->period)
+                );
+
+            $data['status'] = $data['ends_at']->isAfter(now())
+                ? SubscriptionStatusEnum::ACTIVE->value
+                : SubscriptionStatusEnum::IN_ACTIVE->value;
+        }
+
+        if (isset($data['type']) && $data['type'] == SubscriptionTypeEnum::MONTHLY_PAID_BASED->value) {
+            $data['deduction_cost'] = 0;
+        }
+
+        return $this->repository->update($data, $clinicSubscription, $relationships);
     }
 }

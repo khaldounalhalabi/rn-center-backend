@@ -5,7 +5,6 @@ namespace App\Repositories;
 use App\Models\Clinic;
 use App\Repositories\Contracts\BaseRepository;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\DB;
 
 /**
  * @extends  BaseRepository<Clinic>
@@ -15,15 +14,7 @@ class ClinicRepository extends BaseRepository
 {
     protected string $modelClass = Clinic::class;
 
-    public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
-    {
-        return parent::globalQuery($relations, $countable)
-            ->when($this->filtered || !auth()->user()?->isAdmin(), function (Builder|Clinic $query) {
-                $query->available();
-            });
-    }
-
-    public function byActiveSubscription($subscriptionId, array $relations = [], array $countable = [], int $perPage = 10): ?array
+    public function byActiveSubscription($subscriptionId, array $relations = [], array $countable = []): ?array
     {
         return $this->paginateQuery(
             $this->globalQuery($relations)
@@ -32,6 +23,14 @@ class ClinicRepository extends BaseRepository
                     $builder->where('subscription_id', $subscriptionId);
                 })
         );
+    }
+
+    public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
+    {
+        return parent::globalQuery($relations, $countable)
+            ->when($this->filtered || !auth()->user()?->isAdmin(), function (Builder|Clinic $query) {
+                $query->available();
+            });
     }
 
     public function getBySystemOffer($systemOfferId, array $relations = [], array $countable = []): ?array

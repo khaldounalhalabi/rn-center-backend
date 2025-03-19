@@ -24,7 +24,7 @@ class ToggleAppointmentStatusRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status'              => 'required|string|' . Rule::in(AppointmentStatusEnum::getAllValues()),
+            'status' => 'required|string|' . Rule::in(AppointmentStatusEnum::getAllValues()),
             'cancellation_reason' => 'string|nullable|' . Rule::requiredIf(fn() => $this->input('status') == AppointmentStatusEnum::CANCELLED->value)
         ];
     }

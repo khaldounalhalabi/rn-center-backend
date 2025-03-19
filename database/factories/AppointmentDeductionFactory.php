@@ -22,12 +22,12 @@ class AppointmentDeductionFactory extends Factory
         $clinic = Clinic::whereHas('appointments')->inRandomOrder()->first();
         $appointment = Appointment::where('clinic_id', $clinic->id)->first();
         return [
-            'amount'                => fake()->randomFloat(1, 1, 100),
-            'status'                => fake()->randomElement(AppointmentDeductionStatusEnum::getAllValues()),
+            'amount' => fake()->randomFloat(1, 1, 100),
+            'status' => fake()->randomElement(AppointmentDeductionStatusEnum::getAllValues()),
             'clinic_transaction_id' => ClinicTransaction::factory(),
-            'appointment_id'        => $appointment?->id,
-            'clinic_id'             => $clinic?->id,
-            'date'                  => fake()->dateTimeBetween('-5 days', '+5 days'),
+            'appointment_id' => $appointment?->id,
+            'clinic_id' => $clinic?->id,
+            'date' => fake()->dateTimeBetween('-5 days', '+5 days'),
         ];
     }
 }

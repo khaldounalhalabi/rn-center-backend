@@ -25,9 +25,9 @@ class StoreUpdateSubscriptionRequest extends FormRequest
     {
         if (request()->method() == 'POST') {
             return [
-                'name'         => ['required', 'string', 'min:3', 'max:255', 'unique:subscriptions,name'],
-                'description'  => ['nullable', 'string'],
-                'period'       => ['required', 'numeric', function (string $attribute, mixed $value, Closure $fail) {
+                'name' => ['required', 'string', 'min:3', 'max:255', 'unique:subscriptions,name'],
+                'description' => ['nullable', 'string'],
+                'period' => ['required', 'numeric', function (string $attribute, mixed $value, Closure $fail) {
                     if ($value == 0) {
                         $fail($attribute . ' must not be 0.');
                     }
@@ -36,17 +36,17 @@ class StoreUpdateSubscriptionRequest extends FormRequest
                         $fail($attribute . ' must not be less than -1.');
                     }
                 }],
-                'period_unit'  => ['required', Rule::in(SubscriptionPeriodUnitEnum::getAllValues())],
+                'period_unit' => ['required', Rule::in(SubscriptionPeriodUnitEnum::getAllValues())],
                 'allow_period' => ['required', 'numeric', 'min:0'],
-                'cost'         => ['required', 'numeric', 'min:0'],
+                'cost' => ['required', 'numeric', 'min:0'],
             ];
         }
 
         $subscriptionId = $this->route('subscription');
         return [
-            'name'         => ['nullable', 'string', 'min:3', 'max:255', 'unique:subscriptions,name,' . $subscriptionId],
-            'description'  => ['nullable', 'string'],
-            'period'       => ['nullable', 'numeric', function (string $attribute, mixed $value, Closure $fail) {
+            'name' => ['nullable', 'string', 'min:3', 'max:255', 'unique:subscriptions,name,' . $subscriptionId],
+            'description' => ['nullable', 'string'],
+            'period' => ['nullable', 'numeric', function (string $attribute, mixed $value, Closure $fail) {
                 if ($value == 0) {
                     $fail($attribute . ' must not be 0.');
                 }
@@ -55,9 +55,9 @@ class StoreUpdateSubscriptionRequest extends FormRequest
                     $fail($attribute . ' must not be less than -1.');
                 }
             }],
-            'period_unit'  => ['required', Rule::in(SubscriptionPeriodUnitEnum::getAllValues())],
+            'period_unit' => ['required', Rule::in(SubscriptionPeriodUnitEnum::getAllValues())],
             'allow_period' => ['nullable', 'numeric', 'min:0'],
-            'cost'         => ['nullable', 'numeric', 'min:0'],
+            'cost' => ['nullable', 'numeric', 'min:0'],
         ];
     }
 }

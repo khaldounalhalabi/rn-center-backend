@@ -27,7 +27,7 @@ class PatientProfileService extends BaseService
      */
     public function getCustomerPatientProfiles($customerId, array $relations = [], array $countable = [], int $perPage = 10): ?array
     {
-        return $this->repository->getByCustomerId($customerId, $relations, $countable, $perPage);
+        return $this->repository->getByCustomerId($customerId, $relations, $countable);
     }
 
     public function view($id, array $relationships = [], array $countable = []): ?Model

@@ -15,6 +15,14 @@ class PatientProfileRepository extends BaseRepository
 {
     protected string $modelClass = PatientProfile::class;
 
+    public function getByCustomerId($customerId, array $relations, array $countable = []): ?array
+    {
+        return $this->paginateQuery(
+            $this->globalQuery($relations, $countable)
+                ->where('customer_id', $customerId)
+        );
+    }
+
     public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
     {
         return parent::globalQuery($relations, $countable)
@@ -25,14 +33,6 @@ class PatientProfileRepository extends BaseRepository
                     $query->available();
                 });
             });
-    }
-
-    public function getByCustomerId($customerId, array $relations, array $countable = [], int $perPage = 10): ?array
-    {
-        return $this->paginateQuery(
-            $this->globalQuery($relations, $countable)
-                ->where('customer_id', $customerId)
-        );
     }
 
     public function getByClinicAndCustomer($clinicId, $customerId): ?PatientProfile

@@ -73,7 +73,7 @@ class PhoneNumberService extends BaseService
         }
 
         $phone->update([
-            'is_verified'       => true,
+            'is_verified' => true,
             'verification_code' => null,
         ]);
 

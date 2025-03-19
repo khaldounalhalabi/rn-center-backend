@@ -36,7 +36,7 @@ class ClinicEmployeeService extends BaseService
 
         return $this->repository->create([
             'clinic_id' => $data['clinic_id'],
-            'user_id'   => $user->id
+            'user_id' => $user->id
         ], $relationships, $countable);
     }
 

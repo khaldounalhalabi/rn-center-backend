@@ -35,10 +35,9 @@ class ScheduleService extends BaseService
 
     /**
      * @param array $data
-     * @param array $relationships
      * @return bool
      */
-    public function storeUpdateSchedules(array $data, array $relationships = []): bool
+    public function storeUpdateSchedules(array $data): bool
     {
         if (isset($data['clinic_id'])) {
             $data['schedulable_id'] = $data['clinic_id'];
@@ -70,7 +69,7 @@ class ScheduleService extends BaseService
         try {
             $this->repository->deleteAll($clinicId, Clinic::class);
             return true;
-        } catch (Exception $e) {
+        } catch (Exception) {
             return false;
         }
     }

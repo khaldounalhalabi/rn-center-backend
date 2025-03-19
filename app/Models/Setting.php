@@ -21,7 +21,11 @@ class Setting extends Model implements HasMedia
         'value',
     ];
 
-    public function exportable(): array
+    /**
+     * add your searchable columns, so you can search within them in the
+     * index method
+     */
+    public static function searchableArray(): array
     {
         return [
             'label',
@@ -29,11 +33,7 @@ class Setting extends Model implements HasMedia
         ];
     }
 
-    /**
-     * add your searchable columns, so you can search within them in the
-     * index method
-     */
-    public static function searchableArray(): array
+    public function exportable(): array
     {
         return [
             'label',

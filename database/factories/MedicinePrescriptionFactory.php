@@ -15,12 +15,12 @@ class MedicinePrescriptionFactory extends Factory
     {
         return [
             'prescription_id' => Prescription::factory(),
-            'medicine_id'     => Medicine::factory(),
-            'dosage'          => $this->faker->word(),
-            'duration'        => $this->faker->word(),
-            'time'            => $this->faker->word(),
-            'dose_interval'   => $this->faker->word(),
-            'comment'         => $this->faker->word(),
+            'medicine_id' => Medicine::factory(),
+            'dosage' => $this->faker->word(),
+            'duration' => $this->faker->word(),
+            'time' => $this->faker->word(),
+            'dose_interval' => $this->faker->word(),
+            'comment' => $this->faker->word(),
         ];
     }
 }

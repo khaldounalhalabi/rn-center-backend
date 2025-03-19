@@ -111,22 +111,6 @@ class AppointmentObserver
         }
     }
 
-    /**
-     * Handle the Appointment "deleted" event.
-     */
-    public function deleted(Appointment $appointment): void
-    {
-        //
-    }
-
-    /**
-     * Handle the Appointment "restored" event.
-     */
-    public function restored(Appointment $appointment): void
-    {
-        //
-    }
-
     private function handleChangeAppointmentNotifications(Appointment $appointment, ?string $oldStatus = null): void
     {
         if ($oldStatus != $appointment->status) {
@@ -246,5 +230,21 @@ class AppointmentObserver
             ->setRole(RolesPermissionEnum::ADMIN['role'])
             ->setNotification(BalanceChangeNotification::class)
             ->send();
+    }
+
+    /**
+     * Handle the Appointment "deleted" event.
+     */
+    public function deleted(Appointment $appointment): void
+    {
+        //
+    }
+
+    /**
+     * Handle the Appointment "restored" event.
+     */
+    public function restored(Appointment $appointment): void
+    {
+        //
     }
 }

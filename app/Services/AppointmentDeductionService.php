@@ -43,14 +43,14 @@ class AppointmentDeductionService extends BaseService
 
         if ($deduction->status == AppointmentDeductionStatusEnum::PENDING->value) {
             $adminTransaction = TransactionRepository::make()->create([
-                'amount'      => abs($deduction->amount),
-                'date'        => now(),
-                'type'        => $deduction->amount > 0 ? TransactionTypeEnum::INCOME->value : TransactionTypeEnum::OUTCOME->value,
-                'actor_id'    => auth()->user()?->id,
+                'amount' => abs($deduction->amount),
+                'date' => now(),
+                'type' => $deduction->amount > 0 ? TransactionTypeEnum::INCOME->value : TransactionTypeEnum::OUTCOME->value,
+                'actor_id' => auth()->user()?->id,
                 'description' => "An appointment deduction for the appointment with id : $deduction->appointment_id in {$deduction->clinic?->name}",
             ]);
             $deduction->update([
-                'status'         => AppointmentDeductionStatusEnum::DONE->value,
+                'status' => AppointmentDeductionStatusEnum::DONE->value,
                 'transaction_id' => $adminTransaction->id,
             ]);
             $deduction->clinicTransaction?->update([
@@ -59,7 +59,7 @@ class AppointmentDeductionService extends BaseService
         } elseif ($deduction->status == AppointmentDeductionStatusEnum::DONE->value) {
             TransactionRepository::make()->delete($deduction->transaction_id);
             $deduction->update([
-                'status'         => AppointmentDeductionStatusEnum::PENDING->value,
+                'status' => AppointmentDeductionStatusEnum::PENDING->value,
                 'transaction_id' => null,
             ]);
             $deduction->clinicTransaction?->update([
@@ -116,6 +116,20 @@ class AppointmentDeductionService extends BaseService
         return $data;
     }
 
+    public function deductionsSummedByMonth()
+    {
+        return $this->repository->deductionsSummedByMonth();
+    }
+
+    public function collectForThisMonth($clinicId): void
+    {
+        $ids = $this->repository->getByDateRange($clinicId, now()->firstOfMonth(), now()->lastOfMonth())->pluck('id');
+        $this->bulkToggleStatus([
+            'status' => AppointmentDeductionStatusEnum::DONE->value,
+            'ids' => $ids->toArray(),
+        ]);
+    }
+
     public function bulkToggleStatus(array $data): void
     {
         $status = $data['status'];
@@ -125,14 +139,14 @@ class AppointmentDeductionService extends BaseService
                 && $status == AppointmentDeductionStatusEnum::DONE->value
             ) {
                 $adminTransaction = TransactionRepository::make()->create([
-                    'amount'      => abs($deduction->amount),
-                    'date'        => now(),
-                    'type'        => $deduction->amount > 0 ? TransactionTypeEnum::INCOME->value : TransactionTypeEnum::OUTCOME->value,
-                    'actor_id'    => auth()->user()?->id,
+                    'amount' => abs($deduction->amount),
+                    'date' => now(),
+                    'type' => $deduction->amount > 0 ? TransactionTypeEnum::INCOME->value : TransactionTypeEnum::OUTCOME->value,
+                    'actor_id' => auth()->user()?->id,
                     'description' => "An appointment deduction for the appointment with id : $deduction->appointment_id in {$deduction->clinic?->name}",
                 ]);
                 $deduction->update([
-                    'status'         => AppointmentDeductionStatusEnum::DONE->value,
+                    'status' => AppointmentDeductionStatusEnum::DONE->value,
                     'transaction_id' => $adminTransaction->id,
                 ]);
                 $deduction->clinicTransaction?->update([
@@ -144,7 +158,7 @@ class AppointmentDeductionService extends BaseService
             ) {
                 TransactionRepository::make()->delete($deduction->transaction_id);
                 $deduction->update([
-                    'status'         => AppointmentDeductionStatusEnum::PENDING->value,
+                    'status' => AppointmentDeductionStatusEnum::PENDING->value,
                     'transaction_id' => null,
                 ]);
                 $deduction->clinicTransaction?->update([
@@ -152,20 +166,6 @@ class AppointmentDeductionService extends BaseService
                 ]);
             }
         }, $data['ids']);
-    }
-
-    public function deductionsSummedByMonth()
-    {
-        return $this->repository->deductionsSummedByMonth();
-    }
-
-    public function collectForThisMonth($clinicId): void
-    {
-        $ids = $this->repository->getByDateRange($clinicId, now()->firstOfMonth(), now()->lastOfMonth())->pluck('id');
-        $this->bulkToggleStatus([
-            'status' => AppointmentDeductionStatusEnum::DONE->value,
-            'ids'    => $ids->toArray(),
-        ]);
     }
 
     public function getDeductionsTotalForCurrentMonth($clinicId)

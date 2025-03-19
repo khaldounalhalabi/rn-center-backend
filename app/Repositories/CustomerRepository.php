@@ -13,6 +13,11 @@ class CustomerRepository extends BaseRepository
 {
     protected string $modelClass = Customer::class;
 
+    public function getByUserId($userId): ?Customer
+    {
+        return $this->globalQuery()->where('user_id', $userId)->first();
+    }
+
     public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
     {
         return parent::globalQuery($relations, $countable)
@@ -21,12 +26,7 @@ class CustomerRepository extends BaseRepository
             });
     }
 
-    public function getByUserId($userId): ?Customer
-    {
-        return $this->globalQuery()->where('user_id', $userId)->first();
-    }
-
-    public function getClinicCustomers($clinicId, array $relations = [], array $countable = [], int $perPage = 10): ?array
+    public function getClinicCustomers($clinicId, array $relations = [], array $countable = []): ?array
     {
         return $this->paginateQuery(
             $this->globalQuery($relations, $countable)

@@ -40,6 +40,35 @@ class AppointmentDeduction extends Model
         'date' => 'datetime',
     ];
 
+    /**
+     * add your searchable columns, so you can search within them in the
+     * index method
+     */
+    public static function searchableArray(): array
+    {
+        return [
+            'status',
+            'amount',
+            'date',
+        ];
+    }
+
+    /**
+     * add your relations and their searchable columns,
+     * so you can search within them in the index method
+     */
+    public static function relationsSearchableArray(): array
+    {
+        return [
+            'appointment.clinic.user' => [
+                'full_name',
+            ],
+            'appointment.clinic' => [
+                'name',
+            ],
+        ];
+    }
+
     public function exportable(): array
     {
         return [
@@ -74,35 +103,6 @@ class AppointmentDeduction extends Model
     {
         return [
             //filesKeys
-        ];
-    }
-
-    /**
-     * add your searchable columns, so you can search within them in the
-     * index method
-     */
-    public static function searchableArray(): array
-    {
-        return [
-            'status',
-            'amount',
-            'date',
-        ];
-    }
-
-    /**
-     * add your relations and their searchable columns,
-     * so you can search within them in the index method
-     */
-    public static function relationsSearchableArray(): array
-    {
-        return [
-            'appointment.clinic.user' => [
-                'full_name',
-            ],
-            'appointment.clinic'      => [
-                'name',
-            ],
         ];
     }
 

@@ -27,75 +27,75 @@ class UserSeeder extends Seeder
         $user1 = User::factory()
             ->withPhoneNumbers()
             ->withAddress()->create([
-                'email'    => 'khaldounalhalabi42@gmail.com',
+                'email' => 'khaldounalhalabi42@gmail.com',
                 'password' => '123456789',
             ])->assignRole(RolesPermissionEnum::DOCTOR['role']);
 
         $clinic = Clinic::factory()->create([
-            'name'    => new Translatable(['en' => 'Almahaba', 'ar' => 'عيادة المحبة']),
+            'name' => new Translatable(['en' => 'Almahaba', 'ar' => 'عيادة المحبة']),
             'user_id' => $user1->id,
         ]);
 
         ClinicEmployee::factory()
             ->create([
-                'user_id'   => User::factory()
+                'user_id' => User::factory()
                     ->create([
-                        'email'       => 'khaldoun1222@hotmail.com',
-                        'password'    => '123456789',
-                        'first_name'  => 'staff',
+                        'email' => 'khaldoun1222@hotmail.com',
+                        'password' => '123456789',
+                        'first_name' => 'staff',
                         'middle_name' => 'staff',
-                        'last_name'   => 'staff',
-                        'is_blocked'  => false,
+                        'last_name' => 'staff',
+                        'is_blocked' => false,
                         'is_archived' => false,
                     ])->assignRole(RolesPermissionEnum::CLINIC_EMPLOYEE['role'])->id,
                 'clinic_id' => $clinic->id
             ]);
 
         ClinicSubscription::create([
-            'start_time'      => now()->subDay(),
-            'end_time'        => now()->addYear(),
-            'clinic_id'       => $clinic->id,
-            'status'          => SubscriptionStatusEnum::ACTIVE->value,
-            'deduction_cost'  => 10,
+            'start_time' => now()->subDay(),
+            'end_time' => now()->addYear(),
+            'clinic_id' => $clinic->id,
+            'status' => SubscriptionStatusEnum::ACTIVE->value,
+            'deduction_cost' => 10,
             'subscription_id' => 2,
-            'type'            => SubscriptionTypeEnum::BOOKING_COST_BASED->value,
+            'type' => SubscriptionTypeEnum::BOOKING_COST_BASED->value,
         ]);
 
         $user1 = User::factory()
             ->withPhoneNumbers()
             ->withAddress()->create([
-                'email'    => 'asasimr55@gmail.com',
+                'email' => 'asasimr55@gmail.com',
                 'password' => '123456789',
             ])->assignRole(RolesPermissionEnum::DOCTOR['role']);
 
         $clinic = Clinic::factory()->create([
-            'name'    => new Translatable(['en' => 'POM', 'ar' => 'POM']),
+            'name' => new Translatable(['en' => 'POM', 'ar' => 'POM']),
             'user_id' => $user1->id,
         ]);
 
         ClinicEmployee::factory()
             ->create([
-                'user_id'   => User::factory()
+                'user_id' => User::factory()
                     ->create([
-                        'email'       => 'asasimr55@staff.com',
-                        'password'    => '123456789',
-                        'first_name'  => 'staff',
+                        'email' => 'asasimr55@staff.com',
+                        'password' => '123456789',
+                        'first_name' => 'staff',
                         'middle_name' => 'staff',
-                        'last_name'   => 'staff',
-                        'is_blocked'  => false,
+                        'last_name' => 'staff',
+                        'is_blocked' => false,
                         'is_archived' => false,
                     ])->assignRole(RolesPermissionEnum::CLINIC_EMPLOYEE['role'])->id,
                 'clinic_id' => $clinic->id
             ]);
 
         ClinicSubscription::create([
-            'start_time'      => now()->subDay(),
-            'end_time'        => now()->addYear(),
-            'clinic_id'       => $clinic->id,
-            'status'          => SubscriptionStatusEnum::ACTIVE->value,
-            'deduction_cost'  => 10,
+            'start_time' => now()->subDay(),
+            'end_time' => now()->addYear(),
+            'clinic_id' => $clinic->id,
+            'status' => SubscriptionStatusEnum::ACTIVE->value,
+            'deduction_cost' => 10,
             'subscription_id' => 2,
-            'type'            => SubscriptionTypeEnum::BOOKING_COST_BASED->value,
+            'type' => SubscriptionTypeEnum::BOOKING_COST_BASED->value,
         ]);
 
         User::factory(2)

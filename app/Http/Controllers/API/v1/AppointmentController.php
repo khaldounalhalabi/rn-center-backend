@@ -29,16 +29,6 @@ class AppointmentController extends ApiController
         }
     }
 
-    public function index()
-    {
-        $items = $this->appointmentService->indexWithPagination($this->relations);
-        if ($items) {
-            return $this->apiResponse(AppointmentResource::collection($items['data']), self::STATUS_OK, __('site.get_successfully'), $items['pagination_data']);
-        }
-
-        return $this->noData([]);
-    }
-
     public function show($appointmentId)
     {
         /** @var Appointment|null $item */
@@ -137,6 +127,16 @@ class AppointmentController extends ApiController
         }
 
         return $this->noData();
+    }
+
+    public function index()
+    {
+        $items = $this->appointmentService->indexWithPagination($this->relations);
+        if ($items) {
+            return $this->apiResponse(AppointmentResource::collection($items['data']), self::STATUS_OK, __('site.get_successfully'), $items['pagination_data']);
+        }
+
+        return $this->noData([]);
     }
 
     public function getCustomerTodayAppointments()

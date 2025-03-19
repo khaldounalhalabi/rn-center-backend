@@ -18,17 +18,6 @@ class MedicineService extends BaseService
 
     protected string $repositoryClass = MedicineRepository::class;
 
-    public function view($id, array $relationships = [], array $countable = []): ?Medicine
-    {
-        $medicine = parent::view($id, $relationships, $countable);
-
-        if (!$medicine?->canShow()) {
-            return null;
-        }
-
-        return $medicine;
-    }
-
     public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
     {
         $medicine = $this->view($id);
@@ -38,6 +27,17 @@ class MedicineService extends BaseService
         }
 
         return $this->repository->update($data, $medicine, $relationships, $countable);
+    }
+
+    public function view($id, array $relationships = [], array $countable = []): ?Medicine
+    {
+        $medicine = parent::view($id, $relationships, $countable);
+
+        if (!$medicine?->canShow()) {
+            return null;
+        }
+
+        return $medicine;
     }
 
     public function delete($id): ?bool

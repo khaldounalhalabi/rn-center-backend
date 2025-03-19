@@ -6,6 +6,7 @@ use App\Enums\AppointmentDeductionStatusEnum;
 use App\Models\AppointmentDeduction;
 use App\Repositories\Contracts\BaseRepository;
 use Carbon\Carbon;
+use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Collection as CollectionAlias;
@@ -17,15 +18,6 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 class AppointmentDeductionRepository extends BaseRepository
 {
     protected string $modelClass = AppointmentDeduction::class;
-
-    public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
-    {
-        $query = parent::globalQuery($relations, $countable)
-            ->when(auth()->user()?->isClinic(), function (Builder $query) {
-                $query->where('clinic_id', auth()->user()?->getClinicId());
-            });
-        return $query;
-    }
 
     public function export(array $ids = null): BinaryFileResponse
     {
@@ -41,7 +33,16 @@ class AppointmentDeductionRepository extends BaseRepository
         return parent::export($ids);
     }
 
-    public function getByClinic($clinicId, array $relations = [], array $countable = [], int $perPage = 10): ?array
+    public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
+    {
+        $query = parent::globalQuery($relations, $countable)
+            ->when(auth()->user()?->isClinic(), function (Builder $query) {
+                $query->where('clinic_id', auth()->user()?->getClinicId());
+            });
+        return $query;
+    }
+
+    public function getByClinic($clinicId, array $relations = [], array $countable = []): ?array
     {
         return $this->paginateQuery($this->globalQuery($relations, $countable)
             ->where('clinic_id', $clinicId));
@@ -83,7 +84,7 @@ class AppointmentDeductionRepository extends BaseRepository
             ->get();
     }
 
-    public function bulk(\Closure $callable, array $ids = []): void
+    public function bulk(Closure $callable, array $ids = []): void
     {
         $this->globalQuery()->whereIn('id', $ids)
             ->chunk(10, function (CollectionAlias $deductions) use ($callable) {
@@ -104,14 +105,15 @@ class AppointmentDeductionRepository extends BaseRepository
             ->map(function ($deduction) {
                 return [
                     'earnings' => $deduction->earnings,
-                    'date'     => Carbon::parse($deduction->formatted_date)->format('Y-m'),
+                    'date' => Carbon::parse($deduction->formatted_date)->format('Y-m'),
                 ];
             });
     }
 
     /**
      * @param       $clinicId
-     * @param array $date
+     * @param       $startDate
+     * @param       $endDate
      * @return Collection<AppointmentDeduction>|AppointmentDeduction[]
      */
     public function getByDateRange($clinicId, $startDate, $endDate): Collection|array

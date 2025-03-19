@@ -35,12 +35,36 @@ class SystemOffer extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'allow_reuse'  => 'boolean',
+        'allow_reuse' => 'boolean',
         'allowed_uses' => 'integer',
-        'amount'       => 'double',
-        'from'         => 'date',
-        'to'           => 'date',
+        'amount' => 'double',
+        'from' => 'date',
+        'to' => 'date',
     ];
+
+    /**
+     * add your searchable columns, so you can search within them in the
+     * index method
+     */
+    public static function searchableArray(): array
+    {
+        return [
+            'title',
+            'description',
+            'type',
+        ];
+    }
+
+    /**
+     * add your relations and their searchable columns,
+     * so you can search within them in the index method
+     */
+    public static function relationsSearchableArray(): array
+    {
+        return [
+
+        ];
+    }
 
     public function exportable(): array
     {
@@ -76,38 +100,9 @@ class SystemOffer extends Model implements HasMedia
         ];
     }
 
-    /**
-     * add your searchable columns, so you can search within them in the
-     * index method
-     */
-    public static function searchableArray(): array
-    {
-        return [
-            'title',
-            'description',
-            'type',
-        ];
-    }
-
-    /**
-     * add your relations and their searchable columns,
-     * so you can search within them in the index method
-     */
-    public static function relationsSearchableArray(): array
-    {
-        return [
-
-        ];
-    }
-
     public function scopeAllowReuse($query)
     {
         return $query->where('allow_reuse', 1);
-    }
-
-    public function customers(): BelongsToMany
-    {
-        return $this->belongsToMany(Customer::class, 'customer_system_offers');
     }
 
     public function scopeActive(Builder $query): Builder
@@ -131,5 +126,10 @@ class SystemOffer extends Model implements HasMedia
         return $this->to->greaterThanOrEqualTo(now()->format('Y-m-d'))
             && $this->from->lessThanOrEqualTo(now()->format('Y-m-d'))
             && $this->customers()->count() < $this->allowed_uses;
+    }
+
+    public function customers(): BelongsToMany
+    {
+        return $this->belongsToMany(Customer::class, 'customer_system_offers');
     }
 }

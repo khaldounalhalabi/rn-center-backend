@@ -16,7 +16,7 @@ class Notification extends DatabaseNotification
     ];
 
     protected $casts = [
-        'users'        => 'array',
+        'users' => 'array',
         'is_available' => 'boolean',
     ];
 

@@ -64,7 +64,7 @@ abstract class BaseService
      */
     public function indexWithPagination(array $relations = [], array $countable = [], int $per_page = 10): ?array
     {
-        return $this->repository->all_with_pagination($relations, $countable, $per_page);
+        return $this->repository->all_with_pagination($relations, $countable);
     }
 
     /**

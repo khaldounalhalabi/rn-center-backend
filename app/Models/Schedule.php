@@ -30,7 +30,7 @@ class Schedule extends Model implements ActionsMustBeAuthorized
 
     protected $casts = [
         'start_time' => 'datetime:H:i',
-        'end_time'   => 'datetime:H:i',
+        'end_time' => 'datetime:H:i',
     ];
 
     /**
@@ -56,6 +56,13 @@ class Schedule extends Model implements ActionsMustBeAuthorized
         ];
     }
 
+    public static function authorizedActions(): array
+    {
+        return [
+            'manage-schedules',
+        ];
+    }
+
     public function filterArray(): array
     {
         return [
@@ -63,11 +70,11 @@ class Schedule extends Model implements ActionsMustBeAuthorized
                 'name' => 'day_of_week'
             ],
             [
-                'name'     => 'start_time',
+                'name' => 'start_time',
                 'operator' => '>='
             ],
             [
-                'name'     => 'end_time',
+                'name' => 'end_time',
                 'operator' => '>='
             ]
         ];
@@ -87,13 +94,6 @@ class Schedule extends Model implements ActionsMustBeAuthorized
     {
         return [
             //filesKeys
-        ];
-    }
-
-    public static function authorizedActions(): array
-    {
-        return [
-            'manage-schedules',
         ];
     }
 }

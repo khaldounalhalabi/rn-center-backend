@@ -22,16 +22,16 @@ class BalanceSeeder extends Seeder
                 if ($transaction->isPlus()) {
                     $latestBalance = $transaction->clinic?->balance?->balance ?? 0;
                     Balance::create([
-                        'balance'          => $latestBalance + $transaction->amount,
-                        'balanceable_id'   => $transaction->clinic_id,
+                        'balance' => $latestBalance + $transaction->amount,
+                        'balanceable_id' => $transaction->clinic_id,
                         'balanceable_type' => Clinic::class,
                     ]);
                 }
                 if ($transaction->isMinus()) {
                     $latestBalance = $transaction->clinic?->balance?->balance ?? 0;
                     Balance::create([
-                        'balance'          => $latestBalance - $transaction->amount,
-                        'balanceable_id'   => $transaction->clinic_id,
+                        'balance' => $latestBalance - $transaction->amount,
+                        'balanceable_id' => $transaction->clinic_id,
                         'balanceable_type' => Clinic::class,
                     ]);
                 }
@@ -42,16 +42,16 @@ class BalanceSeeder extends Seeder
             if ($transaction->isPlus()) {
                 $latestBalance = $transaction->actor?->balance()->balance ?? 0;
                 Balance::create([
-                    'balance'          => $latestBalance + $transaction->amount,
-                    'balanceable_id'   => $transaction->actor_id,
+                    'balance' => $latestBalance + $transaction->amount,
+                    'balanceable_id' => $transaction->actor_id,
                     'balanceable_type' => User::class,
                 ]);
             }
             if ($transaction->isMinus()) {
                 $latestBalance = $transaction->actor?->balance()->balance ?? 0;
                 Balance::create([
-                    'balance'          => $latestBalance - $transaction->amount,
-                    'balanceable_id'   => $transaction->actor_id,
+                    'balance' => $latestBalance - $transaction->amount,
+                    'balanceable_id' => $transaction->actor_id,
                     'balanceable_type' => User::class,
                 ]);
             }

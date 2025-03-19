@@ -71,7 +71,7 @@ class UserService extends BaseService
         if (isset($data['address'])) {
             $user->address()->updateOrCreate([
                 ...$data['address'],
-                'name'    => $data['address']['name'] ?? '{"en":"" , "ar":""}',
+                'name' => $data['address']['name'] ?? '{"en":"" , "ar":""}',
                 'city_id' => $data['city_id'] ?? 1,
             ]);
         }
@@ -135,7 +135,7 @@ class UserService extends BaseService
     public function login(array $data, ?array $roles = null, array $relations = [], array $additionalData = []): User|Authenticatable|array|null
     {
         $token = auth()->attempt([
-            'email'    => $data['email'],
+            'email' => $data['email'],
             'password' => $data['password'],
         ]);
 
@@ -156,12 +156,12 @@ class UserService extends BaseService
         }
 
         if ($user->isCustomer() && isset($data['platform'])) {
-            $platform = UserPlatform::where('user_id', $user->id)
+            UserPlatform::where('user_id', $user->id)
                 ->firstOrCreate([
-                    'user_id'      => $user->id,
+                    'user_id' => $user->id,
                     'browser_type' => $data['platform']['browser_type'] ?? "Unknown",
-                    'device_type'  => $data['platform']['device_type'] ?? "Unknown",
-                    'ip'           => $data['platform']['ip'] ?? "Unknown",
+                    'device_type' => $data['platform']['device_type'] ?? "Unknown",
+                    'ip' => $data['platform']['ip'] ?? "Unknown",
                 ]);
 
             //TODO::convert it to use otp
@@ -251,15 +251,15 @@ class UserService extends BaseService
                 $data = array_merge($data, ['user_id' => $user->id]);
                 $this->customerRepository->create($data);
                 $this->phoneNumberRepository->create([
-                    'phone'          => $data['phone_number'],
+                    'phone' => $data['phone_number'],
                     'phoneable_type' => User::class,
-                    'phoneable_id'   => $user->id,
+                    'phoneable_id' => $user->id,
                 ]);
 
                 if (isset($data['address'])) {
                     $this->addressRepository->create([
                         ...$data['address'],
-                        'addressable_id'   => $user->id,
+                        'addressable_id' => $user->id,
                         'addressable_type' => User::class,
                     ]);
                 }

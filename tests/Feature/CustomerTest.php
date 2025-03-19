@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
-use Illuminate\Support\Facades\Http;
 use Tests\Contracts\MainTestCase;
 
 class CustomerTest extends MainTestCase

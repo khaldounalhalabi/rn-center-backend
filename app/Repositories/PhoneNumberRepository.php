@@ -29,11 +29,11 @@ class PhoneNumberRepository extends BaseRepository
             }
 
             $data[] = [
-                'phone'          => $phone,
+                'phone' => $phone,
                 'phoneable_type' => $phoneableType,
-                'phoneable_id'   => $phoneableId,
-                'created_at'     => now()->format('Y-m-d H:i:s'),
-                'updated_at'     => now()->format('Y-m-d H:i:s'),
+                'phoneable_id' => $phoneableId,
+                'created_at' => now()->format('Y-m-d H:i:s'),
+                'updated_at' => now()->format('Y-m-d H:i:s'),
             ];
         }
 

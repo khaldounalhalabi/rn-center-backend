@@ -14,9 +14,10 @@ class SettingRepository extends BaseRepository
 
     /**
      * @param string $label
+     * @param array  $relations
      * @return Setting|null
      */
-    public function getByLabel(string $label , array $relations =[]): ?Setting
+    public function getByLabel(string $label, array $relations = []): ?Setting
     {
         return $this->globalQuery($relations)->where('label', $label)->first();
     }

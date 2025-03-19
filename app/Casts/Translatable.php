@@ -18,7 +18,7 @@ class Translatable implements CastsAttributes
      * @param array<string, mixed> $attributes
      * @throws Exception
      */
-    public function get($model, string $key, mixed $value, array $attributes): mixed
+    public function get($model, string $key, mixed $value, array $attributes): SerializersTranslatable
     {
         return new SerializersTranslatable($value);
     }

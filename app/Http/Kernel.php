@@ -82,24 +82,24 @@ class Kernel extends HttpKernel
      * @var array<string, class-string|string>
      */
     protected $middlewareAliases = [
-        'auth'              => Authenticate::class,
-        'auth.basic'        => AuthenticateWithBasicAuth::class,
-        'auth.session'      => AuthenticateSession::class,
-        'cache.headers'     => SetCacheHeaders::class,
-        'can'               => Authorize::class,
-        'guest'             => RedirectIfAuthenticated::class,
-        'password.confirm'  => RequirePassword::class,
-        'precognitive'      => HandlePrecognitiveRequests::class,
-        'signed'            => ValidateSignature::class,
-        'throttle'          => ThrottleRequests::class,
-        'verified'          => EnsureEmailIsVerified::class,
+        'auth' => Authenticate::class,
+        'auth.basic' => AuthenticateWithBasicAuth::class,
+        'auth.session' => AuthenticateSession::class,
+        'cache.headers' => SetCacheHeaders::class,
+        'can' => Authorize::class,
+        'guest' => RedirectIfAuthenticated::class,
+        'password.confirm' => RequirePassword::class,
+        'precognitive' => HandlePrecognitiveRequests::class,
+        'signed' => ValidateSignature::class,
+        'throttle' => ThrottleRequests::class,
+        'verified' => EnsureEmailIsVerified::class,
         'verified-customer' => CustomerMustVerifyEmail::class,
-        'admin'             => AdminOnly::class,
-        'doctor'            => DoctorOnly::class,
-        'staff_can'         => ClinicEmployeeHasPermission::class,
-        'customer'          => CustomerOnly::class,
-        'verified-phone'    => MustVerifyPhone::class,
-        'guest-header'      => GuestMiddleware::class,
-        'contract'          => MustAcceptContractMiddleware::class
+        'admin' => AdminOnly::class,
+        'doctor' => DoctorOnly::class,
+        'staff_can' => ClinicEmployeeHasPermission::class,
+        'customer' => CustomerOnly::class,
+        'verified-phone' => MustVerifyPhone::class,
+        'guest-header' => GuestMiddleware::class,
+        'contract' => MustAcceptContractMiddleware::class
     ];
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\ClinicStatusEnum;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -21,7 +22,7 @@ return new class () extends Migration {
             $table->integer("approximate_appointment_time")->default(30);
             $table->text('about_us')->nullable();
             $table->text('experience')->nullable();
-            $table->enum("status", \App\Enums\ClinicStatusEnum::getAllValues())->default(\App\Enums\ClinicStatusEnum::ACTIVE->value);
+            $table->enum("status", ClinicStatusEnum::getAllValues())->default(ClinicStatusEnum::ACTIVE->value);
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->boolean('agreed_on_contract')->default(false);
             $table->timestamps();

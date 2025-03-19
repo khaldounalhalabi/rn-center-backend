@@ -19,11 +19,11 @@ class ClinicSubscriptionFactory extends Factory
         $endTime = fake()->dateTimeBetween("-4 days", '+1 years');
         return [
             'subscription_id' => $sub->id,
-            'clinic_id'       => Clinic::factory(),
-            'start_time'      => fake()->dateTimeBetween("-1 years", 'today'),
-            'end_time'        => $endTime,
-            'status'          => Carbon::parse($endTime)->isBefore(now()) ? SubscriptionStatusEnum::IN_ACTIVE->value : SubscriptionStatusEnum::ACTIVE->value,
-            'deduction_cost'  => fake()->numberBetween(5, 15),
+            'clinic_id' => Clinic::factory(),
+            'start_time' => fake()->dateTimeBetween("-1 years", 'today'),
+            'end_time' => $endTime,
+            'status' => Carbon::parse($endTime)->isBefore(now()) ? SubscriptionStatusEnum::IN_ACTIVE->value : SubscriptionStatusEnum::ACTIVE->value,
+            'deduction_cost' => fake()->numberBetween(5, 15),
         ];
     }
 }

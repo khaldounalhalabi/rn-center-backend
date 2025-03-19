@@ -25,18 +25,18 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'first_name'        => $this->fakeTranslation('firstName'),
-            'middle_name'       => $this->fakeTranslation('lastName'),
-            'last_name'         => $this->fakeTranslation('lastName'),
-            'email'             => $this->faker->unique()->safeEmail(),
-            'birth_date'        => Carbon::now()->subYear(20),
-            'gender'            => $this->faker->randomElement(GenderEnum::getAllValues()),
-            'blood_group'       => $this->faker->randomElement(BloodGroupEnum::getAllValues()),
-            'tags'              => $this->faker->text(),
+            'first_name' => $this->fakeTranslation('firstName'),
+            'middle_name' => $this->fakeTranslation('lastName'),
+            'last_name' => $this->fakeTranslation('lastName'),
+            'email' => $this->faker->unique()->safeEmail(),
+            'birth_date' => Carbon::now()->subYear(20),
+            'gender' => $this->faker->randomElement(GenderEnum::getAllValues()),
+            'blood_group' => $this->faker->randomElement(BloodGroupEnum::getAllValues()),
+            'tags' => $this->faker->text(),
             'email_verified_at' => Carbon::now(),
-            'password'          => '123456789',
-            'is_blocked'        => false,
-            'is_archived'       => false,
+            'password' => '123456789',
+            'is_blocked' => false,
+            'is_archived' => false,
         ];
     }
 
@@ -60,7 +60,7 @@ class UserFactory extends Factory
     {
         return $this->afterCreating(function (User $user) {
             Address::factory()->create([
-                'addressable_id'   => $user->id,
+                'addressable_id' => $user->id,
                 'addressable_type' => User::class,
             ]);
         });
@@ -71,7 +71,7 @@ class UserFactory extends Factory
         return $this->afterCreating(function (User $user) use ($count) {
             PhoneNumber::factory($count)->create([
                 'phoneable_type' => User::class,
-                'phoneable_id'   => $user->id,
+                'phoneable_id' => $user->id,
             ]);
         });
     }

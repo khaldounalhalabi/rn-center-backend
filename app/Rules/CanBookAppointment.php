@@ -58,7 +58,7 @@ class CanBookAppointment implements ValidationRule
             $from = $this->from ?? $appointment->from->toTimeString();
             $to = $this->to ?? $appointment->to->toTimeString();
 
-            if (!$appointment->clinic->canHasAppointmentIn($date, $from, $to, $appointment->customer_id)) {
+            if (!$appointment->clinic->canHasAppointmentIn($date)) {
                 $fail("The doctor does not have a vacant slot at the specified date and time.");
             }
         } else {
@@ -68,7 +68,7 @@ class CanBookAppointment implements ValidationRule
                 $fail("Invalid Clinic ID");
             }
 
-            if (!$clinic->canHasAppointmentIn($this->date, $this->from, $this->to, $this->customerId)) {
+            if (!$clinic->canHasAppointmentIn($this->date)) {
                 $fail("The doctor does not have a vacant slot at the specified date and time.");
             }
         }

@@ -16,6 +16,14 @@ class ServiceRepository extends BaseRepository
 {
     protected string $modelClass = Service::class;
 
+    public function getByClinic($clinicId, array $relations = [], array $countable = []): ?array
+    {
+        return $this->paginateQuery(
+            $this->globalQuery($relations, $countable)
+                ->where('clinic_id', $clinicId)
+        );
+    }
+
     public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
     {
         return parent::globalQuery($relations, $countable)
@@ -29,14 +37,6 @@ class ServiceRepository extends BaseRepository
                         $q2->available()->online();
                     });
             });
-    }
-
-    public function getByClinic($clinicId, array $relations = [], array $countable = [], int $perPage = 10): ?array
-    {
-        return $this->paginateQuery(
-            $this->globalQuery($relations, $countable)
-                ->where('clinic_id', $clinicId)
-        );
     }
 
     /**

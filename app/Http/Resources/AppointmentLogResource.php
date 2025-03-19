@@ -14,16 +14,16 @@ class AppointmentLogResource extends BaseResource
     public function toArray($request): array
     {
         return [
-            'id'                  => $this->id,
-            'appointment_id'      => $this->appointment_id,
+            'id' => $this->id,
+            'appointment_id' => $this->appointment_id,
             'cancellation_reason' => $this->cancellation_reason,
-            'status'              => $this->status,
-            'actor_id'            => $this->actor_id,
-            'affected_id'         => $this->affected_id,
-            'happen_in'           => $this->happen_in->format('Y-m-d H:i:s'),
-            'event'               => $this->event,
-            'appointment'         => new AppointmentResource($this->whenLoaded('appointment')),
-            'actor'               => new UserResource($this->whenLoaded('actor')),
+            'status' => $this->status,
+            'actor_id' => $this->actor_id,
+            'affected_id' => $this->affected_id,
+            'happen_in' => $this->happen_in->format('Y-m-d H:i:s'),
+            'event' => $this->event,
+            'appointment' => new AppointmentResource($this->whenLoaded('appointment')),
+            'actor' => new UserResource($this->whenLoaded('actor')),
         ];
     }
 }

@@ -32,7 +32,7 @@ class SendVerificationCode extends Notification
      * @param mixed $notifiable
      * @return array
      */
-    public function via($notifiable): array
+    public function via(mixed $notifiable): array
     {
         return ['mail'];
     }
@@ -42,7 +42,7 @@ class SendVerificationCode extends Notification
      * @param mixed $notifiable
      * @return MailMessage
      */
-    public function toMail($notifiable): MailMessage
+    public function toMail(mixed $notifiable): MailMessage
     {
         return (new MailMessage())
             ->subject('POM - ' . $this->title)
@@ -54,7 +54,7 @@ class SendVerificationCode extends Notification
      * @param mixed $notifiable
      * @return array
      */
-    public function toArray($notifiable)
+    public function toArray(mixed $notifiable)
     {
         return [
             //

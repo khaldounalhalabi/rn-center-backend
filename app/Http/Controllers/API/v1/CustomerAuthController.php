@@ -106,10 +106,10 @@ class CustomerAuthController extends BaseAuthController
         }
 
         return $this->apiResponse([
-            'user'          => new UserResource($user),
-            'token'         => $token,
+            'user' => new UserResource($user),
+            'token' => $token,
             'refresh_token' => $refreshToken,
-            'phone'         => new PhoneNumberResource($phone),
+            'phone' => new PhoneNumberResource($phone),
         ], self::STATUS_OK, __('site.successfully_logged_in'));
     }
 

@@ -29,6 +29,53 @@ class ClinicTransactionObserver implements ShouldHandleEventsAfterCommit
     }
 
     /**
+     * @param ClinicTransaction $transaction
+     * @param Balance|null      $latestBalance
+     * @param Clinic            $clinic
+     * @return void
+     */
+    private function handleTheAdditionOfNewBalanceRecord(ClinicTransaction $transaction, ?Balance $latestBalance, Clinic $clinic): void
+    {
+        if (in_array($transaction->type, [ClinicTransactionTypeEnum::INCOME->value, ClinicTransactionTypeEnum::DEBT_TO_ME->value])) {
+            $balance = ($latestBalance?->balance ?? 0) + abs($transaction->amount);
+            $note = $transaction->notes;
+        } elseif (in_array($transaction->type, [ClinicTransactionTypeEnum::OUTCOME->value, ClinicTransactionTypeEnum::SYSTEM_DEBT->value])) {
+            $balance = ($latestBalance?->balance ?? 0) - abs($transaction->amount);
+            $note = $transaction->notes;
+        }
+        if (isset($balance)) {
+            $newBalance = Balance::create([
+                'balance' => $balance,
+                'balanceable_id' => $clinic->id,
+                'balanceable_type' => Clinic::class,
+                'note' => $note ?? "",
+            ]);
+            $transaction->updateQuietly([
+                'after_balance' => $newBalance?->balance ?? 0,
+                'before_balance' => $latestBalance?->balance ?? 0,
+            ]);
+            $this->sendBalanceChangeNotification($newBalance->balance, $clinic->id);
+        }
+    }
+
+    private function sendBalanceChangeNotification($balance, $clinicId): void
+    {
+        FirebaseServices::make()
+            ->setData([
+                'balance' => $balance,
+            ])
+            ->setMethod(FirebaseServices::ToQuery)
+            ->setTo(
+                User::whereHas('clinic', function (Builder $query) use ($clinicId) {
+                    $query->where('clinics.id', $clinicId);
+                })->orWhereHas('clinicEmployee', function (Builder $builder) use ($clinicId) {
+                    $builder->where('clinic_id', $clinicId);
+                })
+            )->setNotification(BalanceChangeNotification::class)
+            ->send();
+    }
+
+    /**
      * Handle the ClinicTransaction "updated" event.
      */
     public function updated(ClinicTransaction $clinicTransaction): void
@@ -57,13 +104,13 @@ class ClinicTransactionObserver implements ShouldHandleEventsAfterCommit
             }
             if (isset($balance)) {
                 $newBalance = Balance::create([
-                    'balance'          => $balance,
-                    'balanceable_id'   => $clinic->id,
+                    'balance' => $balance,
+                    'balanceable_id' => $clinic->id,
                     'balanceable_type' => Clinic::class,
-                    'note'             => $note ?? "",
+                    'note' => $note ?? "",
                 ]);
                 $transaction->updateQuietly([
-                    'after_balance'  => $newBalance?->balance ?? 0,
+                    'after_balance' => $newBalance?->balance ?? 0,
                     'before_balance' => $latestBalance?->balance ?? 0,
                 ]);
                 $this->sendBalanceChangeNotification($newBalance->balance, $clinic->id);
@@ -91,13 +138,13 @@ class ClinicTransactionObserver implements ShouldHandleEventsAfterCommit
             }
             if (isset($balance)) {
                 $newBalance = Balance::create([
-                    'balance'          => $balance,
-                    'balanceable_id'   => $clinic->id,
+                    'balance' => $balance,
+                    'balanceable_id' => $clinic->id,
                     'balanceable_type' => Clinic::class,
-                    'note'             => $note ?? "",
+                    'note' => $note ?? "",
                 ]);
                 $transaction->updateQuietly([
-                    'after_balance'  => $newBalance?->balance ?? 0,
+                    'after_balance' => $newBalance?->balance ?? 0,
                     'before_balance' => $latestBalance?->balance ?? 0,
                 ]);
                 $this->sendBalanceChangeNotification($newBalance->balance, $clinic->id);
@@ -114,13 +161,13 @@ class ClinicTransactionObserver implements ShouldHandleEventsAfterCommit
             $balance = (($latestBalance?->balance ?? 0) + $prevTransaction['amount']) + $transaction->amount;
             $note = "[EDIT] " . $transaction->notes;
             $newBalance = Balance::create([
-                'balance'          => $balance,
-                'balanceable_id'   => $clinic->id,
+                'balance' => $balance,
+                'balanceable_id' => $clinic->id,
                 'balanceable_type' => Clinic::class,
-                'note'             => $note ?? "",
+                'note' => $note ?? "",
             ]);
             $transaction->updateQuietly([
-                'after_balance'  => $newBalance?->balance ?? 0,
+                'after_balance' => $newBalance?->balance ?? 0,
                 'before_balance' => $latestBalance?->balance ?? 0,
             ]);
             $this->sendBalanceChangeNotification($newBalance->balance, $clinic->id);
@@ -136,13 +183,13 @@ class ClinicTransactionObserver implements ShouldHandleEventsAfterCommit
             $balance = (($latestBalance?->balance ?? 0) - $prevTransaction['amount']) - $transaction->amount;
             $note = "[EDIT] " . $transaction->notes;
             $newBalance = Balance::create([
-                'balance'          => $balance,
-                'balanceable_id'   => $clinic->id,
+                'balance' => $balance,
+                'balanceable_id' => $clinic->id,
                 'balanceable_type' => Clinic::class,
-                'note'             => $note ?? "",
+                'note' => $note ?? "",
             ]);
             $transaction->updateQuietly([
-                'after_balance'  => $newBalance?->balance ?? 0,
+                'after_balance' => $newBalance?->balance ?? 0,
                 'before_balance' => $latestBalance?->balance ?? 0,
             ]);
             $this->sendBalanceChangeNotification($newBalance->balance, $clinic->id);
@@ -171,10 +218,10 @@ class ClinicTransactionObserver implements ShouldHandleEventsAfterCommit
 
             if (isset($balance)) {
                 $newBalance = Balance::create([
-                    'balance'          => $balance,
-                    'note'             => $note ?? "",
+                    'balance' => $balance,
+                    'note' => $note ?? "",
                     'balanceable_type' => Clinic::class,
-                    'balanceable_id'   => $clinic->id,
+                    'balanceable_id' => $clinic->id,
                 ]);
                 $this->sendBalanceChangeNotification($newBalance->balance, $clinic->id);
                 Log::info("################ Delete Transaction Notification Send ################");
@@ -196,52 +243,5 @@ class ClinicTransactionObserver implements ShouldHandleEventsAfterCommit
     public function forceDeleted(ClinicTransaction $transaction): void
     {
 
-    }
-
-    private function sendBalanceChangeNotification($balance, $clinicId): void
-    {
-        FirebaseServices::make()
-            ->setData([
-                'balance' => $balance,
-            ])
-            ->setMethod(FirebaseServices::ToQuery)
-            ->setTo(
-                User::whereHas('clinic', function (Builder $query) use ($clinicId) {
-                    $query->where('clinics.id', $clinicId);
-                })->orWhereHas('clinicEmployee', function (Builder $builder) use ($clinicId) {
-                    $builder->where('clinic_id', $clinicId);
-                })
-            )->setNotification(BalanceChangeNotification::class)
-            ->send();
-    }
-
-    /**
-     * @param ClinicTransaction $transaction
-     * @param Balance|null      $latestBalance
-     * @param Clinic            $clinic
-     * @return void
-     */
-    private function handleTheAdditionOfNewBalanceRecord(ClinicTransaction $transaction, ?Balance $latestBalance, Clinic $clinic): void
-    {
-        if (in_array($transaction->type, [ClinicTransactionTypeEnum::INCOME->value, ClinicTransactionTypeEnum::DEBT_TO_ME->value])) {
-            $balance = ($latestBalance?->balance ?? 0) + abs($transaction->amount);
-            $note = $transaction->notes;
-        } elseif (in_array($transaction->type, [ClinicTransactionTypeEnum::OUTCOME->value, ClinicTransactionTypeEnum::SYSTEM_DEBT->value])) {
-            $balance = ($latestBalance?->balance ?? 0) - abs($transaction->amount);
-            $note = $transaction->notes;
-        }
-        if (isset($balance)) {
-            $newBalance = Balance::create([
-                'balance'          => $balance,
-                'balanceable_id'   => $clinic->id,
-                'balanceable_type' => Clinic::class,
-                'note'             => $note ?? "",
-            ]);
-            $transaction->updateQuietly([
-                'after_balance'  => $newBalance?->balance ?? 0,
-                'before_balance' => $latestBalance?->balance ?? 0,
-            ]);
-            $this->sendBalanceChangeNotification($newBalance->balance, $clinic->id);
-        }
     }
 }

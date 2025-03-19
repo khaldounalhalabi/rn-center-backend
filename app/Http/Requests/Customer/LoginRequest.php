@@ -17,13 +17,12 @@ class LoginRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
      * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
         return [
-            'phone_number'    => 'required|string|regex:/^07\d{9}$/|exists:phone_numbers,phone',
+            'phone_number' => 'required|string|regex:/^07\d{9}$/|exists:phone_numbers,phone',
             'password' => 'required|string',
         ];
     }

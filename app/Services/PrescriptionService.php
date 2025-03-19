@@ -59,6 +59,33 @@ class PrescriptionService extends BaseService
         return $prescription->load($relationships)->loadCount($countable);
     }
 
+    /**
+     * @param                         $medicines1
+     * @param Prescription|null       $prescription
+     * @return void
+     */
+    private function createPrescriptionMedicines($medicines1, Prescription|null $prescription): void
+    {
+        $medicineData = $medicines1;
+        $medicines = collect();
+
+        foreach ($medicineData as $item) {
+            $medicines->push([
+                'prescription_id' => $prescription->id,
+                'medicine_id' => $item['medicine_id'],
+                'dosage' => $item['dosage'] ?? "",
+                'duration' => $item['duration'] ?? "",
+                'time' => $item['time'] ?? "",
+                'dose_interval' => $item['dose_interval'] ?? "",
+                'comment' => $item['comment'] ?? "",
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+
+        $this->medicinePrescriptionRepository->insert($medicines->toArray());
+    }
+
     public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
     {
         $prescription = $this->repository->find($id);
@@ -119,38 +146,11 @@ class PrescriptionService extends BaseService
      */
     public function getByAppointmentId(int $appointmentId, array $relations = [], int $perPage = 10): ?array
     {
-        return $this->repository->getByAppointmentId($appointmentId, $relations, $perPage);
-    }
-
-    /**
-     * @param                         $medicines1
-     * @param Model|Prescription|null $prescription
-     * @return void
-     */
-    private function createPrescriptionMedicines($medicines1, Prescription|null $prescription): void
-    {
-        $medicineData = $medicines1;
-        $medicines = collect();
-
-        foreach ($medicineData as $item) {
-            $medicines->push([
-                'prescription_id' => $prescription->id,
-                'medicine_id'     => $item['medicine_id'],
-                'dosage'          => $item['dosage'] ?? "",
-                'duration'        => $item['duration'] ?? "",
-                'time'            => $item['time'] ?? "",
-                'dose_interval'   => $item['dose_interval'] ?? "",
-                'comment'         => $item['comment'] ?? "",
-                'created_at'      => now(),
-                'updated_at'      => now(),
-            ]);
-        }
-
-        $this->medicinePrescriptionRepository->insert($medicines->toArray());
+        return $this->repository->getByAppointmentId($appointmentId, $relations);
     }
 
     public function getClinicCustomerPrescriptions($customerId, $clinicId, array $relations = [], array $countable = [], int $perPage = 10): ?array
     {
-        return $this->repository->getClinicCustomerPrescriptions($clinicId, $customerId, $relations, $countable, $perPage);
+        return $this->repository->getClinicCustomerPrescriptions($clinicId, $customerId, $relations, $countable);
     }
 }

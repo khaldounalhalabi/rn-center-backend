@@ -13,14 +13,6 @@ class SystemOfferRepository extends BaseRepository
 {
     protected string $modelClass = SystemOffer::class;
 
-    public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
-    {
-        return parent::globalQuery($relations, $countable)
-            ->when($this->filtered, function (Builder|SystemOffer $query) {
-                $query->active();
-            });
-    }
-
     public function getByIds(array $ids = [], ?int $clinicId = null, array $relations = [], array $countable = [])
     {
         return $this->globalQuery($relations, $countable)
@@ -33,7 +25,15 @@ class SystemOfferRepository extends BaseRepository
                     }))->get();
     }
 
-    public function getByClinic($clinicId, array $relations = [], array $countable = [], ?int $perPage = 10): ?array
+    public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
+    {
+        return parent::globalQuery($relations, $countable)
+            ->when($this->filtered, function (Builder|SystemOffer $query) {
+                $query->active();
+            });
+    }
+
+    public function getByClinic($clinicId, array $relations = [], array $countable = []): ?array
     {
         return $this->paginateQuery(
             $this->globalQuery($relations, $countable)

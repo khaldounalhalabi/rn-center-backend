@@ -76,10 +76,10 @@ class SpecialityController extends ApiController
 
     public function getOrderedByClinicsCount()
     {
-        $data = $this->specialityService->getOrderedByClinicsCount($this->relations , $this->countable);
+        $data = $this->specialityService->getOrderedByClinicsCount($this->relations, $this->countable);
 
-        if ($data){
-            return $this->apiResponse(SpecialityResource::collection($data['data']) , self::STATUS_OK , __('site.get_successfully') , $data['pagination_data']);
+        if ($data) {
+            return $this->apiResponse(SpecialityResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
         }
 
         return $this->noData();

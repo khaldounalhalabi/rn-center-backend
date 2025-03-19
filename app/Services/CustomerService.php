@@ -30,42 +30,6 @@ class CustomerService extends BaseService
         $this->userService = UserService::make();
     }
 
-    public function store(array $data, array $relationships = [], array $countable = []): ?Model
-    {
-        $user = $this->userService->store($data);
-        $user->assignRole(RolesPermissionEnum::CUSTOMER['role']);
-        return $this->repository->create([
-            'user_id' => $user->id,
-        ], $relationships);
-    }
-
-    public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
-    {
-        $customer = $this->repository->find($id);
-        if (!$customer) {
-            return null;
-        }
-
-        $this->userService->update($data, $customer->user_id);
-        $customer->refresh();
-
-        return $customer->load($relationships)
-            ->loadCount($countable);
-    }
-
-    public function delete($id): ?bool
-    {
-        $customer = $this->repository->find($id, ['user']);
-
-        if (!$customer) {
-            return null;
-        }
-
-        $user = $customer->user;
-        $customer->delete();
-        return $user->delete();
-    }
-
     /**
      * @param array{first_name:string,middle_name:string,last_name:string,full_name:string,email:string,birth_date:string,gender:string,address:string,name:string,city_id:string,phone_numbers:string,medical_condition:string,note:string,other_data:string,images:string, $data
      * @param array                                                                                                                                                                                                                                                          $relations
@@ -75,7 +39,7 @@ class CustomerService extends BaseService
     public function doctorAddCustomer(array $data = [], array $relations = [], array $countable = []): ?Customer
     {
         $user = UserRepository::make()->getExistCustomerUser([
-            'email'         => $data['email'] ?? null,
+            'email' => $data['email'] ?? null,
             'phone_numbers' => $data['phone_numbers'] ?? null,
         ]);
 
@@ -96,6 +60,57 @@ class CustomerService extends BaseService
         }
 
         return $this->createUpdateClinicPatientProfile($customer, $data, $relations, $countable);
+    }
+
+    public function store(array $data, array $relationships = [], array $countable = []): ?Model
+    {
+        $user = $this->userService->store($data);
+        $user->assignRole(RolesPermissionEnum::CUSTOMER['role']);
+        return $this->repository->create([
+            'user_id' => $user->id,
+        ], $relationships);
+    }
+
+    /**
+     * @param Model|Customer|null $customer
+     * @param array               $data
+     * @param array               $relations
+     * @param array               $countable
+     * @return Customer|Model|null
+     */
+    private function createUpdateClinicPatientProfile(Model|Customer|null $customer, array $data, array $relations, array $countable): null|Customer|Model
+    {
+        $patientProfile = PatientProfileRepository::make()->getByClinicAndCustomer(auth()->user()?->getClinicId(), $customer->id);
+
+        if ($patientProfile) {
+            if ($patientProfile->canUpdate()) {
+                PatientProfileRepository::make()->update($data, $patientProfile);
+            } else {
+                return null;
+            }
+        } else {
+            PatientProfileRepository::make()->create([
+                'customer_id' => $customer->id,
+                'clinic_id' => auth()->user()?->getClinicId(),
+                ...$data,
+            ]);
+        }
+
+        return $customer->load($relations)->loadCount($countable);
+    }
+
+    public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
+    {
+        $customer = $this->repository->find($id);
+        if (!$customer) {
+            return null;
+        }
+
+        $this->userService->update($data, $customer->user_id);
+        $customer->refresh();
+
+        return $customer->load($relationships)
+            ->loadCount($countable);
     }
 
     public function doctorUpdateCustomer(int $customerId, array $data, array $relations = [], array $countable = []): Customer|null
@@ -125,9 +140,22 @@ class CustomerService extends BaseService
         return null;
     }
 
+    public function delete($id): ?bool
+    {
+        $customer = $this->repository->find($id, ['user']);
+
+        if (!$customer) {
+            return null;
+        }
+
+        $user = $customer->user;
+        $customer->delete();
+        return $user->delete();
+    }
+
     public function getDoctorCustomers(array $relations = [], array $countable = [], int $perPage = 10): ?array
     {
-        return $this->repository->getClinicCustomers(auth()?->user()?->getClinicId() ?? 0, $relations, $countable, $perPage);
+        return $this->repository->getClinicCustomers(auth()?->user()?->getClinicId() ?? 0, $relations, $countable);
     }
 
     public function view($id, array $relationships = [], array $countable = []): ?Model
@@ -138,34 +166,6 @@ class CustomerService extends BaseService
         }
 
         return null;
-    }
-
-    /**
-     * @param Model|Customer|null $customer
-     * @param array               $data
-     * @param array               $relations
-     * @param array               $countable
-     * @return Customer|Model|null
-     */
-    private function createUpdateClinicPatientProfile(Model|Customer|null $customer, array $data, array $relations, array $countable): null|Customer|Model
-    {
-        $patientProfile = PatientProfileRepository::make()->getByClinicAndCustomer(auth()->user()?->getClinicId(), $customer->id);
-
-        if ($patientProfile) {
-            if ($patientProfile->canUpdate()) {
-                PatientProfileRepository::make()->update($data, $patientProfile);
-            } else {
-                return null;
-            }
-        } else {
-            PatientProfileRepository::make()->create([
-                'customer_id' => $customer->id,
-                'clinic_id'   => auth()->user()?->getClinicId(),
-                ...$data,
-            ]);
-        }
-
-        return $customer->load($relations)->loadCount($countable);
     }
 
     public function getByClinic($clinicId, array $relations = [], array $countable = []): ?array

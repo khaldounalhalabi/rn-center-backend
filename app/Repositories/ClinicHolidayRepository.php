@@ -13,6 +13,20 @@ class ClinicHolidayRepository extends BaseRepository
 {
     protected string $modelClass = ClinicHoliday::class;
 
+    /**
+     * @param       $clinicId
+     * @param array $relations
+     * @param array $countable
+     * @return array|null
+     */
+    public function getClinicHolidays($clinicId, array $relations = [], array $countable = []): ?array
+    {
+        return $this->paginateQuery(
+            $this->globalQuery($relations, $countable)
+                ->where('clinic_id', $clinicId)
+        );
+    }
+
     public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
     {
         return parent::globalQuery($relations, $countable)
@@ -21,20 +35,5 @@ class ClinicHolidayRepository extends BaseRepository
                     $q->available();
                 });
             });
-    }
-
-    /**
-     * @param       $clinicId
-     * @param array $relations
-     * @param array $countable
-     * @param int   $perPage
-     * @return array|null
-     */
-    public function getClinicHolidays($clinicId, array $relations = [], array $countable = [], int $perPage = 10): ?array
-    {
-        return $this->paginateQuery(
-            $this->globalQuery($relations, $countable)
-                ->where('clinic_id', $clinicId)
-        );
     }
 }

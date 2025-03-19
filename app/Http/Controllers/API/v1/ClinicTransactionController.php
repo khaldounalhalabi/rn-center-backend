@@ -20,16 +20,6 @@ class ClinicTransactionController extends ApiController
         $this->relations = ['appointment', 'appointment.customer.user'];
     }
 
-    public function index()
-    {
-        $items = $this->clinicTransactionService->indexWithPagination($this->relations);
-        if ($items) {
-            return $this->apiResponse(ClinicTransactionResource::collection($items['data']), self::STATUS_OK, __('site.get_successfully'), $items['pagination_data']);
-        }
-
-        return $this->noData([]);
-    }
-
     public function show($clinicTransactionId)
     {
         /** @var ClinicTransaction|null $item */
@@ -83,19 +73,29 @@ class ClinicTransactionController extends ApiController
     public function summary()
     {
         return $this->apiResponse(
-            $this->clinicTransactionService->summary() ,
-            self::STATUS_OK ,
+            $this->clinicTransactionService->summary(),
+            self::STATUS_OK,
             __('site.get_successfully')
         );
     }
 
     public function all()
     {
-        $data = $this->clinicTransactionService->index($this->relations , $this->countable);
-        if ($data){
-            return $this->apiResponse(ClinicTransactionResource::collection($data) , self::STATUS_OK , __('site.get_successfully'));
+        $data = $this->clinicTransactionService->index($this->relations, $this->countable);
+        if ($data) {
+            return $this->apiResponse(ClinicTransactionResource::collection($data), self::STATUS_OK, __('site.get_successfully'));
         }
 
         return $this->noData();
+    }
+
+    public function index()
+    {
+        $items = $this->clinicTransactionService->indexWithPagination($this->relations);
+        if ($items) {
+            return $this->apiResponse(ClinicTransactionResource::collection($items['data']), self::STATUS_OK, __('site.get_successfully'), $items['pagination_data']);
+        }
+
+        return $this->noData([]);
     }
 }

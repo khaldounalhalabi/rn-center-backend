@@ -23,19 +23,12 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property ServiceCategory serviceCategory
  * @property Clinic          clinic
  */
-class Service extends Model implements HasMedia , ActionsMustBeAuthorized
+class Service extends Model implements HasMedia, ActionsMustBeAuthorized
 {
     use HasFactory;
     use Translations;
     use InteractsWithMedia;
     use HasAbilities;
-
-    public static function authorizedActions(): array
-    {
-        return [
-            'manage-services'
-        ];
-    }
 
     protected $fillable = [
         'name',
@@ -46,11 +39,17 @@ class Service extends Model implements HasMedia , ActionsMustBeAuthorized
         'description',
         'clinic_id',
     ];
-
     protected $casts = [
-        'name'        => Translatable::class,
+        'name' => Translatable::class,
         'description' => Translatable::class,
     ];
+
+    public static function authorizedActions(): array
+    {
+        return [
+            'manage-services'
+        ];
+    }
 
     /**
      * add your searchable columns, so you can search within them in the

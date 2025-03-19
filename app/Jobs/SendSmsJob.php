@@ -3,6 +3,8 @@
 namespace App\Jobs;
 
 use App\Services\SmsService;
+use Error;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -39,7 +41,7 @@ class SendSmsJob implements ShouldQueue
             Log::info("############# sending sms. ############# ");
             SmsService::make()->sendMessage($this->to, $this->message, $this->customerId, $this->urgent);
             Log::info("#############  ############# ");
-        } catch (\Exception|\Error $e) {
+        } catch (Exception|Error $e) {
             Log::info("############# Error sending sms. ############# ");
             Log::info("{$e->getMessage()} \n {$e->getFile()} \n Line: {$e->getLine()}");
             Log::info("########################## ");

@@ -25,20 +25,19 @@ class Customer extends Model implements ActionsMustBeAuthorized
     use HasAbilities;
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+    ];
+    protected $casts = [
+        'created_at' => 'datetime',
+    ];
+
     public static function authorizedActions(): array
     {
         return [
             'manage-patients',
         ];
     }
-
-    protected $fillable = [
-        'user_id',
-    ];
-
-    protected $casts = [
-        'created_at' => 'datetime',
-    ];
 
     /**
      * add your relations and their searchable columns,
@@ -65,24 +64,9 @@ class Customer extends Model implements ActionsMustBeAuthorized
         ];
     }
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function appointments(): HasMany
-    {
-        return $this->hasMany(Appointment::class);
-    }
-
     public function prescriptions(): HasMany
     {
         return $this->hasMany(Prescription::class);
-    }
-
-    public function patientProfiles(): HasMany
-    {
-        return $this->hasMany(PatientProfile::class);
     }
 
     public function currentClinicPatientProfile(): HasOne
@@ -90,6 +74,11 @@ class Customer extends Model implements ActionsMustBeAuthorized
         return $this->hasOne(PatientProfile::class)
             ->where('clinic_id', auth()->user()?->getClinicId())
             ->latestOfMany();
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function canShow(): bool
@@ -102,6 +91,16 @@ class Customer extends Model implements ActionsMustBeAuthorized
                 )
                 && $this->user->isAvailable()
             ) || auth()->user()?->isAdmin();
+    }
+
+    public function patientProfiles(): HasMany
+    {
+        return $this->hasMany(PatientProfile::class);
+    }
+
+    public function appointments(): HasMany
+    {
+        return $this->hasMany(Appointment::class);
     }
 
     public function canUpdate(): bool

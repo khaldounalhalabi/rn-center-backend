@@ -46,10 +46,10 @@ class UserTest extends MainTestCase
     {
         $this->requestPathHook($this->baseUrl . 'store');
         $this->storeTest([
-            'image'                 => UploadedFile::fake()->image('image.jpg'),
-            'phone_number'          => ["00964728925489"],
+            'image' => UploadedFile::fake()->image('image.jpg'),
+            'phone_number' => ["00964728925489"],
             'password_confirmation' => '123456789',
-            'birth_date'            => Carbon::now()->format('Y-m-d'),
+            'birth_date' => Carbon::now()->format('Y-m-d'),
         ], [], true);
     }
 
@@ -57,10 +57,10 @@ class UserTest extends MainTestCase
     {
         $this->requestPathHook($this->baseUrl . 'update');
         $this->updateTest([
-            'image'                 => UploadedFile::fake()->image('image.jpg'),
-            'phone_number'          => '12345678910',
+            'image' => UploadedFile::fake()->image('image.jpg'),
+            'phone_number' => '12345678910',
             'password_confirmation' => '123456789',
-            'birth_date'            => Carbon::now()->format('Y-m-d'),
+            'birth_date' => Carbon::now()->format('Y-m-d'),
         ], [], false, false);
     }
 

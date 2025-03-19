@@ -23,22 +23,22 @@ class StoreUpdateAppointmentDeductionRequest extends FormRequest
     {
         if (request()->method() == 'POST') {
             return [
-                'amount'                => ['required', 'numeric'],
-                'status'                => ['required', 'string', 'min:3', 'max:255'],
+                'amount' => ['required', 'numeric'],
+                'status' => ['required', 'string', 'min:3', 'max:255'],
                 'clinic_transaction_id' => ['required', 'numeric', 'exists:clinic_transactions,id'],
-                'appointment_id'        => ['required', 'numeric', 'exists:appointments,id'],
-                'clinic_id'             => ['required', 'numeric', 'exists:clinics,id'],
-                'date'                  => ['required', 'date', 'date_format:Y-m-d H:i'],
+                'appointment_id' => ['required', 'numeric', 'exists:appointments,id'],
+                'clinic_id' => ['required', 'numeric', 'exists:clinics,id'],
+                'date' => ['required', 'date', 'date_format:Y-m-d H:i'],
             ];
         }
 
         return [
-            'amount'                => ['nullable', 'numeric'],
-            'status'                => ['nullable', 'string', 'min:3', 'max:255'],
+            'amount' => ['nullable', 'numeric'],
+            'status' => ['nullable', 'string', 'min:3', 'max:255'],
             'clinic_transaction_id' => ['nullable', 'numeric', 'exists:clinic_transactions,id'],
-            'appointment_id'        => ['nullable', 'numeric', 'exists:appointments,id'],
-            'clinic_id'             => ['nullable', 'numeric', 'exists:clinics,id'],
-            'date'                  => ['nullable', 'date'],
+            'appointment_id' => ['nullable', 'numeric', 'exists:appointments,id'],
+            'clinic_id' => ['nullable', 'numeric', 'exists:clinics,id'],
+            'date' => ['nullable', 'date'],
         ];
     }
 }

@@ -13,13 +13,12 @@ class ClinicEmployeeFactory extends Factory
 {
     /**
      * Define the model's default state.
-     *
      * @return array<string, mixed>
      */
     public function definition(): array
     {
         return [
-            'user_id'   => User::factory(),
+            'user_id' => User::factory(),
             'clinic_id' => Clinic::factory(),
 
         ];

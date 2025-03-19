@@ -46,7 +46,7 @@ class BaseNotification extends Notification
      * @param mixed $notifiable
      * @return array
      */
-    public function via($notifiable): array
+    public function via(mixed $notifiable): array
     {
         if ($notifiable->fcm_token) {
             return [FcmChannel::class, 'database'];
@@ -65,13 +65,13 @@ class BaseNotification extends Notification
     {
         return FcmMessage::create()
             ->setData([
-                'data'       => json_encode($this->data),
-                'title'      => $this->title,
-                'body'       => $this->message,
-                'message'    => $this->message,
+                'data' => json_encode($this->data),
+                'title' => $this->title,
+                'body' => $this->message,
+                'message' => $this->message,
                 'message_ar' => $this->messageAR,
-                'body_ar'    => $this->messageAR,
-                "type"       => $this->type,
+                'body_ar' => $this->messageAR,
+                "type" => $this->type,
             ]);
     }
 

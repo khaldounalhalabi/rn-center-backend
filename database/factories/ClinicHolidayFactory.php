@@ -20,10 +20,10 @@ class ClinicHolidayFactory extends Factory
     public function definition(): array
     {
         return [
-            'clinic_id'  => Clinic::inRandomOrder()->first()->id,
+            'clinic_id' => Clinic::inRandomOrder()->first()->id,
             'start_date' => fake()->dateTimeBetween('-5 days', '+5 days'),
-            'end_date'   => fake()->dateTimeBetween('+10 days', '+20 days'),
-            'reason'     => $this->fakeTranslation('word'),
+            'end_date' => fake()->dateTimeBetween('+10 days', '+20 days'),
+            'reason' => $this->fakeTranslation('word'),
         ];
     }
 }

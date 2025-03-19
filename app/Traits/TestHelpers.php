@@ -33,19 +33,19 @@ trait TestHelpers
 
     protected array $pagination = [
         "currentPage" => 1,
-        "from"        => 1,
-        "isFirst"     => true,
-        "isLast"      => true,
-        "per_page"    => 10,
-        "to"          => 5,
-        "total"       => 5,
+        "from" => 1,
+        "isFirst" => true,
+        "isLast" => true,
+        "per_page" => 10,
+        "to" => 5,
+        "total" => 5,
         "total_pages" => 1
     ];
 
     protected array $responseBody = [
-        'data'     => null,
-        'status'   => true,
-        'code'     => 200,
+        'data' => null,
+        'status' => true,
+        'code' => 200,
         'paginate' => null,
     ];
 
@@ -81,7 +81,7 @@ trait TestHelpers
         $tableName = (new $this->model())->getTable();
         $columns = Schema::getColumnListing($tableName);
 
-        return (bool)(in_array('deleted_at', $columns));
+        return in_array('deleted_at', $columns);
     }
 
     /**
@@ -129,7 +129,7 @@ trait TestHelpers
     public function login(string $email, string $password = '12345678'): void
     {
         auth()->attempt([
-            'email'    => $email,
+            'email' => $email,
             'password' => $password,
         ]);
     }

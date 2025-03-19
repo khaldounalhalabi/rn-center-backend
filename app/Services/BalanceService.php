@@ -9,7 +9,6 @@ use App\Traits\Makable;
 
 /**
  * @extends BaseService<Balance>
- *
  * @property BalanceRepository $repository
  */
 class BalanceService extends BaseService

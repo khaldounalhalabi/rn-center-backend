@@ -25,33 +25,33 @@ class PrescriptionFactory extends Factory
 
         $physicalInformation = [
             "High Blood Pressure" => fake()->sentence(5),
-            "Diabetic"            => fake()->sentence(5),
-            "Food Allergies"      => fake()->sentence(5),
-            "Tendency Bleed"      => fake()->sentence(5),
-            "Heart Disease"       => fake()->sentence(5),
-            "Medical History"     => fake()->sentence(5),
-            "Female Pregnancy"    => fake()->sentence(5),
-            "Breast Feeding"      => fake()->sentence(5),
-            "Current Medication"  => fake()->sentence(5),
-            "Surgery"             => fake()->sentence(5),
-            "Accident"            => fake()->sentence(5),
-            "Others"              => fake()->sentence(5),
-            "Pulse Rate"          => fake()->sentence(5),
-            "Temperature"         => fake()->sentence(5),
+            "Diabetic" => fake()->sentence(5),
+            "Food Allergies" => fake()->sentence(5),
+            "Tendency Bleed" => fake()->sentence(5),
+            "Heart Disease" => fake()->sentence(5),
+            "Medical History" => fake()->sentence(5),
+            "Female Pregnancy" => fake()->sentence(5),
+            "Breast Feeding" => fake()->sentence(5),
+            "Current Medication" => fake()->sentence(5),
+            "Surgery" => fake()->sentence(5),
+            "Accident" => fake()->sentence(5),
+            "Others" => fake()->sentence(5),
+            "Pulse Rate" => fake()->sentence(5),
+            "Temperature" => fake()->sentence(5),
         ];
         return [
-            'clinic_id'            => $clinicId,
-            'customer_id'          => $customerId,
-            'appointment_id'       => Appointment::inRandomOrder()
+            'clinic_id' => $clinicId,
+            'customer_id' => $customerId,
+            'appointment_id' => Appointment::inRandomOrder()
                     ->where('customer_id', $customerId)
                     ->where('clinic_id', $clinicId)->first()->id ?? Appointment::factory()->create([
-                    'clinic_id'   => $clinicId,
+                    'clinic_id' => $clinicId,
                     'customer_id' => $customerId,
                 ])->id,
             'physical_information' => json_encode($physicalInformation),
-            'problem_description'  => fake()->text(),
-            'test'                 => fake()->text(),
-            'next_visit'           => "Next Week",
+            'problem_description' => fake()->text(),
+            'test' => fake()->text(),
+            'next_visit' => "Next Week",
         ];
     }
 

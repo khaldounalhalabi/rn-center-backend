@@ -24,18 +24,18 @@ class StoreUpdateTransactionRequest extends FormRequest
     {
         if (request()->method() == 'POST') {
             return [
-                'type'        => ['required', 'string', 'min:3', 'max:255', Rule::in(TransactionTypeEnum::getAllValues())],
-                'amount'      => ['required', 'numeric', 'min:0'],
+                'type' => ['required', 'string', 'min:3', 'max:255', Rule::in(TransactionTypeEnum::getAllValues())],
+                'amount' => ['required', 'numeric', 'min:0'],
                 'description' => ['nullable', 'string', 'min:3', 'max:10000'],
-                'date'        => ['nullable', 'date', 'date_format:Y-m-d H:i'],
+                'date' => ['nullable', 'date', 'date_format:Y-m-d H:i'],
             ];
         }
 
         return [
-            'type'        => ['nullable', 'string', 'min:3', 'max:255'],
-            'amount'      => ['nullable', 'numeric', 'min:0'],
+            'type' => ['nullable', 'string', 'min:3', 'max:255'],
+            'amount' => ['nullable', 'numeric', 'min:0'],
             'description' => ['nullable', 'string', 'min:3', 'max:10000'],
-            'date'        => ['nullable', 'date', 'date_format:Y-m-d H:i'],
+            'date' => ['nullable', 'date', 'date_format:Y-m-d H:i'],
         ];
     }
 }

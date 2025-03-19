@@ -19,15 +19,14 @@ class BulkToggleStatusRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
      * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
         return [
             'status' => ['required', 'string', Rule::in(AppointmentDeductionStatusEnum::getAllValues())],
-            'ids'    => 'required|array',
-            'ids.*'  => ['required', 'int', 'exists:appointment_deductions,id'],
+            'ids' => 'required|array',
+            'ids.*' => ['required', 'int', 'exists:appointment_deductions,id'],
         ];
     }
 }

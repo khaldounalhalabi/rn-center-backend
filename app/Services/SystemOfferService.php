@@ -46,7 +46,7 @@ class SystemOfferService extends BaseService
 
     public function getByClinic($clinicId, array $relations = [], array $countable = [], int $perPage = 10): ?array
     {
-        return $this->repository->getByClinic($clinicId, $relations, $countable, $perPage);
+        return $this->repository->getByClinic($clinicId, $relations, $countable);
     }
 
     /**
@@ -60,7 +60,7 @@ class SystemOfferService extends BaseService
         /** @var SystemOffer $offer */
         $offer = parent::view($id, $relationships, $countable);
 
-        if (!auth()?->user()?->isAdmin() && !$offer?->isActive()){
+        if (!auth()?->user()?->isAdmin() && !$offer?->isActive()) {
             return null;
         }
 

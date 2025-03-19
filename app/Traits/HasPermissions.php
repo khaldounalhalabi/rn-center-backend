@@ -37,7 +37,7 @@ trait HasPermissions
             ]);
         } else {
             $this->permissions()->create([
-                'model_name'  => $model,
+                'model_name' => $model,
                 'permissions' => $permission,
             ]);
 
@@ -74,21 +74,11 @@ trait HasPermissions
         }
 
         $permission->permissions = collect($permission->permissions)
-            ->filter(fn ($value) => ($value != $permissionName))
+            ->filter(fn($value) => ($value != $permissionName))
             ->values()
             ->toArray();
 
         $permission->save();
-    }
-
-    public function removeAllPermissions(): void
-    {
-        $permissions = $this->permissions()->get();
-
-        $permissions->each(function (ModelHasPermission $permission) {
-            $permission->permissions = [];
-            $permission->save();
-        });
     }
 
     /**
@@ -180,6 +170,16 @@ trait HasPermissions
         }
 
         return true;
+    }
+
+    public function removeAllPermissions(): void
+    {
+        $permissions = $this->permissions()->get();
+
+        $permissions->each(function (ModelHasPermission $permission) {
+            $permission->permissions = [];
+            $permission->save();
+        });
     }
 
     /**

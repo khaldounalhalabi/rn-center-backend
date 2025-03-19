@@ -26,16 +26,6 @@ class AppointmentDeductionController extends ApiController
         }
     }
 
-    public function index()
-    {
-        $items = $this->appointmentDeductionService->indexWithPagination($this->relations);
-        if ($items) {
-            return $this->apiResponse(AppointmentDeductionResource::collection($items['data']), self::STATUS_OK, __('site.get_successfully'), $items['pagination_data']);
-        }
-
-        return $this->noData([]);
-    }
-
     public function show($appointmentDeductionId)
     {
         /** @var AppointmentDeduction|null $item */
@@ -108,19 +98,19 @@ class AppointmentDeductionController extends ApiController
         return $this->noData();
     }
 
-    public function clinicSummary()
+    public function getSummaryByClinicId($clinicId)
     {
         return $this->apiResponse(
-            $this->appointmentDeductionService->clinicSummary(),
+            $this->appointmentDeductionService->clinicSummary($clinicId),
             self::STATUS_OK,
             __('site.get_successfully')
         );
     }
 
-    public function getSummaryByClinicId($clinicId)
+    public function clinicSummary()
     {
         return $this->apiResponse(
-            $this->appointmentDeductionService->clinicSummary($clinicId),
+            $this->appointmentDeductionService->clinicSummary(),
             self::STATUS_OK,
             __('site.get_successfully')
         );
@@ -134,6 +124,16 @@ class AppointmentDeductionController extends ApiController
         }
 
         return $this->noData();
+    }
+
+    public function index()
+    {
+        $items = $this->appointmentDeductionService->indexWithPagination($this->relations);
+        if ($items) {
+            return $this->apiResponse(AppointmentDeductionResource::collection($items['data']), self::STATUS_OK, __('site.get_successfully'), $items['pagination_data']);
+        }
+
+        return $this->noData([]);
     }
 
     public function adminSummary()

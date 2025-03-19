@@ -3,7 +3,6 @@
 namespace App\Enums;
 
 use App\Models\Appointment;
-use App\Models\AppointmentDeduction;
 use App\Models\Clinic;
 use App\Models\ClinicEmployee;
 use App\Models\ClinicHoliday;
@@ -21,7 +20,7 @@ class RolesPermissionEnum
 {
     //**********ADMIN***********//
     public const ADMIN = [
-        'role'        => 'admin',
+        'role' => 'admin',
         'permissions' => [],
     ];
     //*************************//
@@ -47,24 +46,24 @@ class RolesPermissionEnum
 
     //**********DOCTOR***********//
     public const DOCTOR = [
-        'role'        => 'doctor',
+        'role' => 'doctor',
         'permissions' => [],
     ];
     //*************************//
 
     //**********CLINIC STAFF***********//
     public const CLINIC_EMPLOYEE = [
-        'role'        => 'clinic-employee',
+        'role' => 'clinic-employee',
         'permissions' => [
-            'manage-schedules'      => Schedule::class,
-            'manage-holidays'       => ClinicHoliday::class,
-            'manage-services'       => Service::class,
-            'manage-offers'         => Offer::class,
-            'manage-patients'       => Customer::class,
-            'manage-medicines'      => Medicine::class,
-            'manage-appointments'   => Appointment::class,
-            'edit-clinic-profile'   => Clinic::class,
-            'manage-employees'      => ClinicEmployee::class,
+            'manage-schedules' => Schedule::class,
+            'manage-holidays' => ClinicHoliday::class,
+            'manage-services' => Service::class,
+            'manage-offers' => Offer::class,
+            'manage-patients' => Customer::class,
+            'manage-medicines' => Medicine::class,
+            'manage-appointments' => Appointment::class,
+            'edit-clinic-profile' => Clinic::class,
+            'manage-employees' => ClinicEmployee::class,
             'accountant-management' => Transaction::class,
         ],
     ];
@@ -72,7 +71,7 @@ class RolesPermissionEnum
 
     //**********CUSTOMER***********//
     public const CUSTOMER = [
-        'role'        => 'customer',
+        'role' => 'customer',
         'permissions' => [],
     ];
     //*************************//

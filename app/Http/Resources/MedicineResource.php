@@ -14,11 +14,11 @@ class MedicineResource extends BaseResource
     public function toArray($request): array
     {
         return [
-            'id'            => $this->id,
-            'name'          => $this->name,
-            'description'   => $this->description,
-            'clinic_id'     => $this->clinic_id,
-            'clinic'        => new ClinicResource($this->whenLoaded('clinic')),
+            'id' => $this->id,
+            'name' => $this->name,
+            'description' => $this->description,
+            'clinic_id' => $this->clinic_id,
+            'clinic' => new ClinicResource($this->whenLoaded('clinic')),
             'prescriptions' => PrescriptionResource::collection($this->whenLoaded('prescriptions')),
         ];
     }

@@ -23,36 +23,6 @@ class AppointmentRepository extends BaseRepository
 {
     protected string $modelClass = Appointment::class;
 
-    protected function orderQueryBy(Builder $query, bool $defaultOrder = true, ?array $defaultCols = null): Builder
-    {
-        return parent::orderQueryBy($query, $defaultOrder, [
-            'appointment_sequence' => 'asc',
-            'created_at' => 'desc'
-        ]);
-    }
-
-    /**
-     * @param array $relations
-     * @param array $countable
-     * @param bool  $defaultOrder
-     * @return Builder|Appointment
-     */
-    public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
-    {
-        return parent::globalQuery($relations, $countable)
-            ->when($this->filtered, function (Builder $query) {
-                $query->whereHas('customer', function (Builder $q) {
-                    $q->available();
-                })->whereHas('clinic', function (Builder $builder) {
-                    $builder->available();
-                });
-            })->when(auth()->user()?->isClinic(), function (Builder $query) {
-                $query->where('clinic_id', auth()->user()?->getClinicId());
-            })->when(auth()->user()?->isCustomer(), function (Builder $query) {
-                $query->where('customer_id', auth()->user()?->customer?->id);
-            });
-    }
-
     /**
      * @param             $clinicId
      * @param string|null $date
@@ -70,12 +40,33 @@ class AppointmentRepository extends BaseRepository
     }
 
     /**
+     * @param array $relations
+     * @param array $countable
+     * @param bool  $defaultOrder
+     * @return Builder|Appointment
+     */
+    public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder|Appointment
+    {
+        return parent::globalQuery($relations, $countable)
+            ->when($this->filtered, function (Builder $query) {
+                $query->whereHas('customer', function (Builder $q) {
+                    $q->available();
+                })->whereHas('clinic', function (Builder $builder) {
+                    $builder->available();
+                });
+            })->when(auth()->user()?->isClinic(), function (Builder $query) {
+                $query->where('clinic_id', auth()->user()?->getClinicId());
+            })->when(auth()->user()?->isCustomer(), function (Builder $query) {
+                $query->where('customer_id', auth()->user()?->customer?->id);
+            });
+    }
+
+    /**
      * @param       $clinicId
      * @param array $relations
-     * @param int   $perPage
      * @return array|null
      */
-    public function getByClinic($clinicId, array $relations = [], int $perPage = 10): ?array
+    public function getByClinic($clinicId, array $relations = []): ?array
     {
         return $this->paginateQuery($this->globalQuery($relations)
             ->where('clinic_id', $clinicId));
@@ -172,7 +163,7 @@ class AppointmentRepository extends BaseRepository
             ->where('clinic_id', $clinicId));
     }
 
-    public function getByClinicDayRange(Clinic $clinic, array $relations = [], array $countable = []): array|EloquentCollection|\LaravelIdea\Helper\App\Models\_IH_Appointment_C
+    public function getByClinicDayRange(Clinic $clinic, array $relations = [], array $countable = []): array|EloquentCollection
     {
         return $this->globalQuery($relations, $countable)
             ->validNotEnded()
@@ -248,5 +239,13 @@ class AppointmentRepository extends BaseRepository
         return $this->globalQuery()
             ->where('appointment_unique_code', $code)
             ->first()?->load($relations)?->loadCount($countable);
+    }
+
+    protected function orderQueryBy(Builder $query, bool $defaultOrder = true, ?array $defaultCols = null): Builder
+    {
+        return parent::orderQueryBy($query, $defaultOrder, [
+            'appointment_sequence' => 'asc',
+            'created_at' => 'desc'
+        ]);
     }
 }

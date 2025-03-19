@@ -54,7 +54,7 @@ class SettingController extends ApiController
 
     public function getByLabel($label)
     {
-        $item = $this->settingService->getByLabel($label , $this->relations);
+        $item = $this->settingService->getByLabel($label, $this->relations);
         if ($item) {
             return $this->apiResponse(new SettingResource($item), self::STATUS_OK, __('site.get_successfully'));
         }
@@ -65,7 +65,7 @@ class SettingController extends ApiController
     public function getByLabels(Request $request)
     {
         $labels = $request->input('labels') ?? [];
-        $settings = SettingRepository::make()->globalQuery()->whereIn('label' , $labels)->with($this->relations)->get();
-        return $this->apiResponse(SettingResource::collection($settings) , self::STATUS_OK, __('site.get_successfully'));
+        $settings = SettingRepository::make()->globalQuery()->whereIn('label', $labels)->with($this->relations)->get();
+        return $this->apiResponse(SettingResource::collection($settings), self::STATUS_OK, __('site.get_successfully'));
     }
 }

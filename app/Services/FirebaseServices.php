@@ -80,10 +80,10 @@ class FirebaseServices
     }
 
     /**
-     * @param string $method
+     * @param string|null $method
      * @return $this
      */
-    public function setMethod(string $method): static
+    public function setMethod(?string $method = null): static
     {
         $this->method = match ($method) {
             'one', null => 'sendForOneDevice',

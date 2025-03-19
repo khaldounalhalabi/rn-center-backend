@@ -17,11 +17,11 @@ class SubscriptionFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'         => fake()->unique()->word(),
-            'description'  => fake()->text(),
-            'period'       => fake()->numberBetween(1, 12),
+            'name' => fake()->unique()->word(),
+            'description' => fake()->text(),
+            'period' => fake()->numberBetween(1, 12),
             'allow_period' => fake()->numberBetween(1, 7),
-            'cost'         => fake()->randomFloat(2, 0, 15),
+            'cost' => fake()->randomFloat(2, 0, 15),
         ];
     }
 

@@ -14,18 +14,18 @@ class ClinicTransactionResource extends BaseResource
     public function toArray($request): array
     {
         return [
-            'id'                    => $this->id,
-            'amount'                => $this->amount,
-            'after_balance'         => $this->after_balance,
-            'before_balance'        => $this->before_balance,
-            'appointment_id'        => $this->appointment_id,
-            'type'                  => $this->type,
-            'clinic_id'             => $this->clinic_id,
-            'notes'                 => $this->notes,
-            'status'                => $this->status,
-            'date'                  => $this->date->format('Y-m-d H:i'),
-            'appointment'           => new AppointmentResource($this->whenLoaded('appointment')),
-            'clinic'                => new ClinicResource($this->whenLoaded('clinic')),
+            'id' => $this->id,
+            'amount' => $this->amount,
+            'after_balance' => $this->after_balance,
+            'before_balance' => $this->before_balance,
+            'appointment_id' => $this->appointment_id,
+            'type' => $this->type,
+            'clinic_id' => $this->clinic_id,
+            'notes' => $this->notes,
+            'status' => $this->status,
+            'date' => $this->date->format('Y-m-d H:i'),
+            'appointment' => new AppointmentResource($this->whenLoaded('appointment')),
+            'clinic' => new ClinicResource($this->whenLoaded('clinic')),
             'appointment_deduction' => new AppointmentDeductionResource($this->whenLoaded('appointmentDeduction')),
         ];
     }

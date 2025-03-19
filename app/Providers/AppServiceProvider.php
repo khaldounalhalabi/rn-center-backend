@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use App\Channels\DataBaseChannel;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Notifications\Channels\DatabaseChannel as LaravelDatabaseChannel;
+use Illuminate\Support\ServiceProvider;
 
 
 class AppServiceProvider extends ServiceProvider

@@ -18,11 +18,10 @@ class ClinicSubscriptionRepository extends BaseRepository
     /**
      * @param       $clinicId
      * @param array $relations
-     * @param int   $perPage
      * @return array|null
      */
     #[ArrayShape(['data' => "mixed", 'pagination_data' => "array"])]
-    public function getByClinic($clinicId, array $relations = [], int $perPage = 10): ?array
+    public function getByClinic($clinicId, array $relations = []): ?array
     {
         return $this->paginateQuery(
             $this->globalQuery($relations)

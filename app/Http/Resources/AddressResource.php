@@ -14,17 +14,17 @@ class AddressResource extends BaseResource
     public function toArray($request): array
     {
         return [
-            'id'               => $this->id,
-            'city_id'          => $this->city_id,
-            'lat'              => $this->lat,
-            'lng'              => $this->lng,
-            'country'          => $this->country,
-            'addressable_id'   => $this->addressable_id,
+            'id' => $this->id,
+            'city_id' => $this->city_id,
+            'lat' => $this->lat,
+            'lng' => $this->lng,
+            'country' => $this->country,
+            'addressable_id' => $this->addressable_id,
             'addressable_type' => $this->addressable_type,
-            'addressable'      => $this->whenLoaded('addressable'),
-            "name"             => $this->name,
-            'map_iframe'       => $this->map_iframe,
-            'city'             => new CityResource($this->whenLoaded('city')),
+            'addressable' => $this->whenLoaded('addressable'),
+            "name" => $this->name,
+            'map_iframe' => $this->map_iframe,
+            'city' => new CityResource($this->whenLoaded('city')),
         ];
     }
 }

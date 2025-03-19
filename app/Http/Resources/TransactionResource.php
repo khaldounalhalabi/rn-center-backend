@@ -14,13 +14,13 @@ class TransactionResource extends BaseResource
     public function toArray($request): array
     {
         return [
-            'id'          => $this->id,
-            'type'        => $this->type,
-            'amount'      => $this->amount,
+            'id' => $this->id,
+            'type' => $this->type,
+            'amount' => $this->amount,
             'description' => $this->description,
-            'date'        => $this->date->format('Y-m-d H:i'),
-            'actor_id'    => $this->actor_id,
-            'actor'       => new UserResource($this->whenLoaded('actor')),
+            'date' => $this->date->format('Y-m-d H:i'),
+            'actor_id' => $this->actor_id,
+            'actor' => new UserResource($this->whenLoaded('actor')),
         ];
     }
 }
