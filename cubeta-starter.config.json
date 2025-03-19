@@ -827,25 +827,6 @@
             "attributes": []
         },
         {
-            "model_name": "BlockedItem",
-            "table_name": "blocked_items",
-            "attributes": [
-                {
-                    "name": "type",
-                    "type": "string",
-                    "nullable": true,
-                    "unique": true
-                },
-                {
-                    "name": "value",
-                    "type": "string",
-                    "nullable": true,
-                    "unique": false
-                }
-            ],
-            "relations": []
-        },
-        {
             "model_name": "Subscription",
             "table_name": "subscriptions",
             "attributes": [

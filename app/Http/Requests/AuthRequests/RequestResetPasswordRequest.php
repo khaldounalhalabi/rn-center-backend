@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\AuthRequests;
 
-use App\Rules\NotInBlocked;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RequestResetPasswordRequest extends FormRequest
@@ -23,7 +22,7 @@ class RequestResetPasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['required', 'email', 'exists:users,email', 'min:3', 'max:255', new NotInBlocked()],
+            'email' => ['required', 'email', 'exists:users,email', 'min:3', 'max:255',],
         ];
     }
 }

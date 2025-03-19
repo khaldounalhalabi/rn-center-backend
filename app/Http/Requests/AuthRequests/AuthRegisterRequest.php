@@ -3,7 +3,6 @@
 namespace App\Http\Requests\AuthRequests;
 
 use App\Models\User;
-use App\Rules\NotInBlocked;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AuthRegisterRequest extends FormRequest
@@ -25,14 +24,14 @@ class AuthRegisterRequest extends FormRequest
     {
         //customer register
         return [
-            'first_name'   => ['required', 'string', 'max:255'],
-            'middle_name'  => ['required', 'string', 'max:255'],
-            'last_name'    => ['required', 'string', 'max:255'],
-            'full_name'    => ['nullable', 'string', new NotInBlocked()],
-            'phone_number' => ['required', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/', new NotInBlocked()],
-            'password'     => 'required|min:8|confirmed|max:255',
-            'fcm_token'    => 'nullable|string|min:3|max:1000',
-            'image'        => 'image|max:50000|mimes:jpg,png|nullable',
+            'first_name' => ['required', 'string', 'max:255'],
+            'middle_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'full_name' => ['nullable', 'string'],
+            'phone_number' => ['required', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/',],
+            'password' => 'required|min:8|confirmed|max:255',
+            'fcm_token' => 'nullable|string|min:3|max:1000',
+            'image' => 'image|max:50000|mimes:jpg,png|nullable',
         ];
     }
 
@@ -69,10 +68,10 @@ class AuthRegisterRequest extends FormRequest
             ? json_encode(['ar' => $this->input('last_name'), "en" => ""])
             : json_encode(['en' => $this->input('last_name'), "ar" => ""]);
         $this->merge([
-            'first_name'  => $firstName,
+            'first_name' => $firstName,
             'middle_name' => $middleName,
-            'last_name'   => $lastName,
-            'full_name'   => User::getUserFullName($firstName, $middleName, $lastName),
+            'last_name' => $lastName,
+            'full_name' => User::getUserFullName($firstName, $middleName, $lastName),
         ]);
     }
 

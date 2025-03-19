@@ -66,8 +66,6 @@ Route::apiResource('/medicines', v1\MedicineController::class)->names('medicines
 Route::delete('/prescriptions/medicine-data/{medicineDataId}', [v1\PrescriptionController::class, 'removeMedicine'])->name('prescription.medicine.remove');
 Route::apiResource('prescriptions', v1\PrescriptionController::class)->names('prescriptions');
 
-Route::apiResource('/blocked-items', v1\BlockedItemController::class)->names('blocked.items');
-
 Route::apiResource('/subscriptions', v1\SubscriptionController::class)
     ->except(['update'])
     ->names('subscriptions');

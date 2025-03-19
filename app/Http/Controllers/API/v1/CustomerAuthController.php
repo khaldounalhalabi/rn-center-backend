@@ -101,10 +101,6 @@ class CustomerAuthController extends BaseAuthController
             return $this->apiResponse(null, self::STATUS_ARCHIVED, __('site.archived'));
         }
 
-        if ($user->isBlocked()) {
-            return $this->apiResponse(null, self::STATUS_BLOCKED, __('site.blocked'));
-        }
-
         if (!$phone->is_verified) {
             return $this->apiResponse(null, self::STATUS_UNVERIFIED_PHONE_NUMBER, __('site.un_verified_phone'));
         }

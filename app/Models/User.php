@@ -213,22 +213,6 @@ class User extends Authenticatable implements HasMedia, JWTSubject
         return $this->morphOne(Address::class, 'addressable');
     }
 
-    public function isBlocked(): bool
-    {
-        if ($this->is_blocked) {
-            return true;
-        }
-
-        $this->load('phones');
-
-        return BlockedItem::whereIn('value', [
-            $this->email,
-            ...$this->phones->pluck('phone'),
-            $this->full_name->en,
-            $this->full_name->ar,
-        ])->exists();
-    }
-
     public function routeNotificationForFcm()
     {
         return $this->fcm_token;

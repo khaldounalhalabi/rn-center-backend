@@ -94,7 +94,6 @@ class Kernel extends HttpKernel
         'throttle'          => ThrottleRequests::class,
         'verified'          => EnsureEmailIsVerified::class,
         'verified-customer' => CustomerMustVerifyEmail::class,
-        'not_blocked'       => NotBlocked::class,
         'admin'             => AdminOnly::class,
         'doctor'            => DoctorOnly::class,
         'staff_can'         => ClinicEmployeeHasPermission::class,
