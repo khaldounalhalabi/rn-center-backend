@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b089de0478480b50d8b048eee38a9c68",
+    "content-hash": "9bb5a5986075f87ab4f77373df861382",
     "packages": [
         {
             "name": "beste/clock",
@@ -5475,52 +5475,6 @@
                 }
             ],
             "time": "2024-03-10T08:07:49+00:00"
-        },
-        {
-            "name": "smsgateway24/smsgateway24-php-sdk",
-            "version": "v2.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/smsgateway24/smsgateway24-php-sdk.git",
-                "reference": "d33d0709b0e8ef7e905a0575380a07173a5c4fb9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/smsgateway24/smsgateway24-php-sdk/zipball/d33d0709b0e8ef7e905a0575380a07173a5c4fb9",
-                "reference": "d33d0709b0e8ef7e905a0575380a07173a5c4fb9",
-                "shasum": ""
-            },
-            "require": {
-                "guzzlehttp/guzzle": "^7.0",
-                "php": ">=7.1"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^9.5",
-                "roave/backward-compatibility-check": "^5.0",
-                "symfony/test-pack": "^1.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "SmsGateway24\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Igor Filippov",
-                    "email": "thisfil@ya.ru"
-                }
-            ],
-            "description": "php sdk for smsgateway24.com",
-            "support": {
-                "issues": "https://github.com/smsgateway24/smsgateway24-php-sdk/issues",
-                "source": "https://github.com/smsgateway24/smsgateway24-php-sdk/tree/v2.0.0"
-            },
-            "time": "2021-07-27T14:15:15+00:00"
         },
         {
             "name": "spatie/image",

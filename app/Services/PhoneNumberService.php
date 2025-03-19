@@ -28,10 +28,6 @@ class PhoneNumberService extends BaseService
     {
         $code = $this->generateNumberVerificationCode();
 
-        if (!app()->environment('local')) {
-            SmsService::make()->sendVerificationCode($code, $phone, $user->id);
-        }
-
         $phoneNumber = $this->repository->getByPhone($phone);
         $phoneNumber->update([
             'verification_code' => $code,

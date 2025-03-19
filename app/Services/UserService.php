@@ -428,11 +428,7 @@ class UserService extends BaseService
                 'verification_code' => $code,
             ]);
 
-            try {
-                SmsService::make()->sendVerificationCode($code, $phoneNumber->phone, $phoneNumber->phoneable_id);
-            } catch (Exception) {
-                return null;
-            }
+            //TODO:: here were send SMS functionality
 
             return true;
         }
