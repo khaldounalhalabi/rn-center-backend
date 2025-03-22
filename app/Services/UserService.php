@@ -295,10 +295,6 @@ class UserService extends BaseService
         if ($user) {
             $code = $this->generateUserVerificationCode();
 
-            $user->reset_password_code = $code;
-            $user->reset_code_valid_until = now()->addMinutes(15);
-            $user->save();
-
             try {
                 $user->notify(new SendVerificationCode(
                     $code,
@@ -336,7 +332,6 @@ class UserService extends BaseService
         if (!$user) return false;
 
         $user->password = $password;
-        $user->reset_password_code = null;
         $user->save();
 
         return true;
