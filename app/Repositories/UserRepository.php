@@ -44,15 +44,6 @@ class UserRepository extends BaseRepository
     }
 
     /**
-     * @param string $verificationCode
-     * @return User|null
-     */
-    public function getUserByVerificationCode(string $verificationCode): ?User
-    {
-        return $this->globalQuery()->where('verification_code', $verificationCode)->first();
-    }
-
-    /**
      * @param array{email:string , phone_numbers:string[]} $data
      * @return null|User
      */

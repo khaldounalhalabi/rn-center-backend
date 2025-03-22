@@ -45,8 +45,7 @@ class User extends Authenticatable implements HasMedia, JWTSubject
         'email', 'birth_date',
         'gender', 'blood_group', 'image',
         'email_verified_at',
-        'remember_token', 'verification_code',
-        'full_name', 'reset_code_valid_until',
+        'remember_token','full_name', 'reset_code_valid_until',
     ];
 
     protected $hidden = [

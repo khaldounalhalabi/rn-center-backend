@@ -23,7 +23,6 @@ return new class () extends Migration {
             $table->enum('gender', GenderEnum::getAllValues());
             $table->enum('blood_group', BloodGroupEnum::getAllValues())->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('verification_code')->nullable();
             $table->string('password')->nullable();
             $table->string('fcm_token')->nullable();
             $table->string('reset_password_code')->nullable();
