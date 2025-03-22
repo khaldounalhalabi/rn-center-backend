@@ -62,6 +62,5 @@ Route::delete('/media/{mediaId}', [v1\MediaController::class, 'delete'])->name('
 
 Route::get('/statistics', [v1\StatisticsController::class, 'landingPage'])->name('statistics.landing.page');
 
-Route::get('search', [v1\SearchController::class, 'publicSearch'])->name('search');
 
 Route::get('appointments/{code}/get-by-code', [v1\AppointmentController::class, 'getByCode'])->name('appointments.by.code');

@@ -27,7 +27,6 @@ class StoreUpdateSpecialityRequest extends FormRequest
             return [
                 'name' => ['unique:specialities,name', 'required', 'string', 'min:3', 'max:255', new LanguageShape()],
                 'description' => '|nullable|string',
-                'tags' => 'nullable|string',
                 'image' => 'required|image|mimes:jpeg,png,jpg|max:5000'
             ];
         }
@@ -35,7 +34,6 @@ class StoreUpdateSpecialityRequest extends FormRequest
         return [
             'name' => ['unique:specialities,name,' . request()->route('speciality'), 'nullable', 'string', 'min:3', 'max:255', new LanguageShape()],
             'description' => '|nullable|string',
-            'tags' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
         ];
     }

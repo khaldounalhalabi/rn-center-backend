@@ -24,7 +24,6 @@ class SpecialityFactory extends Factory
         return [
             'name' => $this->fakeTranslation('name'),
             'description' => fake()->text(),
-            'tags' => fake()->text(),
         ];
     }
 

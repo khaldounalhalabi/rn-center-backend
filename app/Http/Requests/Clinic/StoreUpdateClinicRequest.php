@@ -54,7 +54,6 @@ class StoreUpdateClinicRequest extends FormRequest
                 'user.birth_date' => 'date_format:Y-m-d|date|before:20 years ago|nullable',
                 'user.gender' => ['required', 'string', Rule::in(GenderEnum::getAllValues())],
                 'user.image' => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
-                'user.tags' => ['nullable', 'string'],
 
                 'address' => 'array|required',
                 'address.name' => ['required', 'min:3', new LanguageShape()],
@@ -95,7 +94,6 @@ class StoreUpdateClinicRequest extends FormRequest
             'user.birth_date' => ['date_format:Y-m-d', 'date', 'before:20 years ago', 'nullable', Rule::excludeIf(fn() => $authUser?->isClinic())],
             'user.gender' => ['nullable', 'string', Rule::in(GenderEnum::getAllValues()), Rule::excludeIf(fn() => $authUser?->isClinic())],
             'user.image' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:5000', Rule::excludeIf(fn() => $authUser?->isClinic())],
-            'user.tags' => ['nullable', 'string'],
 
             'address' => ['array', 'nullable'],
             'address.name' => ['nullable', 'min:3', new LanguageShape(), Rule::requiredIf(fn() => !auth()->user()?->address)],

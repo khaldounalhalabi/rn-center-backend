@@ -17,7 +17,6 @@ class UserResource extends BaseResource
             'age' => $this->birth_date ? now()->diffInYears($this->birth_date) : null,
             'gender' => $this->gender,
             'blood_group' => $this->blood_group,
-            'tags' => $this->tags,
             'fcm_token' => $this->fcm_token,
             'first_name' => $this->first_name,
             'middle_name' => $this->middle_name,

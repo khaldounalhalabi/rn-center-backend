@@ -43,8 +43,8 @@ class User extends Authenticatable implements HasMedia, JWTSubject
     protected $fillable = [
         'first_name', 'middle_name', 'last_name',
         'email', 'birth_date',
-        'gender', 'blood_group',
-        'tags', 'image', 'email_verified_at',
+        'gender', 'blood_group', 'image',
+        'email_verified_at',
         'remember_token', 'verification_code',
         'full_name', 'reset_code_valid_until',
     ];
@@ -76,8 +76,7 @@ class User extends Authenticatable implements HasMedia, JWTSubject
         return [
             'first_name', 'middle_name', 'last_name',
             'email', 'birth_date',
-            'gender', 'blood_group',
-            'tags', 'full_name',
+            'gender', 'blood_group', 'full_name',
         ];
     }
 

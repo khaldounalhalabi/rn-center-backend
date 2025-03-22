@@ -38,7 +38,6 @@ class StoreUpdateCustomerRequest extends FormRequest
                 'birth_date' => 'date_format:Y-m-d|date|nullable',
                 'gender' => ['required', 'string', Rule::in(GenderEnum::getAllValues())],
                 'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
-                'tags' => ['nullable', 'string'],
                 'blood_group' => 'nullable|string|' . Rule::in(BloodGroupEnum::getAllValues()),
 
                 'address' => 'array|required',
@@ -63,7 +62,6 @@ class StoreUpdateCustomerRequest extends FormRequest
             'birth_date' => 'date_format:Y-m-d|date|nullable',
             'gender' => ['nullable', 'string', Rule::in(GenderEnum::getAllValues())],
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
-            'tags' => ['nullable', 'string'],
             'blood_group' => 'nullable|string|' . Rule::in(BloodGroupEnum::getAllValues()),
 
             'address' => 'array|nullable',

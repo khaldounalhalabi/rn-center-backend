@@ -53,12 +53,6 @@
                     "unique": false
                 },
                 {
-                    "name": "tags",
-                    "type": "text",
-                    "nullable": false,
-                    "unique": false
-                },
-                {
                     "name": "image",
                     "type": "file",
                     "nullable": false,
@@ -322,12 +316,6 @@
                 },
                 {
                     "name": "description",
-                    "type": "text",
-                    "nullable": true,
-                    "unique": false
-                },
-                {
-                    "name": "tags",
                     "type": "text",
                     "nullable": true,
                     "unique": false

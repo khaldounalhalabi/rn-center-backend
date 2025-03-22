@@ -32,7 +32,6 @@ class UserFactory extends Factory
             'birth_date' => Carbon::now()->subYear(20),
             'gender' => $this->faker->randomElement(GenderEnum::getAllValues()),
             'blood_group' => $this->faker->randomElement(BloodGroupEnum::getAllValues()),
-            'tags' => $this->faker->text(),
             'email_verified_at' => Carbon::now(),
             'password' => '123456789',
         ];

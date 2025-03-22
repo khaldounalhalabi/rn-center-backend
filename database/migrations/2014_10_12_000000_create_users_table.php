@@ -22,7 +22,6 @@ return new class () extends Migration {
             $table->date('birth_date')->nullable();
             $table->enum('gender', GenderEnum::getAllValues());
             $table->enum('blood_group', BloodGroupEnum::getAllValues())->nullable();
-            $table->text('tags')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('verification_code')->nullable();
             $table->string('password')->nullable();

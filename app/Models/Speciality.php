@@ -13,7 +13,6 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 /**
  * @property \App\Serializers\Translatable name
  * @property string                        description
- * @property string                        tags
  */
 class Speciality extends Model implements HasMedia
 {
@@ -23,7 +22,6 @@ class Speciality extends Model implements HasMedia
     protected $fillable = [
         'name',
         'description',
-        'tags',
     ];
 
     protected $casts = [
@@ -39,7 +37,6 @@ class Speciality extends Model implements HasMedia
         return [
             'name',
             'description',
-            'tags',
         ];
     }
 
