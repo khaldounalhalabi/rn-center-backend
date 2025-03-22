@@ -190,7 +190,7 @@ class AppointmentManager
             'appointment_id' => $appointment->id,
             'type' => $clinicTransactionType,
             'clinic_id' => $clinic->id,
-            'notes' => "An Appointment Deduction For The Appointment With Id : $appointment->id , Patient name : {$appointment->customer->user->full_name}",
+            'notes' => "An Appointment Deduction For The Appointment With Id : $appointment->id , Patient name : {$appointment->customer->user->fullName->en}",
             'status' => ClinicTransactionStatusEnum::PENDING->value,
             'date' => now(),
         ]);
@@ -215,7 +215,7 @@ class AppointmentManager
                 'appointment_id' => $appointment->id,
                 'actor_id' => auth()->user()->id,
                 'affected_id' => $data['customer_id'] ?? $appointment->customer_id,
-                'event' => "appointment has been created in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->full_name->en,
+                'event' => "appointment has been created in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->fullName?->en,
             ]);
         } else {
             AppointmentLogRepository::make()->create([
@@ -225,7 +225,7 @@ class AppointmentManager
                 'appointment_id' => $appointment->id,
                 'actor_id' => auth()->user()?->id,
                 'affected_id' => $data['customer_id'] ?? $appointment->customer_id,
-                'event' => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->full_name->en,
+                'event' => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->fullName?->en,
             ]);
         }
     }

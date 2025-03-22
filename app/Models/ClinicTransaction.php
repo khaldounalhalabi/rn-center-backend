@@ -65,7 +65,6 @@ class ClinicTransaction extends Model
     {
         return [
             'appointment.customer.user' => [
-                'full_name',
             ],
         ];
     }
@@ -74,7 +73,6 @@ class ClinicTransaction extends Model
     {
         return [
             'appointment.id',
-            'appointment.customer.user.full_name',
             'type',
             'amount',
             'notes',

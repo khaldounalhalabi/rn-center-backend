@@ -90,7 +90,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
     {
         return [
             'user' => [
-                'full_name',
                 'email',
             ],
             'user.address.city' => [

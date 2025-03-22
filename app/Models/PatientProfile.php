@@ -64,10 +64,9 @@ class PatientProfile extends Model implements HasMedia
                 'name',
             ],
             'clinic.user' => [
-                'full_name',
+
             ],
             'customer.user' => [
-                'full_name',
             ],
         ];
     }

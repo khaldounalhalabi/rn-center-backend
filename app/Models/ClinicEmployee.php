@@ -42,7 +42,6 @@ class ClinicEmployee extends Model implements ActionsMustBeAuthorized
     {
         return [
             'user' => [
-                'full_name',
                 'email'
             ],
         ];

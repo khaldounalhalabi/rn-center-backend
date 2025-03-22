@@ -21,7 +21,6 @@ class UserResource extends BaseResource
             'first_name' => $this->first_name,
             'middle_name' => $this->middle_name,
             'last_name' => $this->last_name,
-            'full_name' => $this->full_name,
             'customer' => new CustomerResource($this->whenLoaded('customer')),
             'address' => new AddressResource($this->whenLoaded('address')),
             'permissions' => new PermissionCollection($this->whenLoaded('permissions')),

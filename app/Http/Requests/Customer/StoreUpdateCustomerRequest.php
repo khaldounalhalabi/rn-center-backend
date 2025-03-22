@@ -32,7 +32,6 @@ class StoreUpdateCustomerRequest extends FormRequest
                 'first_name' => ['required', new LanguageShape(), 'max:60'],
                 'middle_name' => ['required', new LanguageShape(), 'max:60'],
                 'last_name' => ['required', new LanguageShape(), 'max:60'],
-                'full_name' => ['string', 'nullable',],
                 'email' => ['required', 'email', 'max:255', 'min:3', 'string', 'unique:users,email',],
                 'password' => 'string|min:8|max:20|required|confirmed',
                 'birth_date' => 'date_format:Y-m-d|date|nullable',
@@ -56,7 +55,6 @@ class StoreUpdateCustomerRequest extends FormRequest
             'first_name' => ['nullable', new LanguageShape(), 'max:60'],
             'middle_name' => ['nullable', new LanguageShape(), 'max:60'],
             'last_name' => ['nullable', new LanguageShape(), 'max:60'],
-            'full_name' => ['string', 'nullable',],
             'email' => ['nullable', 'email', 'max:255', 'min:3', 'string', 'unique:users,email,' . $userId,],
             'password' => 'string|min:8|max:20|nullable|confirmed',
             'birth_date' => 'date_format:Y-m-d|date|nullable',
@@ -89,11 +87,5 @@ class StoreUpdateCustomerRequest extends FormRequest
                 'map_iframe' => strip_tags($this->input('address.map_iframe'), ['iframe'])
             ]
         ]);
-
-        if ($this->input('last_name') && $this->input('first_name') && $this->input('middle_name')) {
-            $this->merge([
-                'full_name' => User::getUserFullName($this->input('first_name'), $this->input('middle_name'), $this->input('last_name'))
-            ]);
-        }
     }
 }

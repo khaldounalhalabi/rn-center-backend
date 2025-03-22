@@ -60,7 +60,6 @@ class Medicine extends Model implements ActionsMustBeAuthorized
                 'name'
             ],
             'clinic.user' => [
-                'full_name',
                 'first_name',
                 'last_name'
             ]

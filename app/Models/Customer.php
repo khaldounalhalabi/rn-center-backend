@@ -48,7 +48,6 @@ class Customer extends Model implements ActionsMustBeAuthorized
         return [
             'user' => [
                 'email',
-                'full_name',
             ],
         ];
     }
@@ -56,11 +55,7 @@ class Customer extends Model implements ActionsMustBeAuthorized
     public function customOrders(): array
     {
         return [
-            'user.first_name' => function (Builder $query, $dir) {
-                return $query->join('users', 'users.id', '=', 'customers.user_id')
-                    ->select('customers.*', 'users.full_name AS customer_first_name')
-                    ->orderBy('customer_first_name', $dir);
-            },
+
         ];
     }
 

@@ -31,7 +31,6 @@ class DoctorStoreUpdateCustomerRequest extends FormRequest
                 'first_name' => ['required', new LanguageShape(), 'max:60'],
                 'middle_name' => ['required', new LanguageShape(), 'max:60'],
                 'last_name' => ['required', new LanguageShape(), 'max:60'],
-                'full_name' => ['string', 'nullable',],
                 'email' => ['nullable', 'email', 'max:255', 'min:3', 'string', 'unique:users,email',],
                 'birth_date' => 'nullable|date_format:Y-m-d|date',
                 'gender' => ['required', 'string', Rule::in(GenderEnum::getAllValues())],
@@ -68,10 +67,6 @@ class DoctorStoreUpdateCustomerRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        if ($this->input('last_name') && $this->input('first_name') && $this->input('middle_name')) {
-            $this->merge([
-                'full_name' => User::getUserFullName($this->input('first_name'), $this->input('middle_name'), $this->input('last_name')),
-            ]);
-        }
+
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Serializers;
 
 use Exception;
+use Illuminate\Support\Str;
 use JsonSerializable;
 
 /**
@@ -22,8 +23,12 @@ class Translatable implements JsonSerializable
             foreach (config('cubeta-starter.available_locales') as $locale) {
                 $this->data[$locale] = "";
             }
-        } elseif (is_string($value)) {
+        } elseif (is_string($value) && Str::isJson($value)) {
             $this->data = json_decode($value, true);
+        } elseif (is_string($value) && !Str::isJson($value)) {
+            $this->data = $this->isArabic($value)
+                ? ['ar' => $value, "en" => ""]
+                : ['en' => $value, "ar" => ""];
         } else {
             $this->data = $value;
         }
@@ -90,7 +95,7 @@ class Translatable implements JsonSerializable
 
     public function toJson(): bool|string
     {
-        return json_encode($this->data, JSON_UNESCAPED_SLASHES + JSON_UNESCAPED_UNICODE);
+        return json_encode($this->data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
     public function __toString(): string
@@ -102,5 +107,14 @@ class Translatable implements JsonSerializable
     {
         $locale = $locale ?? config('cubeta-starter.defaultLocale');
         return $this->{$locale};
+    }
+
+    private function isArabic($string): bool
+    {
+        if (preg_match('/[\x{0600}-\x{06FF}\x{0750}-\x{077F}\x{08A0}-\x{08FF}\x{FB50}-\x{FDFF}\x{FE70}-\x{FEFF}]/u', $string)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

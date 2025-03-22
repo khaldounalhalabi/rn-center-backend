@@ -22,10 +22,10 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
- * @property TranslatableSerializer full_name
  * @property TranslatableSerializer first_name
  * @property TranslatableSerializer middle_name
  * @property TranslatableSerializer last_name
+ * @property TranslatableSerializer fullName
  * @mixin Builder
  */
 class User extends Authenticatable implements HasMedia, JWTSubject
@@ -43,7 +43,7 @@ class User extends Authenticatable implements HasMedia, JWTSubject
         'email', 'birth_date',
         'gender', 'blood_group', 'image',
         'email_verified_at',
-        'remember_token', 'full_name',
+        'remember_token',
     ];
 
     protected $hidden = [
@@ -60,7 +60,6 @@ class User extends Authenticatable implements HasMedia, JWTSubject
         'first_name' => Translatable::class,
         'middle_name' => Translatable::class,
         'last_name' => Translatable::class,
-        'full_name' => Translatable::class,
     ];
 
     /**
@@ -72,7 +71,7 @@ class User extends Authenticatable implements HasMedia, JWTSubject
         return [
             'first_name', 'middle_name', 'last_name',
             'email', 'birth_date',
-            'gender', 'blood_group', 'full_name',
+            'gender', 'blood_group',
         ];
     }
 
@@ -93,38 +92,6 @@ class User extends Authenticatable implements HasMedia, JWTSubject
                 'name',
             ],
         ];
-    }
-
-    protected static function booted(): void
-    {
-        parent::booted();
-        self::creating(function (User $user) {
-            $user->full_name = self::getUserFullName($user->first_name->toJson(), $user->middle_name->toJson(), $user->last_name->toJson());
-        });
-    }
-
-    public static function getUserFullName($firstName, $middleName, $lastName): string|false
-    {
-        if ($firstName instanceof TranslatableSerializer && $middleName instanceof TranslatableSerializer && $lastName instanceof TranslatableSerializer) {
-            return json_encode([
-                'en' => $firstName->en . ' ' . $middleName->en . ' ' . $lastName->en,
-                'ar' => $firstName->ar . ' ', $middleName->ar . ' ' . $lastName->ar,
-            ], JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES);
-        }
-
-        if (is_array($firstName) &&
-            is_array($middleName) &&
-            is_array($lastName)) {
-            return json_encode([
-                'en' => ($firstName['en'] ?? '') . ' ' . ($middleName['en'] ?? '') . ' ' . ($lastName['en'] ?? ''),
-                'ar' => ($firstName['ar'] ?? '') . ' ', ($middleName['ar'] ?? '') . ' ' . ($lastName['ar'] ?? ''),
-            ], JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES);
-        }
-
-        return json_encode([
-            'en' => (json_decode($firstName, true)['en'] ?? '') . ' ' . (json_decode($middleName, true)['en'] ?? '') . ' ' . (json_decode($lastName, true)['en'] ?? ''),
-            'ar' => (json_decode($firstName, true)['ar'] ?? '') . ' ' . (json_decode($middleName, true)['ar'] ?? '') . ' ' . (json_decode($lastName, true)['ar'] ?? ''),
-        ], JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES);
     }
 
     public function customOrders(): array
@@ -269,6 +236,16 @@ class User extends Authenticatable implements HasMedia, JWTSubject
     {
         return Attribute::make(
             set: fn(?string $value) => Hash::make($value)
+        );
+    }
+
+    protected function fullName(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value, array $attributes) => new TranslatableSerializer([
+                'en' => $this->first_name->en . ' ' . $this->middle_name->en . ' ' . $this->last_name->en,
+                'ar' => $this->first_name->ar . ' ' . $this->middle_name->ar . ' ' . $this->last_name->ar,
+            ]),
         );
     }
 }

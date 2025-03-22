@@ -55,7 +55,6 @@ class Transaction extends Model implements ActionsMustBeAuthorized
     {
         return [
             'actor' => [
-                'full_name',
                 'email',
             ]
         ];

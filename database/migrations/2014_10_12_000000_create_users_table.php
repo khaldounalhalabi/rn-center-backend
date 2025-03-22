@@ -14,7 +14,6 @@ return new class () extends Migration {
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->json('full_name')->nullable();
             $table->json('first_name');
             $table->json('middle_name');
             $table->json('last_name');
@@ -29,7 +28,6 @@ return new class () extends Migration {
             $table->rememberToken();
             $table->timestamps();
             $table->index(['created_at']);
-            $table->index(['full_name']);
             $table->index(['first_name']);
             $table->index(['middle_name']);
             $table->index(['last_name']);

@@ -31,17 +31,9 @@ class Translatable implements CastsAttributes
     public function set($model, string $key, mixed $value, array $attributes): mixed
     {
         if ($value instanceof SerializersTranslatable) {
-            return json_encode($value->toArray(), JSON_UNESCAPED_SLASHES + JSON_UNESCAPED_UNICODE);
-        }
-
-        if (is_array($value)) {
-            return json_encode($value, JSON_UNESCAPED_SLASHES + JSON_UNESCAPED_UNICODE);
-        } elseif (Str::isJson($value)) {
-            return $value;
-        } elseif (is_string($value)) {
-            return json_encode([app()->getLocale() => $value], JSON_UNESCAPED_SLASHES + JSON_UNESCAPED_UNICODE);
-        } else {
-            throw new Exception("Invalid Translatable Data , it should be either : array , json string , Translatable Object");
+            return $value->toJson();
+        }else{
+            return (new SerializersTranslatable($value))->toJson();
         }
     }
 }

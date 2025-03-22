@@ -48,7 +48,6 @@ class StoreUpdateClinicRequest extends FormRequest
                 'user.first_name' => ['required', new LanguageShape(), 'max:60'],
                 'user.middle_name' => ['required', new LanguageShape(), 'max:60'],
                 'user.last_name' => ['required', new LanguageShape(), 'max:60'],
-                'user.full_name' => ['string', 'nullable',],
                 'user.email' => ['required', 'email', 'max:255', 'min:3', 'string', 'unique:users,email',],
                 'user.password' => 'string|min:8|max:20|required|confirmed',
                 'user.birth_date' => 'date_format:Y-m-d|date|before:20 years ago|nullable',
@@ -88,7 +87,6 @@ class StoreUpdateClinicRequest extends FormRequest
             'user.first_name' => ['nullable', new LanguageShape(), 'max:60', Rule::excludeIf(fn() => $authUser?->isClinic())],
             'user.middle_name' => ['nullable', new LanguageShape(), 'max:60', Rule::excludeIf(fn() => $authUser?->isClinic())],
             'user.last_name' => ['nullable', new LanguageShape(), 'max:60', Rule::excludeIf(fn() => $authUser?->isClinic())],
-            'user.full_name' => ['nullable', 'string', Rule::excludeIf(fn() => $authUser?->isClinic())],
             'user.email' => ['nullable', 'email', 'max:255', 'min:3', 'string', 'unique:users,email,' . $userId, Rule::excludeIf(fn() => $authUser?->isClinic())],
             'user.password' => ['string', 'min:8', 'max:20', 'nullable', 'confirmed', Rule::excludeIf(fn() => $authUser?->isClinic())],
             'user.birth_date' => ['date_format:Y-m-d', 'date', 'before:20 years ago', 'nullable', Rule::excludeIf(fn() => $authUser?->isClinic())],
@@ -124,14 +122,6 @@ class StoreUpdateClinicRequest extends FormRequest
                 ],
             ]);
 
-        }
-        if ($this->input('user.last_name') && $this->input('user.first_name') && $this->input('user.middle_name')) {
-            $this->merge([
-                'user' => [
-                    ...$this->input('user'),
-                    'full_name' => User::getUserFullName($this->input('user.first_name'), $this->input('user.middle_name'), $this->input('user.last_name')),
-                ],
-            ]);
         }
     }
 }

@@ -61,7 +61,6 @@ class AppointmentDeduction extends Model
     {
         return [
             'appointment.clinic.user' => [
-                'full_name',
             ],
             'appointment.clinic' => [
                 'name',
