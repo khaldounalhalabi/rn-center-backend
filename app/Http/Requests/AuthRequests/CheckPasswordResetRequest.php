@@ -27,17 +27,6 @@ class CheckPasswordResetRequest extends FormRequest
                 'required',
                 'string',
                 'max:10',
-                function ($attribute, $value, $fail) {
-                    $user = UserService::make()->getUserByPasswordResetCode($value);
-
-                    if (!$user) {
-                        $fail(__('site.code_incorrect'));
-                    }
-
-                    if (!$user?->reset_code_valid_until?->isAfter(now())) {
-                        $fail(__('site.code_expired'));
-                    }
-                },
             ],
         ];
     }

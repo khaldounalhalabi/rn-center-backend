@@ -7,7 +7,6 @@ use App\Enums\MediaTypeEnum;
 use App\Enums\RolesPermissionEnum;
 use App\Serializers\Translatable as TranslatableSerializer;
 use App\Traits\HasRoles;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -27,7 +26,6 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property TranslatableSerializer first_name
  * @property TranslatableSerializer middle_name
  * @property TranslatableSerializer last_name
- * @property Carbon                 reset_code_valid_until
  * @mixin Builder
  */
 class User extends Authenticatable implements HasMedia, JWTSubject
@@ -45,7 +43,7 @@ class User extends Authenticatable implements HasMedia, JWTSubject
         'email', 'birth_date',
         'gender', 'blood_group', 'image',
         'email_verified_at',
-        'remember_token','full_name', 'reset_code_valid_until',
+        'remember_token', 'full_name',
     ];
 
     protected $hidden = [
@@ -59,7 +57,6 @@ class User extends Authenticatable implements HasMedia, JWTSubject
         'birth_date' => 'datetime',
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
-        'reset_code_valid_until' => 'datetime:Y-m-d H:i:s',
         'first_name' => Translatable::class,
         'middle_name' => Translatable::class,
         'last_name' => Translatable::class,
