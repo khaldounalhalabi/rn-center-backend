@@ -21,7 +21,7 @@ class NotificationRepository extends BaseRepository
     private function notificationsBaseQuery($notifiableId, $notifiableType = User::class, bool $isAvailable = true)
     {
         return $this->globalQuery()
-            ->when($isAvailable, fn($q) => $q->available())
+            ->when($isAvailable, fn(Notification|Builder $q) => $q->available())
             ->where('notifiable_id', $notifiableId)
             ->where('notifiable_type', $notifiableType);
     }

@@ -22,22 +22,17 @@ return new class () extends Migration {
             $table->date('birth_date')->nullable();
             $table->enum('gender', GenderEnum::getAllValues());
             $table->enum('blood_group', BloodGroupEnum::getAllValues())->nullable();
-            $table->boolean('is_blocked')->default(false);
             $table->text('tags')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('verification_code')->nullable();
             $table->string('password')->nullable();
             $table->string('fcm_token')->nullable();
             $table->string('reset_password_code')->nullable();
-            $table->boolean('is_archived')->default(false);
             $table->dateTime('reset_code_valid_until')->nullable();
 
             $table->rememberToken();
             $table->timestamps();
             $table->index(['created_at']);
-            $table->index(['is_blocked']);
-            $table->index(['is_archived']);
-            $table->index(['is_blocked', 'is_archived']);
             $table->index(['full_name']);
             $table->index(['first_name']);
             $table->index(['middle_name']);

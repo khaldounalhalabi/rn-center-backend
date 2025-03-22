@@ -18,14 +18,6 @@ class CustomerRepository extends BaseRepository
         return $this->globalQuery()->where('user_id', $userId)->first();
     }
 
-    public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
-    {
-        return parent::globalQuery($relations, $countable)
-            ->when($this->filtered || !auth()->user()?->isAdmin(), function (Builder $query) {
-                $query->available();
-            });
-    }
-
     public function getClinicCustomers($clinicId, array $relations = [], array $countable = []): ?array
     {
         return $this->paginateQuery(

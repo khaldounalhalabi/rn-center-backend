@@ -26,20 +26,6 @@ class UserRepository extends BaseRepository
     }
 
     /**
-     * @param array $relations
-     * @param array $countable
-     * @param bool  $defaultOrder
-     * @return Builder|User
-     */
-    public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder|User
-    {
-        return parent::globalQuery($relations, $countable)
-            ->when($this->filtered, function (Builder|User $query) {
-                $query->available();
-            });
-    }
-
-    /**
      * @param $token
      * @return User|null
      */

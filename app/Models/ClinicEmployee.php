@@ -76,8 +76,8 @@ class ClinicEmployee extends Model implements ActionsMustBeAuthorized
     public function canDelete(): bool
     {
         return (
-            ($this->clinic_id == auth()?->user()?->getClinicId() && $this->clinic->isAvailable() && $this->user->isAvailable())
-            || (auth()->user()?->id == $this->user_id && $this->clinic->isAvailable() && $this->user->isAvailable())
+            ($this->clinic_id == auth()?->user()?->getClinicId() && $this->clinic->isAvailable())
+            || (auth()->user()?->id == $this->user_id && $this->clinic->isAvailable())
             || auth()->user()?->isAdmin()
         );
     }
@@ -90,8 +90,8 @@ class ClinicEmployee extends Model implements ActionsMustBeAuthorized
     public function canShow(): bool
     {
         return (
-            ($this->clinic_id == auth()?->user()?->getClinicId() && $this->clinic->isAvailable() && $this->user->isAvailable())
-            || (auth()->user()?->id == $this->user_id && $this->clinic->isAvailable() && $this->user->isAvailable())
+            ($this->clinic_id == auth()?->user()?->getClinicId() && $this->clinic->isAvailable())
+            || (auth()->user()?->id == $this->user_id && $this->clinic->isAvailable())
             || auth()->user()?->isAdmin()
         );
     }
@@ -99,8 +99,8 @@ class ClinicEmployee extends Model implements ActionsMustBeAuthorized
     public function canUpdate(): bool
     {
         return (
-            ($this->clinic_id == auth()?->user()?->getClinicId() && $this->clinic->isAvailable() && $this->user->isAvailable())
-            || (auth()->user()?->id == $this->user_id && $this->clinic->isAvailable() && $this->user->isAvailable())
+            ($this->clinic_id == auth()?->user()?->getClinicId() && $this->clinic->isAvailable())
+            || (auth()->user()?->id == $this->user_id && $this->clinic->isAvailable())
             || auth()->user()?->isAdmin()
         );
     }

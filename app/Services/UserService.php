@@ -362,19 +362,6 @@ class UserService extends BaseService
         return $user->load($relations);
     }
 
-    public function toggleArchive($userId): ?string
-    {
-        /** @var User $user */
-        $user = $this->repository->find($userId);
-        if (!$user) {
-            return null;
-        }
-
-        $user = $this->repository->update(["is_archived" => !$user->is_archived], $user);
-
-        return $user->is_archived ? "archived" : "not_archived";
-    }
-
     /**
      * @throws RoleDoesNotExistException
      */
@@ -396,25 +383,6 @@ class UserService extends BaseService
         $user->assignRole($data['role'] ?? RolesPermissionEnum::CUSTOMER['role']);
 
         return $user->load($relationships);
-    }
-
-    /**
-     * @param $userId
-     * @return string|null
-     */
-    public function toggleBlockUser($userId): ?string
-    {
-        $user = $this->repository->find($userId);
-
-        if (!$user) {
-            return null;
-        }
-
-        $user = $this->repository->update([
-            'is_blocked' => !$user->is_blocked,
-        ], $user);
-
-        return $user->is_blocked ? "blocked" : "not_blocked";
     }
 
     public function passwordResetRequestByPhone(string $phone): ?bool

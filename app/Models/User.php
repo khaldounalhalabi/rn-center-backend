@@ -43,10 +43,9 @@ class User extends Authenticatable implements HasMedia, JWTSubject
     protected $fillable = [
         'first_name', 'middle_name', 'last_name',
         'email', 'birth_date',
-        'gender', 'blood_group', 'is_blocked',
+        'gender', 'blood_group',
         'tags', 'image', 'email_verified_at',
-        'password', 'fcm_token', 'reset_password_code',
-        'is_archived', 'remember_token', 'verification_code',
+        'remember_token', 'verification_code',
         'full_name', 'reset_code_valid_until',
     ];
 
@@ -59,8 +58,6 @@ class User extends Authenticatable implements HasMedia, JWTSubject
         'id' => 'integer',
         'email_verified_at' => 'datetime',
         'birth_date' => 'datetime',
-        'is_blocked' => 'boolean',
-        'is_archived' => 'boolean',
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
         'reset_code_valid_until' => 'datetime:Y-m-d H:i:s',
@@ -79,8 +76,8 @@ class User extends Authenticatable implements HasMedia, JWTSubject
         return [
             'first_name', 'middle_name', 'last_name',
             'email', 'birth_date',
-            'gender', 'blood_group', 'is_blocked',
-            'tags', 'is_archived', 'full_name',
+            'gender', 'blood_group',
+            'tags', 'full_name',
         ];
     }
 
@@ -148,21 +145,6 @@ class User extends Authenticatable implements HasMedia, JWTSubject
                     ->orderBy('city_name', $dir);
             },
         ];
-    }
-
-    public function scopeBlocked(Builder $query): Builder
-    {
-        return $query->where('is_blocked', true);
-    }
-
-    public function scopeArchived(Builder $query): Builder
-    {
-        return $query->where('is_archived', true);
-    }
-
-    public function scopeNotArchived(Builder $query): Builder
-    {
-        return $query->where('is_archived', false);
     }
 
     /**
@@ -248,17 +230,6 @@ class User extends Authenticatable implements HasMedia, JWTSubject
     public function clinicEmployee(): HasOne
     {
         return $this->hasOne(ClinicEmployee::class);
-    }
-
-    public function scopeAvailable(Builder $query): Builder
-    {
-        return $query->where('is_blocked', false)
-            ->where('is_archived', false);
-    }
-
-    public function isAvailable(): bool
-    {
-        return !$this->is_blocked && !$this->is_archived;
     }
 
     /**

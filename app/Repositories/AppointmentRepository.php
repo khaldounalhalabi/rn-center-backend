@@ -7,6 +7,7 @@ use App\Excel\BaseExporter;
 use App\Models\Appointment;
 use App\Models\AppointmentLog;
 use App\Models\Clinic;
+use App\Models\Customer;
 use App\Repositories\Contracts\BaseRepository;
 use Carbon\Carbon;
 use DateTime;
@@ -49,9 +50,7 @@ class AppointmentRepository extends BaseRepository
     {
         return parent::globalQuery($relations, $countable)
             ->when($this->filtered, function (Builder $query) {
-                $query->whereHas('customer', function (Builder $q) {
-                    $q->available();
-                })->whereHas('clinic', function (Builder $builder) {
+                $query->whereHas('clinic', function (Builder|Clinic $builder) {
                     $builder->available();
                 });
             })->when(auth()->user()?->isClinic(), function (Builder $query) {

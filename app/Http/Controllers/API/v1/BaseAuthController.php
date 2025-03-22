@@ -39,10 +39,6 @@ class BaseAuthController extends ApiController
             return $this->apiResponse(null, self::STATUS_UNAUTHORIZED, __('site.credentials_not_match_records'));
         }
 
-        if ($user->is_archived) {
-            return $this->apiResponse(null, self::STATUS_ARCHIVED, __('site.archived'));
-        }
-
         if ($user->isClinic() && !$user->getClinic()?->hasActiveSubscription()) {
             return $this->apiResponse(null, self::STATUS_EXPIRED_SUBSCRIPTION, __('site.expired_subscription'));
         }

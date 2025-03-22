@@ -53,12 +53,6 @@
                     "unique": false
                 },
                 {
-                    "name": "is_blocked",
-                    "type": "boolean",
-                    "nullable": false,
-                    "unique": false
-                },
-                {
                     "name": "tags",
                     "type": "text",
                     "nullable": false,
@@ -67,12 +61,6 @@
                 {
                     "name": "image",
                     "type": "file",
-                    "nullable": false,
-                    "unique": false
-                },
-                {
-                    "name": "is_archived",
-                    "type": "boolean",
                     "nullable": false,
                     "unique": false
                 }

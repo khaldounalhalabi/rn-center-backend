@@ -89,7 +89,6 @@ class Customer extends Model implements ActionsMustBeAuthorized
                     $this->patientProfiles()->where('clinic_id', auth()?->user()?->getClinicId())->exists()
                     || $this->appointments()->where('clinic_id', auth()?->user()?->getClinicId())->exists()
                 )
-                && $this->user->isAvailable()
             ) || auth()->user()?->isAdmin();
     }
 
@@ -111,20 +110,12 @@ class Customer extends Model implements ActionsMustBeAuthorized
                     $this->patientProfiles()->where('clinic_id', auth()?->user()?->getClinicId())->exists()
                     || $this->appointments()->where('clinic_id', auth()?->user()?->getClinicId())->exists()
                 )
-                && $this->user->isAvailable()
             ) || auth()->user()?->isAdmin();
     }
 
     public function canDelete(): bool
     {
         return auth()->user()?->isAdmin();
-    }
-
-    public function scopeAvailable(Builder $query): Builder
-    {
-        return $query->whereHas('user', function (Builder $q) {
-            $q->available();
-        });
     }
 
     public function systemOffers(): BelongsToMany

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Clinic;
+use App\Models\SystemOffer;
 use App\Repositories\Contracts\BaseRepository;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -37,7 +38,7 @@ class ClinicRepository extends BaseRepository
     {
         return $this->paginate(
             $this->globalQuery($relations, $countable)
-                ->whereHas('systemOffers', function (Builder $query) use ($systemOfferId) {
+                ->whereHas('systemOffers', function (Builder|SystemOffer $query) use ($systemOfferId) {
                     $query->where('system_offers.id', $systemOfferId);
                 })->available()
         );

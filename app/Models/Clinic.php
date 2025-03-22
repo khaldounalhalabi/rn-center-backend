@@ -106,10 +106,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
     {
         return [
             [
-                'name' => 'is_archived',
-                'relation' => 'user.is_archived',
-            ],
-            [
                 'name' => 'status',
             ],
             [
@@ -373,16 +369,12 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
 
     public function scopeAvailable(Builder $query): Builder
     {
-        return $query->where('status', ClinicStatusEnum::ACTIVE->value)
-            ->whereHas('user', function (Builder $q) {
-                $q->available();
-            });
+        return $query->where('status', ClinicStatusEnum::ACTIVE->value);
     }
 
     public function isAvailable(): bool
     {
-        return $this->status == ClinicStatusEnum::ACTIVE->value
-            && $this->user->isAvailable();
+        return $this->status == ClinicStatusEnum::ACTIVE->value;
     }
 
     public function systemOffers(): BelongsToMany

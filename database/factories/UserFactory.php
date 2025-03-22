@@ -35,8 +35,6 @@ class UserFactory extends Factory
             'tags' => $this->faker->text(),
             'email_verified_at' => Carbon::now(),
             'password' => '123456789',
-            'is_blocked' => false,
-            'is_archived' => false,
         ];
     }
 
