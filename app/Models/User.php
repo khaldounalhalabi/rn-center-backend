@@ -23,7 +23,6 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property TranslatableSerializer first_name
- * @property TranslatableSerializer middle_name
  * @property TranslatableSerializer last_name
  * @property TranslatableSerializer fullName
  * @mixin Builder
@@ -39,9 +38,13 @@ class User extends Authenticatable implements HasMedia, JWTSubject
     protected $guarded = ['id'];
 
     protected $fillable = [
-        'first_name', 'middle_name', 'last_name',
-        'email', 'birth_date',
-        'gender', 'blood_group', 'image',
+        'first_name',
+        'last_name',
+        'email',
+        'birth_date',
+        'gender',
+        'blood_group',
+        'image',
         'email_verified_at',
         'remember_token',
     ];
@@ -58,7 +61,6 @@ class User extends Authenticatable implements HasMedia, JWTSubject
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
         'first_name' => Translatable::class,
-        'middle_name' => Translatable::class,
         'last_name' => Translatable::class,
     ];
 
@@ -69,7 +71,7 @@ class User extends Authenticatable implements HasMedia, JWTSubject
     public static function searchableArray(): array
     {
         return [
-            'first_name', 'middle_name', 'last_name',
+            'first_name', 'last_name',
             'email', 'birth_date',
             'gender', 'blood_group',
         ];
@@ -243,8 +245,8 @@ class User extends Authenticatable implements HasMedia, JWTSubject
     {
         return Attribute::make(
             get: fn($value, array $attributes) => new TranslatableSerializer([
-                'en' => $this->first_name->en . ' ' . $this->middle_name->en . ' ' . $this->last_name->en,
-                'ar' => $this->first_name->ar . ' ' . $this->middle_name->ar . ' ' . $this->last_name->ar,
+                'en' => $this->first_name->en . ' ' . $this->last_name->en,
+                'ar' => $this->first_name->ar . ' ' . $this->last_name->ar,
             ]),
         );
     }

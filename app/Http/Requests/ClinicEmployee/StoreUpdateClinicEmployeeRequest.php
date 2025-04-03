@@ -30,7 +30,6 @@ class StoreUpdateClinicEmployeeRequest extends FormRequest
                 'clinic_id' => ['required', 'numeric', 'exists:clinics,id'],
 
                 'first_name' => ['required', new LanguageShape(), 'max:60'],
-                'middle_name' => ['required', new LanguageShape(), 'max:60'],
                 'last_name' => ['required', new LanguageShape(), 'max:60'],
                 'email' => ['required', 'email', 'max:255', 'min:3', 'string', 'unique:users,email',],
                 'password' => 'string|min:8|max:20|required|confirmed',
@@ -49,7 +48,6 @@ class StoreUpdateClinicEmployeeRequest extends FormRequest
         return [
             'clinic_id' => ['nullable', 'numeric', 'exists:clinics,id'],
             'first_name' => ['nullable', new LanguageShape(), 'max:60'],
-            'middle_name' => ['nullable', new LanguageShape(), 'max:60'],
             'last_name' => ['nullable', new LanguageShape(), 'max:60'],
             'email' => ['nullable', 'email', 'max:255', 'min:3', 'string', 'unique:users,email,' . $userId,],
             'password' => 'string|min:8|max:20|nullable|confirmed',

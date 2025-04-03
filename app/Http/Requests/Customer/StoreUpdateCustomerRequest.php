@@ -30,7 +30,6 @@ class StoreUpdateCustomerRequest extends FormRequest
         if ($this->method() == "POST") {
             return [
                 'first_name' => ['required', new LanguageShape(), 'max:60'],
-                'middle_name' => ['required', new LanguageShape(), 'max:60'],
                 'last_name' => ['required', new LanguageShape(), 'max:60'],
                 'email' => ['required', 'email', 'max:255', 'min:3', 'string', 'unique:users,email',],
                 'password' => 'string|min:8|max:20|required|confirmed',
@@ -53,7 +52,6 @@ class StoreUpdateCustomerRequest extends FormRequest
 
         return [
             'first_name' => ['nullable', new LanguageShape(), 'max:60'],
-            'middle_name' => ['nullable', new LanguageShape(), 'max:60'],
             'last_name' => ['nullable', new LanguageShape(), 'max:60'],
             'email' => ['nullable', 'email', 'max:255', 'min:3', 'string', 'unique:users,email,' . $userId,],
             'password' => 'string|min:8|max:20|nullable|confirmed',

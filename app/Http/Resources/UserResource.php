@@ -19,7 +19,6 @@ class UserResource extends BaseResource
             'blood_group' => $this->blood_group,
             'fcm_token' => $this->fcm_token,
             'first_name' => $this->first_name,
-            'middle_name' => $this->middle_name,
             'last_name' => $this->last_name,
             'customer' => new CustomerResource($this->whenLoaded('customer')),
             'address' => new AddressResource($this->whenLoaded('address')),

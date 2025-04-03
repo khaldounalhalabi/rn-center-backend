@@ -46,7 +46,6 @@ class StoreUpdateClinicRequest extends FormRequest
 
                 'user' => 'array|required',
                 'user.first_name' => ['required', new LanguageShape(), 'max:60'],
-                'user.middle_name' => ['required', new LanguageShape(), 'max:60'],
                 'user.last_name' => ['required', new LanguageShape(), 'max:60'],
                 'user.email' => ['required', 'email', 'max:255', 'min:3', 'string', 'unique:users,email',],
                 'user.password' => 'string|min:8|max:20|required|confirmed',
@@ -85,7 +84,6 @@ class StoreUpdateClinicRequest extends FormRequest
 
             'user' => ['array', 'nullable', Rule::excludeIf(fn() => $authUser?->isClinic())],
             'user.first_name' => ['nullable', new LanguageShape(), 'max:60', Rule::excludeIf(fn() => $authUser?->isClinic())],
-            'user.middle_name' => ['nullable', new LanguageShape(), 'max:60', Rule::excludeIf(fn() => $authUser?->isClinic())],
             'user.last_name' => ['nullable', new LanguageShape(), 'max:60', Rule::excludeIf(fn() => $authUser?->isClinic())],
             'user.email' => ['nullable', 'email', 'max:255', 'min:3', 'string', 'unique:users,email,' . $userId, Rule::excludeIf(fn() => $authUser?->isClinic())],
             'user.password' => ['string', 'min:8', 'max:20', 'nullable', 'confirmed', Rule::excludeIf(fn() => $authUser?->isClinic())],

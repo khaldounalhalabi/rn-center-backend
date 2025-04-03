@@ -26,7 +26,6 @@ class UserFactory extends Factory
     {
         return [
             'first_name' => $this->fakeTranslation('firstName'),
-            'middle_name' => $this->fakeTranslation('lastName'),
             'last_name' => $this->fakeTranslation('lastName'),
             'email' => $this->faker->unique()->safeEmail(),
             'birth_date' => Carbon::now()->subYear(20),

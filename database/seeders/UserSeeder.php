@@ -43,7 +43,6 @@ class UserSeeder extends Seeder
                         'email' => 'khaldoun1222@hotmail.com',
                         'password' => '123456789',
                         'first_name' => 'staff',
-                        'middle_name' => 'staff',
                         'last_name' => 'staff',
                     ])->assignRole(RolesPermissionEnum::CLINIC_EMPLOYEE['role'])->id,
                 'clinic_id' => $clinic->id
@@ -78,7 +77,6 @@ class UserSeeder extends Seeder
                         'email' => 'asasimr55@staff.com',
                         'password' => '123456789',
                         'first_name' => 'staff',
-                        'middle_name' => 'staff',
                         'last_name' => 'staff',
                     ])->assignRole(RolesPermissionEnum::CLINIC_EMPLOYEE['role'])->id,
                 'clinic_id' => $clinic->id

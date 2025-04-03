@@ -29,7 +29,6 @@ class UpdateUserRequest extends FormRequest
         $user = auth()->user();
         return [
             'first_name' => ['nullable', 'string', 'max:255'],
-            'middle_name' => ['nullable', 'string', 'max:255'],
             'last_name' => ['nullable', 'string', 'max:255'],
             'phone_numbers' => ['array', 'nullable', Rule::excludeIf(fn() => $user?->isClinic())],
             'phone_numbers.*' => ['nullable', 'string', 'regex:/^07\d{9}$/', new UniquePhoneNumber($user?->id), Rule::excludeIf(fn() => $user?->isClinic())],

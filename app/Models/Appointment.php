@@ -105,7 +105,6 @@ class Appointment extends Model implements ActionsMustBeAuthorized
             'customer.user' => [
                 'first_name',
                 'last_name',
-                'middle_name',
             ],
             'clinic' => [
                 'name',
@@ -113,7 +112,6 @@ class Appointment extends Model implements ActionsMustBeAuthorized
             'clinic.user' => [
                 'first_name',
                 'last_name',
-                'middle_name',
             ],
         ];
     }

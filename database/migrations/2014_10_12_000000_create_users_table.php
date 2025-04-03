@@ -15,7 +15,6 @@ return new class () extends Migration {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->json('first_name');
-            $table->json('middle_name');
             $table->json('last_name');
             $table->string('email')->nullable()->unique();
             $table->date('birth_date')->nullable();
@@ -29,7 +28,6 @@ return new class () extends Migration {
             $table->timestamps();
             $table->index(['created_at']);
             $table->index(['first_name']);
-            $table->index(['middle_name']);
             $table->index(['last_name']);
             $table->index(['email']);
         });

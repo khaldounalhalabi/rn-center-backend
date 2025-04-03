@@ -11,12 +11,6 @@
                     "unique": false
                 },
                 {
-                    "name": "middle_name",
-                    "type": "string",
-                    "nullable": false,
-                    "unique": false
-                },
-                {
                     "name": "last_name",
                     "type": "integer",
                     "nullable": false,

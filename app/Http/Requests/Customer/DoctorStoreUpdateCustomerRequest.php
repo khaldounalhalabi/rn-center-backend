@@ -29,7 +29,6 @@ class DoctorStoreUpdateCustomerRequest extends FormRequest
         if (request()->method() == "POST") {
             return [
                 'first_name' => ['required', new LanguageShape(), 'max:60'],
-                'middle_name' => ['required', new LanguageShape(), 'max:60'],
                 'last_name' => ['required', new LanguageShape(), 'max:60'],
                 'email' => ['nullable', 'email', 'max:255', 'min:3', 'string', 'unique:users,email',],
                 'birth_date' => 'nullable|date_format:Y-m-d|date',
