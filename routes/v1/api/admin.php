@@ -18,7 +18,6 @@ Route::apiResource('/users', v1\UserController::class)->except(['store'])->names
 
 Route::get('system-offers/{systemOfferId}/clinics', [v1\ClinicController::class, 'getBySystemOffer'])->name('system.offers.clinics');
 Route::get('/clinics/{clinicId}/toggle-status', [v1\ClinicController::class, 'toggleClinicStatus'])->name('clinic.status.toggle');
-Route::get('/subscriptions/{subscriptionId}/clinics', [v1\ClinicController::class, 'getBySubscription'])->name('subscription.clinics');
 Route::apiResource('/clinics', v1\ClinicController::class)->names('clinics');
 
 Route::controller(v1\ScheduleController::class)
@@ -57,17 +56,6 @@ Route::apiResource('/medicines', v1\MedicineController::class)->names('medicines
 
 Route::delete('/prescriptions/medicine-data/{medicineDataId}', [v1\PrescriptionController::class, 'removeMedicine'])->name('prescription.medicine.remove');
 Route::apiResource('prescriptions', v1\PrescriptionController::class)->names('prescriptions');
-
-Route::apiResource('/subscriptions', v1\SubscriptionController::class)
-    ->except(['update'])
-    ->names('subscriptions');
-
-Route::get('/clinic-subscriptions/{clinicSubscriptionId}/pay', [v1\ClinicSubscriptionController::class, 'collectSubscription'])->name('clinic.subscriptions.pay');
-Route::get('/clinics/{clinicId}/clinic-subscriptions/current/pay', [v1\ClinicSubscriptionController::class, 'makeItPaid'])->name('clinics.clinic.subscriptions.current.pay');
-Route::get('clinics/{clinicId}/subscriptions', [v1\ClinicSubscriptionController::class, 'getByClinic'])->name('clinics.subscriptions');
-Route::apiResource('/clinic-subscriptions', v1\ClinicSubscriptionController::class)
-    ->except(['index'])
-    ->names('clinic.subscriptions');
 
 Route::apiResource('offers', v1\OfferController::class)->names('offers');
 

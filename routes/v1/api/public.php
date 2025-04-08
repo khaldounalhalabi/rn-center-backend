@@ -46,7 +46,6 @@ Route::prefix('doctor')
     });
 
 Route::get('/specialities', [v1\SpecialityController::class, 'getOrderedByClinicsCount'])->name('speciality.index');
-Route::get('/subscriptions', [v1\SubscriptionController::class, 'index'])->name('subscription.index');
 Route::get('/service-categories', [v1\ServiceCategoryController::class, 'index'])->name('service.category.index');
 
 Route::get('/clinics/{clinicId}/system-offers', [v1\SystemOfferController::class, 'getByClinic'])->name('clinics.system.offers');

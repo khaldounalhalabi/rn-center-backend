@@ -32,7 +32,7 @@ class OfferRepository extends BaseRepository
                 $builder->where('clinic_id', auth()->user()?->getClinicId());
             })->when(!auth()->user() || auth()->user()?->isCustomer(), function (Builder|Offer $q) {
                 $q->isActive()->whereHas('clinic', function (Builder|Clinic $b) {
-                    $b->available()->online();
+                    $b->available();
                 });
             })->when($this->filtered, function (Builder $builder) {
                 $builder->isActive();

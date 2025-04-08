@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Enums\SubscriptionStatusEnum;
 use App\Models\Clinic;
 
 /** @mixin Clinic */
@@ -44,14 +43,11 @@ class ClinicResource extends BaseResource
                 'total_appointments' => $this->whenCounted('appointments'),
                 'today_appointments_count' => $this->whenCounted('todayAppointments'),
                 'upcoming_appointments_count' => $this->whenCounted('upcomingAppointments'),
-                'last_subscription' => new ClinicSubscriptionResource($this->whenLoaded('lastSubscription')),
-                'active_subscription' => new ClinicSubscriptionResource($this->whenLoaded('activeSubscription')),
                 'patientProfiles' => PatientProfileResource::collection($this->whenLoaded('patientProfiles')),
                 'clinicEmployees' => ClinicEmployeeResource::collection($this->whenLoaded('clinicEmployees')),
                 'prescriptions' => PrescriptionResource::collection($this->whenLoaded('prescriptions')),
                 'medicines' => MedicineResource::collection($this->whenLoaded('medicines')),
                 'clinic_transactions' => ClinicTransactionResource::collection($this->whenLoaded('clinicTransactions')),
-                'subscription_status' => $this->activeSubscription ? SubscriptionStatusEnum::ACTIVE->value : SubscriptionStatusEnum::IN_ACTIVE->value,
             ]),
         ];
     }

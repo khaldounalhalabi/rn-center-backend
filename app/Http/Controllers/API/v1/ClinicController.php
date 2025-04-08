@@ -22,9 +22,9 @@ class ClinicController extends ApiController
             $this->countable = [];
             $this->relations = ['media', 'user', 'specialities', 'user.media', 'schedules'];
         } else {
-            $this->indexRelations = ['user', 'lastSubscription'];
+            $this->indexRelations = ['user'];
             $this->countable = ['appointments', 'todayAppointments', 'upcomingAppointments'];
-            $this->relations = ['media', 'user', 'specialities', 'user.media', 'activeSubscription.subscription'];
+            $this->relations = ['media', 'user', 'specialities', 'user.media'];
         }
     }
 
@@ -92,15 +92,6 @@ class ClinicController extends ApiController
 
         if ($data) {
             return $this->apiResponse($data, self::STATUS_OK, __('site.success'));
-        }
-        return $this->noData();
-    }
-
-    public function getBySubscription($subscriptionId)
-    {
-        $data = $this->clinicService->getBySubscription($subscriptionId, $this->relations, $this->countable);
-        if ($data) {
-            return $this->apiResponse(ClinicResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
         }
         return $this->noData();
     }

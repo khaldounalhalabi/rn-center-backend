@@ -15,7 +15,6 @@ use App\Models\Prescription;
 use App\Models\Schedule;
 use App\Models\Service;
 use App\Models\Speciality;
-use App\Models\Subscription;
 use App\Models\SystemOffer;
 use App\Models\User;
 use App\Serializers\Translatable;
@@ -113,11 +112,6 @@ class ClinicFactory extends Factory
     public function withMedicines($count = 1): ClinicFactory
     {
         return $this->has(Medicine::factory($count));
-    }
-
-    public function withSubscriptions($count = 1): ClinicFactory
-    {
-        return $this->has(Subscription::factory($count));
     }
 
     public function withOffers($count = 1): ClinicFactory

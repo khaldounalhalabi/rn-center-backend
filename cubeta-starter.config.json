@@ -202,10 +202,6 @@
                     {
                         "type": "manyToMany",
                         "model_name": "Specialty"
-                    },
-                    {
-                        "type": "manyToMany",
-                        "model_name": "Subscription"
                     }
                 ],
                 "hasOne": [

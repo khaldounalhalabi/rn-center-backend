@@ -14,6 +14,7 @@ use App\Traits\Makable;
 use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 /**
  * @extends BaseService<Clinic>
@@ -28,14 +29,11 @@ class ClinicService extends BaseService
     private UserRepository $userRepository;
     private ScheduleService $scheduleService;
 
-    private ClinicSubscriptionService $clinicSubscriptionService;
-
     public function init(): void
     {
         parent::__construct();
         $this->userRepository = UserRepository::make();
         $this->scheduleService = ScheduleService::make();
-        $this->clinicSubscriptionService = ClinicSubscriptionService::make();
     }
 
     /**
@@ -43,6 +41,7 @@ class ClinicService extends BaseService
      * @param array $relationships
      * @param array $countable
      * @return Clinic|null
+     * @throws Throwable
      */
     public function store(array $data, array $relationships = [], array $countable = []): ?Clinic
     {
@@ -67,11 +66,6 @@ class ClinicService extends BaseService
 
             $this->scheduleService->setDefaultClinicSchedule($clinic);
 
-            $this->clinicSubscriptionService->store([
-                'clinic_id' => $clinic->id,
-                'subscription_id' => $data['subscription_id'],
-                'type' => $data['subscription_type'],
-            ]);
             DB::commit();
             return $clinic->refresh()
                 ->load($relationships)
@@ -183,18 +177,6 @@ class ClinicService extends BaseService
         $clinic->save();
 
         return $clinic->status;
-    }
-
-    /**
-     * @param       $subscriptionId
-     * @param array $relations
-     * @param array $countable
-     * @param int   $perPage
-     * @return array|null
-     */
-    public function getBySubscription($subscriptionId, array $relations = [], array $countable = [], int $perPage = 10): ?array
-    {
-        return $this->repository->byActiveSubscription($subscriptionId, $relations, $countable);
     }
 
     public function getBySystemOffer($systemOfferId, array $relations = [], array $countable = []): ?array

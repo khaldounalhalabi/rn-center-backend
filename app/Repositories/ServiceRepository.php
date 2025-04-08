@@ -34,7 +34,7 @@ class ServiceRepository extends BaseRepository
             })->when(!auth()->user()?->isAdmin() && !auth()->user()?->isClinic(), function (Builder|Service $b) {
                 $b->where('status', ServiceStatusEnum::ACTIVE->value)
                     ->whereHas('clinic', function (Builder|Clinic $q2) {
-                        $q2->available()->online();
+                        $q2->available();
                     });
             });
     }

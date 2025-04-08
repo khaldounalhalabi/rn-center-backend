@@ -78,7 +78,6 @@ class StatisticsController extends ApiController
         ")->get()->first()->toArray();
         $data[0]->today_registered_patients = $customers['today_registered_patients'];
         $data[0]->total_patients = $customers['total_patients'];
-        $data[0]->total_active_doctors = Clinic::whereHas('activeSubscription')->available()->count();
 
         return $this->apiResponse(
             collect($data[0] ?? [])->map(fn($item) => is_null($item) ? 0 : floatval($item)),

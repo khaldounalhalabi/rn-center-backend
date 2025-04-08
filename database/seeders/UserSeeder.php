@@ -3,13 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\RolesPermissionEnum;
-use App\Enums\SubscriptionStatusEnum;
-use App\Enums\SubscriptionTypeEnum;
-use App\Models\Clinic;
-use App\Models\ClinicEmployee;
-use App\Models\ClinicSubscription;
 use App\Models\User;
-use App\Serializers\Translatable;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder

@@ -6,19 +6,14 @@ use App\Casts\Translatable;
 use App\Enums\AppointmentStatusEnum;
 use App\Enums\ClinicStatusEnum;
 use App\Enums\MediaTypeEnum;
-use App\Enums\SubscriptionStatusEnum;
-use App\Enums\SubscriptionTypeEnum;
 use App\Interfaces\ActionsMustBeAuthorized;
-use App\Traits\Translations;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Str;
@@ -115,15 +110,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
                 'relation' => 'schedules.end_time',
                 'method' => 'whereTime',
                 'operator' => '<=',
-            ],
-            [
-                'name' => 'subscription_status',
-                'query' => fn(Builder $query) => $query->when(
-                    Str::snake(request('subscription_status')) == SubscriptionStatusEnum::ACTIVE->value, function (Builder $active) {
-                    $active->whereHas('activeSubscription');
-                })->when(Str::snake(request('subscription_status')) == SubscriptionStatusEnum::IN_ACTIVE->value, function (Builder $inActive) {
-                    $inActive->whereDoesntHave('activeSubscription');
-                }),
             ],
         ];
     }
@@ -262,25 +248,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
         return $this->hasMany(Prescription::class);
     }
 
-    public function subscriptions(): BelongsToMany
-    {
-        return $this->belongsToMany(Subscription::class);
-    }
-
-    public function activeSubscription(): HasOne
-    {
-        return $this->hasOne(ClinicSubscription::class)
-            ->where('end_time', '>', now()->format('Y-m-d H:i:s'))
-            ->where('status', SubscriptionStatusEnum::ACTIVE->value)
-            ->latestOfMany();
-    }
-
-    public function lastSubscription(): HasOne
-    {
-        return $this->hasOne(ClinicSubscription::class)
-            ->latestOfMany();
-    }
-
     public function offers(): HasMany
     {
         return $this->hasMany(Offer::class);
@@ -306,23 +273,7 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
     {
         return auth()->user()?->isAdmin()
             || auth()->user()?->getClinicId() == $this->id
-            || !auth()->user() && $this->availableOnline();
-    }
-
-    /**
-     * @return bool
-     */
-    public function availableOnline(): bool
-    {
-        return $this->clinicSubscriptions()
-            ->where('type', SubscriptionTypeEnum::BOOKING_COST_BASED->value)
-            ->active()
-            ->exists();
-    }
-
-    public function clinicSubscriptions(): HasMany
-    {
-        return $this->hasMany(ClinicSubscription::class);
+            || !auth()->user();
     }
 
     public function canDelete(): bool
@@ -356,12 +307,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
         return $this->hasMany(ClinicTransaction::class);
     }
 
-    public function hasActiveSubscription(): bool
-    {
-        return $this->activeSubscription?->end_time_with_allow_period?->isAfter(now())
-            && $this->activeSubscription?->start_time?->lessThanOrEqualTo(now());
-    }
-
     public function balance(): MorphOne
     {
         return $this->morphOne(
@@ -370,13 +315,5 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
             'balanceable_type',
             'balanceable_id'
         )->latestOfMany();
-    }
-
-    public function scopeOnline(Builder $query): Builder
-    {
-        return $query->whereHas('clinicSubscriptions', function (Builder|ClinicSubscription $query) {
-            $query->where('type', SubscriptionTypeEnum::BOOKING_COST_BASED->value)
-                ->active();
-        });
     }
 }

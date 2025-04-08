@@ -28,7 +28,6 @@ Route::get('notifications/unread/count', [v1\NotificationController::class, 'unr
 Route::get('notifications/{notificationId}/mark-as-read', [v1\NotificationController::class, 'markAsRead'])->name('notifications');
 
 Route::get('available-times', [v1\ClinicController::class, 'getCurrentClinicAvailableTime'])->name('available-times');
-Route::get('clinic-subscriptions', [v1\ClinicSubscriptionController::class, 'getCurrentClinicSubscriptions'])->name('clinic.subscriptions');
 
 Route::put('/clinic/update', [v1\ClinicController::class, 'updateDoctorClinic'])
     ->middleware([

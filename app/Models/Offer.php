@@ -143,7 +143,6 @@ class Offer extends Model implements ActionsMustBeAuthorized, HasMedia
             || (
                 (!auth()->user() || auth()->user()?->isCustomer())
                 && $this->clinic?->isAvailable()
-                && $this->clinic?->availableOnline()
                 && $this->is_active
             );
     }
