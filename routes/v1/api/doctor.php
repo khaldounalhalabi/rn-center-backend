@@ -140,17 +140,4 @@ Route::get('/customers/{customerId}/last-appointment', [v1\AppointmentController
 Route::apiResource('/appointments', v1\AppointmentController::class)
     ->except(['destroy'])->names('appointments');
 
-Route::prefix('appointment-deductions')
-    ->name('appointment.deductions.')
-    ->middleware([
-        'staff_can:accountant-management,' . Transaction::class,
-    ])->controller(v1\AppointmentDeductionController::class)
-    ->group(function () {
-        Route::get('/all', 'all')->name('all');
-        Route::get('/summary', 'clinicSummary')->name('summary');
-        Route::get('/export', 'export')->name('export');
-        Route::get('/', 'index')->name('index');
-        Route::get('/{appointmentDeduction}', 'show')->name('show');
-    });
-
 Route::get('/statistics/index-page', [v1\StatisticsController::class, 'doctorIndexStatistics'])->name('doctor.index.statistics');

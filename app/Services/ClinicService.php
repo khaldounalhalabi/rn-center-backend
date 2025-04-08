@@ -71,7 +71,6 @@ class ClinicService extends BaseService
                 'clinic_id' => $clinic->id,
                 'subscription_id' => $data['subscription_id'],
                 'type' => $data['subscription_type'],
-                'deduction_cost' => $data['subscription_deduction_cost'] ?? 0,
             ]);
             DB::commit();
             return $clinic->refresh()

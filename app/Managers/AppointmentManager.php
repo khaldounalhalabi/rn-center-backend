@@ -2,7 +2,6 @@
 
 namespace App\Managers;
 
-use App\Enums\AppointmentDeductionStatusEnum;
 use App\Enums\AppointmentStatusEnum;
 use App\Enums\AppointmentTypeEnum;
 use App\Enums\ClinicTransactionStatusEnum;
@@ -12,7 +11,6 @@ use App\Models\Appointment;
 use App\Models\Clinic;
 use App\Models\Offer;
 use App\Models\SystemOffer;
-use App\Repositories\AppointmentDeductionRepository;
 use App\Repositories\AppointmentLogRepository;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\ClinicRepository;
@@ -48,17 +46,6 @@ class AppointmentManager
         $data['total_cost'] = $this->calculateAppointmentTotalCost($data, $servicePrice, $systemOffersTotal, $clinicOffersTotal, $clinic);
 
         $appointment = AppointmentRepository::make()->create($data);
-
-        if (
-            $appointment->type == AppointmentTypeEnum::ONLINE->value
-            && !in_array($appointment->status, [
-                AppointmentStatusEnum::CANCELLED->value,
-                AppointmentStatusEnum::PENDING->value,
-            ])
-        ) {
-            Log::info("Deductions conditions entered");
-            $this->addDeductionCostTransactions($clinic, $systemOffersTotal, $appointment);
-        }
 
         if (isset($systemOffersIds)) {
             $appointment->systemOffers()->sync($systemOffersIds);
@@ -176,33 +163,6 @@ class AppointmentManager
             + ($data['extra_fees'] ?? ($appointment?->extra_fees ?? 0))
             + ($appointmentCost - $systemOffersTotal - $clinicOffersTotal)
             - ($data['discount'] ?? ($appointment?->discount ?? 0));
-    }
-
-    public function addDeductionCostTransactions(Clinic $clinic, mixed $systemOffersTotal, Appointment $appointment): void
-    {
-        $deductionAmount = $clinic->deduction_cost - $systemOffersTotal;
-        $clinicTransactionType = $deductionAmount > 0
-            ? ClinicTransactionTypeEnum::SYSTEM_DEBT->value
-            : ClinicTransactionTypeEnum::DEBT_TO_ME->value;
-
-        $clinicTransaction = ClinicTransactionRepository::make()->create([
-            'amount' => abs($deductionAmount),
-            'appointment_id' => $appointment->id,
-            'type' => $clinicTransactionType,
-            'clinic_id' => $clinic->id,
-            'notes' => "An Appointment Deduction For The Appointment With Id : $appointment->id , Patient name : {$appointment->customer->user->fullName}",
-            'status' => ClinicTransactionStatusEnum::PENDING->value,
-            'date' => now(),
-        ]);
-
-        AppointmentDeductionRepository::make()->create([
-            'amount' => $clinic->deduction_cost - $systemOffersTotal,
-            'status' => AppointmentDeductionStatusEnum::PENDING->value,
-            'clinic_transaction_id' => $clinicTransaction->id,
-            'appointment_id' => $appointment->id,
-            'clinic_id' => $clinic->id,
-            'date' => now(),
-        ]);
     }
 
     private function logAppointment(array $data, Appointment $appointment, bool $isUpdate = false): void

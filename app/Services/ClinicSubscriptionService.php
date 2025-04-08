@@ -38,10 +38,6 @@ class ClinicSubscriptionService extends BaseService
 
     public function store(array $data, array $relationships = [], array $countable = []): ?Model
     {
-        if ($data['type'] == SubscriptionTypeEnum::BOOKING_COST_BASED->value && !isset($data['deduction_cost'])) {
-            return null;
-        }
-
         $subscription = $this->subscriptionRepository->find($data['subscription_id']);
 
         if (!$subscription) {
@@ -163,10 +159,6 @@ class ClinicSubscriptionService extends BaseService
             $data['status'] = $data['ends_at']->isAfter(now())
                 ? SubscriptionStatusEnum::ACTIVE->value
                 : SubscriptionStatusEnum::IN_ACTIVE->value;
-        }
-
-        if (isset($data['type']) && $data['type'] == SubscriptionTypeEnum::MONTHLY_PAID_BASED->value) {
-            $data['deduction_cost'] = 0;
         }
 
         return $this->repository->update($data, $clinicSubscription, $relationships);

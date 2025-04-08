@@ -55,7 +55,6 @@ class StoreUpdateClinicRequest extends FormRequest
 
                 'subscription_id' => 'required|numeric|exists:subscriptions,id',
                 'subscription_type' => 'string|required|' . Rule::in(SubscriptionTypeEnum::getAllValues()),
-                'subscription_deduction_cost' => 'numeric|min:0|nullable|' . Rule::requiredIf($this->input('type') == SubscriptionTypeEnum::BOOKING_COST_BASED->value),
             ];
         }
 

@@ -18,7 +18,6 @@ class ClinicSubscription extends Model
         'start_time',
         'end_time',
         'status',
-        'deduction_cost',
         'type',
         'is_paid',
         'end_time_with_allow_period'

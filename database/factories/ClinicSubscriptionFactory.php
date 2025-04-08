@@ -23,7 +23,6 @@ class ClinicSubscriptionFactory extends Factory
             'start_time' => fake()->dateTimeBetween("-1 years", 'today'),
             'end_time' => $endTime,
             'status' => Carbon::parse($endTime)->isBefore(now()) ? SubscriptionStatusEnum::IN_ACTIVE->value : SubscriptionStatusEnum::ACTIVE->value,
-            'deduction_cost' => fake()->numberBetween(5, 15),
         ];
     }
 }

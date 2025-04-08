@@ -122,11 +122,6 @@ class ClinicTransaction extends Model
         ];
     }
 
-    public function appointmentDeduction(): HasOne
-    {
-        return $this->hasOne(AppointmentDeduction::class, 'clinic_transaction_id', 'id');
-    }
-
     public function isMinus(): bool
     {
         return in_array($this->type, [

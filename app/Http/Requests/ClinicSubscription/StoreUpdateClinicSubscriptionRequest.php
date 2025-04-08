@@ -28,14 +28,12 @@ class StoreUpdateClinicSubscriptionRequest extends FormRequest
                 'clinic_id' => 'required|numeric|exists:clinics,id',
                 'subscription_id' => 'required|numeric|exists:subscriptions,id',
                 'type' => 'string|required|' . Rule::in(SubscriptionTypeEnum::getAllValues()),
-                'deduction_cost' => 'numeric|min:0|nullable|' . Rule::requiredIf($this->input('type') == SubscriptionTypeEnum::BOOKING_COST_BASED->value)
             ];
         }
 
         return [
             'subscription_id' => 'nullable|numeric|exists:subscriptions,id',
             'type' => 'string|nullable|' . Rule::in(SubscriptionTypeEnum::getAllValues()),
-            'deduction_cost' => 'numeric|min:0|nullable|' . Rule::requiredIf($this->input('type') == SubscriptionTypeEnum::BOOKING_COST_BASED->value)
         ];
     }
 }

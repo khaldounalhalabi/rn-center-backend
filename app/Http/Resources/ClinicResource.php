@@ -46,7 +46,6 @@ class ClinicResource extends BaseResource
                 'upcoming_appointments_count' => $this->whenCounted('upcomingAppointments'),
                 'last_subscription' => new ClinicSubscriptionResource($this->whenLoaded('lastSubscription')),
                 'active_subscription' => new ClinicSubscriptionResource($this->whenLoaded('activeSubscription')),
-                'appointment_deductions' => AppointmentDeductionResource::collection($this->whenLoaded('appointmentDeductions')),
                 'patientProfiles' => PatientProfileResource::collection($this->whenLoaded('patientProfiles')),
                 'clinicEmployees' => ClinicEmployeeResource::collection($this->whenLoaded('clinicEmployees')),
                 'prescriptions' => PrescriptionResource::collection($this->whenLoaded('prescriptions')),

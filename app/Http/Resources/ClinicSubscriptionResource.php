@@ -22,7 +22,6 @@ class ClinicSubscriptionResource extends JsonResource
             'start_time' => $this->start_time->format('Y-m-d H:i'),
             'end_time' => $this->end_time->format('Y-m-d H:i'),
             'status' => $this->status,
-            'deduction_cost' => $this->deduction_cost,
             'subscription_id' => $this->subscription_id,
             'clinic_id' => $this->clinic_id,
             'remaining' => $this->remainingTime() . " Days",

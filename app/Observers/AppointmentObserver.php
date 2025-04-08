@@ -10,7 +10,6 @@ use App\Enums\RolesPermissionEnum;
 use App\Jobs\UpdateAppointmentRemainingTimeJob;
 use App\Managers\AppointmentManager;
 use App\Models\Appointment;
-use App\Models\AppointmentDeduction;
 use App\Models\ClinicTransaction;
 use App\Notifications\Clinic\NewOnlineAppointmentNotification;
 use App\Notifications\Customer\CustomerAppointmentChangedNotification;
@@ -179,7 +178,6 @@ class AppointmentObserver
 
     public function handleTransactionsWhenChangeStatus(Appointment $appointment, string $prevStatus): void
     {
-        //TODO::make it handle every update so if the admin changed the system offers it recalculate the deduction
         if ($prevStatus != AppointmentStatusEnum::CHECKOUT->value
             && $appointment->status == AppointmentStatusEnum::CHECKOUT->value) {
             ClinicTransaction::create([
@@ -192,24 +190,12 @@ class AppointmentObserver
                 'notes' => "An income from the cost of the appointment with id : $appointment->id , Patient name : {$appointment->customer->user->fullName}",
             ]);
 
-            if ($appointment->type == AppointmentTypeEnum::ONLINE->value) {
-                AppointmentManager::make()
-                    ->addDeductionCostTransactions($appointment->clinic, $appointment->getSystemOffersTotal(), $appointment);
-            }
         } elseif ($prevStatus == AppointmentStatusEnum::CHECKOUT->value
             && $appointment->status != AppointmentStatusEnum::CHECKOUT->value
         ) {
             ClinicTransaction::where('appointment_id', $appointment->id)
                 ->chunk(10, function (/** @var Collection<ClinicTransaction> $transactions */ $transactions) {
                     $transactions->each(fn(ClinicTransaction $clinicTransaction) => $clinicTransaction->delete());
-                });
-
-            AppointmentDeduction::where('appointment_id', $appointment->id)
-                ->chunk(10, function (/** @var Collection<AppointmentDeduction> $deductions */ $deductions) {
-                    $deductions->each(function (AppointmentDeduction $deduction) {
-                        $deduction->clinicTransaction?->delete();
-                        $deduction->delete();
-                    });
                 });
 
             if ($appointment->status == AppointmentStatusEnum::CANCELLED->value) {

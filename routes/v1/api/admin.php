@@ -78,30 +78,4 @@ Route::apiResource('/transactions', v1\TransactionController::class)->names('tra
 
 Route::apiResource('/system-offers', v1\SystemOfferController::class)->names('system.offers');
 
-Route::controller(v1\AppointmentDeductionController::class)
-    ->group(function () {
-        Route::prefix('/clinics/{clinicId}/appointment-deductions')
-            ->name('clinics.appointment.deductions.')
-            ->group(function () {
-                Route::get('/current-month/total', 'getDeductionsTotalForThisMonth')->name('current.month.total');
-                Route::get('/current-month/collect', 'collectForThisMonth')->name('current.month.collect');
-                Route::get('/summary', 'getSummaryByClinicId')->name('summary');
-                Route::get('/', 'getByClinic')->name('index');
-            });
-
-        Route::prefix('appointment-deductions')
-            ->name('appointment.deductions.')
-            ->group(function () {
-                Route::get('/earnings', 'deductionsSummedByMonth')->name('earnings');
-                Route::get('/all', 'all')->name('all');
-                Route::post('/bulk/toggle-status', 'bulkToggleStatus')->name('bulk.toggle.status');
-                Route::get('/summary', 'adminSummary')->name('summary');
-                Route::get('/export', 'export')->name('export');
-                Route::get('/{appointmentDeductionId}/toggle-status', 'toggleStatus')->name('status.toggle');
-            });
-    });
-Route::apiResource('/appointment-deductions', v1\AppointmentDeductionController::class)
-    ->only(['index', 'show'])->names('appointment.deductions');
-
-
 Route::get('/statistics/index', [v1\StatisticsController::class, 'adminStatistics'])->name('statistics.index');

@@ -110,11 +110,6 @@ class Transaction extends Model implements ActionsMustBeAuthorized
         ];
     }
 
-    public function appointmentDeduction(): HasOne
-    {
-        return $this->hasOne(AppointmentDeduction::class, 'transaction_id', 'id');
-    }
-
     public function isMinus(): bool
     {
         return $this->type == TransactionTypeEnum::OUTCOME->value;

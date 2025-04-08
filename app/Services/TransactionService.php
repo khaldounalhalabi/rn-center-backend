@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\Transaction;
-use App\Repositories\AppointmentDeductionRepository;
 use App\Repositories\TransactionRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
@@ -41,10 +40,6 @@ class TransactionService extends BaseService
 
     public function summary(): array
     {
-        $data['pending_amount'] = AppointmentDeductionRepository::make()
-            ->getPendingDeductions()
-            ->sum('amount');
-
         $data['balance'] = auth()->user()?->balance()?->balance ?? 0;
         return $data;
     }

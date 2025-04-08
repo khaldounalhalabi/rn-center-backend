@@ -281,15 +281,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
             ->latestOfMany();
     }
 
-    public function isDeductable(): bool
-    {
-        $activeSubscription = $this->activeSubscription;
-
-        return $activeSubscription?->subscription?->period == -1
-            && $activeSubscription?->deduction_cost != 0
-            && $activeSubscription?->subscription?->cost == 0;
-    }
-
     public function offers(): HasMany
     {
         return $this->hasMany(Offer::class);
@@ -365,11 +356,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
         return $this->hasMany(ClinicTransaction::class);
     }
 
-    public function appointmentDeductions(): HasMany
-    {
-        return $this->hasMany(AppointmentDeduction::class);
-    }
-
     public function hasActiveSubscription(): bool
     {
         return $this->activeSubscription?->end_time_with_allow_period?->isAfter(now())
@@ -392,12 +378,5 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
             $query->where('type', SubscriptionTypeEnum::BOOKING_COST_BASED->value)
                 ->active();
         });
-    }
-
-    protected function deductionCost(): Attribute
-    {
-        return Attribute::make(
-            get: fn($value, array $attributes) => (($this->activeSubscription?->deduction_cost ?? 0) * $this->appointment_cost) / 100,
-        );
     }
 }

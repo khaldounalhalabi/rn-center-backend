@@ -5,7 +5,6 @@ namespace Database\Factories;
 use App\Enums\AppointmentStatusEnum;
 use App\Enums\AppointmentTypeEnum;
 use App\Models\Appointment;
-use App\Models\AppointmentDeduction;
 use App\Models\AppointmentLog;
 use App\Models\Clinic;
 use App\Models\ClinicTransaction;
@@ -73,10 +72,5 @@ class AppointmentFactory extends Factory
     public function withClinicTransaction(): AppointmentFactory
     {
         return $this->has(ClinicTransaction::factory());
-    }
-
-    public function withAppointmentDeduction(): AppointmentFactory
-    {
-        return $this->has(AppointmentDeduction::factory());
     }
 }
