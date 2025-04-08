@@ -20,7 +20,6 @@ class CustomerController extends ApiController
         if (auth()->user()?->isClinic()) {
             $this->relations = [
                 'currentClinicPatientProfile.media',
-                'user.address.city',
                 'user.media',
                 'currentClinicPatientProfile',
                 'user',
@@ -29,8 +28,6 @@ class CustomerController extends ApiController
         } else {
             $this->relations = [
                 'user',
-                'user.address',
-                'user.address.city',
                 'user.media',
             ];
 
@@ -96,7 +93,7 @@ class CustomerController extends ApiController
     public function getDoctorCustomers()
     {
         $data = $this->customerService->getDoctorCustomers([
-            'user', 'user.address', 'user.address.city',
+            'user',
         ]);
 
         if ($data) {

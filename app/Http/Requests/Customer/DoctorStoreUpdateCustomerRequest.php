@@ -34,9 +34,6 @@ class DoctorStoreUpdateCustomerRequest extends FormRequest
                 'birth_date' => 'nullable|date_format:Y-m-d|date',
                 'gender' => ['required', 'string', Rule::in(GenderEnum::getAllValues())],
                 'blood_group' => ['nullable', 'string', Rule::in(BloodGroupEnum::getAllValues())],
-                'address' => 'array|nullable',
-                'address.name' => ['nullable', 'min:3', new LanguageShape()],
-                'address.city_id' => ['nullable', 'required_with:address', 'numeric', 'exists:cities,id'],
 
                 'medical_condition' => ['nullable', 'string'],
                 'note' => ['nullable', 'string'],

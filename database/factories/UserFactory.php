@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Enums\GenderEnum;
 use App\Enums\RolesPermissionEnum;
-use App\Models\Address;
 use App\Models\Clinic;
 use App\Models\ClinicEmployee;
 use App\Models\Customer;
@@ -51,16 +50,6 @@ class UserFactory extends Factory
             $user->addMedia(
                 new File(storage_path('/app/required/download.png'))
             )->preservingOriginal()->toMediaCollection();
-        });
-    }
-
-    public function withAddress(): UserFactory
-    {
-        return $this->afterCreating(function (User $user) {
-            Address::factory()->create([
-                'addressable_id' => $user->id,
-                'addressable_type' => User::class,
-            ]);
         });
     }
 

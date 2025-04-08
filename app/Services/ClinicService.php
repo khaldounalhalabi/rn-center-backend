@@ -6,7 +6,6 @@ use App\Enums\ClinicStatusEnum;
 use App\Enums\RolesPermissionEnum;
 use App\Models\Clinic;
 use App\Models\User;
-use App\Repositories\AddressRepository;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\ClinicRepository;
 use App\Repositories\UserRepository;
@@ -27,7 +26,6 @@ class ClinicService extends BaseService
     protected string $repositoryClass = ClinicRepository::class;
 
     private UserRepository $userRepository;
-    private AddressRepository $addressRepository;
     private ScheduleService $scheduleService;
 
     private ClinicSubscriptionService $clinicSubscriptionService;
@@ -36,7 +34,6 @@ class ClinicService extends BaseService
     {
         parent::__construct();
         $this->userRepository = UserRepository::make();
-        $this->addressRepository = AddressRepository::make();
         $this->scheduleService = ScheduleService::make();
         $this->clinicSubscriptionService = ClinicSubscriptionService::make();
     }
@@ -52,7 +49,6 @@ class ClinicService extends BaseService
         try {
             DB::beginTransaction();
             if (!isset($data['user'])
-                || !isset($data['address'])
                 || !isset($data['speciality_ids'])
             ) {
                 DB::commit();
@@ -68,11 +64,6 @@ class ClinicService extends BaseService
             $clinic = $this->repository->create($data);
 
             $clinic->specialities()->sync($data['speciality_ids']);
-
-            $data['address']['addressable_id'] = $user->id;
-            $data['address']['addressable_type'] = User::class;
-
-            $this->addressRepository->create($data['address']);
 
             $this->scheduleService->setDefaultClinicSchedule($clinic);
 
@@ -125,14 +116,6 @@ class ClinicService extends BaseService
                     unset($data['password']);
                 }
                 $this->userRepository->update($data['user'], $clinic->user_id);
-            }
-
-            if (isset($data['address'])) {
-                if ($user->address) {
-                    $user->address->update($data['address']);
-                } else {
-                    $user->address()->create($data['address']);
-                }
             }
 
             if (isset($data['speciality_ids'])) {

@@ -35,9 +35,6 @@ class StoreUpdateClinicEmployeeRequest extends FormRequest
                 'birth_date' => 'date_format:Y-m-d|date|nullable',
                 'gender' => ['required', 'string', Rule::in(GenderEnum::getAllValues())],
                 'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
-                'address' => 'array|nullable',
-                'address.name' => ['nullable', 'min:3', new LanguageShape()],
-                'address.city_id' => ['nullable', 'numeric', 'exists:cities,id'],
             ];
         }
 
@@ -51,9 +48,6 @@ class StoreUpdateClinicEmployeeRequest extends FormRequest
             'birth_date' => 'date_format:Y-m-d|date|nullable',
             'gender' => ['nullable', 'string', Rule::in(GenderEnum::getAllValues())],
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
-            'address' => 'array|nullable',
-            'address.name' => ['nullable', 'min:3', new LanguageShape()],
-            'address.city_id' => ['nullable', 'numeric', 'exists:cities,id'],
         ];
     }
 

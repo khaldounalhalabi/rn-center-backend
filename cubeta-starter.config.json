@@ -48,7 +48,6 @@
                 }
             ],
             "relations": {
-
             }
         },
         {
@@ -90,10 +89,6 @@
                     {
                         "type": "hasMany",
                         "model_name": "Appointment"
-                    },
-                    {
-                        "type": "hasMany",
-                        "model_name": "Address"
                     }
                 ]
             }
@@ -214,10 +209,7 @@
                     }
                 ],
                 "hasOne": [
-                    {
-                        "type": "hasOne",
-                        "model_name": "Address"
-                    }
+
                 ]
             }
         },
@@ -287,55 +279,6 @@
             }
         },
         {
-            "model_name": "Address",
-            "table_name": "addresses",
-            "attributes": [
-                {
-                    "name": "name",
-                    "type": "string",
-                    "nullable": false,
-                    "unique": false
-                },
-                {
-                    "name": "city",
-                    "type": "string",
-                    "nullable": false,
-                    "unique": false
-                },
-                {
-                    "name": "lat",
-                    "type": "text",
-                    "nullable": true,
-                    "unique": false
-                },
-                {
-                    "name": "lng",
-                    "type": "text",
-                    "nullable": true,
-                    "unique": false
-                },
-                {
-                    "name": "country",
-                    "type": "string",
-                    "nullable": false,
-                    "unique": false
-                },
-                {
-                    "name": "addressable_id",
-                    "type": "unsignedBigInteger",
-                    "nullable": false,
-                    "unique": false
-                },
-                {
-                    "name": "addressable_type",
-                    "type": "string",
-                    "nullable": false,
-                    "unique": false
-                }
-            ],
-            "relations": []
-        },
-        {
             "model_name": "City",
             "table_name": "cities",
             "attributes": [
@@ -348,10 +291,7 @@
             ],
             "relations": {
                 "hasMany": [
-                    {
-                        "type": "hasMany",
-                        "model_name": "Address"
-                    }
+
                 ]
             }
         },

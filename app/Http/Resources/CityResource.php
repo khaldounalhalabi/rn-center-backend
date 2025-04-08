@@ -16,7 +16,6 @@ class CityResource extends BaseResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'addresses' => AddressResource::collection($this->whenLoaded('addresses')),
         ];
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Address;
 use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -22,10 +21,5 @@ class CityFactory extends Factory
         return [
             'name' => $this->fakeTranslation('word'),
         ];
-    }
-
-    public function withAddresses($count = 1): CityFactory
-    {
-        return $this->has(Address::factory($count));
     }
 }

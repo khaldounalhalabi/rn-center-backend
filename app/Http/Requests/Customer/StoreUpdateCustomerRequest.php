@@ -36,11 +36,6 @@ class StoreUpdateCustomerRequest extends FormRequest
                 'gender' => ['required', 'string', Rule::in(GenderEnum::getAllValues())],
                 'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
                 'blood_group' => 'nullable|string|' . Rule::in(BloodGroupEnum::getAllValues()),
-
-                'address' => 'array|required',
-                'address.name' => ['required', 'min:3', new LanguageShape()],
-                'address.city_id' => ['required', 'numeric', 'exists:cities,id'],
-                'address.map_iframe' => ['nullable', 'string'],
             ];
         }
 
@@ -55,11 +50,6 @@ class StoreUpdateCustomerRequest extends FormRequest
             'gender' => ['nullable', 'string', Rule::in(GenderEnum::getAllValues())],
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
             'blood_group' => 'nullable|string|' . Rule::in(BloodGroupEnum::getAllValues()),
-
-            'address' => 'array|nullable',
-            'address.name' => ['nullable', 'min:3', new LanguageShape()],
-            'address.city_id' => ['nullable', 'numeric', 'exists:cities,id'],
-            'address.map_iframe' => ['nullable', 'string'],
         ];
     }
 
@@ -71,11 +61,6 @@ class StoreUpdateCustomerRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        $this->merge([
-            'address' => [
-                ...$this->input('address'),
-                'map_iframe' => strip_tags($this->input('address.map_iframe'), ['iframe'])
-            ]
-        ]);
+
     }
 }

@@ -22,8 +22,6 @@ class ClinicEmployeeController extends ApiController
             'clinic',
             'user',
             'clinic.user',
-            'user.address',
-            'user.address.city',
             'user.media',
             'user.roles',
             'user.permissions',

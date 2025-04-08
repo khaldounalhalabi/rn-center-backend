@@ -92,9 +92,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
             'user' => [
                 'email',
             ],
-            'user.address.city' => [
-                'name',
-            ],
         ];
     }
 
@@ -103,11 +100,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
         return [
             [
                 'name' => 'status',
-            ],
-            [
-                'name' => 'city_name',
-                'relation' => 'user.address.city.name',
-                'operator' => 'like',
             ],
             [
                 'name' => 'day_of_week',
@@ -153,16 +145,7 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
     public function customOrders(): array
     {
         return [
-            'user.address.city.name' => function (Builder $query, $dir) {
-                return $query->join('users', 'users.id', '=', 'clinics.user_id')
-                    ->join('addresses', function ($join) {
-                        $join->on('addresses.addressable_id', '=', 'users.id')
-                            ->where('addresses.addressable_type', User::class);
-                    })
-                    ->join('cities', 'cities.id', '=', 'addresses.city_id')
-                    ->select('clinics.*', 'cities.name AS city_name')
-                    ->orderBy('city_name', $dir);
-            },
+
         ];
     }
 

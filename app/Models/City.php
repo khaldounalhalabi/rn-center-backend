@@ -48,11 +48,6 @@ class City extends Model
         ];
     }
 
-    public function addresses(): HasMany
-    {
-        return $this->hasMany(Address::class);
-    }
-
     /**
      * define your columns which you want to treat them as files
      * so the base repository can store them in the storage without

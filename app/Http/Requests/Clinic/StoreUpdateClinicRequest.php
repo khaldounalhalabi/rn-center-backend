@@ -50,11 +50,6 @@ class StoreUpdateClinicRequest extends FormRequest
                 'user.gender' => ['required', 'string', Rule::in(GenderEnum::getAllValues())],
                 'user.image' => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
 
-                'address' => 'array|required',
-                'address.name' => ['required', 'min:3', new LanguageShape()],
-                'address.city_id' => ['required', 'numeric', 'exists:cities,id'],
-                'address.map_iframe' => ['required', 'string'],
-
                 'speciality_ids' => 'array|required',
                 'speciality_ids.*' => 'required|numeric|exists:specialities,id',
 
@@ -86,12 +81,6 @@ class StoreUpdateClinicRequest extends FormRequest
             'user.gender' => ['nullable', 'string', Rule::in(GenderEnum::getAllValues()), Rule::excludeIf(fn() => $authUser?->isClinic())],
             'user.image' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:5000', Rule::excludeIf(fn() => $authUser?->isClinic())],
 
-            'address' => ['array', 'nullable'],
-            'address.name' => ['nullable', 'min:3', new LanguageShape(), Rule::requiredIf(fn() => !auth()->user()?->address)],
-            'address.city_id' => ['nullable', 'numeric', 'exists:cities,id', Rule::requiredIf(fn() => !auth()->user()?->address)],
-            'address.map_iframe' => ['nullable', 'string', Rule::excludeIf(fn() => $this->input('address.map_iframe') == null)],
-
-
             'speciality_ids' => 'array|nullable',
             'speciality_ids.*' => 'nullable|numeric|exists:specialities,id',
         ];
@@ -106,14 +95,6 @@ class StoreUpdateClinicRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        if ($this->input('address') != null && $this->input('address.map_iframe') != null) {
-            $this->merge([
-                'address' => [
-                    ...$this->input('address'),
-                    'map_iframe' => strip_tags($this->input('address.map_iframe'), ['iframe']),
-                ],
-            ]);
 
-        }
     }
 }
