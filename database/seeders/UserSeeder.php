@@ -19,89 +19,29 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()
-            ->withPhoneNumbers()
-            ->withAddress()->create(['email' => 'admin@pom.com', 'password' => '123456789'])
-            ->assignRole(RolesPermissionEnum::ADMIN['role']);
+        $admin = User::factory()->verified()
+            ->create([
+                'phone' => '0936955531',
+                'first_name' => 'Admin',
+            ])->assignRole(RolesPermissionEnum::ADMIN['role']);
 
-        $user1 = User::factory()
-            ->withPhoneNumbers()
-            ->withAddress()->create([
-                'email' => 'khaldounalhalabi42@gmail.com',
-                'password' => '123456789',
+        $doctor = User::factory()->verified()
+            ->create([
+                'phone' => '0936955532',
+                'first_name' => 'Doctor',
             ])->assignRole(RolesPermissionEnum::DOCTOR['role']);
 
-        $clinic = Clinic::factory()->create([
-            'name' => new Translatable(['en' => 'Almahaba', 'ar' => 'عيادة المحبة']),
-            'user_id' => $user1->id,
-        ]);
+//        $secretary = User::factory()->verified()
+//            ->create([
+//                'phone' => '0936955533',
+//                'first_name' => 'Secretary',
+//            ])->assignRole(RolesPermissionEnum::SECRETARY['role']);
 
-        ClinicEmployee::factory()
-            ->create([
-                'user_id' => User::factory()
-                    ->create([
-                        'email' => 'khaldoun1222@hotmail.com',
-                        'password' => '123456789',
-                        'first_name' => 'staff',
-                        'last_name' => 'staff',
-                    ])->assignRole(RolesPermissionEnum::CLINIC_EMPLOYEE['role'])->id,
-                'clinic_id' => $clinic->id
-            ]);
-
-        ClinicSubscription::create([
-            'start_time' => now()->subDay(),
-            'end_time' => now()->addYear(),
-            'clinic_id' => $clinic->id,
-            'status' => SubscriptionStatusEnum::ACTIVE->value,
-            'deduction_cost' => 10,
-            'subscription_id' => 2,
-            'type' => SubscriptionTypeEnum::BOOKING_COST_BASED->value,
-        ]);
-
-        $user1 = User::factory()
-            ->withPhoneNumbers()
-            ->withAddress()->create([
-                'email' => 'asasimr55@gmail.com',
-                'password' => '123456789',
-            ])->assignRole(RolesPermissionEnum::DOCTOR['role']);
-
-        $clinic = Clinic::factory()->create([
-            'name' => new Translatable(['en' => 'POM', 'ar' => 'POM']),
-            'user_id' => $user1->id,
-        ]);
-
-        ClinicEmployee::factory()
-            ->create([
-                'user_id' => User::factory()
-                    ->create([
-                        'email' => 'asasimr55@staff.com',
-                        'password' => '123456789',
-                        'first_name' => 'staff',
-                        'last_name' => 'staff',
-                    ])->assignRole(RolesPermissionEnum::CLINIC_EMPLOYEE['role'])->id,
-                'clinic_id' => $clinic->id
-            ]);
-
-        ClinicSubscription::create([
-            'start_time' => now()->subDay(),
-            'end_time' => now()->addYear(),
-            'clinic_id' => $clinic->id,
-            'status' => SubscriptionStatusEnum::ACTIVE->value,
-            'deduction_cost' => 10,
-            'subscription_id' => 2,
-            'type' => SubscriptionTypeEnum::BOOKING_COST_BASED->value,
-        ]);
-
-        User::factory(2)
-            ->withPhoneNumbers()
-            ->withAddress()
-            ->clinic()
-            ->create();
-
-        User::factory(2)
-            ->withPhoneNumbers()
-            ->withAddress()
+        $patient = User::factory()->verified()
             ->customer()
-            ->create();
+            ->create([
+                'phone' => '0936955534',
+                'first_name' => 'Patient',
+            ])->assignRole(RolesPermissionEnum::CUSTOMER['role']);
     }
 }

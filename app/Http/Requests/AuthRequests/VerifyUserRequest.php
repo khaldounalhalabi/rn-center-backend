@@ -2,13 +2,14 @@
 
 namespace App\Http\Requests\AuthRequests;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class ResetPasswordRequest extends FormRequest
+class VerifyUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -17,13 +18,12 @@ class ResetPasswordRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     * @return array
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
         return [
-            'reset_password_code' => 'required|string|exists:verification_codes,code',
-            'password' => 'required|string|min:8|confirmed',
+            'verification_code' => ['required', 'string', Rule::exists('verification_codes', 'code')->where('is_active', true)],
         ];
     }
 }

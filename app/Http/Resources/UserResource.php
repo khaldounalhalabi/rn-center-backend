@@ -12,26 +12,20 @@ class UserResource extends BaseResource
     {
         return [
             'id' => $this->id,
-            'email' => $this->email,
-            'birth_date' => $this->birth_date?->format('Y-m-d'),
-            'age' => $this->birth_date ? now()->diffInYears($this->birth_date) : null,
-            'gender' => $this->gender,
-            'blood_group' => $this->blood_group,
-            'fcm_token' => $this->fcm_token,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
+            'email' => $this->email,
+            'phone' => $this->phone,
+            'phone_verified_at' => $this->phone_verified_at?->format('Y-m-d H:i:s'),
+            'gender' => $this->gender,
             'customer' => new CustomerResource($this->whenLoaded('customer')),
-            'address' => new AddressResource($this->whenLoaded('address')),
             'permissions' => new PermissionCollection($this->whenLoaded('permissions')),
-            'image' => MediaResource::collection($this->whenLoaded('media')),
-            'phones' => PhoneNumberResource::collection($this->whenLoaded('phones')),
+            'clinic' => new ClinicResource($this->whenLoaded('clinic')),
             'clinicEmployees' => ClinicEmployeeResource::collection($this->whenLoaded('clinicEmployees')),
-            'role' => RoleResource::collection($this->whenLoaded('roles')),
-            $this->mergeWhen($this->relationLoaded('clinic') || $this->relationLoaded('clinicEmployee.clinic'), fn() => [
-                'clinic' => new ClinicResource($this->isDoctor()
-                    ? $this->clinic
-                    : ($this->clinicEmployee?->clinic)),
-            ])
+            $this->mergeWhen($this->relationLoaded('roles'),
+                fn() => [
+                    'role' => $this->roles->first()->name,
+                ]),
         ];
     }
 }

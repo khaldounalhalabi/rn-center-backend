@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Enums\BloodGroupEnum;
 use App\Enums\GenderEnum;
 use App\Enums\RolesPermissionEnum;
 use App\Models\Address;
@@ -14,7 +13,7 @@ use App\Models\User;
 use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Http\File;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 class UserFactory extends Factory
 {
@@ -25,15 +24,21 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'first_name' => $this->fakeTranslation('firstName'),
-            'last_name' => $this->fakeTranslation('lastName'),
-            'email' => $this->faker->unique()->safeEmail(),
-            'birth_date' => Carbon::now()->subYear(20),
-            'gender' => $this->faker->randomElement(GenderEnum::getAllValues()),
-            'blood_group' => $this->faker->randomElement(BloodGroupEnum::getAllValues()),
-            'email_verified_at' => Carbon::now(),
+            'first_name' => fake()->firstName(),
+            'last_name' => fake()->lastName(),
+            'email' => fake()->unique()->safeEmail(),
             'password' => '123456789',
+            'remember_token' => Str::random(10),
+            'phone' => "09" . fake()->unique()->randomNumber(8, true),
+            'gender' => fake()->randomElement(GenderEnum::getAllValues()),
         ];
+    }
+
+    public function verified(): Factory|UserFactory
+    {
+        return $this->state([
+            'phone_verified_at' => now(),
+        ]);
     }
 
     public function allRelations(): UserFactory

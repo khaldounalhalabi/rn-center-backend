@@ -10,13 +10,14 @@ Route::prefix('/customer')
     ->controller(CustomerAuthController::class)
     ->name('customer.')
     ->group(function () {
+        Route::post('/login', 'login')->name("login");
+        Route::post('/password-reset-request', 'passwordResetRequest')->name("reset.password.request");
+        Route::post('/check-reset-password-code', 'checkPasswordResetCode')->name("check.reset.password.code");
+        Route::post('/reset-password', 'passwordReset')->name("password.reset");
+        Route::post('/verify', 'verifyUser')->name("verify");
+        Route::post('/resend-verification-code', 'resendVerificationCode')->name("resend.verification.code");
+        Route::post('/resend-verification-code', 'resendVerificationCode')->name("resend.verification.code");
         Route::post('/register', 'register')->name("register");
-        Route::post('/login', 'loginByPhone')->name("login");
-        Route::post('/password-reset-request', 'requestResetPasswordCodeByPhone')->name("reset-password-request");
-        Route::post('/reset-password', 'passwordResetByPhone')->name("password-reset");
-        Route::post('/verify-phone', 'verifyCustomerPhone')->name('verify-phone');
-        Route::post('/request-verification-code', 'requestVerificationCodeByPhone')->name('request-verification-code');
-        Route::post('/validate-reset-code', 'validateResetCode')->name('validate.reset.code');
     });
 
 Route::prefix('/admin')
@@ -27,6 +28,8 @@ Route::prefix('/admin')
         Route::post('/password-reset-request', 'passwordResetRequest')->name("reset-password-request");
         Route::post('/check-reset-password-code', 'checkPasswordResetCode')->name("check-reset-password-code");
         Route::post('/reset-password', 'passwordReset')->name("password-reset");
+        Route::post('/verify', 'verifyUser')->name("verify");
+        Route::post('/resend-verification-code', 'resendVerificationCode')->name("resend.verification.code");
     });
 
 
@@ -38,9 +41,9 @@ Route::prefix('doctor')
         Route::post('/password-reset-request', 'passwordResetRequest')->name("reset-password-request");
         Route::post('/check-reset-password-code', 'checkPasswordResetCode')->name("check-reset-password-code");
         Route::post('/reset-password', 'passwordReset')->name("password-reset");
+        Route::post('/verify', 'verifyUser')->name("verify");
+        Route::post('/resend-verification-code', 'resendVerificationCode')->name("resend.verification.code");
     });
-
-Route::get('/cities', [v1\CityController::class, 'index'])->name('cities.index');
 
 Route::get('/specialities', [v1\SpecialityController::class, 'getOrderedByClinicsCount'])->name('speciality.index');
 Route::get('/subscriptions', [v1\SubscriptionController::class, 'index'])->name('subscription.index');

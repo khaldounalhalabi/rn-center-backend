@@ -4,21 +4,15 @@ namespace App\Services;
 
 use App\Enums\RolesPermissionEnum;
 use App\Exceptions\RoleDoesNotExistException;
-use App\Models\PhoneNumber;
 use App\Models\User;
-use App\Notifications\SendVerificationCode;
-use App\Repositories\AddressRepository;
+use App\Modules\SMS;
 use App\Repositories\CustomerRepository;
-use App\Repositories\PhoneNumberRepository;
 use App\Repositories\UserRepository;
+use App\Repositories\VerificationCodeRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
 use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Throwable;
 
 /**
  * @extends BaseService<User>
@@ -28,82 +22,77 @@ class UserService extends BaseService
 {
     use Makable;
 
+    private string $guard = 'web';
+
     protected string $repositoryClass = UserRepository::class;
 
-
     /**
-     * @param array         $data
-     * @param string[]|null $roles
-     * @param array         $relations
-     * @return array{User , string , string}
-     * @throws RoleDoesNotExistException|Throwable
+     * @param string $guard
+     * @return void
+     * @throws Exception
      */
-    public function register(array $data, ?array $roles = null, array $relations = []): array
+    public function setGuard(string $guard = 'api'): void
     {
-        try {
-            DB::beginTransaction();
-            /** @var User $user */
-            $user = $this->repository->create($data);
-
-            if ($roles) {
-                foreach ($roles as $role) {
-                    $user->assignRole($role);
-                }
-            }
-
-            if ($roles and in_array(RolesPermissionEnum::CUSTOMER['role'], $roles)) {
-                $data = array_merge($data, ['user_id' => $user->id]);
-                CustomerRepository::make()->create($data);
-                PhoneNumberRepository::make()->create([
-                    'phone' => $data['phone_number'],
-                    'phoneable_type' => User::class,
-                    'phoneable_id' => $user->id,
-                ]);
-
-                if (isset($data['address'])) {
-                    AddressRepository::make()->create([
-                        ...$data['address'],
-                        'addressable_id' => $user->id,
-                        'addressable_type' => User::class,
-                    ]);
-                }
-
-                if (isset($data['phone_number'])) {
-                    PhoneNumberService::make()->requestNumberVerificationCode($data['phone_number'], $user);
-                } else {
-                    throw new Exception("Phone number is required in register customer");
-                }
-
-                DB::commit();
-                return [$user->load($relations), null, null];
-            }
-
-            /** @noinspection PhpVoidFunctionResultUsedInspection */
-            $token = auth()->login($user);
-
-            /** @noinspection LaravelFunctionsInspection */
-            /** @noinspection PhpPossiblePolymorphicInvocationInspection */
-            $refresh_token = auth()->setTTL(ttl: env('JWT_REFRESH_TTL', 60 * 24 * 7))->refresh();
-
-            DB::commit();
-            return [$user->load($relations), $token, $refresh_token,];
-        } catch (Exception $exception) {
-            DB::rollBack();
-            throw $exception;
+        if (!in_array($guard, array_keys(config('auth.guards')))) {
+            throw new Exception("Undefined Guard : [$guard]");
         }
+
+        $this->guard = $guard;
     }
 
     /**
-     * @param array         $data
-     * @param string[]|null $roles
-     * @param array         $relations
-     * @param array         $additionalData
+     * @param array       $data
+     * @param array       $relations
+     * @param string|null $role
+     * @return array{User , string , string}|User|null
+     */
+    public function updateUserDetails(array $data, array $relations = [], ?string $role = null): array|User|null
+    {
+        $user = auth($this->guard)->user();
+
+        if (!$user) {
+            return null;
+        }
+
+        if ($role && !$user->hasRole($role)) {
+            return null;
+        }
+
+        $oldPhone = $user->phone;
+
+        /** @var User $user */
+        $user = $this->repository->update($data, $user->id);
+
+        if ($oldPhone != $user->phone) {
+            if ($this->sendVerificationCode($user)) {
+                $user->unVerify();
+            }
+        }
+
+        /** @noinspection PhpVoidFunctionResultUsedInspection */
+        $token = auth($this->guard)->login($user);
+
+        if (!request()->acceptsHtml()) {
+            /** @noinspection PhpPossiblePolymorphicInvocationInspection */
+            $refresh_token = auth($this->guard)->setTTL(ttl: config('jwt.refresh_ttl'))->refresh();
+
+            return [$user->load($relations), $token, $refresh_token,];
+        }
+
+        return $user->load($relations);
+    }
+
+    /**
+     * @param array       $data
+     * @param string|null $role
+     * @param array       $relations
+     * @param array       $additionalData
      * @return User|Authenticatable|array{User , string , string}|null
      */
-    public function login(array $data, ?array $roles = null, array $relations = [], array $additionalData = []): User|Authenticatable|array|null
+    public function login(array $data, ?string $role = null, array $relations = [], array $additionalData = []): User|Authenticatable|array|null
     {
-        $token = auth()->attempt([
-            'email' => $data['email'],
+        $token = auth($this->guard)->attempt([
+            'phone' => $data['phone'],
             'password' => $data['password'],
         ]);
 
@@ -111,125 +100,24 @@ class UserService extends BaseService
             return null;
         }
 
-        $user = auth()->user();
+        $user = auth($this->guard)->user();
 
-        if ($roles && !$user->hasAnyRole($roles)) {
+        if ($role && !$user->hasRole($role)) {
             return null;
         }
 
-        if (isset($data['fcm_token']) && $data['fcm_token']) {
-            $this->clearFcmTokenFromOtherUsers($data['fcm_token']);
-            $user->fcm_token = $data['fcm_token'];
-            $user->save();
+        if (count($additionalData)) {
+            $user->update($additionalData);
         }
 
-        foreach ($additionalData as $key => $value) {
-            $user->{$key} = $value;
-            $user->save();
+        if (!request()->acceptsHtml()) {
+            /** @noinspection PhpPossiblePolymorphicInvocationInspection */
+            $refresh_token = auth($this->guard)->setTTL(ttl: config('jwt.refresh_ttl'))->refresh();
+
+            return [$user->load($relations), $token, $refresh_token,];
         }
 
-        /** @noinspection LaravelFunctionsInspection */
-        /** @noinspection PhpPossiblePolymorphicInvocationInspection */
-        $refresh_token = auth()->setTTL(ttl: env('JWT_REFRESH_TTL', 60 * 24 * 7))->refresh();
-
-        return [$user->load($relations), $token, $refresh_token,];
-    }
-
-    /**
-     * @param array         $data
-     * @param string[]|null $roles
-     * @param array         $relations
-     * @return array{User , string , string}|User|null
-     */
-    public function updateUserDetails(array $data, ?array $roles = null, array $relations = []): array|User|null
-    {
-        $user = auth()->user();
-
-        if (!$user) {
-            return null;
-        }
-
-        if ($roles && !$user->hasAnyRole($roles)) {
-            return null;
-        }
-
-        if (isset($data['password']) && $data['password'] == "") {
-            unset($data['password']);
-        }
-
-        /** @var User $user */
-        $user = $this->repository->update($data, $user->id);
-
-        if (isset($data['address'])) {
-            $user->address()->updateOrCreate([
-                ...$data['address'],
-                'name' => $data['address']['name'] ?? '{"en":"" , "ar":""}',
-                'city_id' => $data['city_id'] ?? 1,
-            ]);
-        }
-
-        if (isset($data['phone_numbers'])) {
-            $user->phones()->delete();
-            PhoneNumberRepository::make()->insert($data['phone_numbers'], User::class, $user->id);
-        }
-
-        /** @noinspection PhpVoidFunctionResultUsedInspection */
-        $token = auth()->login($user);
-
-        /** @noinspection LaravelFunctionsInspection */
-        /** @noinspection PhpPossiblePolymorphicInvocationInspection */
-        $refresh_token = auth()->setTTL(ttl: env('JWT_REFRESH_TTL', 60 * 24 * 7))->refresh();
-
-        return [$user->load($relations), $token, $refresh_token,];
-
-    }
-
-    /**
-     * @throws RoleDoesNotExistException
-     */
-    public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
-    {
-        $user = $this->repository->update($data, $id);
-
-        if (isset($data['address'])) {
-            $user->address()->update($data['address']);
-        }
-
-        if (isset($data['phone_numbers'])) {
-            $user->phones()->delete();
-            PhoneNumberRepository::make()->insert($data['phone_numbers'], User::class, $user->id);
-        }
-
-        if (isset($data['role'])) {
-            $user->assignRole($data['role']);
-        }
-
-        return $user->load($relationships);
-    }
-
-    public function delete($id): ?bool
-    {
-        $user = $this->repository->find($id);
-
-        if ($user->isAdmin()) {
-            return null;
-        }
-
-        return parent::delete($id);
-    }
-
-
-    /**
-     * @param       $fcm_token
-     * @return void
-     */
-    public function clearFcmTokenFromOtherUsers($fcm_token): void
-    {
-        $users = $this->repository->getByFcmToken($fcm_token);
-        foreach ($users as $user) {
-            $user->fcm_token = null;
-            $user->save();
-        }
+        return $user;
     }
 
     /**
@@ -237,8 +125,8 @@ class UserService extends BaseService
      */
     public function logout(): void
     {
-        $user = auth()->user();
-        auth('api')->logout();
+        $user = auth($this->guard)->user();
+        auth($this->guard)->logout();
         $user->fcm_token = null;
         $user->save();
     }
@@ -249,13 +137,11 @@ class UserService extends BaseService
     public function refreshToken(array $relations = []): ?array
     {
         try {
-            $user = auth()->user();
-            /** @noinspection LaravelFunctionsInspection */
+            $user = auth($this->guard)->user();
             /** @noinspection PhpPossiblePolymorphicInvocationInspection */
-            $token = auth()->setTTL(env('JWT_TTL', 10080))->refresh();
-            /** @noinspection LaravelFunctionsInspection */
+            $token = auth($this->guard)->setTTL(config('jwt.ttl'))->refresh();
             /** @noinspection PhpPossiblePolymorphicInvocationInspection */
-            $refresh_token = auth()->setTTL(env('JWT_REFRESH_TTL', 20160))->refresh();
+            $refresh_token = auth($this->guard)->setTTL(config('jwt.refresh_ttl'))->refresh();
 
             return [$user->load($relations), $token, $refresh_token];
         } catch (Exception) {
@@ -264,203 +150,189 @@ class UserService extends BaseService
     }
 
     /**
-     * @return string
+     * @param array       $data
+     * @param array       $relations
+     * @param string|null $role
+     * @return array{User , string , string}|User
+     * @throws RoleDoesNotExistException
      */
-    public function generateUserVerificationCode(): string
+    public function register(array $data, array $relations = [], ?string $role = null): array|User
     {
-        do {
-            $code = sprintf('%06d', mt_rand(1, 999999));
-            $temp_user = $this->getUserByPasswordResetCode($code);
-        } while ($temp_user != null);
-        return $code;
-    }
+        $user = $this->repository->create($data);
 
-    /**
-     * @param            $token
-     * @return User|null
-     */
-    public function getUserByPasswordResetCode($token): ?User
-    {
-        return $this->repository->getUserByPasswordResetCode($token);
-    }
-
-    /**
-     * @param string $email
-     * @return bool|null
-     */
-    public function passwordResetRequest(string $email): ?bool
-    {
-        $user = $this->getUserByEmail($email);
-
-        if ($user) {
-            $code = $this->generateUserVerificationCode();
-
-            try {
-                $user->notify(new SendVerificationCode(
-                    $code,
-                    'Reset Password Verification Code',
-                    'Your Password Reset Code Is : '
-                ));
-            } catch (Exception) {
-                return null;
-            }
-
-            return true;
+        if ($role) {
+            $user->assignRole($role);
         }
 
-        return null;
-    }
+        /** @noinspection PhpVoidFunctionResultUsedInspection */
+        $token = auth($this->guard)->login($user);
 
-    /**
-     * @param            $email
-     * @return User|null
-     */
-    public function getUserByEmail($email): ?User
-    {
-        return $this->repository->getUserByEmail($email);
-    }
+        $this->sendVerificationCode($user);
 
-    /**
-     * @param string $emailResetCode
-     * @param string $password
-     * @return bool
-     */
-    public function passwordReset(string $emailResetCode, string $password): bool
-    {
-        $user = $this->getUserByPasswordResetCode($emailResetCode);
-
-        if (!$user) return false;
-
-        $user->password = $password;
-        $user->save();
-
-        return true;
-    }
-
-    /**
-     * @param string[]|null $roles
-     * @param array         $relations
-     * @return User|Authenticatable|null
-     */
-    public function userDetails(?array $roles = null, array $relations = []): User|Authenticatable|null
-    {
-        $user = auth()->user();
-
-        if (!$user) {
-            return null;
+        if ($role == RolesPermissionEnum::CUSTOMER['role']) {
+            $data['user_id'] = $user->id;
+            CustomerRepository::make()->create($data);
         }
 
-        if ($roles && !$user->hasAnyRole($roles)) {
-            return null;
+        if (!request()->acceptsHtml()) {
+            /** @noinspection PhpPossiblePolymorphicInvocationInspection */
+            $refreshToken = auth($this->guard)->setTTL(ttl: config('jwt.refresh_ttl'))->refresh();
+
+            return [$user->load($relations), $token, $refreshToken,];
         }
 
         return $user->load($relations);
     }
 
     /**
-     * @throws RoleDoesNotExistException
+     * @param string $phone
+     * @return bool
      */
-    public function store(array $data, array $relationships = [], array $countable = []): ?Model
+    public function passwordResetRequest(string $phone): bool
     {
-        /** @var User $user */
-        $user = $this->repository->create($data);
+        $user = $this->repository->getUserByPhone($phone);
 
-        if (isset($data['address'])) {
-            $data['address']['addressable_id'] = $user->id;
-            $data['address']['addressable_type'] = User::class;
-            AddressRepository::make()->create($data['address']);
-        }
-
-        if (isset($data['phone_numbers'])) {
-            PhoneNumberRepository::make()->insert($data['phone_numbers'], User::class, $user->id);
-        }
-
-        $user->assignRole($data['role'] ?? RolesPermissionEnum::CUSTOMER['role']);
-
-        return $user->load($relationships);
-    }
-
-    public function passwordResetRequestByPhone(string $phone): ?bool
-    {
-        $phoneNumber = PhoneNumberRepository::make()->getByPhone($phone);
-
-        if ($phoneNumber) {
-            $code = PhoneNumberService::make()->generateNumberVerificationCode();
-
-            $phoneNumber->update([
-                'verification_code' => $code,
-            ]);
-
-            //TODO:: here were send SMS functionality
-
-            return true;
-        }
-
-        return null;
-    }
-
-    public function passwordResetByPhone($phoneCode, $password): bool
-    {
-        $phone = PhoneNumberRepository::make()->getByVerificationCode($phoneCode);
-
-        if (!$phone) {
+        if (!$user) {
             return false;
         }
 
-        /** @var null|User $user */
-        $user = $phone->phoneable_type == User::class ? $phone->phoneable : null;
+        return $this->sendVerificationCode($user);
+    }
 
-        if (!$user) return false;
+    /**
+     * @param string $resetPasswordCode
+     * @param string $password
+     * @return bool
+     */
+    public function passwordReset(string $resetPasswordCode, string $password): bool
+    {
+        $code = VerificationCodeRepository::make()
+            ->getActiveByCode($resetPasswordCode);
 
-        if ($phone->updated_at->equalTo(now()->subMinutes(15))) {
+        if (!$code) {
             return false;
         }
 
-        $user->password = $password;
-        $user->save();
+        $user = $this->repository->getUserByPhone($code->phone);
 
-        $phone->verification_code = null;
-        $phone->save();
+        $this->repository->update([
+            'password' => $password,
+        ], $user);
+
+        VerificationCodeRepository::make()
+            ->update([
+                'is_active' => false,
+            ], $code);
 
         return true;
     }
 
     /**
-     * @param array $data
-     * @param array $relations
-     * @param array $countable
-     * @return array{User , string , string , PhoneNumber}|null
+     * @param array       $relations
+     * @param string|null $role
+     * @return User|Authenticatable|null
      */
-    public function loginByPhone(array $data, array $relations = [], array $countable = []): ?array
+    public function userDetails(array $relations = [], ?string $role = null): User|Authenticatable|null
     {
-        $phoneNumber = PhoneNumberRepository::make()->getByPhone($data['phone_number'], ['phoneable']);
-
-        if (!$phoneNumber) {
-            return null;
-        }
-
-        /** @var User|null $user */
-        $user = $phoneNumber->phoneable_type == User::class ? $phoneNumber->phoneable : null;
+        $user = auth($this->guard)->user();
 
         if (!$user) {
             return null;
         }
 
-        if (!Hash::check($data['password'], $user->password)) {
+        if ($role && !$user->hasRole($role)) {
             return null;
         }
 
-        /** @noinspection PhpVoidFunctionResultUsedInspection */
-        $token = auth()->login($user);
-        /** @noinspection LaravelFunctionsInspection */
-        /** @noinspection PhpPossiblePolymorphicInvocationInspection */
-        $refreshToken = auth()->setTTL(ttl: env('JWT_REFRESH_TTL', 60 * 24 * 7))->refresh();
+        return $user->load($relations);
+    }
 
-        return [
-            $user->load($relations)->loadCount($countable),
-            $token,
-            $refreshToken,
-            $phoneNumber,
-        ];
+    private function generateVerificationCode(): string
+    {
+        if (app()->environment('production')) {
+            do {
+                $code = sprintf('%06d', mt_rand(1, 999999));
+                $tempCode = VerificationCodeRepository::make()->getActiveByCode($code);
+            } while ($tempCode != null);
+
+            return $code;
+        }
+
+        return "0000";
+    }
+
+    public function verifyUser(array $data, ?string $role = null): bool
+    {
+        $code = VerificationCodeRepository::make()->getActiveByCode($data['verification_code']);
+        if (!$code) {
+            return false;
+        }
+
+        $user = $this->repository->getUserByPhone($code->phone);
+
+        if (!$user || !$user->hasRole($role)) {
+            return false;
+        }
+
+        $user->verify();
+
+        VerificationCodeRepository::make()->update([
+            'is_active' => false,
+        ], $code);
+
+        return true;
+    }
+
+    /**
+     * @param string $phone
+     * @return void
+     */
+    private function inActivatePreviousCodes(string $phone): void
+    {
+        VerificationCodeRepository::make()
+            ->globalQuery()
+            ->where('phone', $phone)
+            ->where('is_active', true)
+            ->update([
+                'is_active' => false
+            ]);
+    }
+
+    private function sendVerificationCode(User $user): bool
+    {
+        $code = $this->generateVerificationCode();
+        $sms = SMS::make()
+            ->message(trans('site.verification_code_sent', ['code' => $code]))
+            ->to($user->universal_phone)
+            ->send();
+
+        if (!$sms->succeed()) {
+            return false;
+        }
+
+        $this->inActivatePreviousCodes($user->phone);
+
+        VerificationCodeRepository::make()
+            ->create([
+                'code' => $code,
+                'phone' => $user->phone,
+                'valid_until' => now()->addHours(3),
+            ]);
+
+        return true;
+    }
+
+    public function resendVerificationCode(string $phone, ?string $role = null): bool
+    {
+        $user = $this->repository->getUserByPhone($phone);
+        if (!$user) {
+            return false;
+        }
+
+        if ($role && !$user->hasRole($role)) {
+            return false;
+        }
+
+        return $this->sendVerificationCode($user);
     }
 }

@@ -6,6 +6,7 @@ namespace App\Traits;
  */
 trait Makable
 {
+    /** @noinspection PhpMissingFieldTypeInspection */
     private static $instance;
 
     /**

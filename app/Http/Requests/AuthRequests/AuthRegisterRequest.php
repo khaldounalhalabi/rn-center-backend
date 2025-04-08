@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests\AuthRequests;
 
-use App\Models\User;
+use App\Enums\BloodGroupEnum;
+use App\Enums\GenderEnum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class AuthRegisterRequest extends FormRequest
 {
@@ -22,33 +24,21 @@ class AuthRegisterRequest extends FormRequest
      */
     public function rules(): array
     {
-        //customer register
-        return [
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'phone_number' => ['required', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/',],
-            'password' => 'required|min:8|confirmed|max:255',
-            'fcm_token' => 'nullable|string|min:3|max:1000',
-            'image' => 'image|max:50000|mimes:jpg,png|nullable',
-        ];
-    }
-
-    public function attributes(): array
-    {
-        return [
-            'phone_numbers.*' => 'phone number',
-        ];
-    }
-
-    protected function prepareForValidation(): void
-    {
-        if ($this->input('address')) {
-            $this->merge([
-                'address' => [
-                    ...$this->input('address'),
-                    'map_iframe' => strip_tags($this->input('address.map_iframe'), ['iframe']),
-                ],
-            ]);
+        $additional = [];
+        if ($this->fullUrl() == route('api.v1.patient.register')) {
+            $additional = [
+                'birth_date' => 'required|date|date_format:Y-m-d',
+                'blood_group' => 'nullable|string|' . Rule::in(BloodGroupEnum::getAllValues())
+            ];
         }
+
+        return [
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'phone' => 'required|regex:/^09\d{8}$/|unique:users,phone',
+            'password' => 'required|min:8|confirmed',
+            'gender' => ['required', 'string', Rule::in(GenderEnum::getAllValues())],
+            ...$additional,
+        ];
     }
 }

@@ -50,7 +50,7 @@ class AppointmentObserver
                     'appointment_id' => $appointment->id,
                     'type' => ClinicTransactionTypeEnum::INCOME->value,
                     'clinic_id' => $appointment->clinic_id,
-                    'notes' => "An income from the cost of the appointment with id : $appointment->id , Patient name : {$appointment?->customer?->user?->fullName?->en}",
+                    'notes' => "An income from the cost of the appointment with id : $appointment->id , Patient name : {$appointment?->customer?->user?->fullName}",
                     'status' => ClinicTransactionStatusEnum::DONE->value,
                     'date' => now(),
                 ]);
@@ -189,7 +189,7 @@ class AppointmentObserver
                 'clinic_id' => $appointment->clinic_id,
                 'date' => now(),
                 'amount' => $appointment->total_cost,
-                'notes' => "An income from the cost of the appointment with id : $appointment->id , Patient name : {$appointment->customer->user->fullName?->en}",
+                'notes' => "An income from the cost of the appointment with id : $appointment->id , Patient name : {$appointment->customer->user->fullName}",
             ]);
 
             if ($appointment->type == AppointmentTypeEnum::ONLINE->value) {

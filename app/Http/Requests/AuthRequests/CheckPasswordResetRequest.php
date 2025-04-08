@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\AuthRequests;
 
-use App\Services\UserService;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CheckPasswordResetRequest extends FormRequest
 {
@@ -11,7 +11,7 @@ class CheckPasswordResetRequest extends FormRequest
      * Determine if the user is authorized to make this request.
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -20,14 +20,10 @@ class CheckPasswordResetRequest extends FormRequest
      * Get the validation rules that apply to the request.
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'reset_password_code' => [
-                'required',
-                'string',
-                'max:10',
-            ],
+            'reset_password_code' => ['required', 'string', Rule::exists('verification_codes', 'code')->where('is_active', true)],
         ];
     }
 }

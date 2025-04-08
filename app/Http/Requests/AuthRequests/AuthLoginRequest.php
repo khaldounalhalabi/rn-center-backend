@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\AuthRequests;
 
-use hisorange\BrowserDetect\Parser as Browser;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AuthLoginRequest extends FormRequest
@@ -20,12 +19,11 @@ class AuthLoginRequest extends FormRequest
      * Get the validation rules that apply to the request.
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'email' => ['required', 'email', 'exists:users,email', 'max:255'],
-            'password' => 'required|string',
-            'fcm_token' => 'nullable|string|max:1000',
+            'phone' => ['required', 'regex:/^09\d{8}$/', 'exists:users,phone'],
+            'password' => 'required|min:8',
         ];
     }
 }

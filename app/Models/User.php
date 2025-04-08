@@ -2,37 +2,39 @@
 
 namespace App\Models;
 
-use App\Casts\Translatable;
-use App\Enums\MediaTypeEnum;
 use App\Enums\RolesPermissionEnum;
-use App\Serializers\Translatable as TranslatableSerializer;
 use App\Traits\HasRoles;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
- * @property TranslatableSerializer first_name
- * @property TranslatableSerializer last_name
- * @property TranslatableSerializer fullName
+ * @property integer     id
+ * @property string      first_name
+ * @property string      last_name
+ * @property string|null email
+ * @property string      password
+ * @property string      phone
+ * @property string      remember_token
+ * @property Carbon      created_at
+ * @property Carbon      updated_at
+ * @property Carbon|null phone_verified_at
+ * @property string      gender
+ * @property string      fullName
  * @mixin Builder
  */
-class User extends Authenticatable implements HasMedia, JWTSubject
+class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens;
     use HasFactory;
     use HasRoles;
-    use InteractsWithMedia;
     use Notifiable;
 
     protected $guarded = ['id'];
@@ -41,12 +43,10 @@ class User extends Authenticatable implements HasMedia, JWTSubject
         'first_name',
         'last_name',
         'email',
-        'birth_date',
+        'password',
+        'phone',
+        'phone_verified_at',
         'gender',
-        'blood_group',
-        'image',
-        'email_verified_at',
-        'remember_token',
     ];
 
     protected $hidden = [
@@ -56,12 +56,9 @@ class User extends Authenticatable implements HasMedia, JWTSubject
 
     protected $casts = [
         'id' => 'integer',
-        'email_verified_at' => 'datetime',
-        'birth_date' => 'datetime',
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
-        'first_name' => Translatable::class,
-        'last_name' => Translatable::class,
+        'phone_verified_at' => 'datetime'
     ];
 
     /**
@@ -71,9 +68,11 @@ class User extends Authenticatable implements HasMedia, JWTSubject
     public static function searchableArray(): array
     {
         return [
-            'first_name', 'last_name',
-            'email', 'birth_date',
-            'gender', 'blood_group',
+            'first_name',
+            'last_name',
+            'email',
+            'phone',
+            'gender',
         ];
     }
 
@@ -84,30 +83,14 @@ class User extends Authenticatable implements HasMedia, JWTSubject
     public static function relationsSearchableArray(): array
     {
         return [
-            'roles' => [
-                'name',
-            ],
-            'phoneNumbers' => [
-                'phone',
-            ],
-            'address.city' => [
-                'name',
-            ],
+
         ];
     }
 
     public function customOrders(): array
     {
         return [
-            'address.city.name' => function (Builder $query, $dir) {
-                return $query->join('addresses', function ($join) {
-                    $join->on('addresses.addressable_id', '=', 'users.id')
-                        ->where('addresses.addressable_type', User::class);
-                })
-                    ->join('cities', 'cities.id', '=', 'addresses.city_id')
-                    ->select('users.*', 'cities.name AS city_name')
-                    ->orderBy('city_name', $dir);
-            },
+
         ];
     }
 
@@ -118,10 +101,7 @@ class User extends Authenticatable implements HasMedia, JWTSubject
      */
     public function filesKeys(): array
     {
-        return [
-            'image' => ['type' => MediaTypeEnum::SINGLE->value],
-            //filesKeys
-        ];
+        return [];
     }
 
     public function getJWTIdentifier()
@@ -142,16 +122,6 @@ class User extends Authenticatable implements HasMedia, JWTSubject
     public function clinic(): HasOne
     {
         return $this->hasOne(Clinic::class);
-    }
-
-    public function phones(): MorphMany
-    {
-        return $this->morphMany(PhoneNumber::class, 'phoneable');
-    }
-
-    public function address(): MorphOne
-    {
-        return $this->morphOne(Address::class, 'addressable');
     }
 
     public function routeNotificationForFcm()
@@ -224,16 +194,6 @@ class User extends Authenticatable implements HasMedia, JWTSubject
         }
     }
 
-    public function hasVerifiedPhoneNumber(): bool
-    {
-        return $this->phoneNumbers()->where('is_verified', true)->exists();
-    }
-
-    public function phoneNumbers(): MorphMany
-    {
-        return $this->morphMany(PhoneNumber::class, 'phoneable');
-    }
-
     protected function password(): Attribute
     {
         return Attribute::make(
@@ -244,10 +204,37 @@ class User extends Authenticatable implements HasMedia, JWTSubject
     protected function fullName(): Attribute
     {
         return Attribute::make(
-            get: fn($value, array $attributes) => new TranslatableSerializer([
-                'en' => $this->first_name->en . ' ' . $this->last_name->en,
-                'ar' => $this->first_name->ar . ' ' . $this->last_name->ar,
-            ]),
+            get: fn($value, array $attributes) => $this->first_name . ' ' . $this->last_name,
+        );
+    }
+
+
+    public function verified(): bool
+    {
+        return !is_null($this->phone_verified_at);
+    }
+
+    public function verify(): static
+    {
+        $this->update([
+            'phone_verified_at' => now()
+        ]);
+        return $this;
+    }
+
+    public function unVerify(): static
+    {
+        $this->update([
+            'phone_verified_at' => null
+        ]);
+
+        return $this;
+    }
+
+    protected function universalPhone(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value, array $attributes) => preg_replace('/^0/', '+963', $this->phone),
         );
     }
 }

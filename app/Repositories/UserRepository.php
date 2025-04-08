@@ -16,31 +16,9 @@ class UserRepository extends BaseRepository
 {
     protected string $modelClass = User::class;
 
-    /**
-     * @param $email
-     * @return User|null
-     */
-    public function getUserByEmail($email): User|null
+    public function getUserByPhone(string $phone): ?User
     {
-        return $this->globalQuery()->where('email', $email)->first();
-    }
-
-    /**
-     * @param $token
-     * @return User|null
-     */
-    public function getUserByPasswordResetCode($token): User|null
-    {
-        return $this->globalQuery()->where('reset_password_code', $token)->first();
-    }
-
-    /**
-     * @param $fcm_token
-     * @return Collection|array|_IH_User_C
-     */
-    public function getByFcmToken($fcm_token): Collection|array|_IH_User_C
-    {
-        return $this->globalQuery()->where('fcm_token', $fcm_token)->get();
+        return User::where('phone', $phone)->first();
     }
 
     /**

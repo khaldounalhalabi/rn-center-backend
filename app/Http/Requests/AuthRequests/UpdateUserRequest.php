@@ -2,12 +2,7 @@
 
 namespace App\Http\Requests\AuthRequests;
 
-use App\Enums\BloodGroupEnum;
-use App\Enums\GenderEnum;
-use App\Models\User;
-use App\Rules\UniquePhoneNumber;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -26,32 +21,13 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        $user = auth()->user();
-        return [
-            'first_name' => ['nullable', 'string', 'max:255'],
-            'last_name' => ['nullable', 'string', 'max:255'],
-            'phone_numbers' => ['array', 'nullable', Rule::excludeIf(fn() => $user?->isClinic())],
-            'phone_numbers.*' => ['nullable', 'string', 'regex:/^07\d{9}$/', new UniquePhoneNumber($user?->id), Rule::excludeIf(fn() => $user?->isClinic())],
-            'email' => ['nullable', 'email', 'unique:users,email,' . $user?->id, 'min:3', 'max:255',],
-            'password' => 'nullable|min:8|confirmed|max:255',
-            'fcm_token' => 'nullable|string|min:3|max:1000',
-            'gender' => 'nullable|string|' . Rule::in(GenderEnum::getAllValues()),
-            'blood_group' => 'nullable|string|' . Rule::in(BloodGroupEnum::getAllValues()),
-            'image' => 'nullable|image|max:50000|mimes:jpg,png',
-            'birth_date' => 'nullable|date|date_format:Y-m-d',
-            'address' => ['nullable', 'array', Rule::excludeIf(fn() => $user?->isClinic())],
-            'address.name' => ['nullable', 'string', Rule::excludeIf(fn() => $user?->isClinic())],
-            'address.city_id' => ['nullable', 'exists:cities,id', 'integer', Rule::excludeIf(fn() => $user?->isClinic())],
-            'address.lat' => ['nullable', 'string', Rule::excludeIf(fn() => $user?->isClinic())],
-            'address.lng' => ['nullable', 'string', Rule::excludeIf(fn() => $user?->isClinic())],
-            'address.map_iframe' => ['nullable', 'string', Rule::excludeIf(fn() => $user?->isClinic())],
-        ];
-    }
+        $guard = request()->acceptsHtml() ? 'web' : 'api';
 
-    public function attributes(): array
-    {
         return [
-            'phone_numbers.*' => 'phone number',
+            'first_name' => 'nullable|string',
+            'last_name' => 'nullable|string',
+            'phone' => 'nullable|regex:/^09\d{8}$/|unique:users,phone,' . auth($guard)->user()?->id,
+            'password' => 'nullable|min:8|confirmed',
         ];
     }
 }
