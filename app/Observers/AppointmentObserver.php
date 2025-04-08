@@ -4,20 +4,16 @@ namespace App\Observers;
 
 use App\Enums\AppointmentStatusEnum;
 use App\Enums\AppointmentTypeEnum;
-use App\Enums\ClinicTransactionStatusEnum;
-use App\Enums\ClinicTransactionTypeEnum;
 use App\Enums\RolesPermissionEnum;
 use App\Jobs\UpdateAppointmentRemainingTimeJob;
 use App\Managers\AppointmentManager;
 use App\Models\Appointment;
-use App\Models\ClinicTransaction;
 use App\Notifications\Clinic\NewOnlineAppointmentNotification;
 use App\Notifications\Customer\CustomerAppointmentChangedNotification;
 use App\Notifications\RealTime\AppointmentChangeNotification;
 use App\Notifications\RealTime\BalanceChangeNotification;
 use App\Notifications\RealTime\NewAppointmentNotification;
 use App\Repositories\AppointmentRepository;
-use App\Repositories\ClinicTransactionRepository;
 use App\Services\FirebaseServices;
 use Illuminate\Support\Collection;
 
@@ -42,19 +38,6 @@ class AppointmentObserver
      */
     public function created(Appointment $appointment): void
     {
-        if ($appointment->status == AppointmentStatusEnum::CHECKOUT->value) {
-            ClinicTransactionRepository::make()
-                ->create([
-                    'amount' => $appointment->total_cost,
-                    'appointment_id' => $appointment->id,
-                    'type' => ClinicTransactionTypeEnum::INCOME->value,
-                    'clinic_id' => $appointment->clinic_id,
-                    'notes' => "An income from the cost of the appointment with id : $appointment->id , Patient name : {$appointment?->customer?->user?->fullName}",
-                    'status' => ClinicTransactionStatusEnum::DONE->value,
-                    'date' => now(),
-                ]);
-        }
-
         if ($appointment->type == AppointmentTypeEnum::ONLINE->value) {
             FirebaseServices::make()
                 ->setData([
@@ -178,31 +161,6 @@ class AppointmentObserver
 
     public function handleTransactionsWhenChangeStatus(Appointment $appointment, string $prevStatus): void
     {
-        if ($prevStatus != AppointmentStatusEnum::CHECKOUT->value
-            && $appointment->status == AppointmentStatusEnum::CHECKOUT->value) {
-            ClinicTransaction::create([
-                'appointment_id' => $appointment->id,
-                'status' => ClinicTransactionStatusEnum::DONE->value,
-                'type' => ClinicTransactionTypeEnum::INCOME->value,
-                'clinic_id' => $appointment->clinic_id,
-                'date' => now(),
-                'amount' => $appointment->total_cost,
-                'notes' => "An income from the cost of the appointment with id : $appointment->id , Patient name : {$appointment->customer->user->fullName}",
-            ]);
-
-        } elseif ($prevStatus == AppointmentStatusEnum::CHECKOUT->value
-            && $appointment->status != AppointmentStatusEnum::CHECKOUT->value
-        ) {
-            ClinicTransaction::where('appointment_id', $appointment->id)
-                ->chunk(10, function (/** @var Collection<ClinicTransaction> $transactions */ $transactions) {
-                    $transactions->each(fn(ClinicTransaction $clinicTransaction) => $clinicTransaction->delete());
-                });
-
-            if ($appointment->status == AppointmentStatusEnum::CANCELLED->value) {
-                $appointment->customer->systemOffers()->detach();
-            }
-        }
-
         FirebaseServices::make()
             ->setData([])
             ->setMethod(FirebaseServices::MANY)

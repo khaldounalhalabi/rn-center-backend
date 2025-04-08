@@ -965,62 +965,6 @@
             }
         },
         {
-            "model_name": "ClinicTransaction",
-            "table_name": "clinic_transactions",
-            "attributes": [
-                {
-                    "name": "amount",
-                    "type": "double",
-                    "nullable": false,
-                    "unique": false
-                },
-                {
-                    "name": "appointment_id",
-                    "type": "key",
-                    "nullable": true,
-                    "unique": false
-                },
-                {
-                    "name": "type",
-                    "type": "string",
-                    "nullable": false,
-                    "unique": false
-                },
-                {
-                    "name": "clinic_id",
-                    "type": "key",
-                    "nullable": false,
-                    "unique": false
-                },
-                {
-                    "name": "notes",
-                    "type": "text",
-                    "nullable": true,
-                    "unique": false
-                },
-                {
-                    "name": "status",
-                    "type": "string",
-                    "nullable": false,
-                    "unique": false
-                }
-            ],
-            "relations": {
-                "belongsTo": [
-                    {
-                        "type": "belongsTo",
-                        "model_name": "Appointment",
-                        "key": "appointment_id"
-                    },
-                    {
-                        "type": "belongsTo",
-                        "model_name": "Clinic",
-                        "key": "clinic_id"
-                    }
-                ]
-            }
-        },
-        {
             "model_name": "Balance",
             "table_name": "balances",
             "attributes": [

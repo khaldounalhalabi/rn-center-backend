@@ -7,7 +7,6 @@ use App\Enums\AppointmentTypeEnum;
 use App\Models\Appointment;
 use App\Models\AppointmentLog;
 use App\Models\Clinic;
-use App\Models\ClinicTransaction;
 use App\Models\Customer;
 use App\Models\Service;
 use App\Models\SystemOffer;
@@ -67,10 +66,5 @@ class AppointmentFactory extends Factory
     public function withSystemOffers($count = 1): AppointmentFactory
     {
         return $this->has(SystemOffer::factory($count));
-    }
-
-    public function withClinicTransaction(): AppointmentFactory
-    {
-        return $this->has(ClinicTransaction::factory());
     }
 }

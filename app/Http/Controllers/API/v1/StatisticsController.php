@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Enums\AppointmentStatusEnum;
-use App\Enums\ClinicTransactionTypeEnum;
 use App\Http\Controllers\ApiController;
 use App\Models\Appointment;
 use App\Models\Clinic;
@@ -36,16 +35,6 @@ class StatisticsController extends ApiController
         $data['today_appointments'] = $clinic?->today_appointments_count ?? 0;
 
         $data['upcoming_appointments'] = $clinic?->upcoming_appointments_count ?? 0;
-        $data['total_income_current_month'] = $clinic?->clinicTransactions()
-            ->where('type', ClinicTransactionTypeEnum::INCOME->value)
-            ->where('date', '>=', now()->firstOfMonth()->format('Y-m-d'))
-            ->where('date', '<=', now()->lastOfMonth()->format('Y-m-d'))
-            ->sum('amount') ?? 0;
-        $data['total_income_prev_month'] = $clinic?->clinicTransactions()
-            ->where('type', ClinicTransactionTypeEnum::INCOME->value)
-            ->where('date', '>=', now()->subMonth()->firstOfMonth()->format('Y-m-d'))
-            ->where('date', '<=', now()->subMonth()->lastOfMonth()->format('Y-m-d'))
-            ->sum('amount') ?? 0;
 
         return $this->apiResponse(
             array_map(fn($item) => is_null($item) ? 0 : floatval($item), $data),

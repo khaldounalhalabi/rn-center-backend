@@ -320,11 +320,6 @@ class Appointment extends Model implements ActionsMustBeAuthorized
         return $this->belongsToMany(Offer::class, 'appointment_offers');
     }
 
-    public function clinicTransaction(): HasOne
-    {
-        return $this->hasOne(ClinicTransaction::class, 'appointment_id', 'id');
-    }
-
     public function getClinicOfferTotal()
     {
         return $this->offers

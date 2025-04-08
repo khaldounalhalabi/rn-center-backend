@@ -4,8 +4,6 @@ namespace App\Managers;
 
 use App\Enums\AppointmentStatusEnum;
 use App\Enums\AppointmentTypeEnum;
-use App\Enums\ClinicTransactionStatusEnum;
-use App\Enums\ClinicTransactionTypeEnum;
 use App\Enums\OfferTypeEnum;
 use App\Models\Appointment;
 use App\Models\Clinic;
@@ -14,7 +12,6 @@ use App\Models\SystemOffer;
 use App\Repositories\AppointmentLogRepository;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\ClinicRepository;
-use App\Repositories\ClinicTransactionRepository;
 use App\Repositories\OfferRepository;
 use App\Repositories\PatientProfileRepository;
 use App\Repositories\ServiceRepository;

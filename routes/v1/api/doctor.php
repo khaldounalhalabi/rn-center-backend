@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\API\v1;
-use App\Http\Controllers\API\v1\ClinicTransactionController;
 use App\Models\Clinic;
 use App\Models\ClinicEmployee;
 use App\Models\ClinicHoliday;
@@ -10,7 +9,6 @@ use App\Models\Medicine;
 use App\Models\Offer;
 use App\Models\Schedule;
 use App\Models\Service;
-use App\Models\Transaction;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/refresh', [v1\DoctorAuthController::class, 'refresh'])->name("refresh.token");
@@ -113,20 +111,6 @@ Route::apiResource('/clinic-employees', v1\ClinicEmployeeController::class)
         'staff_can:manage-employees,' . ClinicEmployee::class,
     ])->names('clinic.employees');
 
-Route::prefix('clinic-transactions')
-    ->name('clinic.transactions.')
-    ->middleware([
-        'staff_can:accountant-management,' . Transaction::class,
-    ])->controller(ClinicTransactionController::class)
-    ->group(function () {
-        Route::get('/all', 'all')->name('all');
-        Route::get('/summary', 'summary')->name('summary');
-        Route::get('/export', 'export')->name('export');
-    });
-Route::apiResource('clinic-transactions', v1\ClinicTransactionController::class)
-    ->middleware([
-        'staff_can:accountant-management,' . Transaction::class,
-    ])->names('clinic.transactions');
 
 Route::get('/appointments/all', [v1\AppointmentController::class, 'all'])->name('appointments.all');
 Route::get('/customers/{customerId}/appointments', [v1\AppointmentController::class, 'getByCustomer'])->name('customers.appointments');
