@@ -26,7 +26,6 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class Service extends Model implements HasMedia, ActionsMustBeAuthorized
 {
     use HasFactory;
-    use Translations;
     use InteractsWithMedia;
     use HasAbilities;
 

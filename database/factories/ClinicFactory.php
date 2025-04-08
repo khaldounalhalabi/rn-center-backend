@@ -19,8 +19,8 @@ use App\Models\Speciality;
 use App\Models\Subscription;
 use App\Models\SystemOffer;
 use App\Models\User;
+use App\Serializers\Translatable;
 use App\Traits\FileHandler;
-use App\Traits\Translations;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Http\File;
@@ -31,7 +31,6 @@ use Illuminate\Http\File;
 class ClinicFactory extends Factory
 {
     use FileHandler;
-    use Translations;
 
     /**
      * Define the model's default state.
@@ -40,7 +39,7 @@ class ClinicFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->fakeTranslation('name'),
+            'name' => Translatable::fake('name'),
             'appointment_cost' => fake()->numberBetween(1, 100),
             'user_id' => User::factory(),
             'working_start_year' => fake()->date(),

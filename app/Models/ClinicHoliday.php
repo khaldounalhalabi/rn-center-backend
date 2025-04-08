@@ -21,7 +21,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ClinicHoliday extends Model implements ActionsMustBeAuthorized
 {
     use HasFactory;
-    use Translations;
     use HasAbilities;
 
 

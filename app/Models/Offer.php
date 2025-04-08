@@ -27,7 +27,6 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class Offer extends Model implements ActionsMustBeAuthorized, HasMedia
 {
     use HasFactory;
-    use Translations;
     use HasAbilities;
     use InteractsWithMedia;
 

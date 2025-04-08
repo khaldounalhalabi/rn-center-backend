@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Service;
+use App\Serializers\Translatable;
 use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -11,7 +12,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class ServiceCategoryFactory extends Factory
 {
-    use Translations;
 
     /**
      * Define the model's default state.
@@ -20,7 +20,7 @@ class ServiceCategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->fakeTranslation('word'),
+            'name' => Translatable::fake(),
         ];
     }
 

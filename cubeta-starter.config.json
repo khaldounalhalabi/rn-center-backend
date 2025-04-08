@@ -279,23 +279,6 @@
             }
         },
         {
-            "model_name": "City",
-            "table_name": "cities",
-            "attributes": [
-                {
-                    "name": "name",
-                    "type": "translatable",
-                    "nullable": true,
-                    "unique": false
-                }
-            ],
-            "relations": {
-                "hasMany": [
-
-                ]
-            }
-        },
-        {
             "model_name": "ClinicHoliday",
             "table_name": "clinic_holidays",
             "attributes": [

@@ -12,8 +12,6 @@ use Illuminate\Database\Eloquent\Model;
 class ServiceCategory extends Model
 {
     use HasFactory;
-    use Translations;
-
 
     protected $fillable = [
         'name',

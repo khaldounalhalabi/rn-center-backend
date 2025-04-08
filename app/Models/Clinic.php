@@ -33,7 +33,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;
-    use Translations;
 
     protected $fillable = [
         'name',

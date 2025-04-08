@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Clinic;
 use App\Models\Speciality;
+use App\Serializers\Translatable;
 use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Http\File;
@@ -13,8 +14,6 @@ use Illuminate\Http\File;
  */
 class SpecialityFactory extends Factory
 {
-    use Translations;
-
     /**
      * Define the model's default state.
      * @return array<string, mixed>
@@ -22,7 +21,7 @@ class SpecialityFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->fakeTranslation('name'),
+            'name' => Translatable::fake(),
             'description' => fake()->text(),
         ];
     }

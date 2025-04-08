@@ -32,7 +32,7 @@ class CustomerService extends BaseService
     }
 
     /**
-     * @param array{first_name:string,last_name:string,email:string,birth_date:string,gender:string,name:string,city_id:string,medical_condition:string,note:string,other_data:string,images:string, $data
+     * @param array{first_name:string,last_name:string,email:string,birth_date:string,gender:string,name:string,medical_condition:string,note:string,other_data:string,images:string, $data
      * @param array                                                                                                                                                                                  $relations
      * @param array                                                                                                                                                                                  $countable
      * @return Customer|null

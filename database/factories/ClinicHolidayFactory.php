@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Clinic;
+use App\Serializers\Translatable;
 use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -11,8 +12,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class ClinicHolidayFactory extends Factory
 {
-    use Translations;
-
     /**
      * Define the model's default state.
      * @return array<string, mixed>
@@ -23,7 +22,7 @@ class ClinicHolidayFactory extends Factory
             'clinic_id' => Clinic::inRandomOrder()->first()->id,
             'start_date' => fake()->dateTimeBetween('-5 days', '+5 days'),
             'end_date' => fake()->dateTimeBetween('+10 days', '+20 days'),
-            'reason' => $this->fakeTranslation('word'),
+            'reason' => Translatable::fake('sentence'),
         ];
     }
 }

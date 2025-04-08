@@ -15,8 +15,6 @@ use Illuminate\Support\Str;
 
 class UserFactory extends Factory
 {
-    use Translations;
-
     protected $model = User::class;
 
     public function definition(): array
@@ -37,20 +35,6 @@ class UserFactory extends Factory
         return $this->state([
             'phone_verified_at' => now(),
         ]);
-    }
-
-    public function allRelations(): UserFactory
-    {
-        return $this->withMedia();
-    }
-
-    public function withMedia(): UserFactory
-    {
-        return $this->afterCreating(function (User $user) {
-            $user->addMedia(
-                new File(storage_path('/app/required/download.png'))
-            )->preservingOriginal()->toMediaCollection();
-        });
     }
 
     public function customer(): UserFactory

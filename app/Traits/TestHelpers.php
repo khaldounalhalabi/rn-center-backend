@@ -58,7 +58,6 @@ trait TestHelpers
 
         if (isset($this->userType) && $this->userType != 'none') {
             Artisan::call('db:seed RoleSeeder');
-            Artisan::call('db:seed CitySeeder');
         }
 
         $this->signIn($this->userType);

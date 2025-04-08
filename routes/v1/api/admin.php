@@ -37,8 +37,6 @@ Route::apiResource('/customers', v1\CustomerController::class)->names('customers
 
 Route::apiResource('/specialities', v1\SpecialityController::class)->names('specialities');
 
-Route::apiResource('/cities', v1\CityController::class)->names('cities');
-
 Route::apiResource('/clinic-holidays', v1\ClinicHolidayController::class)->names('clinic.holidays');
 
 Route::apiResource('/service-categories', v1\ServiceCategoryController::class)->names('service.categories');
