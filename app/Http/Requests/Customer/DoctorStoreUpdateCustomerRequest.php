@@ -37,8 +37,6 @@ class DoctorStoreUpdateCustomerRequest extends FormRequest
                 'address' => 'array|nullable',
                 'address.name' => ['nullable', 'min:3', new LanguageShape()],
                 'address.city_id' => ['nullable', 'required_with:address', 'numeric', 'exists:cities,id'],
-                'phone_numbers' => 'array|required|max:2|min:1',
-                'phone_numbers.*' => ['required', 'string', 'regex:/^07\d{9}$/',],
 
                 'medical_condition' => ['nullable', 'string'],
                 'note' => ['nullable', 'string'],
@@ -59,7 +57,6 @@ class DoctorStoreUpdateCustomerRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'phone_numbers.*' => 'phone number',
             'images.*' => 'images',
         ];
     }

@@ -27,7 +27,7 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         $this->routes(function () {
-            Route::middleware(['api', 'verified-phone', 'customer'])
+            Route::middleware(['api', 'customer'])
                 ->prefix('api/customer')
                 ->name('api.customer.')
                 ->group(base_path('routes/v1/api/customer.php'));

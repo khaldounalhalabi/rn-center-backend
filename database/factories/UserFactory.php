@@ -8,7 +8,6 @@ use App\Models\Address;
 use App\Models\Clinic;
 use App\Models\ClinicEmployee;
 use App\Models\Customer;
-use App\Models\PhoneNumber;
 use App\Models\User;
 use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -43,9 +42,7 @@ class UserFactory extends Factory
 
     public function allRelations(): UserFactory
     {
-        return $this->withPhoneNumbers(1)
-            ->withAddress()
-            ->withMedia();
+        return $this->withMedia();
     }
 
     public function withMedia(): UserFactory
@@ -63,16 +60,6 @@ class UserFactory extends Factory
             Address::factory()->create([
                 'addressable_id' => $user->id,
                 'addressable_type' => User::class,
-            ]);
-        });
-    }
-
-    public function withPhoneNumbers($count = 1): UserFactory
-    {
-        return $this->afterCreating(function (User $user) use ($count) {
-            PhoneNumber::factory($count)->create([
-                'phoneable_type' => User::class,
-                'phoneable_id' => $user->id,
             ]);
         });
     }

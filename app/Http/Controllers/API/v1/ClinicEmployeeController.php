@@ -27,7 +27,6 @@ class ClinicEmployeeController extends ApiController
             'user.media',
             'user.roles',
             'user.permissions',
-            'user.phones'
         ];
     }
 

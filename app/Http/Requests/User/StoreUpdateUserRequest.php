@@ -5,7 +5,6 @@ namespace App\Http\Requests\User;
 use App\Enums\GenderEnum;
 use App\Models\User;
 use App\Rules\LanguageShape;
-use App\Rules\UniquePhoneNumber;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -40,8 +39,6 @@ class StoreUpdateUserRequest extends FormRequest
                 'address.city_id' => ['required', 'numeric', 'exists:cities,id'],
                 'address.map_iframe' => ['nullable', 'string'],
 
-                'phone_numbers' => 'array|required',
-                'phone_numbers.*' => ['required', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/',],
                 'role' => 'required|string|exists:roles,name',
             ];
         }
@@ -62,9 +59,6 @@ class StoreUpdateUserRequest extends FormRequest
             'address.city_id' => ['nullable', 'numeric', 'exists:cities,id'],
             'address.map_iframe' => ['nullable', 'string'],
 
-            'phone_numbers' => 'array|nullable',
-            'phone_numbers.*' => ['required', 'string', 'regex:/^07\d{9}$/', new UniquePhoneNumber($userId),],
-
             'role' => 'nullable|string|exists:roles,name',
         ];
     }
@@ -72,7 +66,6 @@ class StoreUpdateUserRequest extends FormRequest
     public function attributes()
     {
         return [
-            'phone_numbers.*' => 'phone number'
         ];
     }
 }

@@ -20,11 +20,11 @@ class ClinicController extends ApiController
         if (!auth()->user() || auth()->user()?->isCustomer()) {
             $this->indexRelations = ['specialities', 'user', 'user.media', 'user.address', 'user.address.city'];
             $this->countable = [];
-            $this->relations = ['media', 'user', 'user.address', "user.address.city", 'user.phones', 'specialities', 'user.media', 'schedules'];
+            $this->relations = ['media', 'user', 'user.address', "user.address.city", 'specialities', 'user.media', 'schedules'];
         } else {
-            $this->indexRelations = ['user', 'user.phones', 'user.address', 'user.address.city', 'lastSubscription'];
+            $this->indexRelations = ['user', 'user.address', 'user.address.city', 'lastSubscription'];
             $this->countable = ['appointments', 'todayAppointments', 'upcomingAppointments'];
-            $this->relations = ['media', 'user', 'user.address', "user.address.city", 'user.phones', 'specialities', 'user.media', 'activeSubscription.subscription'];
+            $this->relations = ['media', 'user', 'user.address', "user.address.city", 'specialities', 'user.media', 'activeSubscription.subscription'];
         }
     }
 

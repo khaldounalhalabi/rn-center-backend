@@ -42,7 +42,7 @@ class ClinicFactory extends Factory
         return [
             'name' => $this->fakeTranslation('name'),
             'appointment_cost' => fake()->numberBetween(1, 100),
-            'user_id' => User::factory()->withPhoneNumbers()->withAddress(),
+            'user_id' => User::factory(),
             'working_start_year' => fake()->date(),
             'max_appointments' => fake()->numberBetween(1, 10),
             'appointment_day_range' => 7,

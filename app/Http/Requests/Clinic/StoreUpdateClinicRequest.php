@@ -8,7 +8,6 @@ use App\Enums\SubscriptionTypeEnum;
 use App\Models\Clinic;
 use App\Models\User;
 use App\Rules\LanguageShape;
-use App\Rules\UniquePhoneNumber;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -39,8 +38,6 @@ class StoreUpdateClinicRequest extends FormRequest
                 'name' => ['required', 'min:3', 'max:255', new LanguageShape()],
                 'appointment_cost' => 'required|numeric|min:0',
                 'max_appointments' => 'required|numeric|integer|min:2',
-                'phone_numbers' => 'array|required|max:2',
-                'phone_numbers.*' => ['required', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/',],
                 'status' => 'required|string|' . Rule::in(ClinicStatusEnum::getAllValues()),
                 'approximate_appointment_time' => 'numeric|required|max:420|integer|min:5',
 
@@ -71,8 +68,6 @@ class StoreUpdateClinicRequest extends FormRequest
             'name' => ['nullable', 'min:3', 'max:255', new LanguageShape()],
             'appointment_cost' => ['nullable', 'numeric', 'min:0', Rule::excludeIf(fn() => $authUser?->isClinic())],
             'max_appointments' => 'nullable|numeric|min:2',
-            'phone_numbers' => 'array|nullable',
-            'phone_numbers.*' => ['nullable', 'string', new UniquePhoneNumber($userId), 'regex:/^07\d{9}$/',],
             'status' => 'nullable|string|' . Rule::in(ClinicStatusEnum::getAllValues()),
             'approximate_appointment_time' => 'numeric|nullable|max:420|integer|min:5',
             'working_start_year' => 'nullable|date|date_format:Y-m-d|before:now',
@@ -105,7 +100,6 @@ class StoreUpdateClinicRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'phone_numbers.*' => 'phone number',
             'speciality_ids.*' => 'speciality',
         ];
     }

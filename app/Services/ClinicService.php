@@ -9,7 +9,6 @@ use App\Models\User;
 use App\Repositories\AddressRepository;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\ClinicRepository;
-use App\Repositories\PhoneNumberRepository;
 use App\Repositories\UserRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
@@ -29,7 +28,6 @@ class ClinicService extends BaseService
 
     private UserRepository $userRepository;
     private AddressRepository $addressRepository;
-    private PhoneNumberRepository $phoneNumberRepository;
     private ScheduleService $scheduleService;
 
     private ClinicSubscriptionService $clinicSubscriptionService;
@@ -39,7 +37,6 @@ class ClinicService extends BaseService
         parent::__construct();
         $this->userRepository = UserRepository::make();
         $this->addressRepository = AddressRepository::make();
-        $this->phoneNumberRepository = PhoneNumberRepository::make();
         $this->scheduleService = ScheduleService::make();
         $this->clinicSubscriptionService = ClinicSubscriptionService::make();
     }
@@ -57,7 +54,6 @@ class ClinicService extends BaseService
             if (!isset($data['user'])
                 || !isset($data['address'])
                 || !isset($data['speciality_ids'])
-                || !isset($data['phone_numbers'])
             ) {
                 DB::commit();
                 return null;
@@ -77,8 +73,6 @@ class ClinicService extends BaseService
             $data['address']['addressable_type'] = User::class;
 
             $this->addressRepository->create($data['address']);
-
-            $this->phoneNumberRepository->insert($data['phone_numbers'], User::class, $user->id);
 
             $this->scheduleService->setDefaultClinicSchedule($clinic);
 
@@ -143,11 +137,6 @@ class ClinicService extends BaseService
 
             if (isset($data['speciality_ids'])) {
                 $clinic->specialities()->sync($data['speciality_ids']);
-            }
-
-            if (isset($data['phone_numbers'])) {
-                $user->phones()->delete();
-                $this->phoneNumberRepository->insert($data['phone_numbers'], User::class, $user->id);
             }
 
             DB::commit();

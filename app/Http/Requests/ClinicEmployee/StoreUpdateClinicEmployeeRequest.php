@@ -5,7 +5,6 @@ namespace App\Http\Requests\ClinicEmployee;
 use App\Enums\GenderEnum;
 use App\Models\ClinicEmployee;
 use App\Rules\LanguageShape;
-use App\Rules\UniquePhoneNumber;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -39,8 +38,6 @@ class StoreUpdateClinicEmployeeRequest extends FormRequest
                 'address' => 'array|nullable',
                 'address.name' => ['nullable', 'min:3', new LanguageShape()],
                 'address.city_id' => ['nullable', 'numeric', 'exists:cities,id'],
-                'phone_numbers' => 'array|required',
-                'phone_numbers.*' => ['required', 'string', 'unique:phone_numbers,phone', 'regex:/^07\d{9}$/',],
             ];
         }
 
@@ -57,8 +54,6 @@ class StoreUpdateClinicEmployeeRequest extends FormRequest
             'address' => 'array|nullable',
             'address.name' => ['nullable', 'min:3', new LanguageShape()],
             'address.city_id' => ['nullable', 'numeric', 'exists:cities,id'],
-            'phone_numbers' => 'array|nullable',
-            'phone_numbers.*' => ['required', 'string', 'regex:/^07\d{9}$/', new UniquePhoneNumber($userId),],
         ];
     }
 

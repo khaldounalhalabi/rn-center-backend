@@ -21,7 +21,6 @@ class CustomerController extends ApiController
             $this->relations = [
                 'currentClinicPatientProfile.media',
                 'user.address.city',
-                'user.phones',
                 'user.media',
                 'currentClinicPatientProfile',
                 'user',
@@ -32,7 +31,6 @@ class CustomerController extends ApiController
                 'user',
                 'user.address',
                 'user.address.city',
-                'user.phones',
                 'user.media',
             ];
 
@@ -98,7 +96,7 @@ class CustomerController extends ApiController
     public function getDoctorCustomers()
     {
         $data = $this->customerService->getDoctorCustomers([
-            'user', 'user.address', 'user.address.city', 'user.phones',
+            'user', 'user.address', 'user.address.city',
         ]);
 
         if ($data) {
