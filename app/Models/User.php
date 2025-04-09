@@ -223,4 +223,9 @@ class User extends Authenticatable implements JWTSubject
             get: fn($value, array $attributes) => preg_replace('/^0/', '+963', $this->phone),
         );
     }
+
+    public function isSecretary(): bool
+    {
+        return $this->hasRole(RolesPermissionEnum::SECRETARY['role']);
+    }
 }

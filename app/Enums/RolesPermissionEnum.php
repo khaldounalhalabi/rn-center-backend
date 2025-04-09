@@ -14,20 +14,21 @@ class RolesPermissionEnum
     ];
     //*************************//
 
-
     public const ALLROLES = [
         self::ADMIN['role'],
         self::DOCTOR['role'],
         self::CUSTOMER['role'],
+        self::SECRETARY['role'],
         //add-all-your-enums-roles-here
+
     ];
 
     public const ALL = [
         self::ADMIN,
         self::DOCTOR,
         self::CUSTOMER,
+        self::SECRETARY,
         //add-all-your-enums-here
-
 
     ];
 
@@ -42,6 +43,14 @@ class RolesPermissionEnum
     public const CUSTOMER = [
         'role' => 'customer',
         'permissions' => [],
+    ];
+    //*************************//
+
+    //**********SECRETARY***********//
+    const SECRETARY = [
+        'role' => 'secretary',
+        'permissions' => [
+        ],
     ];
     //*************************//
 }

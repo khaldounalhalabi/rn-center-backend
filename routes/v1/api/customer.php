@@ -7,8 +7,8 @@ Route::post('refresh', [v1\CustomerAuthController::class, 'refresh'])->name('ref
 Route::post('logout', [v1\CustomerAuthController::class, 'logout'])->name('logout');
 Route::post('update-user-data', [v1\CustomerAuthController::class, 'updateUserDetails'])->name('update.user.data');
 Route::get('me', [v1\CustomerAuthController::class, 'userDetails'])->name('me');
-Route::post('/fcm/store-token', [v1\AdminAuthController::class, 'storeFcmToken'])->name('fcm.storeToken');
-Route::get('/fcm/get-token', [v1\AdminAuthController::class, 'getUserFcmToken'])->name('fcm.getToken');
+Route::post('/fcm/store-token', [v1\CustomerAuthController::class, 'storeFcmToken'])->name('fcm.storeToken');
+Route::get('/fcm/get-token', [v1\CustomerAuthController::class, 'getUserFcmToken'])->name('fcm.getToken');
 
 Route::get('notifications', [v1\NotificationController::class, 'getUserNotification'])->name('notifications');
 Route::get('notifications/unread/count', [v1\NotificationController::class, 'unreadCount'])->name('notification.unread.count');

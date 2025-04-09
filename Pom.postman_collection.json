@@ -254,6 +254,441 @@
                     "response": []
                 }
             ]
+        },
+        {
+            "name": "secretary auth",
+            "item": [
+                {
+                    "name": "register",
+                    "event": [
+                        {
+                            "script": {
+                                "exec": [
+                                    "var jsonData = JSON.parse(responseBody);\r",
+                                    "pm.collectionVariables.set(\"token\", jsonData.data.token);"
+                                ],
+                                "type": "text/javascript"
+                            },
+                            "listen": "test"
+                        }
+                    ],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "{{locale}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}/secretary/register",
+                            "host": [
+                                "{{local}}/secretary/register"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "first_name",
+                                    "value": "secretary",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "last_name",
+                                    "value": "secretary",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "email",
+                                    "value": "secretary@email.com",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "password",
+                                    "value": "123456789",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "password_confirmation",
+                                    "value": "123456789",
+                                    "type": "text",
+                                    "description": ""
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "update info",
+                    "event": [
+                        {
+                            "script": {
+                                "exec": [
+                                    "var jsonData = JSON.parse(responseBody);\r",
+                                    "pm.collectionVariables.set(\"token\", jsonData.data.token);"
+                                ],
+                                "type": "text/javascript"
+                            },
+                            "listen": "secretary"
+                        }
+                    ],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "{{locale}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}/secretary/update-user-data",
+                            "host": [
+                                "{{local}}/secretary/update-user-data"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "first_name",
+                                    "value": "secretary",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "last_name",
+                                    "value": "secretary",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "email",
+                                    "value": "secretary@email.com",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "password",
+                                    "value": "123456789",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "password_confirmation",
+                                    "value": "123456789",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "fcm_token",
+                                    "value": "",
+                                    "type": "text",
+                                    "description": ""
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "login",
+                    "event": [
+                        {
+                            "script": {
+                                "exec": [
+                                    "var jsonData = JSON.parse(responseBody);\r",
+                                    "pm.collectionVariables.set(\"token\", jsonData.data.token);"
+                                ],
+                                "type": "text/javascript"
+                            },
+                            "listen": "test"
+                        }
+                    ],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}/secretary/login",
+                            "host": [
+                                "{{local}}/secretary/login"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "email",
+                                    "value": "secretary@email.com",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "password",
+                                    "value": "123456789",
+                                    "type": "text",
+                                    "description": ""
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "refresh",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}/secretary/refresh",
+                            "host": [
+                                "{{local}}/secretary/refresh"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": []
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "reset password request",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}/secretary/password-reset-request",
+                            "host": [
+                                "{{local}}/secretary/password-reset-request"
+                            ]
+                        },
+                        "body": {
+                            "mode": "urlencoded",
+                            "urlencoded": []
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "check reset password code",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}/secretary/check-reset-password-code",
+                            "host": [
+                                "{{local}}/secretary/check-reset-password-code"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "reset_password_code",
+                                    "value": "",
+                                    "type": "text",
+                                    "description": ""
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "reset password",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}/secretary/reset-password",
+                            "host": [
+                                "{{local}}/secretary/reset-password"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "reset_password_code",
+                                    "value": "",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "password",
+                                    "value": "12345678",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "password_confirmation",
+                                    "value": "12345678",
+                                    "type": "text",
+                                    "description": ""
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "logout",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}/secretary/logout",
+                            "host": [
+                                "{{local}}/secretary/logout"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": []
+                        }
+                    },
+                    "response": []
+                }
+            ]
         }
     ],
     "event": [],

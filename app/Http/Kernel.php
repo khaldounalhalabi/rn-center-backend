@@ -13,6 +13,7 @@ use App\Http\Middleware\GuestMiddleware;
 use App\Http\Middleware\MustAcceptContractMiddleware;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Http\Middleware\SecretaryOnly;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\TrustProxies;
 use App\Http\Middleware\ValidateSignature;
@@ -94,6 +95,7 @@ class Kernel extends HttpKernel
         'admin' => AdminOnly::class,
         'doctor' => DoctorOnly::class,
         'customer' => CustomerOnly::class,
+        'secretary' => SecretaryOnly::class,
         'guest-header' => GuestMiddleware::class,
         'contract' => MustAcceptContractMiddleware::class
     ];

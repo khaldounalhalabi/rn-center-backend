@@ -45,6 +45,18 @@ Route::prefix('doctor')
         Route::post('/resend-verification-code', 'resendVerificationCode')->name("resend.verification.code");
     });
 
+Route::prefix('secretary')
+    ->controller(v1\SecretaryAuthController::class)
+    ->name('doctor.')
+    ->group(function () {
+        Route::post('/login', 'login')->name("login");
+        Route::post('/password-reset-request', 'passwordResetRequest')->name("reset-password-request");
+        Route::post('/check-reset-password-code', 'checkPasswordResetCode')->name("check-reset-password-code");
+        Route::post('/reset-password', 'passwordReset')->name("password-reset");
+        Route::post('/verify', 'verifyUser')->name("verify");
+        Route::post('/resend-verification-code', 'resendVerificationCode')->name("resend.verification.code");
+    });
+
 Route::get('/specialities', [v1\SpecialityController::class, 'getOrderedByClinicsCount'])->name('speciality.index');
 Route::get('/service-categories', [v1\ServiceCategoryController::class, 'index'])->name('service.category.index');
 
