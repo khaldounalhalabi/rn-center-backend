@@ -5,10 +5,8 @@ namespace Database\Factories;
 use App\Enums\GenderEnum;
 use App\Enums\RolesPermissionEnum;
 use App\Models\Clinic;
-use App\Models\ClinicEmployee;
 use App\Models\Customer;
 use App\Models\User;
-use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Http\File;
 use Illuminate\Support\Str;
@@ -62,10 +60,5 @@ class UserFactory extends Factory
         return $this->afterCreating(function (User $user) {
             $user->assignRole(RolesPermissionEnum::ADMIN['role']);
         });
-    }
-
-    public function withClinicEmployees($count = 1): UserFactory
-    {
-        return $this->has(ClinicEmployee::factory($count));
     }
 }

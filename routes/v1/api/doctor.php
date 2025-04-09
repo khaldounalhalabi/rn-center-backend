@@ -2,12 +2,7 @@
 
 use App\Http\Controllers\API\v1;
 use App\Models\Clinic;
-use App\Models\ClinicEmployee;
-use App\Models\ClinicHoliday;
-use App\Models\Customer;
-use App\Models\Medicine;
 use App\Models\Schedule;
-use App\Models\Service;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/refresh', [v1\DoctorAuthController::class, 'refresh'])->name("refresh.token");
@@ -42,35 +37,17 @@ Route::get('/schedules', [v1\ScheduleController::class, 'getCurrentClinicSchedul
     ])->name('schedules.show');
 
 Route::get('clinic-holidays', [v1\ClinicHolidayController::class, 'getCurrentClinicHolidays'])->name('holidays');
-Route::apiResource('clinic-holidays', v1\ClinicHolidayController::class)
-    ->middleware([
-        'staff_can:manage-holidays,' . ClinicHoliday::class,
-    ])->except(['index'])->names('holidays');
+Route::apiResource('clinic-holidays', v1\ClinicHolidayController::class)->except(['index'])->names('holidays');
 
 Route::get('services/names', [v1\ServiceController::class, 'getClinicServicesNames'])->name('services.names');
 Route::get('services', [v1\ServiceController::class, 'index'])->name('service.index');
-Route::apiResource('services', v1\ServiceController::class)
-    ->middleware([
-        'staff_can:manage-services,' . Service::class,
-    ])->except(['index'])->names('services');
+Route::apiResource('services', v1\ServiceController::class)->except(['index'])->names('services');
 
 Route::get('customers', [v1\CustomerController::class, 'getDoctorCustomers'])->name('customers.index');
-Route::get('customers/{customerId}', [v1\CustomerController::class, 'show'])
-    ->middleware([
-        'staff_can:manage-patients,' . Customer::class,
-    ])->name('customers.show');
-Route::post('customers', [v1\CustomerController::class, 'doctorAddCustomer'])
-    ->middleware([
-        'staff_can:manage-patients,' . Customer::class,
-    ])->name('customers.store');
-Route::put('customers/{customerId}', [v1\CustomerController::class, 'doctorUpdateCustomer'])
-    ->middleware([
-        'staff_can:manage-patients,' . Customer::class,
-    ])->name('customers.update');
-Route::delete('customers/{customerId}', [v1\CustomerController::class, 'doctorDeleteCustomer'])
-    ->middleware([
-        'staff_can:manage-patients,' . Customer::class,
-    ])->name('customers.delete');
+Route::get('customers/{customerId}', [v1\CustomerController::class, 'show'])->name('customers.show');
+Route::post('customers', [v1\CustomerController::class, 'doctorAddCustomer'])->name('customers.store');
+Route::put('customers/{customerId}', [v1\CustomerController::class, 'doctorUpdateCustomer'])->name('customers.update');
+Route::delete('customers/{customerId}', [v1\CustomerController::class, 'doctorDeleteCustomer'])->name('customers.delete');
 
 Route::get('/appointments/all/group-by-month', [v1\AppointmentController::class, 'getAppointmentsCountInMonth'])->name('appointments.all.group.by.month');
 Route::get('/appointments/completed/group-by-month', [v1\AppointmentController::class, 'getAppointmentsCompletedCountInMonth'])->name('appointments.completed.group.by.month');
@@ -83,26 +60,7 @@ Route::get('/customers/{customerId}/prescriptions', [v1\PrescriptionController::
 Route::apiResource('/prescriptions', v1\PrescriptionController::class)->except(['index'])->names('prescriptions');
 
 Route::get('medicines', [v1\MedicineController::class, 'index'])->name('medicines.index');
-Route::apiResource('medicines', v1\MedicineController::class)
-    ->except(['index'])
-    ->middleware([
-        'staff_can:manage-medicines,' . Medicine::class,
-    ])->names('medicines');
-
-Route::put('clinic-employees/{clinicEmployeeId}/update-permissions', [v1\ClinicEmployeeController::class, 'updateEmployeePermissions'])
-    ->middleware([
-        'staff_can:manage-employees,' . ClinicEmployee::class,
-    ])->name('clinic-employee.permissions-update');
-
-Route::get('clinic-employees', [v1\ClinicEmployeeController::class, 'index'])
-    ->name('clinic.employees.index');
-
-Route::apiResource('/clinic-employees', v1\ClinicEmployeeController::class)
-    ->except(['index'])
-    ->middleware([
-        'staff_can:manage-employees,' . ClinicEmployee::class,
-    ])->names('clinic.employees');
-
+Route::apiResource('medicines', v1\MedicineController::class)->except(['index'])->names('medicines');
 
 Route::get('/appointments/all', [v1\AppointmentController::class, 'all'])->name('appointments.all');
 Route::get('/customers/{customerId}/appointments', [v1\AppointmentController::class, 'getByCustomer'])->name('customers.appointments');
@@ -112,7 +70,6 @@ Route::post('/appointments/{appointmentId}/toggle-status', [v1\AppointmentContro
 Route::get('/appointment-logs/{appointmentLogId}', [v1\AppointmentLogController::class, 'show'])->name('appointment.log.show');
 Route::get('/appointments/{appointmentId}/logs', [v1\AppointmentLogController::class, 'getAppointmentLogs'])->name('appointments.logs');
 Route::get('/customers/{customerId}/last-appointment', [v1\AppointmentController::class, 'getCustomerLastAppointment'])->name('customers.clinics.last-appointment');
-Route::apiResource('/appointments', v1\AppointmentController::class)
-    ->except(['destroy'])->names('appointments');
+Route::apiResource('/appointments', v1\AppointmentController::class)->except(['destroy'])->names('appointments');
 
 Route::get('/statistics/index-page', [v1\StatisticsController::class, 'doctorIndexStatistics'])->name('doctor.index.statistics');

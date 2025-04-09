@@ -20,9 +20,8 @@ class DoctorOnly
     {
         $user = auth()->user();
         $isDoctor = $user?->isDoctor();
-        $isEmployee = $user?->isClinicEmployee();
 
-        if ((!$user) || (!$isDoctor && !$isEmployee)) {
+        if ((!$user) || (!$isDoctor)) {
             return $this->apiResponse(null, ApiController::STATUS_UNAUTHORIZED, __('site.unauthorized_user'));
         }
 

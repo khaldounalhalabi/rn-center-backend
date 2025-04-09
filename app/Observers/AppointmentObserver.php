@@ -6,7 +6,6 @@ use App\Enums\AppointmentStatusEnum;
 use App\Enums\AppointmentTypeEnum;
 use App\Enums\RolesPermissionEnum;
 use App\Jobs\UpdateAppointmentRemainingTimeJob;
-use App\Managers\AppointmentManager;
 use App\Models\Appointment;
 use App\Notifications\Clinic\NewOnlineAppointmentNotification;
 use App\Notifications\Customer\CustomerAppointmentChangedNotification;
@@ -15,7 +14,6 @@ use App\Notifications\RealTime\BalanceChangeNotification;
 use App\Notifications\RealTime\NewAppointmentNotification;
 use App\Repositories\AppointmentRepository;
 use App\Services\FirebaseServices;
-use Illuminate\Support\Collection;
 
 class AppointmentObserver
 {
@@ -44,7 +42,7 @@ class AppointmentObserver
                     'appointment' => $appointment,
                 ])
                 ->setMethod(FirebaseServices::MANY)
-                ->setTo([$appointment->clinic?->user?->id, ...$appointment->clinic?->clinicEmployees?->pluck('user_id')?->toArray() ?? []])
+                ->setTo([$appointment->clinic?->user?->id])
                 ->setNotification(NewOnlineAppointmentNotification::class)
                 ->send();
         }
@@ -52,7 +50,7 @@ class AppointmentObserver
         FirebaseServices::make()
             ->setData([])
             ->setMethod(FirebaseServices::MANY)
-            ->setTo([$appointment->clinic?->user?->id, ...$appointment->clinic?->clinicEmployees?->pluck('user_id')?->toArray() ?? []])
+            ->setTo([$appointment->clinic?->user?->id])
             ->setNotification(NewAppointmentNotification::class)
             ->send();
 
@@ -87,7 +85,7 @@ class AppointmentObserver
                 ->setData([
                     'appointment_id' => $appointment,
                 ])->setMethod(FirebaseServices::MANY)
-                ->setTo([$appointment->clinic->user->id, ...$appointment->clinic?->clinicEmployees?->pluck('user_id')?->toArray() ?? []])
+                ->setTo([$appointment->clinic->user->id])
                 ->setNotification(NewOnlineAppointmentNotification::class)
                 ->send();
         }
@@ -121,7 +119,6 @@ class AppointmentObserver
             ])->setMethod(FirebaseServices::MANY)
             ->setTo([
                 $appointment->clinic?->user?->id,
-                ...($appointment->clinic?->clinicEmployees?->pluck('user_id')?->toArray() ?? []),
             ])->setNotification(AppointmentChangeNotification::class)
             ->send();
     }
@@ -164,7 +161,7 @@ class AppointmentObserver
         FirebaseServices::make()
             ->setData([])
             ->setMethod(FirebaseServices::MANY)
-            ->setTo([$appointment->clinic?->user?->id, ...$appointment->clinic?->clinicEmployees?->pluck('user_id')?->toArray() ?? []])
+            ->setTo([$appointment->clinic?->user?->id])
             ->setNotification(BalanceChangeNotification::class)
             ->send();
 

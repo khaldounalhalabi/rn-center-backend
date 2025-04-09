@@ -277,11 +277,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
             || auth()->user()?->getClinicId() == $this->id;
     }
 
-    public function clinicEmployees(): HasMany
-    {
-        return $this->hasMany(ClinicEmployee::class);
-    }
-
     public function scopeAvailable(Builder $query): Builder
     {
         return $query->where('status', ClinicStatusEnum::ACTIVE->value);

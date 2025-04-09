@@ -21,7 +21,6 @@ class UserResource extends BaseResource
             'customer' => new CustomerResource($this->whenLoaded('customer')),
             'permissions' => new PermissionCollection($this->whenLoaded('permissions')),
             'clinic' => new ClinicResource($this->whenLoaded('clinic')),
-            'clinicEmployees' => ClinicEmployeeResource::collection($this->whenLoaded('clinicEmployees')),
             $this->mergeWhen($this->relationLoaded('roles'),
                 fn() => [
                     'role' => $this->roles->first()->name,

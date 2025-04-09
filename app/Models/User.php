@@ -141,7 +141,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function isClinic(): bool
     {
-        return $this->isDoctor() || $this->isClinicEmployee();
+        return $this->isDoctor();
     }
 
     public function isDoctor(): bool
@@ -149,21 +149,9 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasRole(RolesPermissionEnum::DOCTOR['role']) && $this?->clinic?->exists();
     }
 
-    public function isClinicEmployee(): bool
-    {
-        return $this->hasRole(RolesPermissionEnum::CLINIC_EMPLOYEE['role']) && $this?->clinicEmployee?->clinic?->exists();
-    }
-
     public function getClinicId(): ?int
     {
-        return $this->isDoctor()
-            ? Clinic::withoutGlobalScopes()->where('user_id', $this->id)->first()?->id
-            : ClinicEmployee::where('user_id', $this->id)->first()?->clinic_id;
-    }
-
-    public function clinicEmployee(): HasOne
-    {
-        return $this->hasOne(ClinicEmployee::class);
+        return Clinic::withoutGlobalScopes()->where('user_id', $this->id)->first()?->id;
     }
 
     /**
@@ -187,8 +175,6 @@ class User extends Authenticatable implements JWTSubject
     {
         if (auth()?->user()?->isDoctor()) {
             return $this->clinic->load($relations)->loadCount($countable);
-        } elseif (auth()?->user()?->isClinicEmployee()) {
-            return $this->clinicEmployee->clinic->load($relations)->loadCount($countable);
         } else {
             return null;
         }

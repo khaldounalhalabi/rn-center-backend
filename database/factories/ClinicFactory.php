@@ -5,7 +5,6 @@ namespace Database\Factories;
 use App\Enums\WeekDayEnum;
 use App\Models\Appointment;
 use App\Models\Clinic;
-use App\Models\ClinicEmployee;
 use App\Models\ClinicHoliday;
 use App\Models\Medicine;
 use App\Models\PatientProfile;
@@ -114,10 +113,5 @@ class ClinicFactory extends Factory
     public function withPatientProfiles($count = 1): ClinicFactory
     {
         return $this->has(PatientProfile::factory($count));
-    }
-
-    public function withClinicEmployees($count = 1): ClinicFactory
-    {
-        return $this->has(ClinicEmployee::factory($count));
     }
 }

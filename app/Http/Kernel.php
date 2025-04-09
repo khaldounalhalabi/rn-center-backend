@@ -5,7 +5,6 @@ namespace App\Http;
 use App\Http\Middleware\AcceptedLanguagesMiddleware;
 use App\Http\Middleware\AdminOnly;
 use App\Http\Middleware\Authenticate;
-use App\Http\Middleware\ClinicEmployeeHasPermission;
 use App\Http\Middleware\CustomerMustVerifyEmail;
 use App\Http\Middleware\CustomerOnly;
 use App\Http\Middleware\DoctorOnly;
@@ -94,7 +93,6 @@ class Kernel extends HttpKernel
         'verified-customer' => CustomerMustVerifyEmail::class,
         'admin' => AdminOnly::class,
         'doctor' => DoctorOnly::class,
-        'staff_can' => ClinicEmployeeHasPermission::class,
         'customer' => CustomerOnly::class,
         'guest-header' => GuestMiddleware::class,
         'contract' => MustAcceptContractMiddleware::class
