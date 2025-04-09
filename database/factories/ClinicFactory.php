@@ -8,13 +8,11 @@ use App\Models\Clinic;
 use App\Models\ClinicEmployee;
 use App\Models\ClinicHoliday;
 use App\Models\Medicine;
-use App\Models\Offer;
 use App\Models\PatientProfile;
 use App\Models\Prescription;
 use App\Models\Schedule;
 use App\Models\Service;
 use App\Models\Speciality;
-use App\Models\SystemOffer;
 use App\Models\User;
 use App\Serializers\Translatable;
 use App\Traits\FileHandler;
@@ -113,11 +111,6 @@ class ClinicFactory extends Factory
         return $this->has(Medicine::factory($count));
     }
 
-    public function withOffers($count = 1): ClinicFactory
-    {
-        return $this->has(Offer::factory($count));
-    }
-
     public function withPatientProfiles($count = 1): ClinicFactory
     {
         return $this->has(PatientProfile::factory($count));
@@ -126,10 +119,5 @@ class ClinicFactory extends Factory
     public function withClinicEmployees($count = 1): ClinicFactory
     {
         return $this->has(ClinicEmployee::factory($count));
-    }
-
-    public function withSystemOffers($count = 1): ClinicFactory
-    {
-        return $this->has(SystemOffer::factory($count));
     }
 }

@@ -4,18 +4,13 @@ namespace App\Managers;
 
 use App\Enums\AppointmentStatusEnum;
 use App\Enums\AppointmentTypeEnum;
-use App\Enums\OfferTypeEnum;
 use App\Models\Appointment;
 use App\Models\Clinic;
-use App\Models\Offer;
-use App\Models\SystemOffer;
 use App\Repositories\AppointmentLogRepository;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\ClinicRepository;
-use App\Repositories\OfferRepository;
 use App\Repositories\PatientProfileRepository;
 use App\Repositories\ServiceRepository;
-use App\Repositories\SystemOfferRepository;
 use Illuminate\Support\Facades\Log;
 
 class AppointmentManager
@@ -33,24 +28,10 @@ class AppointmentManager
         }
         $data['appointment_sequence'] = $this->handleAppointmentSequence($data, $clinic) ?? null;
         $servicePrice = $this->getServiceCost($data);
-        [$clinicOffersTotal, $clinicOffersIds, $systemOffersTotal, $systemOffersIds] = $this->handleAppointmentOffers($data, $clinic->appointment_cost);
 
-        if ($data['type'] != AppointmentTypeEnum::ONLINE->value) {
-            $systemOffersIds = [];
-            $systemOffersTotal = 0;
-        }
-
-        $data['total_cost'] = $this->calculateAppointmentTotalCost($data, $servicePrice, $systemOffersTotal, $clinicOffersTotal, $clinic);
+        $data['total_cost'] = $this->calculateAppointmentTotalCost($data, $servicePrice, $clinic);
 
         $appointment = AppointmentRepository::make()->create($data);
-
-        if (isset($systemOffersIds)) {
-            $appointment->systemOffers()->sync($systemOffersIds);
-            $appointment->customer->systemOffers()->sync($systemOffersIds);
-        }
-        if (isset($clinicOffersIds)) {
-            $appointment->offers()->sync($clinicOffersIds);
-        }
 
         $this->logAppointment($data, $appointment);
 
@@ -101,53 +82,7 @@ class AppointmentManager
         }
     }
 
-    private function handleAppointmentOffers(array $data, $appointmentCost, ?Appointment $appointment = null): array
-    {
-        $systemOffersTotal = 0;
-        $systemOffersIds = [];
-        if (isset($data['system_offers'])) {
-            $systemOffers = SystemOfferRepository::make()
-                ->getByIds($data['system_offers'], $data['clinic_id'] ?? $appointment?->clinic_id);
-            $systemOffersTotal = $systemOffers
-                ->sum(fn(SystemOffer $offer) => $offer->type == OfferTypeEnum::FIXED->value
-                    ? $offer->amount
-                    : ($offer->amount * $appointmentCost) / 100
-                );
-            $systemOffersIds = $systemOffers->pluck('id')->toArray();
-        } elseif ($appointment) {
-            $systemOffersTotal = $appointment->getSystemOffersTotal();
-            $systemOffersIds = null;
-        }
-
-        $clinicOffersTotal = 0;
-        $clinicOffersIds = [];
-        if (isset($data['offers'])) {
-            $appointmentCost = $appointmentCost
-                - (isset($data['system_offers'])
-                    ? $systemOffersTotal
-                    : ($appointment?->getSystemOffersTotal() ?? 0));
-            $clinicOffers = OfferRepository::make()
-                ->getByIds($data['offers'], $data['clinic_id'] ?? $appointment?->clinic_id);
-            $clinicOffersTotal = $clinicOffers
-                ->sum(fn(Offer $offer) => $offer->type == OfferTypeEnum::FIXED->value
-                    ? $offer->value
-                    : ($offer->value * $appointmentCost) / 100
-                );
-            $clinicOffersIds = $clinicOffers->pluck('id')->toArray();
-        } elseif ($appointment) {
-            $clinicOffersTotal = $appointment->getClinicOfferTotal();
-            $clinicOffersIds = null;
-        }
-
-        return [
-            $clinicOffersTotal,
-            $clinicOffersIds,
-            $systemOffersTotal,
-            $systemOffersIds,
-        ];
-    }
-
-    private function calculateAppointmentTotalCost(array $data, $servicePrice, $systemOffersTotal, $clinicOffersTotal, Clinic $clinic, ?Appointment $appointment = null)
+    private function calculateAppointmentTotalCost(array $data, $servicePrice, Clinic $clinic, ?Appointment $appointment = null)
     {
         if ((isset($data['is_revision']) && $data['is_revision']) || $appointment?->is_revision) {
             $appointmentCost = 0;
@@ -158,7 +93,7 @@ class AppointmentManager
 
         return $servicePrice
             + ($data['extra_fees'] ?? ($appointment?->extra_fees ?? 0))
-            + ($appointmentCost - $systemOffersTotal - $clinicOffersTotal)
+            + ($appointmentCost)
             - ($data['discount'] ?? ($appointment?->discount ?? 0));
     }
 
@@ -212,18 +147,8 @@ class AppointmentManager
         $clinic = $appointment->clinic;
         $this->logAppointment($data, $appointment, true);
         $servicePrice = $this->getServiceCost($data);
-        [$clinicOffersTotal, $clinicOffersIds, $systemOffersTotal, $systemOffersIds] = $this->handleAppointmentOffers($data, $clinic->appointment_cost, $appointment);
-        $data['total_cost'] = $this->calculateAppointmentTotalCost($data, $servicePrice, $systemOffersTotal, $clinicOffersTotal, $clinic, $appointment);
+        $data['total_cost'] = $this->calculateAppointmentTotalCost($data, $servicePrice, $clinic, $appointment);
         $appointment = AppointmentRepository::make()->update($data, $appointment);
-
-        if (isset($systemOffersIds)) {
-            $appointment->systemOffers()->sync($systemOffersIds);
-            $appointment->customer->systemOffers()->detach();
-            $appointment->customer->systemOffers()->sync($systemOffersIds);
-        }
-        if (isset($clinicOffersIds)) {
-            $appointment->offers()->sync($clinicOffersIds);
-        }
 
         return $appointment->load($relationships)->loadCount($countable);
     }

@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\AppointmentStatusEnum;
-use App\Enums\OfferTypeEnum;
 use App\Interfaces\ActionsMustBeAuthorized;
 use App\Notifications\Customer\AppointmentRemainingTimeNotification;
 use App\Services\FirebaseServices;
@@ -308,34 +307,6 @@ class Appointment extends Model implements ActionsMustBeAuthorized
     public function scopeValidNotEnded(Builder $query): Builder
     {
         return $query->whereIn('status', [AppointmentStatusEnum::BOOKED->value, AppointmentStatusEnum::CHECKIN->value]);
-    }
-
-    public function systemOffers(): BelongsToMany
-    {
-        return $this->belongsToMany(SystemOffer::class, 'appointment_system_offers');
-    }
-
-    public function offers(): BelongsToMany
-    {
-        return $this->belongsToMany(Offer::class, 'appointment_offers');
-    }
-
-    public function getClinicOfferTotal()
-    {
-        return $this->offers
-            ->sum(fn(Offer $offer) => $offer->type == OfferTypeEnum::FIXED->value
-                ? $offer->amount
-                : ($offer->amount * ($this->clinic->appointment_cost - $this->getSystemOffersTotal())) / 100
-            );
-    }
-
-    public function getSystemOffersTotal()
-    {
-        return $this->systemOffers
-            ->sum(fn(SystemOffer $offer) => $offer->type == OfferTypeEnum::FIXED->value
-                ? $offer->value
-                : ($offer->value * $this->clinic->appointment_cost) / 100
-            );
     }
 
     public function canShow(): bool

@@ -6,7 +6,6 @@ use App\Models\ClinicEmployee;
 use App\Models\ClinicHoliday;
 use App\Models\Customer;
 use App\Models\Medicine;
-use App\Models\Offer;
 use App\Models\Schedule;
 use App\Models\Service;
 use Illuminate\Support\Facades\Route;
@@ -54,13 +53,6 @@ Route::apiResource('services', v1\ServiceController::class)
     ->middleware([
         'staff_can:manage-services,' . Service::class,
     ])->except(['index'])->names('services');
-
-Route::get('offers', [v1\OfferController::class, 'index'])->name('offer.index');
-Route::apiResource('offers', v1\OfferController::class)
-    ->except(['index'])
-    ->middleware([
-        'staff_can:manage-offers,' . Offer::class,
-    ])->names('offers');
 
 Route::get('customers', [v1\CustomerController::class, 'getDoctorCustomers'])->name('customers.index');
 Route::get('customers/{customerId}', [v1\CustomerController::class, 'show'])

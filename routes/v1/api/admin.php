@@ -16,7 +16,6 @@ Route::get('/notifications/{notificationId}/mark-as-read', [v1\NotificationContr
 
 Route::apiResource('/users', v1\UserController::class)->except(['store'])->names('users');
 
-Route::get('system-offers/{systemOfferId}/clinics', [v1\ClinicController::class, 'getBySystemOffer'])->name('system.offers.clinics');
 Route::get('/clinics/{clinicId}/toggle-status', [v1\ClinicController::class, 'toggleClinicStatus'])->name('clinic.status.toggle');
 Route::apiResource('/clinics', v1\ClinicController::class)->names('clinics');
 
@@ -57,13 +56,9 @@ Route::apiResource('/medicines', v1\MedicineController::class)->names('medicines
 Route::delete('/prescriptions/medicine-data/{medicineDataId}', [v1\PrescriptionController::class, 'removeMedicine'])->name('prescription.medicine.remove');
 Route::apiResource('prescriptions', v1\PrescriptionController::class)->names('prescriptions');
 
-Route::apiResource('offers', v1\OfferController::class)->names('offers');
-
 Route::apiResource('/patient-profiles', v1\PatientProfileController::class)->names('patient.profiles');
 
 Route::get('transactions/summary', [v1\TransactionController::class, 'summary'])->name('transaction.summary');
 Route::apiResource('/transactions', v1\TransactionController::class)->names('transactions');
-
-Route::apiResource('/system-offers', v1\SystemOfferController::class)->names('system.offers');
 
 Route::get('/statistics/index', [v1\StatisticsController::class, 'adminStatistics'])->name('statistics.index');

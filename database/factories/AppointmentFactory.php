@@ -9,7 +9,6 @@ use App\Models\AppointmentLog;
 use App\Models\Clinic;
 use App\Models\Customer;
 use App\Models\Service;
-use App\Models\SystemOffer;
 use App\Traits\FileHandler;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -61,10 +60,5 @@ class AppointmentFactory extends Factory
                 'happen_in' => now(),
             ]);
         });
-    }
-
-    public function withSystemOffers($count = 1): AppointmentFactory
-    {
-        return $this->has(SystemOffer::factory($count));
     }
 }

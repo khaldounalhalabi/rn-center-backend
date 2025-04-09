@@ -113,11 +113,6 @@ class Customer extends Model implements ActionsMustBeAuthorized
         return auth()->user()?->isAdmin();
     }
 
-    public function systemOffers(): BelongsToMany
-    {
-        return $this->belongsToMany(SystemOffer::class, 'customer_system_offers');
-    }
-
     public function validAppointments(): HasMany
     {
         return $this->hasMany(Appointment::class)

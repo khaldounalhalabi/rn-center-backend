@@ -8,7 +8,6 @@ use App\Models\ClinicEmployee;
 use App\Models\ClinicHoliday;
 use App\Models\Customer;
 use App\Models\Medicine;
-use App\Models\Offer;
 use App\Models\Schedule;
 use App\Models\Service;
 use App\Models\Transaction;
@@ -58,7 +57,6 @@ class RolesPermissionEnum
             'manage-schedules' => Schedule::class,
             'manage-holidays' => ClinicHoliday::class,
             'manage-services' => Service::class,
-            'manage-offers' => Offer::class,
             'manage-patients' => Customer::class,
             'manage-medicines' => Medicine::class,
             'manage-appointments' => Appointment::class,

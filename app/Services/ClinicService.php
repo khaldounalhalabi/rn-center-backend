@@ -179,11 +179,6 @@ class ClinicService extends BaseService
         return $clinic->status;
     }
 
-    public function getBySystemOffer($systemOfferId, array $relations = [], array $countable = []): ?array
-    {
-        return $this->repository->getBySystemOffer($systemOfferId, $relations, $countable);
-    }
-
     public function getOnlineBySpecialityId($specialityId, array $relations = [], array $countable = []): ?array
     {
         return $this->repository->getOnlineClinicsBySpeciality($specialityId, $relations, $countable);

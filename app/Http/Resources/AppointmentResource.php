@@ -39,8 +39,6 @@ class AppointmentResource extends BaseResource
             'clinic' => new ClinicResource($this->whenLoaded('clinic')),
             'service' => new ServiceResource($this->whenLoaded('service')),
             'appointment_logs' => AppointmentLogResource::collection($this->whenLoaded('appointmentLogs')),
-            'system_offers' => SystemOfferResource::collection($this->whenLoaded('systemOffers')),
-            'offers' => OfferResource::collection($this->whenLoaded('offers')),
             'last_booked_log' => new AppointmentLogResource($this->whenLoaded('lastBookedLog')),
             'last_check_in_log' => new AppointmentLogResource($this->whenLoaded('lastCheckinLog')),
             'last_check_out_log' => new AppointmentLogResource($this->whenLoaded('lastCheckoutLog')),

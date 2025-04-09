@@ -36,8 +36,6 @@ class ClinicResource extends BaseResource
             'services' => ServiceResource::collection($this->whenLoaded('services')),
             'appointments' => AppointmentResource::collection($this->whenLoaded('appointments')),
             'work_gallery' => MediaResource::collection($this->whenLoaded('media')),
-            'offers' => OfferResource::collection($this->whenLoaded('offers')),
-            'systemOffers' => SystemOfferResource::collection($this->whenLoaded('systemOffers')),
 
             $this->mergeWhen(auth()?->user()?->isAdmin() || auth()?->user()?->isClinic(), [
                 'total_appointments' => $this->whenCounted('appointments'),

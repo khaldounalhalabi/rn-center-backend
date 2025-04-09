@@ -248,11 +248,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
         return $this->hasMany(Prescription::class);
     }
 
-    public function offers(): HasMany
-    {
-        return $this->hasMany(Offer::class);
-    }
-
     public function patientProfiles(): HasMany
     {
         return $this->hasMany(PatientProfile::class);
@@ -295,11 +290,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
     public function isAvailable(): bool
     {
         return $this->status == ClinicStatusEnum::ACTIVE->value;
-    }
-
-    public function systemOffers(): BelongsToMany
-    {
-        return $this->belongsToMany(SystemOffer::class, 'clinic_system_offers');
     }
 
     public function balance(): MorphOne

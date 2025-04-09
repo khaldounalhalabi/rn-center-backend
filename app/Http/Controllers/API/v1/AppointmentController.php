@@ -21,11 +21,11 @@ class AppointmentController extends ApiController
         $this->appointmentService = AppointmentService::make();
 
         if (auth()->user()?->isClinic()) {
-            $this->relations = ['customer.user', 'service', 'systemOffers', 'offers'];
+            $this->relations = ['customer.user', 'service'];
         } elseif (auth()->user()?->isCustomer()) {
-            $this->relations = ['service', 'systemOffers', 'offers', 'clinic',];
+            $this->relations = ['service', 'clinic',];
         } else {
-            $this->relations = ['clinic', 'clinic.user', 'customer.user', 'service', 'systemOffers', 'offers'];
+            $this->relations = ['clinic', 'clinic.user', 'customer.user', 'service'];
         }
     }
 

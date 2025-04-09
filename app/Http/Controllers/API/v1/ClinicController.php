@@ -137,16 +137,6 @@ class ClinicController extends ApiController
         return $this->noData(null);
     }
 
-    public function getBySystemOffer($systemOfferId)
-    {
-        $data = $this->clinicService->getBySystemOffer($systemOfferId, $this->indexRelations, $this->countable);
-        if ($data) {
-            return $this->apiResponse(ClinicResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'));
-        }
-
-        return $this->noData();
-    }
-
     public function agreeOnContract()
     {
         $result = auth()?->user()?->clinic?->update(['agreed_on_contract' => true]);
