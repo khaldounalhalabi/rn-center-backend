@@ -5,20 +5,17 @@ namespace App\Models;
 use App\Enums\AppointmentStatusEnum;
 use App\Interfaces\ActionsMustBeAuthorized;
 use App\Traits\HasAbilities;
-use Illuminate\Database\Eloquent\Builder;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
- * @property PatientProfile patient_profiles
- * @property Appointment    appointments
- * @property string         mother_full_name
- * @property string         medical_condition
- * @property int            user_id
+ * @property int    user_id
+ * @property Carbon birth_date
+ * @property string blood_group
  */
 class Customer extends Model implements ActionsMustBeAuthorized
 {
@@ -27,9 +24,12 @@ class Customer extends Model implements ActionsMustBeAuthorized
 
     protected $fillable = [
         'user_id',
+        'birth_date',
+        'blood_group',
     ];
     protected $casts = [
         'created_at' => 'datetime',
+        'birth_date' => 'datetime',
     ];
 
     public static function authorizedActions(): array
@@ -48,6 +48,9 @@ class Customer extends Model implements ActionsMustBeAuthorized
         return [
             'user' => [
                 'email',
+                'first_name',
+                'last_name',
+                'phone'
             ],
         ];
     }

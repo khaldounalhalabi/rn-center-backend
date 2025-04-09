@@ -14,6 +14,8 @@ return new class () extends Migration {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $table->date('birth_date');
+            $table->string('blood_group')->nullable();
             $table->timestamps();
             $table->index(['created_at']);
         });

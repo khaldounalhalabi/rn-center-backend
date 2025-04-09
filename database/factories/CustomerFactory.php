@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\BloodGroupEnum;
 use App\Models\Appointment;
 use App\Models\PatientProfile;
 use App\Models\Prescription;
@@ -21,6 +22,8 @@ class CustomerFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
+            'birth_date' => fake()->date(),
+            'blood_group' => fake()->randomElement(BloodGroupEnum::getAllValues())
         ];
     }
 
