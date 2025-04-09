@@ -108,7 +108,7 @@ class ApiResponse implements JsonSerializable
                 return $this;
             } elseif ($item instanceof Model) {
                 $modelName = class_basename(get_class($item));
-                $resourceName = "\\App\\Http\\Resources\\v1\\{$modelName}Resource";
+                $resourceName = "\\App\\Http\\Resources\\{$modelName}Resource";
                 if (class_exists($resourceName)) {
                     $this->data = $resourceName::collection($data);
                     $this->paginationData = $this->formatPaginateData($data);
@@ -119,7 +119,7 @@ class ApiResponse implements JsonSerializable
 
         if ($data instanceof Model) {
             $modelName = class_basename(get_class($data));
-            $resourceName = "\\App\\Http\\Resources\\v1\\{$modelName}Resource";
+            $resourceName = "\\App\\Http\\Resources\\{$modelName}Resource";
             if (class_exists($resourceName)) {
                 $this->data = $resourceName::make($data);
                 return $this;

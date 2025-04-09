@@ -25,7 +25,7 @@ class AuthRegisterRequest extends FormRequest
     public function rules(): array
     {
         $additional = [];
-        if ($this->fullUrl() == route('api.v1.patient.register')) {
+        if ($this->fullUrl() == route('public.customer.register')) {
             $additional = [
                 'birth_date' => 'required|date|date_format:Y-m-d',
                 'blood_group' => 'nullable|string|' . Rule::in(BloodGroupEnum::getAllValues())
