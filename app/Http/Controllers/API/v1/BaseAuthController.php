@@ -42,7 +42,7 @@ class BaseAuthController extends ApiController
         //login method and this data will be stored in the users table
         $result = $this->userService->login($request->validated(), $this->role, $this->relations);
         if (!$result || !is_array($result)) {
-            return rest()->message(__('site.credentials_not_match_records'))->send();
+            return rest()->message(__('site.credentials_not_match_records'))->notAuthorized()->send();
         }
 
         [$user, $token, $refreshToken] = $result;
