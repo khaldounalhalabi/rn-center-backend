@@ -96,7 +96,7 @@ class AppointmentRepository extends BaseRepository
                         'appointment_id' => $appointment->id,
                         'actor_id' => auth()->user()?->id,
                         'affected_id' => $data['customer_id'] ?? $appointment->customer_id,
-                        'event' => "appointment status has been changed to {$data['status']} in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->fullName,
+                        'event' => "appointment status has been changed to {$data['status']} in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->full_name,
                     ]);
                 }
             });

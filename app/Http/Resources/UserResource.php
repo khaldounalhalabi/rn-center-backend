@@ -14,6 +14,7 @@ class UserResource extends BaseResource
             'id' => $this->id,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
+            'full_name' => $this->full_name,
             'email' => $this->email,
             'phone' => $this->phone,
             'phone_verified_at' => $this->phone_verified_at?->format('Y-m-d H:i:s'),

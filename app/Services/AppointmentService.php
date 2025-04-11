@@ -83,7 +83,7 @@ class AppointmentService extends BaseService
             'appointment_id' => $appointment->id,
             'actor_id' => auth()->user()->id,
             'affected_id' => $data['customer_id'] ?? $appointment->customer_id,
-            'event' => "appointment status has been changed to {$data['status']} in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->fullName,
+            'event' => "appointment status has been changed to {$data['status']} in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->full_name,
         ]);
 
         return $appointment;
@@ -159,7 +159,7 @@ class AppointmentService extends BaseService
             'appointment_id' => $appointment->id,
             'actor_id' => auth()->user()->id,
             'affected_id' => $appointment->customer_id,
-            'event' => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->fullName,
+            'event' => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->full_name,
         ]);
         return $appointment;
     }
@@ -239,7 +239,7 @@ class AppointmentService extends BaseService
                 'appointment_id' => $appointment->id,
                 'actor_id' => auth()->user()->id,
                 'affected_id' => $appointment->customer_id,
-                'event' => "appointment has been cancelled in " . now()->format('Y-m-d H:i:s') . " By The Patient : " . auth()->user()?->fullName . " With Id : " . auth()?->user()?->customer?->id,
+                'event' => "appointment has been cancelled in " . now()->format('Y-m-d H:i:s') . " By The Patient : " . auth()->user()?->full_name . " With Id : " . auth()?->user()?->customer?->id,
             ]);
             return $appointment;
         }

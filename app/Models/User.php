@@ -27,7 +27,7 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
  * @property Carbon      updated_at
  * @property Carbon|null phone_verified_at
  * @property string      gender
- * @property string      fullName
+ * @property string      full_name
  * @mixin Builder
  */
 class User extends Authenticatable implements JWTSubject

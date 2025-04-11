@@ -203,7 +203,7 @@ class BaseAuthController extends ApiController
     public function getUserFcmToken()
     {
         return $this->apiResponse([
-            'fcm_token' => auth()->user()?->fullName,//TODO:: handle this
+            'fcm_token' => auth()->user()?->full_name,//TODO:: handle this
         ], self::STATUS_OK, __('site.success'));
     }
 }

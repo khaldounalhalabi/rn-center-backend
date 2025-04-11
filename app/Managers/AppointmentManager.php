@@ -107,7 +107,7 @@ class AppointmentManager
                 'appointment_id' => $appointment->id,
                 'actor_id' => auth()->user()->id,
                 'affected_id' => $data['customer_id'] ?? $appointment->customer_id,
-                'event' => "appointment has been created in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->fullName,
+                'event' => "appointment has been created in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->full_name,
             ]);
         } else {
             AppointmentLogRepository::make()->create([
@@ -117,7 +117,7 @@ class AppointmentManager
                 'appointment_id' => $appointment->id,
                 'actor_id' => auth()->user()?->id,
                 'affected_id' => $data['customer_id'] ?? $appointment->customer_id,
-                'event' => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->fullName?->en,
+                'event' => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->full_name,
             ]);
         }
     }
