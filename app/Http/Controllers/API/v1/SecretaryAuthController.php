@@ -10,5 +10,6 @@ class SecretaryAuthController extends BaseAuthController
     {
         parent::__construct();
         $this->roleHook(RolesPermissionEnum::SECRETARY['role']);
+        $this->relations = ['roles'];
     }
 }
