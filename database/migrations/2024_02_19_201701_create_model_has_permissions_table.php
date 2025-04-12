@@ -14,10 +14,6 @@ return new class () extends Migration {
             $table->string('model_name');
             $table->json('permissions');
             $table->timestamps();
-
-            $table->index(['model_id', 'model_type']);
-            $table->index(['model_id', 'model_type', 'model_name'], 'model_permission_index');
-            $table->index(['created_at']);
         });
     }
 
