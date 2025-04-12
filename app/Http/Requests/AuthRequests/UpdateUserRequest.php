@@ -3,6 +3,7 @@
 namespace App\Http\Requests\AuthRequests;
 
 use App\Enums\BloodGroupEnum;
+use App\Enums\GenderEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -38,6 +39,7 @@ class UpdateUserRequest extends FormRequest
             'last_name' => 'nullable|string',
             'phone' => 'nullable|regex:/^09\d{8}$/|unique:users,phone,' . auth($guard)->user()?->id,
             'password' => 'nullable|min:8|confirmed',
+            'gender' => 'nullable|string|' . Rule::in(GenderEnum::getAllValues()),
             ...$additional
         ];
     }
