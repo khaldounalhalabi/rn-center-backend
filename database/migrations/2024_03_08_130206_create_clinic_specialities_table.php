@@ -11,14 +11,13 @@ return new class () extends Migration {
      * Run the migrations.
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('clinic_specialities', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Speciality::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Clinic::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
-            $table->index(['created_at']);
         });
     }
 
@@ -26,7 +25,7 @@ return new class () extends Migration {
      * Reverse the migrations.
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('clinic_specialities');
     }

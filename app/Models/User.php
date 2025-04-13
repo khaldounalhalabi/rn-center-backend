@@ -141,11 +141,6 @@ class User extends Authenticatable implements JWTSubject
 
     public function isDoctor(): bool
     {
-        return $this->isDoctor();
-    }
-
-    public function isDoctor(): bool
-    {
         return $this->hasRole(RolesPermissionEnum::DOCTOR['role']);
     }
 

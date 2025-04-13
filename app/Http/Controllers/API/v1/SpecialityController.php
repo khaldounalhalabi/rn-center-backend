@@ -7,6 +7,7 @@ use App\Http\Requests\Speciality\StoreUpdateSpecialityRequest;
 use App\Http\Resources\SpecialityResource;
 use App\Models\Speciality;
 use App\Services\SpecialityService;
+use Illuminate\Http\Request;
 
 class SpecialityController extends ApiController
 {
@@ -14,10 +15,7 @@ class SpecialityController extends ApiController
 
     public function __construct()
     {
-
         $this->specialityService = SpecialityService::make();
-
-        // place the relations you want to return them within the response
         $this->relations = ['media'];
     }
 
@@ -83,5 +81,26 @@ class SpecialityController extends ApiController
         }
 
         return $this->noData();
+    }
+
+    public function export(Request $request)
+    {
+        $ids = $request->ids ?? [];
+
+        return $this->specialityService->export($ids);
+    }
+
+    public function getImportExample()
+    {
+        return $this->specialityService->getImportExample();
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'excel_file' => 'required|mimes:xls,xlsx',
+        ]);
+
+        $this->specialityService->import();
     }
 }

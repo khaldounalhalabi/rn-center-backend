@@ -4,8 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Clinic;
 use App\Models\Speciality;
-use App\Serializers\Translatable;
-use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Http\File;
 
@@ -21,7 +19,7 @@ class SpecialityFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => Translatable::fake(),
+            'name' => fake()->word(),
             'description' => fake()->text(),
         ];
     }

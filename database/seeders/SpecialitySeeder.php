@@ -12,6 +12,6 @@ class SpecialitySeeder extends Seeder
      */
     public function run(): void
     {
-        Speciality::factory(10)->create();
+        Speciality::factory(10)->withMedia()->create();
     }
 }

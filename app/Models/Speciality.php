@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Casts\Translatable;
 use App\Enums\MediaTypeEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -25,7 +24,6 @@ class Speciality extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'name' => Translatable::class,
     ];
 
     /**

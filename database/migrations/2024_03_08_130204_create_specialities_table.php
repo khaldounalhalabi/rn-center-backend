@@ -12,7 +12,7 @@ return new class () extends Migration {
     {
         Schema::create('specialities', function (Blueprint $table) {
             $table->id();
-            $table->text('name');
+            $table->string('name');
             $table->text('description')->nullable();
             $table->timestamps();
             $table->index(['created_at']);
