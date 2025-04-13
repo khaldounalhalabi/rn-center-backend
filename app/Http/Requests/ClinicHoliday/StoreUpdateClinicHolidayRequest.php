@@ -43,9 +43,9 @@ class StoreUpdateClinicHolidayRequest extends FormRequest
 
     public function prepareForValidation(): void
     {
-        if (auth()->user()?->isClinic()) {
+        if (isDoctor()) {
             $this->merge([
-                'clinic_id' => auth()->user()?->getClinicId(),
+                'clinic_id' => clinic()?->id,
             ]);
         }
     }

@@ -23,16 +23,6 @@ class PatientProfileRepository extends BaseRepository
         );
     }
 
-    public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
-    {
-        return parent::globalQuery($relations, $countable)
-            ->when($this->filtered || auth()->user()?->isCustomer(), function (Builder $query) {
-                $query->whereHas('clinic', function (Builder|Clinic $query) {
-                    $query->available();
-                });
-            });
-    }
-
     public function getByClinicAndCustomer($clinicId, $customerId): ?PatientProfile
     {
         return PatientProfile::where('clinic_id', $clinicId)

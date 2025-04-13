@@ -17,8 +17,8 @@ class MedicineRepository extends BaseRepository
     {
         return parent::globalQuery($relations, $countable)
             ->when(
-                auth()->user()?->isClinic(),
-                fn(Builder $query) => $query->where('clinic_id', auth()->user()?->getClinicId())
+                isDoctor(),
+                fn(Builder $query) => $query->where('clinic_id', clinic()?->id)
             );
     }
 }

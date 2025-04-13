@@ -107,19 +107,19 @@ class AppointmentLog extends Model
 
     public function canShow(): bool
     {
-        return $this->appointment?->clinic_id == auth()?->user()?->getClinicId()
-            || auth()->user()?->isAdmin();
+        return $this->appointment?->clinic_id == clinic()?->id
+            || isAdmin();
     }
 
     public function canUpdate(): bool
     {
-        return $this->appointment?->clinic_id == auth()?->user()?->getClinicId()
-            || auth()->user()?->isAdmin();
+        return $this->appointment?->clinic_id == clinic()?->id
+            || isAdmin();
     }
 
     public function canDelete(): bool
     {
-        return $this->appointment?->clinic_id == auth()?->user()?->getClinicId()
-            || auth()->user()?->isAdmin();
+        return $this->appointment?->clinic_id == clinic()?->id
+            || isAdmin();
     }
 }

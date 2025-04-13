@@ -7,7 +7,6 @@ use App\Excel\BaseExporter;
 use App\Models\Appointment;
 use App\Models\AppointmentLog;
 use App\Models\Clinic;
-use App\Models\Customer;
 use App\Repositories\Contracts\BaseRepository;
 use Carbon\Carbon;
 use DateTime;
@@ -49,13 +48,9 @@ class AppointmentRepository extends BaseRepository
     public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder|Appointment
     {
         return parent::globalQuery($relations, $countable)
-            ->when($this->filtered, function (Builder $query) {
-                $query->whereHas('clinic', function (Builder|Clinic $builder) {
-                    $builder->available();
-                });
-            })->when(auth()->user()?->isClinic(), function (Builder $query) {
-                $query->where('clinic_id', auth()->user()?->getClinicId());
-            })->when(auth()->user()?->isCustomer(), function (Builder $query) {
+            ->when(isDoctor(), function (Builder $query) {
+                $query->where('clinic_id', clinic()?->id);
+            })->when(isCustomer(), function (Builder $query) {
                 $query->where('customer_id', auth()->user()?->customer?->id);
             });
     }
@@ -127,8 +122,8 @@ class AppointmentRepository extends BaseRepository
         $collection = $this->globalQuery()
             ->where('date', '>=', $date->firstOfMonth()->format('Y-m-d'))
             ->where('date', '<=', $date->lastOfMonth()->format('Y-m-d'))
-            ->when(auth()->user()?->isClinic(), function (Builder $query) {
-                $query->where('clinic_id', auth()->user()?->getClinicId());
+            ->when(isDoctor(), function (Builder $query) {
+                $query->where('clinic_id', clinic()?->id);
             })
             ->get();
         $requestedColumns = request("columns") ?? null;

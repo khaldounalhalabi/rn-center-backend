@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\ClinicStatusEnum;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -14,21 +13,12 @@ return new class () extends Migration {
     {
         Schema::create('clinics', function (Blueprint $table) {
             $table->id();
-            $table->json('name');
+            $table->string('name');
             $table->float('appointment_cost', 15, 4)->default(0.0000);
             $table->date('working_start_year')->default(now());
             $table->integer('max_appointments');
-            $table->integer('appointment_day_range')->default(7);
-            $table->integer("approximate_appointment_time")->default(30);
-            $table->text('about_us')->nullable();
-            $table->text('experience')->nullable();
-            $table->enum("status", ClinicStatusEnum::getAllValues())->default(ClinicStatusEnum::ACTIVE->value);
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
-            $table->boolean('agreed_on_contract')->default(false);
             $table->timestamps();
-            $table->index(['created_at']);
-            $table->index(['status']);
-            $table->index(['name']);
         });
     }
 

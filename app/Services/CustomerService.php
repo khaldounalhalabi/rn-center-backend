@@ -82,7 +82,7 @@ class CustomerService extends BaseService
      */
     private function createUpdateClinicPatientProfile(Model|Customer|null $customer, array $data, array $relations, array $countable): null|Customer|Model
     {
-        $patientProfile = PatientProfileRepository::make()->getByClinicAndCustomer(auth()->user()?->getClinicId(), $customer->id);
+        $patientProfile = PatientProfileRepository::make()->getByClinicAndCustomer(clinic()?->id, $customer->id);
 
         if ($patientProfile) {
             if ($patientProfile->canUpdate()) {
@@ -93,7 +93,7 @@ class CustomerService extends BaseService
         } else {
             PatientProfileRepository::make()->create([
                 'customer_id' => $customer->id,
-                'clinic_id' => auth()->user()?->getClinicId(),
+                'clinic_id' => clinic()?->id,
                 ...$data,
             ]);
         }
@@ -132,7 +132,7 @@ class CustomerService extends BaseService
             return null;
         }
 
-        $patientProfile = PatientProfileRepository::make()->getByClinicAndCustomer(auth()->user()?->getClinicId(), $customer->id);
+        $patientProfile = PatientProfileRepository::make()->getByClinicAndCustomer(clinic()?->id, $customer->id);
 
         if ($patientProfile) {
             $patientProfile->delete();
@@ -157,7 +157,7 @@ class CustomerService extends BaseService
 
     public function getDoctorCustomers(array $relations = [], array $countable = [], int $perPage = 10): ?array
     {
-        return $this->repository->getClinicCustomers(auth()?->user()?->getClinicId() ?? 0, $relations, $countable);
+        return $this->repository->getClinicCustomers(clinic()?->id ?? 0, $relations, $countable);
     }
 
     public function view($id, array $relationships = [], array $countable = []): ?Model

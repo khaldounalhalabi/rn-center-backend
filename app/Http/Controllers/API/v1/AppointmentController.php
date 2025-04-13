@@ -20,9 +20,9 @@ class AppointmentController extends ApiController
 
         $this->appointmentService = AppointmentService::make();
 
-        if (auth()->user()?->isClinic()) {
+        if (isDoctor()) {
             $this->relations = ['customer.user', 'service'];
-        } elseif (auth()->user()?->isCustomer()) {
+        } elseif (isCustomer()) {
             $this->relations = ['service', 'clinic',];
         } else {
             $this->relations = ['clinic', 'clinic.user', 'customer.user', 'service'];
@@ -93,7 +93,7 @@ class AppointmentController extends ApiController
     public function getCustomerLastAppointment($customerId, $clinicId = null)
     {
         if (!$clinicId) {
-            $clinicId = auth()->user()?->getClinicId();
+            $clinicId = clinic()?->id;
         }
         $appointment = $this->appointmentService->getCustomerLastAppointment($customerId, $clinicId, $this->relations, $this->countable);
 

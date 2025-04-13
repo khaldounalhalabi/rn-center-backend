@@ -70,7 +70,7 @@ class Customer extends Model implements ActionsMustBeAuthorized
     public function currentClinicPatientProfile(): HasOne
     {
         return $this->hasOne(PatientProfile::class)
-            ->where('clinic_id', auth()->user()?->getClinicId())
+            ->where('clinic_id', clinic()?->id)
             ->latestOfMany();
     }
 
@@ -82,12 +82,12 @@ class Customer extends Model implements ActionsMustBeAuthorized
     public function canShow(): bool
     {
         return (
-                auth()->user()?->isClinic()
+                isDoctor()
                 && (
-                    $this->patientProfiles()->where('clinic_id', auth()?->user()?->getClinicId())->exists()
-                    || $this->appointments()->where('clinic_id', auth()?->user()?->getClinicId())->exists()
+                    $this->patientProfiles()->where('clinic_id', clinic()?->id)->exists()
+                    || $this->appointments()->where('clinic_id', clinic()?->id)->exists()
                 )
-            ) || auth()->user()?->isAdmin();
+            ) || isAdmin();
     }
 
     public function patientProfiles(): HasMany
@@ -103,17 +103,17 @@ class Customer extends Model implements ActionsMustBeAuthorized
     public function canUpdate(): bool
     {
         return (
-                auth()->user()?->isClinic()
+                isDoctor()
                 && (
-                    $this->patientProfiles()->where('clinic_id', auth()?->user()?->getClinicId())->exists()
-                    || $this->appointments()->where('clinic_id', auth()?->user()?->getClinicId())->exists()
+                    $this->patientProfiles()->where('clinic_id', clinic()?->id)->exists()
+                    || $this->appointments()->where('clinic_id', clinic()?->id)->exists()
                 )
-            ) || auth()->user()?->isAdmin();
+            ) || isAdmin();
     }
 
     public function canDelete(): bool
     {
-        return auth()->user()?->isAdmin();
+        return isAdmin();
     }
 
     public function validAppointments(): HasMany

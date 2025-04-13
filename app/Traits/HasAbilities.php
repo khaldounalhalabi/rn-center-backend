@@ -10,19 +10,19 @@ trait HasAbilities
     public function canShow(): bool
     {
         return
-            ($this->clinic_id == auth()?->user()?->getClinicId() && $this->clinic->isAvailable())
-            || auth()->user()?->isAdmin();
+            ($this->clinic_id == clinic()?->id)
+            || isAdmin();
     }
 
     public function canUpdate(): bool
     {
-        return ($this->clinic_id == auth()?->user()?->getClinicId() && $this->clinic->isAvailable())
-            || auth()->user()?->isAdmin();
+        return ($this->clinic_id == clinic()?->id)
+            || isAdmin();
     }
 
     public function canDelete(): bool
     {
-        return ($this->clinic_id == auth()?->user()?->getClinicId() && $this->clinic->isAvailable())
-            || auth()->user()?->isAdmin();
+        return ($this->clinic_id == clinic()?->id)
+            || isAdmin();
     }
 }

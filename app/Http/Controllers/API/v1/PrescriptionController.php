@@ -18,7 +18,7 @@ class PrescriptionController extends ApiController
 
         $this->prescriptionService = PrescriptionService::make();
 
-        if (auth()->user()?->isClinic()) {
+        if (isDoctor()) {
             $this->relations = ['customer.user', 'medicinesData.medicine', 'appointment'];
             $this->indexRelations = ['customer.user'];
         } else {
@@ -123,7 +123,7 @@ class PrescriptionController extends ApiController
 
     public function getCustomerPrescriptions($customerId)
     {
-        $data = $this->prescriptionService->getClinicCustomerPrescriptions($customerId, auth()?->user()?->getClinicId(), $this->indexRelations);
+        $data = $this->prescriptionService->getClinicCustomerPrescriptions($customerId, clinic()?->id, $this->indexRelations);
         if ($data) {
             return $this->apiResponse(PrescriptionResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
         }

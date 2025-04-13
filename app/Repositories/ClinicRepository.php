@@ -14,14 +14,6 @@ class ClinicRepository extends BaseRepository
 {
     protected string $modelClass = Clinic::class;
 
-    public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
-    {
-        return parent::globalQuery($relations, $countable)
-            ->when($this->filtered || !auth()->user()?->isAdmin(), function (Builder|Clinic $query) {
-                $query->available();
-            });
-    }
-
     public function getOnlineClinicsBySpeciality($specialityId, array $relations = [], array $countable = []): ?array
     {
         return $this->paginateQuery(

@@ -17,7 +17,7 @@ class PatientProfileController extends ApiController
         $this->patientProfileService = PatientProfileService::make();
 
         // place the relations you want to return them within the response
-        if (auth()->user()?->isCustomer()) {
+        if (isCustomer()) {
             $this->relations = ['clinic.user', 'media'];
         } else {
             $this->relations = ['customer.user', 'clinic.user', 'media'];
@@ -79,7 +79,7 @@ class PatientProfileController extends ApiController
 
     public function getByCurrentCustomer()
     {
-        $data = $this->patientProfileService->getCustomerPatientProfiles(auth()?->user()?->customer?->id, $this->relations);
+        $data = $this->patientProfileService->getCustomerPatientProfiles(customer()?->id, $this->relations);
         if ($data) {
             return $this->apiResponse($data['data'], self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
         }

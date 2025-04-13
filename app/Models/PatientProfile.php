@@ -107,9 +107,9 @@ class PatientProfile extends Model implements HasMedia
     public function canShow(): bool
     {
         return
-            ($this->clinic_id == auth()?->user()?->getClinicId() && $this->clinic->isAvailable())
-            || auth()->user()?->isAdmin()
-            || (auth()->user()?->isCustomer() && $this->customer_id == auth()->user()?->customer->id);
+            ($this->clinic_id == clinic()?->id)
+            || isAdmin()
+            || (isCustomer() && $this->customer_id == auth()->user()?->customer->id);
     }
 
     public function lastAppointment(): HasOne
@@ -119,13 +119,13 @@ class PatientProfile extends Model implements HasMedia
                 'date' => 'max'
             ], function ($query) {
                 $query->where('status', AppointmentStatusEnum::CHECKOUT->value)
-                    ->where('clinic_id', auth()->user()?->getClinicId());
+                    ->where('clinic_id', clinic()?->id);
             });
     }
 
     public function appointments(): HasMany
     {
         return $this->hasMany(Appointment::class, 'customer_id', 'customer_id')
-            ->where('clinic_id', auth()->user()?->getClinicId());
+            ->where('clinic_id', clinic()?->id);
     }
 }

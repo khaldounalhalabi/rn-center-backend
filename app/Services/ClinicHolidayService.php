@@ -20,11 +20,11 @@ class ClinicHolidayService extends BaseService
 
     public function getCurrentClinicHolidays(array $relations = [], array $countable = [], int $perPage = 10): ?array
     {
-        if (!auth()->user()?->isClinic()) {
+        if (!isDoctor()) {
             return null;
         }
 
-        return $this->repository->getClinicHolidays(auth()->user()?->getClinicId(), $relations, $countable);
+        return $this->repository->getClinicHolidays(clinic()?->id, $relations, $countable);
     }
 
     public function view($id, array $relationships = [], array $countable = []): ?Model

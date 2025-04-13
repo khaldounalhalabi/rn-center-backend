@@ -2,10 +2,8 @@
 
 namespace App\Models;
 
-use App\Casts\Translatable;
 use App\Enums\AppointmentStatusEnum;
 use App\Enums\ClinicStatusEnum;
-use App\Enums\MediaTypeEnum;
 use App\Interfaces\ActionsMustBeAuthorized;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -15,41 +13,27 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Str;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
- * @property boolean agreed_on_contract
  * @method Builder|Clinic online
  */
-class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
+class Clinic extends Model implements ActionsMustBeAuthorized
 {
     use HasFactory;
-    use InteractsWithMedia;
 
     protected $fillable = [
         'name',
         'appointment_cost',
         'working_start_year',
         'max_appointments',
-        'appointment_day_range',
-        'about_us',
-        'experience',
         'user_id',
-        'status',
-        'approximate_appointment_time',
-        'agreed_on_contract'
     ];
+
     protected $casts = [
-        'name' => Translatable::class,
         'working_start_year' => 'datetime',
         'max_appointments' => 'integer',
-        'approximate_appointment_time' => 'integer',
-        'appointment_day_range' => 'integer',
         'appointment_cost' => 'float',
-        'agreed_on_contract' => 'bool'
     ];
 
     public static function authorizedActions(): array
@@ -84,7 +68,10 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
     {
         return [
             'user' => [
-                'email',
+                'first_name',
+                'last_name',
+                'phone',
+                'gender'
             ],
         ];
     }
@@ -92,9 +79,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
     public function filterArray(): array
     {
         return [
-            [
-                'name' => 'status',
-            ],
             [
                 'name' => 'day_of_week',
                 'relation' => 'schedules.day_of_week',
@@ -114,16 +98,9 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
         ];
     }
 
-    /**
-     * define your columns which you want to treat them as files
-     * so the base repository can store them in the storage without
-     * any additional files procedures
-     */
     public function filesKeys(): array
     {
         return [
-            'work_gallery' => ['type' => MediaTypeEnum::MULTIPLE->value],
-            //filesKeys
         ];
     }
 
@@ -204,11 +181,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
             ->exists();
     }
 
-    public function clinicHolidays(): HasMany
-    {
-        return $this->hasMany(ClinicHoliday::class);
-    }
-
     public function availableScheduleIn(string $date): bool
     {
         Carbon::setLocale("en");
@@ -255,8 +227,8 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
 
     public function canUpdate(): bool
     {
-        return auth()->user()?->isAdmin()
-            || auth()->user()?->getClinicId() == $this->id;
+        return isAdmin()
+            || clinic()?->id == $this->id;
     }
 
     public function user(): BelongsTo
@@ -266,34 +238,19 @@ class Clinic extends Model implements ActionsMustBeAuthorized, HasMedia
 
     public function canShow(): bool
     {
-        return auth()->user()?->isAdmin()
-            || auth()->user()?->getClinicId() == $this->id
+        return isAdmin()
+            || clinic()?->id == $this->id
             || !auth()->user();
     }
 
     public function canDelete(): bool
     {
-        return auth()->user()?->isAdmin()
-            || auth()->user()?->getClinicId() == $this->id;
-    }
-
-    public function scopeAvailable(Builder $query): Builder
-    {
-        return $query->where('status', ClinicStatusEnum::ACTIVE->value);
+        return isAdmin()
+            || clinic()?->id == $this->id;
     }
 
     public function isAvailable(): bool
     {
         return $this->status == ClinicStatusEnum::ACTIVE->value;
-    }
-
-    public function balance(): MorphOne
-    {
-        return $this->morphOne(
-            Balance::class,
-            'balanceable',
-            'balanceable_type',
-            'balanceable_id'
-        )->latestOfMany();
     }
 }

@@ -97,6 +97,5 @@ class Kernel extends HttpKernel
         'customer' => CustomerOnly::class,
         'secretary' => SecretaryOnly::class,
         'guest-header' => GuestMiddleware::class,
-        'contract' => MustAcceptContractMiddleware::class
     ];
 }

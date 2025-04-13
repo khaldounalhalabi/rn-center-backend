@@ -21,7 +21,7 @@ class MustAcceptContractMiddleware
         $user = auth()->user();
         $clinic = $user?->getClinic();
 
-        if ($user?->isClinic() && !$clinic?->agreed_on_contract) {
+        if ($user?->isDoctor() && !$clinic?->agreed_on_contract) {
             return $this->apiResponse(null, ApiController::STATUS_MUST_AGREE_ON_CONTRACT, trans('site.must_agree_contract'));
         }
 

@@ -69,13 +69,13 @@ class StoreUpdateAppointmentRequest extends FormRequest
             ]);
         }
 
-        if (auth()->user()?->isClinic()) {
+        if (isDoctor()) {
             $this->merge([
-                'clinic_id' => auth()->user()?->getClinicId(),
+                'clinic_id' => clinic()?->id,
                 'type' => AppointmentTypeEnum::MANUAL->value,
             ]);
 
-            if (request()->method() == "POST" && auth()?->user()?->isClinic()) {
+            if (request()->method() == "POST" && isDoctor()) {
                 $this->merge([
                     'status' => AppointmentStatusEnum::BOOKED->value,
                     'cancellation_reason' => null,
@@ -87,7 +87,7 @@ class StoreUpdateAppointmentRequest extends FormRequest
             $this->merge([
                 'type' => AppointmentTypeEnum::ONLINE->value,
                 'status' => AppointmentStatusEnum::PENDING->value,
-                'customer_id' => auth()?->user()?->customer?->id,
+                'customer_id' => customer()?->id,
             ]);
         }
     }

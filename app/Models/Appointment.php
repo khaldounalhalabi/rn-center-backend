@@ -14,7 +14,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use JetBrains\PhpStorm\ArrayShape;
@@ -312,21 +311,20 @@ class Appointment extends Model implements ActionsMustBeAuthorized
     public function canShow(): bool
     {
         return
-            ($this->clinic_id == auth()?->user()?->getClinicId() && $this->clinic->isAvailable())
-            || ($this->customer_id == auth()?->user()?->customer?->id && $this->clinic->isAvailable())
-            || auth()->user()?->isAdmin();
+            ($this->clinic_id == clinic()?->id)
+            || ($this->customer_id == customer()?->id)
+            || isAdmin();
     }
 
     public function canUpdate(): bool
     {
         return
-            ($this->clinic_id == auth()?->user()?->getClinicId() && $this->clinic->isAvailable())
+            ($this->clinic_id == clinic()?->id)
             || (
-                $this->customer_id == auth()?->user()?->customer?->id
-                && $this->clinic->isAvailable()
+                $this->customer_id == customer()?->id
                 && in_array($this->status, [AppointmentStatusEnum::PENDING->value, AppointmentStatusEnum::BOOKED->value])
             )
-            || auth()->user()?->isAdmin();
+            || isAdmin();
     }
 
     public function cancelLog(): HasOne

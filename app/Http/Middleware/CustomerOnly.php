@@ -18,7 +18,7 @@ class CustomerOnly
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->user()?->isCustomer()) {
+        if (!isCustomer()) {
             return $this->apiResponse(null, ApiController::STATUS_UNAUTHORIZED, __('site.unauthorized_user'));
         }
         return $next($request);

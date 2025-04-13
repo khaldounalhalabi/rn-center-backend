@@ -139,7 +139,7 @@ class AppointmentManager
 
         if (isset($data['status'])
             && $data['status'] != $appointment->status
-            && auth()->user()?->isClinic()
+            && isDoctor()
             && !$this->canUpdateOnlineAppointmentStatus($appointment, $data['status'])) {
             return null;
         }

@@ -139,19 +139,19 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasRole(RolesPermissionEnum::CUSTOMER['role']);
     }
 
-    public function isClinic(): bool
+    public function isDoctor(): bool
     {
         return $this->isDoctor();
     }
 
     public function isDoctor(): bool
     {
-        return $this->hasRole(RolesPermissionEnum::DOCTOR['role']) && $this?->clinic?->exists();
+        return $this->hasRole(RolesPermissionEnum::DOCTOR['role']);
     }
 
     public function getClinicId(): ?int
     {
-        return Clinic::withoutGlobalScopes()->where('user_id', $this->id)->first()?->id;
+        return $this->clinic->id;
     }
 
     /**
@@ -173,7 +173,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function getClinic(array $relations = [], array $countable = [])
     {
-        if (auth()?->user()?->isDoctor()) {
+        if (isDoctor()) {
             return $this->clinic->load($relations)->loadCount($countable);
         } else {
             return null;

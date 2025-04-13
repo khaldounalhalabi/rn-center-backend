@@ -18,7 +18,7 @@ class AdminOnly
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->user()?->isAdmin()) {
+        if (!isAdmin()) {
             return $this->apiResponse(null, ApiController::STATUS_UNAUTHORIZED, __('site.unauthorized_user'));
         }
         return $next($request);

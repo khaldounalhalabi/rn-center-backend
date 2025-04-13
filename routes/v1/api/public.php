@@ -60,7 +60,6 @@ Route::prefix('secretary')
 Route::get('/specialities', [v1\SpecialityController::class, 'getOrderedByClinicsCount'])->name('speciality.index');
 Route::get('/service-categories', [v1\ServiceCategoryController::class, 'index'])->name('service.category.index');
 
-Route::get('/specialities/{specialityId}/clinics', [v1\ClinicController::class, 'getOnlineBySpeciality'])->name('specialities.clinics');
 Route::get('/clinics/{clinicId}', [v1\ClinicController::class, 'show'])->name('clinics.show');
 
 Route::get('/check-role', [v1\BaseAuthController::class, 'checkRole'])->name('check-role');

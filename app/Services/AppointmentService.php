@@ -65,7 +65,7 @@ class AppointmentService extends BaseService
 
         $appointmentManager = AppointmentManager::make();
 
-        if (auth()->user()?->isClinic()
+        if (isDoctor()
             && !$appointmentManager->canUpdateOnlineAppointmentStatus($appointment, $data['status'])) {
             return null;
         }
@@ -145,7 +145,7 @@ class AppointmentService extends BaseService
                 $data['appointment_sequence'] = 1;
             }
 
-            if (auth()->user()?->isCustomer()
+            if (isCustomer()
                 && !in_array($appointment->status, [AppointmentStatusEnum::PENDING->value, AppointmentStatusEnum::BOOKED->value])
             ) {
                 $data['status'] = AppointmentStatusEnum::PENDING->value;
@@ -198,7 +198,7 @@ class AppointmentService extends BaseService
 
     public function getClinicTodayAppointments(array $relations = [], array $countable = []): ?array
     {
-        return $this->repository->getTodayAppointments(auth()->user()?->getClinicId(), $relations, $countable);
+        return $this->repository->getTodayAppointments(clinic()?->id, $relations, $countable);
     }
 
     public function getAllCompletedCountMonthly(): array|Collection|CollectionAlias
@@ -239,7 +239,7 @@ class AppointmentService extends BaseService
                 'appointment_id' => $appointment->id,
                 'actor_id' => auth()->user()->id,
                 'affected_id' => $appointment->customer_id,
-                'event' => "appointment has been cancelled in " . now()->format('Y-m-d H:i:s') . " By The Patient : " . auth()->user()?->full_name . " With Id : " . auth()?->user()?->customer?->id,
+                'event' => "appointment has been cancelled in " . now()->format('Y-m-d H:i:s') . " By The Patient : " . auth()->user()?->full_name . " With Id : " . customer()?->id,
             ]);
             return $appointment;
         }

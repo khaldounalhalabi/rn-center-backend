@@ -13,11 +13,9 @@ use App\Models\Schedule;
 use App\Models\Service;
 use App\Models\Speciality;
 use App\Models\User;
-use App\Serializers\Translatable;
 use App\Traits\FileHandler;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Http\File;
 
 /**
  * @extends Factory
@@ -33,22 +31,17 @@ class ClinicFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => Translatable::fake('name'),
+            'name' => fake()->name(),
             'appointment_cost' => fake()->numberBetween(1, 100),
             'user_id' => User::factory(),
             'working_start_year' => fake()->date(),
             'max_appointments' => fake()->numberBetween(1, 10),
-            'appointment_day_range' => 7,
-            'about_us' => fake()->sentence,
-            'experience' => fake()->sentence,
-            'approximate_appointment_time' => random_int(1, 30),
         ];
     }
 
     public function allRelations(): ClinicFactory
     {
-        return $this->withMedia()
-            ->withSchedules()
+        return $this->withSchedules()
             ->withSpecialities()
             ->withServices()
             ->withClinicHolidays()
@@ -87,16 +80,6 @@ class ClinicFactory extends Factory
                     'schedulable_type' => Clinic::class,
                 ]);
             }
-        });
-    }
-
-    public function withMedia(): ClinicFactory
-    {
-        return $this->afterCreating(function (Clinic $clinic) {
-            $num = fake()->numberBetween(1, 4);
-            $clinic->addMedia(
-                new File(storage_path("/app/required/img$num.png"))
-            )->preservingOriginal()->toMediaCollection();
         });
     }
 

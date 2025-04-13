@@ -17,7 +17,7 @@ class CustomerController extends ApiController
     {
         $this->customerService = CustomerService::make();
 
-        if (auth()->user()?->isClinic()) {
+        if (isDoctor()) {
             $this->relations = [
                 'currentClinicPatientProfile.media',
                 'user.media',

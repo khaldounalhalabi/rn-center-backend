@@ -27,7 +27,7 @@ class CustomerBelongToClinic implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (!auth()->user()?->isClinic()) {
+        if (!isDoctor()) {
             return;
         }
 

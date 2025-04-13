@@ -17,7 +17,7 @@ class ClinicController extends ApiController
         $this->clinicService = ClinicService::make();
         // place the relations you want to return them within the response
 
-        if (!auth()->user() || auth()->user()?->isCustomer()) {
+        if (!auth()->user() || isCustomer()) {
             $this->indexRelations = ['specialities', 'user', 'user.media',];
             $this->countable = [];
             $this->relations = ['media', 'user', 'specialities', 'user.media', 'schedules'];
@@ -72,11 +72,11 @@ class ClinicController extends ApiController
 
     public function getCurrentClinicAvailableTime()
     {
-        if (!auth()->user()?->isClinic()) {
+        if (!isDoctor()) {
             return $this->noData();
         }
 
-        $data = $this->clinicService->getClinicAvailableTimes(auth()->user()?->getClinicId());
+        $data = $this->clinicService->getClinicAvailableTimes(clinic()?->id);
         return $this->apiResponse($data, self::STATUS_OK, __('site.get_successfully'));
     }
 
@@ -98,7 +98,7 @@ class ClinicController extends ApiController
 
     public function updateDoctorClinic(StoreUpdateClinicRequest $request)
     {
-        $clinicId = auth()->user()?->getClinicId();
+        $clinicId = clinic()?->id;
         if (!$clinicId) {
             return $this->noData();
         }
@@ -124,7 +124,7 @@ class ClinicController extends ApiController
 
     public function showDoctorClinic()
     {
-        $clinicId = auth()->user()?->getClinicId();
+        $clinicId = clinic()?->id;
         if (!$clinicId) {
             return $this->noData();
         }
@@ -145,15 +145,5 @@ class ClinicController extends ApiController
         }
 
         return $this->noData(false);
-    }
-
-    public function getOnlineBySpeciality($specialityId)
-    {
-        $data = $this->clinicService->getOnlineBySpecialityId($specialityId, $this->indexRelations, $this->countable);
-        if ($data) {
-            return $this->apiResponse(ClinicResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
-        }
-
-        return $this->noData();
     }
 }
