@@ -34,13 +34,22 @@ Route::get('customers/{customerId}/patient-profiles', [v1\PatientProfileControll
 Route::apiResource('/customers', v1\CustomerController::class)->names('customers');
 
 Route::post('/specialities/export', [v1\SpecialityController::class, 'export'])->name('specialities.export');
+Route::post('/specialities/import', [v1\SpecialityController::class, 'import'])->name('specialities.import');
+Route::get('/specialities/import-example', [v1\SpecialityController::class, 'getImportExample'])->name('specialities.import.example');
 Route::apiResource('/specialities', v1\SpecialityController::class)->names('specialities');
 
 Route::apiResource('/clinic-holidays', v1\ClinicHolidayController::class)->names('clinic.holidays');
 
+
+Route::post('/service-categories/export', [v1\ServiceCategoryController::class, 'export'])->name('service.categories.export');
+Route::post('/service-categories/import', [v1\ServiceCategoryController::class, 'import'])->name('service.categories.import');
+Route::get('/service-categories/import-example', [v1\ServiceCategoryController::class, 'getImportExample'])->name('service.categories.import.example');
 Route::apiResource('/service-categories', v1\ServiceCategoryController::class)->names('service.categories');
 
 Route::get('/clinics/{clinicId}/services', [v1\ServiceController::class, 'getClinicServices'])->name('get-clinic-services');
+Route::post('/services/export', [v1\ServiceController::class, 'export'])->name('services.export');
+Route::post('/services/import', [v1\ServiceController::class, 'import'])->name('services.import');
+Route::get('/services/import-example', [v1\ServiceController::class, 'getImportExample'])->name('services.import.example');
 Route::apiResource('/services', v1\ServiceController::class)->names('services');
 
 Route::put('appointments/{appointmentId}/update-date', [v1\AppointmentController::class, 'updateAppointmentDate'])->name('appointments.update.date');

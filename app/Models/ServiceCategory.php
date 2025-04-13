@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use App\Casts\Translatable;
-use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  */
@@ -15,11 +14,9 @@ class ServiceCategory extends Model
 
     protected $fillable = [
         'name',
-
     ];
 
     protected $casts = [
-        'name' => Translatable::class,
 
     ];
 
@@ -52,19 +49,7 @@ class ServiceCategory extends Model
         ];
     }
 
-    /**
-     * define your columns which you want to treat them as files
-     * so the base repository can store them in the storage without
-     * any additional files procedures
-     */
-    public function filesKeys(): array
-    {
-        return [
-            //filesKeys
-        ];
-    }
-
-    public function services()
+    public function services(): HasMany
     {
         return $this->hasMany(Service::class);
     }

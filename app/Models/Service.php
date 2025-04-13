@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use App\Casts\Translatable;
 use App\Enums\MediaTypeEnum;
-use App\Interfaces\ActionsMustBeAuthorized;
 use App\Traits\HasAbilities;
 use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,12 +16,11 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property numeric         approximate_duration
  * @property integer         service_category_id
  * @property numeric         price
- * @property numeric         status
  * @property integer         clinic_id
  * @property ServiceCategory serviceCategory
  * @property Clinic          clinic
  */
-class Service extends Model implements HasMedia, ActionsMustBeAuthorized
+class Service extends Model implements HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;
@@ -34,21 +31,9 @@ class Service extends Model implements HasMedia, ActionsMustBeAuthorized
         'approximate_duration',
         'service_category_id',
         'price',
-        'status',
         'description',
         'clinic_id',
     ];
-    protected $casts = [
-        'name' => Translatable::class,
-        'description' => Translatable::class,
-    ];
-
-    public static function authorizedActions(): array
-    {
-        return [
-            'manage-services'
-        ];
-    }
 
     /**
      * add your searchable columns, so you can search within them in the
@@ -60,7 +45,6 @@ class Service extends Model implements HasMedia, ActionsMustBeAuthorized
             'name',
             'approximate_duration',
             'price',
-            'status',
         ];
     }
 
@@ -100,11 +84,6 @@ class Service extends Model implements HasMedia, ActionsMustBeAuthorized
         return $this->belongsTo(Clinic::class);
     }
 
-    /**
-     * define your columns which you want to treat them as files
-     * so the base repository can store them in the storage without
-     * any additional files procedures
-     */
     public function filesKeys(): array
     {
         return [

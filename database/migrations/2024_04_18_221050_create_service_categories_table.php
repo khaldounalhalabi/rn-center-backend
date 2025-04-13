@@ -12,7 +12,7 @@ return new class () extends Migration {
     {
         Schema::create('service_categories', function (Blueprint $table) {
             $table->id();
-            $table->json('name');
+            $table->string('name');
             $table->timestamps();
             $table->index(['created_at']);
             $table->index(['name']);

@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\ServiceStatusEnum;
 use App\Models\Clinic;
 use App\Models\ServiceCategory;
 use Illuminate\Database\Migrations\Migration;
@@ -15,11 +14,10 @@ return new class () extends Migration {
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->text('name');
+            $table->string('name');
             $table->integer('approximate_duration')->default(15);
             $table->unsignedDouble('price', 15, 4)->default(0.0000);
-            $table->string('status')->default(ServiceStatusEnum::ACTIVE->value);
-            $table->json('description')->nullable();
+            $table->string('description')->nullable();
             $table->foreignIdFor(ServiceCategory::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Clinic::class)->constrained()->cascadeOnDelete();
 

@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\ServiceCategory;
 
-use App\Rules\LanguageShape;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -23,14 +22,8 @@ class StoreUpdateServiceCategoryRequest extends FormRequest
      */
     public function rules(): array
     {
-        if (request()->method() == 'POST') {
-            return [
-                'name' => ['required', new LanguageShape()],
-            ];
-        }
-
         return [
-            'name' => ['nullable', new LanguageShape()],
+            'name' => ['required', 'max:255', 'min:3'],
         ];
     }
 }

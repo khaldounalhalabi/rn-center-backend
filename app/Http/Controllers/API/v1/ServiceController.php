@@ -15,10 +15,7 @@ class ServiceController extends ApiController
 
     public function __construct()
     {
-
         $this->serviceService = ServiceService::make();
-
-        // place the relations you want to return them within the response
         $this->relations = ['serviceCategory', 'clinic', 'media'];
     }
 

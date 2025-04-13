@@ -15,10 +15,7 @@ class ServiceCategoryController extends ApiController
 
     public function __construct()
     {
-
         $this->serviceCategoryService = ServiceCategoryService::make();
-
-        // place the relations you want to return them within the response
         $this->relations = [];
     }
 
