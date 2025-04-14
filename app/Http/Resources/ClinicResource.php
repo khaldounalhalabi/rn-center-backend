@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\Clinic;
+use Carbon\Carbon;
 
 /** @mixin Clinic */
 class ClinicResource extends BaseResource
@@ -15,11 +16,10 @@ class ClinicResource extends BaseResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
             'appointment_cost' => $this->appointment_cost,
             'user_id' => $this->user_id,
-            'working_start_year' => $this->working_start_year->format('Y-m-d'),
-            'experience_years' => now()->diffInYears($this->working_start_year),
+            'working_start_year' => $this->working_start_year,
+            'experience_years' => now()->diffInYears(Carbon::parse($this->working_start_year . '-01-01')),
             'max_appointments' => $this->max_appointments,
             'user' => new UserResource($this->whenLoaded('user')),
             'schedules' => new ScheduleCollection($this->whenLoaded('schedules')),

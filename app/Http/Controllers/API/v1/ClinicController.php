@@ -18,13 +18,13 @@ class ClinicController extends ApiController
         // place the relations you want to return them within the response
 
         if (!auth()->user() || isCustomer()) {
-            $this->indexRelations = ['specialities', 'user', 'user.media',];
+            $this->indexRelations = ['specialities', 'user',];
             $this->countable = [];
-            $this->relations = ['media', 'user', 'specialities', 'user.media', 'schedules'];
+            $this->relations = ['user', 'specialities', 'schedules'];
         } else {
             $this->indexRelations = ['user'];
             $this->countable = ['appointments', 'todayAppointments', 'upcomingAppointments'];
-            $this->relations = ['media', 'user', 'specialities', 'user.media'];
+            $this->relations = ['user', 'specialities'];
         }
     }
 

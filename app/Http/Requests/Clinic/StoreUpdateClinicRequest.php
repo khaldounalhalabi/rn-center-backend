@@ -29,10 +29,9 @@ class StoreUpdateClinicRequest extends FormRequest
             ? ClinicRepository::make()->find(request()->route('clinic'))?->user_id
             : user()->id;
         return [
-            'name' => ['required', 'min:3', 'max:255', new LanguageShape()],
             'appointment_cost' => 'required|numeric|min:0',
             'max_appointments' => 'required|numeric|integer|min:2',
-            'work_start_year' => 'required|date|date_format:Y',
+            'working_start_year' => 'required|date_format:Y',
 
             'user' => 'array|required',
             'user.first_name' => 'required|string',

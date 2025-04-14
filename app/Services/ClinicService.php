@@ -5,15 +5,12 @@ namespace App\Services;
 use App\Enums\ClinicStatusEnum;
 use App\Enums\RolesPermissionEnum;
 use App\Models\Clinic;
-use App\Models\User;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\ClinicRepository;
 use App\Repositories\UserRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
-use Exception;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Throwable;
 
 /**
@@ -45,36 +42,20 @@ class ClinicService extends BaseService
      */
     public function store(array $data, array $relationships = [], array $countable = []): ?Clinic
     {
-        try {
-            DB::beginTransaction();
-            if (!isset($data['user'])
-                || !isset($data['speciality_ids'])
-            ) {
-                DB::commit();
-                return null;
-            }
+        $user = $this->userRepository->create($data['user']);
+        $user->assignRole(RolesPermissionEnum::DOCTOR['role']);
+        $data['user_id'] = $user->id;
 
-            /** @var User $user */
-            $user = $this->userRepository->create($data['user']);
-            $user->assignRole(RolesPermissionEnum::DOCTOR['role']);
-            $data['user_id'] = $user->id;
+        /** @var Clinic $clinic */
+        $clinic = $this->repository->create($data);
 
-            /** @var Clinic $clinic */
-            $clinic = $this->repository->create($data);
+        $clinic->specialities()->sync($data['speciality_ids']);
 
-            $clinic->specialities()->sync($data['speciality_ids']);
+        $this->scheduleService->setDefaultClinicSchedule($clinic);
 
-            $this->scheduleService->setDefaultClinicSchedule($clinic);
-
-            DB::commit();
-            return $clinic->refresh()
-                ->load($relationships)
-                ->loadCount($countable);
-        } catch (Exception $exception) {
-            logger()->info($exception->getMessage());
-            DB::rollBack();
-            return null;
-        }
+        return $clinic->refresh()
+            ->load($relationships)
+            ->loadCount($countable);
     }
 
     /**
@@ -86,42 +67,25 @@ class ClinicService extends BaseService
      */
     public function update(array $data, $id, array $relationships = [], array $countable = []): ?Clinic
     {
-        try {
-            DB::beginTransaction();
-            $clinic = $this->repository->find($id);
+        $clinic = $this->repository->find($id);
 
-            if (!$clinic) {
-                return null;
-            }
-
-            if (!$clinic->canUpdate()) {
-                DB::commit();
-                return null;
-            }
-
-            $clinic = $this->repository->update($data, $clinic);
-
-
-            $user = $clinic->user;
-
-            if (isset($data['user'])) {
-                if (isset($data['password']) && $data['password'] == "") {
-                    unset($data['password']);
-                }
-                $this->userRepository->update($data['user'], $clinic->user_id);
-            }
-
-            if (isset($data['speciality_ids'])) {
-                $clinic->specialities()->sync($data['speciality_ids']);
-            }
-
-            DB::commit();
-            return $clinic->load($relationships)->loadCount($countable);
-        } catch (Exception $exception) {
-            logger()->info($exception->getMessage());
-            DB::rollBack();
+        if (!$clinic) {
             return null;
         }
+
+        if (!$clinic->canUpdate()) {
+            return null;
+        }
+
+        $clinic = $this->repository->update($data, $clinic);
+
+        $this->userRepository->update($data['user'], $clinic->user_id);
+
+        if (isset($data['speciality_ids'])) {
+            $clinic->specialities()->sync($data['speciality_ids']);
+        }
+
+        return $clinic->load($relationships)->loadCount($countable);
     }
 
     /**

@@ -16,7 +16,6 @@ Route::get('/notifications/{notificationId}/mark-as-read', [v1\NotificationContr
 
 Route::apiResource('/users', v1\UserController::class)->except(['store'])->names('users');
 
-Route::get('/clinics/{clinicId}/toggle-status', [v1\ClinicController::class, 'toggleClinicStatus'])->name('clinic.status.toggle');
 Route::apiResource('/clinics', v1\ClinicController::class)->names('clinics');
 
 Route::controller(v1\ScheduleController::class)

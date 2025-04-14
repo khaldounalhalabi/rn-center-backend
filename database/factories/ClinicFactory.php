@@ -31,10 +31,9 @@ class ClinicFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
             'appointment_cost' => fake()->numberBetween(1, 100),
             'user_id' => User::factory(),
-            'working_start_year' => fake()->date(),
+            'working_start_year' => fake()->date('Y'),
             'max_appointments' => fake()->numberBetween(1, 10),
         ];
     }

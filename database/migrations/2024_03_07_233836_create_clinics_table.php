@@ -13,9 +13,8 @@ return new class () extends Migration {
     {
         Schema::create('clinics', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->float('appointment_cost', 15, 4)->default(0.0000);
-            $table->date('working_start_year')->default(now());
+            $table->string('working_start_year');
             $table->integer('max_appointments');
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->timestamps();

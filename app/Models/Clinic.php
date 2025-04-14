@@ -23,7 +23,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized
     use HasFactory;
 
     protected $fillable = [
-        'name',
         'appointment_cost',
         'working_start_year',
         'max_appointments',
@@ -31,7 +30,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized
     ];
 
     protected $casts = [
-        'working_start_year' => 'datetime',
         'max_appointments' => 'integer',
         'appointment_cost' => 'float',
     ];

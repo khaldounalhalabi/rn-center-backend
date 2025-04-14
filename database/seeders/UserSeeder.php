@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\RolesPermissionEnum;
+use App\Models\Clinic;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -24,6 +25,12 @@ class UserSeeder extends Seeder
                 'phone' => '0936955532',
                 'first_name' => 'Doctor',
             ])->assignRole(RolesPermissionEnum::DOCTOR['role']);
+
+        Clinic::factory()
+            ->withSpecialities()
+            ->create([
+                'user_id' => $doctor->id,
+            ]);
 
         $secretary = User::factory()->verified()
             ->create([
