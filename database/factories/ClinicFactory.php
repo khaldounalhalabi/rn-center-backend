@@ -5,7 +5,6 @@ namespace Database\Factories;
 use App\Enums\WeekDayEnum;
 use App\Models\Appointment;
 use App\Models\Clinic;
-use App\Models\ClinicHoliday;
 use App\Models\Medicine;
 use App\Models\PatientProfile;
 use App\Models\Prescription;

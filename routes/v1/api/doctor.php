@@ -36,9 +36,6 @@ Route::get('/schedules', [v1\ScheduleController::class, 'getCurrentClinicSchedul
         'staff_can:manage-schedules,' . Schedule::class,
     ])->name('schedules.show');
 
-Route::get('clinic-holidays', [v1\ClinicHolidayController::class, 'getCurrentClinicHolidays'])->name('holidays');
-Route::apiResource('clinic-holidays', v1\ClinicHolidayController::class)->except(['index'])->names('holidays');
-
 Route::get('services/names', [v1\ServiceController::class, 'getClinicServicesNames'])->name('services.names');
 Route::get('services', [v1\ServiceController::class, 'index'])->name('service.index');
 Route::apiResource('services', v1\ServiceController::class)->except(['index'])->names('services');

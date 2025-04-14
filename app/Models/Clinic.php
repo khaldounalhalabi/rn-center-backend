@@ -139,10 +139,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized
             return false;
         }
 
-        if ($this->hasHolidayIn($date)) {
-            return false;
-        }
-
         if (!$this->availableScheduleIn($date)) {
             return false;
         }
@@ -169,14 +165,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized
         )->isAfter(now()));
     }
 
-    public function hasHolidayIn(string $date): bool
-    {
-        return $this->clinicHolidays()
-            ->where('start_date', '<=', $date)
-            ->where('end_date', '>=', $date)
-            ->exists();
-    }
-
     public function availableScheduleIn(string $date): bool
     {
         Carbon::setLocale("en");
@@ -198,12 +186,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized
         return $this->hasMany(Appointment::class)
             ->where('date', '>=', now()->format('Y-m-d'))
             ->whereIn('status', [AppointmentStatusEnum::CHECKIN->value, AppointmentStatusEnum::BOOKED->value]);
-    }
-
-    public function validHolidays(): HasMany
-    {
-        return $this->hasMany(ClinicHoliday::class)
-            ->where('end_date', '>=', now()->format('Y-m-d'));
     }
 
     public function medicines(): HasMany

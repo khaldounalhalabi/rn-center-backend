@@ -90,13 +90,12 @@ class ClinicService extends BaseService
      */
     public function getClinicAvailableTimes($clinicId): array
     {
-        $clinic = $this->repository->find($clinicId, ['validAppointments', 'schedules', 'validHolidays']);
+        $clinic = $this->repository->find($clinicId, ['validAppointments', 'schedules']);
 
         if (!$clinic) {
             return [
                 'booked_times' => [],
                 'clinic_schedule' => [],
-                'clinic_holidays' => [],
             ];
         }
 
@@ -107,12 +106,10 @@ class ClinicService extends BaseService
             });
 
         $schedules = $clinic->schedules->groupBy('day_of_week');
-        $holidays = $clinic->validHolidays;
 
         return [
             'booked_times' => $bookedTimes,
             'clinic_schedule' => $schedules,
-            'clinic_holidays' => $holidays,
         ];
     }
 

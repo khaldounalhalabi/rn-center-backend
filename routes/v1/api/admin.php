@@ -35,9 +35,6 @@ Route::post('/specialities/import', [v1\SpecialityController::class, 'import'])-
 Route::get('/specialities/import-example', [v1\SpecialityController::class, 'getImportExample'])->name('specialities.import.example');
 Route::apiResource('/specialities', v1\SpecialityController::class)->names('specialities');
 
-Route::apiResource('/clinic-holidays', v1\ClinicHolidayController::class)->names('clinic.holidays');
-
-
 Route::post('/service-categories/export', [v1\ServiceCategoryController::class, 'export'])->name('service.categories.export');
 Route::post('/service-categories/import', [v1\ServiceCategoryController::class, 'import'])->name('service.categories.import');
 Route::get('/service-categories/import-example', [v1\ServiceCategoryController::class, 'getImportExample'])->name('service.categories.import.example');
