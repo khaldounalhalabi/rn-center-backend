@@ -17,15 +17,13 @@ class ScheduleRepository extends BaseRepository
 
 
     /**
-     * @param class-string $schedulableType
      * @param int|null     $schedulableId
      * @return Collection<Schedule>|array<Schedule>
      */
-    public function getSchedulesByType(string $schedulableType, ?int $schedulableId = null): Collection|array
+    public function getByClinic(?int $schedulableId = null): Collection|array
     {
         return $this->globalQuery()
-            ->where('schedulable_type', $schedulableType)
-            ->when(isset($schedulableId), fn($q) => $q->where('schedulable_id', $schedulableId))
+            ->where('clinic_id', $schedulableId)
             ->get();
     }
 
@@ -40,15 +38,13 @@ class ScheduleRepository extends BaseRepository
     }
 
     /**
-     * @param int                  $schedulableId
-     * @param class-string<Clinic> $schedulableType
+     * @param int $clinicId
      * @return bool|null
      */
-    public function deleteAll(int $schedulableId, string $schedulableType): ?bool
+    public function deleteByClinic(int $clinicId): ?bool
     {
         return $this->globalQuery()
-            ->where('schedulable_id', $schedulableId)
-            ->where('schedulable_type', $schedulableType)
+            ->where('clinic_id', $clinicId)
             ->delete();
     }
 

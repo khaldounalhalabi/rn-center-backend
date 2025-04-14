@@ -28,7 +28,6 @@ class StoreUpdateScheduleRequest extends FormRequest
             'schedules.*.start_time' => 'required|date_format:H:i',
             'schedules.*.end_time' => ['required', 'date_format:H:i', 'after:schedules.*.start_time'],
             'clinic_id' => 'numeric|exists:clinics,id|required',
-            'appointment_gap' => 'required|numeric|max:60|integer|min:0'
         ];
     }
 

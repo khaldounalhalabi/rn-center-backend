@@ -73,10 +73,6 @@ class ClinicService extends BaseService
             return null;
         }
 
-        if (!$clinic->canUpdate()) {
-            return null;
-        }
-
         $clinic = $this->repository->update($data, $clinic);
 
         $this->userRepository->update($data['user'], $clinic->user_id);

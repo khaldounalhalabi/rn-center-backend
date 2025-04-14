@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Clinic;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,19 +13,16 @@ return new class () extends Migration {
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
-            $table->string("schedulable_type");
-            $table->unsignedBigInteger("schedulable_id");
             $table->string('day_of_week');
-            $table->time('start_time')->default(now()->format('H:i'));
-            $table->time('end_time')->default(now()->format('H:i'));
-            $table->integer('appointment_gap')->default(10);
+            $table->time('start_time');
+            $table->time('end_time');
+            $table->foreignIdFor(Clinic::class);
 
             $table->unique([
-                'schedulable_type',
-                'schedulable_id',
                 'day_of_week',
                 'start_time',
-                'end_time'
+                'end_time',
+                'clinic_id',
             ], 'unique_schedule');
 
             $table->timestamps();

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Interfaces\ActionsMustBeAuthorized;
 use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,20 +11,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string   day_of_week
  * @property DateTime start_time
  * @property DateTime end_time
- * @property string   schedulable_type
- * @property int      schedulable_id
+ * @property int      clinic_id
  */
-class Schedule extends Model implements ActionsMustBeAuthorized
+class Schedule extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'schedulable_type',
-        'schedulable_id',
         'day_of_week',
         'start_time',
         'end_time',
         'appointment_gap',
+        'clinic_id'
     ];
 
     protected $casts = [
@@ -53,13 +50,7 @@ class Schedule extends Model implements ActionsMustBeAuthorized
     public static function relationsSearchableArray(): array
     {
         return [
-        ];
-    }
 
-    public static function authorizedActions(): array
-    {
-        return [
-            'manage-schedules',
         ];
     }
 
@@ -80,20 +71,8 @@ class Schedule extends Model implements ActionsMustBeAuthorized
         ];
     }
 
-    public function schedulable(): belongsTo
+    public function clinic(): BelongsTo
     {
-        return $this->morphTo();
-    }
-
-    /**
-     * define your columns which you want to treat them as files
-     * so the base repository can store them in the storage without
-     * any additional files procedures
-     */
-    public function filesKeys(): array
-    {
-        return [
-            //filesKeys
-        ];
+        return $this->belongsTo(Clinic::class);
     }
 }

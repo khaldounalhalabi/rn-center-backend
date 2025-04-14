@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/refresh', [v1\AdminAuthController::class, 'refresh'])->name("refresh.token");
 Route::post('/logout', [v1\AdminAuthController::class, 'logout'])->name("logout");
 Route::post('/update-user-data', [v1\AdminAuthController::class, 'updateUserDetails'])->name("update.user.data");
-Route::get('/me', [v1\AdminAuthController::class, 'userDetails'])->name('user.details');
+Route::get('/me', [v1\AdminAuthController::class, 'userDetails'])->name('user.detSails');
 Route::post('/fcm/store-token', [v1\AdminAuthController::class, 'storeFcmToken'])->name('fcm.storeToken');
 Route::get('/fcm/get-token', [v1\AdminAuthController::class, 'getUserFcmToken'])->name('fcm.getToken');
 
@@ -22,9 +22,7 @@ Route::controller(v1\ScheduleController::class)
     ->group(function () {
         Route::get('/clinics/{clinicId}/schedules', 'clinicSchedules')->name('clinics.schedules');
         Route::delete('clinics/{clinicId}/schedules', 'deleteAllClinicSchedules')->name('clinics.schedules.delete');
-        Route::post('schedules', 'storeUpdateSchedules')->name('schedules.storeOrUpdate');
-        Route::get('/clinics/{clinicId}/appointments', [v1\AppointmentController::class, 'getClinicAppointments'])->name('clinics.appointments');
-        Route::get('/clinics/{clinicId}/available-times', [v1\ClinicController::class, 'getClinicAvailableTimes'])->name('clinic.get.clinic.available.times');
+        Route::post('/schedules', 'storeUpdateSchedules')->name('schedules.storeOrUpdate');
     });
 
 Route::get('/customers/recent', [v1\CustomerController::class, 'getRecent'])->name('customers.recent');
@@ -51,6 +49,9 @@ Route::post('/services/import', [v1\ServiceController::class, 'import'])->name('
 Route::get('/services/import-example', [v1\ServiceController::class, 'getImportExample'])->name('services.import.example');
 Route::apiResource('/services', v1\ServiceController::class)->names('services');
 
+
+Route::get('/clinics/{clinicId}/appointments', [v1\AppointmentController::class, 'getClinicAppointments'])->name('clinics.appointments');
+Route::get('/clinics/{clinicId}/available-times', [v1\ClinicController::class, 'getClinicAvailableTimes'])->name('clinic.get.clinic.available.times');
 Route::put('appointments/{appointmentId}/update-date', [v1\AppointmentController::class, 'updateAppointmentDate'])->name('appointments.update.date');
 Route::post('appointments/{appointmentId}/toggle-status', [v1\AppointmentController::class, 'toggleAppointmentStatus'])->name('appointments.status.toggle');
 Route::get('appointments/{appointmentId}/prescriptions/', [v1\PrescriptionController::class, 'getAppointmentPrescriptions'])->name('appointments.prescriptions');

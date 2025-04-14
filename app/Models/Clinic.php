@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\AppointmentStatusEnum;
-use App\Enums\ClinicStatusEnum;
 use App\Interfaces\ActionsMustBeAuthorized;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -12,7 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Str;
 
 /**
@@ -190,9 +188,9 @@ class Clinic extends Model implements ActionsMustBeAuthorized
             ->exists();
     }
 
-    public function schedules(): MorphMany
+    public function schedules(): HasMany
     {
-        return $this->morphMany(Schedule::class, 'schedulable');
+        return $this->hasMany(Schedule::class);
     }
 
     public function validAppointments(): HasMany
@@ -223,32 +221,8 @@ class Clinic extends Model implements ActionsMustBeAuthorized
         return $this->hasMany(PatientProfile::class);
     }
 
-    public function canUpdate(): bool
-    {
-        return isAdmin()
-            || clinic()?->id == $this->id;
-    }
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function canShow(): bool
-    {
-        return isAdmin()
-            || clinic()?->id == $this->id
-            || !auth()->user();
-    }
-
-    public function canDelete(): bool
-    {
-        return isAdmin()
-            || clinic()?->id == $this->id;
-    }
-
-    public function isAvailable(): bool
-    {
-        return $this->status == ClinicStatusEnum::ACTIVE->value;
     }
 }

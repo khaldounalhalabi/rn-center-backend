@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
             SpecialitySeeder::class,
             ServiceCategorySeeder::class,
             ServiceSeeder::class,
+            ClinicSeeder::class,
+            ScheduleSeeder::class,
             AppointmentSeeder::class,
             MedicineSeeder::class,
             PrescriptionSeeder::class,

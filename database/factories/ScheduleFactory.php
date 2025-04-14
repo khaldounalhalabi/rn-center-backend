@@ -17,19 +17,10 @@ class ScheduleFactory extends Factory
     public function definition(): array
     {
         return [
-            'schedulable_id' => Clinic::inRandomOrder()->first()->id,
-            'schedulable_type' => Clinic::class,
+            'clinic_id' => Clinic::inRandomOrder()->first()?->id ?? Clinic::factory()->create()->id,
             'day_of_week' => strtolower(fake()->dayOfWeek),
             'start_time' => fake()->time('H:i'),
             'end_time' => fake()->time('H:i'),
         ];
-    }
-
-    public function clinic(): ScheduleFactory
-    {
-        return $this->state([
-            'schedulable_id' => Clinic::factory(),
-            'schedulable_type' => Clinic::class,
-        ]);
     }
 }

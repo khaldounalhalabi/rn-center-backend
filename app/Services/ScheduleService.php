@@ -10,6 +10,8 @@ use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
+use Throwable;
 
 /**
  * @extends BaseService<Schedule>
@@ -23,51 +25,51 @@ class ScheduleService extends BaseService
 
     /**
      * @param int $clinicId
-     * @return array{data:Schedule , appointment_gap:int}
+     * @return Collection
      */
-    public function getClinicSchedule(int $clinicId): array
+    public function getClinicSchedule(int $clinicId): Collection
     {
         /** @var Collection<Schedule> $data */
-        $data = $this->repository->getSchedulesByType(Clinic::class, $clinicId);
-        $appointmentGap = $data->pluck('appointment_gap')->unique()->first();
-        return ['data' => $data, 'appointment_gap' => $appointmentGap];
+        $data = $this->repository->getByClinic($clinicId);
+        return $data;
     }
 
     /**
      * @param array $data
      * @return bool
+     * @throws Throwable
      */
     public function storeUpdateSchedules(array $data): bool
     {
-        if (isset($data['clinic_id'])) {
-            $data['schedulable_id'] = $data['clinic_id'];
-            $data['schedulable_type'] = Clinic::class;
-        } else return false;
+        DB::beginTransaction();
+        try {
+            $this->repository->deleteByClinic($data['clinic_id']);
 
-        $this->repository->deleteAll($data['schedulable_id'], $data['schedulable_type']);
+            $schedules = collect();
 
-        $schedules = collect();
-
-        foreach ($data['schedules'] as $schedule) {
-            $schedules->push([
-                'day_of_week' => $schedule['day_of_week'],
-                'start_time' => $schedule['start_time'],
-                'end_time' => $schedule['end_time'],
-                'schedulable_id' => $data['schedulable_id'],
-                'schedulable_type' => $data['schedulable_type'],
-                'appointment_gap' => $data['appointment_gap'] ?? 10,
-                'created_at' => now()->format('Y-m-d H:i:s'),
-                'updated_at' => now()->format('Y-m-d H:i:s')
-            ]);
+            foreach ($data['schedules'] as $schedule) {
+                $schedules->push([
+                    'day_of_week' => $schedule['day_of_week'],
+                    'start_time' => $schedule['start_time'],
+                    'end_time' => $schedule['end_time'],
+                    'clinic_id' => $data['clinic_id'],
+                    'created_at' => now()->format('Y-m-d H:i:s'),
+                    'updated_at' => now()->format('Y-m-d H:i:s')
+                ]);
+            }
+            $this->repository->insert($schedules->unique()->toArray());
+            DB::commit();
+            return true;
+        } catch (Exception) {
+            DB::rollBack();
+            return false;
         }
-
-        return $this->repository->insert($schedules->unique()->toArray());
     }
 
     public function deleteAllClinicSchedules($clinicId): bool
     {
         try {
-            $this->repository->deleteAll($clinicId, Clinic::class);
+            $this->repository->deleteByClinic($clinicId);
             return true;
         } catch (Exception) {
             return false;

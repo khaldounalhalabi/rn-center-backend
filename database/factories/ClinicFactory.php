@@ -43,18 +43,12 @@ class ClinicFactory extends Factory
         return $this->withSchedules()
             ->withSpecialities()
             ->withServices()
-            ->withClinicHolidays()
             ->withPrescriptions();
     }
 
     public function withPrescriptions($count = 1): ClinicFactory
     {
         return $this->has(Prescription::factory($count));
-    }
-
-    public function withClinicHolidays($count = 1): ClinicFactory
-    {
-        return $this->has(ClinicHoliday::factory($count));
     }
 
     public function withServices($count = 1): ClinicFactory
@@ -72,11 +66,10 @@ class ClinicFactory extends Factory
         return $this->afterCreating(function (Clinic $clinic) {
             foreach (WeekDayEnum::getAllValues() as $day) {
                 Schedule::create([
-                    'schedulable_id' => $clinic->id,
+                    'clinic_id' => $clinic->id,
                     'day_of_week' => $day,
                     'start_time' => Carbon::parse('09:00'),
                     'end_time' => Carbon::parse('21:00'),
-                    'schedulable_type' => Clinic::class,
                 ]);
             }
         });
