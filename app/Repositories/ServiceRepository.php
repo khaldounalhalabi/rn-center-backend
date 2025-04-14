@@ -28,8 +28,6 @@ class ServiceRepository extends BaseRepository
         return parent::globalQuery($relations, $countable)
             ->when(isDoctor(), function (Builder $builder) {
                 $builder->where('clinic_id', clinic()?->id);
-            })->when($this->filtered, function (Builder $q) {
-                $q->where('status', ServiceStatusEnum::ACTIVE->value);
             });
     }
 

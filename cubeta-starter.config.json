@@ -47,8 +47,7 @@
                     "unique": false
                 }
             ],
-            "relations": {
-            }
+            "relations": []
         },
         {
             "model_name": "Customer",
@@ -204,9 +203,7 @@
                         "model_name": "Specialty"
                     }
                 ],
-                "hasOne": [
-
-                ]
+                "hasOne": []
             }
         },
         {
@@ -1014,6 +1011,32 @@
             "model_name": "Category",
             "table_name": "categories",
             "attributes": [],
+            "version": "v1"
+        },
+        {
+            "model_name": "Holiday",
+            "table_name": "holidays",
+            "attributes": [
+                {
+                    "name": "from",
+                    "type": "dateTime",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "to",
+                    "type": "dateTime",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "reason",
+                    "type": "text",
+                    "nullable": false,
+                    "unique": false
+                }
+            ],
+            "relations": [],
             "version": "v1"
         }
     ],

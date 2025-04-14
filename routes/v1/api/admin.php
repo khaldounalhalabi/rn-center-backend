@@ -3,9 +3,9 @@
 use App\Http\Controllers\API\v1;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/refresh', [v1\AdminAuthController::class, 'refresh'])->name("refresh.token");
-Route::post('/logout', [v1\AdminAuthController::class, 'logout'])->name("logout");
-Route::post('/update-user-data', [v1\AdminAuthController::class, 'updateUserDetails'])->name("update.user.data");
+Route::post('/refresh', [v1\AdminAuthController::class, 'refresh'])->name('refresh.token');
+Route::post('/logout', [v1\AdminAuthController::class, 'logout'])->name('logout');
+Route::post('/update-user-data', [v1\AdminAuthController::class, 'updateUserDetails'])->name('update.user.data');
 Route::get('/me', [v1\AdminAuthController::class, 'userDetails'])->name('user.detSails');
 Route::post('/fcm/store-token', [v1\AdminAuthController::class, 'storeFcmToken'])->name('fcm.storeToken');
 Route::get('/fcm/get-token', [v1\AdminAuthController::class, 'getUserFcmToken'])->name('fcm.getToken');
@@ -46,7 +46,6 @@ Route::post('/services/import', [v1\ServiceController::class, 'import'])->name('
 Route::get('/services/import-example', [v1\ServiceController::class, 'getImportExample'])->name('services.import.example');
 Route::apiResource('/services', v1\ServiceController::class)->names('services');
 
-
 Route::get('/clinics/{clinicId}/appointments', [v1\AppointmentController::class, 'getClinicAppointments'])->name('clinics.appointments');
 Route::get('/clinics/{clinicId}/available-times', [v1\ClinicController::class, 'getClinicAvailableTimes'])->name('clinic.get.clinic.available.times');
 Route::put('appointments/{appointmentId}/update-date', [v1\AppointmentController::class, 'updateAppointmentDate'])->name('appointments.update.date');
@@ -69,3 +68,8 @@ Route::get('transactions/summary', [v1\TransactionController::class, 'summary'])
 Route::apiResource('/transactions', v1\TransactionController::class)->names('transactions');
 
 Route::get('/statistics/index', [v1\StatisticsController::class, 'adminStatistics'])->name('statistics.index');
+
+Route::post('/holidays/export', [v1\HolidayController::class, 'export'])->name('holidays.export');
+Route::post('/holidays/import', [v1\HolidayController::class, 'import'])->name('holidays.import');
+Route::get('/holidays/get-import-example', [v1\HolidayController::class, 'getImportExample'])->name('holidays.get.example');
+Route::apiResource('/holidays', v1\HolidayController::class)->names('holidays');

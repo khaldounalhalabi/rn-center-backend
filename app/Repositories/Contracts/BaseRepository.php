@@ -31,7 +31,6 @@ abstract class BaseRepository
      */
     protected string $modelClass = Model::class;
     protected Model $model;
-    protected bool $filtered = false;
     protected $perPage;
     private Filesystem $fileSystem;
     private array $filterKeys = [];
@@ -68,12 +67,6 @@ abstract class BaseRepository
 
         if (method_exists($this->model, 'customOrders')) {
             $this->customOrders = $this->model->customOrders();
-        }
-
-        $this->filtered = (request()->header('filtered') ?? request()->header('Filtered', false)) ?? false;
-
-        if (!isAdmin() && !isDoctor()) {
-            $this->filtered = true;
         }
 
         $this->modelTableColumns = $this->model->getFillable();
