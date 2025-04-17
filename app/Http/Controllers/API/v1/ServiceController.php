@@ -16,7 +16,7 @@ class ServiceController extends ApiController
     public function __construct()
     {
         $this->serviceService = ServiceService::make();
-        $this->relations = ['serviceCategory', 'clinic', 'media'];
+        $this->relations = ['serviceCategory', 'clinic.user', 'media'];
     }
 
     public function index()

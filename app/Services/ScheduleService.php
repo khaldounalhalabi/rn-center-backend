@@ -88,9 +88,7 @@ class ScheduleService extends BaseService
                 'day_of_week' => $day,
                 'start_time' => "09:00",
                 'end_time' => "21:00",
-                'schedulable_id' => $clinicId,
-                'schedulable_type' => Clinic::class,
-                'appointment_gap' => 10,
+                'clinic_id' => $clinicId,
                 'created_at' => now()->format('Y-m-d H:i:s'),
                 'updated_at' => now()->format('Y-m-d H:i:s')
             ]);

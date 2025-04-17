@@ -80,10 +80,12 @@ class Clinic extends Model implements ActionsMustBeAuthorized
                 'relation' => 'schedules.day_of_week',
             ],
             [
-                'name' => 'start_time',
-                'relation' => 'schedules.start_time',
-                'method' => 'whereTime',
-                'operator' => '>=',
+                'name' => 'available_time',
+                'query' => fn(Builder|Clinic $query, $value) => $query
+                    ->whereHas('schedules', function (Builder|Schedule $schedule) use ($value) {
+                        $schedule->whereTime('start_time', ">=", $value)
+                            ->whereTime('end_time', "<=", $value);
+                    })
             ],
             [
                 'name' => 'end_time',

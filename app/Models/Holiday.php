@@ -54,8 +54,8 @@ class Holiday extends Model
         return [
             [
                 'name' => 'date',
-                'query' => fn(Holiday|Builder $query) => $query->where('to', '<=', request('date'))
-                    ->where('from', '>=', request('date'))
+                'query' => fn(Holiday|Builder $query, $value) => $query->where('to', '>=', $value)
+                    ->where('from', '<=', $value)
             ]
         ];
     }
