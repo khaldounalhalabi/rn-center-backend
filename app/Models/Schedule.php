@@ -37,9 +37,7 @@ class Schedule extends Model
     public static function searchableArray(): array
     {
         return [
-            'day_of_week',
-            'start_time',
-            'end_time',
+
         ];
     }
 
@@ -57,17 +55,7 @@ class Schedule extends Model
     public function filterArray(): array
     {
         return [
-            [
-                'name' => 'day_of_week'
-            ],
-            [
-                'name' => 'start_time',
-                'operator' => '>='
-            ],
-            [
-                'name' => 'end_time',
-                'operator' => '>='
-            ]
+
         ];
     }
 

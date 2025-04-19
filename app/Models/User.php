@@ -70,10 +70,17 @@ class User extends Authenticatable implements JWTSubject
         return [
             'first_name',
             'last_name',
-            'email',
             'phone',
             'gender',
+            'full_name',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        self::creating(function (User $user) {
+            $user->full_name = $user->first_name . ' ' . $user->last_name;
+        });
     }
 
     /**
@@ -151,7 +158,7 @@ class User extends Authenticatable implements JWTSubject
 
     /**
      * to get admin current balance
-     * where user type is for admin and clinic type is for clinics users
+     * where a user type is for admin and clinic type is for clinics users
      * @return Balance|null
      */
     public function balance(): ?Balance
@@ -181,14 +188,6 @@ class User extends Authenticatable implements JWTSubject
             set: fn(?string $value) => Hash::make($value)
         );
     }
-
-    protected function fullName(): Attribute
-    {
-        return Attribute::make(
-            get: fn($value, array $attributes) => $this->first_name . ' ' . $this->last_name,
-        );
-    }
-
 
     public function verified(): bool
     {

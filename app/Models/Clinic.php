@@ -47,12 +47,9 @@ class Clinic extends Model implements ActionsMustBeAuthorized
     public static function searchableArray(): array
     {
         return [
-            'name',
             'appointment_cost',
             'working_start_year',
             'max_appointments',
-            'appointment_day_range',
-            'status',
         ];
     }
 
@@ -67,7 +64,8 @@ class Clinic extends Model implements ActionsMustBeAuthorized
                 'first_name',
                 'last_name',
                 'phone',
-                'gender'
+                'gender',
+                'full_name'
             ],
         ];
     }
@@ -83,15 +81,9 @@ class Clinic extends Model implements ActionsMustBeAuthorized
                 'name' => 'available_time',
                 'query' => fn(Builder|Clinic $query, $value) => $query
                     ->whereHas('schedules', function (Builder|Schedule $schedule) use ($value) {
-                        $schedule->whereTime('start_time', ">=", $value)
-                            ->whereTime('end_time', "<=", $value);
+                        $schedule->whereTime('start_time', "<=", $value)
+                            ->whereTime('end_time', ">=", $value);
                     })
-            ],
-            [
-                'name' => 'end_time',
-                'relation' => 'schedules.end_time',
-                'method' => 'whereTime',
-                'operator' => '<=',
             ],
         ];
     }
