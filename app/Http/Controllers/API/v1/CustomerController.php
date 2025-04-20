@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\ApiController;
-use App\Http\Requests\Customer\DoctorStoreUpdateCustomerRequest;
 use App\Http\Requests\Customer\StoreUpdateCustomerRequest;
 use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
@@ -16,13 +15,7 @@ class CustomerController extends ApiController
     public function __construct()
     {
         $this->customerService = CustomerService::make();
-
-        if (isDoctor()) {
-            $this->relations = ['user.media', 'user'];
-        } else {
-            $this->relations = ['user', 'user.media',];
-        }
-
+        $this->relations = ['user', 'media'];
         $this->indexRelations = ['user'];
     }
 
@@ -77,61 +70,6 @@ class CustomerController extends ApiController
         }
 
         return $this->noData(false);
-    }
-
-    public function getDoctorCustomers()
-    {
-        $data = $this->customerService->getDoctorCustomers([
-            'user',
-        ]);
-
-        if ($data) {
-            return $this->apiResponse(CustomerResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
-        }
-
-        return $this->noData();
-    }
-
-    public function doctorAddCustomer(DoctorStoreUpdateCustomerRequest $request)
-    {
-        $data = $this->customerService->doctorAddCustomer($request->validated(), $this->relations);
-
-        if ($data) {
-            return $this->apiResponse(new CustomerResource($data), self::STATUS_OK, __('site.stored_successfully'));
-        }
-
-        return $this->noData();
-    }
-
-    public function doctorUpdateCustomer(DoctorStoreUpdateCustomerRequest $request, $customerId)
-    {
-        $data = $this->customerService->doctorUpdateCustomer($customerId, $request->validated(), $this->relations);
-
-        if ($data) {
-            return $this->apiResponse(new CustomerResource($data), self::STATUS_OK, __('site.update_successfully'));
-        }
-
-        return $this->noData();
-    }
-
-    public function doctorDeleteCustomer($customerId)
-    {
-        $result = $this->customerService->doctorDeleteCustomer($customerId);
-
-        if ($result) {
-            return $this->apiResponse($result, self::STATUS_OK, __('site.delete_successfully'));
-        }
-
-        return $this->noData();
-    }
-
-    public function getByClinic($clinicId)
-    {
-        $data = $this->customerService->getByClinic($clinicId, $this->relations, $this->countable);
-        if ($data) {
-            return $this->apiResponse(CustomerResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
-        }
-        return $this->noData();
     }
 
     public function getRecent()

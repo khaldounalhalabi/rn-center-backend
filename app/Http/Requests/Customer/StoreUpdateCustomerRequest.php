@@ -4,9 +4,7 @@ namespace App\Http\Requests\Customer;
 
 use App\Enums\BloodGroupEnum;
 use App\Enums\GenderEnum;
-use App\Models\Customer;
-use App\Models\User;
-use App\Rules\LanguageShape;
+use App\Repositories\CustomerRepository;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -26,41 +24,28 @@ class StoreUpdateCustomerRequest extends FormRequest
      */
     public function rules(): array
     {
-        if ($this->method() == "POST") {
-            return [
-                'first_name' => ['required', new LanguageShape(), 'max:60'],
-                'last_name' => ['required', new LanguageShape(), 'max:60'],
-                'email' => ['required', 'email', 'max:255', 'min:3', 'string', 'unique:users,email',],
-                'password' => 'string|min:8|max:20|required|confirmed',
-                'birth_date' => 'date_format:Y-m-d|date|nullable',
-                'gender' => ['required', 'string', Rule::in(GenderEnum::getAllValues())],
-                'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
-                'blood_group' => 'nullable|string|' . Rule::in(BloodGroupEnum::getAllValues()),
-            ];
-        }
-
-        $userId = Customer::find(request()->route('customer'))?->user_id;
-
         return [
-            'first_name' => ['nullable', new LanguageShape(), 'max:60'],
-            'last_name' => ['nullable', new LanguageShape(), 'max:60'],
-            'email' => ['nullable', 'email', 'max:255', 'min:3', 'string', 'unique:users,email,' . $userId,],
-            'password' => 'string|min:8|max:20|nullable|confirmed',
-            'birth_date' => 'date_format:Y-m-d|date|nullable',
-            'gender' => ['nullable', 'string', Rule::in(GenderEnum::getAllValues())],
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
+            'first_name' => 'required|string|min:3|max:255',
+            'last_name' => 'required|string|min:3|max:255',
+            'phone' => [
+                'required',
+                'regex:/^09\d{8}$/',
+                Rule::unique('users', 'phone')
+                    ->when(
+                        $this->method() == 'PUT',
+                        fn($rule) => $rule->ignore(CustomerRepository::make()->find($this->route('customer'))?->user_id)
+                    )
+            ],
+            'gender' => ['required', 'string', Rule::in(GenderEnum::getAllValues())],
+            'birth_date' => 'required|date|date_format:Y-m-d',
             'blood_group' => 'nullable|string|' . Rule::in(BloodGroupEnum::getAllValues()),
+            'health_status' => 'nullable|string|max:5000',
+            'notes' => 'nullable|string|max:5000',
+            'other_data' => 'nullable|array',
+            'other_data.*.key' => 'string|min:1|max:255',
+            'other_data.*.value' => 'string|min:1|max:5000',
+            'attachments' => 'nullable|array',
+            'attachments.*' => 'file|mimes:jpeg,png,jpg,pdf,webp,zip,rar,word,txt|max:25000',
         ];
-    }
-
-    public function attributes()
-    {
-        return [
-        ];
-    }
-
-    protected function prepareForValidation(): void
-    {
-
     }
 }

@@ -12,18 +12,6 @@ class CustomerRepository extends BaseRepository
 {
     protected string $modelClass = Customer::class;
 
-    public function getByUserId($userId): ?Customer
-    {
-        return $this->globalQuery()->where('user_id', $userId)->first();
-    }
-
-    public function getClinicCustomers($clinicId, array $relations = [], array $countable = []): ?array
-    {
-        return $this->paginateQuery(
-            $this->globalQuery($relations, $countable)
-        );
-    }
-
     public function getRecent(array $relations = [], array $countable = []): ?array
     {
         return $this->paginateQuery(

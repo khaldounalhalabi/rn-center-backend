@@ -21,9 +21,13 @@ class CustomerResource extends BaseResource
             'age' => round($this->birth_date?->diffInYears()),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'total_appointments' => $this->whenCounted('validAppointments'),
+            'health_status' => $this->health_status,
+            'notes' => $this->notes,
+            'other_data' => $this->other_data,
             'user' => new UserResource($this->whenLoaded('user')),
             'appointments' => AppointmentResource::collection($this->whenLoaded('appointments')),
             'prescriptions' => PrescriptionResource::collection($this->whenLoaded('prescriptions')),
+            'attachments' => MediaResource::collection($this->whenLoaded('media')),
         ];
     }
 }

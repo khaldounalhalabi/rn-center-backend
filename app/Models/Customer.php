@@ -2,38 +2,51 @@
 
 namespace App\Models;
 
-use App\Enums\AppointmentStatusEnum;
-use App\Traits\HasAbilities;
+use App\Enums\MediaTypeEnum;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property int    user_id
  * @property Carbon birth_date
  * @property string blood_group
  */
-class Customer extends Model
+class Customer extends Model implements HasMedia
 {
-    use HasAbilities;
     use HasFactory;
+    use InteractsWithMedia;
 
     protected $fillable = [
         'user_id',
         'birth_date',
         'blood_group',
+        'health_status',
+        'notes',
+        'other_data',
     ];
     protected $casts = [
         'created_at' => 'datetime',
         'birth_date' => 'datetime',
+        'other_data' => 'array'
     ];
 
-    /**
-     * add your relations and their searchable columns,
-     * so you can search within them in the index method
-     */
+
+    public function searchableArray(): array
+    {
+        return [
+            'birth_date',
+            'blood_group',
+            'health_status',
+            'notes',
+            'other_data',
+        ];
+    }
+
     public static function relationsSearchableArray(): array
     {
         return [
@@ -41,15 +54,9 @@ class Customer extends Model
                 'email',
                 'first_name',
                 'last_name',
-                'phone'
+                'phone',
+                'full_name',
             ],
-        ];
-    }
-
-    public function customOrders(): array
-    {
-        return [
-
         ];
     }
 
@@ -58,15 +65,9 @@ class Customer extends Model
         return $this->hasMany(Prescription::class);
     }
 
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function canShow(): bool
-    {
-        return isDoctor() || isAdmin();
     }
 
     public function appointments(): HasMany
@@ -74,19 +75,10 @@ class Customer extends Model
         return $this->hasMany(Appointment::class);
     }
 
-    public function canUpdate(): bool
+    public function filesKeys(): array
     {
-        return isDoctor() || isAdmin();
-    }
-
-    public function canDelete(): bool
-    {
-        return isAdmin();
-    }
-
-    public function validAppointments(): HasMany
-    {
-        return $this->hasMany(Appointment::class)
-            ->whereNotIn('status', [AppointmentStatusEnum::CANCELLED->value, AppointmentStatusEnum::PENDING->value]);
+        return [
+            'attachments' => ['type' => MediaTypeEnum::MULTIPLE->value]
+        ];
     }
 }

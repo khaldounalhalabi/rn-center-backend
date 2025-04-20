@@ -33,8 +33,8 @@ class AuthRegisterRequest extends FormRequest
         }
 
         return [
-            'first_name' => 'required|string',
-            'last_name' => 'required|string',
+            'first_name' => 'required|string|min:3|max:255',
+            'last_name' => 'required|string|min:3|max:255',
             'phone' => 'required|regex:/^09\d{8}$/|unique:users,phone',
             'password' => 'required|min:8|confirmed',
             'gender' => ['required', 'string', Rule::in(GenderEnum::getAllValues())],

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\BloodGroupEnum;
+use App\Enums\RolesPermissionEnum;
 use App\Models\Appointment;
 use App\Models\Prescription;
 use App\Models\User;
@@ -20,9 +21,15 @@ class CustomerFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(),
+            'user_id' => User::factory()->create()->assignRole(RolesPermissionEnum::CUSTOMER['role'])->id,
             'birth_date' => fake()->date(),
-            'blood_group' => fake()->randomElement(BloodGroupEnum::getAllValues())
+            'blood_group' => fake()->randomElement(BloodGroupEnum::getAllValues()),
+            'health_status' => fake()->text(),
+            'notes' => fake()->text(),
+            'other_data' => [
+                fake()->word(),
+                fake()->text()
+            ]
         ];
     }
 

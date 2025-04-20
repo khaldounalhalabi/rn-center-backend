@@ -40,11 +40,7 @@ Route::get('services/names', [v1\ServiceController::class, 'getClinicServicesNam
 Route::get('services', [v1\ServiceController::class, 'index'])->name('service.index');
 Route::apiResource('services', v1\ServiceController::class)->except(['index'])->names('services');
 
-Route::get('customers', [v1\CustomerController::class, 'getDoctorCustomers'])->name('customers.index');
 Route::get('customers/{customerId}', [v1\CustomerController::class, 'show'])->name('customers.show');
-Route::post('customers', [v1\CustomerController::class, 'doctorAddCustomer'])->name('customers.store');
-Route::put('customers/{customerId}', [v1\CustomerController::class, 'doctorUpdateCustomer'])->name('customers.update');
-Route::delete('customers/{customerId}', [v1\CustomerController::class, 'doctorDeleteCustomer'])->name('customers.delete');
 
 Route::get('/appointments/all/group-by-month', [v1\AppointmentController::class, 'getAppointmentsCountInMonth'])->name('appointments.all.group.by.month');
 Route::get('/appointments/completed/group-by-month', [v1\AppointmentController::class, 'getAppointmentsCompletedCountInMonth'])->name('appointments.completed.group.by.month');

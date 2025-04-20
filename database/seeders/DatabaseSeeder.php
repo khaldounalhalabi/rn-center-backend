@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             MedicineSeeder::class,
             PrescriptionSeeder::class,
             HolidaySeeder::class,
+            CustomerSeeder::class,
         ]);
     }
 }

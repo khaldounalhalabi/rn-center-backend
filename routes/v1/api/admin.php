@@ -26,7 +26,6 @@ Route::controller(v1\ScheduleController::class)
     });
 
 Route::get('/customers/recent', [v1\CustomerController::class, 'getRecent'])->name('customers.recent');
-Route::get('/clinics/{clinicId}/customers', [v1\CustomerController::class, 'getByClinic'])->name('clinics.customers');
 Route::apiResource('/customers', v1\CustomerController::class)->names('customers');
 
 Route::post('/specialities/export', [v1\SpecialityController::class, 'export'])->name('specialities.export');

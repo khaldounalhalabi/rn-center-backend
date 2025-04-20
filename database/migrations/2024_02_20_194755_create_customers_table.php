@@ -16,6 +16,9 @@ return new class () extends Migration {
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->date('birth_date');
             $table->string('blood_group')->nullable();
+            $table->text('health_status')->nullable();
+            $table->text('notes')->nullable();
+            $table->json('other_data')->nullable();
             $table->timestamps();
             $table->index(['created_at']);
         });

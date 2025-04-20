@@ -3,13 +3,14 @@
 namespace App\Services;
 
 use App\Enums\RolesPermissionEnum;
-use App\Exceptions\RoleDoesNotExistException;
 use App\Models\Customer;
+use App\Modules\SMS;
 use App\Repositories\CustomerRepository;
 use App\Repositories\UserRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * @extends BaseService<Customer>
@@ -21,55 +22,30 @@ class CustomerService extends BaseService
 
     protected string $repositoryClass = CustomerRepository::class;
 
-    private UserService $userService;
-
-
     public function init(): void
     {
         parent::__construct();
-        $this->userService = UserService::make();
-    }
-
-    /**
-     * @param array{first_name:string,last_name:string,email:string,birth_date:string,gender:string,name:string,medical_condition:string,note:string,other_data:string,images:string, $data
-     * @param array                                                                                                                                                                   $relations
-     * @param array                                                                                                                                                                   $countable
-     * @return Customer|null
-     * @throws RoleDoesNotExistException
-     */
-    public function doctorAddCustomer(array $data = [], array $relations = [], array $countable = []): ?Customer
-    {
-        $user = UserRepository::make()->getExistCustomerUser([
-            'email' => $data['email'] ?? null,
-            'phone_numbers' => $data['phone_numbers'] ?? null,
-        ]);
-
-        if (!$user) {
-            $data['role'] = RolesPermissionEnum::CUSTOMER['role'];
-            $user = $this->userService->store($data);
-            $customer = $this->repository->create([
-                'user_id' => $user->id,
-            ]);
-        } else {
-            $customer = $this->repository->getByUserId($user->id);
-        }
-
-        if (!$customer) {
-            $customer = $this->repository->create([
-                'user_id' => $user->id,
-            ]);
-        }
-
-        return $customer;
     }
 
     public function store(array $data, array $relationships = [], array $countable = []): ?Model
     {
-        $user = $this->userService->store($data);
+        $data['password'] = Str::password('10');
+        $user = UserRepository::make()->create($data);
         $user->assignRole(RolesPermissionEnum::CUSTOMER['role']);
-        return $this->repository->create([
+        $customer = $this->repository->create([
             'user_id' => $user->id,
-        ], $relationships);
+            ...$data
+        ], $relationships, $countable);
+
+        SMS::make()
+            ->message(trans('site.new_patient_account_created', [
+                'patient_name' => $user->full_name,
+                'password' => $data['password'],
+                'app_link' => config('settings.app_url')
+            ]))->to($user->universal_phone)
+            ->send();
+
+        return $customer;
     }
 
     public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
@@ -79,65 +55,8 @@ class CustomerService extends BaseService
             return null;
         }
 
-        $this->userService->update($data, $customer->user_id);
-        $customer->refresh();
-
-        return $customer->load($relationships)
-            ->loadCount($countable);
-    }
-
-    public function doctorUpdateCustomer(int $customerId, array $data, array $relations = [], array $countable = []): Customer|null
-    {
-        $customer = $this->repository->find($customerId);
-
-        if (!$customer?->canUpdate()) {
-            return null;
-        }
-
-        return $customer;
-    }
-
-    public function doctorDeleteCustomer($customerId): ?bool
-    {
-        $customer = $this->repository->find($customerId);
-        if (!$customer) {
-            return null;
-        }
-
-        return $this->repository->delete($customer->id);
-    }
-
-    public function delete($id): ?bool
-    {
-        $customer = $this->repository->find($id, ['user']);
-
-        if (!$customer) {
-            return null;
-        }
-
-        $user = $customer->user;
-        $customer->delete();
-        return $user->delete();
-    }
-
-    public function getDoctorCustomers(array $relations = [], array $countable = [], int $perPage = 10): ?array
-    {
-        return $this->repository->getClinicCustomers(clinic()?->id ?? 0, $relations, $countable);
-    }
-
-    public function view($id, array $relationships = [], array $countable = []): ?Model
-    {
-        $customer = parent::view($id, $relationships, $countable);
-        if ($customer?->canShow()) {
-            return $customer;
-        }
-
-        return null;
-    }
-
-    public function getByClinic($clinicId, array $relations = [], array $countable = []): ?array
-    {
-        return $this->repository->getClinicCustomers($clinicId, $relations, $countable);
+        UserRepository::make()->update($data, $customer->user_id);
+        return $this->repository->update($data, $customer, $relationships, $countable);
     }
 
     public function getRecent(array $relations = [], array $countable = []): ?array
