@@ -9,7 +9,6 @@ use App\Models\Clinic;
 use App\Repositories\AppointmentLogRepository;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\ClinicRepository;
-use App\Repositories\PatientProfileRepository;
 use App\Repositories\ServiceRepository;
 use Illuminate\Support\Facades\Log;
 
@@ -34,15 +33,6 @@ class AppointmentManager
         $appointment = AppointmentRepository::make()->create($data);
 
         $this->logAppointment($data, $appointment);
-
-        $patientProfile = PatientProfileRepository::make()->getByClinicAndCustomer($appointment->clinic_id, $appointment->customer_id);
-
-        if (!$patientProfile) {
-            PatientProfileRepository::make()->create([
-                'clinic_id' => $clinic->id,
-                'customer_id' => $appointment->customer_id,
-            ]);
-        }
 
         return $appointment->load($relationships)->loadCount($countable);
     }

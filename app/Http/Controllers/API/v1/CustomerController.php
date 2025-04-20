@@ -18,23 +18,12 @@ class CustomerController extends ApiController
         $this->customerService = CustomerService::make();
 
         if (isDoctor()) {
-            $this->relations = [
-                'currentClinicPatientProfile.media',
-                'user.media',
-                'currentClinicPatientProfile',
-                'user',
-                'currentClinicPatientProfile.lastAppointment',
-            ];
+            $this->relations = ['user.media', 'user'];
         } else {
-            $this->relations = [
-                'user',
-                'user.media',
-            ];
-
-            $this->indexRelations = [
-                'user',
-            ];
+            $this->relations = ['user', 'user.media',];
         }
+
+        $this->indexRelations = ['user'];
     }
 
     public function index()
@@ -50,7 +39,7 @@ class CustomerController extends ApiController
     public function show($customerId)
     {
         /** @var Customer|null $item */
-        $item = $this->customerService->view($customerId, [...$this->relations, 'currentClinicPatientProfile.appointments'], $this->countable);
+        $item = $this->customerService->view($customerId, $this->relations, $this->countable);
         if ($item) {
             return $this->apiResponse(new CustomerResource($item), self::STATUS_OK, __('site.get_successfully'));
         }

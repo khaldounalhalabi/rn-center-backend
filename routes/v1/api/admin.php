@@ -27,7 +27,6 @@ Route::controller(v1\ScheduleController::class)
 
 Route::get('/customers/recent', [v1\CustomerController::class, 'getRecent'])->name('customers.recent');
 Route::get('/clinics/{clinicId}/customers', [v1\CustomerController::class, 'getByClinic'])->name('clinics.customers');
-Route::get('customers/{customerId}/patient-profiles', [v1\PatientProfileController::class, 'getCustomerPatientProfiles']);
 Route::apiResource('/customers', v1\CustomerController::class)->names('customers');
 
 Route::post('/specialities/export', [v1\SpecialityController::class, 'export'])->name('specialities.export');
@@ -61,8 +60,6 @@ Route::apiResource('/medicines', v1\MedicineController::class)->names('medicines
 
 Route::delete('/prescriptions/medicine-data/{medicineDataId}', [v1\PrescriptionController::class, 'removeMedicine'])->name('prescription.medicine.remove');
 Route::apiResource('prescriptions', v1\PrescriptionController::class)->names('prescriptions');
-
-Route::apiResource('/patient-profiles', v1\PatientProfileController::class)->names('patient.profiles');
 
 Route::get('transactions/summary', [v1\TransactionController::class, 'summary'])->name('transaction.summary');
 Route::apiResource('/transactions', v1\TransactionController::class)->names('transactions');

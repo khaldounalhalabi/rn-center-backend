@@ -6,7 +6,6 @@ use App\Enums\RolesPermissionEnum;
 use App\Exceptions\RoleDoesNotExistException;
 use App\Models\Customer;
 use App\Repositories\CustomerRepository;
-use App\Repositories\PatientProfileRepository;
 use App\Repositories\UserRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
@@ -33,8 +32,8 @@ class CustomerService extends BaseService
 
     /**
      * @param array{first_name:string,last_name:string,email:string,birth_date:string,gender:string,name:string,medical_condition:string,note:string,other_data:string,images:string, $data
-     * @param array                                                                                                                                                                                  $relations
-     * @param array                                                                                                                                                                                  $countable
+     * @param array                                                                                                                                                                   $relations
+     * @param array                                                                                                                                                                   $countable
      * @return Customer|null
      * @throws RoleDoesNotExistException
      */
@@ -61,7 +60,7 @@ class CustomerService extends BaseService
             ]);
         }
 
-        return $this->createUpdateClinicPatientProfile($customer, $data, $relations, $countable);
+        return $customer;
     }
 
     public function store(array $data, array $relationships = [], array $countable = []): ?Model
@@ -71,34 +70,6 @@ class CustomerService extends BaseService
         return $this->repository->create([
             'user_id' => $user->id,
         ], $relationships);
-    }
-
-    /**
-     * @param Model|Customer|null $customer
-     * @param array               $data
-     * @param array               $relations
-     * @param array               $countable
-     * @return Customer|Model|null
-     */
-    private function createUpdateClinicPatientProfile(Model|Customer|null $customer, array $data, array $relations, array $countable): null|Customer|Model
-    {
-        $patientProfile = PatientProfileRepository::make()->getByClinicAndCustomer(clinic()?->id, $customer->id);
-
-        if ($patientProfile) {
-            if ($patientProfile->canUpdate()) {
-                PatientProfileRepository::make()->update($data, $patientProfile);
-            } else {
-                return null;
-            }
-        } else {
-            PatientProfileRepository::make()->create([
-                'customer_id' => $customer->id,
-                'clinic_id' => clinic()?->id,
-                ...$data,
-            ]);
-        }
-
-        return $customer->load($relations)->loadCount($countable);
     }
 
     public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
@@ -122,7 +93,8 @@ class CustomerService extends BaseService
         if (!$customer?->canUpdate()) {
             return null;
         }
-        return $this->createUpdateClinicPatientProfile($customer, $data, $relations, $countable);
+
+        return $customer;
     }
 
     public function doctorDeleteCustomer($customerId): ?bool
@@ -132,14 +104,7 @@ class CustomerService extends BaseService
             return null;
         }
 
-        $patientProfile = PatientProfileRepository::make()->getByClinicAndCustomer(clinic()?->id, $customer->id);
-
-        if ($patientProfile) {
-            $patientProfile->delete();
-            return true;
-        }
-
-        return null;
+        return $this->repository->delete($customer->id);
     }
 
     public function delete($id): ?bool

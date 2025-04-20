@@ -6,7 +6,6 @@ use App\Enums\AppointmentStatusEnum;
 use App\Enums\AppointmentTypeEnum;
 use App\Models\Appointment;
 use App\Rules\ActiveService;
-use App\Rules\CustomerBelongToClinic;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -28,7 +27,7 @@ class StoreUpdateAppointmentRequest extends FormRequest
     {
         if (request()->method() == 'POST') {
             return [
-                'customer_id' => ['required', 'numeric', 'exists:customers,id', new CustomerBelongToClinic($this->input('clinic_id'))],
+                'customer_id' => ['required', 'numeric', 'exists:customers,id'],
                 'clinic_id' => ['required', 'numeric', 'exists:clinics,id'],
                 'note' => ['nullable', 'string', Rule::excludeIf(fn() => auth()?->user()?->isCustomer())],
                 'service_id' => ['nullable', 'numeric', 'exists:services,id', Rule::excludeIf(fn() => auth()?->user()?->isCustomer()), new ActiveService()],

@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Models\Customer;
 use App\Repositories\Contracts\BaseRepository;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * @extends  BaseRepository<Customer>
@@ -22,9 +21,6 @@ class CustomerRepository extends BaseRepository
     {
         return $this->paginateQuery(
             $this->globalQuery($relations, $countable)
-                ->whereHas('patientProfiles', function (Builder $query) use ($clinicId) {
-                    $query->where('clinic_id', $clinicId);
-                })
         );
     }
 

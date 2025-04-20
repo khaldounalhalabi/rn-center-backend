@@ -192,11 +192,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized
         return $this->hasMany(Prescription::class);
     }
 
-    public function patientProfiles(): HasMany
-    {
-        return $this->hasMany(PatientProfile::class);
-    }
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

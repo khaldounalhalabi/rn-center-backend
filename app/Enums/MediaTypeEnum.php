@@ -3,7 +3,6 @@
 namespace App\Enums;
 
 use App\Models\Clinic;
-use App\Models\PatientProfile;
 use App\Models\Service;
 use App\Models\Speciality;
 use App\Models\User;
@@ -14,7 +13,6 @@ enum MediaTypeEnum: string
         User::class => 'user',
         Clinic::class => 'clinic',
         Speciality::class => 'speciality',
-        PatientProfile::class => 'patient_profile',
         Service::class => 'service',
     ];
 

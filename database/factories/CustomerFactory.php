@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Enums\BloodGroupEnum;
 use App\Models\Appointment;
-use App\Models\PatientProfile;
 use App\Models\Prescription;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -40,10 +39,5 @@ class CustomerFactory extends Factory
     public function withPrescriptions($count = 1): CustomerFactory
     {
         return $this->has(Prescription::factory($count));
-    }
-
-    public function withPatientProfiles($count = 1): CustomerFactory
-    {
-        return $this->has(PatientProfile::factory($count));
     }
 }

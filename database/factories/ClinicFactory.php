@@ -6,7 +6,6 @@ use App\Enums\WeekDayEnum;
 use App\Models\Appointment;
 use App\Models\Clinic;
 use App\Models\Medicine;
-use App\Models\PatientProfile;
 use App\Models\Prescription;
 use App\Models\Schedule;
 use App\Models\Service;
@@ -82,10 +81,5 @@ class ClinicFactory extends Factory
     public function withMedicines($count = 1): ClinicFactory
     {
         return $this->has(Medicine::factory($count));
-    }
-
-    public function withPatientProfiles($count = 1): ClinicFactory
-    {
-        return $this->has(PatientProfile::factory($count));
     }
 }

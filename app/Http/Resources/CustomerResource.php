@@ -22,10 +22,8 @@ class CustomerResource extends BaseResource
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'total_appointments' => $this->whenCounted('validAppointments'),
             'user' => new UserResource($this->whenLoaded('user')),
-            'currentClinicPatientProfile' => new PatientProfileResource($this->whenLoaded('currentClinicPatientProfile')),
             'appointments' => AppointmentResource::collection($this->whenLoaded('appointments')),
             'prescriptions' => PrescriptionResource::collection($this->whenLoaded('prescriptions')),
-            'patientProfiles' => PatientProfileResource::collection($this->whenLoaded('patientProfiles')),
         ];
     }
 }

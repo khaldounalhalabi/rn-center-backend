@@ -31,7 +31,6 @@ class ClinicResource extends BaseResource
                 'total_appointments' => $this->whenCounted('appointments'),
                 'today_appointments_count' => $this->whenCounted('todayAppointments'),
                 'upcoming_appointments_count' => $this->whenCounted('upcomingAppointments'),
-                'patientProfiles' => PatientProfileResource::collection($this->whenLoaded('patientProfiles')),
                 'prescriptions' => PrescriptionResource::collection($this->whenLoaded('prescriptions')),
                 'medicines' => MedicineResource::collection($this->whenLoaded('medicines')),
             ]),
