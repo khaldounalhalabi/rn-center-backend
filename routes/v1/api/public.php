@@ -64,8 +64,6 @@ Route::get('/clinics/{clinicId}', [v1\ClinicController::class, 'show'])->name('c
 
 Route::get('/check-role', [v1\BaseAuthController::class, 'checkRole'])->name('check-role');
 
-Route::delete('/media/{mediaId}', [v1\MediaController::class, 'delete'])->name('media.delete');
-
 Route::get('/statistics', [v1\StatisticsController::class, 'landingPage'])->name('statistics.landing.page');
 
 

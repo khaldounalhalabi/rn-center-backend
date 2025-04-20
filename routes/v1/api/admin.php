@@ -69,3 +69,6 @@ Route::post('/holidays/export', [v1\HolidayController::class, 'export'])->name('
 Route::post('/holidays/import', [v1\HolidayController::class, 'import'])->name('holidays.import');
 Route::get('/holidays/get-import-example', [v1\HolidayController::class, 'getImportExample'])->name('holidays.get.example');
 Route::apiResource('/holidays', v1\HolidayController::class)->names('holidays');
+
+Route::post('/media/customers/attachments', [v1\MediaController::class, 'addCustomerAttachment'])->name('media.customers.attachments.store');
+Route::delete('/media/{mediaId}', [v1\MediaController::class, 'delete'])->name('media.delete');
