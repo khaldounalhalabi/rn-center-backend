@@ -44,16 +44,9 @@ Route::post('/services/import', [v1\ServiceController::class, 'import'])->name('
 Route::get('/services/import-example', [v1\ServiceController::class, 'getImportExample'])->name('services.import.example');
 Route::apiResource('/services', v1\ServiceController::class)->names('services');
 
-Route::get('/clinics/{clinicId}/appointments', [v1\AppointmentController::class, 'getClinicAppointments'])->name('clinics.appointments');
-Route::get('/clinics/{clinicId}/available-times', [v1\ClinicController::class, 'getClinicAvailableTimes'])->name('clinic.get.clinic.available.times');
-Route::put('appointments/{appointmentId}/update-date', [v1\AppointmentController::class, 'updateAppointmentDate'])->name('appointments.update.date');
-Route::post('appointments/{appointmentId}/toggle-status', [v1\AppointmentController::class, 'toggleAppointmentStatus'])->name('appointments.status.toggle');
 Route::get('appointments/{appointmentId}/prescriptions/', [v1\PrescriptionController::class, 'getAppointmentPrescriptions'])->name('appointments.prescriptions');
 Route::get('appointment-logs/{appointmentLogId}', [v1\AppointmentLogController::class, 'show'])->name('appointment.log.show');
 Route::get('appointments/{appointmentId}/logs', [v1\AppointmentLogController::class, 'getAppointmentLogs'])->name('appointments.logs');
-Route::get('customers/{customerId}/clinics/{clinicId}/last-appointment', [v1\AppointmentController::class, 'getCustomerLastAppointment'])->name('customers.clinics.last-appointment');
-Route::apiResource('/appointments', v1\AppointmentController::class)
-    ->except(['destroy'])->names('appointments');
 
 Route::apiResource('/medicines', v1\MedicineController::class)->names('medicines');
 
@@ -72,3 +65,8 @@ Route::apiResource('/holidays', v1\HolidayController::class)->names('holidays');
 
 Route::post('/media/customers/attachments', [v1\MediaController::class, 'addCustomerAttachment'])->name('media.customers.attachments.store');
 Route::delete('/media/{mediaId}', [v1\MediaController::class, 'delete'])->name('media.delete');
+
+Route::post('appointments/export', [v1\AppointmentController::class, 'export'])->name('appointments.export');
+Route::apiResource('appointments', v1\AppointmentController::class)->except(['destroy'])->names('appointments');
+
+Route::post('clinics/{clinicId}/available-appointments-times', [v1\AvailableAppointmentTimeController::class, 'get'])->name('clinics.available.appointments.time');

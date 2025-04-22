@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Enums\RolesPermissionEnum;
 use App\Enums\WeekDayEnum;
+use App\Exceptions\RoleDoesNotExistException;
 use App\Models\Appointment;
 use App\Models\Clinic;
 use App\Models\Medicine;
@@ -25,12 +27,13 @@ class ClinicFactory extends Factory
     /**
      * Define the model's default state.
      * @return array<string, mixed>
+     * @throws RoleDoesNotExistException
      */
     public function definition(): array
     {
         return [
             'appointment_cost' => fake()->numberBetween(1, 100),
-            'user_id' => User::factory(),
+            'user_id' => User::factory()->create()->assignRole(RolesPermissionEnum::DOCTOR['role'])->id,
             'working_start_year' => fake()->date('Y'),
             'max_appointments' => fake()->numberBetween(1, 10),
         ];

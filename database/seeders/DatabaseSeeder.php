@@ -21,12 +21,10 @@ class DatabaseSeeder extends Seeder
             ServiceCategorySeeder::class,
             ServiceSeeder::class,
             ClinicSeeder::class,
+            CustomerSeeder::class,
+            HolidaySeeder::class,
             ScheduleSeeder::class,
             AppointmentSeeder::class,
-            MedicineSeeder::class,
-            PrescriptionSeeder::class,
-            HolidaySeeder::class,
-            CustomerSeeder::class,
         ]);
     }
 }

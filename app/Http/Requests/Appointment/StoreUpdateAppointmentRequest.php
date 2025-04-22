@@ -4,8 +4,6 @@ namespace App\Http\Requests\Appointment;
 
 use App\Enums\AppointmentStatusEnum;
 use App\Enums\AppointmentTypeEnum;
-use App\Models\Appointment;
-use App\Rules\ActiveService;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -25,32 +23,16 @@ class StoreUpdateAppointmentRequest extends FormRequest
      */
     public function rules(): array
     {
-        if (request()->method() == 'POST') {
-            return [
-                'customer_id' => ['required', 'numeric', 'exists:customers,id'],
-                'clinic_id' => ['required', 'numeric', 'exists:clinics,id'],
-                'note' => ['nullable', 'string', Rule::excludeIf(fn() => auth()?->user()?->isCustomer())],
-                'service_id' => ['nullable', 'numeric', 'exists:services,id', Rule::excludeIf(fn() => auth()?->user()?->isCustomer()), new ActiveService()],
-                'extra_fees' => ['nullable', 'numeric', 'min:0', Rule::excludeIf(fn() => auth()?->user()?->isCustomer())],
-                'discount' => ['nullable', 'numeric', 'min:0', Rule::excludeIf(fn() => auth()?->user()?->isCustomer())],
-                'type' => ['required', 'string', 'min:3', 'max:255', Rule::in(AppointmentTypeEnum::getAllValues())],
-                'date' => ['required', 'date', 'date_format:Y-m-d', 'after_or_equal:today'],
-                'status' => ['required', 'string', 'min:3', 'max:255', Rule::in(AppointmentStatusEnum::getAllValues())],
-                'device_type' => ['nullable', 'string', 'min:3', 'max:255'],
-                'cancellation_reason' => ['string', 'nullable', Rule::requiredIf($this->input('status') == AppointmentStatusEnum::CANCELLED->value), Rule::excludeIf(fn() => auth()?->user()?->isCustomer())],
-                'is_revision' => ['required', 'bool']
-            ];
-        }
-
-        $appointment = Appointment::find(request()->route('appointment'));
-
         return [
-            'note' => ['nullable', 'string'],
-            'service_id' => ['nullable', 'numeric', 'exists:services,id', new ActiveService()],
+            'customer_id' => ['nullable', Rule::requiredIf($this->isPost()), Rule::excludeIf($this->isPut()), 'numeric', 'exists:customers,id'],
+            'clinic_id' => ['nullable', Rule::requiredIf($this->isPost()), Rule::excludeIf($this->isPut()), 'numeric', 'exists:clinics,id'],
+            'note' => 'nullable|string|max:10000',
+            'service_id' => ['nullable', 'numeric', 'exists:services,id'],
             'extra_fees' => ['nullable', 'numeric', 'min:0'],
+            'type' => ['string', Rule::in(AppointmentTypeEnum::getAllValues())],
+            'date_time' => ['required', 'date_format:Y-m-d H:i'],
+            'status' => ['string', Rule::in(AppointmentStatusEnum::getAllValues())],
             'discount' => ['nullable', 'numeric', 'min:0'],
-            'status' => ['nullable', 'string', 'min:3', 'max:255', Rule::in(AppointmentStatusEnum::getAllValues())],
-            'cancellation_reason' => 'string|nullable|' . Rule::requiredIf($this->input('status') == AppointmentStatusEnum::CANCELLED->value),
         ];
     }
 
@@ -73,13 +55,12 @@ class StoreUpdateAppointmentRequest extends FormRequest
                 'clinic_id' => clinic()?->id,
                 'type' => AppointmentTypeEnum::MANUAL->value,
             ]);
+        }
 
-            if (request()->method() == "POST" && isDoctor()) {
-                $this->merge([
-                    'status' => AppointmentStatusEnum::BOOKED->value,
-                    'cancellation_reason' => null,
-                ]);
-            }
+        if (isAdmin()){
+            $this->merge([
+                'type' => AppointmentTypeEnum::MANUAL->value,
+            ]);
         }
 
         if (auth()?->user()?->isCustomer()) {

@@ -5,14 +5,12 @@ namespace App\Observers;
 use App\Enums\AppointmentStatusEnum;
 use App\Enums\AppointmentTypeEnum;
 use App\Enums\RolesPermissionEnum;
-use App\Jobs\UpdateAppointmentRemainingTimeJob;
 use App\Models\Appointment;
 use App\Notifications\Clinic\NewOnlineAppointmentNotification;
 use App\Notifications\Customer\CustomerAppointmentChangedNotification;
 use App\Notifications\RealTime\AppointmentChangeNotification;
 use App\Notifications\RealTime\BalanceChangeNotification;
 use App\Notifications\RealTime\NewAppointmentNotification;
-use App\Repositories\AppointmentRepository;
 use App\Services\FirebaseServices;
 
 class AppointmentObserver
@@ -24,11 +22,7 @@ class AppointmentObserver
      */
     public function creating(Appointment $appointment): void
     {
-        $code = uniqid();
-        while (AppointmentRepository::make()->codeExists($code)) {
-            $code = uniqid();
-        }
-        $appointment->appointment_unique_code = $code;
+
     }
 
     /**
@@ -75,9 +69,8 @@ class AppointmentObserver
         if (!$oldStatus || !$oldType) return;
 
         $this->handleChangeAppointmentNotifications($appointment, $oldStatus);
-        $this->checkoutPreviousAppointmentsIfNewStatusIsCheckin($appointment, $oldStatus);
         $this->handleAppointmentRemainingTime($appointment, $oldStatus);
-        $this->handleTransactionsWhenChangeStatus($appointment, $oldStatus);
+        $this->handleTransactionsWhenChangeStatus($appointment);
 
         if ($appointment->type == AppointmentTypeEnum::ONLINE->value
             && $oldType != AppointmentTypeEnum::ONLINE->value) {
@@ -123,28 +116,13 @@ class AppointmentObserver
             ->send();
     }
 
-    private function checkoutPreviousAppointmentsIfNewStatusIsCheckin(mixed $appointment, string $prevStatus): void
-    {
-        if (
-            $appointment->status == AppointmentStatusEnum::CHECKIN->value
-            && $prevStatus != AppointmentStatusEnum::CHECKIN->value
-        ) {
-            AppointmentRepository::make()->updatePreviousCheckinClinicAppointments($appointment->clinic_id,
-                $appointment->appointment_sequence,
-                $appointment->date,
-                [
-                    'status' => AppointmentStatusEnum::CHECKOUT->value,
-                ]);
-        }
-    }
-
     public function handleAppointmentRemainingTime(Appointment $appointment, string $prevStatus): void
     {
         if (
             $appointment->status == AppointmentStatusEnum::CHECKOUT->value
             && $prevStatus != AppointmentStatusEnum::CHECKOUT->value
         ) {
-            UpdateAppointmentRemainingTimeJob::dispatch($appointment->clinic_id, $appointment->date);
+//            UpdateAppointmentRemainingTimeJob::dispatch($appointment->clinic_id, $appointment->date);
         }
 
         if (
@@ -156,7 +134,7 @@ class AppointmentObserver
         }
     }
 
-    public function handleTransactionsWhenChangeStatus(Appointment $appointment, string $prevStatus): void
+    public function handleTransactionsWhenChangeStatus(Appointment $appointment): void
     {
         FirebaseServices::make()
             ->setData([])

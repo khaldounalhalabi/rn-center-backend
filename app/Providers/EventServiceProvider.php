@@ -2,10 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\Appointment;
-use App\Models\Transaction;
-use App\Observers\AppointmentObserver;
-use App\Observers\TransactionObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -27,8 +23,9 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Appointment::observe(AppointmentObserver::class);
-        Transaction::observe(TransactionObserver::class);
+//        TODO:: we need to handle those observers
+//        Appointment::observe(AppointmentObserver::class);
+//        Transaction::observe(TransactionObserver::class);
     }
 
     /**

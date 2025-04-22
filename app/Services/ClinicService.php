@@ -2,15 +2,12 @@
 
 namespace App\Services;
 
-use App\Enums\ClinicStatusEnum;
 use App\Enums\RolesPermissionEnum;
 use App\Models\Clinic;
-use App\Repositories\AppointmentRepository;
 use App\Repositories\ClinicRepository;
 use App\Repositories\UserRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
-use Illuminate\Support\Collection;
 use Throwable;
 
 /**
@@ -82,62 +79,5 @@ class ClinicService extends BaseService
         }
 
         return $clinic->load($relationships)->loadCount($countable);
-    }
-
-    /**
-     * @param $clinicId
-     * @return array
-     */
-    public function getClinicAvailableTimes($clinicId): array
-    {
-        $clinic = $this->repository->find($clinicId, ['validAppointments', 'schedules']);
-
-        if (!$clinic) {
-            return [
-                'booked_times' => [],
-                'clinic_schedule' => [],
-            ];
-        }
-
-        $bookedTimes = AppointmentRepository::make()->getByClinicDayRange($clinic)
-            ->groupBy('date')
-            ->map(function (Collection $appointments) {
-                return $appointments->count();
-            });
-
-        $schedules = $clinic->schedules->groupBy('day_of_week');
-
-        return [
-            'booked_times' => $bookedTimes,
-            'clinic_schedule' => $schedules,
-        ];
-    }
-
-    /**
-     * @param $clinicId
-     * @return string|null
-     */
-    public function toggleClinicStatus($clinicId): ?string
-    {
-        $clinic = $this->repository->find($clinicId);
-
-        if (!$clinic) {
-            return null;
-        }
-
-        if ($clinic->status == ClinicStatusEnum::ACTIVE->value) {
-            $clinic->status = ClinicStatusEnum::INACTIVE->value;
-        } else {
-            $clinic->status = ClinicStatusEnum::ACTIVE->value;
-        }
-
-        $clinic->save();
-
-        return $clinic->status;
-    }
-
-    public function getOnlineBySpecialityId($specialityId, array $relations = [], array $countable = []): ?array
-    {
-        return $this->repository->getOnlineClinicsBySpeciality($specialityId, $relations, $countable);
     }
 }

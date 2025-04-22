@@ -42,11 +42,7 @@ Route::apiResource('services', v1\ServiceController::class)->except(['index'])->
 
 Route::get('customers/{customerId}', [v1\CustomerController::class, 'show'])->name('customers.show');
 
-Route::get('/appointments/all/group-by-month', [v1\AppointmentController::class, 'getAppointmentsCountInMonth'])->name('appointments.all.group.by.month');
-Route::get('/appointments/completed/group-by-month', [v1\AppointmentController::class, 'getAppointmentsCompletedCountInMonth'])->name('appointments.completed.group.by.month');
-Route::get('/appointments/recent', [v1\AppointmentController::class, 'recentAppointments'])->name('appointments.recent');
 
-Route::get('/appointments/today', [v1\AppointmentController::class, 'todayAppointments'])->name('appointments.today');
 Route::get('/appointments/{appointmentId}/prescriptions', [v1\PrescriptionController::class, 'getAppointmentPrescriptions'])->name('appointments.prescriptions');
 Route::delete('/prescriptions/medicine-data/{medicineDataId}', [v1\PrescriptionController::class, 'removeMedicine'])->name('prescription.medicine.remove');
 Route::get('/customers/{customerId}/prescriptions', [v1\PrescriptionController::class, 'getCustomerPrescriptions'])->name('customer.prescriptions');
@@ -55,14 +51,9 @@ Route::apiResource('/prescriptions', v1\PrescriptionController::class)->except([
 Route::get('medicines', [v1\MedicineController::class, 'index'])->name('medicines.index');
 Route::apiResource('medicines', v1\MedicineController::class)->except(['index'])->names('medicines');
 
-Route::get('/appointments/all', [v1\AppointmentController::class, 'all'])->name('appointments.all');
-Route::get('/customers/{customerId}/appointments', [v1\AppointmentController::class, 'getByCustomer'])->name('customers.appointments');
-Route::get('/appointments/export', [v1\AppointmentController::class, 'export'])->name('appointments.export');
-Route::put('/appointments/{appointmentId}/update-date', [v1\AppointmentController::class, 'updateAppointmentDate'])->name('appointments.update.date');
-Route::post('/appointments/{appointmentId}/toggle-status', [v1\AppointmentController::class, 'toggleAppointmentStatus'])->name('appointments.status.toggle');
+
 Route::get('/appointment-logs/{appointmentLogId}', [v1\AppointmentLogController::class, 'show'])->name('appointment.log.show');
 Route::get('/appointments/{appointmentId}/logs', [v1\AppointmentLogController::class, 'getAppointmentLogs'])->name('appointments.logs');
-Route::get('/customers/{customerId}/last-appointment', [v1\AppointmentController::class, 'getCustomerLastAppointment'])->name('customers.clinics.last-appointment');
-Route::apiResource('/appointments', v1\AppointmentController::class)->except(['destroy'])->names('appointments');
+
 
 Route::get('/statistics/index-page', [v1\StatisticsController::class, 'doctorIndexStatistics'])->name('doctor.index.statistics');

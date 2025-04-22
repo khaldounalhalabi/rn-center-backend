@@ -2,21 +2,15 @@
 
 namespace App\Services;
 
-use App\Enums\AppointmentStatusEnum;
-use App\Managers\AppointmentManager;
 use App\Models\Appointment;
-use App\Repositories\AppointmentLogRepository;
 use App\Repositories\AppointmentRepository;
-use App\Repositories\Contracts\BaseRepository;
-use App\Repositories\CustomerRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
-use Illuminate\Database\Eloquent\Collection;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection as CollectionAlias;
 
 /**
- * @extends BaseService<Appointment , BaseRepository>
+ * @extends BaseService<Appointment>
  * @property AppointmentRepository $repository
  */
 class AppointmentService extends BaseService
@@ -25,230 +19,112 @@ class AppointmentService extends BaseService
 
     protected string $repositoryClass = AppointmentRepository::class;
 
-    /**
-     * @param array $data
-     * @param array $relationships
-     * @param array $countable
-     * @return Appointment|null
-     */
-    public function store(array $data, array $relationships = [], array $countable = []): ?Appointment
+    public function store(array $data, array $relationships = [], array $countable = []): ?Model
     {
-        return AppointmentManager::make()->store($data, $relationships, $countable);
+        $data['appointment_sequence'] = $this->calculateAppointmentSequence($data['clinic_id'], $data['date_time']);
+        $appointment = $this->repository->create($data, $relationships, $countable);
+
+        return $appointment->updateTotalCost();
     }
 
     /**
-     * @param       $clinicId
-     * @param array $relations
-     * @param int   $perPage
-     * @return null|array
+     * Calculate appointment sequence number based on appointment time
+     * @param int    $clinicId
+     * @param string $dateTime
+     * @return int
      */
-    public function getClinicAppointments($clinicId, array $relations = [], int $perPage = 10): ?array
+    private function calculateAppointmentSequence(int $clinicId, string $dateTime): int
     {
-        return $this->repository->getByClinic($clinicId, $relations);
-    }
+        $appointmentDate = Carbon::parse($dateTime)->format('Y-m-d');
+        $appointmentTime = Carbon::parse($dateTime);
+        $existingAppointments = $this->repository->getClinicAppointmentsOrderedByTime($clinicId, $appointmentDate);
 
-    /**
-     * @param       $appointmentId
-     * @param array $data
-     * @return Appointment|null
-     */
-    public function toggleAppointmentStatus($appointmentId, array $data): ?Appointment
-    {
-        $appointment = $this->repository->find($appointmentId, ['customer.user', 'clinic.user']);
-        if (!$appointment?->canUpdate()) {
-            return null;
+        if ($existingAppointments->isEmpty()) {
+            return 1;
         }
 
-        if ($data['status'] == AppointmentStatusEnum::CANCELLED->value && !isset($data['cancellation_reason'])) {
-            return null;
+        $insertPosition = -1;
+
+        $allAppointmentTimes = [];
+        foreach ($existingAppointments as $index => $appointment) {
+            $allAppointmentTimes[] = [
+                'time' => Carbon::parse($appointment->date_time),
+                'id' => $appointment->id,
+                'is_new' => false,
+                'index' => $index
+            ];
         }
 
-        $appointmentManager = AppointmentManager::make();
+        // Add the new appointment
+        $allAppointmentTimes[] = [
+            'time' => $appointmentTime,
+            'id' => null,
+            'is_new' => true,
+            'index' => null
+        ];
 
-        if (isDoctor()
-            && !$appointmentManager->canUpdateOnlineAppointmentStatus($appointment, $data['status'])) {
-            return null;
+        usort($allAppointmentTimes, function ($a, $b) {
+            return $a['time']->lt($b['time']) ? -1 : 1;
+        });
+
+        foreach ($allAppointmentTimes as $seqNum => $appt) {
+            if ($appt['is_new']) {
+                $insertPosition = $seqNum + 1;
+            } else {
+                $this->repository->update([
+                    'appointment_sequence' => $seqNum + 1
+                ], $existingAppointments[$appt['index']]);
+            }
         }
-
-
-        $appointment = $this->repository->update([
-            'status' => $data['status'],
-            'cancellation_reason' => $data['cancellation_reason'] ?? "",
-        ], $appointment, ['customer.user', 'clinic.user']);
-
-        AppointmentLogRepository::make()->create([
-            'cancellation_reason' => $data['cancellation_reason'] ?? "",
-            'status' => $data['status'],
-            'happen_in' => now(),
-            'appointment_id' => $appointment->id,
-            'actor_id' => auth()->user()->id,
-            'affected_id' => $data['customer_id'] ?? $appointment->customer_id,
-            'event' => "appointment status has been changed to {$data['status']} in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->full_name,
-        ]);
-
-        return $appointment;
+        return $insertPosition;
     }
 
     public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
     {
-        return AppointmentManager::make()->update($data, $id, $relationships, $countable);
+        $appointment = $this->repository->find($id);
+        if (!$appointment) {
+            return null;
+        }
+
+        if (isset($data['date_time']) && $data['date_time'] !== $appointment->date_time?->format('Y-m-d H:i')) {
+            $this->removeFromSequence($appointment);
+            $data['appointment_sequence'] = $this->calculateAppointmentSequence($appointment->clinic_id, $data['date_time']);
+        }
+
+        $appointment = $this->repository->update($data, $id, $relationships, $countable);
+
+        return $appointment?->updateTotalCost();
     }
 
     /**
-     * @param int      $customerId
-     * @param int|null $clinicId
-     * @param array    $relations
-     * @param array    $countable
-     * @return Appointment|null
+     * Remove an appointment from the sequence by updating other appointments
+     * @param Appointment $appointment
+     * @return void
      */
-    public function getCustomerLastAppointment(int $customerId, ?int $clinicId = null, array $relations = [], array $countable = []): ?Appointment
+    private function removeFromSequence(Appointment $appointment): void
     {
-        return $this->repository->getCustomerLastAppointment($customerId, $clinicId, $relations, $countable);
-    }
+        $date = $appointment->date_time->format('Y-m-d');
+        $sequence = $appointment->appointment_sequence;
 
-    /**
-     * @param       $id
-     * @param       $date
-     * @param array $relationships
-     * @param array $countable
-     * @return Appointment|null
-     */
-    public function updateAppointmentDate($id, $date, array $relationships = [], array $countable = []): ?Appointment
-    {
-        $data['date'] = $date;
-
-        /** @var Appointment $appointment */
-        $appointment = $this->repository->find($id);
-
-        if (!$appointment?->canUpdate()) {
-            return null;
+        if (!$sequence) {
+            return;
         }
 
-        $clinic = $appointment->clinic;
-
-        if (!$clinic->canHasAppointmentIn(
-            $data['date']
-        )) {
-            return null;
-        }
-
-        if (
-            isset($data['date'])
-            && $data['date'] != $appointment->date
-            && $appointment->status != AppointmentStatusEnum::CANCELLED->value
-        ) {
-            /** @var Appointment $appointment */
-            $lastAppointmentInDay = $this->repository->getClinicLastAppointmentInDay($clinic->id, $data['date']);
-            if ($lastAppointmentInDay) {
-                $data['appointment_sequence'] = $lastAppointmentInDay->appointment_sequence + 1;
-            } else {
-                $data['appointment_sequence'] = 1;
-            }
-
-            if (isCustomer()
-                && !in_array($appointment->status, [AppointmentStatusEnum::PENDING->value, AppointmentStatusEnum::BOOKED->value])
-            ) {
-                $data['status'] = AppointmentStatusEnum::PENDING->value;
-            }
-        }
-        $appointment = $this->repository->update($data, $appointment, $relationships, $countable);
-
-        AppointmentLogRepository::make()->create([
-            'status' => $appointment->status,
-            'happen_in' => now(),
-            'appointment_id' => $appointment->id,
-            'actor_id' => auth()->user()->id,
-            'affected_id' => $appointment->customer_id,
-            'event' => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->full_name,
-        ]);
-        return $appointment;
-    }
-
-    public function view($id, array $relationships = [], array $countable = []): ?Model
-    {
-        $appointment = $this->repository->find($id);
-
-        if (!$appointment?->canShow()) {
-            return null;
-        }
-
-        return $appointment->load($relationships)->loadCount($countable);
-    }
-
-    public function getCustomerTodayAppointments(array $relations = [], array $countable = [])
-    {
-        return $this->repository->getByDate(
-            now()->format('Y-m-d'),
-            auth()->user()?->customer?->id,
-            null,
-            $relations,
-            $countable
+        $allAppointments = $this->repository->getClinicAppointmentsOrderedByTime(
+            $appointment->clinic_id,
+            $date
         );
-    }
 
-    public function getByCustomer($customerId, array $relations = [], array $countable = []): ?array
-    {
-        $customer = CustomerRepository::make()->find($customerId);
-        if (!$customer?->canShow()) {
-            return null;
+        $filteredAppointments = $allAppointments->filter(function (Appointment $appt) use ($appointment) {
+            return $appt->id !== $appointment->id;
+        });
+
+        $filteredAppointments = $filteredAppointments->values();
+
+        foreach ($filteredAppointments as $index => $appt) {
+            $this->repository->update([
+                'appointment_sequence' => $index + 1
+            ], $appt);
         }
-
-        return $this->repository->getByCustomer($customerId, $relations, $countable);
-    }
-
-    public function getClinicTodayAppointments(array $relations = [], array $countable = []): ?array
-    {
-        return $this->repository->getTodayAppointments(clinic()?->id, $relations, $countable);
-    }
-
-    public function getAllCompletedCountMonthly(): array|Collection|CollectionAlias
-    {
-        return $this->repository->getAllCompletedInCountInMonth();
-    }
-
-    public function appointmentsCountInMonth(): CollectionAlias
-    {
-        return $this->repository->appointmentsCountInMonth();
-    }
-
-    public function recentAppointments(array $relations = [], array $countable = []): ?array
-    {
-        return $this->repository->recentAppointments($relations, $countable);
-    }
-
-    public function customerCancelAppointment($appointmentId, array $relations = [], array $countable = [])
-    {
-        /** @var Appointment $appointment */
-        $appointment = $this->repository->find($appointmentId);
-
-        if (!$appointment?->canUpdate()) {
-            return null;
-        }
-
-        if (
-            $appointment->date->greaterThanOrEqualTo(now()->format('Y-m-d'))
-            && ($appointment->status == AppointmentStatusEnum::PENDING->value
-                || $appointment->status == AppointmentStatusEnum::BOOKED->value)
-        ) {
-            $data['status'] = AppointmentStatusEnum::CANCELLED->value;
-            $appointment = $this->repository->update($data, $appointment, $relations, $countable);
-
-            AppointmentLogRepository::make()->create([
-                'status' => $appointment->status,
-                'happen_in' => now(),
-                'appointment_id' => $appointment->id,
-                'actor_id' => auth()->user()->id,
-                'affected_id' => $appointment->customer_id,
-                'event' => "appointment has been cancelled in " . now()->format('Y-m-d H:i:s') . " By The Patient : " . auth()->user()?->full_name . " With Id : " . customer()?->id,
-            ]);
-            return $appointment;
-        }
-
-        return null;
-    }
-
-    public function getByCode(string $code, array $relations = [], array $countable = []): ?Appointment
-    {
-        return $this->repository->getByCode($code, $relations, $countable);
     }
 }

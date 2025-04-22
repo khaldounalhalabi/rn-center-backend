@@ -25,22 +25,22 @@ class AppointmentFactory extends Factory
      */
     public function definition(): array
     {
-        $type = fake()->randomElement(AppointmentTypeEnum::getAllValues());
+        $clinic = Clinic::factory()->withSchedules()->create();
+        $service = Service::factory()->create([
+            'clinic_id' => $clinic->id,
+        ]);
         return [
-            'customer_id' => Customer::inRandomOrder()->first()?->id ?? Customer::factory()->create()?->id,
-            'clinic_id' => Clinic::inRandomOrder()->first()?->id ?? Clinic::factory()->create()?->id,
+            'customer_id' => Customer::factory(),
+            'clinic_id' => $clinic->id,
             'note' => fake()->text(),
-            'service_id' => Service::inRandomOrder()->first()?->id ?? Service::factory()->create()?->id,
-            'extra_fees' => fake()->randomFloat(1, 2000),
-            'total_cost' => fake()->randomFloat(2, 0, 1000),
-            'type' => $type,
-            'date' => fake()->dateTimeBetween('-5 days', '+20 days'),
-            'status' => $type == AppointmentTypeEnum::MANUAL->value
-                ? AppointmentStatusEnum::BOOKED->value
-                : AppointmentStatusEnum::PENDING->value,
-            'device_type' => fake()->word(),
-            'appointment_sequence' => fake()->numberBetween(1, 10),
-            'appointment_unique_code' => uniqid(),
+            'service_id' => $service->id,
+            'extra_fees' => 0,
+            'total_cost' => $service->price + $clinic->appointment_cost,
+            'status' => AppointmentStatusEnum::BOOKED->value,
+            'type' => fake()->randomElement(AppointmentTypeEnum::getAllValues()),
+            'date_time' => fake()->dateTimeBetween('-3 days', '+3 days')->format('Y-m-d') . ' ' . $clinic->schedules()->first()?->start_time?->format('H:i'),
+            'appointment_sequence' => 1,
+            'discount' => 0
         ];
     }
 

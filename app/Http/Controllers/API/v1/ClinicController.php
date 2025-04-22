@@ -7,6 +7,7 @@ use App\Http\Requests\Clinic\StoreUpdateClinicRequest;
 use App\Http\Resources\ClinicResource;
 use App\Models\Clinic;
 use App\Services\ClinicService;
+use Throwable;
 
 class ClinicController extends ApiController
 {
@@ -15,8 +16,6 @@ class ClinicController extends ApiController
     public function __construct()
     {
         $this->clinicService = ClinicService::make();
-        // place the relations you want to return them within the response
-
         if (!auth()->user() || isCustomer()) {
             $this->indexRelations = ['specialities', 'user',];
             $this->countable = [];
@@ -46,9 +45,12 @@ class ClinicController extends ApiController
             return $this->apiResponse(new ClinicResource($item), self::STATUS_OK, __('site.get_successfully'));
         }
 
-        return $this->noData(null);
+        return $this->noData();
     }
 
+    /**
+     * @throws Throwable
+     */
     public function store(StoreUpdateClinicRequest $request)
     {
         /** @var Clinic|null $item */
@@ -70,47 +72,6 @@ class ClinicController extends ApiController
         return $this->noData(false);
     }
 
-    public function getCurrentClinicAvailableTime()
-    {
-        if (!isDoctor()) {
-            return $this->noData();
-        }
-
-        $data = $this->clinicService->getClinicAvailableTimes(clinic()?->id);
-        return $this->apiResponse($data, self::STATUS_OK, __('site.get_successfully'));
-    }
-
-    public function getClinicAvailableTimes($clinicId)
-    {
-        $data = $this->clinicService->getClinicAvailableTimes($clinicId);
-        return $this->apiResponse($data, self::STATUS_OK, __('site.get_successfully'));
-    }
-
-    public function toggleClinicStatus($clinicId)
-    {
-        $data = $this->clinicService->toggleClinicStatus($clinicId);
-
-        if ($data) {
-            return $this->apiResponse($data, self::STATUS_OK, __('site.success'));
-        }
-        return $this->noData();
-    }
-
-    public function updateDoctorClinic(StoreUpdateClinicRequest $request)
-    {
-        $clinicId = clinic()?->id;
-        if (!$clinicId) {
-            return $this->noData();
-        }
-
-        $item = $this->clinicService->update($request->validated(), $clinicId, $this->relations, $this->countable);
-        if ($item) {
-            return $this->apiResponse(new ClinicResource($item), self::STATUS_OK, __('site.update_successfully'));
-        }
-
-        return $this->noData(null);
-    }
-
     public function update($clinicId, StoreUpdateClinicRequest $request)
     {
         /** @var Clinic|null $item */
@@ -119,31 +80,6 @@ class ClinicController extends ApiController
             return $this->apiResponse(new ClinicResource($item), self::STATUS_OK, __('site.update_successfully'));
         }
 
-        return $this->noData(null);
-    }
-
-    public function showDoctorClinic()
-    {
-        $clinicId = clinic()?->id;
-        if (!$clinicId) {
-            return $this->noData();
-        }
-
-        $item = $this->clinicService->view($clinicId, $this->relations, $this->countable);
-        if ($item) {
-            return $this->apiResponse(new ClinicResource($item), self::STATUS_OK, __('site.get_successfully'));
-        }
-
-        return $this->noData(null);
-    }
-
-    public function agreeOnContract()
-    {
-        $result = auth()?->user()?->clinic?->update(['agreed_on_contract' => true]);
-        if ($result) {
-            return $this->apiResponse(true, self::STATUS_OK, __('site.success'));
-        }
-
-        return $this->noData(false);
+        return $this->noData();
     }
 }
