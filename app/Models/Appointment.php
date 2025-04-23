@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Casts\IntervalCast;
 use App\Enums\AppointmentStatusEnum;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -31,12 +30,10 @@ class Appointment extends Model
         'date_time',
         'status',
         'appointment_sequence',
-        'remaining_time',
         'discount',
     ];
     protected $casts = [
         'date_time' => 'datetime',
-        'remaining_time' => IntervalCast::class,
     ];
 
     /**
@@ -71,12 +68,6 @@ class Appointment extends Model
                 'name'
             ]
         ];
-    }
-
-    public static function handleRemainingTime(Appointment $appointment): Appointment
-    {
-        //TODO:: handle remaining time
-        return $appointment;
     }
 
     public function exportable(): array

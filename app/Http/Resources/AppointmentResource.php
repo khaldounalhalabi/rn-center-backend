@@ -27,7 +27,9 @@ class AppointmentResource extends BaseResource
             'date_time' => $this->date_time?->format('Y-m-d H:i'),
             'status' => $this->status,
             'appointment_sequence' => $this->appointment_sequence,
-            'remaining_time' => $this->remaining_time?->forHumans(),
+            'remaining_time' => $this->date_time?->diffForHumans(syntax: [
+                'locale' => request()->header('Accept-Language', 'en')
+            ]),
             'discount' => $this->discount,
             'service' => ServiceResource::make($this->whenLoaded('service')),
             'clinic' => ClinicResource::make($this->whenLoaded('clinic')),

@@ -140,7 +140,9 @@ class AppointmentService extends BaseService
             return null;
         }
 
-        return $this->repository->update($data, $appointment, $relations, $countable);
+        $appointment = $this->repository->update($data, $appointment, $relations, $countable);
+        $this->logAppointment($data, $appointment, true);
+        return $appointment;
     }
 
     private function logAppointment(array $data, Appointment $appointment, bool $isUpdate = false): void

@@ -22,9 +22,6 @@ class AppointmentManager
         if (!$clinic) {
             return null;
         }
-        if (!$clinic->canHasAppointmentIn($data['date'])) {
-            return null;
-        }
         $data['appointment_sequence'] = $this->handleAppointmentSequence($data, $clinic) ?? null;
         $servicePrice = $this->getServiceCost($data);
 

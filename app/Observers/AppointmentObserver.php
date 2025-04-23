@@ -124,14 +124,6 @@ class AppointmentObserver
         ) {
 //            UpdateAppointmentRemainingTimeJob::dispatch($appointment->clinic_id, $appointment->date);
         }
-
-        if (
-            $appointment->status == AppointmentStatusEnum::BOOKED->value
-            && $prevStatus != AppointmentStatusEnum::BOOKED->value
-        ) {
-            $appointment = Appointment::handleRemainingTime($appointment);
-            $appointment->saveQuietly();
-        }
     }
 
     public function handleTransactionsWhenChangeStatus(Appointment $appointment): void

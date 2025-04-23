@@ -4,14 +4,12 @@ namespace App\Models;
 
 use App\Enums\AppointmentStatusEnum;
 use App\Interfaces\ActionsMustBeAuthorized;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Str;
 
 /**
  * @method Builder|Clinic online
@@ -118,56 +116,13 @@ class Clinic extends Model implements ActionsMustBeAuthorized
 
     public function todayAppointments(): HasMany
     {
-        return $this->hasMany(Appointment::class)->where('date', now()->format('Y-m-d'));
+        return $this->hasMany(Appointment::class)->whereDate('date_time', now()->format('Y-m-d'));
     }
 
     public function upcomingAppointments(): HasMany
     {
-        return $this->hasMany(Appointment::class)->where('date', '>', now()->addDay()->format('Y-m-d'))
+        return $this->hasMany(Appointment::class)->whereDate('date_time', '>', now()->addDay()->format('Y-m-d'))
             ->whereNotIn('status', [AppointmentStatusEnum::CANCELLED->value, AppointmentStatusEnum::PENDING->value]);
-    }
-
-    public function canHasAppointmentIn(string $date): bool
-    {
-        if (!$this->validAppointmentDateTime($date)) {
-            return false;
-        }
-
-        if (!$this->availableScheduleIn($date)) {
-            return false;
-        }
-
-        $this->loadCount('validAppointments');
-
-        // checking if the current clinic reached the maximum appointments per day
-        return !(
-            $this->validAppointments()
-                ->where('date', Carbon::parse($date)->format('Y-m-d'))
-                ->count()
-            >=
-            $this->max_appointments
-        );
-    }
-
-    public function validAppointmentDateTime(string $date): bool
-    {
-        $date = Carbon::parse($date);
-
-        return !($date->subDays(($this->appointment_day_range ?? 0) > 0
-            ? $this->appointment_day_range - 1
-            : 0
-        )->isAfter(now()));
-    }
-
-    public function availableScheduleIn(string $date): bool
-    {
-        Carbon::setLocale("en");
-        $date = Carbon::parse($date);
-        $dayName = Str::lower($date->dayName);
-
-        return $this->schedules()
-            ->where('day_of_week', $dayName)
-            ->exists();
     }
 
     public function schedules(): HasMany
@@ -178,7 +133,7 @@ class Clinic extends Model implements ActionsMustBeAuthorized
     public function validAppointments(): HasMany
     {
         return $this->hasMany(Appointment::class)
-            ->where('date', '>=', now()->format('Y-m-d'))
+            ->whereDate('date_time', '>=', now()->format('Y-m-d'))
             ->whereIn('status', [AppointmentStatusEnum::CHECKIN->value, AppointmentStatusEnum::BOOKED->value]);
     }
 

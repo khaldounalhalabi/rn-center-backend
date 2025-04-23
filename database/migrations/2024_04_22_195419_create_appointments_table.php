@@ -27,7 +27,6 @@ return new class () extends Migration {
             $table->dateTime('date_time');
             $table->string('status')->default(AppointmentStatusEnum::PENDING->value);
             $table->bigInteger('appointment_sequence')->nullable();
-            $table->json('remaining_time')->nullable();
             $table->unsignedDouble('discount', 15, 4)->default(0.0000);
             $table->timestamps();
             $table->index(['created_at']);
