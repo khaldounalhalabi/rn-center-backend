@@ -18,7 +18,7 @@ class AvailableAppointmentTimeService
      * Get available appointment time slots for a clinic on a specific date
      * @param int    $clinicId The clinic to check availability for
      * @param string $date     The date to check in Y-m-d format
-     * @return Collection Collection of available time slots as Carbon instances
+     * @return Collection<Carbon> Collection of available time slots as Carbon instances
      */
     public function getAvailableTimeSlots(int $clinicId, string $date): Collection
     {

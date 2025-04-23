@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class ToggleAppointmentStatusRequest extends FormRequest
+class ChangeAppointmentStatusRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,8 @@ class ToggleAppointmentStatusRequest extends FormRequest
     {
         return [
             'status' => 'required|string|' . Rule::in(AppointmentStatusEnum::getAllValues()),
-            'cancellation_reason' => 'string|nullable|' . Rule::requiredIf(fn() => $this->input('status') == AppointmentStatusEnum::CANCELLED->value)
+            'cancellation_reason' => 'string|nullable|' . Rule::requiredIf(fn() => $this->input('status') == AppointmentStatusEnum::CANCELLED->value),
+            'appointment_id' => ['required', 'numeric', 'exists:appointments,id']
         ];
     }
 }

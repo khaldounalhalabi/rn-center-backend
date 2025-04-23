@@ -4,6 +4,9 @@ namespace App\Http\Requests\Appointment;
 
 use App\Enums\AppointmentStatusEnum;
 use App\Enums\AppointmentTypeEnum;
+use App\Repositories\AppointmentRepository;
+use App\Services\AvailableAppointmentTimeService;
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -23,6 +26,24 @@ class StoreUpdateAppointmentRequest extends FormRequest
      */
     public function rules(): array
     {
+        if ($this->isPost()) {
+            $availableTimes = AvailableAppointmentTimeService::make()->getAvailableTimeSlots(
+                $this->input('clinic_id'),
+                Carbon::parse($this->input('date_time'))?->format('Y-m-d'),
+            )->map->format('Y-m-d H:i')->values();
+        } else {
+            $requestedDate = Carbon::parse($this->input('date_time'));
+            $appointment = AppointmentRepository::make()->find($this->route('appointment'));
+            $availableTimes = AvailableAppointmentTimeService::make()->getAvailableTimeSlots(
+                $appointment->clinic_id,
+                $requestedDate->format('Y-m-d')
+            )->map->format('Y-m-d H:i')->values();
+
+            if ($appointment->date_time->format('Y-m-d') == $requestedDate->format('Y-m-d')) {
+                $availableTimes = $availableTimes->push($appointment->date_time?->format('Y-m-d H:i'));
+            }
+        }
+
         return [
             'customer_id' => ['nullable', Rule::requiredIf($this->isPost()), Rule::excludeIf($this->isPut()), 'numeric', 'exists:customers,id'],
             'clinic_id' => ['nullable', Rule::requiredIf($this->isPost()), Rule::excludeIf($this->isPut()), 'numeric', 'exists:clinics,id'],
@@ -30,9 +51,14 @@ class StoreUpdateAppointmentRequest extends FormRequest
             'service_id' => ['nullable', 'numeric', 'exists:services,id'],
             'extra_fees' => ['nullable', 'numeric', 'min:0'],
             'type' => ['string', Rule::in(AppointmentTypeEnum::getAllValues())],
-            'date_time' => ['required', 'date_format:Y-m-d H:i'],
+            'date_time' => [
+                'required',
+                'date_format:Y-m-d H:i',
+                Rule::in($availableTimes->toArray()),
+            ],
             'status' => ['string', Rule::in(AppointmentStatusEnum::getAllValues())],
             'discount' => ['nullable', 'numeric', 'min:0'],
+            'cancellation_reason' => ['nullable', 'string', 'max:10000', 'required_if:status,' . AppointmentStatusEnum::CANCELLED->value],
         ];
     }
 
@@ -57,7 +83,7 @@ class StoreUpdateAppointmentRequest extends FormRequest
             ]);
         }
 
-        if (isAdmin()){
+        if (isAdmin()) {
             $this->merge([
                 'type' => AppointmentTypeEnum::MANUAL->value,
             ]);

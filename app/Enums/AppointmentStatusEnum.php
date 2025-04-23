@@ -22,4 +22,21 @@ enum AppointmentStatusEnum: string
             'value'
         );
     }
+
+    public static function mustHaveSequence(?string $status = null): bool|array
+    {
+        if ($status) {
+            return in_array($status, [
+                self::BOOKED->value,
+                self::CHECKIN->value,
+                self::CHECKOUT->value
+            ]);
+        }
+
+        return [
+            self::BOOKED->value,
+            self::CHECKIN->value,
+            self::CHECKOUT->value,
+        ];
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Appointment;
+use App\Repositories\AppointmentLogRepository;
 use App\Repositories\AppointmentRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
@@ -22,9 +23,10 @@ class AppointmentService extends BaseService
     public function store(array $data, array $relationships = [], array $countable = []): ?Model
     {
         $data['appointment_sequence'] = $this->calculateAppointmentSequence($data['clinic_id'], $data['date_time']);
-        $appointment = $this->repository->create($data, $relationships, $countable);
-
-        return $appointment->updateTotalCost();
+        $appointment = $this->repository->create($data);
+        $appointment->updateTotalCost();
+        $this->logAppointment($data, $appointment);
+        return $appointment->load($relationships)->loadCount($countable);
     }
 
     /**
@@ -93,7 +95,9 @@ class AppointmentService extends BaseService
 
         $appointment = $this->repository->update($data, $id, $relationships, $countable);
 
-        return $appointment?->updateTotalCost();
+        $appointment->updateTotalCost();
+        $this->logAppointment($data, $appointment, true);
+        return $appointment->load($relationships)->loadCount($countable);
     }
 
     /**
@@ -125,6 +129,42 @@ class AppointmentService extends BaseService
             $this->repository->update([
                 'appointment_sequence' => $index + 1
             ], $appt);
+        }
+    }
+
+    public function changeAppointmentStatus(array $data, array $relations = [], array $countable = [])
+    {
+        $appointment = $this->repository->find($data['appointment_id']);
+
+        if (!$appointment) {
+            return null;
+        }
+
+        return $this->repository->update($data, $appointment, $relations, $countable);
+    }
+
+    private function logAppointment(array $data, Appointment $appointment, bool $isUpdate = false): void
+    {
+        if (!$isUpdate) {
+            AppointmentLogRepository::make()->create([
+                'cancellation_reason' => $data['cancellation_reason'] ?? null,
+                'status' => $data['status'],
+                'happen_in' => now(),
+                'appointment_id' => $appointment->id,
+                'actor_id' => auth()->user()->id,
+                'affected_id' => $data['customer_id'] ?? $appointment->customer_id,
+                'event' => "appointment has been created in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->full_name,
+            ]);
+        } else {
+            AppointmentLogRepository::make()->create([
+                'cancellation_reason' => $data['cancellation_reason'] ?? null,
+                'status' => $data['status'],
+                'happen_in' => now(),
+                'appointment_id' => $appointment->id,
+                'actor_id' => auth()->user()?->id,
+                'affected_id' => $data['customer_id'] ?? $appointment->customer_id,
+                'event' => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->full_name,
+            ]);
         }
     }
 }

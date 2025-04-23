@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\Appointment\ChangeAppointmentStatusRequest;
 use App\Http\Requests\Appointment\StoreUpdateAppointmentRequest;
 use App\Http\Resources\AppointmentResource;
 use App\Models\Appointment;
@@ -69,5 +70,19 @@ class AppointmentController extends ApiController
         $ids = $request->ids ?? [];
 
         return $this->appointmentService->export($ids);
+    }
+
+    public function changeAppointmentStatus(ChangeAppointmentStatusRequest $request)
+    {
+        $appointment = $this->appointmentService->changeAppointmentStatus($request->validated(), $this->relations, $this->countable);
+        if ($appointment) {
+            return $this->apiResponse(
+                AppointmentResource::make($appointment),
+                self::STATUS_OK,
+                trans('site.update_successfully')
+            );
+        }
+
+        return $this->noData();
     }
 }
