@@ -70,4 +70,4 @@ Route::post('appointments/export', [v1\AppointmentController::class, 'export'])-
 Route::put('appointments/change-status', [v1\AppointmentController::class, 'changeAppointmentStatus'])->name('appointments.change.status');
 Route::apiResource('appointments', v1\AppointmentController::class)->except(['destroy'])->names('appointments');
 
-Route::post('clinics/{clinicId}/available-appointments-times', [v1\AvailableAppointmentTimeController::class, 'get'])->name('clinics.available.appointments.time');
+Route::post('clinics/available-appointments-times', [v1\AvailableAppointmentTimeController::class, 'get'])->name('clinics.available.appointments.time');

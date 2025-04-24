@@ -43,7 +43,7 @@ class AppointmentRepository extends BaseRepository
      */
     public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder|Appointment
     {
-        return parent::globalQuery($relations, $countable)
+        return parent::globalQuery($relations, $countable , $defaultOrder)
             ->when(isDoctor(), function (Builder $query) {
                 $query->where('clinic_id', clinic()?->id);
             })->when(isCustomer(), function (Builder $query) {
