@@ -18,7 +18,7 @@ class CustomerResource extends BaseResource
             'user_id' => $this->user_id,
             'blood_group' => $this->blood_group,
             'birth_date' => $this->birth_date?->format('Y-m-d'),
-            'age' => round($this->birth_date?->diffInYears()),
+            'age' => $this->birth_date?->age(locale: request()->header('Accept-Language', 'en')),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'total_appointments' => $this->whenCounted('validAppointments'),
             'health_status' => $this->health_status,
