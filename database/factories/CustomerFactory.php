@@ -27,8 +27,8 @@ class CustomerFactory extends Factory
             'health_status' => fake()->text(),
             'notes' => fake()->text(),
             'other_data' => [
-                fake()->word(),
-                fake()->text()
+                'key' => fake()->word(),
+                'value' => fake()->text()
             ]
         ];
     }
