@@ -85,4 +85,23 @@ class AppointmentController extends ApiController
 
         return $this->noData();
     }
+
+    public function getByClinic($clinicId)
+    {
+        $data = $this->appointmentService->paginateByClinic($clinicId, [
+            'customer.user',
+            'service'
+
+        ], $this->countable);
+        if ($data) {
+            return $this->apiResponse(
+                AppointmentResource::collection($data['data']),
+                self::STATUS_OK,
+                trans('site.get_successfully'),
+                $data['pagination_data']
+            );
+        }
+
+        return $this->noData([]);
+    }
 }

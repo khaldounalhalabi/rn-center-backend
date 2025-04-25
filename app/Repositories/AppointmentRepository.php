@@ -43,7 +43,7 @@ class AppointmentRepository extends BaseRepository
      */
     public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder|Appointment
     {
-        return parent::globalQuery($relations, $countable , $defaultOrder)
+        return parent::globalQuery($relations, $countable, $defaultOrder)
             ->when(isDoctor(), function (Builder $query) {
                 $query->where('clinic_id', clinic()?->id);
             })->when(isCustomer(), function (Builder $query) {
@@ -109,5 +109,13 @@ class AppointmentRepository extends BaseRepository
             'appointment_sequence' => 'asc',
             'date_time' => 'desc'
         ]);
+    }
+
+    public function paginateByClinic(int $clinicId, array $relations = [], array $countable = []): ?array
+    {
+        return $this->paginate(
+            $this->globalQuery($relations, $countable)
+                ->where('clinic_id', $clinicId)
+        );
     }
 }

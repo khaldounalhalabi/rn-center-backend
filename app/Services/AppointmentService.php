@@ -169,4 +169,9 @@ class AppointmentService extends BaseService
             ]);
         }
     }
+
+    public function paginateByClinic(int $clinicId, array $relations = [], array $countable = []): ?array
+    {
+        return $this->repository->paginateByClinic($clinicId, $relations, $countable);
+    }
 }
