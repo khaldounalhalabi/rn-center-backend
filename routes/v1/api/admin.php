@@ -61,6 +61,7 @@ Route::get('/statistics/index', [v1\StatisticsController::class, 'adminStatistic
 Route::post('/holidays/export', [v1\HolidayController::class, 'export'])->name('holidays.export');
 Route::post('/holidays/import', [v1\HolidayController::class, 'import'])->name('holidays.import');
 Route::get('/holidays/get-import-example', [v1\HolidayController::class, 'getImportExample'])->name('holidays.get.example');
+Route::get('/holidays/active', [v1\HolidayController::class, 'activeHolidays'])->name('holidays.active');
 Route::apiResource('/holidays', v1\HolidayController::class)->names('holidays');
 
 Route::post('/media/customers/attachments', [v1\MediaController::class, 'addCustomerAttachment'])->name('media.customers.attachments.store');

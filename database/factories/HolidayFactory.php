@@ -16,8 +16,8 @@ class HolidayFactory extends Factory
     public function definition(): array
     {
         return [
-            'from' => now()->subDays(fake()->numberBetween(30, 60)),
-            'to' => now()->addDays(fake()->numberBetween(30, 60)),
+            'from' => now()->subDays(fake()->numberBetween(1, 3)),
+            'to' => now()->addDays(fake()->numberBetween(1, 3)),
             'reason' => fake()->text(),
         ];
     }

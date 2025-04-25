@@ -92,4 +92,13 @@ class HolidayController extends ApiController
 
         $this->holidayService->import();
     }
+
+    public function activeHolidays()
+    {
+        return $this->apiResponse(
+            HolidayResource::collection($this->holidayService->activeHolidays()),
+            self::STATUS_OK,
+            trans('site.get_successfully'),
+        );
+    }
 }

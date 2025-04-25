@@ -6,6 +6,7 @@ use App\Models\Holiday;
 use App\Repositories\HolidayRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
+use Illuminate\Support\Collection;
 
 /**
  * @extends BaseService<Holiday>
@@ -16,4 +17,9 @@ class HolidayService extends BaseService
     use Makable;
 
     protected string $repositoryClass = HolidayRepository::class;
+
+    public function activeHolidays(): Collection
+    {
+        return $this->repository->getActiveHolidays();
+    }
 }

@@ -48,7 +48,7 @@ class StoreUpdateAppointmentRequest extends FormRequest
             'customer_id' => ['nullable', Rule::requiredIf($this->isPost()), Rule::excludeIf($this->isPut()), 'numeric', 'exists:customers,id'],
             'clinic_id' => ['nullable', Rule::requiredIf($this->isPost()), Rule::excludeIf($this->isPut()), 'numeric', 'exists:clinics,id'],
             'note' => 'nullable|string|max:10000',
-            'service_id' => ['nullable', 'numeric', 'exists:services,id'],
+            'service_id' => ['nullable', 'numeric', Rule::exists('services', 'id')->where('clinic_id', $this->input('clinic_id'))],
             'extra_fees' => ['nullable', 'numeric', 'min:0'],
             'type' => ['string', Rule::in(AppointmentTypeEnum::getAllValues())],
             'date_time' => [
