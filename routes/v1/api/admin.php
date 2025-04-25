@@ -69,6 +69,7 @@ Route::delete('/media/{mediaId}', [v1\MediaController::class, 'delete'])->name('
 Route::post('appointments/export', [v1\AppointmentController::class, 'export'])->name('appointments.export');
 Route::put('appointments/change-status', [v1\AppointmentController::class, 'changeAppointmentStatus'])->name('appointments.change.status');
 Route::get('/clinics/{clinicId}/appointments', [v1\AppointmentController::class, 'getByClinic'])->name('clinics.appointments');
+Route::get('/customers/{customerId}/appointments', [v1\AppointmentController::class, 'getByCustomer'])->name('clinics.appointments');
 Route::apiResource('appointments', v1\AppointmentController::class)->except(['destroy'])->names('appointments');
 
 Route::post('clinics/available-appointments-times', [v1\AvailableAppointmentTimeController::class, 'get'])->name('clinics.available.appointments.time');

@@ -174,4 +174,9 @@ class AppointmentService extends BaseService
     {
         return $this->repository->paginateByClinic($clinicId, $relations, $countable);
     }
+
+    public function paginateByCustomer(int $customerId, array $relations = [], array $countable = []): ?array
+    {
+        return $this->repository->paginateByCustomer($customerId, $relations, $countable);
+    }
 }

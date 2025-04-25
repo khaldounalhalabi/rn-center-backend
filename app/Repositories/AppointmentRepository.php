@@ -118,4 +118,12 @@ class AppointmentRepository extends BaseRepository
                 ->where('clinic_id', $clinicId)
         );
     }
+
+    public function paginateByCustomer(int $customerId, array $relations = [], array $countable = []): ?array
+    {
+        return $this->paginate(
+            $this->globalQuery($relations, $countable)
+                ->where('customer_id', $customerId)
+        );
+    }
 }
