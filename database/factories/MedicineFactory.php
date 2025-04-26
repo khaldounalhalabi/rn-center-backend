@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Clinic;
+use App\Enums\MedicineStatusEnum;
 use App\Models\Prescription;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,9 +18,11 @@ class MedicineFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->firstName(),
+            'name' => fake()->word(),
             'description' => fake()->text(),
-            'clinic_id' => Clinic::inRandomOrder()->first()?->id ?? Clinic::factory()->create()->id,
+            'barcode' => uniqid(),
+            'status' => MedicineStatusEnum::EXISTS->value,
+            'quantity' => fake()->numberBetween(10, 15),
         ];
     }
 

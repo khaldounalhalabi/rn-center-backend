@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Medicine;
 
+use App\Enums\MedicineStatusEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -21,18 +22,15 @@ class StoreUpdateMedicineRequest extends FormRequest
      */
     public function rules(): array
     {
-        if (request()->method() == 'POST') {
-            return [
-                'name' => ['required', 'string', 'min:3', 'max:255',],
-                'description' => ['nullable', 'string',],
-                'clinic_id' => ['required', 'numeric', 'exists:clinics,id',],
-            ];
-        }
-
         return [
-            'name' => ['nullable', 'string', 'min:3', 'max:255',],
-            'description' => ['nullable', 'string',],
-            'clinic_id' => ['nullable', 'numeric', 'exists:clinics,id',],
+            'name' => 'required|string|min:3|max:255',
+            'description' => 'nullable|string|max:5000',
+            'quantity' => 'required|numeric|min:0',
+            'status' => ['required', 'string', Rule::in(MedicineStatusEnum::getAllValues())],
+            'barcode' => ['required', 'max:100', 'string', Rule::unique('medicines', 'barcode')->when(
+                $this->isPut(),
+                fn($rule) => $rule->ignore($this->route('medicine'))
+            )]
         ];
     }
 
@@ -40,7 +38,13 @@ class StoreUpdateMedicineRequest extends FormRequest
     {
         if (isDoctor()) {
             $this->merge([
-                'clinic_id' => clinic()?->id
+                'status' => MedicineStatusEnum::OUT_OF_STOCK->value,
+            ]);
+        }
+
+        if (intval($this->input('quantity')) > 0) {
+            $this->merge([
+                'status' => MedicineStatusEnum::EXISTS->value,
             ]);
         }
     }

@@ -18,36 +18,22 @@ class MedicineService extends BaseService
 
     protected string $repositoryClass = MedicineRepository::class;
 
-    public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
+    public function store(array $data, array $relationships = [], array $countable = []): ?Model
     {
-        $medicine = $this->view($id);
+        $medicine = $this->repository->getByName($data['name']);
 
-        if (!$medicine) {
-            return null;
+        if ($medicine) {
+            return $this->repository->update($data, $medicine, $relationships, $countable);
         }
 
-        return $this->repository->update($data, $medicine, $relationships, $countable);
-    }
-
-    public function view($id, array $relationships = [], array $countable = []): ?Medicine
-    {
-        $medicine = parent::view($id, $relationships, $countable);
-
-        if (!$medicine?->canShow()) {
-            return null;
+        if (isset($data['barcode'])) {
+            $medicine = $this->repository->getByBarcode($data['barcode']);
         }
 
-        return $medicine;
-    }
-
-    public function delete($id): ?bool
-    {
-        $medicine = $this->view($id);
-
-        if (!$medicine) {
-            return null;
+        if ($medicine) {
+            return $this->repository->update($data, $medicine, $relationships, $countable);
         }
 
-        return parent::delete($id);
+        return $this->repository->create($data, $relationships, $countable);
     }
 }

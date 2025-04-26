@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Models\Medicine;
 use App\Repositories\Contracts\BaseRepository;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * @extends  BaseRepository<Medicine>
@@ -13,12 +12,17 @@ class MedicineRepository extends BaseRepository
 {
     protected string $modelClass = Medicine::class;
 
-    public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
+    public function getByName(string $name): ?Medicine
     {
-        return parent::globalQuery($relations, $countable)
-            ->when(
-                isDoctor(),
-                fn(Builder $query) => $query->where('clinic_id', clinic()?->id)
-            );
+        return $this->globalQuery()
+            ->where('name', $name)
+            ->first();
+    }
+
+    public function getByBarcode(string $barcode): ?Medicine
+    {
+        return $this->globalQuery()
+            ->where('barcode', $barcode)
+            ->first();
     }
 }

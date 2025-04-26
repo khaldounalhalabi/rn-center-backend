@@ -17,9 +17,9 @@ class MedicineResource extends BaseResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
-            'clinic_id' => $this->clinic_id,
-            'clinic' => new ClinicResource($this->whenLoaded('clinic')),
-            'prescriptions' => PrescriptionResource::collection($this->whenLoaded('prescriptions')),
+            'status' => $this->status,
+            'barcode' => $this->barcode,
+            'quantity' => $this->quantity,
         ];
     }
 }

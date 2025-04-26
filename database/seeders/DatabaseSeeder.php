@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             HolidaySeeder::class,
             ScheduleSeeder::class,
             AppointmentSeeder::class,
+            MedicineSeeder::class,
         ]);
     }
 }

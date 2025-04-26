@@ -48,6 +48,9 @@ Route::get('appointments/{appointmentId}/prescriptions/', [v1\PrescriptionContro
 Route::get('appointment-logs/{appointmentLogId}', [v1\AppointmentLogController::class, 'show'])->name('appointment.log.show');
 Route::get('appointments/{appointmentId}/logs', [v1\AppointmentLogController::class, 'getAppointmentLogs'])->name('appointments.logs');
 
+Route::post('/medicines/export', [v1\MedicineController::class, 'export'])->name('medicines.export');
+Route::post('/medicines/import', [v1\MedicineController::class, 'import'])->name('medicines.import');
+Route::get('/medicines/get-import-example', [v1\MedicineController::class, 'getImportExample'])->name('medicines.get.example');
 Route::apiResource('/medicines', v1\MedicineController::class)->names('medicines');
 
 Route::delete('/prescriptions/medicine-data/{medicineDataId}', [v1\PrescriptionController::class, 'removeMedicine'])->name('prescription.medicine.remove');

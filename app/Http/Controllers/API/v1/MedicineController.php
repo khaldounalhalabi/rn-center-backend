@@ -15,15 +15,8 @@ class MedicineController extends ApiController
 
     public function __construct()
     {
-
         $this->medicineService = MedicineService::make();
-
-        // place the relations you want to return them within the response
-        if (isDoctor()) {
-            $this->relations = [];
-        } else {
-            $this->relations = ['clinic', 'clinic.user'];
-        }
+        $this->relations = [];
     }
 
     public function index()
