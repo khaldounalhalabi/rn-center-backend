@@ -8,6 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class () extends Migration {
+
     /**
      * Run the migrations.
      */
@@ -15,13 +16,11 @@ return new class () extends Migration {
     {
         Schema::create('prescriptions', function (Blueprint $table) {
             $table->id();
-            $table->json('physical_information')->nullable();
-            $table->text('problem_description')->nullable();
-            $table->text('test')->nullable();
-            $table->string('next_visit')->nullable();
             $table->foreignIdFor(Clinic::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Customer::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Appointment::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->json('other_data')->nullable();
+            $table->dateTime('next_visit')->nullable();
             $table->timestamps();
             $table->index(['created_at']);
         });

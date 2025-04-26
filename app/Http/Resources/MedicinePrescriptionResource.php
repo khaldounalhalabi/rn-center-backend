@@ -13,17 +13,13 @@ class MedicinePrescriptionResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'dosage' => $this->dosage,
-            'duration' => $this->duration,
-            'time' => $this->time,
-            'dose_interval' => $this->dose_interval,
-            'comment' => $this->comment,
-
             'prescription_id' => $this->prescription_id,
             'medicine_id' => $this->medicine_id,
-
+            'dosage' => $this->dosage,
+            'dose_interval' => $this->dose_interval,
+            'comment' => $this->comment,
+            'status' => $this->status,
             'medicine' => new MedicineResource($this->whenLoaded('medicine')),
-            'prescription' => new PrescriptionResource($this->whenLoaded('prescription')),
         ];
     }
 }

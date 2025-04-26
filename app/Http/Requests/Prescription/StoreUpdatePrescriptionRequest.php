@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Prescription;
 
+use App\Services\AvailableAppointmentTimeService;
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -21,51 +23,38 @@ class StoreUpdatePrescriptionRequest extends FormRequest
      */
     public function rules(): array
     {
-        if (request()->method() == 'POST') {
-            return [
-                'clinic_id' => ['required', 'numeric', 'exists:clinics,id'],
-                'customer_id' => ['required', 'numeric', 'exists:customers,id'],
-                'appointment_id' => ['nullable', 'required_without:customer_id', 'numeric', 'exists:appointments,id'],
-                'physical_information' => ['nullable', 'json'],
-                'problem_description' => ['nullable', 'string'],
-                'test' => ['nullable', 'string'],
-                'next_visit' => ['nullable', 'string', 'min:3', 'max:255'],
-
-                'medicines' => 'array|required',
-                'medicines.*.medicine_id' => 'required|exists:medicines,id|numeric',
-                'medicines.*.dosage' => 'string|nullable',
-                'medicines.*.duration' => 'string|nullable',
-                'medicines.*.time' => 'string|nullable',
-                'medicines.*.dose_interval' => 'string|nullable',
-                'medicines.*.comment' => 'string|nullable'
-            ];
+        if ($this->input('next_visit')) {
+            $availableTimes = AvailableAppointmentTimeService::make()->getAvailableTimeSlots(
+                $this->input('clinic_id'),
+                Carbon::parse($this->input('next_visit'))?->format('Y-m-d'),
+            )->map->format('Y-m-d H:i')->values();
+        } else {
+            $availableTimes = [null];
         }
 
         return [
-            'physical_information' => ['nullable', 'json'],
-            'problem_description' => ['nullable', 'string'],
-            'test' => ['nullable', 'string'],
-            'next_visit' => ['nullable', 'string', 'min:3', 'max:255'],
-
-            'medicines' => 'array|nullable',
-            'medicines.*.medicine_id' => 'required|exists:medicines,id|numeric',
-            'medicines.*.dosage' => 'string|nullable',
-            'medicines.*.duration' => 'string|nullable',
-            'medicines.*.time' => 'string|nullable',
-            'medicines.*.dose_interval' => 'string|nullable',
-            'medicines.*.comment' => 'string|nullable'
-        ];
-    }
-
-    public function attributes()
-    {
-        return [
-            'medicines.*.medicine_id' => 'medicine',
-            'medicines.*.dosage' => 'medicine dosage',
-            'medicines.*.duration' => 'medicine duration',
-            'medicines.*.time' => 'medicine time',
-            'medicines.*.dose_interval' => 'medicine dose interval',
-            'medicines.*.comment' => 'comment',
+            'clinic_id' => 'required|exists:clinics,id|numeric',
+            'customer_id' => 'required|exists:customers,id|numeric',
+            'appointment_id' => [
+                'required',
+                'numeric',
+                Rule::exists('appointments', 'id')
+                    ->where('clinic_id', $this->input('clinic_id'))
+                    ->where('customer_id', $this->input('customer_id'))
+            ],
+            'other_data' => 'nullable|array',
+            'other_data.*.key' => 'string|min:1|max:255',
+            'other_data.*.value' => 'string|min:1|max:5000',
+            'next_visit' => [
+                'nullable',
+                'date_format:Y-m-d H:i',
+                Rule::in($availableTimes->toArray()),
+            ],
+            'medicines' => ['array', 'nullable'],
+            'medicines.*.medicine_id' => 'numeric|exists:medicines,id',
+            'medicines.*.dosage' => ['string', 'max:500', 'nullable'],
+            'medicines.*.dose_interval' => ['nullable', 'string', 'max:500'],
+            'medicines.*.comment' => ['nullable', 'string', 'max:1500'],
         ];
     }
 

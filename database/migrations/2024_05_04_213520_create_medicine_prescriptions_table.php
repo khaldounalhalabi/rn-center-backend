@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\MedicinePrescriptionStatusEnum;
 use App\Models\Medicine;
 use App\Models\Prescription;
 use Illuminate\Database\Migrations\Migration;
@@ -18,10 +19,9 @@ return new class () extends Migration {
             $table->foreignIdFor(Prescription::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Medicine::class)->constrained()->cascadeOnDelete();
             $table->string('dosage')->nullable();
-            $table->string('duration')->nullable();
-            $table->string('time')->nullable();
             $table->string('dose_interval')->nullable();
             $table->text('comment')->nullable();
+            $table->string('status')->default(MedicinePrescriptionStatusEnum::NOT_GIVEN->value);
             $table->timestamps();
             $table->index(['created_at']);
         });
@@ -31,7 +31,7 @@ return new class () extends Migration {
      * Reverse the migrations.
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('medicine_prescriptions');
     }

@@ -19,10 +19,10 @@ class PrescriptionController extends ApiController
         $this->prescriptionService = PrescriptionService::make();
 
         if (isDoctor()) {
-            $this->relations = ['customer.user', 'medicinesData.medicine', 'appointment'];
+            $this->relations = ['customer.user', 'medicinePrescriptions.medicine', 'appointment'];
             $this->indexRelations = ['customer.user'];
         } else {
-            $this->relations = ['clinic.user', 'customer.user', 'medicinesData.medicine'];
+            $this->relations = ['clinic.user', 'customer.user', 'medicinePrescriptions.medicine', 'appointment'];
             $this->indexRelations = ['clinic.user', 'customer.user'];
         }
     }
@@ -101,29 +101,11 @@ class PrescriptionController extends ApiController
         $this->prescriptionService->import();
     }
 
-    public function removeMedicine($medicineDataId)
-    {
-        $result = $this->prescriptionService->removeMedicine($medicineDataId);
-
-        if ($result) {
-            return $this->apiResponse(true, self::STATUS_OK, __('site.delete_successfully'));
-        }
-        return $this->noData(false);
-    }
-
-    public function getAppointmentPrescriptions($appointmentId)
-    {
-        $data = $this->prescriptionService->getByAppointmentId($appointmentId, $this->relations);
-        if ($data) {
-            return $this->apiResponse(PrescriptionResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
-        }
-
-        return $this->noData();
-    }
-
     public function getCustomerPrescriptions($customerId)
     {
-        $data = $this->prescriptionService->getClinicCustomerPrescriptions($customerId, clinic()?->id, $this->indexRelations);
+        $data = $this->prescriptionService->getClinicCustomerPrescriptions($customerId, [
+            'clinic.user'
+        ], $this->countable);
         if ($data) {
             return $this->apiResponse(PrescriptionResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
         }

@@ -208,4 +208,9 @@ class Appointment extends Model
 
         return $this;
     }
+
+    public function prescription(): HasOne
+    {
+        return $this->hasOne(Prescription::class, 'appointment_id');
+    }
 }

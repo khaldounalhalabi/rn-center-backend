@@ -7,6 +7,8 @@ use App\Models\Clinic;
 use App\Models\Customer;
 use App\Models\Medicine;
 use App\Models\MedicinePrescription;
+use App\Models\Prescription;
+use App\Services\AvailableAppointmentTimeService;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -22,36 +24,26 @@ class PrescriptionFactory extends Factory
     {
         $clinicId = Clinic::inRandomOrder()->first()?->id ?? Clinic::factory()->create()->id;
         $customerId = Customer::inRandomOrder()->first()?->id ?? Customer::factory()->create()->id;
+        $appointment = Appointment::factory()->state([
+            'clinic_id' => $clinicId,
+            'customer_id' => $customerId,
+        ])->create();
 
-        $physicalInformation = [
-            "High Blood Pressure" => fake()->sentence(5),
-            "Diabetic" => fake()->sentence(5),
-            "Food Allergies" => fake()->sentence(5),
-            "Tendency Bleed" => fake()->sentence(5),
-            "Heart Disease" => fake()->sentence(5),
-            "Medical History" => fake()->sentence(5),
-            "Female Pregnancy" => fake()->sentence(5),
-            "Breast Feeding" => fake()->sentence(5),
-            "Current Medication" => fake()->sentence(5),
-            "Surgery" => fake()->sentence(5),
-            "Accident" => fake()->sentence(5),
-            "Others" => fake()->sentence(5),
-            "Pulse Rate" => fake()->sentence(5),
-            "Temperature" => fake()->sentence(5),
-        ];
+        $nextVisit = AvailableAppointmentTimeService::make()
+            ->getAvailableTimeSlots($clinicId, $appointment->date_time->addDays(fake()->numberBetween(1, 30))
+                ->format('Y-m-d'))->first();
+
         return [
             'clinic_id' => $clinicId,
             'customer_id' => $customerId,
-            'appointment_id' => Appointment::inRandomOrder()
-                    ->where('customer_id', $customerId)
-                    ->where('clinic_id', $clinicId)->first()->id ?? Appointment::factory()->create([
-                    'clinic_id' => $clinicId,
-                    'customer_id' => $customerId,
-                ])->id,
-            'physical_information' => json_encode($physicalInformation),
-            'problem_description' => fake()->text(),
-            'test' => fake()->text(),
-            'next_visit' => "Next Week",
+            'appointment_id' => $appointment->id,
+            'other_data' => [
+                [
+                    'key' => fake()->word(),
+                    'value' => fake()->text,
+                ]
+            ],
+            'next_visit' => $nextVisit
         ];
     }
 
@@ -62,7 +54,12 @@ class PrescriptionFactory extends Factory
 
     public function withMedicineData($count = 1): PrescriptionFactory
     {
-        return $this->has(MedicinePrescription::factory($count), 'medicinesData');
+        return $this->afterCreating(function (Prescription $prescription) use ($count) {
+            MedicinePrescription::factory($count)
+                ->state([
+                    'prescription_id' => $prescription->id,
+                ])->create();
+        });
     }
 
     public function withMedicines($count = 1): PrescriptionFactory

@@ -44,7 +44,6 @@ Route::post('/services/import', [v1\ServiceController::class, 'import'])->name('
 Route::get('/services/import-example', [v1\ServiceController::class, 'getImportExample'])->name('services.import.example');
 Route::apiResource('/services', v1\ServiceController::class)->names('services');
 
-Route::get('appointments/{appointmentId}/prescriptions/', [v1\PrescriptionController::class, 'getAppointmentPrescriptions'])->name('appointments.prescriptions');
 Route::get('appointment-logs/{appointmentLogId}', [v1\AppointmentLogController::class, 'show'])->name('appointment.log.show');
 Route::get('appointments/{appointmentId}/logs', [v1\AppointmentLogController::class, 'getAppointmentLogs'])->name('appointments.logs');
 
@@ -52,9 +51,6 @@ Route::post('/medicines/export', [v1\MedicineController::class, 'export'])->name
 Route::post('/medicines/import', [v1\MedicineController::class, 'import'])->name('medicines.import');
 Route::get('/medicines/get-import-example', [v1\MedicineController::class, 'getImportExample'])->name('medicines.get.example');
 Route::apiResource('/medicines', v1\MedicineController::class)->names('medicines');
-
-Route::delete('/prescriptions/medicine-data/{medicineDataId}', [v1\PrescriptionController::class, 'removeMedicine'])->name('prescription.medicine.remove');
-Route::apiResource('prescriptions', v1\PrescriptionController::class)->names('prescriptions');
 
 Route::get('transactions/summary', [v1\TransactionController::class, 'summary'])->name('transaction.summary');
 Route::apiResource('/transactions', v1\TransactionController::class)->names('transactions');
@@ -77,3 +73,5 @@ Route::get('/customers/{customerId}/appointments', [v1\AppointmentController::cl
 Route::apiResource('appointments', v1\AppointmentController::class)->except(['destroy'])->names('appointments');
 
 Route::post('clinics/available-appointments-times', [v1\AvailableAppointmentTimeController::class, 'get'])->name('clinics.available.appointments.time');
+
+Route::get('/customers/{customerId}/prescriptions', [v1\PrescriptionController::class, 'getCustomerPrescriptions'])->name('customers.prescriptions');

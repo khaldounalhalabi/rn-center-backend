@@ -19,7 +19,7 @@ class AppointmentController extends ApiController
         $this->appointmentService = AppointmentService::make();
 
         // place the relations you want to return them within the response
-        $this->relations = ['customer.user', 'clinic.user', 'service'];
+        $this->relations = ['customer.user', 'clinic.user', 'service', 'prescription', 'prescription.medicinePrescriptions.medicine'];
     }
 
     public function index()

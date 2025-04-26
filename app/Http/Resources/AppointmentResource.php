@@ -34,6 +34,7 @@ class AppointmentResource extends BaseResource
             'service' => ServiceResource::make($this->whenLoaded('service')),
             'clinic' => ClinicResource::make($this->whenLoaded('clinic')),
             'customer' => CustomerResource::make($this->whenLoaded('customer')),
+            'prescription' => PrescriptionResource::make($this->whenLoaded('prescription')),
         ];
     }
 }

@@ -9,16 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-/**
- * @property integer  clinic_id
- * @property integer  customer_id
- * @property string   physical_information
- * @property string   problem_description
- * @property string   test
- * @property string   next_visit
- * @property Clinic   clinic
- * @property Customer customer
- */
 class Prescription extends Model
 {
     use HasFactory;
@@ -27,51 +17,46 @@ class Prescription extends Model
     protected $fillable = [
         'clinic_id',
         'customer_id',
-        'physical_information',
-        'problem_description',
-        'test',
-        'next_visit',
         'appointment_id',
+        'other_data',
+        'next_visit',
     ];
 
     protected $casts = [
-
+        'other_data' => 'array',
+        'next_visit' => 'datetime',
     ];
 
-    /**
-     * add your searchable columns, so you can search within them in the
-     * index method
-     */
     public static function searchableArray(): array
     {
         return [
-            'physical_information',
-            'problem_description',
-            'test',
+            'other_data',
             'next_visit',
         ];
     }
 
-    /**
-     * add your relations and their searchable columns,
-     * so you can search within them in the index method
-     */
     public static function relationsSearchableArray(): array
     {
         return [
-
+            'clinic.user' => [
+                'full_name'
+            ],
+            'customer.user' => [
+                'full_name',
+            ],
+            'appointment' => [
+                'date_time'
+            ]
         ];
     }
 
     public function exportable(): array
     {
         return [
-            'physical_information',
-            'problem_description',
-            'test',
+            'clinic.user.full_name',
+            'customer.user.full_name',
+            'appointment.date_time',
             'next_visit',
-            'clinic.name',
-            'customer.mother_full_name',
         ];
     }
 
@@ -90,19 +75,7 @@ class Prescription extends Model
         return $this->belongsToMany(Medicine::class, 'medicine_prescriptions');
     }
 
-    /**
-     * define your columns which you want to treat them as files
-     * so the base repository can store them in the storage without
-     * any additional files procedures
-     */
-    public function filesKeys(): array
-    {
-        return [
-            //filesKeys
-        ];
-    }
-
-    public function medicinesData(): HasMany
+    public function medicinePrescriptions(): HasMany
     {
         return $this->hasMany(MedicinePrescription::class);
     }

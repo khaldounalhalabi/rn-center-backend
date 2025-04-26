@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             ScheduleSeeder::class,
             AppointmentSeeder::class,
             MedicineSeeder::class,
+            PrescriptionSeeder::class,
         ]);
     }
 }

@@ -225,7 +225,7 @@ abstract class BaseRepository
         if ($keyword) {
             if (count($this->searchableKeys) > 0) {
                 foreach ($this->searchableKeys as $search_attribute) {
-                    $query->orWhere("$this->tableName.{$search_attribute}", 'REGEXP', "(?i).*$keyword.*");
+                    $query->orWhere("$this->tableName.{$search_attribute}", 'LIKE', "%$keyword%");
                 }
             }
 
@@ -234,7 +234,7 @@ abstract class BaseRepository
                     foreach ($values as $search_attribute) {
                         $query->orWhereRelation($relation, function (Builder $q) use ($relation, $keyword, $search_attribute) {
                             $relTable = $q->getModel()->getTable();
-                            $q->where("{$relTable}.{$search_attribute}", 'REGEXP', "(?i).*$keyword.*");
+                            $q->where("{$relTable}.{$search_attribute}", 'LIKE', "%$keyword%");
                         });
                     }
                 }

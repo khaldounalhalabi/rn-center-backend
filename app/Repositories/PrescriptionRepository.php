@@ -35,12 +35,11 @@ class PrescriptionRepository extends BaseRepository
             });
     }
 
-    public function getClinicCustomerPrescriptions($clinicId, $customerId, array $relations = [], array $countable = []): ?array
+    public function getClinicCustomerPrescriptions($customerId, array $relations = [], array $countable = []): ?array
     {
         return $this->paginateQuery(
             $this->globalQuery($relations, $countable)
                 ->where('customer_id', $customerId)
-                ->where('clinic_id', $clinicId)
         );
     }
 }

@@ -27,7 +27,7 @@ class StoreUpdateMedicineRequest extends FormRequest
             'description' => 'nullable|string|max:5000',
             'quantity' => 'required|numeric|min:0',
             'status' => ['required', 'string', Rule::in(MedicineStatusEnum::getAllValues())],
-            'barcode' => ['required', 'max:100', 'string', Rule::unique('medicines', 'barcode')->when(
+            'barcode' => ['nullable', 'max:100', 'string', Rule::unique('medicines', 'barcode')->when(
                 $this->isPut(),
                 fn($rule) => $rule->ignore($this->route('medicine'))
             )]
