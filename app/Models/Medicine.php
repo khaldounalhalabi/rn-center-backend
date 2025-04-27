@@ -61,4 +61,16 @@ class Medicine extends Model
 
         ];
     }
+
+    public function filterArray(): array
+    {
+        return [
+            [
+                'name' => 'status',
+            ],
+            [
+                'name' => 'quantity'
+            ]
+        ];
+    }
 }

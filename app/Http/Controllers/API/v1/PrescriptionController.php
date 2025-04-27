@@ -104,7 +104,8 @@ class PrescriptionController extends ApiController
     public function getCustomerPrescriptions($customerId)
     {
         $data = $this->prescriptionService->getClinicCustomerPrescriptions($customerId, [
-            'clinic.user'
+            'clinic.user',
+            'appointment'
         ], $this->countable);
         if ($data) {
             return $this->apiResponse(PrescriptionResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);

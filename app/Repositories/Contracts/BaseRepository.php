@@ -132,12 +132,12 @@ abstract class BaseRepository
             $value = request($field);
             $range = is_array($value);
             $value = $this->unsetEmptyParams($value);
-            if ($range && isset($value)) {
-                $value = array_values($value);
-            }
-
             if (!$value) {
                 continue;
+            }
+
+            if ($range) {
+                $value = array_values($value);
             }
 
             if ($callback && is_callable($callback)) {
@@ -151,7 +151,7 @@ abstract class BaseRepository
                 $query = $query->whereRelation($relation, function (Builder $q) use ($col, $relation, $range, $field, $method, $operator, $value) {
                     $relTable = $q->getModel()->getTable();
                     if ($range) {
-                        return $this->handleRangeQuery($value, $q, $relTable, $col);
+                        return $this->handleRangeQuery($value, $q, $relTable, $col, $method);
                     }
                     if ($operator === "like") {
                         return $q->{$method}("$relTable.$col", $operator, "%" . $value . "%");
@@ -160,7 +160,7 @@ abstract class BaseRepository
                 });
             } else {
                 if ($range) {
-                    $query = $this->handleRangeQuery($value, $query, $this->tableName, $field);
+                    $query = $this->handleRangeQuery($value, $query, $this->tableName, $field, $method);
                 } elseif ($operator == 'like') {
                     $query = $query->{$method}($this->tableName . '.' . $field, $operator, "%" . $value . "%");
                 } else {
@@ -195,10 +195,15 @@ abstract class BaseRepository
      * @param Builder $query
      * @param string  $table
      * @param string  $column
+     * @param string  $method
      * @return Builder
      */
-    private function handleRangeQuery(array $value, Builder $query, string $table, string $column): Builder
+    private function handleRangeQuery(array $value, Builder $query, string $table, string $column, string $method): Builder
     {
+        if ($method == 'whereIn') {
+            $query->whereIn("$table.$column", array_values(array_filter($value)));
+            return $query;
+        }
         if (count($value) == 2) {
             if (!isset($value[0]) && isset($value[1])) {
                 $query = $query->where("$table.$column", '<=', $value[1]);
@@ -206,7 +211,7 @@ abstract class BaseRepository
                 $query->where("$table.$column", '>=', $value[0]);
             } elseif (isset($value[0]) && isset($value[1])) {
                 $query = $query->where("$table.$column", '>=', $value[0])
-                    ->where("$table.$column", "<=", $value[1]);
+                    ->where("$table.$column", '<=', $value[1]);
             }
         } elseif (count($value) > 2) {
             $query->whereIn("$table.$column", array_values(array_filter($value)));
@@ -253,9 +258,9 @@ abstract class BaseRepository
      */
     protected function orderQueryBy(Builder $query, bool $defaultOrder = true, ?array $defaultCols = null): Builder
     {
-        $sortCol = request()->sort_col;
+        $sortCol = request('sort_col');
         $sortCol = $this->unsetEmptyParams($sortCol);
-        $sortDir = request()->sort_dir ?? "DESC";
+        $sortDir = request('sort_dir') ?? "DESC";
 
         if (!isset($sortCol) && $defaultOrder) {
             if ($defaultCols) {
