@@ -12,11 +12,7 @@ return new class extends Migration {
     {
         Schema::create('balances', function (Blueprint $table) {
             $table->id();
-            $table->string('balanceable_type');
-            $table->bigInteger('balanceable_id');
             $table->double('balance');
-            $table->text('note')->nullable();
-            $table->index(['balanceable_type', 'balanceable_id']);
             $table->timestamps();
             $table->index(['created_at']);
         });

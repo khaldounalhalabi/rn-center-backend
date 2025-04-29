@@ -16,8 +16,6 @@ class BalanceFactory extends Factory
     public function definition(): array
     {
         return [
-            'balanceable_type' => fake()->word(),
-            'balanceable_id' => fake()->numberBetween(1, 2000),
             'balance' => fake()->randomFloat(1, 1, 100),
         ];
     }

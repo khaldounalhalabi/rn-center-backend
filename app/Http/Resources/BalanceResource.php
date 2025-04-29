@@ -15,10 +15,7 @@ class BalanceResource extends BaseResource
     {
         return [
             'id' => $this->id,
-            'balanceable_type' => $this->balanceable_type,
-            'balanceable_id' => $this->balanceable_id,
             'balance' => $this->balance,
-
         ];
     }
 }

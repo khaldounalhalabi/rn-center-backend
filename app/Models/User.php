@@ -156,17 +156,6 @@ class User extends Authenticatable implements JWTSubject
         return $this->clinic->id;
     }
 
-    /**
-     * to get admin current balance
-     * where a user type is for admin and clinic type is for clinics users
-     * @return Balance|null
-     */
-    public function balance(): ?Balance
-    {
-        return Balance::where('balanceable_type', User::class)
-            ->latest()->first();
-    }
-
     public function unreadNotifications()
     {
         return $this->notifications()->unread()
