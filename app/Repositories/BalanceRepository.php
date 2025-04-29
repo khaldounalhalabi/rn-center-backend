@@ -11,4 +11,9 @@ use App\Repositories\Contracts\BaseRepository;
 class BalanceRepository extends BaseRepository
 {
     protected string $modelClass = Balance::class;
+
+    public function getBalance(): ?Balance
+    {
+        return $this->globalQuery()->latest()->first();
+    }
 }

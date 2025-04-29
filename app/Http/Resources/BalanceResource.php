@@ -15,7 +15,7 @@ class BalanceResource extends BaseResource
     {
         return [
             'id' => $this->id,
-            'balance' => $this->balance,
+            'balance' => round($this->balance, 2),
         ];
     }
 }

@@ -16,4 +16,12 @@ class BalanceService extends BaseService
     use Makable;
 
     protected string $repositoryClass = BalanceRepository::class;
+
+    public function getBalance(): Balance
+    {
+        return $this->repository->getBalance() ?? Balance::make([
+            'balance' => 0,
+            'id' => 1,
+        ]);
+    }
 }

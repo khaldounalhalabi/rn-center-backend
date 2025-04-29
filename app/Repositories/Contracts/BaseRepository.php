@@ -206,12 +206,12 @@ abstract class BaseRepository
         }
         if (count($value) == 2) {
             if (!isset($value[0]) && isset($value[1])) {
-                $query = $query->where("$table.$column", '<=', $value[1]);
+                $query = $query->$method("$table.$column", '<=', $value[1]);
             } elseif (isset($value[0]) && !isset($value[1])) {
-                $query->where("$table.$column", '>=', $value[0]);
+                $query->$method("$table.$column", '>=', $value[0]);
             } elseif (isset($value[0]) && isset($value[1])) {
-                $query = $query->where("$table.$column", '>=', $value[0])
-                    ->where("$table.$column", '<=', $value[1]);
+                $query = $query->$method("$table.$column", '>=', $value[0])
+                    ->$method("$table.$column", '<=', $value[1]);
             }
         } elseif (count($value) > 2) {
             $query->whereIn("$table.$column", array_values(array_filter($value)));

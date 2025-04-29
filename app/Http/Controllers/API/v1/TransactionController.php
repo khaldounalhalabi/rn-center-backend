@@ -4,8 +4,10 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\Transaction\StoreUpdateTransactionRequest;
+use App\Http\Resources\BalanceResource;
 use App\Http\Resources\TransactionResource;
 use App\Models\Transaction;
+use App\Services\BalanceService;
 use App\Services\TransactionService;
 use Illuminate\Http\Request;
 
@@ -15,10 +17,7 @@ class TransactionController extends ApiController
 
     public function __construct()
     {
-
         $this->transactionService = TransactionService::make();
-
-        // place the relations you want to return them within the response
         $this->relations = ['actor'];
     }
 
@@ -82,12 +81,12 @@ class TransactionController extends ApiController
         return $this->transactionService->export($ids);
     }
 
-    public function summary()
+    public function balance()
     {
         return $this->apiResponse(
-            $this->transactionService->summary(),
+            BalanceResource::make(BalanceService::make()->getBalance()),
             self::STATUS_OK,
-            __('site.get_successfully')
+            trans('site.get_successfully'),
         );
     }
 }

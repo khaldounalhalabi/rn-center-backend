@@ -3,12 +3,10 @@
 namespace App\Models;
 
 use App\Enums\TransactionTypeEnum;
-use App\Interfaces\ActionsMustBeAuthorized;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * @property string  type
@@ -18,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property integer actor_id
  * @property User    actor
  */
-class Transaction extends Model implements ActionsMustBeAuthorized
+class Transaction extends Model
 {
     use HasFactory;
 
@@ -56,14 +54,9 @@ class Transaction extends Model implements ActionsMustBeAuthorized
         return [
             'actor' => [
                 'email',
+                'full_name',
+                'phone'
             ]
-        ];
-    }
-
-    public static function authorizedActions(): array
-    {
-        return [
-            'accountant-management',
         ];
     }
 
@@ -75,18 +68,6 @@ class Transaction extends Model implements ActionsMustBeAuthorized
             'description',
             'date',
             'actor_id',
-        ];
-    }
-
-    /**
-     * define your columns which you want to treat them as files
-     * so the base repository can store them in the storage without
-     * any additional files procedures
-     */
-    public function filesKeys(): array
-    {
-        return [
-            //filesKeys
         ];
     }
 
@@ -105,7 +86,8 @@ class Transaction extends Model implements ActionsMustBeAuthorized
                 'name' => 'type'
             ],
             [
-                'name' => 'date'
+                'name' => 'date',
+                'method' => 'whereDate'
             ]
         ];
     }

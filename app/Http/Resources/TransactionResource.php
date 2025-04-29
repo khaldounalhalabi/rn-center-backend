@@ -16,7 +16,7 @@ class TransactionResource extends BaseResource
         return [
             'id' => $this->id,
             'type' => $this->type,
-            'amount' => $this->amount,
+            'amount' => round($this->amount, 2),
             'description' => $this->description,
             'date' => $this->date->format('Y-m-d H:i'),
             'actor_id' => $this->actor_id,
