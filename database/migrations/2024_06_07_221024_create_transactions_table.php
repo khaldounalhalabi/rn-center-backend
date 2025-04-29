@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Appointment;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,6 +18,7 @@ return new class () extends Migration {
             $table->text('description')->nullable();
             $table->dateTime('date')->default(now());
             $table->foreignId('actor_id')->nullable()->references('id')->on('users')->nullOnDelete();
+            $table->foreignIdFor(Appointment::class)->nullable()->constrained()->cascadeOnDelete();
 
             $table->timestamps();
             $table->index(['created_at']);
