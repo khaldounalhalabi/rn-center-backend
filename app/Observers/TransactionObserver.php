@@ -17,13 +17,11 @@ class TransactionObserver implements ShouldHandleEventsAfterCommit
         $latestBalance = BalanceRepository::make()->getBalance()?->balance ?? 0;
         if ($transaction->isPlus()) {
             $balance = $latestBalance + $transaction->amount;
-            $note = $transaction->description ?? "";
         } elseif ($transaction->isMinus()) {
             $balance = $latestBalance - $transaction->amount;
-            $note = $transaction->description ?? "";
         }
 
-        if (isset($balance, $note)) {
+        if (isset($balance)) {
             BalanceRepository::make()->create([
                 'balance' => $balance,
             ]);
@@ -47,21 +45,17 @@ class TransactionObserver implements ShouldHandleEventsAfterCommit
         $latestBalance = BalanceRepository::make()->getBalance()?->balance ?? 0;
         if ($prevTransaction['type'] == TransactionTypeEnum::OUTCOME->value && $transaction->isPlus()) {
             $balance = ($latestBalance + $prevTransaction['amount']) + $transaction->amount;
-            $note = $transaction->description ?? "";
         } elseif ($prevTransaction['type'] == TransactionTypeEnum::INCOME->value && $transaction->isMinus()) {
             $balance = ($latestBalance - $prevTransaction['amount']) - $transaction->amount;
-            $note = $transaction->description ?? "";
         } elseif ($prevTransaction['amount'] != $transaction->amount) {
             if ($transaction->isPlus()) {
                 $balance = ($latestBalance - $prevTransaction['amount']) + $transaction->amount;
-                $note = $transaction->description ?? "";
             } elseif ($transaction->isMinus()) {
                 $balance = ($latestBalance + $prevTransaction['amount']) - $transaction->amount;
-                $note = $transaction->description ?? "";
             }
         }
 
-        if (isset($balance, $note)) {
+        if (isset($balance)) {
             BalanceRepository::make()->create([
                 'balance' => $balance,
             ]);
@@ -77,13 +71,11 @@ class TransactionObserver implements ShouldHandleEventsAfterCommit
 
         if ($transaction->isPlus()) {
             $balance = $latestBalance - $transaction->amount;
-            $note = "[DELETED] " . $transaction->description ?? "";
         } elseif ($transaction->isMinus()) {
             $balance = $latestBalance + $transaction->amount;
-            $note = "[DELETED] " . $transaction->description ?? "";
         }
 
-        if (isset($balance, $note)) {
+        if (isset($balance)) {
             BalanceRepository::make()->create([
                 'balance' => $balance,
             ]);
