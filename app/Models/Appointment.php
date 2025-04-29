@@ -213,4 +213,9 @@ class Appointment extends Model
     {
         return $this->hasOne(Prescription::class, 'appointment_id');
     }
+
+    public function transaction(): HasOne
+    {
+        return $this->hasOne(Transaction::class);
+    }
 }

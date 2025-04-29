@@ -2,13 +2,9 @@
 
 namespace App\Observers;
 
-use App\Enums\RolesPermissionEnum;
 use App\Enums\TransactionTypeEnum;
-use App\Models\Balance;
 use App\Models\Transaction;
-use App\Models\User;
-use App\Notifications\RealTime\BalanceChangeNotification;
-use App\Services\FirebaseServices;
+use App\Repositories\BalanceRepository;
 use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 
 class TransactionObserver implements ShouldHandleEventsAfterCommit
@@ -18,35 +14,20 @@ class TransactionObserver implements ShouldHandleEventsAfterCommit
      */
     public function created(Transaction $transaction): void
     {
-        $user = $transaction->actor;
-        $latestBalance = $user->balance()?->balance ?? 0;
-        if ($transaction->type == TransactionTypeEnum::INCOME->value) {
+        $latestBalance = BalanceRepository::make()->getBalance()?->balance ?? 0;
+        if ($transaction->isPlus()) {
             $balance = $latestBalance + $transaction->amount;
             $note = $transaction->description ?? "";
-        } elseif ($transaction->type == TransactionTypeEnum::OUTCOME->value) {
+        } elseif ($transaction->isMinus()) {
             $balance = $latestBalance - $transaction->amount;
             $note = $transaction->description ?? "";
         }
-        if (isset($balance, $note)) {
-            $newBalance = Balance::create([
-                'balance' => $balance,
-                'note' => $note,
-                'balanceable_type' => User::class,
-                'balanceable_id' => $user->id,
-            ]);
-            $this->sendBalanceChangeNotification($newBalance->balance);
-        }
-    }
 
-    private function sendBalanceChangeNotification($balance): void
-    {
-        FirebaseServices::make()
-            ->setData([
+        if (isset($balance, $note)) {
+            BalanceRepository::make()->create([
                 'balance' => $balance,
-            ])->setMethod(FirebaseServices::ByRole)
-            ->setRole(RolesPermissionEnum::ADMIN['role'])
-            ->setNotification(BalanceChangeNotification::class)
-            ->send();
+            ]);
+        }
     }
 
     /**
@@ -63,34 +44,27 @@ class TransactionObserver implements ShouldHandleEventsAfterCommit
     public function updating(Transaction $transaction): void
     {
         $prevTransaction = $transaction->getOriginal();
-        $user = $transaction->actor;
-        $latestBalance = $user->balance()?->balance ?? 0;
-        if ($prevTransaction['type'] == TransactionTypeEnum::OUTCOME->value
-            && $transaction->type == TransactionTypeEnum::INCOME->value) {
+        $latestBalance = BalanceRepository::make()->getBalance()?->balance ?? 0;
+        if ($prevTransaction['type'] == TransactionTypeEnum::OUTCOME->value && $transaction->isPlus()) {
             $balance = ($latestBalance + $prevTransaction['amount']) + $transaction->amount;
             $note = $transaction->description ?? "";
-        } elseif ($prevTransaction['type'] == TransactionTypeEnum::INCOME->value
-            && $transaction->type == TransactionTypeEnum::OUTCOME->value) {
+        } elseif ($prevTransaction['type'] == TransactionTypeEnum::INCOME->value && $transaction->isMinus()) {
             $balance = ($latestBalance - $prevTransaction['amount']) - $transaction->amount;
             $note = $transaction->description ?? "";
         } elseif ($prevTransaction['amount'] != $transaction->amount) {
-            if ($transaction->type == TransactionTypeEnum::INCOME->value) {
+            if ($transaction->isPlus()) {
                 $balance = ($latestBalance - $prevTransaction['amount']) + $transaction->amount;
                 $note = $transaction->description ?? "";
-            } elseif ($transaction->type == TransactionTypeEnum::OUTCOME->value) {
+            } elseif ($transaction->isMinus()) {
                 $balance = ($latestBalance + $prevTransaction['amount']) - $transaction->amount;
                 $note = $transaction->description ?? "";
             }
         }
 
         if (isset($balance, $note)) {
-            $newBalance = Balance::create([
+            BalanceRepository::make()->create([
                 'balance' => $balance,
-                'note' => $note,
-                'balanceable_type' => User::class,
-                'balanceable_id' => $user->id,
             ]);
-            $this->sendBalanceChangeNotification($newBalance->balance);
         }
     }
 
@@ -99,25 +73,20 @@ class TransactionObserver implements ShouldHandleEventsAfterCommit
      */
     public function deleted(Transaction $transaction): void
     {
-        $user = $transaction->actor;
-        $latestBalance = $user->balance()?->balance ?? 0;
+        $latestBalance = BalanceRepository::make()->getBalance()?->balance ?? 0;
 
-        if ($transaction->type == TransactionTypeEnum::INCOME->value) {
+        if ($transaction->isPlus()) {
             $balance = $latestBalance - $transaction->amount;
             $note = "[DELETED] " . $transaction->description ?? "";
-        } elseif ($transaction->type == TransactionTypeEnum::OUTCOME->value) {
+        } elseif ($transaction->isMinus()) {
             $balance = $latestBalance + $transaction->amount;
             $note = "[DELETED] " . $transaction->description ?? "";
         }
 
         if (isset($balance, $note)) {
-            $newBalance = Balance::create([
+            BalanceRepository::make()->create([
                 'balance' => $balance,
-                'note' => $note,
-                'balanceable_type' => User::class,
-                'balanceable_id' => $user->id,
             ]);
-            $this->sendBalanceChangeNotification($newBalance->balance);
         }
     }
 
@@ -125,14 +94,6 @@ class TransactionObserver implements ShouldHandleEventsAfterCommit
      * Handle the Transaction "restored" event.
      */
     public function restored(Transaction $transaction): void
-    {
-        //
-    }
-
-    /**
-     * Handle the Transaction "force deleted" event.
-     */
-    public function forceDeleted(Transaction $transaction): void
     {
         //
     }

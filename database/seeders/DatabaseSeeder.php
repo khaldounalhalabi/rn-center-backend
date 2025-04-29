@@ -28,7 +28,6 @@ class DatabaseSeeder extends Seeder
             MedicineSeeder::class,
             PrescriptionSeeder::class,
             TransactionSeeder::class,
-            BalanceSeeder::class,
         ]);
     }
 }

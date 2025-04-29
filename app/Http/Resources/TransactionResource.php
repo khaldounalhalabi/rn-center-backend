@@ -20,7 +20,9 @@ class TransactionResource extends BaseResource
             'description' => $this->description,
             'date' => $this->date->format('Y-m-d H:i'),
             'actor_id' => $this->actor_id,
+            'appointment_id' => $this->appointment_id,
             'actor' => new UserResource($this->whenLoaded('actor')),
+            'appointment' => new AppointmentResource($this->whenLoaded('appointment')),
         ];
     }
 }

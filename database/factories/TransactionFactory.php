@@ -20,7 +20,7 @@ class TransactionFactory extends Factory
     {
         return [
             'type' => fake()->randomElement(TransactionTypeEnum::getAllValues()),
-            'amount' => fake()->randomFloat(1, 2000),
+            'amount' => fake()->numberBetween(1, 15),
             'description' => fake()->text(),
             'date' => fake()->dateTimeBetween('-5 days', '+30 days'),
             'actor_id' => User::inRandomOrder()->byRole(RolesPermissionEnum::ADMIN['role'])->first()->id,

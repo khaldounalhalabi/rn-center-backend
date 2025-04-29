@@ -39,4 +39,9 @@ enum AppointmentStatusEnum: string
             self::CHECKOUT->value,
         ];
     }
+
+    public static function hasTransaction(string $status): bool
+    {
+        return $status == self::CHECKOUT->value;
+    }
 }

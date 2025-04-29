@@ -127,7 +127,6 @@ class UserService extends BaseService
     {
         $user = auth($this->guard)->user();
         auth($this->guard)->logout();
-        $user->fcm_token = null;
         $user->save();
     }
 

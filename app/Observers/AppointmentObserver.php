@@ -3,15 +3,9 @@
 namespace App\Observers;
 
 use App\Enums\AppointmentStatusEnum;
-use App\Enums\AppointmentTypeEnum;
-use App\Enums\RolesPermissionEnum;
+use App\Enums\TransactionTypeEnum;
 use App\Models\Appointment;
-use App\Notifications\Clinic\NewOnlineAppointmentNotification;
-use App\Notifications\Customer\CustomerAppointmentChangedNotification;
-use App\Notifications\RealTime\AppointmentChangeNotification;
-use App\Notifications\RealTime\BalanceChangeNotification;
-use App\Notifications\RealTime\NewAppointmentNotification;
-use App\Services\FirebaseServices;
+use App\Repositories\TransactionRepository;
 
 class AppointmentObserver
 {
@@ -30,30 +24,17 @@ class AppointmentObserver
      */
     public function created(Appointment $appointment): void
     {
-        if ($appointment->type == AppointmentTypeEnum::ONLINE->value) {
-            FirebaseServices::make()
-                ->setData([
-                    'appointment' => $appointment,
-                ])
-                ->setMethod(FirebaseServices::MANY)
-                ->setTo([$appointment->clinic?->user?->id])
-                ->setNotification(NewOnlineAppointmentNotification::class)
-                ->send();
+        if (AppointmentStatusEnum::hasTransaction($appointment->status)) {
+            TransactionRepository::make()->create([
+                'type' => $appointment->total_cost >= 0
+                    ? TransactionTypeEnum::INCOME->value
+                    : TransactionTypeEnum::OUTCOME->value,
+                'description' => "An income for an appointment between Dr. {$appointment->clinic?->user?->full_name} and {$appointment->customer?->user?->full_name}",
+                'amount' => $appointment->total_cost,
+                'actor_id' => null,
+                'date' => $appointment->date_time,
+            ]);
         }
-
-        FirebaseServices::make()
-            ->setData([])
-            ->setMethod(FirebaseServices::MANY)
-            ->setTo([$appointment->clinic?->user?->id])
-            ->setNotification(NewAppointmentNotification::class)
-            ->send();
-
-        FirebaseServices::make()
-            ->setData([])
-            ->setMethod(FirebaseServices::ByRole)
-            ->setRole(RolesPermissionEnum::ADMIN['role'])
-            ->setNotification(NewAppointmentNotification::class)
-            ->send();
     }
 
 
@@ -64,83 +45,36 @@ class AppointmentObserver
     {
         $prevAppointment = $appointment->getOriginal();
         $oldStatus = $prevAppointment['status'] ?? null;
-        $oldType = $prevAppointment['type'] ?? null;
 
-        if (!$oldStatus || !$oldType) return;
+        if (!$oldStatus) return;
 
-        $this->handleChangeAppointmentNotifications($appointment, $oldStatus);
-        $this->handleAppointmentRemainingTime($appointment, $oldStatus);
-        $this->handleTransactionsWhenChangeStatus($appointment);
-
-        if ($appointment->type == AppointmentTypeEnum::ONLINE->value
-            && $oldType != AppointmentTypeEnum::ONLINE->value) {
-            FirebaseServices::make()
-                ->setData([
-                    'appointment_id' => $appointment,
-                ])->setMethod(FirebaseServices::MANY)
-                ->setTo([$appointment->clinic->user->id])
-                ->setNotification(NewOnlineAppointmentNotification::class)
-                ->send();
-        }
-    }
-
-    private function handleChangeAppointmentNotifications(Appointment $appointment, ?string $oldStatus = null): void
-    {
-        if ($oldStatus != $appointment->status) {
-            FirebaseServices::make()
-                ->setData([
-                    'appointment' => $appointment,
-                ])
-                ->setMethod(FirebaseServices::ONE)
-                ->setTo($appointment->customer->user)
-                ->setNotification(CustomerAppointmentChangedNotification::class)
-                ->send();
+        if (AppointmentStatusEnum::hasTransaction($appointment->status)
+            && !AppointmentStatusEnum::hasTransaction($oldStatus)) {
+            TransactionRepository::make()->create([
+                'type' => $appointment->total_cost >= 0
+                    ? TransactionTypeEnum::INCOME->value
+                    : TransactionTypeEnum::OUTCOME->value,
+                'description' => "An income for an appointment between Dr. {$appointment->clinic?->user?->full_name} and {$appointment->customer?->user?->full_name}",
+                'amount' => $appointment->total_cost,
+                'actor_id' => null,
+                'date' => now(),
+                'appointment_id' => $appointment->id,
+            ]);
         }
 
-        FirebaseServices::make()
-            ->setData([
-                'appointment' => $appointment,
-            ])
-            ->setMethod(FirebaseServices::ByRole)
-            ->setRole(RolesPermissionEnum::ADMIN['role'])
-            ->setNotification(AppointmentChangeNotification::class)
-            ->send();
-
-        FirebaseServices::make()
-            ->setData([
-                'appointment' => $appointment,
-            ])->setMethod(FirebaseServices::MANY)
-            ->setTo([
-                $appointment->clinic?->user?->id,
-            ])->setNotification(AppointmentChangeNotification::class)
-            ->send();
-    }
-
-    public function handleAppointmentRemainingTime(Appointment $appointment, string $prevStatus): void
-    {
-        if (
-            $appointment->status == AppointmentStatusEnum::CHECKOUT->value
-            && $prevStatus != AppointmentStatusEnum::CHECKOUT->value
-        ) {
-//            UpdateAppointmentRemainingTimeJob::dispatch($appointment->clinic_id, $appointment->date);
+        if (!AppointmentStatusEnum::hasTransaction($appointment->status)
+            && AppointmentStatusEnum::hasTransaction($oldStatus)) {
+            $appointment->transaction()->delete();
         }
-    }
 
-    public function handleTransactionsWhenChangeStatus(Appointment $appointment): void
-    {
-        FirebaseServices::make()
-            ->setData([])
-            ->setMethod(FirebaseServices::MANY)
-            ->setTo([$appointment->clinic?->user?->id])
-            ->setNotification(BalanceChangeNotification::class)
-            ->send();
-
-        FirebaseServices::make()
-            ->setData([])
-            ->setMethod(FirebaseServices::ByRole)
-            ->setRole(RolesPermissionEnum::ADMIN['role'])
-            ->setNotification(BalanceChangeNotification::class)
-            ->send();
+        if (AppointmentStatusEnum::hasTransaction($appointment->status)
+            && AppointmentStatusEnum::hasTransaction($oldStatus)) {
+            $appointment->transaction()->update([
+                'amount' => $appointment->total_cost >= 0
+                    ? TransactionTypeEnum::INCOME->value
+                    : TransactionTypeEnum::OUTCOME->value,
+            ]);
+        }
     }
 
     /**
@@ -148,7 +82,7 @@ class AppointmentObserver
      */
     public function deleted(Appointment $appointment): void
     {
-        //
+        $appointment->transaction()->delete();
     }
 
     /**

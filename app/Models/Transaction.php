@@ -9,12 +9,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property string  type
- * @property numeric amount
- * @property string  description
- * @property Carbon  date
- * @property integer actor_id
- * @property User    actor
+ * @property string           type
+ * @property numeric          amount
+ * @property string           description
+ * @property Carbon           date
+ * @property integer          actor_id
+ * @property User             actor
+ * @property numeric|null     appointment_id
+ * @property Appointment|null appointment
  */
 class Transaction extends Model
 {
@@ -26,6 +28,7 @@ class Transaction extends Model
         'description',
         'date',
         'actor_id',
+        'appointment_id'
     ];
 
     protected $casts = [
@@ -100,5 +103,10 @@ class Transaction extends Model
     public function isPlus(): bool
     {
         return $this->type == TransactionTypeEnum::INCOME->value;
+    }
+
+    public function appointment(): BelongsTo
+    {
+        return $this->belongsTo(Appointment::class);
     }
 }
