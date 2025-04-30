@@ -338,8 +338,6 @@ abstract class BaseRepository
             }
         }
 
-        $receivedData = $this->unsetNullable($receivedData);
-
         /** @var T $result */
         $result = $this->model->create($receivedData);
 
@@ -365,19 +363,6 @@ abstract class BaseRepository
             }
         }
         return $keys;
-    }
-
-    protected function unsetNullable(array $data = []): array
-    {
-        foreach ($data as $key => $value) {
-            if ($value == null) {
-                if ($key != "service_id") {
-                    unset($data[$key]);
-                }
-            }
-        }
-
-        return $data;
     }
 
     /**
@@ -472,8 +457,6 @@ abstract class BaseRepository
                     unset($receivedData[$colName]);
                 }
             }
-
-            $receivedData = $this->unsetNullable($receivedData);
 
             $item->fill($receivedData);
             $item->save();
