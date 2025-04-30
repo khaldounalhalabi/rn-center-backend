@@ -42,16 +42,18 @@ class TransactionObserver implements ShouldHandleEventsAfterCommit
     public function updating(Transaction $transaction): void
     {
         $prevTransaction = $transaction->getOriginal();
+        $oldType = $prevTransaction['type'];
+        $oldAmount = $prevTransaction['amount'];
         $latestBalance = BalanceRepository::make()->getBalance()?->balance ?? 0;
-        if ($prevTransaction['type'] == TransactionTypeEnum::OUTCOME->value && $transaction->isPlus()) {
-            $balance = ($latestBalance + $prevTransaction['amount']) + $transaction->amount;
-        } elseif ($prevTransaction['type'] == TransactionTypeEnum::INCOME->value && $transaction->isMinus()) {
-            $balance = ($latestBalance - $prevTransaction['amount']) - $transaction->amount;
-        } elseif ($prevTransaction['amount'] != $transaction->amount) {
+        if ($oldType == TransactionTypeEnum::OUTCOME->value && $transaction->isPlus()) {
+            $balance = ($latestBalance + $oldAmount) + $transaction->amount;
+        } elseif ($oldType == TransactionTypeEnum::INCOME->value && $transaction->isMinus()) {
+            $balance = ($latestBalance - $oldAmount) - $transaction->amount;
+        } elseif ($oldAmount != $transaction->amount) {
             if ($transaction->isPlus()) {
-                $balance = ($latestBalance - $prevTransaction['amount']) + $transaction->amount;
+                $balance = ($latestBalance - $oldAmount) + $transaction->amount;
             } elseif ($transaction->isMinus()) {
-                $balance = ($latestBalance + $prevTransaction['amount']) - $transaction->amount;
+                $balance = ($latestBalance + $oldAmount) - $transaction->amount;
             }
         }
 

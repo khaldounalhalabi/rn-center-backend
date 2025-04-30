@@ -32,7 +32,7 @@ class ClinicFactory extends Factory
     public function definition(): array
     {
         return [
-            'appointment_cost' => fake()->numberBetween(1, 100),
+            'appointment_cost' => fake()->randomNumber(2),
             'user_id' => User::factory()->create()->assignRole(RolesPermissionEnum::DOCTOR['role'])->id,
             'working_start_year' => fake()->date('Y'),
             'max_appointments' => fake()->numberBetween(1, 10),

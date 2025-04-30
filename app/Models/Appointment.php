@@ -209,6 +209,13 @@ class Appointment extends Model
         return $this;
     }
 
+    public function getTotalCost()
+    {
+        $clinicCost = Clinic::find($this->clinic_id)?->appointment_cost ?? 0;
+        $serviceCost = Service::find($this->service_id)?->price ?? 0;
+        return $clinicCost + $serviceCost + $this->extra_fees - $this->discount;
+    }
+
     public function prescription(): HasOne
     {
         return $this->hasOne(Prescription::class, 'appointment_id');
@@ -216,6 +223,6 @@ class Appointment extends Model
 
     public function transaction(): HasOne
     {
-        return $this->hasOne(Transaction::class);
+        return $this->hasOne(Transaction::class, 'appointment_id', 'id');
     }
 }

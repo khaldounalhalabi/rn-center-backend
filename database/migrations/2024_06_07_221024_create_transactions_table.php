@@ -14,7 +14,7 @@ return new class () extends Migration {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->string('type');
-            $table->unsignedDouble('amount', 15, 4)->default(0.0000);
+            $table->double('amount', 15, 4)->default(0.0000);
             $table->text('description')->nullable();
             $table->dateTime('date')->default(now());
             $table->foreignId('actor_id')->nullable()->references('id')->on('users')->nullOnDelete();
