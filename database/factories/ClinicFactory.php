@@ -67,7 +67,8 @@ class ClinicFactory extends Factory
         return $this->afterCreating(function (Clinic $clinic) {
             foreach (WeekDayEnum::getAllValues() as $day) {
                 Schedule::create([
-                    'clinic_id' => $clinic->id,
+                    'scheduleable_id' => $clinic->id,
+                    'scheduleable_type' => Clinic::class,
                     'day_of_week' => $day,
                     'start_time' => Carbon::parse('09:00'),
                     'end_time' => Carbon::parse('21:00'),

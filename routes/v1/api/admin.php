@@ -14,8 +14,6 @@ Route::get('notifications', [v1\NotificationController::class, 'getUserNotificat
 Route::get('notifications/unread/count', [v1\NotificationController::class, 'unreadCount'])->name('notification.unread.count');
 Route::get('/notifications/{notificationId}/mark-as-read', [v1\NotificationController::class, 'markAsRead'])->name('notifications');
 
-Route::apiResource('/users', v1\UserController::class)->except(['store'])->names('users');
-
 Route::apiResource('/clinics', v1\ClinicController::class)->names('clinics');
 
 Route::controller(v1\ScheduleController::class)
@@ -76,3 +74,9 @@ Route::post('clinics/available-appointments-times', [v1\AvailableAppointmentTime
 
 Route::get('/customers/{customerId}/prescriptions', [v1\PrescriptionController::class, 'getCustomerPrescriptions'])->name('customers.prescriptions');
 Route::get('/prescriptions/{prescriptionId}', [v1\PrescriptionController::class, 'show'])->name('prescriptions.show');
+
+Route::post('users/{userId}/attendances', [v1\AttendanceLogController::class, 'editOrCreate'])->name('users.attendance.edit');
+Route::get('users/attendances', [v1\UserController::class, 'allWithAttendanceByDate'])->name('users.attendance.index');
+Route::get('/attendances/import-example', [v1\AttendanceLogController::class, 'getImportExample'])->name('attendances.import.example');
+Route::post('/attendances/import', [v1\AttendanceLogController::class, 'import'])->name('attendances.import');
+Route::get('/attendances/export', [v1\AttendanceLogController::class, 'export'])->name('attendances.export');

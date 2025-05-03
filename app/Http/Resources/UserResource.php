@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\v1\AttendanceLogResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -26,6 +27,7 @@ class UserResource extends BaseResource
                 fn() => [
                     'role' => $this->roles->first()->name,
                 ]),
+            'attendance_by_date' => AttendanceLogResource::collection($this->whenLoaded('attendanceByDate')),
         ];
     }
 }

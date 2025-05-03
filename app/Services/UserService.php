@@ -6,11 +6,13 @@ use App\Enums\RolesPermissionEnum;
 use App\Exceptions\RoleDoesNotExistException;
 use App\Models\User;
 use App\Modules\SMS;
+use App\Repositories\AttendanceRepository;
 use App\Repositories\CustomerRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\VerificationCodeRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
 
@@ -333,5 +335,17 @@ class UserService extends BaseService
         }
 
         return $this->sendVerificationCode($user);
+    }
+
+    public function getWithAttendance(array $relations = [], array $countable = []): array
+    {
+        $date = Carbon::parse(request('attendance_at', now()));
+        return [
+            'attendance' => AttendanceRepository::make()->getByDateOrCreate($date),
+            'users' => $this->repository->all_with_pagination([
+                'attendanceByDate',
+                ...$relations
+            ], $countable)
+        ];
     }
 }

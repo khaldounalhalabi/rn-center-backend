@@ -52,7 +52,8 @@ class ScheduleService extends BaseService
                     'day_of_week' => $schedule['day_of_week'],
                     'start_time' => $schedule['start_time'],
                     'end_time' => $schedule['end_time'],
-                    'clinic_id' => $data['clinic_id'],
+                    'scheduleable_id' => $data['clinic_id'],
+                    'scheduleable_type' => Clinic::class,
                     'created_at' => now()->format('Y-m-d H:i:s'),
                     'updated_at' => now()->format('Y-m-d H:i:s')
                 ]);
@@ -88,7 +89,8 @@ class ScheduleService extends BaseService
                 'day_of_week' => $day,
                 'start_time' => "09:00",
                 'end_time' => "21:00",
-                'clinic_id' => $clinicId,
+                'scheduleable_id' => $clinicId,
+                'scheduleable_type' => Clinic::class,
                 'created_at' => now()->format('Y-m-d H:i:s'),
                 'updated_at' => now()->format('Y-m-d H:i:s')
             ]);

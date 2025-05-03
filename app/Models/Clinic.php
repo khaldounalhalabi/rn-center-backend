@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
  * @method Builder|Clinic online
@@ -39,7 +40,7 @@ class Clinic extends Model implements ActionsMustBeAuthorized
     }
 
     /**
-     * add your searchable columns,so you can search within them in the
+     * add your searchable columns, so you can search within them in the
      * index method
      */
     public static function searchableArray(): array
@@ -125,9 +126,9 @@ class Clinic extends Model implements ActionsMustBeAuthorized
             ->whereNotIn('status', [AppointmentStatusEnum::CANCELLED->value, AppointmentStatusEnum::PENDING->value]);
     }
 
-    public function schedules(): HasMany
+    public function schedules(): MorphMany
     {
-        return $this->hasMany(Schedule::class);
+        return $this->morphMany(Schedule::class, 'scheduleable');
     }
 
     public function validAppointments(): HasMany

@@ -8,7 +8,9 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
@@ -210,5 +212,18 @@ class User extends Authenticatable implements JWTSubject
     public function isSecretary(): bool
     {
         return $this->hasRole(RolesPermissionEnum::SECRETARY['role']);
+    }
+
+    public function schedules(): MorphMany
+    {
+        return $this->morphMany(Schedule::class, 'scheduleable');
+    }
+
+    public function attendanceByDate(): HasMany
+    {
+        $date = Carbon::parse(request('attendance_at', now()));
+        return $this->hasMany(AttendanceLog::class)
+            ->where('attend_at', 'LIKE', "%{$date->format('Y-m-d')}%")
+            ->orderBy('attend_at');
     }
 }

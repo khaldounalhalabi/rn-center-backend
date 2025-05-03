@@ -27,16 +27,19 @@ class UserSeeder extends Seeder
             ])->assignRole(RolesPermissionEnum::DOCTOR['role']);
 
         Clinic::factory()
-            ->withSpecialities()
+            ->allRelations()
             ->create([
                 'user_id' => $doctor->id,
             ]);
 
         $secretary = User::factory()->verified()
+            ->withSchedules()
             ->create([
                 'phone' => '0936955533',
                 'first_name' => 'Secretary',
             ])->assignRole(RolesPermissionEnum::SECRETARY['role']);
+
+
 
         $patient = User::factory()->verified()
             ->customer()

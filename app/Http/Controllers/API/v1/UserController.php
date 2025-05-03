@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\v1;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\User\StoreUpdateUserRequest;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\v1\AttendanceResource;
 use App\Models\User;
 use App\Services\UserService;
 
@@ -71,5 +72,26 @@ class UserController extends ApiController
         }
 
         return $this->noData(false);
+    }
+
+    public function allWithAttendanceByDate()
+    {
+        $data = $this->userService->getWithAttendance([
+            'clinic' ,
+            'roles'
+        ]);
+        if ($data && isset($data['users']['data'], $data['users']['pagination_data'])) {
+            return $this->apiResponse(
+                [
+                    'attendance' => AttendanceResource::make($data['attendance']),
+                    'users' => UserResource::collection($data['users']['data'])
+                ],
+                self::STATUS_OK,
+                __('site.get_successfully'),
+                $data['users']['pagination_data'],
+            );
+        }
+
+        return $this->noData();
     }
 }

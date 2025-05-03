@@ -4,11 +4,13 @@ namespace Database\Factories;
 
 use App\Enums\GenderEnum;
 use App\Enums\RolesPermissionEnum;
+use App\Enums\WeekDayEnum;
 use App\Models\Clinic;
 use App\Models\Customer;
+use App\Models\Schedule;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Http\File;
 use Illuminate\Support\Str;
 
 class UserFactory extends Factory
@@ -59,6 +61,21 @@ class UserFactory extends Factory
     {
         return $this->afterCreating(function (User $user) {
             $user->assignRole(RolesPermissionEnum::ADMIN['role']);
+        });
+    }
+
+    public function withSchedules(): UserFactory
+    {
+        return $this->afterCreating(function (User $user) {
+            foreach (WeekDayEnum::getAllValues() as $day) {
+                Schedule::create([
+                    'scheduleable_id' => $user->id,
+                    'scheduleable_type' => User::class,
+                    'day_of_week' => $day,
+                    'start_time' => Carbon::parse('09:00'),
+                    'end_time' => Carbon::parse('21:00'),
+                ]);
+            }
         });
     }
 }

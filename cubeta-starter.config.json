@@ -1039,6 +1039,18 @@
                 ]
             },
             "version": "v1"
+        },
+        {
+            "model_name": "Attendance",
+            "table_name": "attendances",
+            "attributes": [],
+            "version": "v1"
+        },
+        {
+            "model_name": "AttendanceLog",
+            "table_name": "attendance_logs",
+            "attributes": [],
+            "version": "v1"
         }
     ],
     "frontend_type": "None"

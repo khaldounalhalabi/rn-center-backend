@@ -23,7 +23,6 @@ class DatabaseSeeder extends Seeder
             ClinicSeeder::class,
             CustomerSeeder::class,
             HolidaySeeder::class,
-            ScheduleSeeder::class,
             AppointmentSeeder::class,
             MedicineSeeder::class,
             PrescriptionSeeder::class,

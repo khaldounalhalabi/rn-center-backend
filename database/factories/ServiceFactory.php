@@ -25,7 +25,7 @@ class ServiceFactory extends Factory
         return [
             'name' => fake()->word(),
             'approximate_duration' => fake()->numberBetween(1, 2000),
-            'service_category_id' => ServiceCategory::inRandomOrder()->first()->id,
+            'service_category_id' => ServiceCategory::inRandomOrder()->first()?->id ?? ServiceCategory::factory()->create()->id,
             'price' => fake()->randomNumber(2),
             'description' => fake()->name,
             'clinic_id' => Clinic::inRandomOrder()->first()?->id ?? Clinic::factory()->create()->id,

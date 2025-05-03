@@ -23,9 +23,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-//        TODO:: we need to handle those observers
-//        Appointment::observe(AppointmentObserver::class);
-//        Transaction::observe(TransactionObserver::class);
+
     }
 
     /**
