@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -18,18 +19,20 @@ use Laravel\Sanctum\HasApiTokens;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
 /**
- * @property integer     id
- * @property string      first_name
- * @property string      last_name
- * @property string|null email
- * @property string      password
- * @property string      phone
- * @property string      remember_token
- * @property Carbon      created_at
- * @property Carbon      updated_at
- * @property Carbon|null phone_verified_at
- * @property string      gender
- * @property string      full_name
+ * @property int          id
+ * @property string       first_name
+ * @property string       last_name
+ * @property string|null  email
+ * @property string       password
+ * @property string       phone
+ * @property string       remember_token
+ * @property Carbon       created_at
+ * @property Carbon       updated_at
+ * @property Carbon|null  phone_verified_at
+ * @property string       gender
+ * @property string       full_name
+ * @property integer|null formula_id
+ * @property Formula|null formula
  * @mixin Builder
  */
 class User extends Authenticatable implements JWTSubject
@@ -49,6 +52,7 @@ class User extends Authenticatable implements JWTSubject
         'phone',
         'phone_verified_at',
         'gender',
+        'formula_id'
     ];
 
     protected $hidden = [
@@ -60,7 +64,7 @@ class User extends Authenticatable implements JWTSubject
         'id' => 'integer',
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
-        'phone_verified_at' => 'datetime'
+        'phone_verified_at' => 'datetime',
     ];
 
     /**
@@ -92,7 +96,12 @@ class User extends Authenticatable implements JWTSubject
     public static function relationsSearchableArray(): array
     {
         return [
-
+            'formula' => [
+                'name',
+                'formula',
+                'slug',
+                'template',
+            ],
         ];
     }
 
@@ -168,9 +177,9 @@ class User extends Authenticatable implements JWTSubject
     {
         if (isDoctor()) {
             return $this->clinic->load($relations)->loadCount($countable);
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     protected function password(): Attribute
@@ -182,21 +191,22 @@ class User extends Authenticatable implements JWTSubject
 
     public function verified(): bool
     {
-        return !is_null($this->phone_verified_at);
+        return $this->phone_verified_at !== null;
     }
 
     public function verify(): static
     {
         $this->update([
-            'phone_verified_at' => now()
+            'phone_verified_at' => now(),
         ]);
+
         return $this;
     }
 
     public function unVerify(): static
     {
         $this->update([
-            'phone_verified_at' => null
+            'phone_verified_at' => null,
         ]);
 
         return $this;
@@ -222,8 +232,14 @@ class User extends Authenticatable implements JWTSubject
     public function attendanceByDate(): HasMany
     {
         $date = Carbon::parse(request('attendance_at', now()));
+
         return $this->hasMany(AttendanceLog::class)
             ->where('attend_at', 'LIKE', "%{$date->format('Y-m-d')}%")
             ->orderBy('attend_at');
+    }
+
+    public function formula(): BelongsTo
+    {
+        return $this->belongsTo(Formula::class);
     }
 }

@@ -86,3 +86,5 @@ Route::get('/attendances/export', [v1\AttendanceLogController::class, 'export'])
 Route::post('/users/secretaries', [v1\UserController::class, 'addSecretary'])->name('users.secretaries.store');
 Route::get('/users/secretaries', [v1\UserController::class, 'secretaries'])->name('users.secretaries');
 Route::apiResource('/users', v1\UserController::class)->except(['store', 'index'])->names('users');
+
+Route::apiResource('/formulas', v1\FormulaController::class)->names('formulas');
