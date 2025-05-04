@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\WeekDayEnum;
 use App\Models\Clinic;
 use App\Models\Schedule;
+use App\Models\User;
 use App\Repositories\ScheduleRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
@@ -24,13 +25,14 @@ class ScheduleService extends BaseService
     protected string $repositoryClass = ScheduleRepository::class;
 
     /**
-     * @param int $clinicId
+     * @param int                       $scheduleableId
+     * @param class-string<Clinic|User> $type
      * @return Collection
      */
-    public function getClinicSchedule(int $clinicId): Collection
+    public function getByScheduleable(int $scheduleableId, string $type = Clinic::class): Collection
     {
         /** @var Collection<Schedule> $data */
-        $data = $this->repository->getByClinic($clinicId);
+        $data = $this->repository->getByScheduleable($scheduleableId, $type);
         return $data;
     }
 
@@ -43,7 +45,15 @@ class ScheduleService extends BaseService
     {
         DB::beginTransaction();
         try {
-            $this->repository->deleteByClinic($data['clinic_id']);
+            if (isset($data['clinic_id'])) {
+                $this->repository->deleteByScheduleable($data['clinic_id']);
+                $scheduleableId = $data['clinic_id'];
+                $type = Clinic::class;
+            } else {
+                $scheduleableId = $data['user_id'];
+                $type = User::class;
+                $this->repository->deleteByScheduleable($data['user_id'], $type);
+            }
 
             $schedules = collect();
 
@@ -52,8 +62,8 @@ class ScheduleService extends BaseService
                     'day_of_week' => $schedule['day_of_week'],
                     'start_time' => $schedule['start_time'],
                     'end_time' => $schedule['end_time'],
-                    'scheduleable_id' => $data['clinic_id'],
-                    'scheduleable_type' => Clinic::class,
+                    'scheduleable_id' => $scheduleableId,
+                    'scheduleable_type' => $type,
                     'created_at' => now()->format('Y-m-d H:i:s'),
                     'updated_at' => now()->format('Y-m-d H:i:s')
                 ]);
@@ -67,30 +77,27 @@ class ScheduleService extends BaseService
         }
     }
 
-    public function deleteAllClinicSchedules($clinicId): bool
+    public function deleteAllSchedules(int $scheduleableId, string $type = Clinic::class): bool
     {
         try {
-            $this->repository->deleteByClinic($clinicId);
+            $this->repository->deleteByScheduleable($scheduleableId, $type);
             return true;
         } catch (Exception) {
             return false;
         }
     }
 
-    public function setDefaultClinicSchedule(Clinic|int $clinic): bool
+    public function setDefaultSchedule(Clinic|User $scheduleable): bool
     {
         $schedules = collect();
-        if ($clinic instanceof Clinic) {
-            $clinicId = $clinic->id;
-        } else $clinicId = $clinic;
 
         foreach (WeekDayEnum::getAllValues() as $day) {
             $schedules->push([
                 'day_of_week' => $day,
                 'start_time' => "09:00",
                 'end_time' => "21:00",
-                'scheduleable_id' => $clinicId,
-                'scheduleable_type' => Clinic::class,
+                'scheduleable_id' => $scheduleable->id,
+                'scheduleable_type' => get_class($scheduleable),
                 'created_at' => now()->format('Y-m-d H:i:s'),
                 'updated_at' => now()->format('Y-m-d H:i:s')
             ]);

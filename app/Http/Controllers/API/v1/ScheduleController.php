@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\v1;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\Schedule\StoreUpdateScheduleRequest;
 use App\Http\Resources\ScheduleResource;
+use App\Models\User;
 use App\Services\ScheduleService;
 
 class ScheduleController extends ApiController
@@ -19,7 +20,7 @@ class ScheduleController extends ApiController
 
     public function clinicSchedules($clinicId)
     {
-        $data = $this->scheduleService->getClinicSchedule($clinicId);
+        $data = $this->scheduleService->getByScheduleable($clinicId);
 
         if (count($data)) {
             return $this->apiResponse(
@@ -45,7 +46,7 @@ class ScheduleController extends ApiController
 
     public function deleteAllClinicSchedules($clinicId)
     {
-        $result = $this->scheduleService->deleteAllClinicSchedules($clinicId);
+        $result = $this->scheduleService->deleteAllSchedules($clinicId);
         if ($result) {
             return $this->apiResponse(true, self::STATUS_OK, __('site.delete_successfully'));
         }
@@ -53,15 +54,19 @@ class ScheduleController extends ApiController
         return $this->noData(false);
     }
 
-    public function getCurrentClinicSchedules()
+    public function deleteUserSchedules($userId)
     {
-        if (isDoctor()) {
-            $clinicId = clinic()?->id;
-        } else {
-            return $this->noData();
+        $result = $this->scheduleService->deleteAllSchedules($userId, User::class);
+        if ($result) {
+            return $this->apiResponse(true, self::STATUS_OK, __('site.delete_successfully'));
         }
 
-        $data = $this->scheduleService->getClinicSchedule($clinicId);
+        return $this->noData(false);
+    }
+
+    public function userSchedules($userId)
+    {
+        $data = $this->scheduleService->getByScheduleable($userId, User::class);
 
         if (count($data)) {
             return $this->apiResponse(

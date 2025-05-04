@@ -20,6 +20,8 @@ Route::controller(v1\ScheduleController::class)
     ->group(function () {
         Route::get('/clinics/{clinicId}/schedules', 'clinicSchedules')->name('clinics.schedules');
         Route::delete('clinics/{clinicId}/schedules', 'deleteAllClinicSchedules')->name('clinics.schedules.delete');
+        Route::get('/users/{userId}/schedules', 'userSchedules')->name('users.schedules');
+        Route::delete('users/{userId}/schedules', 'deleteUserSchedules')->name('users.schedules.delete');
         Route::post('/schedules', 'storeUpdateSchedules')->name('schedules.storeOrUpdate');
     });
 

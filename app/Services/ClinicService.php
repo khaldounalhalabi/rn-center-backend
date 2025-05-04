@@ -48,7 +48,7 @@ class ClinicService extends BaseService
 
         $clinic->specialities()->sync($data['speciality_ids']);
 
-        $this->scheduleService->setDefaultClinicSchedule($clinic);
+        $this->scheduleService->setDefaultSchedule($clinic);
 
         return $clinic->refresh()
             ->load($relationships)

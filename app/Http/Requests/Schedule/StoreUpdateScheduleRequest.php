@@ -27,7 +27,8 @@ class StoreUpdateScheduleRequest extends FormRequest
             'schedules.*.day_of_week' => 'required|string|' . Rule::in(WeekDayEnum::getAllValues()),
             'schedules.*.start_time' => 'required|date_format:H:i',
             'schedules.*.end_time' => ['required', 'date_format:H:i', 'after:schedules.*.start_time'],
-            'clinic_id' => 'numeric|exists:clinics,id|required',
+            'clinic_id' => 'numeric|exists:clinics,id|nullable|required_without:user_id',
+            'user_id' => ['numeric', 'nullable', 'required_without:clinic_id', 'exists:users,id']
         ];
     }
 
@@ -38,14 +39,5 @@ class StoreUpdateScheduleRequest extends FormRequest
             'schedules.*.start_time' => 'schedule start time',
             'schedules.*.end_time' => 'schedule end time',
         ];
-    }
-
-    protected function prepareForValidation(): void
-    {
-        if (isDoctor()) {
-            $this->merge([
-                'clinic_id' => clinic()?->id
-            ]);
-        }
     }
 }

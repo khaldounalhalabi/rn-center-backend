@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Clinic;
 use App\Models\Schedule;
+use App\Models\User;
 use App\Repositories\Contracts\BaseRepository;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -17,14 +18,15 @@ class ScheduleRepository extends BaseRepository
 
 
     /**
-     * @param int|null $schedulableId
+     * @param int                       $schedulableId
+     * @param class-string<Clinic|User> $type
      * @return Collection<Schedule>|array<Schedule>
      */
-    public function getByClinic(?int $schedulableId = null): Collection|array
+    public function getByScheduleable(int $schedulableId, string $type = Clinic::class): Collection|array
     {
         return $this->globalQuery()
             ->where('scheduleable_id', $schedulableId)
-            ->where('scheduleable_type', Clinic::class)
+            ->where('scheduleable_type', $type)
             ->get();
     }
 
@@ -39,14 +41,15 @@ class ScheduleRepository extends BaseRepository
     }
 
     /**
-     * @param int $clinicId
+     * @param int                       $scheduleableId
+     * @param class-string<Clinic|User> $type
      * @return bool|null
      */
-    public function deleteByClinic(int $clinicId): ?bool
+    public function deleteByScheduleable(int $scheduleableId, string $type = Clinic::class): ?bool
     {
         return $this->globalQuery()
-            ->where('scheduleable_id', $clinicId)
-            ->where('scheduleable_type', Clinic::class)
+            ->where('scheduleable_id', $scheduleableId)
+            ->where('scheduleable_type', $type)
             ->delete();
     }
 
