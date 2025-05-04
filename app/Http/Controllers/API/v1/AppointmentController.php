@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\ApiController;
-use App\Http\Requests\Appointment\ChangeAppointmentStatusRequest;
-use App\Http\Requests\Appointment\StoreUpdateAppointmentRequest;
+use App\Http\Requests\v1\Appointment\ChangeAppointmentStatusRequest;
+use App\Http\Requests\v1\Appointment\StoreUpdateAppointmentRequest;
 use App\Http\Resources\AppointmentResource;
 use App\Models\Appointment;
 use App\Services\AppointmentService;

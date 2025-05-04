@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\ApiController;
-use App\Http\Requests\Media\AddCustomerAttachmentRequest;
+use App\Http\Requests\v1\Media\AddCustomerAttachmentRequest;
 use App\Http\Resources\MediaResource;
 use App\Services\CustomerService;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;

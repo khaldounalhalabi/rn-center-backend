@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\ApiController;
-use App\Http\Requests\Customer\StoreUpdateCustomerRequest;
+use App\Http\Requests\v1\Customer\StoreUpdateCustomerRequest;
 use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
 use App\Services\CustomerService;

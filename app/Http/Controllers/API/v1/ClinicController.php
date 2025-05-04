@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\ApiController;
-use App\Http\Requests\Clinic\StoreUpdateClinicRequest;
+use App\Http\Requests\v1\Clinic\StoreUpdateClinicRequest;
 use App\Http\Resources\ClinicResource;
 use App\Models\Clinic;
 use App\Services\ClinicService;

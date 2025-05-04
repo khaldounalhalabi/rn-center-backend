@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\ApiController;
-use App\Http\Requests\Schedule\StoreUpdateScheduleRequest;
+use App\Http\Requests\v1\Schedule\StoreUpdateScheduleRequest;
 use App\Http\Resources\ScheduleResource;
 use App\Models\User;
 use App\Services\ScheduleService;

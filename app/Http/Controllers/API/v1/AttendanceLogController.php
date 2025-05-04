@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\ApiController;
-use App\Http\Requests\AttendanceLog\EditOrCreateAttendanceLogRequest;
-use App\Http\Requests\AttendanceLog\InsertAttendanceLogsRequest;
+use App\Http\Requests\v1\AttendanceLog\EditOrCreateAttendanceLogRequest;
 use App\Services\v1\AttendanceLog\AttendanceLogService;
 use Illuminate\Http\Request;
 
@@ -49,7 +48,7 @@ class AttendanceLogController extends ApiController
 
     public function import(Request $request)
     {
-        $data = $request->validate([
+        $request->validate([
             'excel_file' => ['required', 'file', 'mimes:xlsx'],
         ]);
 

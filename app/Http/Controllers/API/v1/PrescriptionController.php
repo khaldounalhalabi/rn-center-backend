@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\ApiController;
-use App\Http\Requests\Prescription\StoreUpdatePrescriptionRequest;
+use App\Http\Requests\v1\Prescription\StoreUpdatePrescriptionRequest;
 use App\Http\Resources\PrescriptionResource;
 use App\Models\Prescription;
 use App\Services\PrescriptionService;

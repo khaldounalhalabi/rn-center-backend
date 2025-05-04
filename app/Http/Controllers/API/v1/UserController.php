@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Enums\RolesPermissionEnum;
 use App\Http\Controllers\ApiController;
-use App\Http\Requests\User\StoreUpdateUserRequest;
+use App\Http\Requests\v1\User\StoreUpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\v1\AttendanceResource;
 use App\Services\UserService;

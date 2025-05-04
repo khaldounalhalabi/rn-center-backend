@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\ApiController;
-use App\Http\Requests\Transaction\StoreUpdateTransactionRequest;
+use App\Http\Requests\v1\Transaction\StoreUpdateTransactionRequest;
 use App\Http\Resources\BalanceResource;
 use App\Http\Resources\TransactionResource;
 use App\Models\Transaction;
