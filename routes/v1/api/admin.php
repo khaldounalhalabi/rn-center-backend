@@ -88,3 +88,10 @@ Route::get('/users/secretaries', [v1\UserController::class, 'secretaries'])->nam
 Route::apiResource('/users', v1\UserController::class)->except(['store', 'index'])->names('users');
 
 Route::apiResource('/formulas', v1\FormulaController::class)->names('formulas');
+
+Route::apiResource('formula-variables', v1\FormulaVariableController::class)
+    ->except([
+        'store',
+        'update',
+        'destroy'
+    ])->names('formula.variables');

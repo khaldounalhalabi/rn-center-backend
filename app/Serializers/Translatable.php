@@ -90,7 +90,7 @@ class Translatable implements JsonSerializable
 
     public function jsonSerialize(): string|bool
     {
-        return $this->toJson();
+        return $this->translate();
     }
 
     public function toJson(): bool|string

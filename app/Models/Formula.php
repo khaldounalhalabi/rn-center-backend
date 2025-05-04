@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property string name
@@ -82,6 +83,11 @@ class Formula extends Model
                 'name',
                 'segment',
             ],
+            'formulaVariables' => [
+                'name',
+                'slug',
+                'description',
+            ],
         ];
     }
 
@@ -129,5 +135,10 @@ class Formula extends Model
         return array_map(function ($e) {
             return str_replace(' ', '', $e);
         }, $result);
+    }
+
+    public function formulaVariables(): BelongsToMany
+    {
+        return $this->belongsToMany(FormulaVariable::class, 'formula_formula_variables');
     }
 }

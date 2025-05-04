@@ -1124,6 +1124,39 @@
                 ]
             },
             "version": "v1"
+        },
+        {
+            "model_name": "FormulaVariable",
+            "table_name": "formula_variables",
+            "attributes": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "slug",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": true
+                },
+                {
+                    "name": "description",
+                    "type": "text",
+                    "nullable": false,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "manyToMany": [
+                    {
+                        "type": "manyToMany",
+                        "model_name": "Formula"
+                    }
+                ]
+            },
+            "version": "v1"
         }
     ],
     "frontend_type": "None"

@@ -10,6 +10,7 @@ class FormulaResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
+     *
      * @return array<string, mixed>
      */
     public function toArray($request): array
@@ -20,7 +21,8 @@ class FormulaResource extends BaseResource
             'formula' => $this->formula,
             'slug' => $this->slug,
             'template' => $this->template,
-            'formulaSegments' => FormulaSegmentResource::collection($this->whenLoaded('formulaSegments')),
+            'formula_segments' => FormulaSegmentResource::collection($this->whenLoaded('formulaSegments')),
+            'formula_variables' => FormulaVariableResource::collection($this->whenLoaded('formulaVariables')),
         ];
     }
 }

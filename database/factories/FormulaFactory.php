@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Formula;
 use App\Models\FormulaSegment;
+use App\Models\FormulaVariable;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -50,5 +51,10 @@ class FormulaFactory extends Factory
     public function withFormulaSegments($count = 1): FormulaFactory
     {
         return $this->has(FormulaSegment::factory($count));
+    }
+
+    public function withFormulaVariables($count = 1): FormulaFactory
+    {
+        return $this->has(FormulaVariable::factory($count));
     }
 }
