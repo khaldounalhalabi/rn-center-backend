@@ -6,8 +6,6 @@ use App\Enums\RolesPermissionEnum;
 use App\Models\User;
 use App\Repositories\Contracts\BaseRepository;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use LaravelIdea\Helper\App\Models\_IH_User_C;
 
 /**
  * @extends BaseRepository<User>
@@ -35,5 +33,13 @@ class UserRepository extends BaseRepository
                 }))
             ->byRole(RolesPermissionEnum::CUSTOMER['role'])
             ->first();
+    }
+
+    public function getSecretaries(array $relations = [], array $countable = []): ?array
+    {
+        return $this->paginate(
+            $this->globalQuery($relations, $countable)
+                ->byRole(RolesPermissionEnum::SECRETARY['role'])
+        );
     }
 }

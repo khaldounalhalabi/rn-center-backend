@@ -82,3 +82,7 @@ Route::get('users/attendances', [v1\UserController::class, 'allWithAttendanceByD
 Route::get('/attendances/import-example', [v1\AttendanceLogController::class, 'getImportExample'])->name('attendances.import.example');
 Route::post('/attendances/import', [v1\AttendanceLogController::class, 'import'])->name('attendances.import');
 Route::get('/attendances/export', [v1\AttendanceLogController::class, 'export'])->name('attendances.export');
+
+Route::post('/users/secretaries', [v1\UserController::class, 'addSecretary'])->name('users.secretaries.store');
+Route::get('/users/secretaries', [v1\UserController::class, 'secretaries'])->name('users.secretaries');
+Route::apiResource('/users', v1\UserController::class)->except(['store', 'index'])->names('users');

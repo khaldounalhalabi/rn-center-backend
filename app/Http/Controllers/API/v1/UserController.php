@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\API\v1;
 
+use App\Enums\RolesPermissionEnum;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\User\StoreUpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\v1\AttendanceResource;
-use App\Models\User;
 use App\Services\UserService;
 
 class UserController extends ApiController
@@ -15,64 +15,56 @@ class UserController extends ApiController
 
     public function __construct()
     {
-
         $this->userService = UserService::make();
-
-        // place the relations you want to return them within the response
-        $this->relations = ['media', 'roles'];
+        $this->relations = ['roles'];
     }
 
-    public function index()
+    public function addSecretary(StoreUpdateUserRequest $request)
     {
-        $items = $this->userService->indexWithPagination($this->relations);
-        if ($items) {
-            return $this->apiResponse(UserResource::collection($items['data']), self::STATUS_OK, __('site.get_successfully'), $items['pagination_data']);
-        }
-
-        return $this->noData([]);
+        $data = $request->validated();
+        $data['role'] = RolesPermissionEnum::SECRETARY['role'];
+        $user = $this->userService->store($data, $this->relations, $this->countable);
+        return $this->apiResponse(UserResource::make($user), self::STATUS_OK, __('site.stored_successfully'));
     }
 
-    public function show($userId)
+    public function update(StoreUpdateUserRequest $request, $userId)
     {
-        $item = $this->userService->view($userId, $this->relations);
-        if ($item) {
-            return $this->apiResponse(new UserResource($item), self::STATUS_OK, __('site.get_successfully'));
+        $user = $this->userService->update($request->validated(), $userId, $this->relations, $this->countable);
+        if ($user) {
+            return $this->apiResponse(UserResource::make($user), self::STATUS_OK, __('site.updated_successfully'));
         }
-
-        return $this->noData(null);
-    }
-
-    public function store(StoreUpdateUserRequest $request)
-    {
-        /** @var User|null $item */
-        $item = $this->userService->store($request->validated(), $this->relations);
-        if ($item) {
-            return $this->apiResponse(new UserResource($item), self::STATUS_OK, __('site.stored_successfully'));
-        }
-
-        return $this->apiResponse(null, self::STATUS_OK, __('site.something_went_wrong'));
-    }
-
-    public function update($userId, StoreUpdateUserRequest $request)
-    {
-        /** @var User|null $item */
-        $item = $this->userService->update($request->validated(), $userId, $this->relations);
-        if ($item) {
-            return $this->apiResponse(new UserResource($item), self::STATUS_OK, __('site.update_successfully'));
-        }
-
-        return $this->noData(null);
+        return $this->noData();
     }
 
     public function destroy($userId)
     {
-        $item = $this->userService->delete($userId);
-        if ($item) {
-            return $this->apiResponse(true, self::STATUS_OK, __('site.delete_successfully'));
+        $result = $this->userService->delete($userId);
+        if ($result) {
+            return $this->apiResponse(true, self::STATUS_OK, trans('site.delete_successfully'));
         }
 
-        return $this->noData(false);
+        return $this->noData();
     }
+
+    public function show($userId)
+    {
+        $user = $this->userService->view($userId, $this->relations, $this->countable);
+        if ($user) {
+            return $this->apiResponse(UserResource::make($user), self::STATUS_OK, __('site.get_successfully'));
+        }
+        return $this->noData();
+    }
+
+    public function secretaries()
+    {
+        $data = $this->userService->getSecretaries($this->relations, $this->countable);
+        if ($data) {
+            return $this->apiResponse(UserResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
+        }
+        return $this->noData();
+    }
+
+
 
     public function allWithAttendanceByDate()
     {

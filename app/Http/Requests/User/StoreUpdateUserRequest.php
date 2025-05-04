@@ -3,8 +3,6 @@
 namespace App\Http\Requests\User;
 
 use App\Enums\GenderEnum;
-use App\Models\User;
-use App\Rules\LanguageShape;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -24,38 +22,13 @@ class StoreUpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        if ($this->method() == "POST") {
-            return [
-                'first_name' => ['required', new LanguageShape(), 'max:60'],
-                'last_name' => ['required', new LanguageShape(), 'max:60'],
-                'email' => ['required', 'email', 'max:255', 'min:3', 'string', 'unique:users,email',],
-                'password' => 'string|min:8|max:20|required|confirmed',
-                'birth_date' => 'date_format:Y-m-d|date|nullable',
-                'gender' => ['required', 'string', Rule::in(GenderEnum::getAllValues())],
-                'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
-
-                'role' => 'required|string|exists:roles,name',
-            ];
-        }
-
-        $userId = request()->route('user');
-
+        $userId = $this->route('user');
         return [
-            'first_name' => ['nullable', new LanguageShape(), 'max:60'],
-            'last_name' => ['nullable', new LanguageShape(), 'max:60'],
-            'email' => ['nullable', 'email', 'max:255', 'min:3', 'string', 'unique:users,email,' . $userId,],
-            'password' => 'string|min:8|max:20|nullable|confirmed',
-            'birth_date' => 'date_format:Y-m-d|date|nullable',
-            'gender' => ['nullable', 'string', Rule::in(GenderEnum::getAllValues())],
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
-
-            'role' => 'nullable|string|exists:roles,name',
-        ];
-    }
-
-    public function attributes()
-    {
-        return [
+            'first_name' => 'required|string|min:3|max:255',
+            'last_name' => 'required|string|min:3|max:255',
+            'phone' => ['required', 'regex:/^09\d{8}$/', Rule::unique('users', 'phone')->when($this->isPut(), fn($rule) => $rule->ignore($userId))],
+            'password' => 'string|min:8|max:20|required|confirmed',
+            'gender' => ['required', 'string', Rule::in(GenderEnum::getAllValues())],
         ];
     }
 }

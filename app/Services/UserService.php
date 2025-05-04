@@ -15,6 +15,7 @@ use App\Traits\Makable;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * @extends BaseService<User>
@@ -347,5 +348,18 @@ class UserService extends BaseService
                 ...$relations
             ], $countable)
         ];
+    }
+
+    public function store(array $data, array $relationships = [], array $countable = []): ?Model
+    {
+        /** @var User $user */
+        $user = parent::store($data);
+        $user->assignRole($data['role']);
+        return $user->load($relationships)->loadCount($countable);
+    }
+
+    public function getSecretaries(array $relations = [], array $countable = []): array
+    {
+        return $this->repository->getSecretaries($relations, $countable);
     }
 }
