@@ -4,8 +4,8 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\v1\Transaction\StoreUpdateTransactionRequest;
-use App\Http\Resources\BalanceResource;
-use App\Http\Resources\TransactionResource;
+use App\Http\Resources\v1\BalanceResource;
+use App\Http\Resources\v1\TransactionResource;
 use App\Models\Transaction;
 use App\Services\BalanceService;
 use App\Services\TransactionService;

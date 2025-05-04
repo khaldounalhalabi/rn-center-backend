@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\v1\Speciality\StoreUpdateSpecialityRequest;
-use App\Http\Resources\SpecialityResource;
+use App\Http\Resources\v1\SpecialityResource;
 use App\Models\Speciality;
 use App\Services\SpecialityService;
 use Illuminate\Http\Request;

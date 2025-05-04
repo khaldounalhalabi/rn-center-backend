@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\v1\Clinic\StoreUpdateClinicRequest;
-use App\Http\Resources\ClinicResource;
+use App\Http\Resources\v1\ClinicResource;
 use App\Models\Clinic;
 use App\Services\ClinicService;
 use Throwable;

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\ApiController;
-use App\Http\Resources\NotificationResource;
+use App\Http\Resources\v1\NotificationResource;
 use App\Services\NotificationService;
 
 class NotificationController extends ApiController

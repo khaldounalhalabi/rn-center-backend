@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\v1\ServiceCategory\StoreUpdateServiceCategoryRequest;
-use App\Http\Resources\ServiceCategoryResource;
+use App\Http\Resources\v1\ServiceCategoryResource;
 use App\Models\ServiceCategory;
 use App\Services\ServiceCategoryService;
 use Illuminate\Http\Request;

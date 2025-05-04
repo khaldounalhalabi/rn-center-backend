@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\v1;
 
-use App\Http\Resources\v1\AttendanceLogResource;
+use App\Http\Resources\BaseResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 

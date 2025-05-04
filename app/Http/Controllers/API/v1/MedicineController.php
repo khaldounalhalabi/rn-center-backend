@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\v1\Medicine\StoreUpdateMedicineRequest;
-use App\Http\Resources\MedicineResource;
+use App\Http\Resources\v1\MedicineResource;
 use App\Models\Medicine;
 use App\Services\MedicineService;
 use Illuminate\Http\Request;

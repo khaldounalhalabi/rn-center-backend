@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\v1;
 
+use App\Http\Resources\BaseResource;
 use App\Models\Clinic;
 use App\Models\Schedule;
 use App\Models\User;

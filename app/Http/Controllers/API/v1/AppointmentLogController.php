@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\v1\AppointmentLog\StoreUpdateAppointmentLogRequest;
-use App\Http\Resources\AppointmentLogResource;
+use App\Http\Resources\v1\AppointmentLogResource;
 use App\Models\AppointmentLog;
 use App\Services\AppointmentLogService;
 use Illuminate\Http\Request;
