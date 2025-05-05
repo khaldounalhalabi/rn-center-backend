@@ -242,4 +242,12 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsTo(Formula::class);
     }
+
+    public function getSchedules(): MorphMany
+    {
+        if ($this->isDoctor()) {
+            return $this->clinic->schedules();
+        }
+        return $this->schedules();
+    }
 }

@@ -204,7 +204,7 @@ class AttendanceLogService extends BaseService
                 return AttendanceLogStatusEnum::ON_TIME->value;
             }
 
-            // If there's no on-time schedule, then the employee is late
+            // If there's no on-time schedule, then the user is late
             $lateSchedule = $daySchedules->first(function ($schedule) use ($attendTime, $checkinGracePeriodMinutes) {
                 $scheduleStartTime = Carbon::parse($schedule->start_time);
                 $graceEndTime = (clone $scheduleStartTime)->addMinutes($checkinGracePeriodMinutes);
@@ -244,7 +244,7 @@ class AttendanceLogService extends BaseService
                 return AttendanceLogStatusEnum::ON_TIME->value;
             }
 
-            // If the employee checks out after the end time of any schedule slot
+            // If the user checks out after the end time of any schedule slot
             $overtimeSchedule = $daySchedules->first(function ($schedule) use ($checkoutGracePeriodMinutes, $attendTime) {
                 $scheduleEndTime = $schedule->end_time;
                 $graceEndtime = (clone $scheduleEndTime)->addMinutes($checkoutGracePeriodMinutes);

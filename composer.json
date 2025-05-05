@@ -10,6 +10,7 @@
     "require": {
         "php": "^8.1",
         "ext-curl": "*",
+        "antlr/antlr4-php-runtime": "^0.9.1",
         "capcom6/android-sms-gateway": "^2.0",
         "cubeta/cubeta-starter": "v2.0.1",
         "guzzlehttp/guzzle": "^7.2",
