@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\ApiController;
-use App\Http\Requests\v1\FormulaVariable\StoreUpdateFormulaVariableRequest;
 use App\Http\Resources\v1\FormulaVariableResource;
 use App\Models\FormulaVariable;
 use App\Services\v1\FormulaVariable\FormulaVariableService;
-use Illuminate\Http\Request;
 
 class FormulaVariableController extends ApiController
 {
@@ -23,9 +21,9 @@ class FormulaVariableController extends ApiController
 
     public function index()
     {
-        $items = $this->formulaVariableService->indexWithPagination($this->relations);
+        $items = $this->formulaVariableService->index($this->relations);
         if ($items) {
-            return $this->apiResponse(FormulaVariableResource::collection($items['data']), self::STATUS_OK, __('site.get_successfully'), $items['pagination_data']);
+            return $this->apiResponse(FormulaVariableResource::collection($items), self::STATUS_OK, __('site.get_successfully'));
         }
 
         return $this->noData([]);

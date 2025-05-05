@@ -5,7 +5,6 @@ namespace App\Casts;
 use App\Serializers\Translatable as SerializersTranslatable;
 use Exception;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
-use Illuminate\Support\Str;
 
 /**
  * @property string en
@@ -32,7 +31,7 @@ class Translatable implements CastsAttributes
     {
         if ($value instanceof SerializersTranslatable) {
             return $value->toJson();
-        }else{
+        } else {
             return (new SerializersTranslatable($value))->toJson();
         }
     }

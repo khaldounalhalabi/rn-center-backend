@@ -89,9 +89,4 @@ Route::apiResource('/users', v1\UserController::class)->except(['store', 'index'
 
 Route::apiResource('/formulas', v1\FormulaController::class)->names('formulas');
 
-Route::apiResource('formula-variables', v1\FormulaVariableController::class)
-    ->except([
-        'store',
-        'update',
-        'destroy'
-    ])->names('formula.variables');
+Route::apiResource('formula-variables', v1\FormulaVariableController::class)->only(['show', 'index'])->names('formula.variables');

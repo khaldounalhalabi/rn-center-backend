@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 /**
  * @property \App\Serializers\Translatable name
  * @property string                        slug
- * @property string                        description
+ * @property \App\Serializers\Translatable description
  */
 class FormulaVariable extends Model
 {
@@ -25,7 +25,8 @@ class FormulaVariable extends Model
     ];
 
     protected $casts = [
-        'name' => Translatable::class
+        'name' => Translatable::class,
+        'description' => Translatable::class
     ];
 
     public function exportable(): array

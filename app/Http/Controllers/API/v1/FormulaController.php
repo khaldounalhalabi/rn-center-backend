@@ -7,7 +7,6 @@ use App\Http\Requests\v1\Formula\StoreUpdateFormulaRequest;
 use App\Http\Resources\v1\FormulaResource;
 use App\Models\Formula;
 use App\Services\v1\Formula\FormulaService;
-use Illuminate\Http\Request;
 
 class FormulaController extends ApiController
 {
@@ -16,7 +15,7 @@ class FormulaController extends ApiController
     public function __construct()
     {
         $this->formulaService = FormulaService::make();
-        $this->relations = [];
+        $this->relations = ['formulaSegments'];
     }
 
     public function index()
