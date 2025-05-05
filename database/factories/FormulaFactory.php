@@ -7,20 +7,30 @@ use App\Models\FormulaSegment;
 use App\Models\FormulaVariable;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Collection;
 
 /**
  * @extends Factory
  */
 class FormulaFactory extends Factory
 {
+    /** @var Collection<FormulaVariable> */
+    private Collection $variables;
+
+    public function __construct($count = null, ?Collection $states = null, ?Collection $has = null, ?Collection $for = null, ?Collection $afterMaking = null, ?Collection $afterCreating = null, $connection = null, ?Collection $recycle = null)
+    {
+        parent::__construct($count, $states, $has, $for, $afterMaking, $afterCreating, $connection, $recycle);
+        $variables = FormulaVariable::inRandomOrder()->take(3)->get();
+        $this->variables = $variables;
+    }
+
     /**
      * Define the model's default state.
-     *
      * @return array<string, mixed>
      */
     public function definition(): array
     {
-        $formula = fake()->randomNumber(2) . '-' . fake()->randomNumber(1) . '+' . fake()->randomNumber(3) . '*' . fake()->randomNumber(2);
+        $formula = $this->variables->get(0)->slug . '-' . $this->variables->get(1)->slug . '+' . $this->variables->get(2)->slug . '*' . fake()->randomNumber(2);
 
         return [
             'name' => fake()->firstName(),
@@ -45,6 +55,8 @@ class FormulaFactory extends Factory
                     'formula_id' => $formula->id,
                 ]);
             }
+
+            $formula->formulaVariables()->sync($this->variables->pluck('id')->toArray());
         });
     }
 

@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Traits\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property string name
@@ -15,13 +17,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Formula extends Model
 {
     use HasFactory;
+    use Sluggable;
 
     protected $fillable = [
         'name',
         'formula',
         'slug',
         'template',
-
     ];
 
     protected $casts = [
@@ -102,7 +104,7 @@ class Formula extends Model
         ];
     }
 
-    public function formulaSegments()
+    public function formulaSegments(): HasMany
     {
         return $this->hasMany(FormulaSegment::class);
     }

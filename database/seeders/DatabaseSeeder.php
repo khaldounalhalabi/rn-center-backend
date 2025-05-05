@@ -27,6 +27,8 @@ class DatabaseSeeder extends Seeder
             MedicineSeeder::class,
             PrescriptionSeeder::class,
             TransactionSeeder::class,
+            FormulaVariableSeeder::class,
+            FormulaSeeder::class,
         ]);
     }
 }

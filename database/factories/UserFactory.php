@@ -2,14 +2,19 @@
 
 namespace Database\Factories;
 
+use App\Enums\AttendanceLogTypeEnum;
 use App\Enums\GenderEnum;
 use App\Enums\RolesPermissionEnum;
 use App\Enums\WeekDayEnum;
+use App\Models\AttendanceLog;
 use App\Models\Clinic;
 use App\Models\Customer;
 use App\Models\Schedule;
 use App\Models\User;
+use App\Repositories\AttendanceRepository;
+use App\Services\v1\AttendanceLog\AttendanceLogService;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -67,15 +72,47 @@ class UserFactory extends Factory
     public function withSchedules(): UserFactory
     {
         return $this->afterCreating(function (User $user) {
+            $schedules = collect();
             foreach (WeekDayEnum::getAllValues() as $day) {
-                Schedule::create([
+                $schedules->push(Schedule::create([
                     'scheduleable_id' => $user->id,
                     'scheduleable_type' => User::class,
                     'day_of_week' => $day,
                     'start_time' => Carbon::parse('09:00'),
                     'end_time' => Carbon::parse('21:00'),
-                ]);
+                ]));
             }
+
+            $dateRange = CarbonPeriod::create(now()->startOfMonth(), now()->endOfMonth());
+            $attendance = collect($dateRange)
+                ->flatMap(function (Carbon $date) use ($schedules, $user) {
+                    $scheduleSlotsInDay = $schedules->groupBy('day_of_week')->get($date->dayOfWeek) ?? collect();
+                    $attendanceAc = AttendanceRepository::make()->getByDateOrCreate($date);
+                    $attendAt = Carbon::parse($date->format('Y-m-d') . ' ' . '09:00')?->format('Y-m-d H:i:s');
+                    $slots[0] = [
+                        'type' => AttendanceLogTypeEnum::CHECKIN->value,
+                        'user_id' => $user->id,
+                        'attend_at' => $attendAt,
+                        'attendance_id' => $attendanceAc->id,
+                        'status' => AttendanceLogService::make()->getLogStatus(Carbon::parse($attendAt), AttendanceLogTypeEnum::CHECKIN->value, $scheduleSlotsInDay),
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+
+                    $attendAt = Carbon::parse($date->format('Y-m-d') . ' ' . '17:00')->format('Y-m-d H:i:s');
+                    $slots[1] = [
+                        'user_id' => $user->id,
+                        'status' => AttendanceLogService::make()->getLogStatus(Carbon::parse($attendAt), AttendanceLogTypeEnum::CHECKOUT->value, $scheduleSlotsInDay),
+                        'attend_at' => $attendAt,
+                        'type' => AttendanceLogTypeEnum::CHECKOUT->value,
+                        'attendance_id' => $attendanceAc->id,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+
+                    return $slots;
+                })->toArray();
+            AttendanceLog::insert($attendance);
         });
     }
 }
