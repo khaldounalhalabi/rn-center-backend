@@ -38,6 +38,7 @@ class StoreUpdateClinicRequest extends FormRequest
             'user.phone' => ['required', 'regex:/^09\d{8}$/', Rule::unique('users', 'phone')->when($this->method() == 'PUT', fn($rule) => $rule->ignore($userId))],
             'user.password' => 'string|min:8|max:20|required|confirmed',
             'user.gender' => ['required', 'string', Rule::in(GenderEnum::getAllValues())],
+            'user.formula_id' => ['nullable', 'numeric', 'exists:formulas,id'],
 
             'speciality_ids' => 'array|required',
             'speciality_ids.*' => 'required|numeric|exists:specialities,id',

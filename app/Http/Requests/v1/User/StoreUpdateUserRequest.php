@@ -29,6 +29,7 @@ class StoreUpdateUserRequest extends FormRequest
             'phone' => ['required', 'regex:/^09\d{8}$/', Rule::unique('users', 'phone')->when($this->isPut(), fn($rule) => $rule->ignore($userId))],
             'password' => 'string|min:8|max:20|required|confirmed',
             'gender' => ['required', 'string', Rule::in(GenderEnum::getAllValues())],
+            'formula_id' => ['nullable', 'numeric', 'exists:formulas,id']
         ];
     }
 }

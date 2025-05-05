@@ -20,9 +20,11 @@ class UserResource extends BaseResource
             'phone' => $this->phone,
             'phone_verified_at' => $this->phone_verified_at?->format('Y-m-d H:i:s'),
             'gender' => $this->gender,
+            'formula_id' => $this->formula_id,
             'customer' => new CustomerResource($this->whenLoaded('customer')),
             'permissions' => new PermissionCollection($this->whenLoaded('permissions')),
             'clinic' => new ClinicResource($this->whenLoaded('clinic')),
+            'formula' => new FormulaResource($this->whenLoaded('formula')),
             $this->mergeWhen($this->relationLoaded('roles'),
                 fn() => [
                     'role' => $this->roles->first()->name,
