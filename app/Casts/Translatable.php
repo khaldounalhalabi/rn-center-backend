@@ -27,7 +27,7 @@ class Translatable implements CastsAttributes
      * @param array<string, mixed> $attributes
      * @throws Exception
      */
-    public function set($model, string $key, mixed $value, array $attributes): mixed
+    public function set($model, string $key, mixed $value, array $attributes): string|bool
     {
         if ($value instanceof SerializersTranslatable) {
             return $value->toJson();

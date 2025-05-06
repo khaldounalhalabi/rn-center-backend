@@ -406,19 +406,22 @@ abstract class BaseRepository
     }
 
     /**
-     * @param            $id
+     * @param Model|int|string $id
      * @return bool|null
      */
-    public function delete($id): ?bool
+    public function delete(Model|int|string $id): ?bool
     {
-        $result = $this->model->where('id', '=', $id)->first();
-
-        if ($result) {
-            $result->delete();
-            return true;
+        if ($id instanceof Model) {
+            $result = $id;
+        } else {
+            $result = $this->model->where('id', '=', $id)->first();
         }
 
-        return null;
+        if (!$result) {
+            return null;
+        }
+
+        return $result->delete();
     }
 
     /**

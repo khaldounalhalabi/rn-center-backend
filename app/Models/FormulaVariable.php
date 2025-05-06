@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Casts\Translatable;
 use App\Traits\Sluggable;
+use App\Traits\VariableHelpers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -17,6 +18,7 @@ class FormulaVariable extends Model
 {
     use HasFactory;
     use Sluggable;
+    use VariableHelpers;
 
     protected $fillable = [
         'name',

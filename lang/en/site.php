@@ -52,4 +52,6 @@ return [
     'must_agree_contract' => 'Clinic Owner Must Agree On The Contract',
     'join_request_success' => 'Your information has been submitted, our team will contact you soon.',
     'new_patient_account_created' => "Welcome :patient_name now you can access our app using your phone number and :password as a password , you can download the app via this link :app_link . \n you can change the password after login.",
+
+    'pay_run_overlap_error' => 'The selected period contain days from a previous pay run',
 ];

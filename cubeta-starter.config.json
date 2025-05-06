@@ -1125,6 +1125,207 @@
                 ]
             },
             "version": "v1"
+        },
+        {
+            "model_name": "Payrun",
+            "table_name": "payruns",
+            "attributes": [
+                {
+                    "name": "status",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "should_delivered_at",
+                    "type": "date",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "payment_date",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "payment_cost",
+                    "type": "double",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "period",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "from",
+                    "type": "date",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "to",
+                    "type": "date",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "has_errors",
+                    "type": "boolean",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "processed_at",
+                    "type": "dateTime",
+                    "nullable": true,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "hasMany": [
+                    {
+                        "type": "hasMany",
+                        "model_name": "Payslip"
+                    }
+                ]
+            },
+            "version": "v1"
+        },
+        {
+            "model_name": "Payslip",
+            "table_name": "payslips",
+            "attributes": [
+                {
+                    "name": "payrun_id",
+                    "type": "key",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "user_id",
+                    "type": "key",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "formula_id",
+                    "type": "key",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "paid_days",
+                    "type": "integer",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "gross_pay",
+                    "type": "double",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "net_pay",
+                    "type": "double",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "status",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "error",
+                    "type": "json",
+                    "nullable": true,
+                    "unique": false
+                },
+                {
+                    "name": "details",
+                    "type": "text",
+                    "nullable": true,
+                    "unique": false
+                },
+                {
+                    "name": "edited_manually",
+                    "type": "boolean",
+                    "nullable": false,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "belongsTo": [
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Payrun",
+                        "key": "payrun_id"
+                    },
+                    {
+                        "type": "belongsTo",
+                        "model_name": "User",
+                        "key": "user_id"
+                    },
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Formula",
+                        "key": "formula_id"
+                    }
+                ],
+                "hasMany": [
+                    {
+                        "type": "hasMany",
+                        "model_name": "PayslipAdjustment"
+                    }
+                ]
+            },
+            "version": "v1"
+        },
+        {
+            "model_name": "PayslipAdjustment",
+            "table_name": "payslip_adjustments",
+            "attributes": [
+                {
+                    "name": "payslip_id",
+                    "type": "key",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "amount",
+                    "type": "double",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "reason",
+                    "type": "text",
+                    "nullable": true,
+                    "unique": false
+                },
+                {
+                    "name": "type",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "belongsTo": [
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Payslip",
+                        "key": "payslip_id"
+                    }
+                ]
+            },
+            "version": "v1"
         }
     ],
     "frontend_type": "None"

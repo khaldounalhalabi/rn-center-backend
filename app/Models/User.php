@@ -31,8 +31,9 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
  * @property Carbon|null  phone_verified_at
  * @property string       gender
  * @property string       full_name
- * @property integer|null formula_id
+ * @property int|null formula_id
  * @property Formula|null formula
+ *
  * @mixin Builder
  */
 class User extends Authenticatable implements JWTSubject
@@ -52,7 +53,7 @@ class User extends Authenticatable implements JWTSubject
         'phone',
         'phone_verified_at',
         'gender',
-        'formula_id'
+        'formula_id',
     ];
 
     protected $hidden = [
@@ -107,9 +108,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function customOrders(): array
     {
-        return [
-
-        ];
+        return [];
     }
 
     /**
@@ -248,6 +247,12 @@ class User extends Authenticatable implements JWTSubject
         if ($this->isDoctor()) {
             return $this->clinic->schedules();
         }
+
         return $this->schedules();
+    }
+
+    public function payslips(): HasMany
+    {
+        return $this->hasMany(Payslip::class);
     }
 }

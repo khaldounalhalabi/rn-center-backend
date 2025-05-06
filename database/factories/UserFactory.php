@@ -9,6 +9,8 @@ use App\Enums\WeekDayEnum;
 use App\Models\AttendanceLog;
 use App\Models\Clinic;
 use App\Models\Customer;
+use App\Models\Formula;
+use App\Models\Payslip;
 use App\Models\Schedule;
 use App\Models\User;
 use App\Repositories\AttendanceRepository;
@@ -30,7 +32,7 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'password' => '123456789',
             'remember_token' => Str::random(10),
-            'phone' => "09" . fake()->unique()->randomNumber(8, true),
+            'phone' => '09' . fake()->unique()->randomNumber(8, true),
             'gender' => fake()->randomElement(GenderEnum::getAllValues()),
         ];
     }
@@ -56,6 +58,9 @@ class UserFactory extends Factory
     {
         return $this->afterCreating(function (User $user) {
             $user->assignRole(RolesPermissionEnum::DOCTOR['role']);
+            $user->update([
+                'formula_id' => Formula::inRandomOrder()->first()?->id ?? Formula::factory()->create()->id,
+            ]);
             Clinic::factory()->withSchedules()->create([
                 'user_id' => $user->id,
             ]);
@@ -114,5 +119,21 @@ class UserFactory extends Factory
                 })->toArray();
             AttendanceLog::insert($attendance);
         });
+    }
+
+    public function withPayslips($count = 1): UserFactory
+    {
+        return $this->has(Payslip::factory($count));
+    }
+
+    public function secretary(): UserFactory
+    {
+        return $this->withSchedules()
+            ->afterCreating(function (User $user) {
+                $user->assignRole(RolesPermissionEnum::SECRETARY['role']);
+                $user->update([
+                    'formula_id' => Formula::inRandomOrder()->first()?->id ?? Formula::factory()->create()->id,
+                ]);
+            });
     }
 }

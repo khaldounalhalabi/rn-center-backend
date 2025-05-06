@@ -5,6 +5,7 @@ namespace App\FormulaParser\SystemVariables\AttendanceVariables;
 use App\Models\Schedule;
 use Ramsey\Collection\Collection;
 
+//TODO:: this is giving wrong values
 class ExpectedAttendanceHoursCount extends AttendanceVariable
 {
     public function getResult(): int|float|bool
@@ -18,7 +19,7 @@ class ExpectedAttendanceHoursCount extends AttendanceVariable
          */
         foreach ($this->schedules->groupBy('day_of_week') as $dayName => $workingHours) {
             $expectedHours[$dayName] = $workingHours->reduce(function ($carry, Schedule $schedule) {
-                return $carry + $schedule->start_time?->diffInMinutes($schedule->end_time);
+                return $carry + round($schedule->start_time?->diffInMinutes($schedule->end_time) / 60, 2);
             }, 0);
         }
 

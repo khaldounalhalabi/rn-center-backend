@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasFormulaString;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class FormulaSegment extends Model
 {
     use HasFactory;
+    use HasFormulaString;
 
     protected $fillable = [
         'name',

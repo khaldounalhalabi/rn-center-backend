@@ -25,6 +25,8 @@ class ApiController extends Controller
     public const STATUS_UN_VERIFIED_EMAIL = 433;
     public const STATUS_MUST_AGREE_ON_CONTRACT = 435;
 
+    public const PAY_RUN_OVERLAP_ERROR = 410;
+
     protected array $relations = [];
     protected array $indexRelations = [];
     protected array $countable = [];

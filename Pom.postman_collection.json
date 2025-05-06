@@ -1442,6 +1442,759 @@
                     "response": []
                 }
             ]
+        },
+        {
+            "name": "Payrun",
+            "item": [
+                {
+                    "name": "index",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/payruns",
+                            "host": [
+                                "{{local}}v1/admin/v1/payruns"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "show",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/payruns/1",
+                            "host": [
+                                "{{local}}v1/admin/v1/payruns/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "store",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/payruns",
+                            "host": [
+                                "{{local}}v1/admin/v1/payruns"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": []
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "update",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/payruns/1",
+                            "host": [
+                                "{{local}}v1/admin/v1/payruns/1"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": []
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/payruns/1",
+                            "host": [
+                                "{{local}}v1/admin/v1/payruns/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "export",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/payruns/export",
+                            "host": [
+                                "{{local}}v1/admin/v1/payruns/export"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "import",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/payruns/import",
+                            "host": [
+                                "{{local}}v1/admin/v1/payruns/import"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "import-example",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/payruns/get-import-example",
+                            "host": [
+                                "{{local}}v1/admin/v1/payruns/get-import-example"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Payslip",
+            "item": [
+                {
+                    "name": "index",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/payslips",
+                            "host": [
+                                "{{local}}v1/admin/v1/payslips"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "show",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/payslips/1",
+                            "host": [
+                                "{{local}}v1/admin/v1/payslips/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "store",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/payslips",
+                            "host": [
+                                "{{local}}v1/admin/v1/payslips"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": []
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "update",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/payslips/1",
+                            "host": [
+                                "{{local}}v1/admin/v1/payslips/1"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": []
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/payslips/1",
+                            "host": [
+                                "{{local}}v1/admin/v1/payslips/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "export",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/payslips/export",
+                            "host": [
+                                "{{local}}v1/admin/v1/payslips/export"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "import",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/payslips/import",
+                            "host": [
+                                "{{local}}v1/admin/v1/payslips/import"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "import-example",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/payslips/get-import-example",
+                            "host": [
+                                "{{local}}v1/admin/v1/payslips/get-import-example"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "PayslipAdjustment",
+            "item": [
+                {
+                    "name": "index",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/payslip-adjustments",
+                            "host": [
+                                "{{local}}v1/admin/v1/payslip-adjustments"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "show",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/payslip-adjustments/1",
+                            "host": [
+                                "{{local}}v1/admin/v1/payslip-adjustments/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "store",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/payslip-adjustments",
+                            "host": [
+                                "{{local}}v1/admin/v1/payslip-adjustments"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": []
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "update",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/payslip-adjustments/1",
+                            "host": [
+                                "{{local}}v1/admin/v1/payslip-adjustments/1"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": []
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/payslip-adjustments/1",
+                            "host": [
+                                "{{local}}v1/admin/v1/payslip-adjustments/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "export",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/payslip-adjustments/export",
+                            "host": [
+                                "{{local}}v1/admin/v1/payslip-adjustments/export"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "import",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/payslip-adjustments/import",
+                            "host": [
+                                "{{local}}v1/admin/v1/payslip-adjustments/import"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "import-example",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/payslip-adjustments/get-import-example",
+                            "host": [
+                                "{{local}}v1/admin/v1/payslip-adjustments/get-import-example"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                }
+            ]
         }
     ],
     "event": [],

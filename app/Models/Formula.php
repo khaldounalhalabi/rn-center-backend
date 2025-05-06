@@ -26,9 +26,7 @@ class Formula extends Model
         'template',
     ];
 
-    protected $casts = [
-
-    ];
+    protected $casts = [];
 
     public function exportable(): array
     {
@@ -80,17 +78,7 @@ class Formula extends Model
      */
     public static function relationsSearchableArray(): array
     {
-        return [
-            'formulaSegments' => [
-                'name',
-                'segment',
-            ],
-            'formulaVariables' => [
-                'name',
-                'slug',
-                'description',
-            ],
-        ];
+        return [];
     }
 
     public function sluggable(): array
@@ -130,7 +118,7 @@ class Formula extends Model
                 $buffer[] = $char;
             }
         }
-        if (!empty($buffer)) {
+        if (! empty($buffer)) {
             $result[] = trim(implode('', $buffer));
         }
 
@@ -142,5 +130,10 @@ class Formula extends Model
     public function formulaVariables(): BelongsToMany
     {
         return $this->belongsToMany(FormulaVariable::class, 'formula_formula_variables');
+    }
+
+    public function payslips(): HasMany
+    {
+        return $this->hasMany(Payslip::class);
     }
 }

@@ -23,6 +23,7 @@ class FormulaResource extends BaseResource
             'template' => $this->template,
             'formula_segments' => FormulaSegmentResource::collection($this->whenLoaded('formulaSegments')),
             'formula_variables' => FormulaVariableResource::collection($this->whenLoaded('formulaVariables')),
+            'payslips' => PayslipResource::collection($this->whenLoaded('payslips')),
         ];
     }
 }

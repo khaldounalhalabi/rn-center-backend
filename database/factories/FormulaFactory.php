@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Formula;
 use App\Models\FormulaSegment;
 use App\Models\FormulaVariable;
+use App\Models\Payslip;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Collection;
@@ -26,6 +27,7 @@ class FormulaFactory extends Factory
 
     /**
      * Define the model's default state.
+     *
      * @return array<string, mixed>
      */
     public function definition(): array
@@ -68,5 +70,10 @@ class FormulaFactory extends Factory
     public function withFormulaVariables($count = 1): FormulaFactory
     {
         return $this->has(FormulaVariable::factory($count));
+    }
+
+    public function withPayslips($count = 1)
+    {
+        return $this->has(Payslip::factory($count));
     }
 }

@@ -25,11 +25,14 @@ class UserResource extends BaseResource
             'permissions' => new PermissionCollection($this->whenLoaded('permissions')),
             'clinic' => new ClinicResource($this->whenLoaded('clinic')),
             'formula' => new FormulaResource($this->whenLoaded('formula')),
-            $this->mergeWhen($this->relationLoaded('roles'),
-                fn() => [
+            $this->mergeWhen(
+                $this->relationLoaded('roles'),
+                fn () => [
                     'role' => $this->roles->first()->name,
-                ]),
+                ]
+            ),
             'attendance_by_date' => AttendanceLogResource::collection($this->whenLoaded('attendanceByDate')),
+            'payslips' => PayslipResource::collection($this->whenLoaded('payslips')),
         ];
     }
 }

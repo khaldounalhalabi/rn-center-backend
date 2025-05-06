@@ -13,10 +13,12 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             RoleSeeder::class,
-            UserSeeder::class,
         ]);
 
         $this->call([
+            FormulaVariableSeeder::class,
+            FormulaSeeder::class,
+            UserSeeder::class,
             SpecialitySeeder::class,
             ServiceCategorySeeder::class,
             ServiceSeeder::class,
@@ -27,8 +29,7 @@ class DatabaseSeeder extends Seeder
             MedicineSeeder::class,
             PrescriptionSeeder::class,
             TransactionSeeder::class,
-            FormulaVariableSeeder::class,
-            FormulaSeeder::class,
+            PayrunSeeder::class,
         ]);
     }
 }
