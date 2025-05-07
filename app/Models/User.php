@@ -31,9 +31,8 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
  * @property Carbon|null  phone_verified_at
  * @property string       gender
  * @property string       full_name
- * @property int|null formula_id
+ * @property int|null     formula_id
  * @property Formula|null formula
- *
  * @mixin Builder
  */
 class User extends Authenticatable implements JWTSubject
@@ -86,6 +85,10 @@ class User extends Authenticatable implements JWTSubject
     protected static function booted(): void
     {
         self::creating(function (User $user) {
+            $user->full_name = $user->first_name . ' ' . $user->last_name;
+        });
+
+        self::updating(function (User $user) {
             $user->full_name = $user->first_name . ' ' . $user->last_name;
         });
     }

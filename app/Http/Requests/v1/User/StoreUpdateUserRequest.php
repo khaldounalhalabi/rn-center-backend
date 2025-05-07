@@ -27,7 +27,7 @@ class StoreUpdateUserRequest extends FormRequest
             'first_name' => 'required|string|min:3|max:255',
             'last_name' => 'required|string|min:3|max:255',
             'phone' => ['required', 'regex:/^09\d{8}$/', Rule::unique('users', 'phone')->when($this->isPut(), fn($rule) => $rule->ignore($userId))],
-            'password' => 'string|min:8|max:20|required|confirmed',
+            'password' => ['string', 'min:8', 'max:20', 'nullable', 'confirmed', Rule::requiredIf(fn() => $this->isPost())],
             'gender' => ['required', 'string', Rule::in(GenderEnum::getAllValues())],
             'formula_id' => ['nullable', 'numeric', 'exists:formulas,id']
         ];

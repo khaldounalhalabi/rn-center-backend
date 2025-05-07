@@ -31,7 +31,7 @@ class UserController extends ApiController
     {
         $user = $this->userService->update($request->validated(), $userId, $this->relations, $this->countable);
         if ($user) {
-            return $this->apiResponse(UserResource::make($user), self::STATUS_OK, __('site.updated_successfully'));
+            return $this->apiResponse(UserResource::make($user), self::STATUS_OK, __('site.update_successfully'));
         }
         return $this->noData();
     }
@@ -65,11 +65,10 @@ class UserController extends ApiController
     }
 
 
-
     public function allWithAttendanceByDate()
     {
         $data = $this->userService->getWithAttendance([
-            'clinic' ,
+            'clinic',
             'roles'
         ]);
         if ($data && isset($data['users']['data'], $data['users']['pagination_data'])) {
