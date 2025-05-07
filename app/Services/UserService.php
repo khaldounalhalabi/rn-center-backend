@@ -343,7 +343,7 @@ class UserService extends BaseService
         $date = Carbon::parse(request('attendance_at', now()));
         return [
             'attendance' => AttendanceRepository::make()->getByDateOrCreate($date),
-            'users' => $this->repository->all_with_pagination([
+            'users' => $this->repository->employees([
                 'attendanceByDate',
                 ...$relations
             ], $countable)

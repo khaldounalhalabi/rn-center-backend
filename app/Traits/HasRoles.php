@@ -7,6 +7,7 @@ use App\Models\Role;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Arr;
 
 /**
  * @mixin Model
@@ -77,14 +78,14 @@ trait HasRoles
     }
 
     /**
-     * @param Builder $query
-     * @param string  $roleName
+     * @param Builder         $query
+     * @param string|string[] $roleName
      * @return void
      */
-    public function scopeByRole(Builder $query, string $roleName): void
+    public function scopeByRole(Builder $query, string|array $roleName): void
     {
         $query->whereHas('roles', function (Builder $q) use ($roleName) {
-            $q->where('name', $roleName);
+            $q->whereIn('name', Arr::wrap($roleName));
         });
     }
 }

@@ -42,4 +42,12 @@ class UserRepository extends BaseRepository
                 ->byRole(RolesPermissionEnum::SECRETARY['role'])
         );
     }
+
+    public function employees(array $relations = [], array $countable = []): ?array
+    {
+        return $this->paginate(
+            $this->globalQuery($relations, $countable)
+                ->byRole([RolesPermissionEnum::SECRETARY['role'], RolesPermissionEnum::DOCTOR['role']])
+        );
+    }
 }
