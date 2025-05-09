@@ -41,6 +41,10 @@ class AttendanceLogService extends BaseService
 
         $this->repository->deleteByUser($attendance->id, $user->id);
 
+        if (!isset($data['attendance_shifts']) || (count($data['attendance_shifts']) == 0)) {
+            return collect();
+        }
+
         if ($user->isDoctor()) {
             $scheduleSlots = $user->clinic->schedules()->where('day_of_week', strtolower($attendance->date->dayName))->get();
         } else {
