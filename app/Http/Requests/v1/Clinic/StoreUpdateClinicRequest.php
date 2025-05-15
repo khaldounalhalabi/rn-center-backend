@@ -36,7 +36,7 @@ class StoreUpdateClinicRequest extends FormRequest
             'user.first_name' => 'required|string|min:3|max:255',
             'user.last_name' => 'required|string|min:3|max:255',
             'user.phone' => ['required', 'regex:/^09\d{8}$/', Rule::unique('users', 'phone')->when($this->method() == 'PUT', fn($rule) => $rule->ignore($userId))],
-            'user.password' => ['string', 'min:8', 'max:20', 'nullable', Rule::requiredIf(fn() => $this->isPost()), 'confirmed'],
+            'user.password' => ['string', 'min:8', 'max:20', 'nullable', Rule::requiredIf(fn() => $this->isPost()), 'confirmed', Rule::excludeIf(fn() => $this->isPut())],
             'user.gender' => ['required', 'string', Rule::in(GenderEnum::getAllValues())],
             'user.formula_id' => ['nullable', 'numeric', 'exists:formulas,id'],
 
