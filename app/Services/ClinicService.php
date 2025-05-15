@@ -46,7 +46,9 @@ class ClinicService extends BaseService
         /** @var Clinic $clinic */
         $clinic = $this->repository->create($data);
 
-        $clinic->specialities()->sync($data['speciality_ids']);
+        if (isset($data['speciality_ids'])){
+            $clinic->specialities()->sync($data['speciality_ids']);
+        }
 
         $this->scheduleService->setDefaultSchedule($clinic);
 
@@ -74,7 +76,7 @@ class ClinicService extends BaseService
 
         $this->userRepository->update($data['user'], $clinic->user_id);
 
-        if (isset($data['speciality_ids'])) {
+        if (isset($data['speciality_ids'])){
             $clinic->specialities()->sync($data['speciality_ids']);
         }
 

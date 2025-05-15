@@ -36,19 +36,19 @@ class StoreUpdateClinicRequest extends FormRequest
             'user.first_name' => 'required|string|min:3|max:255',
             'user.last_name' => 'required|string|min:3|max:255',
             'user.phone' => ['required', 'regex:/^09\d{8}$/', Rule::unique('users', 'phone')->when($this->method() == 'PUT', fn($rule) => $rule->ignore($userId))],
-            'user.password' => 'string|min:8|max:20|required|confirmed',
+            'user.password' => ['string', 'min:8', 'max:20', 'nullable', Rule::requiredIf(fn() => $this->isPost()), 'confirmed'],
             'user.gender' => ['required', 'string', Rule::in(GenderEnum::getAllValues())],
             'user.formula_id' => ['nullable', 'numeric', 'exists:formulas,id'],
 
-            'speciality_ids' => 'array|required',
-            'speciality_ids.*' => 'required|numeric|exists:specialities,id',
+            'speciality_ids' => 'array|nullable',
+            'speciality_ids.*' => 'numeric|exists:specialities,id',
         ];
     }
 
     public function attributes(): array
     {
         return [
-            'speciality_ids.*' => 'speciality',
+            'speciality_ids.*' => 'specialities',
         ];
     }
 }
