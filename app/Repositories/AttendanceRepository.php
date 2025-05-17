@@ -23,7 +23,7 @@ class AttendanceRepository extends BaseRepository
     public function getByDateOrCreate(string|Carbon $date, array $relations = []): Attendance
     {
         $date = Carbon::parse($date);
-        $attendance = $this->globalQuery($relations)
+        $attendance = Attendance::with($relations)
             ->whereDate('date', $date->format('Y-m-d'))
             ->first();
 
