@@ -35,7 +35,6 @@ class Formula extends Model
             'formula',
             'slug',
             'template',
-
         ];
     }
 

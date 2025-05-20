@@ -105,7 +105,7 @@ class Translatable implements JsonSerializable
 
     public function translate(?string $locale = null)
     {
-        $locale = $locale ?? config('cubeta-starter.defaultLocale');
+        $locale = $locale ?? app()->getLocale();
         return $this->{$locale};
     }
 

@@ -67,7 +67,7 @@ class FormulaService extends BaseService
         if (!count($segmentsData)) {
             foreach ($formula->splitSegments() as $segment) {
                 $segments[] = [
-                    'name' => null,
+                    'name' => "",
                     'segment' => $segment,
                     'formula_id' => $formula->id,
                 ];

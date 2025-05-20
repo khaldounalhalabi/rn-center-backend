@@ -2,11 +2,13 @@
 
 namespace Database\Factories;
 
+use App\FormulaParser\EquationParser;
 use App\Models\Formula;
 use App\Models\FormulaSegment;
 use App\Models\FormulaVariable;
 use App\Models\Payslip;
 use App\Models\User;
+use App\Services\v1\Formula\FormulaService;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Collection;
 
@@ -27,17 +29,16 @@ class FormulaFactory extends Factory
 
     /**
      * Define the model's default state.
-     *
      * @return array<string, mixed>
      */
     public function definition(): array
     {
         $formula = $this->variables->get(0)->slug . '-' . $this->variables->get(1)->slug . '+' . $this->variables->get(2)->slug . '*' . fake()->randomNumber(2);
-
+        $template = FormulaService::make()->getFormulaHtmlFromExpression(EquationParser::parse($formula), $formula);
         return [
             'name' => fake()->firstName(),
             'formula' => $formula,
-            'template' => $formula,
+            'template' => $template,
         ];
     }
 
