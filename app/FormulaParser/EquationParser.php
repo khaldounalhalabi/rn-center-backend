@@ -47,7 +47,7 @@ class EquationParser
             } else {
                 throw ValidationException::withMessages([
                     'formula' => [
-                        'message' => $exception->getMessage() . " [position in string : $errorPos]",
+                        'message' => $exception->getMessage() . " [position in string : $errorPos] , [formula : $input]",
                     ],
                 ]);
             }

@@ -18,6 +18,19 @@ class FormulaBaseListener implements FormulaListener
 	 *
 	 * The default implementation does nothing.
 	 */
+	public function enterFormula(Context\FormulaContext $context): void {}
+
+	/**
+	 * {@inheritdoc}
+	 *
+	 * The default implementation does nothing.
+	 */
+	public function exitFormula(Context\FormulaContext $context): void {}
+	/**
+	 * {@inheritdoc}
+	 *
+	 * The default implementation does nothing.
+	 */
 	public function enterPositiveInt(Context\PositiveIntContext $context): void {}
 
 	/**
@@ -31,27 +44,14 @@ class FormulaBaseListener implements FormulaListener
 	 *
 	 * The default implementation does nothing.
 	 */
-	public function enterMultiplication(Context\MultiplicationContext $context): void {}
+	public function enterPositiveIFExpression(Context\PositiveIFExpressionContext $context): void {}
 
 	/**
 	 * {@inheritdoc}
 	 *
 	 * The default implementation does nothing.
 	 */
-	public function exitMultiplication(Context\MultiplicationContext $context): void {}
-	/**
-	 * {@inheritdoc}
-	 *
-	 * The default implementation does nothing.
-	 */
-	public function enterAddition(Context\AdditionContext $context): void {}
-
-	/**
-	 * {@inheritdoc}
-	 *
-	 * The default implementation does nothing.
-	 */
-	public function exitAddition(Context\AdditionContext $context): void {}
+	public function exitPositiveIFExpression(Context\PositiveIFExpressionContext $context): void {}
 	/**
 	 * {@inheritdoc}
 	 *
@@ -65,6 +65,32 @@ class FormulaBaseListener implements FormulaListener
 	 * The default implementation does nothing.
 	 */
 	public function exitPositiveDouble(Context\PositiveDoubleContext $context): void {}
+	/**
+	 * {@inheritdoc}
+	 *
+	 * The default implementation does nothing.
+	 */
+	public function enterMulDiv(Context\MulDivContext $context): void {}
+
+	/**
+	 * {@inheritdoc}
+	 *
+	 * The default implementation does nothing.
+	 */
+	public function exitMulDiv(Context\MulDivContext $context): void {}
+	/**
+	 * {@inheritdoc}
+	 *
+	 * The default implementation does nothing.
+	 */
+	public function enterAddSub(Context\AddSubContext $context): void {}
+
+	/**
+	 * {@inheritdoc}
+	 *
+	 * The default implementation does nothing.
+	 */
+	public function exitAddSub(Context\AddSubContext $context): void {}
 	/**
 	 * {@inheritdoc}
 	 *
@@ -135,14 +161,14 @@ class FormulaBaseListener implements FormulaListener
 	 *
 	 * The default implementation does nothing.
 	 */
-	public function enterSubtraction(Context\SubtractionContext $context): void {}
+	public function enterNegativeIFExpression(Context\NegativeIFExpressionContext $context): void {}
 
 	/**
 	 * {@inheritdoc}
 	 *
 	 * The default implementation does nothing.
 	 */
-	public function exitSubtraction(Context\SubtractionContext $context): void {}
+	public function exitNegativeIFExpression(Context\NegativeIFExpressionContext $context): void {}
 	/**
 	 * {@inheritdoc}
 	 *
@@ -182,19 +208,6 @@ class FormulaBaseListener implements FormulaListener
 	 * The default implementation does nothing.
 	 */
 	public function exitBracedExpression(Context\BracedExpressionContext $context): void {}
-	/**
-	 * {@inheritdoc}
-	 *
-	 * The default implementation does nothing.
-	 */
-	public function enterDivision(Context\DivisionContext $context): void {}
-
-	/**
-	 * {@inheritdoc}
-	 *
-	 * The default implementation does nothing.
-	 */
-	public function exitDivision(Context\DivisionContext $context): void {}
 	/**
 	 * {@inheritdoc}
 	 *

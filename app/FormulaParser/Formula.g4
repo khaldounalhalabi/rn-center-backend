@@ -10,6 +10,8 @@ expression:'(' expression ')'                                                   
           | '-' '(' expression ')'                                                              #NegativeExpression
           | '+' '(' expression ')'                                                              #PositiveExpression
           | 'IF' '('condition=booleanOperations ',' then=expression ',' else=expression ')'     #IFExpression
+          | '-' 'IF' '('condition=booleanOperations ',' then=expression ',' else=expression ')' #NegativeIFExpression
+          | '+' 'IF' '('condition=booleanOperations ',' then=expression ',' else=expression ')' #PositiveIFExpression
           | Variable                                                                            #Id
           | IntegerLiteral                                                                      #Int
           | Double                                                                              #Double

@@ -38,6 +38,17 @@ class FormulaBaseVisitor extends AbstractParseTreeVisitor implements FormulaVisi
 	 * The default implementation returns the result of calling
 	 * {@see self::visitChildren()} on `context`.
 	 */
+	public function visitPositiveIFExpression(Context\PositiveIFExpressionContext $context)
+	{
+	    return $this->visitChildren($context);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 *
+	 * The default implementation returns the result of calling
+	 * {@see self::visitChildren()} on `context`.
+	 */
 	public function visitPositiveDouble(Context\PositiveDoubleContext $context)
 	{
 	    return $this->visitChildren($context);
@@ -116,6 +127,17 @@ class FormulaBaseVisitor extends AbstractParseTreeVisitor implements FormulaVisi
 	 * {@see self::visitChildren()} on `context`.
 	 */
 	public function visitPositiveId(Context\PositiveIdContext $context)
+	{
+	    return $this->visitChildren($context);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 *
+	 * The default implementation returns the result of calling
+	 * {@see self::visitChildren()} on `context`.
+	 */
+	public function visitNegativeIFExpression(Context\NegativeIFExpressionContext $context)
 	{
 	    return $this->visitChildren($context);
 	}

@@ -9,6 +9,16 @@ use Antlr\Antlr4\Runtime\Tree\ParseTreeListener;
  */
 interface FormulaListener extends ParseTreeListener {
 	/**
+	 * Enter a parse tree produced by {@see FormulaParser::formula()}.
+	 * @param $context The parse tree.
+	 */
+	public function enterFormula(Context\FormulaContext $context): void;
+	/**
+	 * Exit a parse tree produced by {@see FormulaParser::formula()}.
+	 * @param $context The parse tree.
+	 */
+	public function exitFormula(Context\FormulaContext $context): void;
+	/**
 	 * Enter a parse tree produced by the `PositiveInt`
 	 * labeled alternative in {@see FormulaParser::expression()}.
 	 * @param $context The parse tree.
@@ -21,29 +31,17 @@ interface FormulaListener extends ParseTreeListener {
 	 */
 	public function exitPositiveInt(Context\PositiveIntContext $context): void;
 	/**
-	 * Enter a parse tree produced by the `Multiplication`
+	 * Enter a parse tree produced by the `PositiveIFExpression`
 	 * labeled alternative in {@see FormulaParser::expression()}.
 	 * @param $context The parse tree.
 	 */
-	public function enterMultiplication(Context\MultiplicationContext $context): void;
+	public function enterPositiveIFExpression(Context\PositiveIFExpressionContext $context): void;
 	/**
-	 * Exit a parse tree produced by the `Multiplication` labeled alternative
+	 * Exit a parse tree produced by the `PositiveIFExpression` labeled alternative
 	 * in {@see FormulaParser::expression()}.
 	 * @param $context The parse tree.
 	 */
-	public function exitMultiplication(Context\MultiplicationContext $context): void;
-	/**
-	 * Enter a parse tree produced by the `Addition`
-	 * labeled alternative in {@see FormulaParser::expression()}.
-	 * @param $context The parse tree.
-	 */
-	public function enterAddition(Context\AdditionContext $context): void;
-	/**
-	 * Exit a parse tree produced by the `Addition` labeled alternative
-	 * in {@see FormulaParser::expression()}.
-	 * @param $context The parse tree.
-	 */
-	public function exitAddition(Context\AdditionContext $context): void;
+	public function exitPositiveIFExpression(Context\PositiveIFExpressionContext $context): void;
 	/**
 	 * Enter a parse tree produced by the `PositiveDouble`
 	 * labeled alternative in {@see FormulaParser::expression()}.
@@ -56,6 +54,30 @@ interface FormulaListener extends ParseTreeListener {
 	 * @param $context The parse tree.
 	 */
 	public function exitPositiveDouble(Context\PositiveDoubleContext $context): void;
+	/**
+	 * Enter a parse tree produced by the `MulDiv`
+	 * labeled alternative in {@see FormulaParser::expression()}.
+	 * @param $context The parse tree.
+	 */
+	public function enterMulDiv(Context\MulDivContext $context): void;
+	/**
+	 * Exit a parse tree produced by the `MulDiv` labeled alternative
+	 * in {@see FormulaParser::expression()}.
+	 * @param $context The parse tree.
+	 */
+	public function exitMulDiv(Context\MulDivContext $context): void;
+	/**
+	 * Enter a parse tree produced by the `AddSub`
+	 * labeled alternative in {@see FormulaParser::expression()}.
+	 * @param $context The parse tree.
+	 */
+	public function enterAddSub(Context\AddSubContext $context): void;
+	/**
+	 * Exit a parse tree produced by the `AddSub` labeled alternative
+	 * in {@see FormulaParser::expression()}.
+	 * @param $context The parse tree.
+	 */
+	public function exitAddSub(Context\AddSubContext $context): void;
 	/**
 	 * Enter a parse tree produced by the `NegativeInt`
 	 * labeled alternative in {@see FormulaParser::expression()}.
@@ -117,17 +139,17 @@ interface FormulaListener extends ParseTreeListener {
 	 */
 	public function exitPositiveId(Context\PositiveIdContext $context): void;
 	/**
-	 * Enter a parse tree produced by the `Subtraction`
+	 * Enter a parse tree produced by the `NegativeIFExpression`
 	 * labeled alternative in {@see FormulaParser::expression()}.
 	 * @param $context The parse tree.
 	 */
-	public function enterSubtraction(Context\SubtractionContext $context): void;
+	public function enterNegativeIFExpression(Context\NegativeIFExpressionContext $context): void;
 	/**
-	 * Exit a parse tree produced by the `Subtraction` labeled alternative
+	 * Exit a parse tree produced by the `NegativeIFExpression` labeled alternative
 	 * in {@see FormulaParser::expression()}.
 	 * @param $context The parse tree.
 	 */
-	public function exitSubtraction(Context\SubtractionContext $context): void;
+	public function exitNegativeIFExpression(Context\NegativeIFExpressionContext $context): void;
 	/**
 	 * Enter a parse tree produced by the `PercentageOfPrevious`
 	 * labeled alternative in {@see FormulaParser::expression()}.
@@ -164,18 +186,6 @@ interface FormulaListener extends ParseTreeListener {
 	 * @param $context The parse tree.
 	 */
 	public function exitBracedExpression(Context\BracedExpressionContext $context): void;
-	/**
-	 * Enter a parse tree produced by the `Division`
-	 * labeled alternative in {@see FormulaParser::expression()}.
-	 * @param $context The parse tree.
-	 */
-	public function enterDivision(Context\DivisionContext $context): void;
-	/**
-	 * Exit a parse tree produced by the `Division` labeled alternative
-	 * in {@see FormulaParser::expression()}.
-	 * @param $context The parse tree.
-	 */
-	public function exitDivision(Context\DivisionContext $context): void;
 	/**
 	 * Enter a parse tree produced by the `PositiveExpression`
 	 * labeled alternative in {@see FormulaParser::expression()}.

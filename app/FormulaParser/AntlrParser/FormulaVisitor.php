@@ -29,6 +29,16 @@ interface FormulaVisitor extends ParseTreeVisitor
 	public function visitPositiveInt(Context\PositiveIntContext $context);
 
 	/**
+	 * Visit a parse tree produced by the `PositiveIFExpression` labeled alternative
+	 * in {@see FormulaParser::expression()}.
+	 *
+	 * @param Context\PositiveIFExpressionContext $context The parse tree.
+	 *
+	 * @return mixed The visitor result.
+	 */
+	public function visitPositiveIFExpression(Context\PositiveIFExpressionContext $context);
+
+	/**
 	 * Visit a parse tree produced by the `PositiveDouble` labeled alternative
 	 * in {@see FormulaParser::expression()}.
 	 *
@@ -107,6 +117,16 @@ interface FormulaVisitor extends ParseTreeVisitor
 	 * @return mixed The visitor result.
 	 */
 	public function visitPositiveId(Context\PositiveIdContext $context);
+
+	/**
+	 * Visit a parse tree produced by the `NegativeIFExpression` labeled alternative
+	 * in {@see FormulaParser::expression()}.
+	 *
+	 * @param Context\NegativeIFExpressionContext $context The parse tree.
+	 *
+	 * @return mixed The visitor result.
+	 */
+	public function visitNegativeIFExpression(Context\NegativeIFExpressionContext $context);
 
 	/**
 	 * Visit a parse tree produced by the `PercentageOfPrevious` labeled alternative
