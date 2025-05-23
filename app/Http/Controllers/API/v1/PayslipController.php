@@ -5,8 +5,8 @@ namespace App\Http\Controllers\API\v1;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\v1\Payslip\BulkAdjustmentRequest;
 use App\Http\Requests\v1\Payslip\BulkPdfDownloadRequest;
-use App\Http\Requests\v1\Payslip\UpdatePayslipRequest;
 use App\Http\Requests\v1\Payslip\TogglePayslipStatusRequest;
+use App\Http\Requests\v1\Payslip\UpdatePayslipRequest;
 use App\Http\Requests\v1\PayslipAdjustment\StoreUpdatePayslipAdjustmentRequest;
 use App\Http\Resources\v1\PayslipResource;
 use App\Services\v1\Payslip\PayslipService;
@@ -20,7 +20,7 @@ class PayslipController extends ApiController
     {
         $this->payslipService = PayslipService::make();
 
-        $this->relations = ['payslipAdjustments', 'user.roles', 'formula'];
+        $this->relations = ['payslipAdjustments', 'user.roles', 'formula', 'user.clinic'];
     }
 
     public function show($payslipId)

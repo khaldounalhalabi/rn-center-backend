@@ -115,16 +115,26 @@ class FormulaService extends BaseService
         return $formula->load($relationships)->loadCount($countable);
     }
 
-    public function getFormulaHtmlFromExpression(Expression $expression, string $formula): array|string
+    public function getFormulaHtmlFromExpression(Expression $expression, string $formula): array
     {
+        $formulaEn = $formula;
+        $formulaAr = $formula;
         foreach ($expression->getVariables() as $variable) {
-            $formula = str_replace(
+            $formulaEn = str_replace(
                 $variable->variable->slug,
-                "<var attr-description='{$variable->variable->description}' attr-label='{$variable?->variable?->name}'>{$variable->variable->slug}</var>",
-                $formula
+                "<var attr-description='{$variable->variable->description?->en}' attr-label='{$variable?->variable?->name?->en}'>{$variable->variable->slug}</var>",
+                $formulaEn
+            );
+            $formulaAr = str_replace(
+                $variable->variable->slug,
+                "<var attr-description='{$variable->variable->description?->ar}' attr-label='{$variable?->variable?->name?->ar}'>{$variable->variable->slug}</var>",
+                $formulaAr
             );
         }
 
-        return $formula;
+        return [
+            'en' => $formulaEn,
+            'ar' => $formulaAr,
+        ];
     }
 }

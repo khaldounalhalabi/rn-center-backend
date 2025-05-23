@@ -20,6 +20,13 @@ class FormulaFactory extends Factory
     /** @var Collection<FormulaVariable> */
     private Collection $variables;
 
+    const signs = [
+        "*",
+        "/",
+        "+",
+        "-",
+    ];
+
     public function __construct($count = null, ?Collection $states = null, ?Collection $has = null, ?Collection $for = null, ?Collection $afterMaking = null, ?Collection $afterCreating = null, $connection = null, ?Collection $recycle = null)
     {
         parent::__construct($count, $states, $has, $for, $afterMaking, $afterCreating, $connection, $recycle);
@@ -33,7 +40,7 @@ class FormulaFactory extends Factory
      */
     public function definition(): array
     {
-        $formula = $this->variables->get(0)->slug . '-' . $this->variables->get(1)->slug . '+' . $this->variables->get(2)->slug . '*' . fake()->randomNumber(2);
+        $formula = $this->variables->get(0)->slug . fake()->randomElement(self::signs) . $this->variables->get(1)->slug . fake()->randomElement(self::signs) . $this->variables->get(2)->slug . fake()->randomElement(self::signs) . fake()->randomNumber(2);
         $template = FormulaService::make()->getFormulaHtmlFromExpression(EquationParser::parse($formula), $formula);
         return [
             'name' => fake()->firstName(),

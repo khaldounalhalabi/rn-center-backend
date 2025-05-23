@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\Translatable;
 use App\Traits\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,10 +10,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * @property string name
- * @property string formula
- * @property string slug
- * @property string template
+ * @property string                        name
+ * @property string                        formula
+ * @property string                        slug
+ * @property \App\Serializers\Translatable template
  */
 class Formula extends Model
 {
@@ -26,7 +27,9 @@ class Formula extends Model
         'template',
     ];
 
-    protected $casts = [];
+    protected $casts = [
+        'template' => Translatable::class,
+    ];
 
     public function exportable(): array
     {
@@ -117,7 +120,7 @@ class Formula extends Model
                 $buffer[] = $char;
             }
         }
-        if (! empty($buffer)) {
+        if (!empty($buffer)) {
             $result[] = trim(implode('', $buffer));
         }
 

@@ -23,7 +23,7 @@ class ClinicController extends ApiController
         } else {
             $this->indexRelations = ['user'];
             $this->countable = ['appointments', 'todayAppointments', 'upcomingAppointments'];
-            $this->relations = ['user', 'specialities'];
+            $this->relations = ['user', 'specialities', 'user.formula'];
         }
     }
 

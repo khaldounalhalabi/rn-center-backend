@@ -24,8 +24,8 @@ class StorePayrunRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'from' => 'required|date|date_format:Y-m-d',
-            'to' => 'required|date|date_format:Y-m-d',
+            'from' => 'required|date|date_format:Y-m-d|before:to',
+            'to' => 'required|date|date_format:Y-m-d|after:from',
             'force_create' => 'boolean|required'
         ];
     }
