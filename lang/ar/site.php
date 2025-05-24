@@ -54,4 +54,16 @@ return [
     'new_patient_account_created' => "مرحباً :patient_name يمكنك الآن الوصول إلى تطبيقنا باستخدام رقم هاتفك و :password ككلمة مرور، يمكنك تحميل التطبيق عبر هذا الرابط :app_link . \n يمكنك تغيير كلمة المرور بعد تسجيل الدخول.",
 
     'pay_run_overlap_error' => 'الفترة المحددة تحتوي على أيام من دورة دفع سابقة',
+
+    'pay_slip' => 'كشف الراتب',
+    'date_of_joining' => 'تاريخ الانضمام',
+    'pay_period' => 'فترة الدفع',
+    'worked_days' => 'الأيام المشتغلة',
+    'full_name' => 'الاسم الكامل',
+    'designation' => 'المسمى الوظيفي',
+    'earnings' => 'المكاسب',
+    'amount' => 'المبلغ',
+    'total_earnings' => 'إجمالي المكاسب',
+    'deductions' => 'الخصومات',
+    'total_deductions' => 'إجمالي الخصومات',
 ];

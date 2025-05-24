@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\v1\Payrun\StorePayrunRequest;
-use App\Http\Requests\v1\PayRun\TogglePayRunStatusRequest;
+use App\Http\Requests\v1\PayRun\TogglePayrunStatusRequest;
 use App\Http\Resources\v1\PayrunResource;
 use App\Models\Payrun;
 use App\Services\v1\Payrun\PayrunService;
@@ -44,7 +44,7 @@ class PayrunController extends ApiController
             return $this->apiResponse(PayrunResource::make($item)->detailed(), self::STATUS_OK, __('site.get_successfully'));
         }
 
-        return $this->noData(null);
+        return $this->noData();
     }
 
     public function store(StorePayrunRequest $request)
@@ -94,7 +94,7 @@ class PayrunController extends ApiController
         return $result;
     }
 
-    public function toggleStatus($payrunId, TogglePayRunStatusRequest $request)
+    public function toggleStatus($payrunId, TogglePayrunStatusRequest $request)
     {
         $result = $this->payrunService->toggleStatus($payrunId, $request->validated('status'));
         if ($result) {
