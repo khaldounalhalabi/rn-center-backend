@@ -13,6 +13,7 @@ use App\FormulaParser\SystemVariables\AttendanceVariables\TotalAttendanceHoursCo
 use App\FormulaParser\SystemVariables\AttendanceVariables\TotalAttendanceHoursCountWithoutOvertimeHours;
 use App\FormulaParser\SystemVariables\AttendanceVariables\TotalEveningOvertimeHoursCount;
 use App\FormulaParser\SystemVariables\AttendanceVariables\TotalMorningOvertimeHoursCount;
+use App\FormulaParser\SystemVariables\ClinicVariables\CompletedAppointments;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection as CollectionAlias;
@@ -31,6 +32,7 @@ abstract class SystemVariable
     public const TOTAL_ATTENDANCE_HOURS_COUNT_WITHOUT_OVERTIME_HOURS = "total_attendance_hours_without_overtime_hour";
     public const TOTAL_MORNING_OVERTIME_HOURS_COUNT = "total_morning_overtime_hours_count";
     public const TOTAL_EVENING_OVERTIME_HOURS_COUNT = "total_evening_overtime_hours_count";
+    public const COMPLETED_APPOINTMENTS = "completed_appointments";
 
     public static array $keys = [
         self::TOTAL_ATTENDANCE_HOURS_COUNT_WITHOUT_OVERTIME_HOURS,
@@ -44,6 +46,7 @@ abstract class SystemVariable
         self::EXPECTED_ATTENDANCE_DAYS_COUNT,
         self::TOTAL_MORNING_OVERTIME_HOURS_COUNT,
         self::TOTAL_EVENING_OVERTIME_HOURS_COUNT,
+        self::COMPLETED_APPOINTMENTS,
     ];
 
     abstract public function getResult(): int|float|bool;
@@ -72,6 +75,7 @@ abstract class SystemVariable
             self::TOTAL_ATTENDANCE_HOURS_COUNT_WITHOUT_OVERTIME_HOURS => new TotalAttendanceHoursCountWithoutOvertimeHours($user, $attendanceLogs, $from, $to),
             self::TOTAL_MORNING_OVERTIME_HOURS_COUNT => new TotalMorningOvertimeHoursCount($user, $attendanceLogs, $from, $to),
             self::TOTAL_EVENING_OVERTIME_HOURS_COUNT => new TotalEveningOvertimeHoursCount($user, $attendanceLogs, $from, $to),
+            self::COMPLETED_APPOINTMENTS => new CompletedAppointments($user, $from, $to),
             default => null
         };
     }

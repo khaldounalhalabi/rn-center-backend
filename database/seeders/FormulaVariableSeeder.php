@@ -151,5 +151,17 @@ class FormulaVariableSeeder extends Seeder
             ]))->toJson(),
             'slug' => SystemVariable::TOTAL_MORNING_OVERTIME_HOURS_COUNT
         ]);
+
+        $this->insertOrNot([
+            'name' => (new Translatable([
+                'en' => 'Completed appointments',
+                'ar' => 'الحجوزات المكتملة',
+            ]))->toJson(),
+            'description' => (new Translatable([
+                'en' => 'Total completed appointments for the doctor in the selected pay period',
+                'ar' => 'إجمالي المواعيد المكتملة للطبيب خلال فترة الدفع المحددة'
+            ]))->toJson(),
+            'slug' => SystemVariable::COMPLETED_APPOINTMENTS
+        ]);
     }
 }
