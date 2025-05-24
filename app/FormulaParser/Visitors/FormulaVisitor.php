@@ -43,6 +43,8 @@ use App\FormulaParser\Ast\Functions\AndFunction;
 use App\FormulaParser\Ast\Functions\NotFunction;
 use App\FormulaParser\Ast\Functions\OrFunction;
 use App\FormulaParser\Ast\IFExpression;
+use App\FormulaParser\Ast\NegativeIFExpression;
+use App\FormulaParser\Ast\PositiveIFExpression;
 use App\FormulaParser\Ast\Terminals\Double;
 use App\FormulaParser\Ast\Terminals\Double as ParserDouble;
 use App\FormulaParser\Ast\Terminals\Identifier;
@@ -406,6 +408,22 @@ class FormulaVisitor extends FormulaBaseVisitor
         $then = $this->visit($context->expression(0));
         $else = $this->visit($context->expression(1));
         return new IFExpression($condition, $then, $else);
+    }
+
+    public function visitNegativeIFExpression(Context\NegativeIFExpressionContext $context): NegativeIFExpression
+    {
+        $condition = $this->visit($context->booleanOperations());
+        $then = $this->visit($context->expression(0));
+        $else = $this->visit($context->expression(1));
+        return new NegativeIFExpression($condition, $then, $else);
+    }
+
+    public function visitPositiveIFExpression(Context\PositiveIFExpressionContext $context): PositiveIFExpression
+    {
+        $condition = $this->visit($context->booleanOperations());
+        $then = $this->visit($context->expression(0));
+        $else = $this->visit($context->expression(1));
+        return new PositiveIFExpression($condition, $then, $else);
     }
 
     public function visitBracedBooleanOperation(Context\BracedBooleanOperationContext $context): BracedBooleanExpression

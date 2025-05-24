@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Enums\AttendanceLogTypeEnum;
 use App\Enums\ExcelColumnsTypeEnum;
 use App\Enums\RolesPermissionEnum;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -69,6 +71,28 @@ class AttendanceLog extends Model
                 RolesPermissionEnum::DOCTOR['role'],
                 RolesPermissionEnum::SECRETARY['role']
             ],
+        ];
+    }
+
+    public function filterArray(): array
+    {
+        return [
+            [
+                'name' => 'from',
+                'query' => fn(Builder|AttendanceLog $q, $value) => $q->whereDate(
+                    'attend_at',
+                    '>=',
+                    Carbon::parse($value)->format('Y-m-d')
+                )
+            ],
+            [
+                'name' => 'to',
+                'query' => fn(Builder|AttendanceLog $q, $value) => $q->whereDate(
+                    'attend_at',
+                    '<=',
+                    Carbon::parse($value)->format('Y-m-d')
+                )
+            ]
         ];
     }
 }

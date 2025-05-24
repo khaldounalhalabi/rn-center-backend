@@ -105,9 +105,30 @@ class Formula extends Model
         $result = [];
         $buffer = [];
         $depth = 0;
+        $inCondition = false;
+        $ifDepth = 0;
+
         for ($i = 0; $i < strlen($formula); $i++) {
             $char = $formula[$i];
-            if ($char === '(') {
+
+            if (!$inCondition && substr($formula, $i, 2) === 'IF') {
+                $inCondition = true;
+                $ifDepth++;
+                $buffer[] = 'IF';
+                $i++; // Skip 'F' in 'IF'
+            } elseif ($inCondition) {
+                $buffer[] = $char;
+
+                if ($char === '(') {
+                    $ifDepth++;
+                } elseif ($char === ')') {
+                    $ifDepth--;
+                }
+
+                if ($ifDepth === 0) {
+                    $inCondition = false;
+                }
+            } elseif ($char === '(') {
                 $depth++;
                 $buffer[] = $char;
             } elseif ($char === ')') {
@@ -120,6 +141,7 @@ class Formula extends Model
                 $buffer[] = $char;
             }
         }
+
         if (!empty($buffer)) {
             $result[] = trim(implode('', $buffer));
         }
@@ -128,6 +150,7 @@ class Formula extends Model
             return str_replace(' ', '', $e);
         }, $result);
     }
+
 
     public function formulaVariables(): BelongsToMany
     {

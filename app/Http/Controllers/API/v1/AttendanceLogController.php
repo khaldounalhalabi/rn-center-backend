@@ -49,7 +49,7 @@ class AttendanceLogController extends ApiController
     public function import(Request $request)
     {
         $request->validate([
-            'excel_file' => ['required', 'file', 'mimes:xlsx'],
+            'excel_file' => ['required', 'mimes:xlsx'],
         ]);
 
         $this->service->import();

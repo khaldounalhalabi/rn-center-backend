@@ -105,7 +105,9 @@ class Payslip extends Model
     public function filterArray(): array
     {
         return [
-            ['field' => 'status', 'method' => 'whereIn'],
+            [
+                'name' => 'status',
+            ],
         ];
     }
 
