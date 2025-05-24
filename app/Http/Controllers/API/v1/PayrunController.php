@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\v1\Payrun\StorePayrunRequest;
-use App\Http\Requests\v1\PayRun\TogglePayrunStatusRequest;
+use App\Http\Requests\v1\Payrun\TogglePayrunStatusRequest;
 use App\Http\Resources\v1\PayrunResource;
 use App\Models\Payrun;
 use App\Services\v1\Payrun\PayrunService;
@@ -51,7 +51,7 @@ class PayrunController extends ApiController
     {
         $payrun = $this->payrunService->create($request->validated());
         if ($payrun) {
-            return $this->apiResponse(new PayRunResource($payrun), self::STATUS_OK, __('site.success'));
+            return $this->apiResponse(new PayrunResource($payrun), self::STATUS_OK, __('site.success'));
         } elseif ($payrun === false) {
             return $this->apiResponse(null, self::PAY_RUN_OVERLAP_ERROR, __('site.pay_run_overlap_error'));
         }
@@ -74,7 +74,7 @@ class PayrunController extends ApiController
 
         if ($result) {
             return $this->apiResponse(
-                PayRunResource::make($result)->detailed(),
+                PayrunResource::make($result)->detailed(),
                 self::STATUS_OK,
                 __('site.success')
             );

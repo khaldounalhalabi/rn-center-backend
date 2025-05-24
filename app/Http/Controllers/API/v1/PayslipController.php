@@ -35,10 +35,10 @@ class PayslipController extends ApiController
 
     public function getByPayrun($payrunId)
     {
-        $data = $this->payslipService->getByPayRun($payrunId, $this->relations, $this->countable);
+        $data = $this->payslipService->getByPayrun($payrunId, $this->relations, $this->countable);
         if ($data) {
             return $this->apiResponse(
-                PaySlipResource::collection($data['data'])->detailed(),
+                PayslipResource::collection($data['data'])->detailed(),
                 self::STATUS_OK,
                 __('site.get_successfully'),
                 $data['pagination_data']
@@ -103,7 +103,7 @@ class PayslipController extends ApiController
 
         if ($data) {
             return $this->apiResponse(
-                PaySlipResource::make($data)->detailed(),
+                PayslipResource::make($data)->detailed(),
                 self::STATUS_OK,
                 __('site.update_successfully')
             );
