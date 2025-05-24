@@ -94,7 +94,7 @@ class PayrunController extends ApiController
         return $result;
     }
 
-    public function toggleStatus($payrunId, TogglePayrunStatusRequest $request)
+    public function toggleStatus(TogglePayrunStatusRequest $request, $payrunId)
     {
         $result = $this->payrunService->toggleStatus($payrunId, $request->validated('status'));
         if ($result) {
