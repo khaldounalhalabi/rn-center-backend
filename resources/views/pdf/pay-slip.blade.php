@@ -82,7 +82,7 @@
 <div class="container">
     <div class="left">
         <p>
-            <span style="width: 50%; font-size: 12px">{{trans('$date_of_joining')}} : </span>
+            <span style="width: 50%; font-size: 12px">{{trans('site.date_of_joining')}} : </span>
             <span style="width: 50%; font-size: 12px; font-weight: bold">{{$date_of_joining}}</span>
         </p>
 
