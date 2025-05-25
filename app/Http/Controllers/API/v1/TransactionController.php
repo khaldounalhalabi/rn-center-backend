@@ -18,7 +18,7 @@ class TransactionController extends ApiController
     public function __construct()
     {
         $this->transactionService = TransactionService::make();
-        $this->relations = ['actor', 'appointment'];
+        $this->relations = ['actor', 'appointment', 'payrun'];
     }
 
     public function index()

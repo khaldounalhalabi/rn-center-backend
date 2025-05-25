@@ -22,8 +22,10 @@ class TransactionResource extends BaseResource
             'date' => $this->date->format('Y-m-d H:i'),
             'actor_id' => $this->actor_id,
             'appointment_id' => $this->appointment_id,
+            'payrun_id' => $this->payrun_id,
             'actor' => new UserResource($this->whenLoaded('actor')),
             'appointment' => new AppointmentResource($this->whenLoaded('appointment')),
+            'payrun' => new PayrunResource($this->whenLoaded('payrun')),
         ];
     }
 }

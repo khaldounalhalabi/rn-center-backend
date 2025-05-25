@@ -17,6 +17,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property User             actor
  * @property numeric|null     appointment_id
  * @property Appointment|null appointment
+ * @property int|null         payrun_id
+ * @property Payrun|null      payrun
  */
 class Transaction extends Model
 {
@@ -28,7 +30,8 @@ class Transaction extends Model
         'description',
         'date',
         'actor_id',
-        'appointment_id'
+        'appointment_id',
+        'payrun_id',
     ];
 
     protected $casts = [
@@ -108,5 +111,10 @@ class Transaction extends Model
     public function appointment(): BelongsTo
     {
         return $this->belongsTo(Appointment::class);
+    }
+
+    public function payrun(): BelongsTo
+    {
+        return $this->belongsTo(Payrun::class);
     }
 }

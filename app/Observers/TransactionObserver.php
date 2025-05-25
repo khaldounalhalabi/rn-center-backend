@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Enums\PayrunStatusEnum;
 use App\Enums\TransactionTypeEnum;
 use App\Models\Transaction;
 use App\Repositories\BalanceRepository;
@@ -80,6 +81,12 @@ class TransactionObserver implements ShouldHandleEventsAfterCommit
         if (isset($balance)) {
             BalanceRepository::make()->create([
                 'balance' => $balance,
+            ]);
+        }
+
+        if ($transaction->payrun) {
+            $transaction->payrun->update([
+                'status' => PayrunStatusEnum::APPROVED->value
             ]);
         }
     }

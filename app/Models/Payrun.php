@@ -10,17 +10,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
- * @property string      status
- * @property Carbon      should_delivered_at
- * @property string      payment_date
- * @property numeric     payment_cost
- * @property string      period
- * @property Carbon      from
- * @property Carbon      to
- * @property Carbon|null processed_at
- * @property bool        has_errors
+ * @property string           status
+ * @property Carbon           should_delivered_at
+ * @property string           payment_date
+ * @property numeric          payment_cost
+ * @property string           period
+ * @property Carbon           from
+ * @property Carbon           to
+ * @property Carbon|null      processed_at
+ * @property bool             has_errors
+ * @property Transaction|null transaction
  */
 class Payrun extends Model
 {
@@ -142,5 +144,10 @@ class Payrun extends Model
     public function erroredPayslips(): HasMany
     {
         return $this->hasMany(Payslip::class)->whereNotNull('error');
+    }
+
+    public function transaction(): HasOne
+    {
+        return $this->hasOne(Transaction::class);
     }
 }
