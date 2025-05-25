@@ -14,6 +14,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
@@ -39,6 +40,11 @@ class ProcessPayrunJob implements ShouldQueue, ShouldBeUnique
     {
         $this->payrun->update([
             'status' => PayrunStatusEnum::PROCESSING->value,
+        ]);
+
+        Artisan::call('app:fix-attendance-logs-sequence', [
+            'from' => $this->payrun->from->format('Y-m-d'),
+            'to' => $this->payrun->to->format('Y-m-d'),
         ]);
 
         $payrunHasError = false;
