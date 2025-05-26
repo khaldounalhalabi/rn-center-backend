@@ -218,7 +218,8 @@ class Appointment extends Model
 
     public function prescription(): HasOne
     {
-        return $this->hasOne(Prescription::class, 'appointment_id');
+        return $this->hasOne(Prescription::class, 'appointment_id')
+            ->latestOfMany();
     }
 
     public function transaction(): HasOne

@@ -28,7 +28,7 @@ class AvailableAppointmentTimeService
         }
 
         $dateCarbon = Carbon::parse($date);
-        if ($dateCarbon->isYesterday()) {
+        if ($dateCarbon->isYesterday() || $dateCarbon->isBefore(now()->subDay())) {
             return collect();
         }
 

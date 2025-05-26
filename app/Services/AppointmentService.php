@@ -35,7 +35,7 @@ class AppointmentService extends BaseService
      * @param string $dateTime
      * @return int
      */
-    private function calculateAppointmentSequence(int $clinicId, string $dateTime): int
+    public function calculateAppointmentSequence(int $clinicId, string $dateTime): int
     {
         $appointmentDate = Carbon::parse($dateTime)->format('Y-m-d');
         $appointmentTime = Carbon::parse($dateTime);
