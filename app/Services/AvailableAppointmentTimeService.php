@@ -28,6 +28,10 @@ class AvailableAppointmentTimeService
         }
 
         $dateCarbon = Carbon::parse($date);
+        if ($dateCarbon->isYesterday()) {
+            return collect();
+        }
+
         if (HolidayRepository::make()->isHoliday($date)) {
             return collect();
         }

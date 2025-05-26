@@ -39,6 +39,7 @@ class StoreUpdateMedicineRequest extends FormRequest
         if (isDoctor()) {
             $this->merge([
                 'status' => MedicineStatusEnum::OUT_OF_STOCK->value,
+                'quantity' => 0,
             ]);
         }
 

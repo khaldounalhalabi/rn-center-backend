@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\v1\Prescription;
 
+use App\Repositories\AppointmentRepository;
 use App\Services\AvailableAppointmentTimeService;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
@@ -63,6 +64,14 @@ class StoreUpdatePrescriptionRequest extends FormRequest
         if (isDoctor()) {
             $this->merge([
                 'clinic_id' => clinic()?->id
+            ]);
+        }
+
+        if ($this->input('appointment_id') && is_null($this->input('customer_id'))) {
+            $this->merge([
+                'customer_id' => AppointmentRepository::make()
+                    ->find($this->input('appointment_id'))
+                    ?->customer_id,
             ]);
         }
     }

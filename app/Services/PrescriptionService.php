@@ -24,8 +24,8 @@ class PrescriptionService extends BaseService
         $prescription = $this->repository->create($data);
 
         $medicinePrescriptions = [];
-        if (isset($data['medicine_ids'])) {
-            foreach ($data['medicine_ids'] as $medicineData) {
+        if (isset($data['medicines'])) {
+            foreach ($data['medicines'] as $medicineData) {
                 $medicinePrescriptions[] = [
                     ...$medicineData,
                     'prescription_id' => $prescription->id,

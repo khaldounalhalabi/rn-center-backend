@@ -26,4 +26,13 @@ class GetAvailableAppointmentTimesRequest extends FormRequest
             'date' => 'required|date|date_format:Y-m-d',
         ];
     }
+
+    protected function prepareForValidation(): void
+    {
+        if (isDoctor()) {
+            $this->merge([
+                'clinic_id' => clinic()?->id,
+            ]);
+        }
+    }
 }

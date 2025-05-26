@@ -16,3 +16,13 @@ Route::prefix('appointments')
         Route::get('/', [v1\AppointmentController::class, 'index'])->name('index');
         Route::get('/{appointmentId}', [v1\AppointmentController::class, 'show'])->name('show');
     });
+
+
+Route::post('/prescriptions', [v1\PrescriptionController::class, 'store'])->name('prescriptions.store');
+
+Route::post('available-appointments-times', [v1\AvailableAppointmentTimeController::class, 'get'])->name('available.appointments.time');
+
+Route::get('/medicines' , [v1\MedicineController::class , 'index'])->name('medicine.index');
+Route::get('/medicines/{medicineId}' , [v1\MedicineController::class , 'show'])->name('medicine.show');
+Route::post('/medicines' , [v1\MedicineController::class , 'store'])->name('medicine.store');
+
