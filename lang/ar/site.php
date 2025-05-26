@@ -66,4 +66,6 @@ return [
     'total_earnings' => 'إجمالي المكاسب',
     'deductions' => 'الخصومات',
     'total_deductions' => 'إجمالي الخصومات',
+
+    'verified_successfully' => 'تم التأكيد بنجاح'
 ];

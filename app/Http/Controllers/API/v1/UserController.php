@@ -24,6 +24,7 @@ class UserController extends ApiController
         $data = $request->validated();
         $data['role'] = RolesPermissionEnum::SECRETARY['role'];
         $user = $this->userService->store($data, $this->relations, $this->countable);
+        $this->userService->sendVerificationCode($user);
         return $this->apiResponse(UserResource::make($user), self::STATUS_OK, __('site.stored_successfully'));
     }
 

@@ -87,6 +87,13 @@ class ApiResponse implements JsonSerializable
         return $this;
     }
 
+    public function unverifiedPhone(): static
+    {
+        $this->code = 408;
+        $this->message = trans('site.un_verified_phone');
+        return $this;
+    }
+
     public function message(string|null $message = null): static
     {
         $this->message = $message ?? __('site.success');
@@ -151,6 +158,7 @@ class ApiResponse implements JsonSerializable
             'message' => $this->message,
             'code' => $this->code,
             'pagination_data' => $this->paginationData,
+            'status' => $this->code == Response::HTTP_OK
         ];
     }
 

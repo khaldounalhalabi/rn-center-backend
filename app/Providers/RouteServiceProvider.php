@@ -27,16 +27,16 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         $this->routes(function () {
-            Route::middleware(['api', 'secretary'])
+            Route::middleware(['api', 'secretary' , 'must-verify-phone'])
                 ->prefix('api/secretary')
                 ->group(base_path('routes/v1/api/secretary.php'));
 
-            Route::middleware(['api', 'customer'])
+            Route::middleware(['api', 'customer', 'must-verify-phone'])
                 ->prefix('api/customer')
                 ->name('api.customer.')
                 ->group(base_path('routes/v1/api/customer.php'));
 
-            Route::middleware(['api', 'doctor'])
+            Route::middleware(['api', 'doctor', 'must-verify-phone'])
                 ->prefix('api/doctor')
                 ->group(base_path('routes/v1/api/doctor.php'));
 

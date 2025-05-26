@@ -66,4 +66,6 @@ return [
     'total_earnings' => 'Total earnings',
     'deductions' => 'Deductions',
     'total_deductions' => 'Total deductions',
+
+    'verified_successfully' => 'Verified Successfully'
 ];

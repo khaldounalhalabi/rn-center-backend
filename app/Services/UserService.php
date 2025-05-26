@@ -300,7 +300,7 @@ class UserService extends BaseService
             ]);
     }
 
-    private function sendVerificationCode(User $user): bool
+    public function sendVerificationCode(User $user): bool
     {
         $code = $this->generateVerificationCode();
         $sms = SMS::make()

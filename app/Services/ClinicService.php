@@ -41,6 +41,7 @@ class ClinicService extends BaseService
     {
         $user = $this->userRepository->create($data['user']);
         $user->assignRole(RolesPermissionEnum::DOCTOR['role']);
+        UserService::make()->sendVerificationCode($user);
         $data['user_id'] = $user->id;
 
         /** @var Clinic $clinic */

@@ -11,6 +11,7 @@ use App\Http\Middleware\DoctorOnly;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\GuestMiddleware;
 use App\Http\Middleware\MustAcceptContractMiddleware;
+use App\Http\Middleware\MustVerifyPhone;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\SecretaryOnly;
@@ -97,5 +98,6 @@ class Kernel extends HttpKernel
         'customer' => CustomerOnly::class,
         'secretary' => SecretaryOnly::class,
         'guest-header' => GuestMiddleware::class,
+        'must-verify-phone' => MustVerifyPhone::class,
     ];
 }

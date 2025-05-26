@@ -46,6 +46,13 @@ class BaseAuthController extends ApiController
         }
 
         [$user, $token, $refreshToken] = $result;
+
+        if (!$user->isAdmin() && is_null($user->phone_verified_at)) {
+            return rest()
+                ->unverifiedPhone()
+                ->send();
+        }
+
         return rest()
             ->data([
                 'user' => new UserResource($user),
@@ -70,6 +77,13 @@ class BaseAuthController extends ApiController
             return rest()->notAuthorized()->message(__('site.token_refreshed_failed'))->send();
         }
         [$user, $token, $refresh_token] = $result;
+
+        if (!$user->isAdmin() && is_null($user->phone_verified_at)) {
+            return rest()
+                ->unverifiedPhone()
+                ->send();
+        }
+
         return rest()
             ->data([
                 'user' => new UserResource($user),
