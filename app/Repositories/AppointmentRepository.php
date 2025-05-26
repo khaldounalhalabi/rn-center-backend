@@ -47,7 +47,7 @@ class AppointmentRepository extends BaseRepository
             ->when(isDoctor(), function (Builder $query) {
                 $query->where('clinic_id', clinic()?->id);
             })->when(isCustomer(), function (Builder $query) {
-                $query->where('customer_id', auth()->user()?->customer?->id);
+                $query->where('customer_id', customer()?->id);
             });
     }
 

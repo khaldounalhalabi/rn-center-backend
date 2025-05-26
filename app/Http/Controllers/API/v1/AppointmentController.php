@@ -18,13 +18,21 @@ class AppointmentController extends ApiController
     {
         $this->appointmentService = AppointmentService::make();
 
-        // place the relations you want to return them within the response
-        $this->relations = ['customer.user', 'clinic.user', 'service', 'prescription', 'prescription.medicinePrescriptions.medicine'];
+        if (isAdmin()) {
+            $this->relations = ['customer.user', 'clinic.user', 'service', 'prescription', 'prescription.medicinePrescriptions.medicine'];
+            $this->indexRelations = ['customer.user', 'clinic.user', 'service'];
+        } elseif (isDoctor()) {
+            $this->relations = ['customer.user', 'service', 'prescription', 'prescription.medicinePrescriptions.medicine'];
+            $this->indexRelations = ['customer.user', 'service'];
+        } else {
+            $this->relations = ['clinic.user', 'service', 'prescription', 'prescription.medicinePrescriptions.medicine'];
+            $this->indexRelations = ['clinic.user', 'service'];
+        }
     }
 
     public function index()
     {
-        $items = $this->appointmentService->indexWithPagination($this->relations);
+        $items = $this->appointmentService->indexWithPagination($this->indexRelations);
         if ($items) {
             return $this->apiResponse(AppointmentResource::collection($items['data']), self::STATUS_OK, __('site.get_successfully'), $items['pagination_data']);
         }
@@ -91,7 +99,6 @@ class AppointmentController extends ApiController
         $data = $this->appointmentService->paginateByClinic($clinicId, [
             'customer.user',
             'service'
-
         ], $this->countable);
         if ($data) {
             return $this->apiResponse(
