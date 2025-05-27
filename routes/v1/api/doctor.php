@@ -17,16 +17,17 @@ Route::prefix('appointments')
         Route::get('/{appointmentId}', [v1\AppointmentController::class, 'show'])->name('show');
     });
 
-
-Route::post('/prescriptions', [v1\PrescriptionController::class, 'store'])->name('prescriptions.store');
+Route::resource('prescriptions', v1\PrescriptionController::class)->except(['index'])->names('prescriptions');
 
 Route::post('available-appointments-times', [v1\AvailableAppointmentTimeController::class, 'get'])->name('available.appointments.time');
 
-Route::get('/medicines' , [v1\MedicineController::class , 'index'])->name('medicine.index');
-Route::get('/medicines/{medicineId}' , [v1\MedicineController::class , 'show'])->name('medicine.show');
-Route::post('/medicines' , [v1\MedicineController::class , 'store'])->name('medicine.store');
+Route::get('/medicines', [v1\MedicineController::class, 'index'])->name('medicine.index');
+Route::get('/medicines/{medicineId}', [v1\MedicineController::class, 'show'])->name('medicine.show');
+Route::post('/medicines', [v1\MedicineController::class, 'store'])->name('medicine.store');
 
-Route::get('/customers' , [v1\CustomerController::class , 'index'])->name('customers.index');
-Route::get('/customers/{customerId}' , [v1\CustomerController::class , 'show'])->name('customers.show');
-Route::put('/customers/{customerId}' , [v1\CustomerController::class , 'update'])->name('customers.update');
+Route::get('/customers', [v1\CustomerController::class, 'index'])->name('customers.index');
+Route::get('/customers/{customerId}', [v1\CustomerController::class, 'show'])->name('customers.show');
+Route::put('/customers/{customerId}', [v1\CustomerController::class, 'update'])->name('customers.update');
+Route::get('/customers/{customerId}/prescriptions', [v1\PrescriptionController::class, 'getByCustomer'])->name('customers.prescriptions');
+
 

@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Customer;
 use App\Models\Prescription;
 use App\Repositories\Contracts\BaseRepository;
 use Illuminate\Database\Eloquent\Builder;
@@ -13,18 +14,6 @@ class PrescriptionRepository extends BaseRepository
 {
     protected string $modelClass = Prescription::class;
 
-    /**
-     * @param int   $appointmentId
-     * @param array $relations
-     * @return array|null
-     */
-    public function getByAppointmentId(int $appointmentId, array $relations = []): ?array
-    {
-        return $this->paginateQuery(
-            $this->globalQuery($relations)->where('appointment_id', $appointmentId)
-        );
-    }
-
     public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
     {
         return parent::globalQuery($relations, $countable)
@@ -35,11 +24,16 @@ class PrescriptionRepository extends BaseRepository
             });
     }
 
-    public function getClinicCustomerPrescriptions($customerId, array $relations = [], array $countable = []): ?array
+    public function getByCustomer($customerId, array $relations = [], array $countable = []): ?array
     {
         return $this->paginateQuery(
             $this->globalQuery($relations, $countable)
                 ->where('customer_id', $customerId)
+                ->when(isDoctor(), function (Builder|Prescription $prescription) {
+                    $prescription->whereHas('customer', function (Builder|Customer $customer) {
+                        $customer->byClinic(clinic()?->id);
+                    });
+                })
         );
     }
 }

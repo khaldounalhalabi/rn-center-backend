@@ -25,7 +25,12 @@ class PrescriptionResource extends BaseResource
             'customer' => CustomerResource::make($this->whenLoaded('customer')),
             'clinic' => ClinicResource::make($this->whenLoaded('clinic')),
             'appointment' => AppointmentResource::make($this->whenLoaded('appointment')),
-            'medicines' => MedicinePrescriptionResource::collection($this->whenLoaded('medicinePrescriptions'))
+            'medicines' => MedicinePrescriptionResource::collection($this->whenLoaded('medicinePrescriptions')),
+
+            $this->mergeWhen($this->detailed, fn() => [
+                'can_delete' => $this->canDelete(),
+                'can_update' => $this->canUpdate(),
+            ])
         ];
     }
 }

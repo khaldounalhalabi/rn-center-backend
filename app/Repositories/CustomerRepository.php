@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Models\Appointment;
 use App\Models\Customer;
 use App\Repositories\Contracts\BaseRepository;
 use Illuminate\Database\Eloquent\Builder;
@@ -17,12 +16,9 @@ class CustomerRepository extends BaseRepository
 
     public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder|Model
     {
-        // TODO:: add the health record relation with tha clinic when adding the health record feature
         return parent::globalQuery($relations, $countable, $defaultOrder)
             ->when(isDoctor(), function (Builder|Customer $query) {
-                $query->whereHas('appointments', function (Builder|Appointment $query) {
-                    $query->where('clinic_id', clinic()?->id);
-                });
+                $query->byClinic(clinic()?->id);
             });
     }
 

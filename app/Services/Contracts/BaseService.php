@@ -37,16 +37,6 @@ abstract class BaseService
     }
 
     /**
-     * @param LengthAwarePaginator<T> $data
-     * @return array
-     */
-    #[ArrayShape(['currentPage' => "mixed", 'from' => "mixed", 'to' => "mixed", 'total' => "mixed", 'per_page' => "mixed", 'total_pages' => "float", 'isFirst' => "bool", 'isLast' => "bool"])]
-    public function formatPaginationData(LengthAwarePaginator $data): array
-    {
-        return $this->repository->formatPaginateData($data);
-    }
-
-    /**
      * @param array $relations
      * @param array $countable
      * @return Collection<T>|RegularCollection<T>|array

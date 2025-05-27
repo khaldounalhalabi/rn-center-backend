@@ -31,7 +31,7 @@ class PrescriptionController extends ApiController
     {
         $items = $this->prescriptionService->indexWithPagination($this->indexRelations);
         if ($items) {
-            return $this->apiResponse(PrescriptionResource::collection($items['data']), self::STATUS_OK, __('site.get_successfully'), $items['pagination_data']);
+            return $this->apiResponse(PrescriptionResource::collection($items['data'])->detailed(), self::STATUS_OK, __('site.get_successfully'), $items['pagination_data']);
         }
 
         return $this->noData([]);
@@ -42,7 +42,7 @@ class PrescriptionController extends ApiController
         /** @var Prescription|null $item */
         $item = $this->prescriptionService->view($prescriptionId, $this->relations);
         if ($item) {
-            return $this->apiResponse(new PrescriptionResource($item), self::STATUS_OK, __('site.get_successfully'));
+            return $this->apiResponse(PrescriptionResource::make($item)->detailed(), self::STATUS_OK, __('site.get_successfully'));
         }
 
         return $this->noData();
@@ -53,7 +53,7 @@ class PrescriptionController extends ApiController
         /** @var Prescription|null $item */
         $item = $this->prescriptionService->store($request->validated(), $this->relations);
         if ($item) {
-            return $this->apiResponse(new PrescriptionResource($item), self::STATUS_OK, __('site.stored_successfully'));
+            return $this->apiResponse(PrescriptionResource::make($item)->detailed(), self::STATUS_OK, __('site.stored_successfully'));
         }
 
         return $this->apiResponse(null, self::STATUS_OK, __('site.something_went_wrong'));
@@ -64,7 +64,7 @@ class PrescriptionController extends ApiController
         /** @var Prescription|null $item */
         $item = $this->prescriptionService->update($request->validated(), $prescriptionId, $this->relations);
         if ($item) {
-            return $this->apiResponse(new PrescriptionResource($item), self::STATUS_OK, __('site.update_successfully'));
+            return $this->apiResponse(PrescriptionResource::make($item)->detailed(), self::STATUS_OK, __('site.update_successfully'));
         }
 
         return $this->noData();
@@ -101,14 +101,14 @@ class PrescriptionController extends ApiController
         $this->prescriptionService->import();
     }
 
-    public function getCustomerPrescriptions($customerId)
+    public function getByCustomer($customerId)
     {
-        $data = $this->prescriptionService->getClinicCustomerPrescriptions($customerId, [
+        $data = $this->prescriptionService->getByCustomer($customerId, [
             'clinic.user',
             'appointment'
         ], $this->countable);
         if ($data) {
-            return $this->apiResponse(PrescriptionResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
+            return $this->apiResponse(PrescriptionResource::collection($data['data'])->detailed(), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
         }
 
         return $this->noData();

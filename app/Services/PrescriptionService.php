@@ -9,6 +9,7 @@ use App\Repositories\MedicinePrescriptionRepository;
 use App\Repositories\PrescriptionRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -61,11 +62,31 @@ class PrescriptionService extends BaseService
 
     public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
     {
-        $prescription = $this->repository->update($data, $id);
+        $prescription = $this->repository->find($id);
 
-        if (!$prescription) {
+        if (!$prescription?->canUpdate()) {
             return null;
         }
+
+        if (isset($data['next_visit']) && !Carbon::parse($data['next_visit'])->equalTo($prescription->next_visit)) {
+            AppointmentRepository::make()->deletePrescriptionNextVisit($prescription);
+
+            $appointmentSequence = AppointmentService::make()
+                ->calculateAppointmentSequence($prescription->clinic_id, $prescription->next_visit->format('Y-m-d'));
+
+            AppointmentRepository::make()->create([
+                'clinic_id' => $prescription->clinic_id,
+                'customer_id' => $prescription->customer_id,
+                'status' => AppointmentStatusEnum::BOOKED->value,
+                'date_time' => $data['next_visit'],
+                'total_cost' => $prescription->clinic?->appointment_cost,
+                'appointment_sequence' => $appointmentSequence,
+            ]);
+        } elseif (empty($data['next_visit'])) {
+            AppointmentRepository::make()->deletePrescriptionNextVisit($prescription);
+        }
+
+        $prescription = $this->repository->update($data, $prescription);
 
         $prescription->medicinePrescriptions()->delete();
 
@@ -84,8 +105,23 @@ class PrescriptionService extends BaseService
         return $prescription->load($relationships)->loadCount($countable);
     }
 
-    public function getClinicCustomerPrescriptions($customerId, array $relations = [], array $countable = [], int $perPage = 10): ?array
+    public function getByCustomer($customerId, array $relations = [], array $countable = [], int $perPage = 10): ?array
     {
-        return $this->repository->getClinicCustomerPrescriptions($customerId, $relations, $countable);
+        return $this->repository->getByCustomer($customerId, $relations, $countable);
+    }
+
+    public function delete($id): ?bool
+    {
+        $prescription = $this->repository->find($id);
+
+        if (!$prescription?->canDelete()) {
+            return false;
+        }
+
+        if ($prescription->next_visit) {
+            AppointmentRepository::make()->deletePrescriptionNextVisit($prescription);
+        }
+
+        return $prescription->delete();
     }
 }

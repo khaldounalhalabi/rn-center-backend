@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\MediaTypeEnum;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -80,5 +81,13 @@ class Customer extends Model implements HasMedia
         return [
             'attachments' => ['type' => MediaTypeEnum::MULTIPLE->value]
         ];
+    }
+
+    public function scopeByClinic(Builder $query, int $clinicId): Builder
+    {
+        // TODO:: add the health record relation with tha clinic when adding the health record feature
+        return $query->whereHas('appointments', function (Appointment|Builder $appointment) use ($clinicId) {
+            $appointment->where('clinic_id', $clinicId);
+        });
     }
 }

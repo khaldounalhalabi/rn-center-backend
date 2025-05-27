@@ -2,8 +2,10 @@
 
 namespace App\Repositories;
 
+use App\Enums\AppointmentStatusEnum;
 use App\Excel\BaseExporter;
 use App\Models\Appointment;
+use App\Models\Prescription;
 use App\Repositories\Contracts\BaseRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -125,5 +127,15 @@ class AppointmentRepository extends BaseRepository
             $this->globalQuery($relations, $countable)
                 ->where('customer_id', $customerId)
         );
+    }
+
+    public function deletePrescriptionNextVisit(Prescription $prescription)
+    {
+        return $this->globalQuery()
+            ->where('date_time', $prescription->next_visit?->format('Y-m-d H:i:s'))
+            ->where('clinic_id', $prescription->clinic_id)
+            ->where('customer_id', $prescription->customer_id)
+            ->where('status', AppointmentStatusEnum::BOOKED->value)
+            ->delete();
     }
 }

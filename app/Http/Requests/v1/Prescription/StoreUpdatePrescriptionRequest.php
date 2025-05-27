@@ -34,14 +34,16 @@ class StoreUpdatePrescriptionRequest extends FormRequest
         }
 
         return [
-            'clinic_id' => 'required|exists:clinics,id|numeric',
-            'customer_id' => 'required|exists:customers,id|numeric',
+            'clinic_id' => ['nullable', 'exists:clinics,id', 'numeric', Rule::requiredIf(fn() => $this->isPost()), Rule::excludeIf(fn() => $this->isPut())],
+            'customer_id' => ['nullable', 'exists:customers,id', 'numeric', Rule::requiredIf(fn() => $this->isPost()), Rule::excludeIf(fn() => $this->isPut())],
             'appointment_id' => [
-                'required',
+                'nullable',
                 'numeric',
                 Rule::exists('appointments', 'id')
                     ->where('clinic_id', $this->input('clinic_id'))
-                    ->where('customer_id', $this->input('customer_id'))
+                    ->where('customer_id', $this->input('customer_id')),
+                Rule::requiredIf(fn() => $this->isPost() && !$this->input('customer_id')),
+                Rule::excludeIf(fn() => $this->isPut())
             ],
             'other_data' => 'nullable|array',
             'other_data.*.key' => 'string|min:1|max:255',
