@@ -194,31 +194,26 @@ class BaseAuthController extends ApiController
 
     public function storeFcmToken(Request $request)
     {
-        try {
-            $token = $request->fcm_token;
+        $token = $request->fcm_token;
 
-            $user = auth()->user();
+        $user = auth()->user();
 
-//            $user->fcm_token = $token;
-//            TODO:: handle this
+        $user->fcm_token = $token;
+        $user->save();
 
-//            $user->save();
-
-            return response()->json([
-                'message' => 'Token Stored Successfully',
-            ]);
-        } catch (Exception) {
-            return response()->json([
-                'message' => "There Is Been An Error Registering FCM Token",
-            ], 500);
-        }
+        return rest()
+            ->message('Token Stored Successfully')
+            ->ok()
+            ->send();
     }
 
     public function getUserFcmToken()
     {
-        return $this->apiResponse([
-            'fcm_token' => auth()->user()?->full_name,//TODO:: handle this
-        ], self::STATUS_OK, __('site.success'));
+        return rest()
+            ->data(['fcm_token' => user()?->fcm_token])
+            ->message(trans('site.get_successfully'))
+            ->ok()
+            ->send();
     }
 }
 

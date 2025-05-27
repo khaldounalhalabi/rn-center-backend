@@ -67,5 +67,11 @@ return [
     'deductions' => 'Deductions',
     'total_deductions' => 'Total deductions',
 
-    'verified_successfully' => 'Verified Successfully'
+    'verified_successfully' => 'Verified Successfully',
+
+    'appointment_event' => 'Your appointment has been :event',
+
+    'deleted' => 'deleted',
+    'created' => 'created',
+    'updated' => 'updated',
 ];

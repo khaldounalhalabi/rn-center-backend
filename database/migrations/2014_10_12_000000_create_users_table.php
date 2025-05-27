@@ -22,6 +22,7 @@ return new class () extends Migration {
             $table->string('gender');
             $table->dateTime('phone_verified_at')->nullable();
             $table->foreignIdFor(Formula::class)->nullable()->constrained()->nullOnDelete();
+            $table->string('fcm_token')->nullable();
 
             $table->rememberToken();
             $table->timestamps();

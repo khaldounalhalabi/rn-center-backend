@@ -5,10 +5,17 @@ namespace App\Observers;
 use App\Enums\AppointmentStatusEnum;
 use App\Enums\TransactionTypeEnum;
 use App\Models\Appointment;
+use App\Modules\Notification\App\Enums\NotifyMethod;
+use App\Modules\Notification\App\NotificationBuilder;
+use App\Notifications\Common\AppointmentEventNotification;
 use App\Repositories\TransactionRepository;
 
 class AppointmentObserver
 {
+    const CREATED_EVENT = 'CREATED';
+    const UPDATED_EVENT = 'UPDATED';
+    const DELETED_EVENT = 'DELETED';
+
     /**
      * handle the Appointment "creating" event.
      * @param Appointment $appointment
@@ -24,6 +31,16 @@ class AppointmentObserver
      */
     public function created(Appointment $appointment): void
     {
+        NotificationBuilder::make()
+            ->data([
+                'event' => self::CREATED_EVENT,
+                'appointment' => $appointment
+            ])
+            ->to(collect([$appointment->customer->user, $appointment->clinic->user]))
+            ->method(NotifyMethod::MANY)
+            ->notification(AppointmentEventNotification::class)
+            ->send();
+
         if (AppointmentStatusEnum::hasTransaction($appointment->status)) {
             TransactionRepository::make()->create([
                 'type' => $appointment->total_cost >= 0
@@ -79,11 +96,34 @@ class AppointmentObserver
         }
     }
 
+    public function updated(Appointment $appointment): void
+    {
+        NotificationBuilder::make()
+            ->data([
+                'event' => self::UPDATED_EVENT,
+                'appointment' => $appointment
+            ])
+            ->to(collect([$appointment->customer->user, $appointment->clinic->user]))
+            ->method(NotifyMethod::MANY)
+            ->notification(AppointmentEventNotification::class)
+            ->send();
+    }
+
     /**
      * Handle the Appointment "deleted" event.
      */
     public function deleted(Appointment $appointment): void
     {
+        NotificationBuilder::make()
+            ->data([
+                'event' => self::DELETED_EVENT,
+                'appointment' => $appointment
+            ])
+            ->to(collect([$appointment->customer->user, $appointment->clinic->user]))
+            ->method(NotifyMethod::MANY)
+            ->notification(AppointmentEventNotification::class)
+            ->send();
+
         TransactionRepository::make()->delete($appointment->transaction?->id);
     }
 

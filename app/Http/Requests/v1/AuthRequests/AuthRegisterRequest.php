@@ -38,6 +38,7 @@ class AuthRegisterRequest extends FormRequest
             'phone' => 'required|regex:/^09\d{8}$/|unique:users,phone',
             'password' => 'required|min:8|confirmed',
             'gender' => ['required', 'string', Rule::in(GenderEnum::getAllValues())],
+            'fcm_token' => 'nullable|string',
             ...$additional,
         ];
     }

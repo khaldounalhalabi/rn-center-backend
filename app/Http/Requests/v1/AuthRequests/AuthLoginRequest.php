@@ -24,6 +24,7 @@ class AuthLoginRequest extends FormRequest
         return [
             'phone' => ['required', 'regex:/^09\d{8}$/', 'exists:users,phone'],
             'password' => 'required|min:8',
+            'fcm_token' => 'nullable|string',
         ];
     }
 }

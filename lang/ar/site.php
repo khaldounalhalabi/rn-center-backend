@@ -67,5 +67,11 @@ return [
     'deductions' => 'الخصومات',
     'total_deductions' => 'إجمالي الخصومات',
 
-    'verified_successfully' => 'تم التأكيد بنجاح'
+    'verified_successfully' => 'تم التأكيد بنجاح',
+
+    'appointment_event' => 'لقد تم :event موعدك',
+
+    'deleted' => 'حذف',
+    'created' => 'إنشاء',
+    'updated' => 'تعديل',
 ];

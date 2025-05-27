@@ -113,6 +113,12 @@ class UserService extends BaseService
             $user->update($additionalData);
         }
 
+        if (isset($data['fcm_token'])) {
+            $user->update([
+                'fcm_token' => $data['fcm_token'],
+            ]);
+        }
+
         if (!request()->acceptsHtml()) {
             /** @noinspection PhpPossiblePolymorphicInvocationInspection */
             $refresh_token = auth($this->guard)->setTTL(ttl: config('jwt.refresh_ttl'))->refresh();

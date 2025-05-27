@@ -54,6 +54,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->name('public.')
                 ->group(base_path('routes/v1/api/public.php'));
 
+            Route::prefix('api')
+                ->name('protected.')
+                ->middleware(['auth:api'])
+                ->group(base_path('routes/v1/api/protected.php'));
+
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });

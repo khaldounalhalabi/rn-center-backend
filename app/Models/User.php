@@ -33,6 +33,7 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
  * @property string       full_name
  * @property int|null     formula_id
  * @property Formula|null formula
+ * @property string       fcm_token
  * @mixin Builder
  */
 class User extends Authenticatable implements JWTSubject
@@ -53,6 +54,7 @@ class User extends Authenticatable implements JWTSubject
         'phone_verified_at',
         'gender',
         'formula_id',
+        'fcm_token',
     ];
 
     protected $hidden = [

@@ -168,9 +168,10 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        \App\Providers\CarbonServiceProvider::class ,
+        \App\Providers\CarbonServiceProvider::class,
         \App\Providers\RequestServiceProvider::class,
         \App\Providers\ObserverServiceProvider::class,
+        \App\Modules\Notification\NotificationModuleProvider::class,
     ])->toArray(),
 
     /*
