@@ -10,11 +10,6 @@ Route::get('me', [v1\CustomerAuthController::class, 'userDetails'])->name('me');
 Route::post('/fcm/store-token', [v1\CustomerAuthController::class, 'storeFcmToken'])->name('fcm.storeToken');
 Route::get('/fcm/get-token', [v1\CustomerAuthController::class, 'getUserFcmToken'])->name('fcm.getToken');
 
-Route::get('notifications', [v1\NotificationController::class, 'getUserNotification'])->name('notifications');
-Route::get('notifications/unread/count', [v1\NotificationController::class, 'unreadCount'])->name('notification.unread.count');
-Route::get('/notifications/{notificationId}/mark-as-read', [v1\NotificationController::class, 'markAsRead'])->name('notifications');
-Route::get('/notifications/mark-all-as-read', [v1\NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
-
 Route::get('/appointments/today', [v1\AppointmentController::class, 'getCustomerTodayAppointments'])
     ->name('appointments.today');
 Route::get('/appointments/{appointmentId}/cancel', [v1\AppointmentController::class, 'customerCancelAppointment'])->name('appointments.cancel');

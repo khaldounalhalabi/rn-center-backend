@@ -169,12 +169,6 @@ class User extends Authenticatable implements JWTSubject
         return $this->clinic->id;
     }
 
-    public function unreadNotifications()
-    {
-        return $this->notifications()->unread()
-            ->where('type', 'NOT LIKE', '%RealTime%');
-    }
-
     public function getClinic(array $relations = [], array $countable = [])
     {
         if (isDoctor()) {
