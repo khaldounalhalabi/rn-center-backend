@@ -21,7 +21,7 @@ class CustomerController extends ApiController
 
     public function index()
     {
-        $items = $this->customerService->indexWithPagination($this->relations);
+        $items = $this->customerService->indexWithPagination($this->indexRelations);
         if ($items) {
             return $this->apiResponse(CustomerResource::collection($items['data']), self::STATUS_OK, __('site.get_successfully'), $items['pagination_data']);
         }

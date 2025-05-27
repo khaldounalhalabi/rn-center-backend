@@ -432,7 +432,7 @@ abstract class BaseRepository
      */
     public function find($id, array $relationships = [], array $countable = []): ?Model
     {
-        $result = $this->model->with($relationships)->withCount($countable)->find($id);
+        $result = $this->globalQuery($relationships , $countable)->where('id' , $id)->first();
 
         if ($result) {
             return $result;
@@ -455,7 +455,7 @@ abstract class BaseRepository
         if ($id instanceof Model) {
             $item = $id;
         } else {
-            $item = $this->model->where('id', '=', $id)->first();
+            $item = $this->globalQuery()->where('id' , $id)->first();
         }
 
         if ($item) {

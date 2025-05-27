@@ -24,6 +24,19 @@ class StoreUpdateCustomerRequest extends FormRequest
      */
     public function rules(): array
     {
+        if (isDoctor()) {
+            return [
+                'blood_group' => 'nullable|string|' . Rule::in(BloodGroupEnum::getAllValues()),
+                'health_status' => 'nullable|string|max:5000',
+                'notes' => 'nullable|string|max:5000',
+                'other_data' => 'nullable|array',
+                'other_data.*.key' => 'string|min:1|max:255',
+                'other_data.*.value' => 'string|min:1|max:5000',
+                'attachments' => 'nullable|array',
+                'attachments.*' => 'file|mimes:jpeg,png,jpg,pdf,webp,zip,rar,word,txt|max:25000',
+            ];
+        }
+
         return [
             'first_name' => 'required|string|min:3|max:255',
             'last_name' => 'required|string|min:3|max:255',

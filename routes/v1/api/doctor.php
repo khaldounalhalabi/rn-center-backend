@@ -26,3 +26,7 @@ Route::get('/medicines' , [v1\MedicineController::class , 'index'])->name('medic
 Route::get('/medicines/{medicineId}' , [v1\MedicineController::class , 'show'])->name('medicine.show');
 Route::post('/medicines' , [v1\MedicineController::class , 'store'])->name('medicine.store');
 
+Route::get('/customers' , [v1\CustomerController::class , 'index'])->name('customers.index');
+Route::get('/customers/{customerId}' , [v1\CustomerController::class , 'show'])->name('customers.show');
+Route::put('/customers/{customerId}' , [v1\CustomerController::class , 'update'])->name('customers.update');
+
