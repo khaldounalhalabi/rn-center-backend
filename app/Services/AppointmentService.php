@@ -150,22 +150,22 @@ class AppointmentService extends BaseService
         if (!$isUpdate) {
             AppointmentLogRepository::make()->create([
                 'cancellation_reason' => $data['cancellation_reason'] ?? null,
-                'status' => $data['status'],
+                'status' => $data['status'] ?? $appointment->status,
                 'happen_in' => now(),
                 'appointment_id' => $appointment->id,
-                'actor_id' => auth()->user()->id,
+                'actor_id' => user()->id,
                 'affected_id' => $data['customer_id'] ?? $appointment->customer_id,
-                'event' => "appointment has been created in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->full_name,
+                'event' => "appointment has been created in " . now()->format('Y-m-d H:i:s') . " By " . user()?->full_name,
             ]);
         } else {
             AppointmentLogRepository::make()->create([
                 'cancellation_reason' => $data['cancellation_reason'] ?? null,
-                'status' => $data['status'],
+                'status' => $data['status'] ?? $appointment->status ,
                 'happen_in' => now(),
                 'appointment_id' => $appointment->id,
-                'actor_id' => auth()->user()?->id,
+                'actor_id' => user()?->id,
                 'affected_id' => $data['customer_id'] ?? $appointment->customer_id,
-                'event' => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . auth()->user()?->full_name,
+                'event' => "appointment has been Updated in " . now()->format('Y-m-d H:i:s') . " By " . user()?->full_name,
             ]);
         }
     }

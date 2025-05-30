@@ -13,6 +13,7 @@ Route::prefix('appointments')
     ->group(function () {
         Route::get('/', [v1\AppointmentController::class, 'index'])->name('index');
         Route::get('/{appointmentId}', [v1\AppointmentController::class, 'show'])->name('show');
+        Route::put('/{appointmentId}' , [v1\AppointmentController::class , 'update'])->name('update');
     });
 
 Route::resource('prescriptions', v1\PrescriptionController::class)->except(['index'])->names('prescriptions');

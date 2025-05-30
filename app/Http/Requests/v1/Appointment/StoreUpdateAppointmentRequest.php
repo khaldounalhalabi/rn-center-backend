@@ -26,6 +26,14 @@ class StoreUpdateAppointmentRequest extends FormRequest
      */
     public function rules(): array
     {
+        if (isDoctor()) {
+            return [
+                'clinic_id' => ['nullable', Rule::requiredIf($this->isPost()), Rule::excludeIf($this->isPut()), 'numeric', 'exists:clinics,id'],
+                'note' => 'nullable|string|max:10000',
+                'service_id' => ['nullable', 'numeric', Rule::exists('services', 'id')->where('clinic_id', $this->input('clinic_id'))],
+            ];
+        }
+
         if ($this->isPost()) {
             $availableTimes = AvailableAppointmentTimeService::make()->getAvailableTimeSlots(
                 $this->input('clinic_id'),
@@ -79,17 +87,16 @@ class StoreUpdateAppointmentRequest extends FormRequest
         if (isDoctor()) {
             $this->merge([
                 'clinic_id' => clinic()?->id,
-                'type' => AppointmentTypeEnum::MANUAL->value,
             ]);
         }
 
-        if (isAdmin()) {
+        if (isAdmin() && $this->isPost()) {
             $this->merge([
                 'type' => AppointmentTypeEnum::MANUAL->value,
             ]);
         }
 
-        if (auth()?->user()?->isCustomer()) {
+        if (isCustomer() && $this->isPost()) {
             $this->merge([
                 'type' => AppointmentTypeEnum::ONLINE->value,
                 'status' => AppointmentStatusEnum::PENDING->value,
