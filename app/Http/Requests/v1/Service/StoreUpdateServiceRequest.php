@@ -21,6 +21,14 @@ class StoreUpdateServiceRequest extends FormRequest
      */
     public function rules(): array
     {
+        if (isDoctor() && $this->isPut()) {
+            return [
+                'name' => ['required', 'string', 'max:255', 'min:3'],
+                'description' => ['nullable', 'string', 'max:500'],
+                'service_category_id' => ['required', 'numeric', 'exists:service_categories,id'],
+            ];
+        }
+
         return [
             'name' => ['required', 'string', 'max:255', 'min:3'],
             'approximate_duration' => ['required', 'numeric', 'integer', 'min:5'],

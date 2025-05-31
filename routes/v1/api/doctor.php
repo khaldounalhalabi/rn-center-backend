@@ -13,7 +13,7 @@ Route::prefix('appointments')
     ->group(function () {
         Route::get('/', [v1\AppointmentController::class, 'index'])->name('index');
         Route::get('/{appointmentId}', [v1\AppointmentController::class, 'show'])->name('show');
-        Route::put('/{appointmentId}' , [v1\AppointmentController::class , 'update'])->name('update');
+        Route::put('/{appointmentId}', [v1\AppointmentController::class, 'update'])->name('update');
     });
 
 Route::resource('prescriptions', v1\PrescriptionController::class)->except(['index'])->names('prescriptions');
@@ -29,4 +29,12 @@ Route::get('/customers/{customerId}', [v1\CustomerController::class, 'show'])->n
 Route::put('/customers/{customerId}', [v1\CustomerController::class, 'update'])->name('customers.update');
 Route::get('/customers/{customerId}/prescriptions', [v1\PrescriptionController::class, 'getByCustomer'])->name('customers.prescriptions');
 
+Route::get('services', [v1\ServiceController::class, 'index'])->name('services.index');
+Route::get('services/{serviceId}', [v1\ServiceController::class, 'show'])->name('services.show');
+Route::put('services/{serviceId}', [v1\ServiceController::class, 'update'])->name('services.update');
+
+Route::get('service-categories', [v1\ServiceCategoryController::class, 'index'])->name('services.categories.index');
+
+Route::get('/holidays/active', [v1\HolidayController::class, 'activeHolidays'])->name('holidays.active');
+Route::get('holidays', [v1\HolidayController::class, 'index'])->name('holidays.index');
 

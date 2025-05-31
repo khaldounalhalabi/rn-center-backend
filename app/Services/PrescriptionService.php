@@ -72,7 +72,7 @@ class PrescriptionService extends BaseService
             AppointmentRepository::make()->deletePrescriptionNextVisit($prescription);
 
             $appointmentSequence = AppointmentService::make()
-                ->calculateAppointmentSequence($prescription->clinic_id, $prescription->next_visit->format('Y-m-d'));
+                ->calculateAppointmentSequence($prescription->clinic_id, Carbon::parse($data['next_visit'])->format('Y-m-d'));
 
             AppointmentRepository::make()->create([
                 'clinic_id' => $prescription->clinic_id,
@@ -91,8 +91,8 @@ class PrescriptionService extends BaseService
         $prescription->medicinePrescriptions()->delete();
 
         $medicinePrescriptions = [];
-        if (isset($data['medicine_ids'])) {
-            foreach ($data['medicine_ids'] as $medicineData) {
+        if (isset($data['medicines'])) {
+            foreach ($data['medicines'] as $medicineData) {
                 $medicinePrescriptions[] = [
                     ...$medicineData,
                     'prescription_id' => $prescription->id,

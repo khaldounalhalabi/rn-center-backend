@@ -95,16 +95,10 @@ class ServiceController extends ApiController
 
     public function getClinicServices($clinicId)
     {
-        $data = $this->serviceService->getClinicServices($clinicId, $this->relations, $this->countable);
+        $data = $this->serviceService->getByClinic($clinicId, $this->relations, $this->countable);
         if ($data) {
             return $this->apiResponse(ServiceResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
         }
         return $this->noData();
-    }
-
-    public function getClinicServicesNames()
-    {
-        $data = $this->serviceService->getClinicServicesNames();
-        return $this->apiResponse(ServiceResource::collection($data), self::STATUS_OK, __('site.get_successfully'));
     }
 }

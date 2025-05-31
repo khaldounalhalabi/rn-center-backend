@@ -30,7 +30,7 @@ class StoreUpdatePrescriptionRequest extends FormRequest
                 Carbon::parse($this->input('next_visit'))?->format('Y-m-d'),
             )->map->format('Y-m-d H:i')->values();
         } else {
-            $availableTimes = [null];
+            $availableTimes = collect([null]);
         }
 
         return [
