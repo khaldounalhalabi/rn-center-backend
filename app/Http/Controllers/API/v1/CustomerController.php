@@ -81,4 +81,14 @@ class CustomerController extends ApiController
 
         return $this->noData();
     }
+
+    public function pdfReport($customerId)
+    {
+        $data = $this->customerService->toPdf($customerId);
+        if ($data) {
+            return $data;
+        }
+
+        return $this->noData();
+    }
 }

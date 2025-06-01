@@ -9,7 +9,9 @@ use App\Repositories\CustomerRepository;
 use App\Repositories\UserRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 
 /**
@@ -62,5 +64,38 @@ class CustomerService extends BaseService
     public function getRecent(array $relations = [], array $countable = []): ?array
     {
         return $this->repository->getRecent($relations, $countable);
+    }
+
+    public function toPdf(int $customerId): ?Response
+    {
+        $customer = $this->repository->find($customerId, [
+            'appointments',
+            'appointments.clinic.user',
+            'appointments.service',
+            'medicalRecords',
+            'medicalRecords.clinic.user',
+            'prescriptions',
+            'prescriptions.clinic.user',
+            'prescriptions.medicinePrescriptions',
+            'prescriptions.medicinePrescriptions.medicine',
+            'user',
+        ]);
+
+        if (!$customer) {
+            return null;
+        }
+
+        $appointments = $customer->appointments->sortByDesc('date_time');
+        $prescriptions = $customer->prescriptions->sortByDesc('created_at');
+        $medicalRecords = $customer->medicalRecords->sortByDesc('created_at');
+
+        $pdf = Pdf::loadView('pdf.patient-report', [
+            'customer' => $customer,
+            'appointments' => $appointments,
+            'prescriptions' => $prescriptions,
+            'medicalRecords' => $medicalRecords,
+        ])->setPaper('a4');
+
+        return $pdf->stream("Patient Report - {$customer->user?->full_name}.pdf");
     }
 }

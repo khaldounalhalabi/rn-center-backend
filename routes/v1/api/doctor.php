@@ -27,6 +27,7 @@ Route::post('/medicines', [v1\MedicineController::class, 'store'])->name('medici
 Route::get('/customers/{customerId}/medical-records', [v1\MedicalRecordController::class, 'getByCustomer'])->name('customers.medical.records');
 Route::apiResource('/medical-records', v1\MedicalRecordController::class)->except(['index'])->names('medical.records');
 
+Route::get('/customers/{customerId}/pdf-report', [v1\CustomerController::class, 'pdfReport'])->name('customers.pdf.report');
 Route::get('/customers', [v1\CustomerController::class, 'index'])->name('customers.index');
 Route::get('/customers/{customerId}', [v1\CustomerController::class, 'show'])->name('customers.show');
 Route::put('/customers/{customerId}', [v1\CustomerController::class, 'update'])->name('customers.update');
