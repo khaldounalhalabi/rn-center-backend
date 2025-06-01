@@ -9,6 +9,7 @@ use App\Exceptions\RoleDoesNotExistException;
 use App\Models\Appointment;
 use App\Models\AttendanceLog;
 use App\Models\Clinic;
+use App\Models\MedicalRecord;
 use App\Models\Medicine;
 use App\Models\Prescription;
 use App\Models\Schedule;
@@ -123,5 +124,10 @@ class ClinicFactory extends Factory
     public function withMedicines($count = 1): ClinicFactory
     {
         return $this->has(Medicine::factory($count));
+    }
+
+    public function withMedicalRecords($count = 1): ClinicFactory
+    {
+        return $this->has(MedicalRecord::factory($count));
     }
 }

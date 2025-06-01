@@ -24,6 +24,9 @@ Route::get('/medicines', [v1\MedicineController::class, 'index'])->name('medicin
 Route::get('/medicines/{medicineId}', [v1\MedicineController::class, 'show'])->name('medicine.show');
 Route::post('/medicines', [v1\MedicineController::class, 'store'])->name('medicine.store');
 
+Route::get('/customers/{customerId}/medical-records', [v1\MedicalRecordController::class, 'getByCustomer'])->name('customers.medical.records');
+Route::apiResource('/medical-records', v1\MedicalRecordController::class)->except(['index'])->names('medical.records');
+
 Route::get('/customers', [v1\CustomerController::class, 'index'])->name('customers.index');
 Route::get('/customers/{customerId}', [v1\CustomerController::class, 'show'])->name('customers.show');
 Route::put('/customers/{customerId}', [v1\CustomerController::class, 'update'])->name('customers.update');
@@ -37,4 +40,3 @@ Route::get('service-categories', [v1\ServiceCategoryController::class, 'index'])
 
 Route::get('/holidays/active', [v1\HolidayController::class, 'activeHolidays'])->name('holidays.active');
 Route::get('holidays', [v1\HolidayController::class, 'index'])->name('holidays.index');
-

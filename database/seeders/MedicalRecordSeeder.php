@@ -2,16 +2,16 @@
 
 namespace Database\Seeders;
 
-use App\Models\Customer;
+use App\Models\MedicalRecord;
 use Illuminate\Database\Seeder;
 
-class CustomerSeeder extends Seeder
+class MedicalRecordSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Customer::factory(10)->withMedicalRecords(5)->create();
+        MedicalRecord::factory(10)->create();
     }
 }

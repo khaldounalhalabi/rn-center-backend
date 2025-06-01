@@ -19,6 +19,10 @@ Route::controller(v1\ScheduleController::class)
         Route::post('/schedules', 'storeUpdateSchedules')->name('schedules.storeOrUpdate');
     });
 
+Route::get('/customers/{customerId}/prescriptions', [v1\PrescriptionController::class, 'getByCustomer'])->name('customers.prescriptions');
+Route::get('/customers/{customerId}/appointments', [v1\AppointmentController::class, 'getByCustomer'])->name('clinics.appointments');
+Route::post('/media/customers/attachments', [v1\MediaController::class, 'addCustomerAttachment'])->name('media.customers.attachments.store');
+Route::get('/customers/{customerId}/medical-records', [v1\MedicalRecordController::class, 'getByCustomer'])->name('customers.medical.records');
 Route::get('/customers/recent', [v1\CustomerController::class, 'getRecent'])->name('customers.recent');
 Route::apiResource('/customers', v1\CustomerController::class)->names('customers');
 
@@ -57,18 +61,15 @@ Route::get('/holidays/get-import-example', [v1\HolidayController::class, 'getImp
 Route::get('/holidays/active', [v1\HolidayController::class, 'activeHolidays'])->name('holidays.active');
 Route::apiResource('/holidays', v1\HolidayController::class)->names('holidays');
 
-Route::post('/media/customers/attachments', [v1\MediaController::class, 'addCustomerAttachment'])->name('media.customers.attachments.store');
 Route::delete('/media/{mediaId}', [v1\MediaController::class, 'delete'])->name('media.delete');
 
 Route::post('appointments/export', [v1\AppointmentController::class, 'export'])->name('appointments.export');
 Route::put('appointments/change-status', [v1\AppointmentController::class, 'changeAppointmentStatus'])->name('appointments.change.status');
 Route::get('/clinics/{clinicId}/appointments', [v1\AppointmentController::class, 'getByClinic'])->name('clinics.appointments');
-Route::get('/customers/{customerId}/appointments', [v1\AppointmentController::class, 'getByCustomer'])->name('clinics.appointments');
 Route::apiResource('appointments', v1\AppointmentController::class)->except(['destroy'])->names('appointments');
 
 Route::post('clinics/available-appointments-times', [v1\AvailableAppointmentTimeController::class, 'get'])->name('clinics.available.appointments.time');
 
-Route::get('/customers/{customerId}/prescriptions', [v1\PrescriptionController::class, 'getByCustomer'])->name('customers.prescriptions');
 Route::get('/prescriptions/{prescriptionId}', [v1\PrescriptionController::class, 'show'])->name('prescriptions.show');
 
 Route::post('users/{userId}/attendances', [v1\AttendanceLogController::class, 'editOrCreate'])->name('users.attendance.edit');
@@ -100,5 +101,3 @@ Route::get('/payruns/{payrunId}/reprocess', [v1\PayrunController::class, 'reproc
 Route::get('/payruns/{payrunId}/export', [v1\PayrunController::class, 'reportToExcel'])->name('payruns.export');
 Route::post('/payruns/{payrunId}/toggle-status', [v1\PayrunController::class, 'toggleStatus'])->name('payruns.toggle.status');
 Route::apiResource('/payruns', v1\PayrunController::class)->except(['update'])->names('payruns');
-
-

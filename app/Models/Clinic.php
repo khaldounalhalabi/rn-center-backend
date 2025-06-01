@@ -78,11 +78,11 @@ class Clinic extends Model implements ActionsMustBeAuthorized
             ],
             [
                 'name' => 'available_time',
-                'query' => fn(Builder|Clinic $query, $value) => $query
+                'query' => fn (Builder|Clinic $query, $value) => $query
                     ->whereHas('schedules', function (Builder|Schedule $schedule) use ($value) {
-                        $schedule->whereTime('start_time', "<=", $value)
-                            ->whereTime('end_time', ">=", $value);
-                    })
+                        $schedule->whereTime('start_time', '<=', $value)
+                            ->whereTime('end_time', '>=', $value);
+                    }),
             ],
         ];
     }
@@ -151,5 +151,10 @@ class Clinic extends Model implements ActionsMustBeAuthorized
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function medicalRecords(): Clinic|Builder|HasMany
+    {
+        return $this->hasMany(MedicalRecord::class);
     }
 }

@@ -30,12 +30,12 @@ class Customer extends Model implements HasMedia
         'notes',
         'other_data',
     ];
+
     protected $casts = [
         'created_at' => 'datetime',
         'birth_date' => 'datetime',
-        'other_data' => 'array'
+        'other_data' => 'array',
     ];
-
 
     public function searchableArray(): array
     {
@@ -79,15 +79,21 @@ class Customer extends Model implements HasMedia
     public function filesKeys(): array
     {
         return [
-            'attachments' => ['type' => MediaTypeEnum::MULTIPLE->value]
+            'attachments' => ['type' => MediaTypeEnum::MULTIPLE->value],
         ];
     }
 
     public function scopeByClinic(Builder $query, int $clinicId): Builder
     {
-        // TODO:: add the health record relation with tha clinic when adding the health record feature
         return $query->whereHas('appointments', function (Appointment|Builder $appointment) use ($clinicId) {
             $appointment->where('clinic_id', $clinicId);
+        })->orWhereHas('medicalRecords', function (Builder|MedicalRecord $medicalRecord) use ($clinicId) {
+            $medicalRecord->where('clinic_id', $clinicId);
         });
+    }
+
+    public function medicalRecords(): HasMany
+    {
+        return $this->hasMany(MedicalRecord::class);
     }
 }

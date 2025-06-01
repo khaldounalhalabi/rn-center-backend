@@ -27,14 +27,15 @@ class ClinicResource extends BaseResource
             'specialities' => SpecialityResource::collection($this->whenLoaded('specialities')),
             'services' => ServiceResource::collection($this->whenLoaded('services')),
             'appointments' => AppointmentResource::collection($this->whenLoaded('appointments')),
-
-            $this->mergeWhen(isAdmin() || isDoctor(), [
-                'total_appointments' => $this->whenCounted('appointments'),
-                'today_appointments_count' => $this->whenCounted('todayAppointments'),
-                'upcoming_appointments_count' => $this->whenCounted('upcomingAppointments'),
-                'prescriptions' => PrescriptionResource::collection($this->whenLoaded('prescriptions')),
-                'medicines' => MedicineResource::collection($this->whenLoaded('medicines')),
-            ]),
+            $this->mergeWhen(isAdmin() || isDoctor(),
+                [
+                    'total_appointments' => $this->whenCounted('appointments'),
+                    'today_appointments_count' => $this->whenCounted('todayAppointments'),
+                    'upcoming_appointments_count' => $this->whenCounted('upcomingAppointments'),
+                    'prescriptions' => PrescriptionResource::collection($this->whenLoaded('prescriptions')),
+                    'medicines' => MedicineResource::collection($this->whenLoaded('medicines')),
+                ]),
+            'medical_records' => MedicalRecordResource::collection($this->whenLoaded('medicalRecords')),
         ];
     }
 }

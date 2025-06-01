@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Enums\BloodGroupEnum;
 use App\Enums\RolesPermissionEnum;
 use App\Models\Appointment;
+use App\Models\MedicalRecord;
 use App\Models\Prescription;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -29,9 +30,9 @@ class CustomerFactory extends Factory
             'other_data' => [
                 [
                     'key' => fake()->word(),
-                    'value' => fake()->text()
-                ]
-            ]
+                    'value' => fake()->text(),
+                ],
+            ],
         ];
     }
 
@@ -48,5 +49,10 @@ class CustomerFactory extends Factory
     public function withPrescriptions($count = 1): CustomerFactory
     {
         return $this->has(Prescription::factory($count));
+    }
+
+    public function withMedicalRecords($count = 1): CustomerFactory
+    {
+        return $this->has(MedicalRecord::factory($count));
     }
 }
