@@ -9,10 +9,9 @@ use App\Repositories\CustomerRepository;
 use App\Repositories\UserRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Response;
 use Illuminate\Support\Str;
+use TCPDF;
 
 /**
  * @extends BaseService<Customer>
@@ -66,7 +65,7 @@ class CustomerService extends BaseService
         return $this->repository->getRecent($relations, $countable);
     }
 
-    public function toPdf(int $customerId): ?Response
+    public function toPdf(int $customerId)
     {
         $customer = $this->repository->find($customerId, [
             'appointments',
@@ -89,13 +88,24 @@ class CustomerService extends BaseService
         $prescriptions = $customer->prescriptions->sortByDesc('created_at');
         $medicalRecords = $customer->medicalRecords->sortByDesc('created_at');
 
-        $pdf = Pdf::loadView('pdf.patient-report', [
+        $html = view('pdf.patient-report', [
             'customer' => $customer,
             'appointments' => $appointments,
             'prescriptions' => $prescriptions,
             'medicalRecords' => $medicalRecords,
-        ])->setPaper('a4');
+        ])->render();
 
-        return $pdf->stream("Patient Report - {$customer->user?->full_name}.pdf");
+        $pdf = new TCPDF();
+        $pdf->setCreator(PDF_CREATOR);
+        $pdf->AddPage();
+        $pdf->SetFont('amiri', '', 16);
+
+        if (app()->getLocale() == 'ar') {
+            $pdf->setRTL(true);
+        }
+
+        $pdf->writeHTML($html, false, false, true, false, app()->getLocale() == "ar" ? 'R' : 'L');
+
+        return $pdf->Output('', 'S');
     }
 }

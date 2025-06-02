@@ -101,4 +101,6 @@ return [
     'appointments' => 'Appointments',
     'medical_records' => 'Medical records',
     'prescriptions' => 'Prescriptions',
+    'medicines' => 'Medicines',
+    'prescription' => 'Prescription'
 ];

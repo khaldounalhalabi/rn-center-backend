@@ -101,4 +101,6 @@ return [
     'appointments' => 'المواعيد',
     'medical_records' => 'السجلات الطبية',
     'prescriptions' => 'الوصفات الطبية',
+    'medicines' => 'الأدوية',
+    'prescription' => 'الوصفة'
 ];

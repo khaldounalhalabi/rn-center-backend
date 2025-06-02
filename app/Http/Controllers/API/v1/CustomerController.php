@@ -86,7 +86,10 @@ class CustomerController extends ApiController
     {
         $data = $this->customerService->toPdf($customerId);
         if ($data) {
-            return $data;
+            return response($data, 200)
+                ->header('Content-Type', 'application/pdf')
+                ->header('Content-Disposition', 'attachment; filename="sample.pdf"')
+                ->header('Content-Length', strlen($data));
         }
 
         return $this->noData();

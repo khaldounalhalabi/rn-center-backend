@@ -19,7 +19,8 @@
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
-        "spatie/laravel-medialibrary": "^11.4"
+        "spatie/laravel-medialibrary": "^11.4",
+        "tecnickcom/tcpdf": "^6.10"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -58,6 +59,12 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "add-tcpdf-fonts": [
+            "@php vendor/tecnickcom/tcpdf/tools/tcpdf_addfont.php -i public/fonts/Amiri-Bold.ttf",
+            "@php vendor/tecnickcom/tcpdf/tools/tcpdf_addfont.php -i public/fonts/Amiri-BoldItalic.ttf",
+            "@php vendor/tecnickcom/tcpdf/tools/tcpdf_addfont.php -i public/fonts/Amiri-Italic.ttf",
+            "@php vendor/tecnickcom/tcpdf/tools/tcpdf_addfont.php -i public/fonts/Amiri-Regular.ttf"
         ]
     },
     "extra": {
