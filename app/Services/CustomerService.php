@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\RolesPermissionEnum;
+use App\Exceptions\RoleDoesNotExistException;
 use App\Models\Customer;
 use App\Modules\SMS;
 use App\Repositories\CustomerRepository;
@@ -12,6 +13,7 @@ use App\Traits\Makable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use TCPDF;
+use Throwable;
 
 /**
  * @extends BaseService<Customer>
@@ -28,6 +30,9 @@ class CustomerService extends BaseService
         parent::__construct();
     }
 
+    /**
+     * @throws RoleDoesNotExistException
+     */
     public function store(array $data, array $relationships = [], array $countable = []): ?Model
     {
         $data['password'] = Str::password('10');
@@ -65,7 +70,10 @@ class CustomerService extends BaseService
         return $this->repository->getRecent($relations, $countable);
     }
 
-    public function toPdf(int $customerId)
+    /**
+     * @throws Throwable
+     */
+    public function toPdf(int $customerId): ?string
     {
         $customer = $this->repository->find($customerId, [
             'appointments',
