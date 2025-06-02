@@ -15,17 +15,16 @@ use App\Models\Payrun;
 use App\Models\Payslip;
 use App\Models\PayslipAdjustment;
 use App\Models\User;
+use App\Modules\PDF;
 use App\Repositories\PayrunRepository;
 use App\Repositories\PayslipAdjustmentRepository;
 use App\Repositories\PayslipRepository;
 use App\Services\Contracts\BaseService;
 use App\Services\v1\Payrun\PayrunService;
 use App\Traits\Makable;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Barryvdh\DomPDF\PDF as PDFInstance;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Collection as DBCollection;
-use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;
 use Throwable;
@@ -204,15 +203,6 @@ class PayslipService extends BaseService
         return $payslip->load($relations);
     }
 
-    /**
-     * @param array{ids:int[] , status:string} $data
-     * @return void
-     */
-    public function bulkToggleStatus(array $data): void
-    {
-        $this->repository->bulkToggleStatus($data);
-    }
-
     public function toggleStatus($payslipId, string $status): ?string
     {
         $payslip = $this->repository->find($payslipId, ['payrun']);
@@ -262,9 +252,11 @@ class PayslipService extends BaseService
             $this->getTotalWithLabeledDetails($payslipAdjustment, $totalDeductions, $deductions);
         });
 
+        Carbon::setLocale(app()->getLocale());
+        $payPeriod = Carbon::parse($payslip->payrun->payment_date)->monthName . " , " . Carbon::parse($payslip->payrun->payment_date)->year;
         return [
             'date_of_joining' => $payslip->user?->created_at?->format('Y-m-d'),
-            'pay_period' => $payslip->payrun->payment_date,
+            'pay_period' => $payPeriod,
             'worked_days' => $payslip->paid_days,
             'full_name' => $payslip->user?->full_name,
             'earnings' => $earnings ?? 0,
@@ -286,7 +278,7 @@ class PayslipService extends BaseService
         $totalEarnings += $payslipAdjustment->amount;
     }
 
-    public function toPdf($payslipId): ?Response
+    public function toPdf($payslipId): ?string
     {
         $payslip = $this->repository->find($payslipId, ['user', 'user.roles', 'benefits', 'deductions', 'formula', 'formula.formulaSegments', 'payrun']);
 
@@ -298,21 +290,12 @@ class PayslipService extends BaseService
             return null;
         }
 
-        $pdf = $this->getPdfInstanceForPayslip($payslip);
-
-        return $pdf->stream('Pay Slip Report.pdf');
-    }
-
-    public function getPdfInstanceForPayslip(Payslip $payslip): PDFInstance
-    {
         $data = $this->getPdfData($payslip);
-        $data['company_name'] = "Reslan Alnaal Health Care Center";
-
-        return Pdf::loadView('pdf.pay-slip', $data)
-            ->setPaper('a4');
+        $data['company_name'] = trans('site.center_name');
+        return PDF::viewToPdf(view('pdf.pay-slip', $data));
     }
 
-    public function bulkPdfDownload(array $filterData = []): Response
+    public function bulkPdfDownload(array $filterData = []): string
     {
         $data = [];
         $total = 0;
@@ -336,10 +319,11 @@ class PayslipService extends BaseService
                     }
                 });
 
-        $pdf = Pdf::loadView('pdf.multiple-pay-slips', ['data' => $data, 'total' => $total, 'company_name' => "Reslan Alnaal Health Care Center" ?? ''])
-            ->setPaper('a4');
-
-        return $pdf->stream('Payslips Report.pdf');
+        return PDF::viewToPdf(view('pdf.multiple-pay-slips', [
+            'data' => $data,
+            'total' => $total,
+            'payslips' => trans('site.center_name'),
+        ]));
     }
 
     public function bulkAdjustment(array $data): int

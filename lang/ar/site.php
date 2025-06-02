@@ -102,5 +102,9 @@ return [
     'medical_records' => 'السجلات الطبية',
     'prescriptions' => 'الوصفات الطبية',
     'medicines' => 'الأدوية',
-    'prescription' => 'الوصفة'
+    'prescription' => 'الوصفة',
+    'secretary' => 'سكرتاريا',
+    'center_name' => 'مركز رسلان النعال الطبي',
+    'total' => 'الإجمالي'
+
 ];

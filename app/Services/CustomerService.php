@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\RolesPermissionEnum;
 use App\Exceptions\RoleDoesNotExistException;
 use App\Models\Customer;
+use App\Modules\PDF;
 use App\Modules\SMS;
 use App\Repositories\CustomerRepository;
 use App\Repositories\UserRepository;
@@ -12,7 +13,6 @@ use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use TCPDF;
 use Throwable;
 
 /**
@@ -96,24 +96,11 @@ class CustomerService extends BaseService
         $prescriptions = $customer->prescriptions->sortByDesc('created_at');
         $medicalRecords = $customer->medicalRecords->sortByDesc('created_at');
 
-        $html = view('pdf.patient-report', [
+        return PDF::viewToPdf(view('pdf.patient-report', [
             'customer' => $customer,
             'appointments' => $appointments,
             'prescriptions' => $prescriptions,
             'medicalRecords' => $medicalRecords,
-        ])->render();
-
-        $pdf = new TCPDF();
-        $pdf->setCreator(PDF_CREATOR);
-        $pdf->AddPage();
-        $pdf->SetFont('amiri', '', 16);
-
-        if (app()->getLocale() == 'ar') {
-            $pdf->setRTL(true);
-        }
-
-        $pdf->writeHTML($html, false, false, true, false, app()->getLocale() == "ar" ? 'R' : 'L');
-
-        return $pdf->Output('', 'S');
+        ]));
     }
 }

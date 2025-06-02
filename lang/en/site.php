@@ -102,5 +102,8 @@ return [
     'medical_records' => 'Medical records',
     'prescriptions' => 'Prescriptions',
     'medicines' => 'Medicines',
-    'prescription' => 'Prescription'
+    'prescription' => 'Prescription',
+    'secretary' => 'Secretary',
+    'center_name' => 'Reslan Alnaal Health Care Center',
+    'total' => 'Total',
 ];

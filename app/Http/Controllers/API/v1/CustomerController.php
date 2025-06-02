@@ -6,7 +6,9 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\v1\Customer\StoreUpdateCustomerRequest;
 use App\Http\Resources\v1\CustomerResource;
 use App\Models\Customer;
+use App\Modules\PDF;
 use App\Services\CustomerService;
+use Throwable;
 
 class CustomerController extends ApiController
 {
@@ -82,14 +84,14 @@ class CustomerController extends ApiController
         return $this->noData();
     }
 
+    /**
+     * @throws Throwable
+     */
     public function pdfReport($customerId)
     {
         $data = $this->customerService->toPdf($customerId);
         if ($data) {
-            return response($data, 200)
-                ->header('Content-Type', 'application/pdf')
-                ->header('Content-Disposition', 'attachment; filename="sample.pdf"')
-                ->header('Content-Length', strlen($data));
+            return PDF::pdfResponse($data);
         }
 
         return $this->noData();

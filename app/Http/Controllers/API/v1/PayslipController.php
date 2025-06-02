@@ -9,6 +9,7 @@ use App\Http\Requests\v1\Payslip\TogglePayslipStatusRequest;
 use App\Http\Requests\v1\Payslip\UpdatePayslipRequest;
 use App\Http\Requests\v1\PayslipAdjustment\StoreUpdatePayslipAdjustmentRequest;
 use App\Http\Resources\v1\PayslipResource;
+use App\Modules\PDF;
 use App\Services\v1\Payslip\PayslipService;
 use Throwable;
 
@@ -72,7 +73,7 @@ class PayslipController extends ApiController
             return $this->noData();
         }
 
-        return $result;
+        return PDF::pdfResponse($result);
     }
 
     public function bulkPdfDownload(BulkPdfDownloadRequest $request)
@@ -84,7 +85,7 @@ class PayslipController extends ApiController
             return $this->noData();
         }
 
-        return $result;
+        return PDF::pdfResponse($result);
     }
 
     public function toggleStatus($payslipId, TogglePayslipStatusRequest $request)
