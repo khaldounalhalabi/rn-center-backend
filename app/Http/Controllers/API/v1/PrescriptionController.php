@@ -18,13 +18,8 @@ class PrescriptionController extends ApiController
 
         $this->prescriptionService = PrescriptionService::make();
 
-        if (isDoctor()) {
-            $this->relations = ['customer.user', 'medicinePrescriptions.medicine', 'appointment'];
-            $this->indexRelations = ['customer.user'];
-        } else {
-            $this->relations = ['clinic.user', 'customer.user', 'medicinePrescriptions.medicine', 'appointment'];
-            $this->indexRelations = ['clinic.user', 'customer.user'];
-        }
+        $this->relations = ['clinic.user', 'customer.user', 'medicinePrescriptions.medicine', 'appointment'];
+        $this->indexRelations = ['clinic.user', 'customer.user'];
     }
 
     public function index()

@@ -8,12 +8,12 @@ Route::post('/logout', [v1\DoctorAuthController::class, 'logout'])->name("logout
 Route::post('/update-user-data', [v1\DoctorAuthController::class, 'updateUserDetails'])->name("update.user.data");
 Route::get('/me', [v1\DoctorAuthController::class, 'userDetails'])->name('user.details');
 
-Route::prefix('appointments')
-    ->name('appointments.')
+Route::name('appointments.')
     ->group(function () {
-        Route::get('/', [v1\AppointmentController::class, 'index'])->name('index');
-        Route::get('/{appointmentId}', [v1\AppointmentController::class, 'show'])->name('show');
-        Route::put('/{appointmentId}', [v1\AppointmentController::class, 'update'])->name('update');
+        Route::get('/appointments', [v1\AppointmentController::class, 'index'])->name('index');
+        Route::get('/appointments/{appointmentId}', [v1\AppointmentController::class, 'show'])->name('show');
+        Route::put('/appointments/{appointmentId}', [v1\AppointmentController::class, 'update'])->name('update');
+        Route::get('/customers/{customerId}/appointments' , [v1\AppointmentController::class , 'getByCustomer'])->name('get.by.customer');
     });
 
 Route::resource('prescriptions', v1\PrescriptionController::class)->except(['index'])->names('prescriptions');
@@ -41,3 +41,5 @@ Route::get('service-categories', [v1\ServiceCategoryController::class, 'index'])
 
 Route::get('/holidays/active', [v1\HolidayController::class, 'activeHolidays'])->name('holidays.active');
 Route::get('holidays', [v1\HolidayController::class, 'index'])->name('holidays.index');
+
+Route::delete('/media/{mediaId}', [v1\MediaController::class, 'delete'])->name('media.delete');

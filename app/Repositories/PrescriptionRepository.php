@@ -17,9 +17,7 @@ class PrescriptionRepository extends BaseRepository
     public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder
     {
         return parent::globalQuery($relations, $countable)
-            ->when(isDoctor(), function (Builder $builder) {
-                $builder->where('clinic_id', clinic()?->id);
-            })->when(isCustomer(), function (Builder|Prescription $prescription) {
+            ->when(isCustomer(), function (Builder|Prescription $prescription) {
                 $prescription->where('customer_id', auth()->user()?->customer?->id);
             });
     }

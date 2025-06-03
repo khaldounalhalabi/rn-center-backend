@@ -17,7 +17,7 @@ class AcceptedLanguagesMiddleware
 
         if ($request->acceptsHtml()) {
             // Get the locale from the session
-            $locale = Session::get('locale');
+            $locale = $request->header('Accept-Language', 'en');
         } else {
             $locale = $request->header('Accept-Language', 'en');
         }

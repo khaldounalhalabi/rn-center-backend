@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\v1\Prescription;
 
+use App\Models\Prescription;
 use App\Repositories\AppointmentRepository;
 use App\Services\AvailableAppointmentTimeService;
 use Carbon\Carbon;
@@ -33,6 +34,8 @@ class StoreUpdatePrescriptionRequest extends FormRequest
             $availableTimes = collect([null]);
         }
 
+        $prescription = Prescription::find($this->route('prescription'));
+
         return [
             'clinic_id' => ['nullable', 'exists:clinics,id', 'numeric', Rule::requiredIf(fn() => $this->isPost()), Rule::excludeIf(fn() => $this->isPut())],
             'customer_id' => ['nullable', 'exists:customers,id', 'numeric', Rule::requiredIf(fn() => $this->isPost()), Rule::excludeIf(fn() => $this->isPut())],
@@ -51,7 +54,9 @@ class StoreUpdatePrescriptionRequest extends FormRequest
             'next_visit' => [
                 'nullable',
                 'date_format:Y-m-d H:i',
-                Rule::in($availableTimes->toArray()),
+                $this->isPut() && $prescription?->next_visit
+                    ? Rule::in([...$availableTimes->toArray(), $prescription?->next_visit?->format('Y-m-d H:i')])
+                    : Rule::in($availableTimes->toArray()),
             ],
             'medicines' => ['array', 'nullable'],
             'medicines.*.medicine_id' => 'numeric|exists:medicines,id',

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\AppointmentStatusEnum;
 use App\Enums\RolesPermissionEnum;
 use App\Exceptions\RoleDoesNotExistException;
 use App\Models\Customer;
@@ -92,7 +93,10 @@ class CustomerService extends BaseService
             return null;
         }
 
-        $appointments = $customer->appointments->sortByDesc('date_time');
+        $appointments = $customer
+            ->appointments
+            ->where('status', '=', AppointmentStatusEnum::CHECKOUT->value)
+            ->sortByDesc('date_time');
         $prescriptions = $customer->prescriptions->sortByDesc('created_at');
         $medicalRecords = $customer->medicalRecords->sortByDesc('created_at');
 

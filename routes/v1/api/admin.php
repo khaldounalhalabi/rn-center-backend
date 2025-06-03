@@ -19,6 +19,7 @@ Route::controller(v1\ScheduleController::class)
         Route::post('/schedules', 'storeUpdateSchedules')->name('schedules.storeOrUpdate');
     });
 
+Route::get('/customers/{customerId}/pdf-report', [v1\CustomerController::class, 'pdfReport'])->name('customers.pdf.report');
 Route::get('/customers/{customerId}/prescriptions', [v1\PrescriptionController::class, 'getByCustomer'])->name('customers.prescriptions');
 Route::get('/customers/{customerId}/appointments', [v1\AppointmentController::class, 'getByCustomer'])->name('clinics.appointments');
 Route::post('/media/customers/attachments', [v1\MediaController::class, 'addCustomerAttachment'])->name('media.customers.attachments.store');

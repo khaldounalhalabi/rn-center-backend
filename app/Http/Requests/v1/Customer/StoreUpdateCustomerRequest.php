@@ -33,7 +33,7 @@ class StoreUpdateCustomerRequest extends FormRequest
                 'other_data.*.key' => 'string|min:1|max:255',
                 'other_data.*.value' => 'string|min:1|max:5000',
                 'attachments' => 'nullable|array',
-                'attachments.*' => 'file|mimes:jpeg,png,jpg,pdf,webp,zip,rar,word,txt|max:25000',
+                'attachments.*' => 'file|mimes:jpeg,png,jpg,pdf,webp,zip,rar,word,txt,docx|max:25000',
             ];
         }
 
@@ -58,7 +58,7 @@ class StoreUpdateCustomerRequest extends FormRequest
             'other_data.*.key' => 'string|min:1|max:255',
             'other_data.*.value' => 'string|min:1|max:5000',
             'attachments' => 'nullable|array',
-            'attachments.*' => 'file|mimes:jpeg,png,jpg,pdf,webp,zip,rar,word,txt|max:25000',
+            'attachments.*' => 'file|mimes:jpeg,png,jpg,pdf,webp,zip,rar,word,txt,docx|max:25000',
         ];
     }
 }

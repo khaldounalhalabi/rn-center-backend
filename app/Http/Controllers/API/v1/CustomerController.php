@@ -89,6 +89,8 @@ class CustomerController extends ApiController
      */
     public function pdfReport($customerId)
     {
+        logger()->info("Accept language " . request()->header('Accept-Language'));
+        logger()->info("App language " . app()->getLocale());
         $data = $this->customerService->toPdf($customerId);
         if ($data) {
             return PDF::pdfResponse($data);
