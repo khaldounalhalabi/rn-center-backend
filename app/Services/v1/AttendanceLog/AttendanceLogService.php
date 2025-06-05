@@ -281,4 +281,69 @@ class AttendanceLogService extends BaseService
             $month ?? now()->month,
         );
     }
+
+    /**
+     * @param array $relations
+     * @param array $countable
+     * @return AttendanceLog
+     */
+    public function checkin(array $relations = [], array $countable = []): AttendanceLog
+    {
+        $scheduleInDay = user()?->schedules->groupBy('day_of_week')->get(strtolower(now()->dayName)) ?? collect();
+        $latestLog = $this->repository->getLatestLogInDay(now()->format('Y-m-d'), user()?->id);
+        $attendance = AttendanceRepository::make()->getByDateOrCreate(now());
+
+        if ($latestLog && $latestLog?->isCheckin()) {
+            $this->repository->create([
+                'attendance_id' => $attendance->id,
+                'attend_at' => now(),
+                'type' => AttendanceLogTypeEnum::CHECKOUT->value,
+                'user_id' => user()?->id,
+                'status' => $this->getLogStatus(now(), AttendanceLogTypeEnum::CHECKOUT->value, $scheduleInDay),
+            ]);
+        }
+
+        return $this->repository->create([
+            'attendance_id' => $attendance->id,
+            'attend_at' => now(),
+            'type' => AttendanceLogTypeEnum::CHECKIN->value,
+            'user_id' => user()?->id,
+            'status' => $this->getLogStatus(now(), AttendanceLogTypeEnum::CHECKIN->value, $scheduleInDay),
+        ], $relations, $countable);
+    }
+
+    public function checkout(array $relations = [], array $countable = [])
+    {
+        $scheduleInDay = user()?->schedules->groupBy('day_of_week')->get(strtolower(now()->dayName)) ?? collect();
+        $latestLog = $this->repository->getLatestLogInDay(now()->format('Y-m-d'), user()?->id);
+        $attendance = AttendanceRepository::make()->getByDateOrCreate(now());
+
+        if ($latestLog && $latestLog?->isCheckout()) {
+            $this->repository->create([
+                'attendance_id' => $attendance->id,
+                'attend_at' => now(),
+                'type' => AttendanceLogTypeEnum::CHECKIN->value,
+                'user_id' => user()?->id,
+                'status' => $this->getLogStatus(now(), AttendanceLogTypeEnum::CHECKIN->value, $scheduleInDay),
+            ]);
+        }
+
+        return $this->repository->create([
+            'attendance_id' => $attendance->id,
+            'attend_at' => now(),
+            'type' => AttendanceLogTypeEnum::CHECKOUT->value,
+            'user_id' => user()?->id,
+            'status' => $this->getLogStatus(now(), AttendanceLogTypeEnum::CHECKOUT->value, $scheduleInDay),
+        ], $relations, $countable);
+    }
+
+    public function latestLogToday(array $relations = [], array $countable = []): ?AttendanceLog
+    {
+        return $this->repository->getLatestLogInDay(
+            now()->format('Y-m-d'),
+            user()?->id,
+            $relations,
+            $countable
+        );
+    }
 }

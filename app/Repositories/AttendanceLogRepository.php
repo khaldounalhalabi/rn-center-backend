@@ -15,6 +15,7 @@ use Error;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;
@@ -27,6 +28,14 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 class AttendanceLogRepository extends BaseRepository
 {
     protected string $modelClass = AttendanceLog::class;
+
+    public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder|Model
+    {
+        return parent::globalQuery($relations, $countable, $defaultOrder)
+            ->when(isDoctor() || isSecretary(), function (Builder|AttendanceLog $query) {
+                $query->where('user_id', user()->id);
+            });
+    }
 
     public function deleteByUser($attendanceId, int $userId): bool
     {
@@ -171,5 +180,14 @@ class AttendanceLogRepository extends BaseRepository
             ->orderByDesc('attend_at')
             ->get()
             ->groupBy('date');
+    }
+
+    public function getLatestLogInDay(string $date, int $userId, array $relations = [], array $countable = []): ?AttendanceLog
+    {
+        return $this->globalQuery($relations, $countable)
+            ->where('user_id', $userId)
+            ->whereDate('attend_at', $date)
+            ->orderByDesc('attend_at')
+            ->first();
     }
 }

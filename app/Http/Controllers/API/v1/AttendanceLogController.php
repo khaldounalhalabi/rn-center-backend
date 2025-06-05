@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\v1\AttendanceLog\EditOrCreateAttendanceLogRequest;
+use App\Http\Resources\v1\AttendanceLogResource;
 use App\Services\v1\AttendanceLog\AttendanceLogService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -81,5 +82,38 @@ class AttendanceLogController extends ApiController
             self::STATUS_OK,
             trans('site.get_successfully')
         );
+    }
+
+    public function checkin()
+    {
+        return $this->apiResponse(
+            AttendanceLogResource::make($this->service->checkin()),
+            self::STATUS_OK,
+            trans('site.success')
+        );
+    }
+
+    public function checkout()
+    {
+        return $this->apiResponse(
+            AttendanceLogResource::make($this->service->checkout()),
+            self::STATUS_OK,
+            trans('site.success')
+        );
+    }
+
+    public function latestLog()
+    {
+        $log = $this->service->latestLogToday();
+
+        if ($log) {
+            return $this->apiResponse(
+                AttendanceLogResource::make($log),
+                self::STATUS_OK,
+                trans('site.get_successfully')
+            );
+        }
+
+        return $this->noData();
     }
 }

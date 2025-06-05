@@ -44,4 +44,8 @@ Route::get('holidays', [v1\HolidayController::class, 'index'])->name('holidays.i
 
 Route::delete('/media/{mediaId}', [v1\MediaController::class, 'delete'])->name('media.delete');
 
-Route::get('/attendance', [v1\AttendanceLogController::class, 'myAttendance'])->name('attendance.my');
+Route::get('/attendances', [v1\AttendanceLogController::class, 'myAttendance'])->name('attendances.index');
+Route::get('/attendances/checkin', [v1\AttendanceLogController::class, 'checkin'])->name('attendances.checkin');
+Route::get('/attendances/checkout', [v1\AttendanceLogController::class, 'checkout'])->name('attendances.checkout');
+Route::get('/attendances/latest', [v1\AttendanceLogController::class, 'latestLog'])->name('attendances.latest');
+Route::get('/attendances/export', [v1\AttendanceLogController::class, 'export'])->name('attendances.export');
