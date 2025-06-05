@@ -13,6 +13,7 @@ use App\Repositories\UserRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection as CollectionAlias;
 use Illuminate\Support\Collection;
 
 /**
@@ -265,5 +266,19 @@ class AttendanceLogService extends BaseService
 
         // Default case if the type is not recognized
         return AttendanceLogStatusEnum::OVER_TIME->value;
+    }
+
+    /**
+     * @param string|null $year
+     * @param string|null $month
+     * @return CollectionAlias<AttendanceLog>
+     */
+    public function myAttendanceLogs(?string $year = null, ?string $month = null): Collection
+    {
+        return $this->repository->getByUserAndYearAndMonth(
+            user()?->id,
+            $year ?? now()->year,
+            $month ?? now()->month,
+        );
     }
 }

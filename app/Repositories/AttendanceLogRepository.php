@@ -153,4 +153,23 @@ class AttendanceLogRepository extends BaseRepository
             ->whereDate('attend_at', $date)
             ->delete();
     }
+
+    /**
+     * @param int    $userId
+     * @param string $year
+     * @param string $month
+     * @return EloquentCollection<AttendanceLog>
+     */
+    public function getByUserAndYearAndMonth(int $userId, string $year, string $month): EloquentCollection
+    {
+        return $this->globalQuery(defaultOrder: false)
+            ->select(['attendance_logs.status', 'attendance_logs.attend_at', 'attendance_logs.attendance_id', 'attendances.date'])
+            ->join('attendances', 'attendances.id', 'attendance_logs.attendance_id')
+            ->where('user_id', $userId)
+            ->whereYear('attend_at', $year)
+            ->whereMonth('attend_at', $month)
+            ->orderByDesc('attend_at')
+            ->get()
+            ->groupBy('date');
+    }
 }

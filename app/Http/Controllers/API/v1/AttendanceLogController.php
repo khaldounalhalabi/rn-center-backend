@@ -6,6 +6,7 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\v1\AttendanceLog\EditOrCreateAttendanceLogRequest;
 use App\Services\v1\AttendanceLog\AttendanceLogService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * @extends ApiController<AttendanceLogService>
@@ -55,5 +56,30 @@ class AttendanceLogController extends ApiController
         $this->service->import();
 
         return $this->apiResponse(['message' => "temp message here"], self::STATUS_OK, __('site.success'));
+    }
+
+    public function myAttendance(Request $request)
+    {
+        $validator = Validator::make([
+            'year' => $request->query('year'),
+            'month' => $request->query('month'),
+        ], [
+            'year' => 'numeric|min:2000|max:3000',
+            'month' => 'numeric|min:1|max:12',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->apiResponse(
+                $this->service->myAttendanceLogs(),
+                self::STATUS_OK,
+                trans('site.get_successfully')
+            );
+        }
+
+        return $this->apiResponse(
+            $this->service->myAttendanceLogs($request->query('year'), $request->query('month')),
+            self::STATUS_OK,
+            trans('site.get_successfully')
+        );
     }
 }

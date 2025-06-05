@@ -13,7 +13,7 @@ Route::name('appointments.')
         Route::get('/appointments', [v1\AppointmentController::class, 'index'])->name('index');
         Route::get('/appointments/{appointmentId}', [v1\AppointmentController::class, 'show'])->name('show');
         Route::put('/appointments/{appointmentId}', [v1\AppointmentController::class, 'update'])->name('update');
-        Route::get('/customers/{customerId}/appointments' , [v1\AppointmentController::class , 'getByCustomer'])->name('get.by.customer');
+        Route::get('/customers/{customerId}/appointments', [v1\AppointmentController::class, 'getByCustomer'])->name('get.by.customer');
     });
 
 Route::resource('prescriptions', v1\PrescriptionController::class)->except(['index'])->names('prescriptions');
@@ -43,3 +43,5 @@ Route::get('/holidays/active', [v1\HolidayController::class, 'activeHolidays'])-
 Route::get('holidays', [v1\HolidayController::class, 'index'])->name('holidays.index');
 
 Route::delete('/media/{mediaId}', [v1\MediaController::class, 'delete'])->name('media.delete');
+
+Route::get('/attendance', [v1\AttendanceLogController::class, 'myAttendance'])->name('attendance.my');
