@@ -86,20 +86,30 @@ class AttendanceLogController extends ApiController
 
     public function checkin()
     {
-        return $this->apiResponse(
-            AttendanceLogResource::make($this->service->checkin()),
-            self::STATUS_OK,
-            trans('site.success')
-        );
+        $result = $this->service->checkin();
+        if ($result) {
+            return $this->apiResponse(
+                AttendanceLogResource::make($result),
+                self::STATUS_OK,
+                trans('site.success')
+            );
+        }
+
+        return $this->noData();
     }
 
     public function checkout()
     {
-        return $this->apiResponse(
-            AttendanceLogResource::make($this->service->checkout()),
-            self::STATUS_OK,
-            trans('site.success')
-        );
+        $result = $this->service->checkout();
+        if ($result) {
+            return $this->apiResponse(
+                AttendanceLogResource::make($result),
+                self::STATUS_OK,
+                trans('site.success')
+            );
+        }
+
+        return $this->noData();
     }
 
     public function latestLog()
@@ -115,5 +125,14 @@ class AttendanceLogController extends ApiController
         }
 
         return $this->noData();
+    }
+
+    public function myStatistics()
+    {
+        return $this->apiResponse(
+            $this->service->attendanceStatisticsByUser(user()->id),
+            self::STATUS_OK,
+            trans('site.get_successfully')
+        );
     }
 }

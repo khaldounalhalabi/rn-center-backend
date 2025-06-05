@@ -5,6 +5,11 @@ namespace App\Services\v1\AttendanceLog;
 use App\Enums\AttendanceLogStatusEnum;
 use App\Enums\AttendanceLogTypeEnum;
 use App\Enums\AttendanceStatusEnum;
+use App\FormulaParser\SystemVariables\AttendanceVariables\AbsenceDaysCount;
+use App\FormulaParser\SystemVariables\AttendanceVariables\AttendanceDaysCount;
+use App\FormulaParser\SystemVariables\AttendanceVariables\ExpectedAttendanceDaysCount;
+use App\FormulaParser\SystemVariables\AttendanceVariables\ExpectedAttendanceHoursCount;
+use App\FormulaParser\SystemVariables\AttendanceVariables\TotalAttendanceHoursCount;
 use App\Models\AttendanceLog;
 use App\Models\Schedule;
 use App\Repositories\AttendanceLogRepository;
@@ -23,6 +28,11 @@ use Illuminate\Support\Collection;
 class AttendanceLogService extends BaseService
 {
     use Makable;
+
+    /**
+     * statistics method cache duration in **SECONDS**
+     */
+    const CACHE_DURATION_FOR_STATISTICS = 60 * 60;
 
     protected string $repositoryClass = AttendanceLogRepository::class;
 
@@ -287,20 +297,23 @@ class AttendanceLogService extends BaseService
      * @param array $countable
      * @return AttendanceLog
      */
-    public function checkin(array $relations = [], array $countable = []): AttendanceLog
+    public function checkin(array $relations = [], array $countable = []): ?AttendanceLog
     {
         $scheduleInDay = user()?->schedules->groupBy('day_of_week')->get(strtolower(now()->dayName)) ?? collect();
         $latestLog = $this->repository->getLatestLogInDay(now()->format('Y-m-d'), user()?->id);
         $attendance = AttendanceRepository::make()->getByDateOrCreate(now());
+        $this->invalidateAttendanceStatisticsCache(user()->id);
 
         if ($latestLog && $latestLog?->isCheckin()) {
             $this->repository->create([
                 'attendance_id' => $attendance->id,
-                'attend_at' => now(),
+                'attend_at' => now()->subMinute(),
                 'type' => AttendanceLogTypeEnum::CHECKOUT->value,
                 'user_id' => user()?->id,
-                'status' => $this->getLogStatus(now(), AttendanceLogTypeEnum::CHECKOUT->value, $scheduleInDay),
+                'status' => $this->getLogStatus(now()->subMinute(), AttendanceLogTypeEnum::CHECKOUT->value, $scheduleInDay),
             ]);
+        } elseif ($latestLog && $latestLog?->isCheckout() && $latestLog->attend_at->greaterThanOrEqualTo(now())) {
+            return null;
         }
 
         return $this->repository->create([
@@ -312,7 +325,7 @@ class AttendanceLogService extends BaseService
         ], $relations, $countable);
     }
 
-    public function checkout(array $relations = [], array $countable = [])
+    public function checkout(array $relations = [], array $countable = []): ?AttendanceLog
     {
         $scheduleInDay = user()?->schedules->groupBy('day_of_week')->get(strtolower(now()->dayName)) ?? collect();
         $latestLog = $this->repository->getLatestLogInDay(now()->format('Y-m-d'), user()?->id);
@@ -321,12 +334,16 @@ class AttendanceLogService extends BaseService
         if ($latestLog && $latestLog?->isCheckout()) {
             $this->repository->create([
                 'attendance_id' => $attendance->id,
-                'attend_at' => now(),
+                'attend_at' => now()->subMinute(),
                 'type' => AttendanceLogTypeEnum::CHECKIN->value,
                 'user_id' => user()?->id,
-                'status' => $this->getLogStatus(now(), AttendanceLogTypeEnum::CHECKIN->value, $scheduleInDay),
+                'status' => $this->getLogStatus(now()->subMinute(), AttendanceLogTypeEnum::CHECKIN->value, $scheduleInDay),
             ]);
+        } elseif ($latestLog && $latestLog?->isCheckin() && $latestLog->attend_at->greaterThanOrEqualTo(now())) {
+            return null;
         }
+
+        $this->invalidateAttendanceStatisticsCache(user()->id);
 
         return $this->repository->create([
             'attendance_id' => $attendance->id,
@@ -345,5 +362,60 @@ class AttendanceLogService extends BaseService
             $relations,
             $countable
         );
+    }
+
+    private function getStatisticsCacheKey(int $userId): string
+    {
+        $startOfMonth = now()->firstOfMonth();
+        $endOfMonth = now()->lastOfMonth();
+
+        return "attendance_statistics:{$userId}:{$startOfMonth->toDateString()}-{$endOfMonth->toDateString()}";
+    }
+
+    public function attendanceStatisticsByUser(int $userId): array
+    {
+        $startOfMonth = now()->firstOfMonth();
+        $endOfMonth = now()->lastOfMonth();
+        $cacheKey = $this->getStatisticsCacheKey($userId);
+        $user = UserRepository::make()->find($userId);
+
+        if (!$user) {
+            return [
+                'absence_days' => 0,
+                'attendance_days' => 0,
+                'attendance_hours' => 0,
+                'expected_hours' => 0,
+                'expected_days' => 0,
+            ];
+        }
+
+        return cache()
+            ->remember(
+                $cacheKey,
+                self::CACHE_DURATION_FOR_STATISTICS,
+                function () use ($user, $userId, $startOfMonth, $endOfMonth) {
+                    $logs = $this->repository->getInRange($userId, $startOfMonth, $endOfMonth);
+
+                    $absenceDays = (new AbsenceDaysCount($user, $logs, $startOfMonth, $endOfMonth))->getResult();
+                    $attendanceDays = (new AttendanceDaysCount($user, $logs, $startOfMonth, $endOfMonth))->getResult();
+                    $attendanceHours = (new TotalAttendanceHoursCount($user, $logs, $startOfMonth, $endOfMonth))->getResult();
+                    $expectedHours = (new ExpectedAttendanceHoursCount($user, $logs, $startOfMonth, $endOfMonth))->getResult();
+                    $expectedDays = (new ExpectedAttendanceDaysCount($user, $logs, $startOfMonth, $endOfMonth))->getResult();
+
+                    return [
+                        'absence_days' => $absenceDays,
+                        'attendance_days' => $attendanceDays,
+                        'attendance_hours' => $attendanceHours,
+                        'expected_hours' => $expectedHours,
+                        'expected_days' => $expectedDays,
+                    ];
+                }
+            );
+    }
+
+    private function invalidateAttendanceStatisticsCache(int $userId): void
+    {
+        $cacheKey = $this->getStatisticsCacheKey($userId);
+        cache()->forget($cacheKey);
     }
 }

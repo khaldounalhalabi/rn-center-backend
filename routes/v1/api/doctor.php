@@ -49,3 +49,4 @@ Route::get('/attendances/checkin', [v1\AttendanceLogController::class, 'checkin'
 Route::get('/attendances/checkout', [v1\AttendanceLogController::class, 'checkout'])->name('attendances.checkout');
 Route::get('/attendances/latest', [v1\AttendanceLogController::class, 'latestLog'])->name('attendances.latest');
 Route::get('/attendances/export', [v1\AttendanceLogController::class, 'export'])->name('attendances.export');
+Route::get('/attendances/statistics', [v1\AttendanceLogController::class, 'myStatistics'])->name('attendances.statistics');
