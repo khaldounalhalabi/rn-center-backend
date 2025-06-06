@@ -25,6 +25,7 @@ use App\Traits\Makable;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Collection as DBCollection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;
 use Throwable;
@@ -215,11 +216,16 @@ class PayslipService extends BaseService
             return null;
         }
 
+        if (!isAdmin() && $payslip->user_id != user()->id) {
+            return null;
+        }
+
         if ($payslip->status == $status) {
             return $status;
         }
 
-        if ($payslip->payrun?->status != PayrunStatusEnum::DRAFT->value) {
+        $payrun = $payslip->payrun;
+        if ($payrun?->status != PayrunStatusEnum::DRAFT->value) {
             return null;
         }
 
@@ -227,7 +233,13 @@ class PayslipService extends BaseService
             'status' => $status,
         ]);
 
-        $payslip->payrun->calculatePaymentCost();
+        $payrun->calculatePaymentCost();
+
+        if ($payrun->payslips()->where('status', '!=', PayrunStatusEnum::APPROVED->value)->count() <= 0) {
+            $payrun->update([
+                'status' => PayrunStatusEnum::APPROVED->value,
+            ]);
+        }
 
         return $status;
     }
@@ -365,4 +377,18 @@ class PayslipService extends BaseService
         return $updatedCount;
     }
 
+    public function mine(array $relations = [], array $countable = []): ?array
+    {
+        return $this->repository->getByUser(\user()->id, $relations, $countable);
+    }
+
+    public function view($id, array $relationships = [], array $countable = []): ?Model
+    {
+        /** @var Payslip $payslip */
+        $payslip = parent::view($id, $relationships, $countable);
+
+        return isAdmin()
+            ? $payslip
+            : (isDoctor() && $payslip?->user_id != user()->id ? null : $payslip);
+    }
 }

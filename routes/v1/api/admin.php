@@ -92,7 +92,6 @@ Route::delete('/payslip-adjustments/{payslipAdjustmentId}', [v1\PayslipAdjustmen
 Route::post('/payslips/payslip-adjustments/bulk', [v1\PayslipController::class, 'bulkAdjustment'])->name('payslips.payslip.adjustments.bulk');
 Route::post('/payslips/{payslipId}/payslip-adjustments', [v1\PayslipController::class, 'addAdjustment'])->name('payslips.payslip.adjustments.store');
 Route::get('/payslips/{payslipId}/pdf', [v1\PayslipController::class, 'toPdf'])->name('payslips.pdf');
-Route::post('/payslips/{payslipId}/toggle-status', [v1\PayslipController::class, 'toggleStatus'])->name('payslips.toggle.status');
 Route::get('/payslips/{payslipId}', [v1\PayslipController::class, 'show'])->name('payslips.show');
 Route::put('/payslips/{payslipId}', [v1\PayslipController::class, 'update'])->name('payslips.update');
 Route::get('/payruns/{payrunId}/payslips', [v1\PayslipController::class, 'getByPayrun'])->name('payruns.payslips');

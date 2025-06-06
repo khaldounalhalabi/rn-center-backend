@@ -106,4 +106,6 @@ return [
     'secretary' => 'Secretary',
     'center_name' => 'Reslan Alnaal Health Care Center',
     'total' => 'Total',
+
+    'rejected_payslips_errors' => 'You cannot approve on a payrun that has rejected payslips',
 ];

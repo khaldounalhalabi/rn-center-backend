@@ -23,7 +23,7 @@ class ApiController extends Controller
     public const STATUS_VALIDATION = 405;
     public const STATUS_INVALID_TIME_TO_BOOK = 425;
     public const STATUS_UN_VERIFIED_EMAIL = 433;
-    public const STATUS_MUST_AGREE_ON_CONTRACT = 435;
+    public const REJECTED_PAYSLIP = 435;
 
     public const PAY_RUN_OVERLAP_ERROR = 410;
 

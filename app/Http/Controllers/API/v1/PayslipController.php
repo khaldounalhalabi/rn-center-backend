@@ -120,4 +120,20 @@ class PayslipController extends ApiController
             'affected_payslips' => $updatedCount,
         ], self::STATUS_OK, __('site.update_successfully'));
     }
+
+    public function mine()
+    {
+        $data = $this->payslipService->mine($this->relations, $this->countable);
+
+        if ($data){
+            return $this->apiResponse(
+                PayslipResource::collection($data['data'])->detailed(),
+                self::STATUS_OK,
+                trans('site.get_successfully'),
+                $data['pagination_data']
+            );
+        }
+
+        return $this->noData([]);
+    }
 }

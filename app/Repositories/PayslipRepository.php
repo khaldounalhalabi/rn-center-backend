@@ -101,4 +101,12 @@ class PayslipRepository extends BaseRepository
             ->where('payrun_id', $payrunId)
             ->cursor();
     }
+
+    public function getByUser(int $userId, array $relations = [], array $countable = []): ?array
+    {
+        return $this->paginate(
+            $this->globalQuery($relations, $countable)
+                ->where('user_id', $userId)
+        );
+    }
 }

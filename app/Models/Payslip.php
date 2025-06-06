@@ -123,13 +123,15 @@ class Payslip extends Model
 
     public function canUpdate(): bool
     {
-        return $this->payrun?->status == PayrunStatusEnum::DRAFT->value;
+        return $this->payrun?->status == PayrunStatusEnum::DRAFT->value
+            || $this->status == PayslipStatusEnum::REJECTED->value;
     }
 
     public function canDownload(): bool
     {
-        return $this->payrun->status == PayrunStatusEnum::APPROVED->value
-            || $this->payrun->status == PayrunStatusEnum::DONE->value;
+        return ($this->payrun->status == PayrunStatusEnum::APPROVED->value
+                || $this->payrun->status == PayrunStatusEnum::DONE->value)
+            && ((isDoctor() && $this->user_id == user()->id) || isAdmin());
     }
 
     public function calculateNetPay(): static

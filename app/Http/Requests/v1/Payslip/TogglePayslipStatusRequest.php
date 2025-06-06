@@ -24,7 +24,7 @@ class TogglePayslipStatusRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => ['required', 'string', Rule::in(PayslipStatusEnum::getAllValues())],
+            'status' => ['required', 'string', Rule::in(PayslipStatusEnum::forEmployees())],
         ];
     }
 }

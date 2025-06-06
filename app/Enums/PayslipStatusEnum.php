@@ -12,4 +12,14 @@ enum PayslipStatusEnum: string
     case EXCLUDED = "excluded";
     case DONE = "done";
     case FAILED = "failed";
+    case ACCEPTED = 'accepted';
+    case REJECTED = 'rejected';
+
+    public static function forEmployees(): array
+    {
+        return [
+            self::ACCEPTED->value,
+            self::REJECTED->value,
+        ];
+    }
 }

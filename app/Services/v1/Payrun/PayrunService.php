@@ -4,8 +4,6 @@ namespace App\Services\v1\Payrun;
 
 use App\Enums\PayrunStatusEnum;
 use App\Enums\PayslipStatusEnum;
-use App\Enums\RolesPermissionEnum;
-use App\Enums\TransactionTypeEnum;
 use App\FormulaParser\Ast\Expression;
 use App\FormulaParser\EquationParser;
 use App\FormulaParser\Result;
@@ -19,7 +17,6 @@ use App\Repositories\AttendanceLogRepository;
 use App\Repositories\FormulaVariableRepository;
 use App\Repositories\PayrunRepository;
 use App\Repositories\PayslipRepository;
-use App\Repositories\TransactionRepository;
 use App\Services\Contracts\BaseService;
 use App\Services\v1\Payslip\PayslipService;
 use App\Traits\Makable;
@@ -34,7 +31,6 @@ class PayrunService extends BaseService
     use Makable;
 
     protected string $repositoryClass = PayrunRepository::class;
-
 
     /**
      * @param array|null $data
@@ -159,6 +155,16 @@ class PayrunService extends BaseService
 
         if ($status == PayrunStatusEnum::DONE->value) {
             PayslipRepository::make()->changeStatusByPayrunWhereNotExcluded($payrun->id, PayslipStatusEnum::DONE->value);
+        }
+
+        if (
+            $payrun->payslips()->where('status', PayslipStatusEnum::REJECTED->value)->count()
+            && (in_array($status, [
+                PayrunStatusEnum::DONE->value,
+                PayrunStatusEnum::APPROVED->value
+            ]))
+        ) {
+            return null;
         }
 
         $this->repository->update([

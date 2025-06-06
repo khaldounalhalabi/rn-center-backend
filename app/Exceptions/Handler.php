@@ -78,11 +78,18 @@ class Handler extends ExceptionHandler
                 return $this->apiResponse('', ApiController::STATUS_NOT_AUTHENTICATED, 'you should login');
             }
         }
+        if ($exception instanceof ApprovingPayslipsWIthRejectedPayslips) {
+            return $this->apiResponse(
+                null,
+                $exception->getCode(),
+                $exception->getMessage(),
+            );
+        }
         if (config('app.debug')) {
             return parent::render($request, $exception);
         }
 
-        return $this->apiResponse('', ApiController::STATUS_NOT_FOUND, $exception->getMessage());
+        return $this->apiResponse('', 500, $exception->getMessage());
     }
 
     public function render($request, Throwable $exception): \Illuminate\Http\Response|JsonResponse|RedirectResponse|Response

@@ -10,7 +10,6 @@ use App\Http\Middleware\CustomerOnly;
 use App\Http\Middleware\DoctorOnly;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\GuestMiddleware;
-use App\Http\Middleware\MustAcceptContractMiddleware;
 use App\Http\Middleware\MustVerifyPhone;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Http\Middleware\RedirectIfAuthenticated;

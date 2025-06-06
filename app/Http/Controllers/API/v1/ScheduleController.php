@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\v1;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\v1\Schedule\StoreUpdateScheduleRequest;
 use App\Http\Resources\v1\ScheduleResource;
+use App\Models\Clinic;
 use App\Models\User;
 use App\Services\ScheduleService;
 
@@ -67,6 +68,26 @@ class ScheduleController extends ApiController
     public function userSchedules($userId)
     {
         $data = $this->scheduleService->getByScheduleable($userId, User::class);
+
+        if (count($data)) {
+            return $this->apiResponse(
+                collect(ScheduleResource::collection($data))
+                    ->groupBy('day_of_week'),
+                self::STATUS_OK,
+                __('site.get_successfully')
+            );
+        }
+
+        return $this->noData([]);
+    }
+
+    public function mySchedule()
+    {
+        if (isDoctor()) {
+            $data = $this->scheduleService->getByScheduleable(user()->clinic->id, Clinic::class);
+        } else {
+            $data = $this->scheduleService->getByScheduleable(user()->id, User::class);
+        }
 
         if (count($data)) {
             return $this->apiResponse(

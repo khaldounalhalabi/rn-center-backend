@@ -50,3 +50,10 @@ Route::get('/attendances/checkout', [v1\AttendanceLogController::class, 'checkou
 Route::get('/attendances/latest', [v1\AttendanceLogController::class, 'latestLog'])->name('attendances.latest');
 Route::get('/attendances/export', [v1\AttendanceLogController::class, 'export'])->name('attendances.export');
 Route::get('/attendances/statistics', [v1\AttendanceLogController::class, 'myStatistics'])->name('attendances.statistics');
+
+Route::get('/schedule', [v1\ScheduleController::class, 'mySchedule'])->name('schedule.mine');
+
+Route::post('/payslips/{payslipId}/toggle-status', [v1\PayslipController::class, 'toggleStatus'])->name('payslips.toggle.status');
+Route::get('/payslips/{payslipId}/pdf', [v1\PayslipController::class, 'toPdf'])->name('payslips.pdf');
+Route::get('/payslips', [v1\PayslipController::class , 'mine'])->name('payslips.mine');
+Route::get('/payslips/{payslipId}', [v1\PayslipController::class , 'show'])->name('payslips.show');
