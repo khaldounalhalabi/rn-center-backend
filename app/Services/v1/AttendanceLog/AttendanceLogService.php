@@ -295,7 +295,7 @@ class AttendanceLogService extends BaseService
     /**
      * @param array $relations
      * @param array $countable
-     * @return AttendanceLog
+     * @return AttendanceLog|null
      */
     public function checkin(array $relations = [], array $countable = []): ?AttendanceLog
     {
@@ -386,6 +386,7 @@ class AttendanceLogService extends BaseService
                 'attendance_hours' => 0,
                 'expected_hours' => 0,
                 'expected_days' => 0,
+                'attendance_hours_in_day' => 0,
             ];
         }
 
@@ -395,12 +396,14 @@ class AttendanceLogService extends BaseService
                 self::CACHE_DURATION_FOR_STATISTICS,
                 function () use ($user, $userId, $startOfMonth, $endOfMonth) {
                     $logs = $this->repository->getInRange($userId, $startOfMonth, $endOfMonth);
+                    $logsInDay = $this->repository->getInRange($userId, now()->startOfDay(), now()->endOfDay());
 
                     $absenceDays = (new AbsenceDaysCount($user, $logs, $startOfMonth, $endOfMonth))->getResult();
                     $attendanceDays = (new AttendanceDaysCount($user, $logs, $startOfMonth, $endOfMonth))->getResult();
                     $attendanceHours = (new TotalAttendanceHoursCount($user, $logs, $startOfMonth, $endOfMonth))->getResult();
                     $expectedHours = (new ExpectedAttendanceHoursCount($user, $logs, $startOfMonth, $endOfMonth))->getResult();
                     $expectedDays = (new ExpectedAttendanceDaysCount($user, $logs, $startOfMonth, $endOfMonth))->getResult();
+                    $attendanceInDay = (new TotalAttendanceHoursCount($user, $logsInDay, now()->startOfDay(), now()->endOfDay()))->getResult();
 
                     return [
                         'absence_days' => $absenceDays,
@@ -408,6 +411,7 @@ class AttendanceLogService extends BaseService
                         'attendance_hours' => $attendanceHours,
                         'expected_hours' => $expectedHours,
                         'expected_days' => $expectedDays,
+                        'attendance_hours_in_day' => $attendanceInDay,
                     ];
                 }
             );
