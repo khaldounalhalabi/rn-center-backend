@@ -5,7 +5,7 @@ namespace App\Exceptions;
 use App\Http\Controllers\ApiController;
 use Exception;
 
-class ApprovingPayslipsWIthRejectedPayslips extends Exception
+class ApprovingPayslipsWithRejectedPayslips extends Exception
 {
     public function __construct()
     {

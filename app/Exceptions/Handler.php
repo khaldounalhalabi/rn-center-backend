@@ -78,7 +78,7 @@ class Handler extends ExceptionHandler
                 return $this->apiResponse('', ApiController::STATUS_NOT_AUTHENTICATED, 'you should login');
             }
         }
-        if ($exception instanceof ApprovingPayslipsWIthRejectedPayslips) {
+        if ($exception instanceof ApprovingPayslipsWithRejectedPayslips) {
             return $this->apiResponse(
                 null,
                 $exception->getCode(),

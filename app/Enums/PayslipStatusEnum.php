@@ -20,6 +20,7 @@ enum PayslipStatusEnum: string
         return [
             self::ACCEPTED->value,
             self::REJECTED->value,
+            self::DRAFT->value,
         ];
     }
 }

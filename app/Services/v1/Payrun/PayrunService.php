@@ -4,6 +4,7 @@ namespace App\Services\v1\Payrun;
 
 use App\Enums\PayrunStatusEnum;
 use App\Enums\PayslipStatusEnum;
+use App\Exceptions\ApprovingPayslipsWithRejectedPayslips;
 use App\FormulaParser\Ast\Expression;
 use App\FormulaParser\EquationParser;
 use App\FormulaParser\Result;
@@ -164,7 +165,7 @@ class PayrunService extends BaseService
                 PayrunStatusEnum::APPROVED->value
             ]))
         ) {
-            return null;
+            throw new ApprovingPayslipsWithRejectedPayslips();
         }
 
         $this->repository->update([
