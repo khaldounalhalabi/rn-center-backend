@@ -3,6 +3,7 @@
 namespace App\Services\v1\Vacation;
 
 use App\Enums\AppointmentStatusEnum;
+use App\Enums\VacationStatusEnum;
 use App\Models\Vacation;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\UserRepository;
@@ -37,13 +38,7 @@ class VacationService extends BaseService
     {
         $user = UserRepository::make()->find($data['user_id']);
         if ($user->isDoctor()) {
-            $appointmentsCount = AppointmentRepository::make()
-                ->globalQuery()
-                ->where('status', AppointmentStatusEnum::BOOKED->value)
-                ->where('clinic_id', $user->getClinicId())
-                ->whereDate('date_time', '>=', $data['from'])
-                ->whereDate('date_time', '<=', $data['to'])
-                ->count();
+            $appointmentsCount = $this->getAppointmentsCountInVacationDate($user, $data['from'], $data['to']);
 
             if ($appointmentsCount > 0) {
                 return null;
@@ -57,13 +52,7 @@ class VacationService extends BaseService
     {
         $user = UserRepository::make()->find($data['user_id']);
         if ($user->isDoctor()) {
-            $appointmentsCount = AppointmentRepository::make()
-                ->globalQuery()
-                ->where('status', AppointmentStatusEnum::BOOKED->value)
-                ->where('clinic_id', $user->getClinicId())
-                ->whereDate('date_time', '>=', $data['from'])
-                ->whereDate('date_time', '<=', $data['to'])
-                ->count();
+            $appointmentsCount = $this->getAppointmentsCountInVacationDate($user, $data['from'], $data['to']);
 
             if ($appointmentsCount > 0) {
                 return null;
@@ -84,5 +73,51 @@ class VacationService extends BaseService
         $vacation->delete();
 
         return true;
+    }
+
+    public function toggleStatus(array $data)
+    {
+        $vacation = $this->repository->find($data['vacation_id']);
+
+        if (!$vacation) {
+            return null;
+        }
+
+        $user = $vacation->user;
+
+        if ($data['status'] == $vacation->status) {
+            return $data['status'];
+        }
+
+        if ($data['status'] == VacationStatusEnum::APPROVED->value && $user->isDoctor()) {
+            $appointmentsCount = $this->getAppointmentsCountInVacationDate($user, $vacation->from, $vacation->to);
+
+            if ($appointmentsCount > 0) {
+                return null;
+            }
+        }
+
+        $this->repository->update([
+            'status' => $data['status'],
+        ], $vacation);
+
+        return $data['status'];
+    }
+
+    /**
+     * @param mixed  $user
+     * @param string $from
+     * @param string $to
+     * @return int
+     */
+    private function getAppointmentsCountInVacationDate(mixed $user, string $from, string $to): int
+    {
+        return AppointmentRepository::make()
+            ->globalQuery()
+            ->where('status', AppointmentStatusEnum::BOOKED->value)
+            ->where('clinic_id', $user->getClinicId())
+            ->whereDate('date_time', '>=', $from)
+            ->whereDate('date_time', '<=', $to)
+            ->count();
     }
 }

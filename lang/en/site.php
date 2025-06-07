@@ -108,4 +108,6 @@ return [
     'total' => 'Total',
 
     'rejected_payslips_errors' => 'You cannot approve on a payrun that has rejected payslips',
+
+    'cannot_have_vacation_in_appointments_dates' => 'Cannot allow a vacation in dates tha have appointments in it, you either pick another dates or cancel the appointments within the vacation date range'
 ];

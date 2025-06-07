@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\v1\Vacation\StoreUpdateVacationRequest;
+use App\Http\Requests\v1\Vacation\ToggleVacationStatusRequest;
 use App\Http\Resources\v1\VacationResource;
 use App\Models\Vacation;
 use App\Services\v1\Vacation\VacationService;
@@ -91,5 +92,20 @@ class VacationController extends ApiController
         }
 
         return $this->noData([]);
+    }
+
+    public function toggleStatus(ToggleVacationStatusRequest $request)
+    {
+        $result = $this->vacationService->toggleStatus($request->validated());
+
+        if ($result) {
+            return $this->apiResponse(
+                $result,
+                self::STATUS_OK,
+                trans('site.success')
+            );
+        }
+
+        return $this->apiResponse(null, self::STATUS_NOT_FOUND, __('site.cannot_have_vacation_in_appointments_dates'));
     }
 }

@@ -104,4 +104,5 @@ Route::get('/payruns/{payrunId}/export', [v1\PayrunController::class, 'reportToE
 Route::post('/payruns/{payrunId}/toggle-status', [v1\PayrunController::class, 'toggleStatus'])->name('payruns.toggle.status');
 Route::apiResource('/payruns', v1\PayrunController::class)->except(['update'])->names('payruns');
 
+Route::post('/vacations/toggle-status', [v1\VacationController::class, 'toggleStatus'])->name('vacations.toggle.status');
 Route::apiResource('/vacations', v1\VacationController::class)->names('vacations');
