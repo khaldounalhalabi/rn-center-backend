@@ -24,7 +24,13 @@ class ToggleVacationStatusRequest extends FormRequest
     {
         return [
             'vacation_id' => 'required|numeric|exists:vacations,id',
-            'status' => ['string', VacationStatusEnum::validationRule(), 'max:255']
+            'status' => ['string', VacationStatusEnum::validationRule(), 'max:255'],
+            'cancellation_reason' => [
+                'nullable',
+                'string',
+                'max:5000',
+                'required_if:status,' . VacationStatusEnum::REJECTED->value,
+            ]
         ];
     }
 }

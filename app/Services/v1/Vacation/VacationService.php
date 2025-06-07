@@ -99,6 +99,7 @@ class VacationService extends BaseService
 
         $this->repository->update([
             'status' => $data['status'],
+            'cancellation_reason' => $data['cancellation_reason'] ?? null,
         ], $vacation);
 
         return $data['status'];
