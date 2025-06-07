@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Enums\VacationStatusEnum;
 use App\Models\Vacation;
 use App\Repositories\Contracts\BaseRepository;
 use Carbon\Carbon;
@@ -20,6 +21,7 @@ class VacationRepository extends BaseRepository
             ->where('from', '<=', $data->format('Y-m-d'))
             ->where('to', '>=', $data->format('Y-m-d'))
             ->where('user_id', $userId)
+            ->where('status', VacationStatusEnum::APPROVED->value)
             ->exists();
     }
 

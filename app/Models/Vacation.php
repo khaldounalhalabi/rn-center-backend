@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\VacationStatusEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -87,5 +88,15 @@ class Vacation extends Model
                     ->where('to', '>=', $value)
             ]
         ];
+    }
+
+    public function canShow(): bool
+    {
+        return $this->user_id == user()->id || isAdmin();
+    }
+
+    public function canDelete(): bool
+    {
+        return ($this->user_id == user()->id && $this->status == VacationStatusEnum::DRAFT->value) || isAdmin();
     }
 }

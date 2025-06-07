@@ -22,7 +22,12 @@ class VacationController extends ApiController
 
     public function index()
     {
-        $items = $this->vacationService->indexWithPagination($this->relations);
+        if (isAdmin()) {
+            $items = $this->vacationService->indexWithPagination($this->relations);
+        } else {
+            $items = $this->vacationService->byUser(user()->id, $this->relations, $this->countable);
+        }
+
         if ($items) {
             return $this->apiResponse(VacationResource::collection($items['data']), self::STATUS_OK, __('site.get_successfully'), $items['pagination_data']);
         }
@@ -49,18 +54,17 @@ class VacationController extends ApiController
             return $this->apiResponse(new VacationResource($item), self::STATUS_OK, __('site.stored_successfully'));
         }
 
-        return $this->apiResponse(null, self::STATUS_NOT_FOUND, __('site.something_went_wrong'));
+        return $this->apiResponse(null, self::STATUS_NOT_FOUND, __('site.cannot_have_vacation_in_appointments_dates'));
     }
 
     public function update($vacationId, StoreUpdateVacationRequest $request)
     {
-        /** @var Vacation|null $item */
         $item = $this->vacationService->update($request->validated(), $vacationId, $this->relations);
         if ($item) {
             return $this->apiResponse(new VacationResource($item), self::STATUS_OK, __('site.update_successfully'));
         }
 
-        return $this->noData(null);
+        return $this->apiResponse(null, self::STATUS_NOT_FOUND, __('site.cannot_have_vacation_in_appointments_dates'));
     }
 
     public function destroy($vacationId)

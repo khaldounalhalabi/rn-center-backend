@@ -27,7 +27,7 @@ class StoreUpdateVacationRequest extends FormRequest
             'from' => ['required', 'date', 'after_or_equal:today', 'date_format:Y-m-d'],
             'to' => ['required', 'date', 'after_or_equal:today', 'date_format:Y-m-d'],
             'reason' => ['required', 'string', 'max:5000'],
-            'status' => ['required', 'string', 'min:3', 'max:255', VacationStatusEnum::validationRule()],
+            'status' => ['nullable', 'string', 'min:3', 'max:255', VacationStatusEnum::validationRule(), Rule::excludeIf(fn() => !isAdmin())],
         ];
     }
 

@@ -55,5 +55,7 @@ Route::get('/schedule', [v1\ScheduleController::class, 'mySchedule'])->name('sch
 
 Route::post('/payslips/{payslipId}/toggle-status', [v1\PayslipController::class, 'toggleStatus'])->name('payslips.toggle.status');
 Route::get('/payslips/{payslipId}/pdf', [v1\PayslipController::class, 'toPdf'])->name('payslips.pdf');
-Route::get('/payslips', [v1\PayslipController::class , 'mine'])->name('payslips.mine');
-Route::get('/payslips/{payslipId}', [v1\PayslipController::class , 'show'])->name('payslips.show');
+Route::get('/payslips', [v1\PayslipController::class, 'mine'])->name('payslips.mine');
+Route::get('/payslips/{payslipId}', [v1\PayslipController::class, 'show'])->name('payslips.show');
+
+Route::apiResource('vacations', v1\VacationController::class)->except(['update'])->names('vacations');

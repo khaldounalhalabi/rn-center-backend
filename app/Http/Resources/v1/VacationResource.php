@@ -23,6 +23,8 @@ class VacationResource extends BaseResource
             'status' => $this->status,
             'cancellation_reason' => $this->cancellation_reason,
             'user' => new UserResource($this->whenLoaded('user')),
+            'can_delete' => $this->canDelete(),
+            'can_show' => $this->canShow(),
         ];
     }
 }
