@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\RolesPermissionEnum;
+use App\Enums\VacationStatusEnum;
 use App\Models\Clinic;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -29,7 +30,7 @@ class VacationFactory extends Factory
             'from' => now()->subDays(fake()->numberBetween(1, 3)),
             'to' => now()->addDays(fake()->numberBetween(1, 3)),
             'reason' => fake()->text(),
-            'status' => fake()->word(),
+            'status' => VacationStatusEnum::DRAFT->value,
             'cancellation_reason' => null,
         ];
     }

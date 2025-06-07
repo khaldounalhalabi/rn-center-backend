@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -73,6 +74,17 @@ class Vacation extends Model
         return [
             'user' => [
                 'full_name'
+            ]
+        ];
+    }
+
+    public function filterArray(): array
+    {
+        return [
+            [
+                'name' => 'date',
+                'query' => fn(Builder|Vacation $query, $value) => $query->where('from', '<=', $value)
+                    ->where('to', '>=', $value)
             ]
         ];
     }

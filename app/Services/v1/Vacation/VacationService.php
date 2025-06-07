@@ -16,4 +16,9 @@ class VacationService extends BaseService
     use Makable;
 
     protected string $repositoryClass = VacationRepository::class;
+
+    public function byUser(int $userId, array $relations = [], array $countable = []): ?array
+    {
+        return $this->repository->getByUser($userId, $relations, $countable);
+    }
 }

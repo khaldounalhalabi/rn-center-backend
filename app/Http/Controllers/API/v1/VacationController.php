@@ -7,7 +7,6 @@ use App\Http\Requests\v1\Vacation\StoreUpdateVacationRequest;
 use App\Http\Resources\v1\VacationResource;
 use App\Models\Vacation;
 use App\Services\v1\Vacation\VacationService;
-use Illuminate\Http\Request;
 
 class VacationController extends ApiController
 {
@@ -15,11 +14,10 @@ class VacationController extends ApiController
 
     public function __construct()
     {
-
         $this->vacationService = VacationService::make();
-
-        // place the relations you want to return them within the response
-        $this->relations = [];
+        if (isAdmin() || isSecretary()) {
+            $this->relations = ['user'];
+        }
     }
 
     public function index()
@@ -75,24 +73,19 @@ class VacationController extends ApiController
         return $this->noData(false);
     }
 
-    public function export(Request $request)
+    public function byUser($userId)
     {
-        $ids = $request->ids ?? [];
+        $data = $this->vacationService->byUser($userId, [], $this->countable);
 
-        return $this->vacationService->export($ids);
-    }
+        if ($data) {
+            return $this->apiResponse(
+                VacationResource::collection($data['data']),
+                self::STATUS_OK,
+                trans('site.get_successfully'),
+                $data['pagination_data']
+            );
+        }
 
-    public function getImportExample()
-    {
-        return $this->vacationService->getImportExample();
-    }
-
-    public function import(Request $request)
-    {
-        $request->validate([
-            'excel_file' => 'required|mimes:xls,xlsx',
-        ]);
-
-        $this->vacationService->import();
+        return $this->noData([]);
     }
 }
