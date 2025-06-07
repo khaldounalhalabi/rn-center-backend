@@ -19,22 +19,6 @@ class UserRepository extends BaseRepository
         return User::where('phone', $phone)->first();
     }
 
-    /**
-     * @param array{email:string , phone_numbers:string[]} $data
-     * @return null|User
-     */
-    public function getExistCustomerUser(array $data = []): ?User
-    {
-        return $this->globalQuery()->when(isset($data['email']), fn(Builder $query) => $query->where('email', $data['email']))
-            ->when(isset($data['phone_numbers'])
-                , fn(Builder $query) => $query->whereHas('phoneNumbers', function (Builder $query) use ($data) {
-                    $query->whereIn('phone', $data['phone_numbers'])
-                        ->where('phoneable_type', User::class);
-                }))
-            ->byRole(RolesPermissionEnum::CUSTOMER['role'])
-            ->first();
-    }
-
     public function getSecretaries(array $relations = [], array $countable = []): ?array
     {
         return $this->paginate(

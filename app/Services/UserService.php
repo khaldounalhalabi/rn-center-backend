@@ -368,4 +368,9 @@ class UserService extends BaseService
     {
         return $this->repository->getSecretaries($relations, $countable);
     }
+
+    public function employees(array $relations = [], array $countable = []): ?array
+    {
+        return $this->repository->employees($relations, $countable);
+    }
 }

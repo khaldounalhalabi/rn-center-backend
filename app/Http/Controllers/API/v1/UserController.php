@@ -16,7 +16,7 @@ class UserController extends ApiController
     public function __construct()
     {
         $this->userService = UserService::make();
-        $this->relations = ['roles' , 'formula'];
+        $this->relations = ['roles', 'formula'];
     }
 
     public function addSecretary(StoreUpdateUserRequest $request)
@@ -85,5 +85,20 @@ class UserController extends ApiController
         }
 
         return $this->noData();
+    }
+
+    public function employees()
+    {
+        $data = $this->userService->employees($this->relations, $this->countable);
+        if ($data) {
+            return $this->apiResponse(
+                UserResource::collection($data['data']),
+                self::STATUS_OK,
+                trans('site.get_successfully'),
+                $data['pagination_data']
+            );
+        }
+
+        return $this->noData([]);
     }
 }

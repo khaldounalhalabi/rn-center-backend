@@ -80,7 +80,7 @@ Route::post('/attendances/import', [v1\AttendanceLogController::class, 'import']
 Route::get('/attendances/export', [v1\AttendanceLogController::class, 'export'])->name('attendances.export');
 
 Route::get('/users/{userId}/vacations', [v1\VacationController::class, 'byUser'])->name('users.vacations');
-
+Route::get('/users/employees', [v1\UserController::class, 'employees'])->name('users.employees');
 Route::post('/users/secretaries', [v1\UserController::class, 'addSecretary'])->name('users.secretaries.store');
 Route::get('/users/secretaries', [v1\UserController::class, 'secretaries'])->name('users.secretaries');
 Route::apiResource('/users', v1\UserController::class)->except(['store', 'index'])->names('users');

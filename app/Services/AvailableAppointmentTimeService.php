@@ -6,6 +6,7 @@ use App\Models\Schedule;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\ClinicRepository;
 use App\Repositories\HolidayRepository;
+use App\Repositories\VacationRepository;
 use App\Traits\Makable;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
@@ -32,9 +33,10 @@ class AvailableAppointmentTimeService
             return collect();
         }
 
-        if (HolidayRepository::make()->isHoliday($date)) {
+        if (HolidayRepository::make()->isHoliday($date) || VacationRepository::make()->isVacation($date, $clinic->user_id)) {
             return collect();
         }
+
         $dayName = strtolower($dateCarbon->englishDayOfWeek);
         $schedules = $clinic->schedules()->where('day_of_week', $dayName)->get();
 
