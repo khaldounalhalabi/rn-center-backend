@@ -14,26 +14,28 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
 /**
- * @property int          id
- * @property string       first_name
- * @property string       last_name
- * @property string|null  email
- * @property string       password
- * @property string       phone
- * @property string       remember_token
- * @property Carbon       created_at
- * @property Carbon       updated_at
- * @property Carbon|null  phone_verified_at
- * @property string       gender
- * @property string       full_name
- * @property int|null     formula_id
- * @property Formula|null formula
- * @property string       fcm_token
+ * @property int                  id
+ * @property string               first_name
+ * @property string               last_name
+ * @property string|null          email
+ * @property string               password
+ * @property string               phone
+ * @property string               remember_token
+ * @property Carbon               created_at
+ * @property Carbon               updated_at
+ * @property Carbon|null          phone_verified_at
+ * @property string               gender
+ * @property string               full_name
+ * @property int|null             formula_id
+ * @property Formula|null         formula
+ * @property string               fcm_token
+ * @property Collection<Vacation> vacations
  * @mixin Builder
  */
 class User extends Authenticatable implements JWTSubject
@@ -253,5 +255,10 @@ class User extends Authenticatable implements JWTSubject
     public function payslips(): HasMany
     {
         return $this->hasMany(Payslip::class);
+    }
+
+    public function vacations(): HasMany
+    {
+        return $this->hasMany(Vacation::class);
     }
 }

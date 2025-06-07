@@ -27,12 +27,13 @@ class UserResource extends BaseResource
             'formula' => new FormulaResource($this->whenLoaded('formula')),
             $this->mergeWhen(
                 $this->relationLoaded('roles'),
-                fn () => [
+                fn() => [
                     'role' => $this->roles->first()->name,
                 ]
             ),
             'attendance_by_date' => AttendanceLogResource::collection($this->whenLoaded('attendanceByDate')),
             'payslips' => PayslipResource::collection($this->whenLoaded('payslips')),
+            'vacations' => VacationResource::collection($this->whenLoaded('vacations')),
         ];
     }
 }

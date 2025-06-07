@@ -13,6 +13,7 @@ use App\Models\Formula;
 use App\Models\Payslip;
 use App\Models\Schedule;
 use App\Models\User;
+use App\Models\Vacation;
 use App\Repositories\AttendanceRepository;
 use App\Services\v1\AttendanceLog\AttendanceLogService;
 use Carbon\Carbon;
@@ -135,5 +136,10 @@ class UserFactory extends Factory
                     'formula_id' => Formula::inRandomOrder()->first()?->id ?? Formula::factory()->create()->id,
                 ]);
             });
+    }
+
+    public function withVacations($count = 1): UserFactory
+    {
+        return $this->has(Vacation::factory($count));
     }
 }

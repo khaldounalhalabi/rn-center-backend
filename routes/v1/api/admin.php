@@ -101,3 +101,5 @@ Route::get('/payruns/{payrunId}/reprocess', [v1\PayrunController::class, 'reproc
 Route::get('/payruns/{payrunId}/export', [v1\PayrunController::class, 'reportToExcel'])->name('payruns.export');
 Route::post('/payruns/{payrunId}/toggle-status', [v1\PayrunController::class, 'toggleStatus'])->name('payruns.toggle.status');
 Route::apiResource('/payruns', v1\PayrunController::class)->except(['update'])->names('payruns');
+
+Route::apiResource('/vacations', v1\VacationController::class)->names('vacations');

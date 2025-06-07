@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             PrescriptionSeeder::class,
             TransactionSeeder::class,
             PayrunSeeder::class,
+            VacationSeeder::class,
         ]);
     }
 }

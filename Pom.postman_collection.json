@@ -2446,6 +2446,257 @@
                     "response": []
                 }
             ]
+        },
+        {
+            "name": "Vacation",
+            "item": [
+                {
+                    "name": "index",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/vacations",
+                            "host": [
+                                "{{local}}v1/admin/v1/vacations"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "show",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/vacations/1",
+                            "host": [
+                                "{{local}}v1/admin/v1/vacations/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "store",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/vacations",
+                            "host": [
+                                "{{local}}v1/admin/v1/vacations"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": []
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "update",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/vacations/1",
+                            "host": [
+                                "{{local}}v1/admin/v1/vacations/1"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": []
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/vacations/1",
+                            "host": [
+                                "{{local}}v1/admin/v1/vacations/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "export",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/vacations/export",
+                            "host": [
+                                "{{local}}v1/admin/v1/vacations/export"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "import",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/vacations/import",
+                            "host": [
+                                "{{local}}v1/admin/v1/vacations/import"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "import-example",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/vacations/get-import-example",
+                            "host": [
+                                "{{local}}v1/admin/v1/vacations/get-import-example"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                }
+            ]
         }
     ],
     "event": [],
