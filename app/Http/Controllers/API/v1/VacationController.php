@@ -55,7 +55,7 @@ class VacationController extends ApiController
             return $this->apiResponse(new VacationResource($item), self::STATUS_OK, __('site.stored_successfully'));
         }
 
-        return $this->apiResponse(null, self::STATUS_NOT_FOUND, __('site.cannot_have_vacation_in_appointments_dates'));
+        return $this->apiResponse(null, self::CANNOT_HAVE_VACATION, __('site.cannot_have_vacation_in_appointments_dates'));
     }
 
     public function update($vacationId, StoreUpdateVacationRequest $request)
@@ -65,7 +65,7 @@ class VacationController extends ApiController
             return $this->apiResponse(new VacationResource($item), self::STATUS_OK, __('site.update_successfully'));
         }
 
-        return $this->apiResponse(null, self::STATUS_NOT_FOUND, __('site.cannot_have_vacation_in_appointments_dates'));
+        return $this->apiResponse(null, self::CANNOT_HAVE_VACATION, __('site.cannot_have_vacation_in_appointments_dates'));
     }
 
     public function destroy($vacationId)

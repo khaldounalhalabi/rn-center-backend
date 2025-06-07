@@ -21,6 +21,7 @@ class ApiController extends Controller
     public const STATUS_OK = 200;
     public const STATUS_UNAUTHORIZED = 401;
     public const STATUS_VALIDATION = 405;
+    public const CANNOT_HAVE_VACATION  = 406;
     public const STATUS_INVALID_TIME_TO_BOOK = 425;
     public const STATUS_UN_VERIFIED_EMAIL = 433;
     public const REJECTED_PAYSLIP = 435;
