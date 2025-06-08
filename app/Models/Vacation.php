@@ -86,6 +86,9 @@ class Vacation extends Model
                 'name' => 'date',
                 'query' => fn(Builder|Vacation $query, $value) => $query->where('from', '<=', $value)
                     ->where('to', '>=', $value)
+            ],
+            [
+                'name' => 'status',
             ]
         ];
     }

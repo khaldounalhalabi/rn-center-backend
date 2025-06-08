@@ -108,4 +108,26 @@ class VacationController extends ApiController
 
         return $this->apiResponse(null, self::STATUS_NOT_FOUND, __('site.cannot_have_vacation_in_appointments_dates'));
     }
+
+    public function myActiveVacations()
+    {
+        return $this->apiResponse(
+            VacationResource::collection(
+                $this->vacationService->getActive(user()->id, $this->relations, $this->countable)
+            ),
+            self::STATUS_OK,
+            trans('site.get_successfully')
+        );
+    }
+
+    public function activeByUser($userId)
+    {
+        return $this->apiResponse(
+            VacationResource::collection(
+                $this->vacationService->getActive($userId, $this->relations, $this->countable)
+            ),
+            self::STATUS_OK,
+            trans('site.get_successfully')
+        );
+    }
 }

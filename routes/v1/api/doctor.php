@@ -58,4 +58,5 @@ Route::get('/payslips/{payslipId}/pdf', [v1\PayslipController::class, 'toPdf'])-
 Route::get('/payslips', [v1\PayslipController::class, 'mine'])->name('payslips.mine');
 Route::get('/payslips/{payslipId}', [v1\PayslipController::class, 'show'])->name('payslips.show');
 
+Route::get('/vacations/active', [v1\VacationController::class, 'myActiveVacations'])->name('vacations.active');
 Route::apiResource('vacations', v1\VacationController::class)->except(['update'])->names('vacations');

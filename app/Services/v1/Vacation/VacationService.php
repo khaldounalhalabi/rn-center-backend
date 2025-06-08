@@ -10,6 +10,7 @@ use App\Repositories\UserRepository;
 use App\Repositories\VacationRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -120,5 +121,10 @@ class VacationService extends BaseService
             ->whereDate('date_time', '>=', $from)
             ->whereDate('date_time', '<=', $to)
             ->count();
+    }
+
+    public function getActive(?int $userId, array $relationships = [], array $countable = []): Collection
+    {
+        return $this->repository->activeVacations($userId, $relationships, $countable);
     }
 }

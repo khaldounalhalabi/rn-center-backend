@@ -79,6 +79,7 @@ Route::get('/attendances/import-example', [v1\AttendanceLogController::class, 'g
 Route::post('/attendances/import', [v1\AttendanceLogController::class, 'import'])->name('attendances.import');
 Route::get('/attendances/export', [v1\AttendanceLogController::class, 'export'])->name('attendances.export');
 
+Route::get('/users/{userId}/vacations/active', [v1\VacationController::class, 'activeByUser'])->name('users.vacations.active');
 Route::get('/users/{userId}/vacations', [v1\VacationController::class, 'byUser'])->name('users.vacations');
 Route::get('/users/employees', [v1\UserController::class, 'employees'])->name('users.employees');
 Route::post('/users/secretaries', [v1\UserController::class, 'addSecretary'])->name('users.secretaries.store');
