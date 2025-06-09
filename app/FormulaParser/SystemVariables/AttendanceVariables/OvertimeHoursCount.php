@@ -2,7 +2,6 @@
 
 namespace App\FormulaParser\SystemVariables\AttendanceVariables;
 
-use App\Exceptions\WrongOrderWhileProcessingAttendanceException;
 use App\Models\AttendanceLog;
 use App\Models\Schedule;
 use Carbon\Carbon;
@@ -23,9 +22,7 @@ class OvertimeHoursCount extends AttendanceVariable
             if ($this->isNoneWorkingDate($date)) {
                 $logs->sortBy('attend_at')
                     ->values()
-                    ->each(/**
-                     * @throws WrongOrderWhileProcessingAttendanceException
-                     */ function (AttendanceLog $checkin, $index) use ($date, $logs, &$overTimeMinutes) {
+                    ->each(function (AttendanceLog $checkin, $index) use ($date, $logs, &$overTimeMinutes) {
                         if (!$checkin->isCheckin()) {
                             return true;
                         }
@@ -33,7 +30,7 @@ class OvertimeHoursCount extends AttendanceVariable
                         $checkout = $logs->get($index + 1);
 
                         if (!$checkout?->isCheckout()) {
-                            throw new WrongOrderWhileProcessingAttendanceException($date);
+                            return true;
                         }
 
                         $overTimeMinutes += $checkin->attend_at->diffInMinutes($checkout->attend_at);
@@ -43,9 +40,7 @@ class OvertimeHoursCount extends AttendanceVariable
             } else {
                 $logs->sortBy('attend_at')
                     ->values()
-                    ->each(/**
-                     * @throws WrongOrderWhileProcessingAttendanceException
-                     */ function (AttendanceLog $checkin, $index) use ($logs, &$attendanceInDayPerMinute, &$overTimeMinutes) {
+                    ->each(function (AttendanceLog $checkin, $index) use ($logs, &$attendanceInDayPerMinute, &$overTimeMinutes) {
                         if (!$checkin->isCheckin()) {
                             return true;
                         }
@@ -54,7 +49,7 @@ class OvertimeHoursCount extends AttendanceVariable
                         $checkout = $logs->get($index + 1);
 
                         if (!$checkout?->isCheckout()) {
-                            throw new WrongOrderWhileProcessingAttendanceException($checkin->attend_at);
+                            return true;
                         }
                         $attendanceInDayPerMinute += $checkin->attend_at->diffInMinutes($checkout->attend_at);
                         return true;

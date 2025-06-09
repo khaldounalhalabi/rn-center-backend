@@ -2,7 +2,6 @@
 
 namespace App\FormulaParser\SystemVariables\AttendanceVariables;
 
-use App\Exceptions\WrongOrderWhileProcessingAttendanceException;
 use App\Models\AttendanceLog;
 use App\Models\Schedule;
 use Illuminate\Database\Eloquent\Collection as EQCollection;
@@ -10,9 +9,6 @@ use Illuminate\Support\Collection;
 
 class AbsenceHoursCount extends AttendanceVariable
 {
-    /**
-     * @throws WrongOrderWhileProcessingAttendanceException
-     */
     public function getResult(): int|float|bool
     {
         $absenceMinutes = 0;
@@ -45,7 +41,7 @@ class AbsenceHoursCount extends AttendanceVariable
                     $checkout = $attendanceInDate->get($index + 1);
 
                     if (!$checkout?->isCheckout()) {
-                        throw new WrongOrderWhileProcessingAttendanceException($workDate);
+                        return true;
                     }
 
                     $attendanceMinutesInDay += $checkin->attend_at->diffInMinutes($checkout->attend_at);

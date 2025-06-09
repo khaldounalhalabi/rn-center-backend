@@ -2,7 +2,6 @@
 
 namespace App\FormulaParser\SystemVariables\AttendanceVariables;
 
-use App\Exceptions\WrongOrderWhileProcessingAttendanceException;
 use App\FormulaParser\SystemVariables\SystemVariable;
 use App\Models\AttendanceLog;
 use App\Models\Schedule;
@@ -86,7 +85,7 @@ abstract class AttendanceVariable extends SystemVariable
             $checkout = $logs->get($index + 1);
 
             if (!$checkout?->isCheckout()) {
-                throw new WrongOrderWhileProcessingAttendanceException($checkin->attend_at);
+                return true;
             }
 
             return $processFunction($checkin, $checkout);
