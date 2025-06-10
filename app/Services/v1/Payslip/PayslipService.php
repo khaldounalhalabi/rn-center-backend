@@ -5,6 +5,7 @@ namespace App\Services\v1\Payslip;
 use App\Enums\PayrunStatusEnum;
 use App\Enums\PayslipAdjustmentTypeEnum;
 use App\Enums\PayslipStatusEnum;
+use App\Enums\RolesPermissionEnum;
 use App\FormulaParser\Ast\Expression;
 use App\FormulaParser\EquationParser;
 use App\FormulaParser\Errors\ParsingError;
@@ -15,7 +16,11 @@ use App\Models\Payrun;
 use App\Models\Payslip;
 use App\Models\PayslipAdjustment;
 use App\Models\User;
+use App\Modules\Notification\App\Enums\NotifyMethod;
+use App\Modules\Notification\App\NotificationBuilder;
 use App\Modules\PDF;
+use App\Notifications\Admin\PayslipStatusChangedNotification;
+use App\Notifications\Common\PayslipUpdatedNotification;
 use App\Repositories\PayrunRepository;
 use App\Repositories\PayslipAdjustmentRepository;
 use App\Repositories\PayslipRepository;
@@ -168,6 +173,14 @@ class PayslipService extends BaseService
                 'has_errors' => false,
             ], $payslip->payrun);
         }
+
+        NotificationBuilder::make()
+            ->notification(PayslipUpdatedNotification::class)
+            ->to($payslip->user)
+            ->method(NotifyMethod::ONE)
+            ->data(['payslip_id' => $payslip->id])
+            ->send();
+
         return $payslip->refresh()->load($relationships)->loadCount($countable);
     }
 
@@ -200,6 +213,13 @@ class PayslipService extends BaseService
 
         $payslip->refresh()->calculateNetPay();
         $payslip->payrun->calculatePaymentCost();
+
+        NotificationBuilder::make()
+            ->notification(PayslipUpdatedNotification::class)
+            ->to($payslip->user)
+            ->method(NotifyMethod::ONE)
+            ->data(['payslip_id' => $payslip->id])
+            ->send();
 
         return $payslip->load($relations);
     }
@@ -240,6 +260,16 @@ class PayslipService extends BaseService
                 'status' => PayrunStatusEnum::APPROVED->value,
             ]);
         }
+
+        NotificationBuilder::make()
+            ->data([
+                'payslip_id' => $payslip->id,
+                'status' => $status,
+                'payrun_id' => $payrun->id,
+            ])->to(RolesPermissionEnum::ADMIN['role'])
+            ->method(NotifyMethod::BY_ROLE)
+            ->notification(PayslipStatusChangedNotification::class)
+            ->send();
 
         return $status;
     }

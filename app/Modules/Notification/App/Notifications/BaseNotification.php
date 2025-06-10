@@ -39,15 +39,12 @@ class BaseNotification extends Notification
         $this->resource = $resource instanceof NotificationResourceEnum
             ? $resource->value
             : $resource;
-
-        $this->data = array_merge(['resource' => $this->resource], $this->data);
         return $this;
     }
 
     public function resourceId(mixed $resourceId): static
     {
         $this->resourceId = $resourceId;
-        $this->data = array_merge(['resource_id' => $this->resourceId], $this->data);
         return $this;
     }
 
@@ -71,24 +68,15 @@ class BaseNotification extends Notification
         return $this;
     }
 
-    public function type(string $type = BaseNotification::class): static
-    {
-        $type = str_replace("App\\Notifications\\", "", $type);
-        $this->data = array_merge(['type' => $type], $this->data);
-        return $this;
-    }
-
     public function messageEn(string $message): static
     {
         $this->messageEn = $message;
-        $this->data = array_merge(['message_en' => $this->messageEn], $this->data);
         return $this;
     }
 
     public function messageAr(string $message): static
     {
         $this->messageAR = $message;
-        $this->data = array_merge(['message_ar' => $this->messageAR], $this->data);
         return $this;
     }
 
@@ -105,13 +93,14 @@ class BaseNotification extends Notification
         return
             FcmMessage::create()
                 ->setData([
-                    'data' => json_encode($this->data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+//                    'data' => json_encode($this->data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
                     'title' => $this->title,
                     'message_en' => $this->messageEn,
                     'message_ar' => $this->messageAR,
-                    'type' => str_replace('App\Notifications', "", static::class),
+                    'type' => str_replace("App\\Notifications\\", "", static::class),
                     'resource' => "$this->resource",
                     'resource_id' => "$this->resourceId",
+                    ...$this->data,
                 ]);
     }
 }

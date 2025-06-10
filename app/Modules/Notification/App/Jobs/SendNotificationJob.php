@@ -47,6 +47,7 @@ class SendNotificationJob implements ShouldQueue
             Log::info('***************************************');
             Log::info('***************************************');
             Log::info("Send Notification Job : [$this->notification]");
+            echo "[$this->notification] job dispatched \n";
             Notification::send($this->users, new $this->notification($this->data));
             Log::info('***************************************');
             Log::info('***************************************');

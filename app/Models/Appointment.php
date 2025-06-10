@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\AppointmentStatusEnum;
+use App\Enums\AppointmentTypeEnum;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -225,5 +226,10 @@ class Appointment extends Model
     public function transaction(): HasOne
     {
         return $this->hasOne(Transaction::class, 'appointment_id', 'id');
+    }
+
+    public function isOnline(): bool
+    {
+        return $this->type == AppointmentTypeEnum::ONLINE->value;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Enums\AppointmentStatusEnum;
+use App\Enums\RolesPermissionEnum;
 use App\Enums\TransactionTypeEnum;
 use App\Models\Appointment;
 use App\Modules\Notification\App\Enums\NotifyMethod;
@@ -31,15 +32,22 @@ class AppointmentObserver
      */
     public function created(Appointment $appointment): void
     {
-        NotificationBuilder::make()
+        $notification = NotificationBuilder::make()
             ->data([
                 'event' => self::CREATED_EVENT,
                 'appointment' => $appointment
             ])
-            ->to(collect([$appointment->customer->user, $appointment->clinic->user]))
-            ->method(NotifyMethod::MANY)
-            ->notification(AppointmentEventNotification::class)
-            ->send();
+            ->notification(AppointmentEventNotification::class);
+
+        if ($appointment->isOnline()) {
+            $notification->to(RolesPermissionEnum::SECRETARY['role'])
+                ->method(NotifyMethod::MANY)
+                ->send();
+        } else {
+            $notification->to($appointment->clinic->user)
+                ->method(NotifyMethod::ONE)
+                ->send();
+        }
 
         if (AppointmentStatusEnum::hasTransaction($appointment->status)) {
             TransactionRepository::make()->create([
@@ -107,6 +115,16 @@ class AppointmentObserver
             ->method(NotifyMethod::MANY)
             ->notification(AppointmentEventNotification::class)
             ->send();
+
+        NotificationBuilder::make()
+            ->data([
+                'event' => self::UPDATED_EVENT,
+                'appointment' => $appointment
+            ])
+            ->to(RolesPermissionEnum::SECRETARY['role'])
+            ->method(NotifyMethod::BY_ROLE)
+            ->notification(AppointmentEventNotification::class)
+            ->send();
     }
 
     /**
@@ -121,6 +139,16 @@ class AppointmentObserver
             ])
             ->to(collect([$appointment->customer->user, $appointment->clinic->user]))
             ->method(NotifyMethod::MANY)
+            ->notification(AppointmentEventNotification::class)
+            ->send();
+
+        NotificationBuilder::make()
+            ->data([
+                'event' => self::DELETED_EVENT,
+                'appointment' => $appointment
+            ])
+            ->to(RolesPermissionEnum::SECRETARY['role'])
+            ->method(NotifyMethod::BY_ROLE)
             ->notification(AppointmentEventNotification::class)
             ->send();
 

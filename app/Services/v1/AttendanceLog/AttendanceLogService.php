@@ -9,9 +9,14 @@ use App\FormulaParser\SystemVariables\AttendanceVariables\AbsenceDaysCount;
 use App\FormulaParser\SystemVariables\AttendanceVariables\AttendanceDaysCount;
 use App\FormulaParser\SystemVariables\AttendanceVariables\ExpectedAttendanceDaysCount;
 use App\FormulaParser\SystemVariables\AttendanceVariables\ExpectedAttendanceHoursCount;
+use App\FormulaParser\SystemVariables\AttendanceVariables\OvertimeDaysCount;
+use App\FormulaParser\SystemVariables\AttendanceVariables\OvertimeHoursCount;
 use App\FormulaParser\SystemVariables\AttendanceVariables\TotalAttendanceHoursCount;
 use App\Models\AttendanceLog;
 use App\Models\Schedule;
+use App\Modules\Notification\App\Enums\NotifyMethod;
+use App\Modules\Notification\App\NotificationBuilder;
+use App\Notifications\Realtime\AttendanceEditedNotification;
 use App\Repositories\AttendanceLogRepository;
 use App\Repositories\AttendanceRepository;
 use App\Repositories\UserRepository;
@@ -51,6 +56,13 @@ class AttendanceLogService extends BaseService
         ], $attendance);
 
         $this->repository->deleteByUser($attendance->id, $user->id);
+
+        NotificationBuilder::make()
+            ->notification(AttendanceEditedNotification::class)
+            ->data([])
+            ->to($user)
+            ->method(NotifyMethod::ONE)
+            ->send();
 
         if (!isset($data['attendance_shifts']) || (count($data['attendance_shifts']) == 0)) {
             return collect();
@@ -93,6 +105,7 @@ class AttendanceLogService extends BaseService
                 });
 
         AttendanceLogRepository::make()->insert($attendanceShifts->toArray());
+
         return $attendanceShifts
             ->map(fn($attendanceShift) => [...$attendanceShift, 'attend_at' => $attendanceShift['attend_at']->format('Y-m-d H:i:s')]);
     }
@@ -404,6 +417,8 @@ class AttendanceLogService extends BaseService
                     $expectedHours = (new ExpectedAttendanceHoursCount($user, $logs, $startOfMonth, $endOfMonth))->getResult();
                     $expectedDays = (new ExpectedAttendanceDaysCount($user, $logs, $startOfMonth, $endOfMonth))->getResult();
                     $attendanceInDay = (new TotalAttendanceHoursCount($user, $logsInDay, now()->startOfDay(), now()->endOfDay()))->getResult();
+                    $overtimeHours = (new OvertimeHoursCount($user, $logs, $startOfMonth, $endOfMonth))->getResult();
+                    $overtimeDays = (new OvertimeDaysCount($user, $logs, $startOfMonth, $endOfMonth))->getResult();
 
                     return [
                         'absence_days' => $absenceDays,
@@ -412,6 +427,8 @@ class AttendanceLogService extends BaseService
                         'expected_hours' => $expectedHours,
                         'expected_days' => $expectedDays,
                         'attendance_hours_in_day' => $attendanceInDay,
+                        'overtime_hours' => $overtimeHours,
+                        'overtime_days' => $overtimeDays,
                     ];
                 }
             );

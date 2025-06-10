@@ -7,6 +7,9 @@ use App\Enums\RolesPermissionEnum;
 use App\Enums\TransactionTypeEnum;
 use App\Models\Payrun;
 use App\Models\User;
+use App\Modules\Notification\App\Enums\NotifyMethod;
+use App\Modules\Notification\App\NotificationBuilder;
+use App\Notifications\Realtime\PayrunStatusChangedNotification;
 use App\Repositories\TransactionRepository;
 
 class PayrunObserver
@@ -43,14 +46,6 @@ class PayrunObserver
         //
     }
 
-    /**
-     * Handle the Payrun "force deleted" event.
-     */
-    public function forceDeleted(Payrun $payrun): void
-    {
-        //
-    }
-
     public function updating(Payrun $payrun): void
     {
         $prevPayrun = $payrun->getOriginal();
@@ -63,9 +58,9 @@ class PayrunObserver
                 TransactionRepository::make()->delete($transaction);
             }
 
-            if ($payrun->payment_cost >= 0){
+            if ($payrun->payment_cost >= 0) {
                 $type = TransactionTypeEnum::OUTCOME->value;
-            }else{
+            } else {
                 $type = TransactionTypeEnum::INCOME->value;
             }
 
@@ -84,6 +79,16 @@ class PayrunObserver
             if ($transaction) {
                 TransactionRepository::make()->delete($transaction);
             }
+        }
+
+
+        if ($prevStatus != $newStatus) {
+            NotificationBuilder::make()
+                ->data([])
+                ->to(User::query()->whereNotNull('fcm_token'))
+                ->method(NotifyMethod::TO_QUERY)
+                ->notification(PayrunStatusChangedNotification::class)
+                ->send();
         }
     }
 }

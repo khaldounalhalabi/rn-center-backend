@@ -4,10 +4,8 @@ namespace App\Services\v1\Attendance;
 
 use App\Enums\AttendanceStatusEnum;
 use App\Models\Attendance;
-use App\Models\AttendanceLog;
 use App\Repositories\AttendanceRepository;
 use App\Services\Contracts\BaseService;
-use App\Services\v1\StatusLog\StatusLogService;
 use App\Traits\Makable;
 use Carbon\Carbon;
 
@@ -30,17 +28,6 @@ class AttendanceService extends BaseService
         $attendance = $this->repository->getByDateOrCreate(Carbon::parse(request('attendance_at', now())));
         return $this->repository->update([
             'status' => AttendanceStatusEnum::APPROVED->value,
-        ], $attendance);
-    }
-
-    public function changeInAttendanceDataHandler(AttendanceLog $item): void
-    {
-        $attendance = $this->repository->getByDateOrCreate(
-            $item->attend_at,
-        );
-
-        $this->repository->update([
-            'status' => AttendanceStatusEnum::DRAFT->value,
         ], $attendance);
     }
 

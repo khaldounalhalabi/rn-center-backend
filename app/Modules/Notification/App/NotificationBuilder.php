@@ -2,6 +2,7 @@
 
 namespace App\Modules\Notification\App;
 
+use App\Models\User;
 use App\Modules\Notification\App\Enums\NotifyMethod;
 use App\Modules\Notification\App\Jobs\SendNotificationJob;
 use App\Modules\Notification\App\Notifications\BaseNotification;
@@ -65,10 +66,10 @@ class NotificationBuilder
     }
 
     /**
-     * @param Collection|array|Builder|Model|Relation|QueryBuilder|string $to
+     * @param Collection<User>|User[]|Builder|User|Relation|QueryBuilder $to
      * @return static
      */
-    public function to(Collection|array|Builder|Model|Relation|QueryBuilder|string $to): static
+    public function to(Collection|array|Builder|Model|Relation|QueryBuilder $to): static
     {
         $this->to = $to;
         return $this;

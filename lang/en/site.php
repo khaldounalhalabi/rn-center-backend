@@ -109,5 +109,21 @@ return [
 
     'rejected_payslips_errors' => 'You cannot approve on a payrun that has rejected payslips',
 
-    'cannot_have_vacation_in_appointments_dates' => 'Cannot allow a vacation in dates tha have appointments in it, you either pick another dates or cancel the appointments within the vacation date range'
+    'cannot_have_vacation_in_appointments_dates' => 'Cannot allow a vacation in dates tha have appointments in it, you either pick another dates or cancel the appointments within the vacation date range',
+
+    'vacation_request' => ':user_name has requested a vacation from :start_date to :end_date',
+    'you_ve_new_vacation' => 'You have a new vacation added from :start_date to :end_date',
+    'vacation_updated' => 'Your vacation has been updated',
+    'vacation_approved' => 'Your vacation has been approved',
+    'vacation_rejected' => 'Your vacation has been rejected',
+    'vacation_drafted' => 'Your vacation is still a draft',
+
+    'new_appointment_booked' => 'New appointment booked at :date_time',
+
+    'new_payroll_added' => 'New payrun added for the period between :start_date and :end_date',
+
+    'payslip_accepted' => ':user_name has accepted his payslip',
+    'payslip_rejected' => ':user_name has rejected his payslip',
+    'payslip_drafted' => ':user_name payslip is still a draft',
+    'payslip_updated' => 'Your payslip has been updated'
 ];

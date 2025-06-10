@@ -5,6 +5,9 @@ namespace App\Jobs;
 use App\Enums\PayrunStatusEnum;
 use App\Models\Payrun;
 use App\Models\User;
+use App\Modules\Notification\App\Enums\NotifyMethod;
+use App\Modules\Notification\App\NotificationBuilder;
+use App\Notifications\Common\NewPayrunAddedNotification;
 use App\Repositories\UserRepository;
 use App\Services\v1\Payrun\PayrunService;
 use Illuminate\Bus\Queueable;
@@ -71,6 +74,16 @@ class ProcessPayrunJob implements ShouldQueue, ShouldBeUnique
             'has_errors' => $payrunHasError,
             'processed_at' => now(),
         ]);
+        
+        NotificationBuilder::make()
+            ->data([
+                'payrun_id' => $this->payrun->id,
+                'from' => $this->payrun->from,
+                'to' => $this->payrun->to,
+            ])->to($this->payrun->users())
+            ->method(NotifyMethod::TO_QUERY)
+            ->notification(NewPayrunAddedNotification::class)
+            ->send();
     }
 
     public function uniqueId(): string
