@@ -63,6 +63,18 @@ class ProcessPayrunJob implements ShouldQueue, ShouldBeUnique
                                 if ($payslip?->error && !$payrunHasError) {
                                     $payrunHasError = true;
                                 }
+                                if ($payslip) {
+                                    NotificationBuilder::make()
+                                        ->data([
+                                            'payrun_id' => $this->payrun?->id,
+                                            'from' => $this->payrun?->from,
+                                            'to' => $this->payrun?->to,
+                                            'payslip_id' => $payslip?->id
+                                        ])->to($payslip->user)
+                                        ->method(NotifyMethod::TO_QUERY)
+                                        ->notification(NewPayrunAddedNotification::class)
+                                        ->send();
+                                }
                             });
                     }
                 );
@@ -74,16 +86,6 @@ class ProcessPayrunJob implements ShouldQueue, ShouldBeUnique
             'has_errors' => $payrunHasError,
             'processed_at' => now(),
         ]);
-        
-        NotificationBuilder::make()
-            ->data([
-                'payrun_id' => $this->payrun->id,
-                'from' => $this->payrun->from,
-                'to' => $this->payrun->to,
-            ])->to($this->payrun->users())
-            ->method(NotifyMethod::TO_QUERY)
-            ->notification(NewPayrunAddedNotification::class)
-            ->send();
     }
 
     public function uniqueId(): string
