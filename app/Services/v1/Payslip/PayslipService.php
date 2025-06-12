@@ -266,6 +266,7 @@ class PayslipService extends BaseService
                 'payslip_id' => $payslip->id,
                 'status' => $status,
                 'payrun_id' => $payrun->id,
+                'user_name' => $payslip->user->full_name
             ])->to(RolesPermissionEnum::ADMIN['role'])
             ->method(NotifyMethod::BY_ROLE)
             ->notification(PayslipStatusChangedNotification::class)

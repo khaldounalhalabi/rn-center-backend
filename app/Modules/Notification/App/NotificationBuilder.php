@@ -66,10 +66,10 @@ class NotificationBuilder
     }
 
     /**
-     * @param Collection<User>|User[]|Builder|User|Relation|QueryBuilder $to
+     * @param Collection<User>|User[]|Builder|User|Relation|QueryBuilder|string $to
      * @return static
      */
-    public function to(Collection|array|Builder|Model|Relation|QueryBuilder $to): static
+    public function to(Collection|array|Builder|Model|Relation|QueryBuilder|string $to): static
     {
         $this->to = $to;
         return $this;

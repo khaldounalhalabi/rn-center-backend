@@ -14,7 +14,7 @@ class VacationUpdatedNotification extends BaseNotification
             ->messageEn(trans('site.vacation_updated', locale: 'en'))
             ->messageAr(trans('site.vacation_updated', locale: 'ar'))
             ->data([
-                'vacation_id' => $data['vacation_id'],
+                'vacation_id' => "{$data['vacation_id']}",
             ])->resource(NotificationResourceEnum::VACATION)
             ->resourceId($data['vacation_id']);
     }

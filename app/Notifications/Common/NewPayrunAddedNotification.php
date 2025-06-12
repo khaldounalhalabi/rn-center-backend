@@ -14,7 +14,7 @@ class NewPayrunAddedNotification extends BaseNotification
             ->messageEn(trans('site.new_payroll_added', ['start_date' => $data['from'], 'end_date' => $data['to']], locale: 'en'))
             ->messageAr(trans('site.new_payroll_added', ['start_date' => $data['from'], 'end_date' => $data['to']], locale: 'ar'))
             ->data([
-                'payrun_id' => $data['payrun_id'],
+                'payrun_id' => "{$data['payrun_id']}",
             ])->resource(NotificationResourceEnum::PAYRUN)
             ->resourceId($data['payrun_id']);
     }

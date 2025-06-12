@@ -64,6 +64,8 @@ class AttendanceLogService extends BaseService
             ->method(NotifyMethod::ONE)
             ->send();
 
+        $this->invalidateAttendanceStatisticsCache($user->id);
+
         if (!isset($data['attendance_shifts']) || (count($data['attendance_shifts']) == 0)) {
             return collect();
         }
@@ -434,7 +436,7 @@ class AttendanceLogService extends BaseService
             );
     }
 
-    private function invalidateAttendanceStatisticsCache(int $userId): void
+    public function invalidateAttendanceStatisticsCache(int $userId): void
     {
         $cacheKey = $this->getStatisticsCacheKey($userId);
         cache()->forget($cacheKey);

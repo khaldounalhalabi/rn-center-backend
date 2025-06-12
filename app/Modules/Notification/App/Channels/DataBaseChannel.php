@@ -13,7 +13,7 @@ class DataBaseChannel extends LaravelDatabaseChannel
         return [
             'id' => $notification->id,
             'type' => method_exists($notification, 'databaseType')
-                ? $notification->databaseType($notifiable)
+                ? $notification->databaseType()
                 : get_class($notification),
             'data' => $data,
             'users' => json_encode($this->getUserIds($notifiable, $data), JSON_UNESCAPED_UNICODE),

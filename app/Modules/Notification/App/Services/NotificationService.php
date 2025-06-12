@@ -15,7 +15,7 @@ class NotificationService
 
     public function init(): void
     {
-        $this->limit = request('limit', 10);
+        $this->limit = request('per_page', 10);
     }
 
     public function myNotifications(): array|null

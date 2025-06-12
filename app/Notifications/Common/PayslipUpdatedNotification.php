@@ -14,7 +14,7 @@ class PayslipUpdatedNotification extends BaseNotification
             ->messageEn(trans('site.payslip_updated', locale: 'en'))
             ->messageAr(trans('site.payslip_updated', locale: 'ar'))
             ->data([
-                'payslip_id' => $data['payslip_id'],
+                'payslip_id' => "{$data['payslip_id']}",
             ])->resource(NotificationResourceEnum::PAYSLIP)
             ->resourceId($data['payslip_id']);
     }

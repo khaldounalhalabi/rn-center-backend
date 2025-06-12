@@ -15,7 +15,7 @@ class NewVacationAddedNotification extends BaseNotification
             ->messageEn(trans('site.you_ve_new_vacation', ['start_date' => $data['from'], 'end_date' => $data['to']], locale: 'en'))
             ->messageAr(trans('site.you_ve_new_vacation', ['start_date' => $data['from'], 'end_date' => $data['to']], locale: 'ar'))
             ->data([
-                'vacation_id' => $data['vacation_id'],
+                'vacation_id' => "{$data['vacation_id']}",
             ])->resource(NotificationResourceEnum::VACATION)
             ->resourceId($data['vacation_id']);
     }

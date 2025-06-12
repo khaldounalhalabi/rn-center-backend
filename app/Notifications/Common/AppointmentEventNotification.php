@@ -19,7 +19,7 @@ class AppointmentEventNotification extends BaseNotification
             ->messageAr(trans('site.appointment_event', ['event' => trans('site.' . $event, locale: "ar")], locale: "ar"))
             ->data([
                 'event' => $data['event'],
-                'appointment_id' => $data['appointment']->id,
+                'appointment_id' => "{$data['appointment']->id}",
             ])->resource(NotificationResourceEnum::APPOINTMENT)
             ->resourceId($data['appointment']->id);
     }

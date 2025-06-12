@@ -6,8 +6,10 @@ use App\Enums\WeekDayEnum;
 use App\Models\Clinic;
 use App\Models\Schedule;
 use App\Models\User;
+use App\Repositories\ClinicRepository;
 use App\Repositories\ScheduleRepository;
 use App\Services\Contracts\BaseService;
+use App\Services\v1\AttendanceLog\AttendanceLogService;
 use App\Traits\Makable;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
@@ -49,10 +51,13 @@ class ScheduleService extends BaseService
                 $this->repository->deleteByScheduleable($data['clinic_id']);
                 $scheduleableId = $data['clinic_id'];
                 $type = Clinic::class;
+                $clinic = ClinicRepository::make()->find($data['clinic_id']);
+                AttendanceLogService::make()->invalidateAttendanceStatisticsCache($clinic->user_id);
             } else {
                 $scheduleableId = $data['user_id'];
                 $type = User::class;
                 $this->repository->deleteByScheduleable($data['user_id'], $type);
+                AttendanceLogService::make()->invalidateAttendanceStatisticsCache($data['user_id']);
             }
 
             $schedules = collect();

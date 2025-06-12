@@ -30,7 +30,7 @@ class Common
     public static function formatPaginateData(LengthAwarePaginator $data): array
     {
         return [
-            'currentPage' => $data->currentPage(),
+            'current_page' => $data->currentPage(),
             'total' => $data->total(),
             'per_page' => $data->perPage(),
             'total_pages' => $data->lastPage(),

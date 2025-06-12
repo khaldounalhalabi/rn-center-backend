@@ -109,5 +109,22 @@ return [
 
     'rejected_payslips_errors' => 'لا يمكنك الموافقة على جدول الرواتب هذا بسبب وجود دفعات غير موافق عليها من قبل الموظفين المعنيين',
 
-    'cannot_have_vacation_in_appointments_dates' => 'لا يمكن السماح بإجازة في التواريخ التي تحتوي على مواعيد. يمكنك إما اختيار تواريخ أخرى أو إلغاء المواعيد ضمن نطاق تواريخ الإجازة.'
+    'cannot_have_vacation_in_appointments_dates' => 'لا يمكن السماح بإجازة في التواريخ التي تحتوي على مواعيد. يمكنك إما اختيار تواريخ أخرى أو إلغاء المواعيد ضمن نطاق تواريخ الإجازة.',
+
+    'vacation_request' => ':user_name طلب إجازة من :start_date إلى :end_date',
+    'you_ve_new_vacation' => 'لديك إجازة جديدة مضافة من :start_date إلى :end_date',
+    'vacation_updated' => 'تم تحديث إجازتك',
+    'vacation_approved' => 'تمت الموافقة على إجازتك',
+    'vacation_rejected' => 'تم رفض إجازتك',
+    'vacation_drafted' => 'إجازتك ما زالت مسودة',
+
+    'new_appointment_booked' => 'تم حجز موعد جديد في :date_time',
+
+    'new_payroll_added' => 'تمت إضافة تشغيل رواتب جديد للفترة من :start_date إلى :end_date',
+
+    'payslip_accepted' => ':user_name قبل قسيمة راتبه',
+    'payslip_rejected' => ':user_name رفض قسيمة راتبه',
+    'payslip_drafted' => 'قسيمة راتب :user_name ما زالت مسودة',
+    'payslip_updated' => 'تم تحديث قسيمة راتبك',
+
 ];

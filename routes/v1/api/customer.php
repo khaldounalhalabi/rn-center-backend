@@ -8,13 +8,7 @@ Route::post('logout', [v1\CustomerAuthController::class, 'logout'])->name('logou
 Route::post('update-user-data', [v1\CustomerAuthController::class, 'updateUserDetails'])->name('update.user.data');
 Route::get('me', [v1\CustomerAuthController::class, 'userDetails'])->name('me');
 
-Route::get('/appointments/today', [v1\AppointmentController::class, 'getCustomerTodayAppointments'])
-    ->name('appointments.today');
-Route::get('/appointments/{appointmentId}/cancel', [v1\AppointmentController::class, 'customerCancelAppointment'])->name('appointments.cancel');
-Route::put('/appointments/{appointmentId}/change-date', [v1\AppointmentController::class, 'updateAppointmentDate'])
-    ->name('appointments.change.date');
-Route::apiResource('appointments', v1\AppointmentController::class)
-    ->except(['destroy', 'update'])
-    ->names('appointments');
-
-Route::get('/clinics/{clinicId}/available-times', [v1\ClinicController::class, 'getClinicAvailableTimes'])->name('clinic.get.clinic.available.times');
+Route::get('/notifications', [v1\NotificationController::class, 'myNotifications'])->name('notifications.index');
+Route::get('/notifications/{notificationId}/read', [v1\NotificationController::class, 'markAsRead'])->name('notifications.read');
+Route::get('/notifications/read-all', [v1\NotificationController::class, 'markAllAsRead'])->name('notifications.read.all');
+Route::get('/notifications/unread-count', [v1\NotificationController::class, 'unreadCount'])->name('notifications.unread.count');

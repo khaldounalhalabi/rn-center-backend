@@ -8,6 +8,11 @@ Route::post('/logout', [v1\AdminAuthController::class, 'logout'])->name('logout'
 Route::post('/update-user-data', [v1\AdminAuthController::class, 'updateUserDetails'])->name('update.user.data');
 Route::get('/me', [v1\AdminAuthController::class, 'userDetails'])->name('user.detSails');
 
+Route::get('/notifications', [v1\NotificationController::class, 'myNotifications'])->name('notifications.index');
+Route::get('/notifications/{notificationId}/read', [v1\NotificationController::class, 'markAsRead'])->name('notifications.read');
+Route::get('/notifications/read-all', [v1\NotificationController::class, 'markAllAsRead'])->name('notifications.read.all');
+Route::get('/notifications/unread-count', [v1\NotificationController::class, 'unreadCount'])->name('notifications.unread.count');
+
 Route::apiResource('/clinics', v1\ClinicController::class)->names('clinics');
 
 Route::controller(v1\ScheduleController::class)

@@ -61,7 +61,7 @@ class VacationService extends BaseService
                     'user_id' => $user->id,
                     'start_date' => $data['from'],
                     'end_date' => $data['to'],
-                    'vacation_id' => $data['vacation_id'],
+                    'vacation_id' => $vacation->id,
                 ])->to(RolesPermissionEnum::ADMIN['role'])
                 ->method(NotifyMethod::BY_ROLE)
                 ->notification(NewVacationRequestNotification::class)
@@ -69,7 +69,7 @@ class VacationService extends BaseService
         } else {
             NotificationBuilder::make()
                 ->data([
-                    'vacation_id' => $data['vacation_id'],
+                    'vacation_id' => $vacation->id,
                     'from' => $data['from'],
                     'to' => $data['to']
                 ])->to($vacation->user)

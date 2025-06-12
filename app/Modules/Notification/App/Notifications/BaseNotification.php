@@ -82,7 +82,15 @@ class BaseNotification extends Notification
 
     public function toDatabase(): array
     {
-        return $this->data;
+        return [
+            ...$this->data,
+            'message_en' => $this->messageEn,
+            'message_ar' => $this->messageAR,
+            'title' => $this->title,
+            'type' => $this->databaseType(),
+            'resource' => "$this->resource",
+            'resource_id' => "$this->resourceId",
+        ];
     }
 
     /**
@@ -90,17 +98,22 @@ class BaseNotification extends Notification
      */
     public function toFcm(): FcmMessage
     {
+        $data = json_decode(json_encode($this->data), true);
         return
             FcmMessage::create()
                 ->setData([
-//                    'data' => json_encode($this->data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
                     'title' => $this->title,
                     'message_en' => $this->messageEn,
                     'message_ar' => $this->messageAR,
-                    'type' => str_replace("App\\Notifications\\", "", static::class),
+                    'type' => $this->databaseType(),
                     'resource' => "$this->resource",
                     'resource_id' => "$this->resourceId",
-                    ...$this->data,
+                    ...$data,
                 ]);
+    }
+
+    public function databaseType(): string
+    {
+        return str_replace("App\\Notifications\\", "", static::class);
     }
 }

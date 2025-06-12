@@ -8,6 +8,11 @@ Route::post('/logout', [v1\DoctorAuthController::class, 'logout'])->name("logout
 Route::post('/update-user-data', [v1\DoctorAuthController::class, 'updateUserDetails'])->name("update.user.data");
 Route::get('/me', [v1\DoctorAuthController::class, 'userDetails'])->name('user.details');
 
+Route::get('/notifications', [v1\NotificationController::class, 'myNotifications'])->name('notifications.index');
+Route::get('/notifications/{notificationId}/read', [v1\NotificationController::class, 'markAsRead'])->name('notifications.read');
+Route::get('/notifications/read-all', [v1\NotificationController::class, 'markAllAsRead'])->name('notifications.read.all');
+Route::get('/notifications/unread-count', [v1\NotificationController::class, 'unreadCount'])->name('notifications.unread.count');
+
 Route::name('appointments.')
     ->group(function () {
         Route::get('/appointments', [v1\AppointmentController::class, 'index'])->name('index');
