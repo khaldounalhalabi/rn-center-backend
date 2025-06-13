@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\PermissionEnum;
 use App\Http\Controllers\API\v1;
 use Illuminate\Support\Facades\Route;
 
@@ -15,3 +16,12 @@ Route::get('/notifications/unread-count', [v1\NotificationController::class, 'un
 
 Route::get('/holidays/active', [v1\HolidayController::class, 'activeHolidays'])->name('holidays.active');
 Route::get('holidays', [v1\HolidayController::class, 'index'])->name('holidays.index');
+
+Route::middleware(['permission:' . PermissionEnum::HOLIDAYS_MANAGEMENT->value])
+    ->group(function () {
+        Route::post('/holidays/export', [v1\HolidayController::class, 'export'])->name('holidays.export');
+        Route::post('/holidays/import', [v1\HolidayController::class, 'import'])->name('holidays.import');
+        Route::get('/holidays/get-import-example', [v1\HolidayController::class, 'getImportExample'])->name('holidays.get.example');
+        Route::apiResource('/holidays', v1\HolidayController::class)->except(['index'])->names('holidays');
+    });
+

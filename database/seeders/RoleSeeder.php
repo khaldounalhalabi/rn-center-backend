@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Enums\PermissionEnum;
 use App\Enums\RolesPermissionEnum;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
 
@@ -20,6 +22,13 @@ class RoleSeeder extends Seeder
 
         foreach ($roles as $role) {
             Role::updateOrCreate(['name' => $role['role'], 'guard_name' => 'api']);
+        }
+
+        foreach (PermissionEnum::getAllValues() as $permission) {
+            Permission::updateOrCreate([
+                'name' => $permission,
+                'guard_name' => 'api',
+            ]);
         }
     }
 }
