@@ -25,3 +25,10 @@ Route::middleware(['permission:' . PermissionEnum::HOLIDAYS_MANAGEMENT->value])
         Route::apiResource('/holidays', v1\HolidayController::class)->except(['index'])->names('holidays');
     });
 
+Route::get('/attendances', [v1\AttendanceLogController::class, 'myAttendance'])->name('attendances.index');
+Route::get('/attendances/checkin', [v1\AttendanceLogController::class, 'checkin'])->name('attendances.checkin');
+Route::get('/attendances/checkout', [v1\AttendanceLogController::class, 'checkout'])->name('attendances.checkout');
+Route::get('/attendances/latest', [v1\AttendanceLogController::class, 'latestLog'])->name('attendances.latest');
+Route::get('/attendances/export', [v1\AttendanceLogController::class, 'export'])->name('attendances.export');
+Route::get('/attendances/statistics', [v1\AttendanceLogController::class, 'myStatistics'])->name('attendances.statistics');
+
