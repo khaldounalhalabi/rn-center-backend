@@ -36,6 +36,8 @@ class PayslipResource extends BaseResource
             $this->mergeWhen($this->detailed, fn() => [
                 'can_update' => $this->canUpdate(),
                 'can_download' => $this->canDownload(),
+                'can_show' => $this->canShow(),
+                'can_toggle_status' => $this->canToggleStatus()
             ]),
         ];
     }

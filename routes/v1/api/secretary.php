@@ -42,3 +42,28 @@ Route::middleware(['permission:' . PermissionEnum::ATTENDANCE_MANAGEMENT->value]
     });
 
 Route::get('/schedule', [v1\ScheduleController::class, 'mySchedule'])->name('schedule.mine');
+
+Route::post('/payslips/{payslipId}/toggle-status', [v1\PayslipController::class, 'toggleStatus'])->name('payslips.toggle.status');
+Route::get('/payslips/{payslipId}/pdf', [v1\PayslipController::class, 'toPdf'])->name('payslips.pdf');
+Route::get('/payslips', [v1\PayslipController::class, 'mine'])->name('payslips.mine');
+Route::get('/payslips/{payslipId}', [v1\PayslipController::class, 'show'])->name('payslips.show');
+
+Route::middleware(['permission:' . PermissionEnum::PAYROLL_MANAGEMENT->value])
+    ->group(function () {
+        Route::apiResource('/formulas', v1\FormulaController::class)->names('formulas');
+
+        Route::apiResource('formula-variables', v1\FormulaVariableController::class)->only(['show', 'index'])->names('formula.variables');
+
+        Route::delete('/payslip-adjustments/{payslipAdjustmentId}', [v1\PayslipAdjustmentController::class, 'destroy'])->name('payslip.adjustments.destroy');
+
+        Route::post('/payslips/payslip-adjustments/bulk', [v1\PayslipController::class, 'bulkAdjustment'])->name('payslips.payslip.adjustments.bulk');
+        Route::post('/payslips/{payslipId}/payslip-adjustments', [v1\PayslipController::class, 'addAdjustment'])->name('payslips.payslip.adjustments.store');
+        Route::put('/payslips/{payslipId}', [v1\PayslipController::class, 'update'])->name('payslips.update');
+        Route::get('/payruns/{payrunId}/payslips', [v1\PayslipController::class, 'getByPayrun'])->name('payruns.payslips');
+        Route::post('/payslips/bulk-download', [v1\PayslipController::class, 'bulkPdfDownload'])->name('payslips.bulk.download');
+
+        Route::get('/payruns/{payrunId}/reprocess', [v1\PayrunController::class, 'reprocessPayrun'])->name('payruns.reprocess');
+        Route::get('/payruns/{payrunId}/export', [v1\PayrunController::class, 'reportToExcel'])->name('payruns.export');
+        Route::post('/payruns/{payrunId}/toggle-status', [v1\PayrunController::class, 'toggleStatus'])->name('payruns.toggle.status');
+        Route::apiResource('/payruns', v1\PayrunController::class)->except(['update'])->names('payruns');
+    });

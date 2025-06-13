@@ -6,6 +6,7 @@ use App\Enums\ExcelColumnsTypeEnum;
 use App\Enums\PayrunStatusEnum;
 use App\Enums\PayslipAdjustmentTypeEnum;
 use App\Enums\PayslipStatusEnum;
+use App\Enums\PermissionEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -131,7 +132,22 @@ class Payslip extends Model
     {
         return ($this->payrun->status == PayrunStatusEnum::APPROVED->value
                 || $this->payrun->status == PayrunStatusEnum::DONE->value)
-            && ((isDoctor() && $this->user_id == user()->id) || isAdmin());
+            && ($this->user_id == user()->id || isAdmin() || can(PermissionEnum::PAYROLL_MANAGEMENT));
+    }
+
+    public function canShow(): bool
+    {
+        return isAdmin()
+            || can(PermissionEnum::PAYROLL_MANAGEMENT)
+            || $this->user_id == user()->id;
+    }
+
+    public function canToggleStatus(): bool
+    {
+        return !isAdmin()
+            && $this->user_id == user()->id
+            && !can(PermissionEnum::PAYROLL_MANAGEMENT)
+            && $this->canUpdate();
     }
 
     public function calculateNetPay(): static

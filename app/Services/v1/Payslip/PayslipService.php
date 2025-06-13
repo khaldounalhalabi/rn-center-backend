@@ -5,6 +5,7 @@ namespace App\Services\v1\Payslip;
 use App\Enums\PayrunStatusEnum;
 use App\Enums\PayslipAdjustmentTypeEnum;
 use App\Enums\PayslipStatusEnum;
+use App\Enums\PermissionEnum;
 use App\Enums\RolesPermissionEnum;
 use App\FormulaParser\Ast\Expression;
 use App\FormulaParser\EquationParser;
@@ -232,11 +233,7 @@ class PayslipService extends BaseService
             return null;
         }
 
-        if (!$payslip->canUpdate()) {
-            return null;
-        }
-
-        if (!isAdmin() && $payslip->user_id != user()->id) {
+        if (!$payslip->canToggleStatus()) {
             return null;
         }
 
@@ -418,8 +415,6 @@ class PayslipService extends BaseService
         /** @var Payslip $payslip */
         $payslip = parent::view($id, $relationships, $countable);
 
-        return isAdmin()
-            ? $payslip
-            : (isDoctor() && $payslip?->user_id != user()->id ? null : $payslip);
+        return $payslip->canShow() ? $payslip : null;
     }
 }
