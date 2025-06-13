@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\AppointmentStatusEnum;
-use App\Interfaces\ActionsMustBeAuthorized;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 /**
  * @method Builder|Clinic online
  */
-class Clinic extends Model implements ActionsMustBeAuthorized
+class Clinic extends Model
 {
     use HasFactory;
 
@@ -30,14 +29,6 @@ class Clinic extends Model implements ActionsMustBeAuthorized
         'max_appointments' => 'integer',
         'appointment_cost' => 'float',
     ];
-
-    public static function authorizedActions(): array
-    {
-        return [
-            'edit-clinic-profile',
-            'show-clinic-profile',
-        ];
-    }
 
     /**
      * add your searchable columns, so you can search within them in the
@@ -78,7 +69,7 @@ class Clinic extends Model implements ActionsMustBeAuthorized
             ],
             [
                 'name' => 'available_time',
-                'query' => fn (Builder|Clinic $query, $value) => $query
+                'query' => fn(Builder|Clinic $query, $value) => $query
                     ->whereHas('schedules', function (Builder|Schedule $schedule) use ($value) {
                         $schedule->whereTime('start_time', '<=', $value)
                             ->whereTime('end_time', '>=', $value);

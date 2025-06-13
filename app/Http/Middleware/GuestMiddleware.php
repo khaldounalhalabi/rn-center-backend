@@ -16,7 +16,7 @@ class GuestMiddleware
     {
         if (!auth()->user()) {
             $request->headers->add([
-                'Guest' => true,
+                'X-Guest' => true,
             ]);
         }
         return $next($request);

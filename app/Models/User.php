@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\RolesPermissionEnum;
-use App\Traits\HasRoles;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -18,6 +17,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
+use Spatie\Permission\Traits\HasRoles;
 
 /**
  * @property int                  id
@@ -119,7 +119,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * define your columns which you want to treat them as files
+     * define your columns, which you want to treat them as files,
      * so the base repository can store them in the storage without
      * any additional files procedures
      */
@@ -148,7 +148,7 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(Clinic::class);
     }
 
-    public function routeNotificationForFcm()
+    public function routeNotificationForFcm(): ?string
     {
         return $this->fcm_token;
     }

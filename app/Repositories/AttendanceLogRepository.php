@@ -7,7 +7,6 @@ use App\Excel\Exporters\AttendanceLogExampleExport;
 use App\Excel\Exporters\AttendanceLogExport;
 use App\Excel\Importers\AttendanceLogImport;
 use App\Models\AttendanceLog;
-use App\Models\Role;
 use App\Models\User;
 use App\Repositories\Contracts\BaseRepository;
 use Carbon\Carbon;
@@ -20,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
+use Spatie\Permission\Models\Role;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
@@ -101,7 +101,7 @@ class AttendanceLogRepository extends BaseRepository
                 'role' => $attendance?->user?->roles?->first()?->name,
                 'attend_at' => $attendance->attend_at?->format('Y-m-d H:i'),
                 'type' => $attendance->type,
-            ]);;
+            ]);
 
         return Excel::download(
             new AttendanceLogExport($collection, $this->model),

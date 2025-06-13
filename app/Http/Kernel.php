@@ -5,7 +5,6 @@ namespace App\Http;
 use App\Http\Middleware\AcceptedLanguagesMiddleware;
 use App\Http\Middleware\AdminOnly;
 use App\Http\Middleware\Authenticate;
-use App\Http\Middleware\CustomerMustVerifyEmail;
 use App\Http\Middleware\CustomerOnly;
 use App\Http\Middleware\DoctorOnly;
 use App\Http\Middleware\EncryptCookies;
@@ -34,12 +33,13 @@ use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Spatie\Permission\Middleware\PermissionMiddleware;
 
 class Kernel extends HttpKernel
 {
     /**
      * The application's global HTTP middleware stack.
-     * These middleware are run during every request to your application.
+     * This middleware is run during every request to your application.
      * @var array<int, class-string|string>
      */
     protected $middleware = [
@@ -91,12 +91,12 @@ class Kernel extends HttpKernel
         'signed' => ValidateSignature::class,
         'throttle' => ThrottleRequests::class,
         'verified' => EnsureEmailIsVerified::class,
-        'verified-customer' => CustomerMustVerifyEmail::class,
         'admin' => AdminOnly::class,
         'doctor' => DoctorOnly::class,
         'customer' => CustomerOnly::class,
         'secretary' => SecretaryOnly::class,
         'guest-header' => GuestMiddleware::class,
         'must-verify-phone' => MustVerifyPhone::class,
+        'permission' => PermissionMiddleware::class
     ];
 }

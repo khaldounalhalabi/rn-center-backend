@@ -41,7 +41,7 @@ class AppointmentObserver
 
         if ($appointment->isOnline()) {
             $notification->to(RolesPermissionEnum::SECRETARY['role'])
-                ->method(NotifyMethod::MANY)
+                ->method(NotifyMethod::BY_ROLE)
                 ->send();
         } else {
             $notification->to($appointment->clinic->user)

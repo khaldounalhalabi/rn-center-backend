@@ -70,7 +70,7 @@ class PayrunObserver
                 'date' => now(),
                 'amount' => abs($payrun->payment_cost),
                 'description' => "$payrun->period دفعة رواتب فترة ",
-                'actor_id' => auth()->user()?->id ?? User::byRole(RolesPermissionEnum::ADMIN['role'])->first()?->id,
+                'actor_id' => auth()->user()?->id ?? User::role(RolesPermissionEnum::ADMIN['role'])->first()?->id,
             ]);
         }
 

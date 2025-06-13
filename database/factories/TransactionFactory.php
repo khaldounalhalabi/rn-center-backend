@@ -23,7 +23,7 @@ class TransactionFactory extends Factory
             'amount' => fake()->numberBetween(1, 15),
             'description' => fake()->text(),
             'date' => fake()->dateTimeBetween('-5 days', '+30 days'),
-            'actor_id' => User::inRandomOrder()->byRole(RolesPermissionEnum::ADMIN['role'])->first()->id,
+            'actor_id' => User::inRandomOrder()->role(RolesPermissionEnum::ADMIN['role'])->first()->id,
         ];
     }
 }

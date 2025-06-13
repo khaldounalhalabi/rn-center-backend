@@ -21,7 +21,7 @@ class VacationFactory extends Factory
     {
         $userId = fake()->boolean()
             ? Clinic::inRandomOrder()->first()->user_id
-            : User::byRole(RolesPermissionEnum::SECRETARY['role'])
+            : User::role(RolesPermissionEnum::SECRETARY['role'])
                 ->inRandomOrder()
                 ->first()->id;
 

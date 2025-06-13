@@ -23,7 +23,7 @@ class UserRepository extends BaseRepository
     {
         return $this->paginate(
             $this->globalQuery($relations, $countable)
-                ->byRole(RolesPermissionEnum::SECRETARY['role'])
+                ->role(RolesPermissionEnum::SECRETARY['role'])
         );
     }
 
@@ -31,7 +31,7 @@ class UserRepository extends BaseRepository
     {
         return $this->paginate(
             $this->globalQuery($relations, $countable)
-                ->byRole([RolesPermissionEnum::SECRETARY['role'], RolesPermissionEnum::DOCTOR['role']])
+                ->role([RolesPermissionEnum::SECRETARY['role'], RolesPermissionEnum::DOCTOR['role']])
         );
     }
 }

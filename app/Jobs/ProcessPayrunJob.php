@@ -71,7 +71,7 @@ class ProcessPayrunJob implements ShouldQueue, ShouldBeUnique
                                             'to' => $this->payrun?->to,
                                             'payslip_id' => $payslip?->id
                                         ])->to($payslip->user)
-                                        ->method(NotifyMethod::TO_QUERY)
+                                        ->method(NotifyMethod::ONE)
                                         ->notification(NewPayrunAddedNotification::class)
                                         ->send();
                                 }
