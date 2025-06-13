@@ -41,3 +41,4 @@ Route::middleware(['permission:' . PermissionEnum::ATTENDANCE_MANAGEMENT->value]
         Route::get('/attendances/export', [v1\AttendanceLogController::class, 'export'])->name('attendances.export');
     });
 
+Route::get('/schedule', [v1\ScheduleController::class, 'mySchedule'])->name('schedule.mine');
