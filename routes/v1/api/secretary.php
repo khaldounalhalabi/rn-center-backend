@@ -67,3 +67,6 @@ Route::middleware(['permission:' . PermissionEnum::PAYROLL_MANAGEMENT->value])
         Route::post('/payruns/{payrunId}/toggle-status', [v1\PayrunController::class, 'toggleStatus'])->name('payruns.toggle.status');
         Route::apiResource('/payruns', v1\PayrunController::class)->except(['update'])->names('payruns');
     });
+
+Route::get('/vacations/active', [v1\VacationController::class, 'myActiveVacations'])->name('vacations.active');
+Route::apiResource('vacations', v1\VacationController::class)->except(['update'])->names('vacations');

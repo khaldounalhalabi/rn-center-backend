@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\v1\Vacation;
 
+use App\Enums\PermissionEnum;
 use App\Enums\VacationStatusEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -33,7 +34,7 @@ class StoreUpdateVacationRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        if (isDoctor()) {
+        if ((isDoctor() || isSecretary()) && !can(PermissionEnum::VACATION_MANAGEMENT)) {
             $this->merge([
                 'user_id' => user()->id,
             ]);
