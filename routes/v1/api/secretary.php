@@ -69,4 +69,5 @@ Route::middleware(['permission:' . PermissionEnum::PAYROLL_MANAGEMENT->value])
     });
 
 Route::get('/vacations/active', [v1\VacationController::class, 'myActiveVacations'])->name('vacations.active');
+Route::put('/vacations/{vacationId}', [v1\VacationController::class, 'update'])->middleware(['permission:' . PermissionEnum::VACATION_MANAGEMENT->value])->name('vacations.update');
 Route::apiResource('vacations', v1\VacationController::class)->except(['update'])->names('vacations');

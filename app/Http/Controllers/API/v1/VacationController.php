@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\v1;
 
+use App\Enums\PermissionEnum;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\v1\Vacation\StoreUpdateVacationRequest;
 use App\Http\Requests\v1\Vacation\ToggleVacationStatusRequest;
@@ -23,7 +24,7 @@ class VacationController extends ApiController
 
     public function index()
     {
-        if (isAdmin()) {
+        if (isAdmin() || can(PermissionEnum::VACATION_MANAGEMENT)) {
             $items = $this->vacationService->indexWithPagination($this->relations);
         } else {
             $items = $this->vacationService->byUser(user()->id, $this->relations, $this->countable);

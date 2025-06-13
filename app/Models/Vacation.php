@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\PermissionEnum;
 use App\Enums\VacationStatusEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -31,9 +32,7 @@ class Vacation extends Model
 
     ];
 
-    protected $casts = [
-
-    ];
+    protected $casts = [];
 
     public function exportable(): array
     {
@@ -44,7 +43,6 @@ class Vacation extends Model
             'status',
             'cancellation_reason',
             'user.first_name',
-
         ];
     }
 
@@ -95,11 +93,15 @@ class Vacation extends Model
 
     public function canShow(): bool
     {
-        return $this->user_id == user()->id || isAdmin();
+        return $this->user_id == user()->id
+            || isAdmin()
+            || can(PermissionEnum::VACATION_MANAGEMENT);
     }
 
     public function canDelete(): bool
     {
-        return ($this->user_id == user()->id && $this->status == VacationStatusEnum::DRAFT->value) || isAdmin();
+        return ($this->user_id == user()->id && $this->status == VacationStatusEnum::DRAFT->value)
+            || isAdmin()
+            || can(PermissionEnum::VACATION_MANAGEMENT);
     }
 }
