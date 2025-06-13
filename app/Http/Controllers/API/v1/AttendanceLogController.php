@@ -48,6 +48,11 @@ class AttendanceLogController extends ApiController
         return $this->service->export($ids);
     }
 
+    public function exportMine()
+    {
+        return $this->service->exportMine();
+    }
+
     public function import(Request $request)
     {
         $request->validate([

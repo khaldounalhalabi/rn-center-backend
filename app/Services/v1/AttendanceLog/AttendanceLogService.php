@@ -25,6 +25,7 @@ use App\Traits\Makable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection as CollectionAlias;
 use Illuminate\Support\Collection;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
  * @extends BaseService<AttendanceLog>
@@ -55,7 +56,7 @@ class AttendanceLogService extends BaseService
             'status' => AttendanceStatusEnum::DRAFT->value
         ], $attendance);
 
-        $this->repository->deleteByUser($attendance->id, $user->id);
+        $this->repository->deleteByAttendanceAndUser($attendance->id, $user->id);
 
         NotificationBuilder::make()
             ->notification(AttendanceEditedNotification::class)
@@ -440,5 +441,10 @@ class AttendanceLogService extends BaseService
     {
         $cacheKey = $this->getStatisticsCacheKey($userId);
         cache()->forget($cacheKey);
+    }
+
+    public function exportMine(): BinaryFileResponse
+    {
+        return $this->repository->exportByUser(user()->id);
     }
 }

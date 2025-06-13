@@ -29,6 +29,15 @@ Route::get('/attendances', [v1\AttendanceLogController::class, 'myAttendance'])-
 Route::get('/attendances/checkin', [v1\AttendanceLogController::class, 'checkin'])->name('attendances.checkin');
 Route::get('/attendances/checkout', [v1\AttendanceLogController::class, 'checkout'])->name('attendances.checkout');
 Route::get('/attendances/latest', [v1\AttendanceLogController::class, 'latestLog'])->name('attendances.latest');
-Route::get('/attendances/export', [v1\AttendanceLogController::class, 'export'])->name('attendances.export');
+Route::get('/attendances/export/mine', [v1\AttendanceLogController::class, 'exportMine'])->name('attendances.export.mine');
 Route::get('/attendances/statistics', [v1\AttendanceLogController::class, 'myStatistics'])->name('attendances.statistics');
+
+Route::middleware(['permission:' . PermissionEnum::ATTENDANCE_MANAGEMENT->value])
+    ->group(function () {
+        Route::post('users/{userId}/attendances', [v1\AttendanceLogController::class, 'editOrCreate'])->name('users.attendance.edit');
+        Route::get('users/attendances', [v1\UserController::class, 'allWithAttendanceByDate'])->name('users.attendance.index');
+        Route::get('/attendances/import-example', [v1\AttendanceLogController::class, 'getImportExample'])->name('attendances.import.example');
+        Route::post('/attendances/import', [v1\AttendanceLogController::class, 'import'])->name('attendances.import');
+        Route::get('/attendances/export', [v1\AttendanceLogController::class, 'export'])->name('attendances.export');
+    });
 

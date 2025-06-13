@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\PermissionEnum;
 use App\Models\Clinic;
 use App\Models\Customer;
 use App\Models\User;
@@ -61,3 +62,12 @@ if (!function_exists('customer')) {
         return auth()->user()?->customer;
     }
 }
+
+if (!function_exists('can')) {
+    function can(PermissionEnum $permission): bool
+    {
+        return (boolean)user()?->hasPermissionTo($permission->value);
+    }
+}
+
+

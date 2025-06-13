@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Enums\PermissionEnum;
 use App\Enums\RolesPermissionEnum;
 use App\Excel\Exporters\AttendanceLogExampleExport;
 use App\Excel\Exporters\AttendanceLogExport;
@@ -29,15 +30,7 @@ class AttendanceLogRepository extends BaseRepository
 {
     protected string $modelClass = AttendanceLog::class;
 
-    public function globalQuery(array $relations = [], array $countable = [], bool $defaultOrder = true): Builder|Model
-    {
-        return parent::globalQuery($relations, $countable, $defaultOrder)
-            ->when(isDoctor() || isSecretary(), function (Builder|AttendanceLog $query) {
-                $query->where('user_id', user()->id);
-            });
-    }
-
-    public function deleteByUser($attendanceId, int $userId): bool
+    public function deleteByAttendanceAndUser($attendanceId, int $userId): bool
     {
         return $this->globalQuery()
             ->where('user_id', $userId)
@@ -97,7 +90,28 @@ class AttendanceLogRepository extends BaseRepository
             ->get()
             ->map(fn(AttendanceLog $attendance) => [
                 'full_name' => $attendance->user->full_name,
-                'user_id' => $attendance->id,
+                'user_id' => $attendance->user_id,
+                'role' => $attendance?->user?->roles?->first()?->name,
+                'attend_at' => $attendance->attend_at?->format('Y-m-d H:i'),
+                'type' => $attendance->type,
+            ]);
+
+        return Excel::download(
+            new AttendanceLogExport($collection, $this->model),
+            $this->model->getTable() . ".xlsx",
+        );
+    }
+
+    public function exportByUser(int $userId): BinaryFileResponse
+    {
+        $collection = $this->globalQuery(['user.roles'], [], false)
+            ->where('attendance_logs.user_id', $userId)
+            ->join('users', 'attendance_logs.user_id', '=', 'users.id')
+            ->orderByRaw('users.id ASC , attendance_logs.attend_at ASC')
+            ->get()
+            ->map(fn(AttendanceLog $attendance) => [
+                'full_name' => $attendance->user->full_name,
+                'user_id' => $attendance->user_id,
                 'role' => $attendance?->user?->roles?->first()?->name,
                 'attend_at' => $attendance->attend_at?->format('Y-m-d H:i'),
                 'type' => $attendance->type,
@@ -154,7 +168,7 @@ class AttendanceLogRepository extends BaseRepository
             ->count();
     }
 
-    public function deleteByDate(int $userId, Carbon|string $date): bool
+    public function deleteByDateAndUser(int $userId, Carbon|string $date): bool
     {
         $date = Carbon::parse($date)->format('Y-m-d');
         return $this->globalQuery()

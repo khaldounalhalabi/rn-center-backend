@@ -33,7 +33,7 @@ class AttendanceLogImport extends BaseImporter implements ToCollection
                     ->unique(fn($log) => Carbon::parse($log['attend_at'])->format('Y-m-d H:i:s'))
                     ->groupBy(fn($log) => Carbon::parse($log['attend_at'])->format('Y-m-d'))
                     ->each(function (Collection $logs, string $date) use (&$attendances, $user, &$data) {
-                        AttendanceLogRepository::make()->deleteByDate($user->id, $date);
+                        AttendanceLogRepository::make()->deleteByDateAndUser($user->id, $date);
                         $type = AttendanceLogTypeEnum::CHECKIN->value;
                         $dayName = strtolower(Carbon::parse($date)->dayName);
                         if ($user->isDoctor() && $user->clinic) {
