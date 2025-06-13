@@ -12,3 +12,6 @@ Route::get('/notifications', [v1\NotificationController::class, 'myNotifications
 Route::get('/notifications/{notificationId}/read', [v1\NotificationController::class, 'markAsRead'])->name('notifications.read');
 Route::get('/notifications/read-all', [v1\NotificationController::class, 'markAllAsRead'])->name('notifications.read.all');
 Route::get('/notifications/unread-count', [v1\NotificationController::class, 'unreadCount'])->name('notifications.unread.count');
+
+Route::get('/holidays/active', [v1\HolidayController::class, 'activeHolidays'])->name('holidays.active');
+Route::get('holidays', [v1\HolidayController::class, 'index'])->name('holidays.index');
