@@ -3,6 +3,8 @@
 namespace App\Http\Requests\v1\Payslip;
 
 use App\Enums\PayslipStatusEnum;
+use App\Enums\PermissionEnum;
+use App\Models\Payslip;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -23,8 +25,22 @@ class TogglePayslipStatusRequest extends FormRequest
      */
     public function rules(): array
     {
+        $payslip = Payslip::find($this->route('payslipId'));
+        if ((isAdmin() || can(PermissionEnum::PAYROLL_MANAGEMENT)) && $payslip->user_id != user()->id) {
+            $allowed = [
+                PayslipStatusEnum::DRAFT->value,
+                PayslipStatusEnum::EXCLUDED->value,
+            ];
+        } else {
+            $allowed = [
+                PayslipStatusEnum::DRAFT->value,
+                PayslipStatusEnum::ACCEPTED->value,
+                PayslipStatusEnum::REJECTED->value
+            ];
+        }
+
         return [
-            'status' => ['required', 'string', Rule::in(PayslipStatusEnum::forEmployees())],
+            'status' => ['required', 'string', Rule::in($allowed)],
         ];
     }
 }

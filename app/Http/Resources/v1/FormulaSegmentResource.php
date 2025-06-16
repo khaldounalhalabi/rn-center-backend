@@ -9,7 +9,6 @@ class FormulaSegmentResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
-     *
      * @return array<string, mixed>
      */
     public function toArray($request): array
@@ -19,6 +18,7 @@ class FormulaSegmentResource extends BaseResource
             'name' => $this->name,
             'segment' => $this->segment,
             'formula_id' => $this->formula_id,
+            'template' => $this->template,
             'formula' => new FormulaResource($this->whenLoaded('formula')),
         ];
     }

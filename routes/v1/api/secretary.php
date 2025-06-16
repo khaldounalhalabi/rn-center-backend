@@ -32,6 +32,11 @@ Route::get('/attendances/latest', [v1\AttendanceLogController::class, 'latestLog
 Route::get('/attendances/export/mine', [v1\AttendanceLogController::class, 'exportMine'])->name('attendances.export.mine');
 Route::get('/attendances/statistics', [v1\AttendanceLogController::class, 'myStatistics'])->name('attendances.statistics');
 
+Route::get('/users/employees', [v1\UserController::class, 'employees'])
+    ->middleware([
+        'permission:' . PermissionEnum::VACATION_MANAGEMENT->value
+    ])->name('users.employees');
+
 Route::middleware(['permission:' . PermissionEnum::ATTENDANCE_MANAGEMENT->value])
     ->group(function () {
         Route::post('users/{userId}/attendances', [v1\AttendanceLogController::class, 'editOrCreate'])->name('users.attendance.edit');
@@ -68,6 +73,10 @@ Route::middleware(['permission:' . PermissionEnum::PAYROLL_MANAGEMENT->value])
         Route::apiResource('/payruns', v1\PayrunController::class)->except(['update'])->names('payruns');
     });
 
+Route::middleware(['permission:' . PermissionEnum::VACATION_MANAGEMENT->value])
+    ->group(function () {
+        Route::put('/vacations/{vacationId}', [v1\VacationController::class, 'update'])->name('vacations.update');
+        Route::post('/vacations/toggle-status', [v1\VacationController::class, 'toggleStatus'])->name('vacations.toggle.status');
+    });
 Route::get('/vacations/active', [v1\VacationController::class, 'myActiveVacations'])->name('vacations.active');
-Route::put('/vacations/{vacationId}', [v1\VacationController::class, 'update'])->middleware(['permission:' . PermissionEnum::VACATION_MANAGEMENT->value])->name('vacations.update');
 Route::apiResource('vacations', v1\VacationController::class)->except(['update'])->names('vacations');

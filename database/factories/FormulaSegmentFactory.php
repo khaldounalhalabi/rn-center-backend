@@ -16,10 +16,12 @@ class FormulaSegmentFactory extends Factory
      */
     public function definition(): array
     {
+        $segment = fake()->randomNumber(2) . '-' . fake()->randomNumber(1);
         return [
             'name' => fake()->word,
-            'segment' => fake()->randomNumber(2) . '-' . fake()->randomNumber(1),
+            'segment' => $segment,
             'formula_id' => Formula::factory(),
+            'template' => $segment
         ];
     }
 }

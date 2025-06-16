@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->text('segment');
+            $table->text('template');
             $table->foreignIdFor(Formula::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });

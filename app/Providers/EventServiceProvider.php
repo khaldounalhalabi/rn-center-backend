@@ -2,9 +2,12 @@
 
 namespace App\Providers;
 
+use App\Listeners\PermissionsUpdatedListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Spatie\Permission\Events\PermissionAttached;
+use Spatie\Permission\Events\PermissionDetached;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -16,6 +19,12 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        PermissionAttached::class => [
+            PermissionsUpdatedListener::class
+        ],
+        PermissionDetached::class => [
+            PermissionsUpdatedListener::class
+        ]
     ];
 
     /**

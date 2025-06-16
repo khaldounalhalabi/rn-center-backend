@@ -70,6 +70,7 @@ class FormulaService extends BaseService
                     'name' => "",
                     'segment' => $segment,
                     'formula_id' => $formula->id,
+                    'template' => json_encode(FormulaService::make()->getFormulaHtmlFromExpression(EquationParser::parse($segment), $segment))
                 ];
             }
         } else {
@@ -78,6 +79,7 @@ class FormulaService extends BaseService
                     'name' => $sd['name'] ?? "",
                     'segment' => $sd['segment'] ?? "",
                     'formula_id' => $formula->id,
+                    'template' => json_encode(FormulaService::make()->getFormulaHtmlFromExpression(EquationParser::parse($sd['segment'] ?? ""), $sd['segment'] ?? ""))
                 ];
             }
         }

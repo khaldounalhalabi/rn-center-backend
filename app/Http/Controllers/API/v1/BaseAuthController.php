@@ -164,7 +164,7 @@ class BaseAuthController extends ApiController
         $user = $this->userService->userDetails($this->relations, $this->role);
 
         if ($user) {
-            return rest()->data($user)->getSuccess()->ok()->send();
+            return rest()->data(UserResource::make($user))->getSuccess()->ok()->send();
         } else {
             return rest()->notAuthorized()->message(__('site.unauthorized_user'))->send();
         }

@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Enums\PayrunStatusEnum;
+use App\Enums\RolesPermissionEnum;
 use App\Models\Payrun;
 use App\Models\User;
 use App\Modules\Notification\App\Enums\NotifyMethod;
@@ -53,7 +54,9 @@ class ProcessPayrunJob implements ShouldQueue, ShouldBeUnique
         $payrunHasError = false;
         DB::transaction(function () use (&$payrunHasError) {
             UserRepository::make()
-                ->globalQuery(['formula'])
+                ->globalQuery()
+                ->withWhereHas('formula')
+                ->role([RolesPermissionEnum::SECRETARY['role'], RolesPermissionEnum::DOCTOR['role']])
                 ->chunk(25,
                     function (Collection $users) use (&$payrunHasError) {
                         $users->each(

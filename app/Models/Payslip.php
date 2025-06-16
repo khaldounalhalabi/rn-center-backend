@@ -144,9 +144,7 @@ class Payslip extends Model
 
     public function canToggleStatus(): bool
     {
-        return !isAdmin()
-            && $this->user_id == user()->id
-            && !can(PermissionEnum::PAYROLL_MANAGEMENT)
+        return ($this->user_id == user()->id || isAdmin() || can(PermissionEnum::PAYROLL_MANAGEMENT))
             && $this->canUpdate();
     }
 

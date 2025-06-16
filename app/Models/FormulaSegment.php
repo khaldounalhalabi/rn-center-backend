@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\Translatable;
 use App\Traits\HasFormulaString;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string  segment
  * @property int     formula_id
  * @property Formula formula
+ * @property string  template
  */
 class FormulaSegment extends Model
 {
@@ -22,10 +24,11 @@ class FormulaSegment extends Model
         'name',
         'segment',
         'formula_id',
+        'template'
     ];
 
     protected $casts = [
-
+        'template' => Translatable::class
     ];
 
     public function exportable(): array

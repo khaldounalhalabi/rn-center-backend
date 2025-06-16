@@ -63,6 +63,7 @@ class FormulaFactory extends Factory
                     'segment' => $segment,
                     'name' => fake()->word(),
                     'formula_id' => $formula->id,
+                    'template' => FormulaService::make()->getFormulaHtmlFromExpression(EquationParser::parse($segment), $segment)
                 ]);
             }
 
