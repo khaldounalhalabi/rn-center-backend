@@ -2,13 +2,12 @@
 
 namespace App\Enums;
 
+use App\Traits\BaseEnum;
+
 enum GenderEnum: string
 {
+    use BaseEnum;
+
     case MALE = 'male';
     case FEMALE = 'female';
-
-    public static function getAllValues(): array
-    {
-        return array_column(self::cases(), 'value');
-    }
 }

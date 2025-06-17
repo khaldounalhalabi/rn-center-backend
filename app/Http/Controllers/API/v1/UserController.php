@@ -16,7 +16,7 @@ class UserController extends ApiController
     public function __construct()
     {
         $this->userService = UserService::make();
-        $this->relations = ['roles', 'formula'];
+        $this->relations = ['roles', 'formula', 'permissions'];
     }
 
     public function addSecretary(StoreUpdateUserRequest $request)

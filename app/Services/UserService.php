@@ -361,7 +361,26 @@ class UserService extends BaseService
         /** @var User $user */
         $user = parent::store($data);
         $user->assignRole($data['role']);
+        if (isset($data['permissions'])) {
+            $user->givePermissionTo(collect($data['permissions']));
+        }
         return $user->load($relationships)->loadCount($countable);
+    }
+
+    public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
+    {
+        $user = $this->repository->find($id);
+        if (!$user) {
+            return null;
+        }
+
+        $user = $this->repository->update($data, $user);
+        if (isset($data['permissions'])) {
+            $user->syncPermissions(collect($data['permissions']));
+        }else{
+            $user->permissions()->detach();
+        }
+        return $user->load($relationships, $countable);
     }
 
     public function getSecretaries(array $relations = [], array $countable = []): array
