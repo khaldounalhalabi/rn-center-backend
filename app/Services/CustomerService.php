@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\AppointmentStatusEnum;
+use App\Enums\PermissionEnum;
 use App\Enums\RolesPermissionEnum;
 use App\Exceptions\RoleDoesNotExistException;
 use App\Models\Customer;
@@ -102,8 +103,8 @@ class CustomerService extends BaseService
 
         return PDF::viewToPdf(view('pdf.patient-report', [
             'customer' => $customer,
-            'appointments' => $appointments,
-            'prescriptions' => $prescriptions,
+            'appointments' => isAdmin() || isDoctor() || (isSecretary() && can(PermissionEnum::APPOINTMENT_MANAGEMENT)) ? $appointments : null,
+            'prescriptions' => isAdmin() || isDoctor() || (isSecretary() && can(PermissionEnum::MEDICINE_MANAGEMENT)) ? $prescriptions : null,
             'medicalRecords' => $medicalRecords,
         ]));
     }

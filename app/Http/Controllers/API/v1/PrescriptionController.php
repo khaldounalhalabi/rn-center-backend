@@ -6,6 +6,7 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\v1\Prescription\StoreUpdatePrescriptionRequest;
 use App\Http\Resources\v1\PrescriptionResource;
 use App\Models\Prescription;
+use App\Modules\PDF;
 use App\Services\PrescriptionService;
 use Illuminate\Http\Request;
 
@@ -104,6 +105,16 @@ class PrescriptionController extends ApiController
         ], $this->countable);
         if ($data) {
             return $this->apiResponse(PrescriptionResource::collection($data['data'])->detailed(), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
+        }
+
+        return $this->noData();
+    }
+
+    public function toPdf($prescriptionId)
+    {
+        $result = $this->prescriptionService->toPdf($prescriptionId);
+        if ($result) {
+            return PDF::pdfResponse($result);
         }
 
         return $this->noData();

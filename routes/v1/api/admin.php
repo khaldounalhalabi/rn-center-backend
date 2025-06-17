@@ -77,6 +77,7 @@ Route::apiResource('appointments', v1\AppointmentController::class)->except(['de
 
 Route::post('clinics/available-appointments-times', [v1\AvailableAppointmentTimeController::class, 'get'])->name('clinics.available.appointments.time');
 
+Route::get('/prescriptions/{prescriptionId}/to-pdf', [v1\PrescriptionController::class, 'toPdf'])->name('prescriptions.to.pdf');
 Route::get('/prescriptions/{prescriptionId}', [v1\PrescriptionController::class, 'show'])->name('prescriptions.show');
 
 Route::post('users/{userId}/attendances', [v1\AttendanceLogController::class, 'editOrCreate'])->name('users.attendance.edit');

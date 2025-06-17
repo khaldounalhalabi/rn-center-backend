@@ -83,6 +83,7 @@ Route::apiResource('vacations', v1\VacationController::class)->except(['update']
 
 Route::middleware(['permission:' . PermissionEnum::MEDICINE_MANAGEMENT->value])
     ->group(function () {
+        Route::get('/prescriptions/{prescriptionId}/to-pdf', [v1\PrescriptionController::class, 'toPdf'])->name('prescriptions.to.pdf');
         Route::get('/prescriptions/{prescriptionId}', [v1\PrescriptionController::class, 'show'])->name('prescriptions.show');
         Route::get('/customers/{customerId}/prescriptions', [v1\PrescriptionController::class, 'getByCustomer'])->name('customers.prescriptions');
         Route::get('/medicine-prescriptions/{medicinePrescriptionId}/toggle-status', [v1\MedicinePrescriptionController::class, 'toggleStatus'])->name('medicine.prescriptions.toggle.status');

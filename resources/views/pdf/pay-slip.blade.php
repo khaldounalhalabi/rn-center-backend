@@ -33,13 +33,13 @@
                 <tr>
                     <td>
                         <span>
-                            <span style="width: 50%; font-size: 12px">
+                            <span style="width: 50%; font-size: 15px">
                                 {{ trans("site.date_of_joining") }} :
                             </span>
                             <span
                                 style="
                                     width: 50%;
-                                    font-size: 12px;
+                                    font-size: 15px;
                                     font-weight: bold;
                                 "
                             >
@@ -50,13 +50,13 @@
 
                     <td>
                         <span>
-                            <span style="width: 50%; font-size: 12px">
+                            <span style="width: 50%; font-size: 15px">
                                 {{ trans("site.worked_days") }} :
                             </span>
                             <span
                                 style="
                                     width: 50%;
-                                    font-size: 12px;
+                                    font-size: 15px;
                                     font-weight: bold;
                                 "
                             >
@@ -68,13 +68,13 @@
                 <tr>
                     <td>
                         <span>
-                            <span style="width: 50%; font-size: 12px">
+                            <span style="width: 50%; font-size: 15px">
                                 {{ trans("site.pay_period") }} :
                             </span>
                             <span
                                 style="
                                     width: 50%;
-                                    font-size: 12px;
+                                    font-size: 15px;
                                     font-weight: bold;
                                 "
                             >
@@ -84,14 +84,14 @@
                     </td>
                     <td>
                         <span>
-                            <span style="width: 50%; font-size: 12px">
+                            <span style="width: 50%; font-size: 15px">
                                 {{ trans("site.designation") }} :
                                 {{ trans("site.$role") }}
                             </span>
                             <span
                                 style="
                                     width: 50%;
-                                    font-size: 12px;
+                                    font-size: 15px;
                                     font-weight: bold;
                                 "
                             ></span>
@@ -101,13 +101,13 @@
                 <tr>
                     <td>
                         <span>
-                            <span style="width: 50%; font-size: 12px">
+                            <span style="width: 50%; font-size: 15px">
                                 {{ trans("site.full_name") }} :
                             </span>
                             <span
                                 style="
                                     width: 50%;
-                                    font-size: 12px;
+                                    font-size: 15px;
                                     font-weight: bold;
                                 "
                             >
@@ -131,7 +131,7 @@
             </tr>
             @foreach ($earnings as $item)
                 <tr>
-                    <td>
+                    <td style="text-align: center">
                         <span>{{ $item["label"] }}</span>
                         @if (isset($item["errors"]))
                             @if (is_array($item["errors"]))
@@ -147,7 +147,7 @@
                             @endif
                         @endif
                     </td>
-                    <td>{{ $item["value"] }}</td>
+                    <td style="text-align: center">{{ $item["value"] }}</td>
                 </tr>
             @endforeach
 
@@ -161,7 +161,7 @@
                 <td style="font-weight: bolder">
                     {{ trans("site.total_earnings") }}
                 </td>
-                <td>{{ $total_earnings }}</td>
+                <td style="text-align: center">{{ $total_earnings }}</td>
             </tr>
         </table>
 
@@ -180,7 +180,7 @@
             </tr>
             @foreach ($deductions as $item)
                 <tr>
-                    <td>
+                    <td style="text-align: center">
                         <span>{{ $item["label"] }}</span>
                         @if (isset($item["errors"]))
                             @if (is_array($item["errors"]))
@@ -196,7 +196,7 @@
                             @endif
                         @endif
                     </td>
-                    <td>{{ $item["value"] }}</td>
+                    <td style="text-align: center">{{ $item["value"] }}</td>
                 </tr>
             @endforeach
 
@@ -210,7 +210,7 @@
                 <td style="font-weight: bolder">
                     {{ trans("site.total_deductions") }}
                 </td>
-                <td>{{ $total_deductions }}</td>
+                <td style="text-align: center">{{ $total_deductions }}</td>
             </tr>
         </table>
 
@@ -221,11 +221,15 @@
                 <th colspan="2"></th>
             </tr>
             <tr style="background-color: #d9d9d9">
-                <th colspan="2" style="font-weight: bolder">{{trans('site.total')}}</th>
+                <th colspan="2" style="font-weight: bolder">
+                    {{ trans("site.total") }}
+                </th>
             </tr>
             <tr style="background-color: #3d6f78">
-                <td>{{ $total_pay }}</td>
-                <td>{{ \Illuminate\Support\Number::spell($total_pay) }}</td>
+                <td style="text-align: center">{{ $total_pay }}</td>
+                <td style="text-align: center">
+                    {{ \Illuminate\Support\Number::spell($total_pay) }}
+                </td>
             </tr>
         </table>
     </body>

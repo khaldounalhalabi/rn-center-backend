@@ -24,25 +24,25 @@
             {{ trans("site.patient_report") }}
         </h1>
         <span>
-            <span style="width: 50%; font-size: 12px">
+            <span style="width: 50%; font-size: 15px">
                 {{ trans("site.full_name") }} :
             </span>
-            <span style="width: 50%; font-size: 12px; font-weight: bold">
+            <span style="width: 50%; font-size: 15px; font-weight: bold">
                 {{ $customer->user?->full_name }}
             </span>
         </span>
 
         <span>
-            <span style="width: 50%; font-size: 12px">
+            <span style="width: 50%; font-size: 15px">
                 {{ trans("site.age") }} :
             </span>
-            <span style="width: 50%; font-size: 12px; font-weight: bold">
+            <span style="width: 50%; font-size: 15px; font-weight: bold">
                 {{ round($customer->birth_date?->diffInYears(now())) }}
             </span>
         </span>
 
         <span>
-            <span style="width: 50%; font-size: 12px">
+            <span style="width: 50%; font-size: 15px">
                 {{ trans("site.phone") }} :
             </span>
             <span style="width: 50%; font-size: 12px; font-weight: bold">
@@ -111,135 +111,138 @@
             @endforeach
         </table>
 
-        <!--Appointments tables Table-->
-        <h1 style="text-align: start">
-            {{ trans("site.appointments") }}
-        </h1>
-        <table border="1" class="data-table">
-            <tr style="background-color: #d9d9d9">
-                <th style="width: 25%">
-                    {{ trans("site.doctor") }}
-                </th>
-                <th style="width: 25%">
-                    {{ trans("site.service") }}
-                </th>
-                <th style="width: 25%">
-                    {{ trans("site.date_time") }}
-                </th>
-                <th style="width: 25%">
-                    {{ trans("site.status") }}
-                </th>
-            </tr>
-            @foreach ($appointments as $item)
-                <tr>
-                    <td>
-                        {{ $item->clinic->user->full_name }}
-                    </td>
-
-                    <td>
-                        {{ $item->service->name }}
-                    </td>
-
-                    <td>
-                        {{ $item->date_time?->format("Y-m-d H:i") }}
-                    </td>
-
-                    <td>
-                        {{ trans("site." . $item->status) }}
-                    </td>
-                </tr>
-            @endforeach
-        </table>
-
-        <!-- Prescriptions -->
-        <h1 style="text-align: start">
-            {{ trans("site.prescriptions") }}
-        </h1>
-        @foreach ($prescriptions as $prescription)
-            <h2>{{trans('site.prescription')}}</h2>
+        @if (isset($appointments))
+            <!--Appointments tables Table-->
+            <h1 style="text-align: start">
+                {{ trans("site.appointments") }}
+            </h1>
             <table border="1" class="data-table">
                 <tr style="background-color: #d9d9d9">
-                    <th style="width: 50%">
+                    <th style="width: 25%">
                         {{ trans("site.doctor") }}
                     </th>
-                    <th style="width: 50%">
-                        {{ trans("site.next_visit") }}
-                    </th>
-                </tr>
-                <tbody>
-                <tr>
-                    <td>
-                        {{ $prescription->clinic?->user?->full_name }}
-                    </td>
-                    <td>
-                        {{ $prescription->next_visit?->format("Y-m-d H:i") }}
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            @if (isset($prescription->other_data))
-                <h2 style="text-align: start">
-                    {{ trans("validation.attributes.other_data") }}
-                </h2>
-                <table border="1" class="data-table">
-                    <tr style="background-color: #d9d9d9">
-                        <th style="width: 35%"></th>
-                        <th style="width: 65%"></th>
-                    </tr>
-                    <tbody>
-                    @foreach ($prescription->other_data as $otherData)
-                        <tr>
-                            <td>
-                                {{ $otherData["key"] ?? "" }}
-                            </td>
-                            <td>
-                                {{ $otherData["value"] ?? "" }}
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            @endif
-            <h2 style="text-align: start">
-                {{ trans("site.medicines") }}
-            </h2>
-            <table border="1" class="data-table">
-                <tr style="background-color: #d9d9d9">
-                    <th style="width: 25%" class="">
-                        {{ trans("site.medicine") }}
-                    </th>
-                    <th style="width: 25%" class="">
-                        {{ trans("site.dosage") }}
+                    <th style="width: 25%">
+                        {{ trans("site.service") }}
                     </th>
                     <th style="width: 25%">
-                        {{ trans("site.dose_interval") }}
+                        {{ trans("site.date_time") }}
                     </th>
                     <th style="width: 25%">
-                        {{ trans("site.comment") }}
+                        {{ trans("site.status") }}
                     </th>
                 </tr>
-                @foreach ($prescription->medicinePrescriptions as $item)
+                @foreach ($appointments as $item)
                     <tr>
-                        {{-- <td class="left-cells"></td> --}}
-                        {{-- <td class="right-cells"></td> --}}
                         <td>
-                            {{ $item->medicine?->name }}
+                            {{ $item->clinic->user->full_name }}
                         </td>
 
                         <td>
-                            {{ $item->dosage }}
+                            {{ $item->service->name }}
                         </td>
 
                         <td>
-                            {{ $item->dose_interval }}
+                            {{ $item->date_time?->format("Y-m-d H:i") }}
                         </td>
 
                         <td>
-                            {{ $item->comment }}
+                            {{ trans("site." . $item->status) }}
                         </td>
                     </tr>
                 @endforeach
             </table>
-        @endforeach
+        @endif
+
+        <!-- Prescriptions -->
+        @if (isset($prescriptions))
+            <h1 style="text-align: start">
+                {{ trans("site.prescriptions") }}
+            </h1>
+            @foreach ($prescriptions as $prescription)
+                <h2>{{ trans("site.prescription") }}</h2>
+                <table border="1" class="data-table">
+                    <tr style="background-color: #d9d9d9">
+                        <th style="width: 50%">
+                            {{ trans("site.doctor") }}
+                        </th>
+                        <th style="width: 50%">
+                            {{ trans("site.next_visit") }}
+                        </th>
+                    </tr>
+                    <tbody>
+                        <tr>
+                            <td>
+                                {{ $prescription->clinic?->user?->full_name }}
+                            </td>
+                            <td>
+                                {{ $prescription->next_visit?->format("Y-m-d H:i") }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                @if (isset($prescription->other_data))
+                    <h2 style="text-align: start">
+                        {{ trans("validation.attributes.other_data") }}
+                    </h2>
+                    <table border="1" class="data-table">
+                        <tr style="background-color: #d9d9d9">
+                            <th style="width: 35%"></th>
+                            <th style="width: 65%"></th>
+                        </tr>
+                        <tbody>
+                            @foreach ($prescription->other_data as $otherData)
+                                <tr>
+                                    <td>
+                                        {{ $otherData["key"] ?? "" }}
+                                    </td>
+                                    <td>
+                                        {{ $otherData["value"] ?? "" }}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @endif
+
+                <h2 style="text-align: start">
+                    {{ trans("site.medicines") }}
+                </h2>
+                <table border="1" class="data-table">
+                    <tr style="background-color: #d9d9d9">
+                        <th style="width: 25%" class="">
+                            {{ trans("site.medicine") }}
+                        </th>
+                        <th style="width: 25%" class="">
+                            {{ trans("site.dosage") }}
+                        </th>
+                        <th style="width: 25%">
+                            {{ trans("site.dose_interval") }}
+                        </th>
+                        <th style="width: 25%">
+                            {{ trans("site.comment") }}
+                        </th>
+                    </tr>
+                    @foreach ($prescription->medicinePrescriptions as $item)
+                        <tr>
+                            <td>
+                                {{ $item->medicine?->name }}
+                            </td>
+
+                            <td>
+                                {{ $item->dosage }}
+                            </td>
+
+                            <td>
+                                {{ $item->dose_interval }}
+                            </td>
+
+                            <td>
+                                {{ $item->comment }}
+                            </td>
+                        </tr>
+                    @endforeach
+                </table>
+            @endforeach
+        @endif
     </body>
 </html>

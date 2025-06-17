@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\AppointmentStatusEnum;
 use App\Models\Prescription;
+use App\Modules\PDF;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\MedicinePrescriptionRepository;
 use App\Repositories\PrescriptionRepository;
@@ -123,5 +124,24 @@ class PrescriptionService extends BaseService
         }
 
         return $prescription->delete();
+    }
+
+    public function toPdf($prescriptionId): ?string
+    {
+        $prescription = $this->repository->find($prescriptionId, [
+            'customer',
+            'customer.user',
+            'medicinePrescriptions',
+            'medicinePrescriptions.medicine'
+        ]);
+
+        if (!$prescription) {
+            return null;
+        }
+
+        return PDF::viewToPdf(view('pdf.prescription', [
+            'customer' => $prescription->customer,
+            'prescription' => $prescription,
+        ]));
     }
 }
