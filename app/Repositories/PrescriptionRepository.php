@@ -18,7 +18,7 @@ class PrescriptionRepository extends BaseRepository
     {
         return parent::globalQuery($relations, $countable)
             ->when(isCustomer(), function (Builder|Prescription $prescription) {
-                $prescription->where('customer_id', auth()->user()?->customer?->id);
+                $prescription->where('customer_id', customer()?->id);
             });
     }
 

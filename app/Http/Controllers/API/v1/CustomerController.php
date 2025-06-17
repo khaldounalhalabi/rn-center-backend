@@ -76,7 +76,7 @@ class CustomerController extends ApiController
 
     public function getRecent()
     {
-        $data = $this->customerService->getRecent($this->indexRelations, ['validAppointments']);
+        $data = $this->customerService->getRecent($this->indexRelations, $this->relations);
         if ($data) {
             return $this->apiResponse(CustomerResource::collection($data['data']), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
         }

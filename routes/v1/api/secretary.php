@@ -80,3 +80,16 @@ Route::middleware(['permission:' . PermissionEnum::VACATION_MANAGEMENT->value])
     });
 Route::get('/vacations/active', [v1\VacationController::class, 'myActiveVacations'])->name('vacations.active');
 Route::apiResource('vacations', v1\VacationController::class)->except(['update'])->names('vacations');
+
+Route::middleware(['permission:' . PermissionEnum::PATIENT_MANAGEMENT->value])
+    ->group(function () {
+        Route::get('/customers/{customerId}/pdf-report', [v1\CustomerController::class, 'pdfReport'])->name('customers.pdf.report');
+        Route::get('/customers/{customerId}/prescriptions', [v1\PrescriptionController::class, 'getByCustomer'])->name('customers.prescriptions');
+        Route::get('/customers/{customerId}/appointments', [v1\AppointmentController::class, 'getByCustomer'])
+            ->middleware(['permission:' . PermissionEnum::APPOINTMENT_MANAGEMENT->value])
+            ->name('clinics.appointments');
+        Route::post('/media/customers/attachments', [v1\MediaController::class, 'addCustomerAttachment'])->name('media.customers.attachments.store');
+        Route::get('/customers/{customerId}/medical-records', [v1\MedicalRecordController::class, 'getByCustomer'])->name('customers.medical.records');
+        Route::get('/customers/recent', [v1\CustomerController::class, 'getRecent'])->name('customers.recent');
+        Route::apiResource('/customers', v1\CustomerController::class)->names('customers');
+    });

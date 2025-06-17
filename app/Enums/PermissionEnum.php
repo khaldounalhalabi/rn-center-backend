@@ -12,4 +12,6 @@ enum PermissionEnum: string
     case ATTENDANCE_MANAGEMENT = "attendance management";
     case PAYROLL_MANAGEMENT = "payroll management";
     case VACATION_MANAGEMENT = "vacation management";
+    case PATIENT_MANAGEMENT = "patient management";
+    case APPOINTMENT_MANAGEMENT = "appointment management";
 }
