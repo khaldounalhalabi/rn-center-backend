@@ -81,10 +81,20 @@ Route::middleware(['permission:' . PermissionEnum::VACATION_MANAGEMENT->value])
 Route::get('/vacations/active', [v1\VacationController::class, 'myActiveVacations'])->name('vacations.active');
 Route::apiResource('vacations', v1\VacationController::class)->except(['update'])->names('vacations');
 
+Route::middleware(['permission:' . PermissionEnum::MEDICINE_MANAGEMENT->value])
+    ->group(function () {
+        Route::get('/prescriptions/{prescriptionId}', [v1\PrescriptionController::class, 'show'])->name('prescriptions.show');
+        Route::get('/customers/{customerId}/prescriptions', [v1\PrescriptionController::class, 'getByCustomer'])->name('customers.prescriptions');
+        Route::get('/medicine-prescriptions/{medicinePrescriptionId}/toggle-status', [v1\MedicinePrescriptionController::class, 'toggleStatus'])->name('medicine.prescriptions.toggle.status');
+        Route::post('/medicines/export', [v1\MedicineController::class, 'export'])->name('medicines.export');
+        Route::post('/medicines/import', [v1\MedicineController::class, 'import'])->name('medicines.import');
+        Route::get('/medicines/get-import-example', [v1\MedicineController::class, 'getImportExample'])->name('medicines.get.example');
+        Route::apiResource('/medicines', v1\MedicineController::class)->names('medicines');
+    });
+
 Route::middleware(['permission:' . PermissionEnum::PATIENT_MANAGEMENT->value])
     ->group(function () {
         Route::get('/customers/{customerId}/pdf-report', [v1\CustomerController::class, 'pdfReport'])->name('customers.pdf.report');
-        Route::get('/customers/{customerId}/prescriptions', [v1\PrescriptionController::class, 'getByCustomer'])->name('customers.prescriptions');
         Route::get('/customers/{customerId}/appointments', [v1\AppointmentController::class, 'getByCustomer'])
             ->middleware(['permission:' . PermissionEnum::APPOINTMENT_MANAGEMENT->value])
             ->name('clinics.appointments');

@@ -19,7 +19,8 @@ class MedicinePrescription extends Model
         'duration',
         'time',
         'dose_interval',
-        'comment'
+        'comment',
+        'status'
     ];
 
     public function prescription(): BelongsTo

@@ -555,11 +555,6 @@
             }
         },
         {
-            "model_name": "MedicinePrescription",
-            "table_name": "medicine_prescriptions",
-            "attributes": []
-        },
-        {
             "model_name": "Subscription",
             "table_name": "subscriptions",
             "attributes": [
@@ -1440,6 +1435,12 @@
                     }
                 ]
             },
+            "version": "v1"
+        },
+        {
+            "model_name": "MedicinePrescription",
+            "table_name": "medicine_prescriptions",
+            "attributes": [],
             "version": "v1"
         }
     ],

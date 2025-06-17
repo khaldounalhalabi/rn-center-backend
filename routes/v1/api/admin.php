@@ -51,6 +51,7 @@ Route::apiResource('/services', v1\ServiceController::class)->names('services');
 Route::get('appointment-logs/{appointmentLogId}', [v1\AppointmentLogController::class, 'show'])->name('appointment.log.show');
 Route::get('appointments/{appointmentId}/logs', [v1\AppointmentLogController::class, 'getAppointmentLogs'])->name('appointments.logs');
 
+Route::get('/medicine-prescriptions/{medicinePrescriptionId}/toggle-status', [v1\MedicinePrescriptionController::class, 'toggleStatus'])->name('medicine.prescriptions.toggle.status');
 Route::post('/medicines/export', [v1\MedicineController::class, 'export'])->name('medicines.export');
 Route::post('/medicines/import', [v1\MedicineController::class, 'import'])->name('medicines.import');
 Route::get('/medicines/get-import-example', [v1\MedicineController::class, 'getImportExample'])->name('medicines.get.example');
