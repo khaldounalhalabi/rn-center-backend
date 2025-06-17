@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\v1;
 
+use App\Enums\PermissionEnum;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\v1\Appointment\ChangeAppointmentStatusRequest;
 use App\Http\Requests\v1\Appointment\StoreUpdateAppointmentRequest;
@@ -18,7 +19,7 @@ class AppointmentController extends ApiController
     {
         $this->appointmentService = AppointmentService::make();
 
-        if (isAdmin()) {
+        if (isAdmin() || can(PermissionEnum::APPOINTMENT_MANAGEMENT)) {
             $this->relations = ['customer.user', 'clinic.user', 'service', 'prescription', 'prescription.medicinePrescriptions.medicine'];
             $this->indexRelations = ['customer.user', 'clinic.user', 'service'];
         } elseif (isDoctor()) {

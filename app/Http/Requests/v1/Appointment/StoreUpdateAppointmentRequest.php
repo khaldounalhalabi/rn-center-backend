@@ -4,11 +4,13 @@ namespace App\Http\Requests\v1\Appointment;
 
 use App\Enums\AppointmentStatusEnum;
 use App\Enums\AppointmentTypeEnum;
+use App\Enums\PermissionEnum;
 use App\Repositories\AppointmentRepository;
 use App\Services\AvailableAppointmentTimeService;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class StoreUpdateAppointmentRequest extends FormRequest
 {
@@ -42,6 +44,11 @@ class StoreUpdateAppointmentRequest extends FormRequest
         } else {
             $requestedDate = Carbon::parse($this->input('date_time'));
             $appointment = AppointmentRepository::make()->find($this->route('appointment'));
+            if (!$appointment) {
+                throw ValidationException::withMessages([
+                    'appointment_id' => 'Invalid Appointment'
+                ]);
+            }
             $availableTimes = AvailableAppointmentTimeService::make()->getAvailableTimeSlots(
                 $appointment->clinic_id,
                 $requestedDate->format('Y-m-d')
@@ -90,7 +97,7 @@ class StoreUpdateAppointmentRequest extends FormRequest
             ]);
         }
 
-        if (isAdmin() && $this->isPost()) {
+        if ((isAdmin()|| can(PermissionEnum::APPOINTMENT_MANAGEMENT)) && $this->isPost()) {
             $this->merge([
                 'type' => AppointmentTypeEnum::MANUAL->value,
             ]);

@@ -104,3 +104,20 @@ Route::middleware(['permission:' . PermissionEnum::PATIENT_MANAGEMENT->value])
         Route::get('/customers/recent', [v1\CustomerController::class, 'getRecent'])->name('customers.recent');
         Route::apiResource('/customers', v1\CustomerController::class)->names('customers');
     });
+
+Route::middleware(['permission:' . PermissionEnum::APPOINTMENT_MANAGEMENT->value])
+    ->group(function () {
+        Route::get('appointment-logs/{appointmentLogId}', [v1\AppointmentLogController::class, 'show'])->name('appointment.log.show');
+        Route::get('appointments/{appointmentId}/logs', [v1\AppointmentLogController::class, 'getAppointmentLogs'])->name('appointments.logs');
+
+        Route::post('appointments/export', [v1\AppointmentController::class, 'export'])->name('appointments.export');
+        Route::put('appointments/change-status', [v1\AppointmentController::class, 'changeAppointmentStatus'])->name('appointments.change.status');
+
+        Route::get('/clinics/{clinicId}/appointments', [v1\AppointmentController::class, 'getByClinic'])
+            ->middleware(['permission:' . PermissionEnum::CLINIC_MANAGEMENT->value])
+            ->name('clinics.appointments');
+
+        Route::apiResource('appointments', v1\AppointmentController::class)->except(['destroy'])->names('appointments');
+    });
+
+Route::post('clinics/available-appointments-times', [v1\AvailableAppointmentTimeController::class, 'get'])->name('clinics.available.appointments.time');
