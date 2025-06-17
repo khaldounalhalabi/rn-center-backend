@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\v1;
 
+use App\Enums\PermissionEnum;
 use App\Http\Resources\BaseResource;
 use App\Models\Clinic;
 use Carbon\Carbon;
@@ -27,7 +28,7 @@ class ClinicResource extends BaseResource
             'specialities' => SpecialityResource::collection($this->whenLoaded('specialities')),
             'services' => ServiceResource::collection($this->whenLoaded('services')),
             'appointments' => AppointmentResource::collection($this->whenLoaded('appointments')),
-            $this->mergeWhen(isAdmin() || isDoctor(),
+            $this->mergeWhen(isAdmin() || isDoctor() || can(PermissionEnum::CLINIC_MANAGEMENT),
                 [
                     'total_appointments' => $this->whenCounted('appointments'),
                     'today_appointments_count' => $this->whenCounted('todayAppointments'),

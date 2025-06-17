@@ -16,4 +16,5 @@ enum PermissionEnum: string
     case APPOINTMENT_MANAGEMENT = "appointment management";
     case MEDICINE_MANAGEMENT = "medicine management";
     case CLINIC_MANAGEMENT = "clinic management";
+    case TRANSACTION_MANAGEMENT = "transaction management";
 }

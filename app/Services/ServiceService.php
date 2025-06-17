@@ -19,40 +19,6 @@ class ServiceService extends BaseService
 
     protected string $repositoryClass = ServiceRepository::class;
 
-    public function view($id, array $relationships = [], array $countable = []): ?Service
-    {
-        $service = parent::view($id, $relationships, $countable);
-
-        if ($service?->canShow()) {
-            return $service;
-        }
-
-        return null;
-    }
-
-    public function update(array $data, $id, array $relationships = [], array $countable = []): ?Model
-    {
-        $service = $this->repository->find($id);
-
-        if (!$service?->canUpdate()) {
-            return null;
-        }
-
-        return $this->repository->update($data, $service, $relationships, $countable);
-    }
-
-    public function delete($id): ?bool
-    {
-        $service = $this->repository->find($id);
-
-        if (!$service?->canDelete()) {
-            return null;
-        }
-
-        $service->delete();
-        return true;
-    }
-
     public function getByClinic($clinicId, array $relations = [], array $countable = []): ?array
     {
         return $this->repository->getByClinic($clinicId, $relations, $countable);

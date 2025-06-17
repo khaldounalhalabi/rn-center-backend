@@ -33,9 +33,6 @@ class StoreUpdateTransactionRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        //TODO:: need to check for other users when they have the proper permission
-        if (isAdmin()) {
-            $this->merge(['actor_id' => auth()->user()?->id]);
-        }
+        $this->merge(['actor_id' => user()?->id]);
     }
 }

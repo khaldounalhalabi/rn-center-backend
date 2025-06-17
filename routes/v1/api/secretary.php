@@ -14,6 +14,39 @@ Route::get('/notifications/{notificationId}/read', [v1\NotificationController::c
 Route::get('/notifications/read-all', [v1\NotificationController::class, 'markAllAsRead'])->name('notifications.read.all');
 Route::get('/notifications/unread-count', [v1\NotificationController::class, 'unreadCount'])->name('notifications.unread.count');
 
+Route::get('/clinics', [v1\ClinicController::class, 'index'])->name('clinic.index');
+Route::middleware(['permission:' . PermissionEnum::CLINIC_MANAGEMENT->value])
+    ->group(function () {
+        Route::apiResource('/clinics', v1\ClinicController::class)
+            ->except(['index'])
+            ->names('clinics');
+
+        Route::controller(v1\ScheduleController::class)
+            ->group(function () {
+                Route::get('/clinics/{clinicId}/schedules', 'clinicSchedules')->name('clinics.schedules');
+                Route::delete('clinics/{clinicId}/schedules', 'deleteAllClinicSchedules')->name('clinics.schedules.delete');
+                Route::get('/users/{userId}/schedules', 'userSchedules')->name('users.schedules');
+                Route::delete('users/{userId}/schedules', 'deleteUserSchedules')->name('users.schedules.delete');
+                Route::post('/schedules', 'storeUpdateSchedules')->name('schedules.storeOrUpdate');
+            });
+
+        Route::get('/clinics/{clinicId}/services', [v1\ServiceController::class, 'getClinicServices'])->name('get-clinic-services');
+        Route::post('/services/export', [v1\ServiceController::class, 'export'])->name('services.export');
+        Route::post('/services/import', [v1\ServiceController::class, 'import'])->name('services.import');
+        Route::get('/services/import-example', [v1\ServiceController::class, 'getImportExample'])->name('services.import.example');
+        Route::apiResource('/services', v1\ServiceController::class)->names('services');
+
+        Route::post('/service-categories/export', [v1\ServiceCategoryController::class, 'export'])->name('service.categories.export');
+        Route::post('/service-categories/import', [v1\ServiceCategoryController::class, 'import'])->name('service.categories.import');
+        Route::get('/service-categories/import-example', [v1\ServiceCategoryController::class, 'getImportExample'])->name('service.categories.import.example');
+        Route::apiResource('/service-categories', v1\ServiceCategoryController::class)->names('service.categories');
+
+        Route::post('/specialities/export', [v1\SpecialityController::class, 'export'])->name('specialities.export');
+        Route::post('/specialities/import', [v1\SpecialityController::class, 'import'])->name('specialities.import');
+        Route::get('/specialities/import-example', [v1\SpecialityController::class, 'getImportExample'])->name('specialities.import.example');
+        Route::apiResource('/specialities', v1\SpecialityController::class)->names('specialities');
+    });
+
 Route::get('/holidays/active', [v1\HolidayController::class, 'activeHolidays'])->name('holidays.active');
 Route::get('holidays', [v1\HolidayController::class, 'index'])->name('holidays.index');
 
@@ -93,6 +126,7 @@ Route::middleware(['permission:' . PermissionEnum::MEDICINE_MANAGEMENT->value])
         Route::apiResource('/medicines', v1\MedicineController::class)->names('medicines');
     });
 
+Route::get('/customers', [v1\CustomerController::class, 'index'])->name('customers.index');
 Route::middleware(['permission:' . PermissionEnum::PATIENT_MANAGEMENT->value])
     ->group(function () {
         Route::get('/customers/{customerId}/pdf-report', [v1\CustomerController::class, 'pdfReport'])->name('customers.pdf.report');
@@ -102,7 +136,7 @@ Route::middleware(['permission:' . PermissionEnum::PATIENT_MANAGEMENT->value])
         Route::post('/media/customers/attachments', [v1\MediaController::class, 'addCustomerAttachment'])->name('media.customers.attachments.store');
         Route::get('/customers/{customerId}/medical-records', [v1\MedicalRecordController::class, 'getByCustomer'])->name('customers.medical.records');
         Route::get('/customers/recent', [v1\CustomerController::class, 'getRecent'])->name('customers.recent');
-        Route::apiResource('/customers', v1\CustomerController::class)->names('customers');
+        Route::apiResource('/customers', v1\CustomerController::class)->except(['index'])->names('customers');
     });
 
 Route::middleware(['permission:' . PermissionEnum::APPOINTMENT_MANAGEMENT->value])
@@ -121,3 +155,10 @@ Route::middleware(['permission:' . PermissionEnum::APPOINTMENT_MANAGEMENT->value
     });
 
 Route::post('clinics/available-appointments-times', [v1\AvailableAppointmentTimeController::class, 'get'])->name('clinics.available.appointments.time');
+
+
+Route::middleware(['permission:' . PermissionEnum::TRANSACTION_MANAGEMENT->value])
+    ->group(function () {
+        Route::get('/transactions/balance', [v1\TransactionController::class, 'balance'])->name('transactions.balance');
+        Route::apiResource('/transactions', v1\TransactionController::class)->names('transactions');
+    });

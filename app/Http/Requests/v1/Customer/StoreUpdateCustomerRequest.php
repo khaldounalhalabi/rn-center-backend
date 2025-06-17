@@ -45,7 +45,7 @@ class StoreUpdateCustomerRequest extends FormRequest
                 'regex:/^09\d{8}$/',
                 Rule::unique('users', 'phone')
                     ->when(
-                        $this->method() == 'PUT',
+                        $this->isPut(),
                         fn($rule) => $rule->ignore(CustomerRepository::make()->find($this->route('customer'))?->user_id)
                     )
             ],
