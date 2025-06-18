@@ -14,11 +14,14 @@ Route::get('/notifications/{notificationId}/read', [v1\NotificationController::c
 Route::get('/notifications/read-all', [v1\NotificationController::class, 'markAllAsRead'])->name('notifications.read.all');
 Route::get('/notifications/unread-count', [v1\NotificationController::class, 'unreadCount'])->name('notifications.unread.count');
 
-Route::get('/clinics', [v1\ClinicController::class, 'index'])->name('clinic.index');
+Route::delete('/media/{mediaId}', [v1\MediaController::class, 'delete'])->name('media.delete');
+
+Route::get('/clinics/{clinicId}/services', [v1\ServiceController::class, 'getClinicServices'])->name('get-clinic-services');
+Route::get('/services/{serviceId}', [v1\ServiceController::class, 'show'])->name('services.show');
 Route::middleware(['permission:' . PermissionEnum::CLINIC_MANAGEMENT->value])
     ->group(function () {
         Route::apiResource('/clinics', v1\ClinicController::class)
-            ->except(['index'])
+            ->except(['index', 'show'])
             ->names('clinics');
 
         Route::controller(v1\ScheduleController::class)
@@ -30,11 +33,10 @@ Route::middleware(['permission:' . PermissionEnum::CLINIC_MANAGEMENT->value])
                 Route::post('/schedules', 'storeUpdateSchedules')->name('schedules.storeOrUpdate');
             });
 
-        Route::get('/clinics/{clinicId}/services', [v1\ServiceController::class, 'getClinicServices'])->name('get-clinic-services');
         Route::post('/services/export', [v1\ServiceController::class, 'export'])->name('services.export');
         Route::post('/services/import', [v1\ServiceController::class, 'import'])->name('services.import');
         Route::get('/services/import-example', [v1\ServiceController::class, 'getImportExample'])->name('services.import.example');
-        Route::apiResource('/services', v1\ServiceController::class)->names('services');
+        Route::apiResource('/services', v1\ServiceController::class)->except(['index', 'show'])->names('services');
 
         Route::post('/service-categories/export', [v1\ServiceCategoryController::class, 'export'])->name('service.categories.export');
         Route::post('/service-categories/import', [v1\ServiceCategoryController::class, 'import'])->name('service.categories.import');
@@ -46,6 +48,9 @@ Route::middleware(['permission:' . PermissionEnum::CLINIC_MANAGEMENT->value])
         Route::get('/specialities/import-example', [v1\SpecialityController::class, 'getImportExample'])->name('specialities.import.example');
         Route::apiResource('/specialities', v1\SpecialityController::class)->names('specialities');
     });
+Route::get('/clinics', [v1\ClinicController::class, 'index'])->name('clinic.index');
+Route::get('/clinics/{clinicId}', [v1\ClinicController::class, 'show'])->name('clinic.show');
+Route::get('/services', [v1\ServiceController::class, 'index'])->name('services.index');
 
 Route::get('/holidays/active', [v1\HolidayController::class, 'activeHolidays'])->name('holidays.active');
 Route::get('holidays', [v1\HolidayController::class, 'index'])->name('holidays.index');

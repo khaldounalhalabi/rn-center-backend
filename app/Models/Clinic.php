@@ -129,11 +129,6 @@ class Clinic extends Model
             ->whereIn('status', [AppointmentStatusEnum::CHECKIN->value, AppointmentStatusEnum::BOOKED->value]);
     }
 
-    public function medicines(): HasMany
-    {
-        return $this->hasMany(Medicine::class);
-    }
-
     public function prescriptions(): HasMany
     {
         return $this->hasMany(Prescription::class);

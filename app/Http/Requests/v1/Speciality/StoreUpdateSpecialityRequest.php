@@ -25,7 +25,7 @@ class StoreUpdateSpecialityRequest extends FormRequest
         return [
             'name' => ['unique:specialities,name', 'required', 'string', 'min:3', 'max:255'],
             'description' => '|nullable|string',
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:5000'
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:5000', Rule::requiredIf(fn() => $this->isPost())]
         ];
     }
 }

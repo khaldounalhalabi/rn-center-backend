@@ -71,7 +71,7 @@ class StoreUpdateAppointmentRequest extends FormRequest
                 'date_format:Y-m-d H:i',
                 Rule::in($availableTimes->toArray()),
             ],
-            'status' => ['string', Rule::in(AppointmentStatusEnum::getAllValues())],
+            'status' => ['required', 'string', Rule::in(AppointmentStatusEnum::getAllValues())],
             'discount' => ['nullable', 'numeric', 'min:0'],
             'cancellation_reason' => ['nullable', 'string', 'max:10000', 'required_if:status,' . AppointmentStatusEnum::CANCELLED->value],
         ];
@@ -97,7 +97,7 @@ class StoreUpdateAppointmentRequest extends FormRequest
             ]);
         }
 
-        if ((isAdmin()|| can(PermissionEnum::APPOINTMENT_MANAGEMENT)) && $this->isPost()) {
+        if ((isAdmin() || can(PermissionEnum::APPOINTMENT_MANAGEMENT)) && $this->isPost()) {
             $this->merge([
                 'type' => AppointmentTypeEnum::MANUAL->value,
             ]);

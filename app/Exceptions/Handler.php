@@ -12,6 +12,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\ValidationException;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
@@ -78,6 +79,11 @@ class Handler extends ExceptionHandler
                 return $this->apiResponse('', ApiController::STATUS_NOT_AUTHENTICATED, 'you should login');
             }
         }
+
+        if ($exception instanceof UnauthorizedException) {
+            return $this->apiResponse('', ApiController::STATUS_UNAUTHORIZED, $exception->getMessage());
+        }
+
         if ($exception instanceof ApprovingPayslipsWithRejectedPayslips) {
             return $this->apiResponse(
                 null,
@@ -85,6 +91,7 @@ class Handler extends ExceptionHandler
                 $exception->getMessage(),
             );
         }
+
         if (config('app.debug')) {
             return parent::render($request, $exception);
         }
