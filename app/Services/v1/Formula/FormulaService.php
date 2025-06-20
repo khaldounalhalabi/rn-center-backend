@@ -122,13 +122,15 @@ class FormulaService extends BaseService
         $formulaEn = $formula;
         $formulaAr = $formula;
         foreach ($expression->getVariables() as $variable) {
-            $formulaEn = str_replace(
-                $variable->variable->slug,
+            $escapedSlug = preg_quote($variable->variable->slug, '#');
+            $pattern = '#(?<!\w)' . $escapedSlug . '(?!\w)#u'; // Matches the variable slug as a whole word.
+            $formulaEn = preg_replace(
+                $pattern,
                 "<var attr-description='{$variable->variable->description?->en}' attr-label='{$variable?->variable?->name?->en}'>{$variable->variable->slug}</var>",
                 $formulaEn
             );
-            $formulaAr = str_replace(
-                $variable->variable->slug,
+            $formulaAr = preg_replace(
+                $pattern,
                 "<var attr-description='{$variable->variable->description?->ar}' attr-label='{$variable?->variable?->name?->ar}'>{$variable->variable->slug}</var>",
                 $formulaAr
             );
