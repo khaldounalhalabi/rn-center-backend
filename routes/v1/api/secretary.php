@@ -111,6 +111,8 @@ Route::middleware(['permission:' . PermissionEnum::PAYROLL_MANAGEMENT->value])
         Route::apiResource('/payruns', v1\PayrunController::class)->except(['update'])->names('payruns');
     });
 
+Route::get('/users/{userId}/vacations/active', [v1\VacationController::class, 'activeByUser'])->name('users.vacations.active');
+Route::get('/users/{userId}/vacations', [v1\VacationController::class, 'byUser'])->name('users.vacations');
 Route::middleware(['permission:' . PermissionEnum::VACATION_MANAGEMENT->value])
     ->group(function () {
         Route::put('/vacations/{vacationId}', [v1\VacationController::class, 'update'])->name('vacations.update');

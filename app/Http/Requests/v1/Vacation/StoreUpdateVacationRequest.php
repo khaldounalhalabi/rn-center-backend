@@ -40,7 +40,7 @@ class StoreUpdateVacationRequest extends FormRequest
             ]);
         }
 
-        if (isAdmin()) {
+        if (isAdmin() || can(PermissionEnum::VACATION_MANAGEMENT)) {
             $this->merge([
                 'status' => VacationStatusEnum::DRAFT->value,
             ]);

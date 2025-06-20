@@ -95,8 +95,11 @@ class PrescriptionService extends BaseService
         if (isset($data['medicines'])) {
             foreach ($data['medicines'] as $medicineData) {
                 $medicinePrescriptions[] = [
-                    ...$medicineData,
                     'prescription_id' => $prescription->id,
+                    'medicine_id' => $medicineData['medicine_id'] ?? null,
+                    'dosage' => $medicineData['dosage'] ?? null,
+                    'dose_interval' => $medicineData['dose_interval'] ?? null,
+                    'comment' => $medicineData['comment'] ?? null,
                 ];
             }
         }
