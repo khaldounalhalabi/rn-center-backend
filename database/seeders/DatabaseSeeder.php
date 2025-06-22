@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             TransactionSeeder::class,
             PayrunSeeder::class,
             VacationSeeder::class,
+            TaskSeeder::class,
         ]);
     }
 }

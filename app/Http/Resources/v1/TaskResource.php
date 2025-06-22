@@ -27,6 +27,7 @@ class TaskResource extends BaseResource
             'can_toggle_status' => $this->canChangeStatus(),
             'can_delete' => $this->canDelete(),
             'can_comment' => $this->canComment(),
+            'task_comments' => TaskCommentResource::collection($this->whenLoaded('taskComments')),
         ];
     }
 }

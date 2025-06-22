@@ -68,7 +68,7 @@ class NotificationService
             ->update(['is_handled' => true]);
     }
 
-    public function deleteByNotifiableAndResource(int|array $notifiableId, int $resourceId, NotificationResourceEnum $resource, string $notifiableType = User::class)
+    public function deleteByNotifiableAndResource(int|array $notifiableId, int $resourceId, NotificationResourceEnum $resource, string $notifiableType = User::class): ?bool
     {
         return Notification::whereIn('notifiable_id', Arr::wrap($notifiableId))
             ->where('notifiable_type', $notifiableType)

@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Modules\Notification\App\Enums\NotifyMethod;
 use App\Modules\Notification\App\NotificationBuilder;
 use App\Modules\Notification\App\Services\NotificationService;
+use App\Notifications\Common\TaskStatusChangedNotification;
 use App\Notifications\Secretary\NewTaskAssignedNotification;
 use App\Repositories\TaskRepository;
 use App\Services\Contracts\BaseService;
@@ -86,6 +87,10 @@ class TaskService extends BaseService
             return null;
         }
 
+        if (!$task->canDelete()) {
+            return null;
+        }
+
         NotificationService::make()->deleteByNotifiableAndResource(
             $task->users->pluck('id')->toArray(),
             $task->id,
@@ -106,6 +111,10 @@ class TaskService extends BaseService
             return null;
         }
 
+        if (!$task->canChangeStatus()) {
+            return null;
+        }
+
         if ($data['status'] == $task->status) {
             return $data['status'];
         }
@@ -116,10 +125,15 @@ class TaskService extends BaseService
 
         NotificationBuilder::make()
             ->data([
-                'user' => user()->id,
+                'user' => user(),
                 'task' => $task,
                 'status' => $data['status']
-            ]);
+            ])->notification(TaskStatusChangedNotification::class)
+            ->to(
+                User::whereIn('id', [...$task->users->pluck('id')->toArray(), $task->user_id])
+                    ->where('id', '!=', user()->id)
+            )->method(NotifyMethod::TO_QUERY)
+            ->send();
 
         return $data['status'];
     }
@@ -127,5 +141,12 @@ class TaskService extends BaseService
     public function mine(array $relations = [], array $countable = []): ?array
     {
         return $this->repository->getByUser(user()->id, $relations, $countable);
+    }
+
+    public function view($id, array $relationships = [], array $countable = []): ?Model
+    {
+        /** @var Task $task */
+        $task = parent::view($id, $relationships, $countable);
+        return $task?->canShow() ? $task : null;
     }
 }

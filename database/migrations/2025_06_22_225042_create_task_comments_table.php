@@ -9,25 +9,24 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     /**
      * Run the migrations.
-     * @return void
      */
     public function up(): void
     {
-        Schema::create('task_users', function (Blueprint $table) {
+        Schema::create('task_comments', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Task::class)->constrained()->cascadeOnDelete();
+            $table->text('comment');
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
-            $table->dateTime('assigned_at');
-            $table->timestamp('updated_at');
+            $table->foreignIdFor(Task::class)->constrained()->cascadeOnDelete();
+
+            $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     * @return void
      */
     public function down(): void
     {
-        Schema::dropIfExists('task_users');
+        Schema::dropIfExists('task_comments');
     }
 };

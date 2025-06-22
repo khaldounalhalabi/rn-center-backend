@@ -35,6 +35,7 @@ class UserResource extends BaseResource
             'payslips' => PayslipResource::collection($this->whenLoaded('payslips')),
             'vacations' => VacationResource::collection($this->whenLoaded('vacations')),
             'tasks' => TaskResource::collection($this->whenLoaded('tasks')),
+            'task_comments' => TaskCommentResource::collection($this->whenLoaded('taskComments')),
         ];
     }
 }

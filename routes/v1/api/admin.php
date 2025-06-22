@@ -118,3 +118,5 @@ Route::apiResource('/vacations', v1\VacationController::class)->names('vacations
 
 Route::post('/tasks/change-status', [v1\TaskController::class, 'changeStatus'])->name('tasks.change.status');
 Route::apiResource('/tasks', v1\TaskController::class)->names('tasks');
+
+Route::apiResource('/task-comments', v1\TaskCommentController::class)->only(['store', 'update', 'destroy'])->names('task.comments');

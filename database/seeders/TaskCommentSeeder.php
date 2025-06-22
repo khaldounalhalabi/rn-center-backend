@@ -2,16 +2,16 @@
 
 namespace Database\Seeders;
 
-use App\Models\Task;
+use App\Models\TaskComment;
 use Illuminate\Database\Seeder;
 
-class TaskSeeder extends Seeder
+class TaskCommentSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Task::factory(10)->withUsers(2)->withTaskComments(3)->create();
+        TaskComment::factory(10)->create();
     }
 }

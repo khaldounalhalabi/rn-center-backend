@@ -13,6 +13,7 @@ use App\Models\Formula;
 use App\Models\Payslip;
 use App\Models\Schedule;
 use App\Models\Task;
+use App\Models\TaskComment;
 use App\Models\User;
 use App\Models\Vacation;
 use App\Repositories\AttendanceRepository;
@@ -147,5 +148,10 @@ class UserFactory extends Factory
     public function withTasks($count = 1): UserFactory
     {
         return $this->has(Task::factory($count));
+    }
+
+    public function withTaskComments($count = 1): UserFactory
+    {
+        return $this->has(TaskComment::factory($count));
     }
 }

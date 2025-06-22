@@ -16,7 +16,7 @@ class TaskController extends ApiController
     public function __construct()
     {
         $this->taskService = TaskService::make();
-        $this->relations = ['users', 'user'];
+        $this->relations = ['users', 'user', 'taskComments', 'taskComments.user'];
     }
 
     public function index()

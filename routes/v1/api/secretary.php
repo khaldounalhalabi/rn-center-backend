@@ -172,7 +172,10 @@ Route::middleware(['permission:' . PermissionEnum::TRANSACTION_MANAGEMENT->value
 
 Route::post('/tasks/change-status', [v1\TaskController::class, 'changeStatus'])->name('tasks.change.status');
 Route::get('/tasks/mine', [v1\TaskController::class, 'mine'])->name('tasks.mine');
+Route::get('/tasks/{taskId}', [v1\TaskController::class, 'show'])->name('tasks.show');
 Route::apiResource('/tasks', v1\TaskController::class)
+    ->except(['show'])
     ->middleware(['permission:' . PermissionEnum::TASKS_MANAGEMENT->value])
     ->names('tasks');
 
+Route::apiResource('/task-comments', v1\TaskCommentController::class)->only(['store', 'update', 'destroy'])->names('task.comments');

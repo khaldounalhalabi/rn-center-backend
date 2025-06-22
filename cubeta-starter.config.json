@@ -1493,6 +1493,45 @@
                 ]
             },
             "version": "v1"
+        },
+        {
+            "model_name": "TaskComment",
+            "table_name": "task_comments",
+            "attributes": [
+                {
+                    "name": "user_id",
+                    "type": "key",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "task_id",
+                    "type": "key",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "comment",
+                    "type": "text",
+                    "nullable": false,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "belongsTo": [
+                    {
+                        "type": "belongsTo",
+                        "model_name": "User",
+                        "key": "user_id"
+                    },
+                    {
+                        "type": "belongsTo",
+                        "model_name": "Task",
+                        "key": "task_id"
+                    }
+                ]
+            },
+            "version": "v1"
         }
     ],
     "frontend_type": "None"

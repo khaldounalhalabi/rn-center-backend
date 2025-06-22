@@ -3,19 +3,24 @@
 namespace App\Models;
 
 use App\Enums\PermissionEnum;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * @property string      title
- * @property null|string description
- * @property null|string due_date
- * @property string      status
- * @property null|string label
- * @property int         user_id
- * @property User        user
+ * @property string                  title
+ * @property null|string             description
+ * @property null|string             due_date
+ * @property string                  status
+ * @property null|string             label
+ * @property int                     user_id
+ * @property User                    user
+ * @property Collection<TaskComment> taskComments
  */
 class Task extends Model
 {
@@ -27,7 +32,7 @@ class Task extends Model
         'due_date',
         'status',
         'label',
-        'user_id'
+        'user_id',
     ];
 
     protected $casts = [
@@ -88,5 +93,34 @@ class Task extends Model
     {
         return isAdmin()
             || can(PermissionEnum::TASKS_MANAGEMENT);
+    }
+
+    public function taskComments(): HasMany
+    {
+        return $this->hasMany(TaskComment::class);
+    }
+
+    public function filterArray(): array
+    {
+        return [
+            [
+                'name' => 'status',
+            ],
+            [
+                'name' => 'label',
+            ],
+            [
+                'name' => 'due_date',
+                'query' => fn(Builder|Task $q, string $value) => $q
+                    ->where('due_date', '>=', Carbon::parse($value)->format('Y-m-d'))
+            ]
+        ];
+    }
+
+    public function canShow(): bool
+    {
+        return isAdmin()
+            || can(PermissionEnum::TASKS_MANAGEMENT)
+            || $this->users->where('id', user()->id)->count() > 0;
     }
 }

@@ -267,4 +267,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsToMany(Task::class, 'task_users');
     }
+
+    public function taskComments(): HasMany
+    {
+        return $this->hasMany(TaskComment::class);
+    }
 }
