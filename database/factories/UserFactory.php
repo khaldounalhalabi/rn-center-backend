@@ -12,6 +12,7 @@ use App\Models\Customer;
 use App\Models\Formula;
 use App\Models\Payslip;
 use App\Models\Schedule;
+use App\Models\Task;
 use App\Models\User;
 use App\Models\Vacation;
 use App\Repositories\AttendanceRepository;
@@ -141,5 +142,10 @@ class UserFactory extends Factory
     public function withVacations($count = 1): UserFactory
     {
         return $this->has(Vacation::factory($count));
+    }
+
+    public function withTasks($count = 1): UserFactory
+    {
+        return $this->has(Task::factory($count));
     }
 }

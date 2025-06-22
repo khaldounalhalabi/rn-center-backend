@@ -125,5 +125,11 @@ return [
     'payslip_accepted' => ':user_name has accepted his payslip',
     'payslip_rejected' => ':user_name has rejected his payslip',
     'payslip_drafted' => ':user_name payslip is still a draft',
-    'payslip_updated' => 'Your payslip has been updated'
+    'payslip_updated' => 'Your payslip has been updated',
+
+    'new_task_assigned' => ':username has assigned a new task to you',
+    'task_status_changed' => ':username marked task (:task_title) as :status',
+
+    "completed" => 'Completed',
+    "in_progress" => 'In Progress',
 ];

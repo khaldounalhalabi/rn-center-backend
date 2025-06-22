@@ -127,4 +127,9 @@ return [
     'payslip_drafted' => 'قسيمة راتب :user_name ما زالت مسودة',
     'payslip_updated' => 'تم تحديث قسيمة راتبك',
 
+    'new_task_assigned' => ':username قام بإسناد مهمة جديدة لك',
+    'task_status_changed' => ':username قام بوضع المهمة (:task_title) كـ :status',
+
+    'completed' => 'مكتملة',
+    'in_progress' => 'قيد التنفيذ',
 ];

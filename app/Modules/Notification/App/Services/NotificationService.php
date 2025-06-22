@@ -6,6 +6,7 @@ use App\Enums\NotificationResourceEnum;
 use App\Models\User;
 use App\Modules\Notification\App\Models\Notification;
 use App\Modules\SharedModule\Traits\Make;
+use Illuminate\Support\Arr;
 
 class NotificationService
 {
@@ -65,5 +66,14 @@ class NotificationService
             ->where('resource_id', $resourceId)
             ->where('resource', $resource->value)
             ->update(['is_handled' => true]);
+    }
+
+    public function deleteByNotifiableAndResource(int|array $notifiableId, int $resourceId, NotificationResourceEnum $resource, string $notifiableType = User::class)
+    {
+        return Notification::whereIn('notifiable_id', Arr::wrap($notifiableId))
+            ->where('notifiable_type', $notifiableType)
+            ->where('resource_id', $resourceId)
+            ->where('resource', $resource->value)
+            ->delete();
     }
 }

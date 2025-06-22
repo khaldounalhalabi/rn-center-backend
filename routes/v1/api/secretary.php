@@ -169,3 +169,10 @@ Route::middleware(['permission:' . PermissionEnum::TRANSACTION_MANAGEMENT->value
         Route::get('/transactions/balance', [v1\TransactionController::class, 'balance'])->name('transactions.balance');
         Route::apiResource('/transactions', v1\TransactionController::class)->names('transactions');
     });
+
+Route::post('/tasks/change-status', [v1\TaskController::class, 'changeStatus'])->name('tasks.change.status');
+Route::get('/tasks/mine', [v1\TaskController::class, 'mine'])->name('tasks.mine');
+Route::apiResource('/tasks', v1\TaskController::class)
+    ->middleware(['permission:' . PermissionEnum::TASKS_MANAGEMENT->value])
+    ->names('tasks');
+

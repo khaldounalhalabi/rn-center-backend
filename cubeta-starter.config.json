@@ -1442,6 +1442,57 @@
             "table_name": "medicine_prescriptions",
             "attributes": [],
             "version": "v1"
+        },
+        {
+            "model_name": "Task",
+            "table_name": "tasks",
+            "attributes": [
+                {
+                    "name": "title",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "description",
+                    "type": "text",
+                    "nullable": true,
+                    "unique": false
+                },
+                {
+                    "name": "due_date",
+                    "type": "date",
+                    "nullable": true,
+                    "unique": false
+                },
+                {
+                    "name": "status",
+                    "type": "string",
+                    "nullable": false,
+                    "unique": false
+                },
+                {
+                    "name": "label",
+                    "type": "string",
+                    "nullable": true,
+                    "unique": false
+                }
+            ],
+            "relations": {
+                "hasMany": [
+                    {
+                        "type": "hasMany",
+                        "model_name": "TaskComment"
+                    }
+                ],
+                "manyToMany": [
+                    {
+                        "type": "manyToMany",
+                        "model_name": "User"
+                    }
+                ]
+            },
+            "version": "v1"
         }
     ],
     "frontend_type": "None"

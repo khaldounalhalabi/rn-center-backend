@@ -34,6 +34,7 @@ class UserResource extends BaseResource
             'attendance_by_date' => AttendanceLogResource::collection($this->whenLoaded('attendanceByDate')),
             'payslips' => PayslipResource::collection($this->whenLoaded('payslips')),
             'vacations' => VacationResource::collection($this->whenLoaded('vacations')),
+            'tasks' => TaskResource::collection($this->whenLoaded('tasks')),
         ];
     }
 }

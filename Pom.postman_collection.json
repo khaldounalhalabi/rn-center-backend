@@ -2697,6 +2697,257 @@
                     "response": []
                 }
             ]
+        },
+        {
+            "name": "Task",
+            "item": [
+                {
+                    "name": "index",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/tasks",
+                            "host": [
+                                "{{local}}v1/admin/v1/tasks"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "show",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/tasks/1",
+                            "host": [
+                                "{{local}}v1/admin/v1/tasks/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "store",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/tasks",
+                            "host": [
+                                "{{local}}v1/admin/v1/tasks"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": []
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "update",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/tasks/1",
+                            "host": [
+                                "{{local}}v1/admin/v1/tasks/1"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": []
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "delete",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/tasks/1",
+                            "host": [
+                                "{{local}}v1/admin/v1/tasks/1"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "export",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/tasks/export",
+                            "host": [
+                                "{{local}}v1/admin/v1/tasks/export"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "import",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/tasks/import",
+                            "host": [
+                                "{{local}}v1/admin/v1/tasks/import"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                },
+                {
+                    "name": "import-example",
+                    "event": [],
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": {
+                                "key": "token",
+                                "value": "{{token}}",
+                                "type": "string"
+                            }
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{local}}v1/admin/v1/tasks/get-import-example",
+                            "host": [
+                                "{{local}}v1/admin/v1/tasks/get-import-example"
+                            ]
+                        },
+                        "body": null
+                    },
+                    "response": []
+                }
+            ]
         }
     ],
     "event": [],

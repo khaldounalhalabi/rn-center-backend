@@ -115,3 +115,6 @@ Route::apiResource('/payruns', v1\PayrunController::class)->except(['update'])->
 
 Route::post('/vacations/toggle-status', [v1\VacationController::class, 'toggleStatus'])->name('vacations.toggle.status');
 Route::apiResource('/vacations', v1\VacationController::class)->names('vacations');
+
+Route::post('/tasks/change-status', [v1\TaskController::class, 'changeStatus'])->name('tasks.change.status');
+Route::apiResource('/tasks', v1\TaskController::class)->names('tasks');
