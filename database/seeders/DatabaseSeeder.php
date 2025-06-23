@@ -32,6 +32,8 @@ class DatabaseSeeder extends Seeder
             PayrunSeeder::class,
             VacationSeeder::class,
             TaskSeeder::class,
+            AssetSeeder::class,
+            UserAssetSeeder::class,
         ]);
     }
 }

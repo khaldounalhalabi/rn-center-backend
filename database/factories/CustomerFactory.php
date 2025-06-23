@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Enums\BloodGroupEnum;
 use App\Enums\RolesPermissionEnum;
 use App\Models\Appointment;
+use App\Models\Customer;
 use App\Models\MedicalRecord;
 use App\Models\Prescription;
 use App\Models\User;
@@ -34,6 +35,13 @@ class CustomerFactory extends Factory
                 ],
             ],
         ];
+    }
+
+    public function configure(): CustomerFactory
+    {
+        return $this->afterCreating(function (Customer $customer) {
+            fakeImage($customer, true);
+        });
     }
 
     public function allRelations(): CustomerFactory

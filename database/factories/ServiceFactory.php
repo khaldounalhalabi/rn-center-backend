@@ -6,7 +6,6 @@ use App\Models\Appointment;
 use App\Models\Clinic;
 use App\Models\Service;
 use App\Models\ServiceCategory;
-use App\Traits\Translations;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Http\File;
 
@@ -38,7 +37,7 @@ class ServiceFactory extends Factory
     }
 
 
-    public function withMedia(): ServiceFactory
+    public function configure(): ServiceFactory
     {
         return $this->afterCreating(function (Service $service) {
             $num = fake()->numberBetween(1, 4);

@@ -2,16 +2,16 @@
 
 namespace Database\Seeders;
 
-use App\Models\Service;
+use App\Models\Asset;
 use Illuminate\Database\Seeder;
 
-class ServiceSeeder extends Seeder
+class AssetSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Service::factory(10)->create();
+        Asset::factory(10)->create();
     }
 }

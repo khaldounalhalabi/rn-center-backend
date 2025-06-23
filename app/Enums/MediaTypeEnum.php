@@ -2,6 +2,7 @@
 
 namespace App\Enums;
 
+use App\Models\Asset;
 use App\Models\Clinic;
 use App\Models\Customer;
 use App\Models\Service;
@@ -16,6 +17,7 @@ enum MediaTypeEnum: string
         Speciality::class => 'speciality',
         Service::class => 'service',
         Customer::class => 'customer',
+        Asset::class => 'asset',
     ];
 
     case SINGLE = 'single';

@@ -6,6 +6,8 @@ use App\Models\Customer;
 use App\Models\User;
 use App\Modules\ApiResponse;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Http\UploadedFile;
+use Spatie\MediaLibrary\HasMedia;
 
 if (!function_exists('rest')) {
     function rest()
@@ -67,6 +69,26 @@ if (!function_exists('can')) {
     function can(PermissionEnum $permission): bool
     {
         return (boolean)user()?->hasPermissionTo($permission->value);
+    }
+}
+
+if (!function_exists('fakeImage')) {
+    function fakeImage(HasMedia $model, bool $multiple = false): void
+    {
+        if (!$multiple) {
+            $num = fake()->numberBetween(1, 4);
+            $model
+                ->addMedia(new UploadedFile(storage_path("app/required/img$num.png"), "img$num.png"))
+                ->preservingOriginal()
+                ->toMediaCollection();
+        } else {
+            for ($i = 1; $i <= 4; $i++) {
+                $model
+                    ->addMedia(new UploadedFile(storage_path("app/required/img$i.png"), "img$i.png"))
+                    ->preservingOriginal()
+                    ->toMediaCollection();
+            }
+        }
     }
 }
 

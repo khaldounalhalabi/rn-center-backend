@@ -73,6 +73,9 @@ Route::get('/attendances/statistics', [v1\AttendanceLogController::class, 'mySta
 Route::get('/users/employees', [v1\UserController::class, 'employees'])
     ->middleware([
         'permission:' . PermissionEnum::VACATION_MANAGEMENT->value
+        . '|' . PermissionEnum::ASSETS_MANAGEMENT->value
+        . '|' . PermissionEnum::ATTENDANCE_MANAGEMENT->value
+        . '|' . PermissionEnum::PAYROLL_MANAGEMENT->value,
     ])->name('users.employees');
 
 Route::middleware(['permission:' . PermissionEnum::ATTENDANCE_MANAGEMENT->value])
@@ -179,3 +182,14 @@ Route::apiResource('/tasks', v1\TaskController::class)
     ->names('tasks');
 
 Route::apiResource('/task-comments', v1\TaskCommentController::class)->only(['store', 'update', 'destroy'])->names('task.comments');
+
+Route::get('/assets/mine', [v1\UserAssetController::class, 'assignedToMe'])->name('assets.mine');
+
+Route::middleware(['permission:' . PermissionEnum::ASSETS_MANAGEMENT->value])
+    ->group(function () {
+        Route::get('/users/{userId}/user-assets', [v1\UserAssetController::class, 'getByUser'])->name('users.user.assets');
+        Route::get('/assets/{assetId}/user-assets', [v1\UserAssetController::class, 'getByAsset'])->name('assets.user.assets');
+        Route::post('/assets/checkin', [v1\AssetController::class, 'checkin'])->name('assets.checkin');
+        Route::post('/assets/checkout', [v1\AssetController::class, 'checkout'])->name('assets.checkout');
+        Route::apiResource('/assets', v1\AssetController::class)->names('assets');
+    });
