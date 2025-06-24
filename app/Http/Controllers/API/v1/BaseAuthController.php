@@ -161,7 +161,7 @@ class BaseAuthController extends ApiController
 
     public function userDetails()
     {
-        $user = $this->userService->userDetails(count($this->relations) ? $this->relations : ['roles'], $this->role);
+        $user = $this->userService->userDetails(count($this->relations) ? $this->relations : ['roles' , 'permissions'], $this->role);
 
         if ($user) {
             return rest()->data(UserResource::make($user))->getSuccess()->ok()->send();

@@ -30,7 +30,7 @@ class TaskStatusChangedNotification extends BaseNotification
                 [
                     'username' => $data['user']->full_name,
                     'task_title' => $data['task']->title,
-                    'status' => trans("site.{$data['status']}", locale: "en")
+                    'status' => trans("site.{$data['status']}", locale: "ar")
                 ],
                 'ar'
             ))

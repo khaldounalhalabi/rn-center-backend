@@ -26,8 +26,10 @@ class TaskResource extends BaseResource
             'user' => UserResource::make($this->whenLoaded('user')),
             'can_toggle_status' => $this->canChangeStatus(),
             'can_delete' => $this->canDelete(),
+            'can_update' => $this->canUpdate(),
             'can_comment' => $this->canComment(),
             'task_comments' => TaskCommentResource::collection($this->whenLoaded('taskComments')),
+            'issued_at' => $this->created_at?->format('Y-m-d'),
         ];
     }
 }

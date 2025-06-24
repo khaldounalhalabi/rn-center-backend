@@ -95,6 +95,11 @@ class Task extends Model
             || can(PermissionEnum::TASKS_MANAGEMENT);
     }
 
+    public function canUpdate()
+    {
+        return isAdmin() || can(PermissionEnum::TASKS_MANAGEMENT);
+    }
+
     public function taskComments(): HasMany
     {
         return $this->hasMany(TaskComment::class);
