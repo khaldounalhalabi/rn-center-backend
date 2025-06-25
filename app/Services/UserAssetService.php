@@ -17,13 +17,13 @@ class UserAssetService extends BaseService
 
     protected string $repositoryClass = UserAssetRepository::class;
 
-    public function getByUser(int $userId, array $relations = [], array $countable = []): ?array
+    public function getAssignedByUser(int $userId, array $relations = [], array $countable = []): ?array
     {
-        return $this->repository->getByUser($userId, $relations, $countable);
+        return $this->repository->getAssignedByUser($userId, $relations, $countable);
     }
 
-    public function getByAsset(int $assetId, array $relations = [], array $countable = []): ?array
+    public function getAssignedByAsset(int $assetId, array $relations = [], array $countable = []): ?array
     {
-        return $this->repository->getByAsset($assetId, $relations, $countable);
+        return $this->repository->getAssignedByAsset($assetId, $relations, $countable);
     }
 }

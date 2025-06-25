@@ -2,18 +2,14 @@
 
 namespace App\Http\Controllers\API\v1;
 
-use App\Enums\AssetStatusEnum;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\v1\Asset\AssetCheckinRequest;
 use App\Http\Requests\v1\Asset\AssetCheckoutRequest;
 use App\Http\Requests\v1\Asset\StoreUpdateAssetRequest;
 use App\Http\Resources\v1\AssetResource;
 use App\Models\Asset;
-use App\Models\UserAsset;
 use App\Services\AssetService;
 use Exception;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\Relation;
 
 class AssetController extends ApiController
 {
@@ -22,12 +18,8 @@ class AssetController extends ApiController
     public function __construct()
     {
         $this->service = AssetService::make();
-        $this->indexRelations = ['media', 'userAssets' => function (UserAsset|Relation|Builder $query) {
-            $query->where('status', AssetStatusEnum::CHECKIN->value)->with('user');
-        }];
-        $this->relations = ['media', 'userAssets' => function (UserAsset|Relation|Builder $query) {
-            $query->where('status', AssetStatusEnum::CHECKIN->value)->with('user');
-        }];
+        $this->indexRelations = ['media', 'assignedUsers'];
+        $this->relations = ['media', 'userAssets.user'];
 
         $this->countable = ['assignedUsers'];
     }

@@ -19,9 +19,9 @@ class UserAssetController extends ApiController
         $this->relations = [];
     }
 
-    public function getByUser($userId)
+    public function getAssignedByUser($userId)
     {
-        $data = $this->service->getByUser($userId, ['asset']);
+        $data = $this->service->getAssignedByUser($userId, ['asset']);
         if ($data) {
             return $this->apiResponse(
                 UserAssetResource::collection($data['data']),
@@ -34,9 +34,9 @@ class UserAssetController extends ApiController
         return $this->noData();
     }
 
-    public function getByAsset($assetId)
+    public function getAssignedByAsset($assetId)
     {
-        $data = $this->service->getByAsset($assetId, ['user']);
+        $data = $this->service->getAssignedByAsset($assetId, ['user']);
 
         if ($data) {
             return $this->apiResponse(
@@ -52,7 +52,7 @@ class UserAssetController extends ApiController
 
     public function assignedToMe()
     {
-        $data = $this->service->getByUser(user()->id, ['asset']);
+        $data = $this->service->getAssignedByUser(user()->id, ['asset']);
         if ($data) {
             return $this->apiResponse(
                 UserAssetResource::collection($data['data']),

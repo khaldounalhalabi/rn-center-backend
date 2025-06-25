@@ -66,4 +66,5 @@ Route::get('/payslips/{payslipId}', [v1\PayslipController::class, 'show'])->name
 Route::get('/vacations/active', [v1\VacationController::class, 'myActiveVacations'])->name('vacations.active');
 Route::apiResource('vacations', v1\VacationController::class)->except(['update'])->names('vacations');
 
-Route::get('/assets/mine', [v1\UserAssetController::class, 'assignedToMe'])->name('assets.mine');
+Route::get('/user-assets/mine', [v1\UserAssetController::class, 'assignedToMe'])->name('assets.mine');
+Route::get('/assets/{assetId}', [v1\AssetController::class, 'show'])->name('assets.show');

@@ -22,19 +22,21 @@ class UserAssetRepository extends BaseRepository
             ->first();
     }
 
-    public function getByUser(int $userId, array $relations = [], array $countable = []): ?array
+    public function getAssignedByUser(int $userId, array $relations = [], array $countable = []): ?array
     {
         return $this->paginateQuery(
             $this->globalQuery($relations, $countable)
                 ->where('user_id', $userId)
+                ->where('status', AssetStatusEnum::CHECKIN->value)
         );
     }
 
-    public function getByAsset($assetId, array $relations = [], array $countable = []): ?array
+    public function getAssignedByAsset($assetId, array $relations = [], array $countable = []): ?array
     {
         return $this->paginateQuery(
             $this->globalQuery($relations, $countable)
                 ->where('asset_id', $assetId)
+                ->where('status', AssetStatusEnum::CHECKIN->value)
         );
     }
 }

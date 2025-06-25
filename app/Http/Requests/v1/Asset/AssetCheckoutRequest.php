@@ -56,7 +56,7 @@ class AssetCheckoutRequest extends FormRequest
                 Rule::when($this->userAsset?->quantity, [
                     "max:" . $this->userAsset?->quantity ?? 1
                 ]),
-                Rule::requiredIf(fn() => $this->userAsset?->asset?->type == AssetTypeEnum::ACCESSORIES->value)
+                Rule::requiredIf(fn() => $this->userAsset?->asset?->type == AssetTypeEnum::ACCESSORIES->value),
             ],
             'checkout_condition' => ['nullable', 'min:0', 'max:10', 'numeric', 'integer']
         ];

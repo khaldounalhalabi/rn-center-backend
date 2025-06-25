@@ -27,6 +27,15 @@ class AssetResource extends BaseResource
             'image' => MediaResource::collection($this->whenLoaded('media')),
             'assigned_users' => UserResource::collection($this->whenLoaded('assignedUsers')),
             'user_assets' => UserAssetResource::collection($this->whenLoaded('userAssets')),
+            'can_checkin' => $this->canCheckin(),
+            'can_checkout' => $this->canCheckout(),
+            $this->mergeWhen(
+                $this->relationLoaded('assignedUsers')
+                && $this->isAsset()
+                && $this->assignedUsers->count() == 1,
+                fn() => [
+                    'asset_assigned_user' => UserResource::make($this->assignedUsers->first())
+                ])
         ];
     }
 }

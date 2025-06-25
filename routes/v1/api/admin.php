@@ -121,8 +121,8 @@ Route::apiResource('/tasks', v1\TaskController::class)->names('tasks');
 
 Route::apiResource('/task-comments', v1\TaskCommentController::class)->only(['store', 'update', 'destroy'])->names('task.comments');
 
-Route::get('/users/{userId}/user-assets', [v1\UserAssetController::class, 'getByUser'])->name('users.user.assets');
-Route::get('/assets/{assetId}/user-assets', [v1\UserAssetController::class, 'getByAsset'])->name('assets.user.assets');
+Route::get('/users/{userId}/user-assets', [v1\UserAssetController::class, 'getAssignedByUser'])->name('users.user.assets');
+Route::get('/assets/{assetId}/user-assets', [v1\UserAssetController::class, 'getAssignedByAsset'])->name('assets.user.assets');
 Route::post('/assets/checkin', [v1\AssetController::class, 'checkin'])->name('assets.checkin');
 Route::post('/assets/checkout', [v1\AssetController::class, 'checkout'])->name('assets.checkout');
 Route::apiResource('/assets', v1\AssetController::class)->names('assets');

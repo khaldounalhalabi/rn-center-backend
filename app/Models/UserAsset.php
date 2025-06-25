@@ -80,7 +80,15 @@ class UserAsset extends Model
     {
         return [
             [
-                'name' => 'status'
+                'name' => 'status',
+
+                'checkout_date',
+
+                'expected_return_date',
+
+            ],
+            [
+                'name' => 'checkin_date'
             ]
         ];
     }

@@ -32,10 +32,19 @@ class StoreUpdateAssetRequest extends FormRequest
                 'min:3',
                 'required_if:type,' . AssetTypeEnum::ASSET->value,
                 'unique:assets,serial_number',
+                Rule::excludeIf(fn() => $this->input('type') != AssetTypeEnum::ASSET->value)
             ],
-            'type' => ['required', 'string', 'min:3', 'max:255', Rule::in(AssetTypeEnum::getAllValues())],
+            'type' => [
+                'nullable',
+                'string',
+                'min:3',
+                'max:255',
+                Rule::in(AssetTypeEnum::getAllValues()),
+                Rule::requiredIf(fn() => $this->isPost()),
+                Rule::excludeIf(fn() => $this->isPut())
+            ],
             'quantity' => ['nullable', 'numeric', 'required_if:type,' . $needQuantityTypes, 'min:0'],
-            'purchase_date' => ['nullable', 'date' , 'date_format:Y-m-d'],
+            'purchase_date' => ['nullable', 'date', 'date_format:Y-m-d'],
             'quantity_unit' => ['string', 'nullable', 'required_if:type,' . $needQuantityTypes],
         ];
     }

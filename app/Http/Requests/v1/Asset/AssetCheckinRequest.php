@@ -71,7 +71,7 @@ class AssetCheckinRequest extends FormRequest
                 'nullable',
                 'date',
                 'date_format:Y-m-d',
-                'after:now',
+                'after_or_equal:now',
                 Rule::excludeIf(fn() => !in_array($this->asset?->type, AssetTypeEnum::needCheckout()))
             ],
         ];
