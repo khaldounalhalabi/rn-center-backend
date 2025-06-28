@@ -17,7 +17,7 @@ class CustomerController extends ApiController
     public function __construct()
     {
         $this->customerService = CustomerService::make();
-        $this->relations = ['user', 'media'];
+        $this->relations = ['user', 'media', 'patientStudies'];
         $this->indexRelations = ['user'];
     }
 

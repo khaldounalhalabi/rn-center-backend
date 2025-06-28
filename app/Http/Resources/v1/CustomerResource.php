@@ -30,6 +30,7 @@ class CustomerResource extends BaseResource
             'prescriptions' => PrescriptionResource::collection($this->whenLoaded('prescriptions')),
             'attachments' => MediaResource::collection($this->whenLoaded('media')),
             'medical_records' => MedicalRecordResource::collection($this->whenLoaded('medicalRecords')),
+            'patient_studies' => PatientStudyResource::collection($this->whenLoaded('patientStudies')),
         ];
     }
 }

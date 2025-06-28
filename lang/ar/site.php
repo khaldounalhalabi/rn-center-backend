@@ -134,4 +134,6 @@ return [
     'in_progress' => 'قيد التنفيذ',
 
     'new_comment_on_task' => ':username قام بالتعليق على المهمة (:task_title)',
+
+    'dicom_validation' => 'الملف يجب أن يكون ملف DICOM صالحًا.',
 ];

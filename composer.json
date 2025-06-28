@@ -20,7 +20,8 @@
         "laravel/tinker": "^2.8",
         "spatie/laravel-medialibrary": "^11.4",
         "spatie/laravel-permission": "^6.19",
-        "tecnickcom/tcpdf": "^6.10"
+        "tecnickcom/tcpdf": "^6.10",
+        "ext-zip": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

@@ -134,4 +134,6 @@ return [
     "in_progress" => 'In Progress',
 
     'new_comment_on_task' => ':username has commented on task (:task_title)',
+
+    'dicom_validation' => 'The file must be a valid DICOM file.',
 ];

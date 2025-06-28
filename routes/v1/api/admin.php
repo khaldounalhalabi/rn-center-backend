@@ -126,3 +126,6 @@ Route::get('/assets/{assetId}/user-assets', [v1\UserAssetController::class, 'get
 Route::post('/assets/checkin', [v1\AssetController::class, 'checkin'])->name('assets.checkin');
 Route::post('/assets/checkout', [v1\AssetController::class, 'checkout'])->name('assets.checkout');
 Route::apiResource('/assets', v1\AssetController::class)->names('assets');
+
+Route::post('/patient-studies', [v1\PatientStudyController::class, 'store'])->name('patient.studies.store');
+Route::delete('patient-studies/{patientStudyId}', [v1\PatientStudyController::class, 'destroy'])->name('patient.studies.destroy');

@@ -96,4 +96,9 @@ class Customer extends Model implements HasMedia
     {
         return $this->hasMany(MedicalRecord::class);
     }
+
+    public function patientStudies(): HasMany
+    {
+        return $this->hasMany(PatientStudy::class);
+    }
 }
