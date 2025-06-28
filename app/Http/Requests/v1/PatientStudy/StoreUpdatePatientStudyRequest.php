@@ -24,8 +24,12 @@ class StoreUpdatePatientStudyRequest extends FormRequest
     {
         return [
             'dicom_files' => 'required|array|min:1',
-            'dicom_files.*' => ['file', new DicomFile()],
-            'customer_id' => 'numeric|exists:customers,id',
+            'dicom_files.*' => [
+                'file',
+                'mimetypes:application/zip,application/dicom,application/dicom+json,application/dicom+xml,multipart/related,image/jpeg,image/png,image/bmp,image/gif,image/tiff,application/pdf,application/zip,video/mpeg,video/mp4',
+                'max:100000'
+            ],
+            'customer_id' => 'numeric|exists:customers,id|required',
             'title' => 'required|string|max:500|min:2'
         ];
     }

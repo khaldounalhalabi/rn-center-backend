@@ -21,6 +21,7 @@ return new class extends Migration
             $table->dateTime('study_date');
             $table->text('title');
             $table->foreignIdFor(Customer::class)->constrained()->cascadeOnDelete();
+            $table->json('available_modes');
 
             $table->timestamps();
         });

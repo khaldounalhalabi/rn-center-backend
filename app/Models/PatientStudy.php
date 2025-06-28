@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Customer customer
  * @property string   title
  * @property Carbon   study_date
+ * @property array    available_modes
  */
 class PatientStudy extends Model
 {
@@ -29,10 +30,12 @@ class PatientStudy extends Model
         'study_uid',
         'title',
         'study_date',
+        'available_modes'
     ];
 
     protected $casts = [
-        'study_date' => 'datetime'
+        'study_date' => 'datetime',
+        'available_modes' => 'array'
     ];
 
     public function exportable(): array
