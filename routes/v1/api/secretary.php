@@ -147,6 +147,9 @@ Route::middleware(['permission:' . PermissionEnum::PATIENT_MANAGEMENT->value])
         Route::get('/customers/{customerId}/medical-records', [v1\MedicalRecordController::class, 'getByCustomer'])->name('customers.medical.records');
         Route::get('/customers/recent', [v1\CustomerController::class, 'getRecent'])->name('customers.recent');
         Route::apiResource('/customers', v1\CustomerController::class)->except(['index'])->names('customers');
+
+        Route::post('/patient-studies', [v1\PatientStudyController::class, 'store'])->name('patient.studies.store');
+        Route::delete('patient-studies/{patientStudyId}', [v1\PatientStudyController::class, 'destroy'])->name('patient.studies.destroy');
     });
 
 Route::middleware(['permission:' . PermissionEnum::APPOINTMENT_MANAGEMENT->value])
