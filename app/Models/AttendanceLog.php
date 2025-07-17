@@ -88,7 +88,7 @@ class AttendanceLog extends Model
             [
                 'name' => 'to',
                 'query' => fn(Builder|AttendanceLog $q, $value) => $q->whereDate(
-                    'attend_at',
+                'attend_at',
                     '<=',
                     Carbon::parse($value)->format('Y-m-d')
                 )

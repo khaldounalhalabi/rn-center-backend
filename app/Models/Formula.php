@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Casts\Translatable;
 use App\Traits\Sluggable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -41,7 +42,7 @@ class Formula extends Model
         ];
     }
 
-    public function users()
+    public function users(): HasMany
     {
         return $this->hasMany(User::class);
     }

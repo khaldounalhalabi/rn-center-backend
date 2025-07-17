@@ -42,8 +42,6 @@ abstract class BaseRepository
     private array $customOrders = [];
     private string $tableName;
 
-    /**
-     */
     public function __construct()
     {
         $this->model = new $this->modelClass;
