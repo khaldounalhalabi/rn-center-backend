@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Enums\PermissionEnum;
 use App\Enums\RolesPermissionEnum;
 use App\Excel\Exporters\AttendanceLogExampleExport;
 use App\Excel\Exporters\AttendanceLogExport;
@@ -15,7 +14,6 @@ use Error;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;
@@ -186,7 +184,7 @@ class AttendanceLogRepository extends BaseRepository
     public function getByUserAndYearAndMonth(int $userId, string $year, string $month): EloquentCollection
     {
         return $this->globalQuery(defaultOrder: false)
-            ->select(['attendance_logs.status', 'attendance_logs.attend_at', 'attendance_logs.attendance_id', 'attendances.date'])
+            ->select(['attendance_logs.status', 'attendance_logs.type', 'attendance_logs.attend_at', 'attendance_logs.attendance_id', 'attendances.date'])
             ->join('attendances', 'attendances.id', 'attendance_logs.attendance_id')
             ->where('user_id', $userId)
             ->whereYear('attend_at', $year)
