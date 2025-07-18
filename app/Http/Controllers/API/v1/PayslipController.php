@@ -21,7 +21,7 @@ class PayslipController extends ApiController
     {
         $this->payslipService = PayslipService::make();
 
-        $this->relations = ['payslipAdjustments', 'user.roles', 'formula', 'user.clinic'];
+        $this->relations = ['payslipAdjustments', 'user.roles', 'formula', 'user.clinic', 'payrun'];
     }
 
     public function show($payslipId)
@@ -123,9 +123,13 @@ class PayslipController extends ApiController
 
     public function mine()
     {
-        $data = $this->payslipService->mine($this->relations, $this->countable);
+        $data = $this->payslipService->mine([
+            'payslipAdjustments',
+            'formula',
+            'payrun'
+        ], $this->countable);
 
-        if ($data){
+        if ($data) {
             return $this->apiResponse(
                 PayslipResource::collection($data['data'])->detailed(),
                 self::STATUS_OK,
