@@ -131,4 +131,19 @@ class VacationController extends ApiController
             trans('site.get_successfully')
         );
     }
+
+    public function myVacations()
+    {
+        $data = $this->vacationService->byUser(user()->id, $this->relations, $this->countable);
+        if ($data) {
+            return $this->apiResponse(
+                VacationResource::collection($data['data']),
+                self::STATUS_OK,
+                trans('site.get_successfully'),
+                $data['pagination_data']
+            );
+        }
+
+        return $this->noData([]);
+    }
 }

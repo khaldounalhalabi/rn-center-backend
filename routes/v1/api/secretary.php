@@ -121,6 +121,7 @@ Route::middleware(['permission:' . PermissionEnum::VACATION_MANAGEMENT->value])
         Route::put('/vacations/{vacationId}', [v1\VacationController::class, 'update'])->name('vacations.update');
         Route::post('/vacations/toggle-status', [v1\VacationController::class, 'toggleStatus'])->name('vacations.toggle.status');
     });
+Route::get('/vacations/mine', [v1\VacationController::class, 'myVacations'])->name('vacations.mine');
 Route::get('/vacations/active', [v1\VacationController::class, 'myActiveVacations'])->name('vacations.active');
 Route::apiResource('vacations', v1\VacationController::class)->except(['update'])->names('vacations');
 
