@@ -153,9 +153,9 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(FcmToken::class);
     }
 
-    public function routeNotificationForFcm(): ?string
+    public function routeNotificationForFcm(): array
     {
-        return $this->fcmTokens->pluck('token');
+        return $this->fcmTokens->pluck('token')->toArray();
     }
 
     public function isAdmin(): bool
