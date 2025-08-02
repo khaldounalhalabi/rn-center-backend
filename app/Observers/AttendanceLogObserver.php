@@ -15,21 +15,19 @@ class AttendanceLogObserver
      */
     public function created(AttendanceLog $attendanceLog): void
     {
-        if (!isAdmin()) {
-            NotificationBuilder::make()
-                ->notification(AttendanceEditedNotification::class)
-                ->data([])
-                ->to(RolesPermissionEnum::ADMIN['role'])
-                ->method(NotifyMethod::BY_ROLE)
-                ->send();
-        } else {
-            NotificationBuilder::make()
-                ->notification(AttendanceEditedNotification::class)
-                ->data([])
-                ->to($attendanceLog->user)
-                ->method(NotifyMethod::ONE)
-                ->send();
-        }
+        NotificationBuilder::make()
+            ->notification(AttendanceEditedNotification::class)
+            ->data([])
+            ->to(RolesPermissionEnum::ADMIN['role'])
+            ->method(NotifyMethod::BY_ROLE)
+            ->send();
+
+        NotificationBuilder::make()
+            ->notification(AttendanceEditedNotification::class)
+            ->data([])
+            ->to($attendanceLog->user)
+            ->method(NotifyMethod::ONE)
+            ->send();
     }
 
     /**
@@ -37,21 +35,19 @@ class AttendanceLogObserver
      */
     public function updated(AttendanceLog $attendanceLog): void
     {
-        if (!isAdmin()) {
-            NotificationBuilder::make()
-                ->notification(AttendanceEditedNotification::class)
-                ->data([])
-                ->to(RolesPermissionEnum::ADMIN['role'])
-                ->method(NotifyMethod::BY_ROLE)
-                ->send();
-        } else {
-            NotificationBuilder::make()
-                ->notification(AttendanceEditedNotification::class)
-                ->data([])
-                ->to($attendanceLog->user)
-                ->method(NotifyMethod::ONE)
-                ->send();
-        }
+        NotificationBuilder::make()
+            ->notification(AttendanceEditedNotification::class)
+            ->data([])
+            ->to(RolesPermissionEnum::ADMIN['role'])
+            ->method(NotifyMethod::BY_ROLE)
+            ->send();
+
+        NotificationBuilder::make()
+            ->notification(AttendanceEditedNotification::class)
+            ->data([])
+            ->to($attendanceLog->user)
+            ->method(NotifyMethod::ONE)
+            ->send();
     }
 
     /**
@@ -59,21 +55,19 @@ class AttendanceLogObserver
      */
     public function deleted(AttendanceLog $attendanceLog): void
     {
-        if (!isAdmin()) {
-            NotificationBuilder::make()
-                ->notification(AttendanceEditedNotification::class)
-                ->data([])
-                ->to(RolesPermissionEnum::ADMIN['role'])
-                ->method(NotifyMethod::BY_ROLE)
-                ->send();
-        } else {
-            NotificationBuilder::make()
-                ->notification(AttendanceEditedNotification::class)
-                ->data([])
-                ->to($attendanceLog->user)
-                ->method(NotifyMethod::ONE)
-                ->send();
-        }
+        NotificationBuilder::make()
+            ->notification(AttendanceEditedNotification::class)
+            ->data([])
+            ->to(RolesPermissionEnum::ADMIN['role'])
+            ->method(NotifyMethod::BY_ROLE)
+            ->send();
+
+        NotificationBuilder::make()
+            ->notification(AttendanceEditedNotification::class)
+            ->data([])
+            ->to($attendanceLog->user)
+            ->method(NotifyMethod::ONE)
+            ->send();
     }
 
     /**
