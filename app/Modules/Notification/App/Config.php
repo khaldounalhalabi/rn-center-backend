@@ -18,9 +18,13 @@ class Config
         return User::class;
     }
 
+    /**
+     * @param mixed|User $notifiable
+     * @return string[]
+     */
     public static function baseNotificationVia(mixed $notifiable): array
     {
-        if ($notifiable->fcm_token) {
+        if ($notifiable->fcmTokens->count()) {
             return [FcmChannel::class, 'database'];
         }
 

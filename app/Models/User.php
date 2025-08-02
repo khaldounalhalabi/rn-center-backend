@@ -35,8 +35,8 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string               full_name
  * @property int|null             formula_id
  * @property Formula|null         formula
- * @property string               fcm_token
  * @property Collection<Vacation> vacations
+ * @property Collection<FcmToken> fcmTokens
  * @mixin Builder
  */
 class User extends Authenticatable implements JWTSubject
@@ -57,7 +57,6 @@ class User extends Authenticatable implements JWTSubject
         'phone_verified_at',
         'gender',
         'formula_id',
-        'fcm_token',
     ];
 
     protected $hidden = [
@@ -149,9 +148,14 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(Clinic::class);
     }
 
+    public function fcmTokens(): HasMany
+    {
+        return $this->hasMany(FcmToken::class);
+    }
+
     public function routeNotificationForFcm(): ?string
     {
-        return $this->fcm_token;
+        return $this->fcmTokens->pluck('token');
     }
 
     public function isAdmin(): bool

@@ -85,7 +85,7 @@ class PayrunObserver
         if ($prevStatus != $newStatus) {
             NotificationBuilder::make()
                 ->data([])
-                ->to(User::query()->whereNotNull('fcm_token'))
+                ->to(User::query()->whereHas('fcmTokens'))
                 ->method(NotifyMethod::TO_QUERY)
                 ->notification(PayrunStatusChangedNotification::class)
                 ->send();

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\RolesPermissionEnum;
 use App\Exceptions\RoleDoesNotExistException;
+use App\Models\FcmToken;
 use App\Models\User;
 use App\Modules\SMS;
 use App\Repositories\AttendanceRepository;
@@ -114,8 +115,9 @@ class UserService extends BaseService
         }
 
         if (isset($data['fcm_token'])) {
-            $user->update([
-                'fcm_token' => $data['fcm_token'],
+            FcmToken::create([
+                'token' => $data['fcm_token'],
+                'user_id' => $user->id
             ]);
         }
 
@@ -170,6 +172,13 @@ class UserService extends BaseService
 
         if ($role) {
             $user->assignRole($role);
+        }
+
+        if (isset($data['fcm_token'])) {
+            FcmToken::create([
+                'token' => $data['fcm_token'],
+                'user_id' => $user->id
+            ]);
         }
 
         /** @noinspection PhpVoidFunctionResultUsedInspection */
@@ -377,7 +386,7 @@ class UserService extends BaseService
         $user = $this->repository->update($data, $user);
         if (isset($data['permissions'])) {
             $user->syncPermissions(collect($data['permissions']));
-        }else{
+        } else {
             $user->permissions()->detach();
         }
         return $user->load($relationships, $countable);

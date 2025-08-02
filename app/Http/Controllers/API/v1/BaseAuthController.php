@@ -13,6 +13,7 @@ use App\Http\Requests\v1\AuthRequests\ResetPasswordRequest;
 use App\Http\Requests\v1\AuthRequests\UpdateUserRequest;
 use App\Http\Requests\v1\AuthRequests\VerifyUserRequest;
 use App\Http\Resources\v1\UserResource;
+use App\Models\FcmToken;
 use App\Services\UserService;
 use Exception;
 use Illuminate\Http\Request;
@@ -161,7 +162,7 @@ class BaseAuthController extends ApiController
 
     public function userDetails()
     {
-        $user = $this->userService->userDetails(count($this->relations) ? $this->relations : ['roles' , 'permissions'], $this->role);
+        $user = $this->userService->userDetails(count($this->relations) ? $this->relations : ['roles', 'permissions'], $this->role);
 
         if ($user) {
             return rest()->data(UserResource::make($user))->getSuccess()->ok()->send();
@@ -194,24 +195,17 @@ class BaseAuthController extends ApiController
 
     public function storeFcmToken(Request $request)
     {
-        $token = $request->fcm_token;
+        $token = $request->validate([
+            'fcm_token' => ['required', 'string', 'max:5000']
+        ]);
 
-        $user = auth()->user();
-
-        $user->fcm_token = $token;
-        $user->save();
+        FcmToken::create([
+            'user_id' => user()->id,
+            'token' => $token['fcm_token']
+        ]);
 
         return rest()
             ->message('Token Stored Successfully')
-            ->ok()
-            ->send();
-    }
-
-    public function getUserFcmToken()
-    {
-        return rest()
-            ->data(['fcm_token' => user()?->fcm_token])
-            ->message(trans('site.get_successfully'))
             ->ok()
             ->send();
     }

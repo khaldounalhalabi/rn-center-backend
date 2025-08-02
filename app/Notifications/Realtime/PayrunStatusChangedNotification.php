@@ -2,6 +2,7 @@
 
 namespace App\Notifications\Realtime;
 
+use App\Models\User;
 use App\Modules\Notification\App\Notifications\BaseNotification;
 use NotificationChannels\Fcm\FcmChannel;
 
@@ -12,9 +13,13 @@ class PayrunStatusChangedNotification extends BaseNotification
         parent::__construct($data);
     }
 
+    /**
+     * @param mixed|User $notifiable
+     * @return array|class-string[]
+     */
     public function via(mixed $notifiable): array
     {
-        if ($notifiable->fcm_token) {
+        if ($notifiable->fcmTokens->count()) {
             return [FcmChannel::class];
         }
 
