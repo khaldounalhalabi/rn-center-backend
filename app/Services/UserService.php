@@ -4,11 +4,11 @@ namespace App\Services;
 
 use App\Enums\RolesPermissionEnum;
 use App\Exceptions\RoleDoesNotExistException;
-use App\Models\FcmToken;
 use App\Models\User;
 use App\Modules\SMS;
 use App\Repositories\AttendanceRepository;
 use App\Repositories\CustomerRepository;
+use App\Repositories\FcmTokenRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\VerificationCodeRepository;
 use App\Services\Contracts\BaseService;
@@ -115,7 +115,7 @@ class UserService extends BaseService
         }
 
         if (isset($data['fcm_token'])) {
-            FcmToken::create([
+            FcmTokenRepository::make()->create([
                 'token' => $data['fcm_token'],
                 'user_id' => $user->id
             ]);
@@ -175,7 +175,7 @@ class UserService extends BaseService
         }
 
         if (isset($data['fcm_token'])) {
-            FcmToken::create([
+            FcmTokenRepository::make()->create([
                 'token' => $data['fcm_token'],
                 'user_id' => $user->id
             ]);

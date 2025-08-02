@@ -1578,6 +1578,12 @@
                 ]
             },
             "version": "v1"
+        },
+        {
+            "model_name": "FcmToken",
+            "table_name": "fcm_tokens",
+            "attributes": [],
+            "version": "v1"
         }
     ],
     "frontend_type": "None"

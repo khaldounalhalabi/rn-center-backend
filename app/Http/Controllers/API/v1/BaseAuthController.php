@@ -13,7 +13,7 @@ use App\Http\Requests\v1\AuthRequests\ResetPasswordRequest;
 use App\Http\Requests\v1\AuthRequests\UpdateUserRequest;
 use App\Http\Requests\v1\AuthRequests\VerifyUserRequest;
 use App\Http\Resources\v1\UserResource;
-use App\Models\FcmToken;
+use App\Repositories\FcmTokenRepository;
 use App\Services\UserService;
 use Exception;
 use Illuminate\Http\Request;
@@ -199,7 +199,7 @@ class BaseAuthController extends ApiController
             'fcm_token' => ['required', 'string', 'max:5000']
         ]);
 
-        FcmToken::create([
+        FcmTokenRepository::make()->create([
             'user_id' => user()->id,
             'token' => $token['fcm_token']
         ]);
