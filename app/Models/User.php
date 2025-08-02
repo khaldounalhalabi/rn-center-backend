@@ -155,6 +155,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function routeNotificationForFcm(): array
     {
+        logger()->info(print_r($this->fcmTokens->pluck('token')->toArray(), true));
         return $this->fcmTokens->pluck('token')->toArray();
     }
 
