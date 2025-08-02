@@ -19,7 +19,7 @@ class PayrunStatusChangedNotification extends BaseNotification
      */
     public function via(mixed $notifiable): array
     {
-        if ($notifiable->fcmTokens->count()) {
+        if ($notifiable->fcmTokens()->count()) {
             return [FcmChannel::class];
         }
 

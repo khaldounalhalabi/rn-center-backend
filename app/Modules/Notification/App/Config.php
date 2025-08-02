@@ -24,7 +24,7 @@ class Config
      */
     public static function baseNotificationVia(mixed $notifiable): array
     {
-        if ($notifiable->fcmTokens->count()) {
+        if ($notifiable->fcmTokens()->count()) {
             return [FcmChannel::class, 'database'];
         }
 
