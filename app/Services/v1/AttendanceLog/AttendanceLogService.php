@@ -346,6 +346,7 @@ class AttendanceLogService extends BaseService
         $scheduleInDay = user()?->schedules->groupBy('day_of_week')->get(strtolower(now()->dayName)) ?? collect();
         $latestLog = $this->repository->getLatestLogInDay(now()->format('Y-m-d'), user()?->id);
         $attendance = AttendanceRepository::make()->getByDateOrCreate(now());
+        $this->invalidateAttendanceStatisticsCache(user()->id);
 
         if ($latestLog && $latestLog?->isCheckout()) {
             $this->repository->create([
@@ -358,8 +359,6 @@ class AttendanceLogService extends BaseService
         } elseif ($latestLog && $latestLog?->isCheckin() && $latestLog->attend_at->greaterThanOrEqualTo(now())) {
             return null;
         }
-
-        $this->invalidateAttendanceStatisticsCache(user()->id);
 
         return $this->repository->create([
             'attendance_id' => $attendance->id,
