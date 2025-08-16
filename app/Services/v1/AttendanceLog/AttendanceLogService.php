@@ -383,7 +383,7 @@ class AttendanceLogService extends BaseService
         $startOfMonth = now()->firstOfMonth();
         $endOfMonth = now()->lastOfMonth();
 
-        return "attendance_statistics:{$userId}:{$startOfMonth->toDateString()}-{$endOfMonth->toDateString()}";
+        return "attendance_statistics:{$userId}:{$startOfMonth->format('Y-m-d')}-{$endOfMonth->format('Y-m-d')}";
     }
 
     public function attendanceStatisticsByUser(int $userId): array
