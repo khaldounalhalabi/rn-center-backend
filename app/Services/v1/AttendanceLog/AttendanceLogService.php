@@ -318,7 +318,6 @@ class AttendanceLogService extends BaseService
         $scheduleInDay = user()?->schedules->groupBy('day_of_week')->get(strtolower(now()->dayName)) ?? collect();
         $latestLog = $this->repository->getLatestLogInDay(now()->format('Y-m-d'), user()?->id);
         $attendance = AttendanceRepository::make()->getByDateOrCreate(now());
-        $this->invalidateAttendanceStatisticsCache(user()->id);
 
         if ($latestLog && $latestLog?->isCheckin()) {
             $this->repository->create([
@@ -439,7 +438,7 @@ class AttendanceLogService extends BaseService
     public function invalidateAttendanceStatisticsCache(int $userId): void
     {
         $cacheKey = $this->getStatisticsCacheKey($userId);
-        cache()->forget($cacheKey);
+        cache()->delete($cacheKey);
     }
 
     public function exportMine(): BinaryFileResponse
