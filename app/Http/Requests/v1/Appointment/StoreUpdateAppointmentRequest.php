@@ -59,6 +59,20 @@ class StoreUpdateAppointmentRequest extends FormRequest
             }
         }
 
+        if (isCustomer()){
+            return [
+                'customer_id' => ['nullable', Rule::requiredIf($this->isPost()), Rule::excludeIf($this->isPut()), 'numeric', 'exists:customers,id'],
+                'clinic_id' => ['nullable', Rule::requiredIf($this->isPost()), Rule::excludeIf($this->isPut()), 'numeric', 'exists:clinics,id'],
+                'service_id' => ['nullable', 'numeric', Rule::exists('services', 'id')->where('clinic_id', $this->input('clinic_id'))],
+                'date_time' => [
+                    'required',
+                    'date_format:Y-m-d H:i',
+                    Rule::in($availableTimes->toArray()),
+                ],
+                'type' => ['string', Rule::in(AppointmentTypeEnum::getAllValues())],
+            ];
+        }
+
         return [
             'customer_id' => ['nullable', Rule::requiredIf($this->isPost()), Rule::excludeIf($this->isPut()), 'numeric', 'exists:customers,id'],
             'clinic_id' => ['nullable', Rule::requiredIf($this->isPost()), Rule::excludeIf($this->isPut()), 'numeric', 'exists:clinics,id'],

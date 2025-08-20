@@ -12,3 +12,12 @@ Route::get('/notifications', [v1\NotificationController::class, 'myNotifications
 Route::get('/notifications/{notificationId}/read', [v1\NotificationController::class, 'markAsRead'])->name('notifications.read');
 Route::get('/notifications/read-all', [v1\NotificationController::class, 'markAllAsRead'])->name('notifications.read.all');
 Route::get('/notifications/unread-count', [v1\NotificationController::class, 'unreadCount'])->name('notifications.unread.count');
+
+Route::post('/clinics/available-appointments-times', [v1\AvailableAppointmentTimeController::class, 'get'])->name('clinics.available.appointments.time');
+
+Route::get('/appointments/{appointmentId}/cancel', [v1\AppointmentController::class, 'cancelAppointment'])->name('appointments.cancel');
+Route::post('/appointments', [v1\AppointmentController::class, 'store'])->name('appointments.store');
+Route::get('/appointments', [v1\AppointmentController::class, 'getByCustomer'])->name('appointments.index');
+Route::get('/appointments/{appointmentId}', [v1\AppointmentController::class, 'show'])->name('appointments.show');
+
+

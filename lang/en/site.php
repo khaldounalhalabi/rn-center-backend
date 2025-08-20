@@ -136,4 +136,6 @@ return [
     'new_comment_on_task' => ':username has commented on task (:task_title)',
 
     'dicom_validation' => 'The file must be a valid DICOM file.',
+
+    'more_than_one_appointment' => 'You cannot have more than one appointment with the same clinic in the same day'
 ];

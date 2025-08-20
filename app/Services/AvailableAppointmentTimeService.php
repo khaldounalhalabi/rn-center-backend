@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\AppointmentStatusEnum;
 use App\Models\Schedule;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\ClinicRepository;
@@ -50,7 +51,7 @@ class AvailableAppointmentTimeService
             $date,
             null,
             $clinic->id,
-        );
+        )->where('status', '!=', AppointmentStatusEnum::CANCELLED->value);
         if ($bookedAppointments->count() >= $clinic->max_appointments) {
             return collect();
         }

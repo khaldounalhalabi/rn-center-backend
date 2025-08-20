@@ -113,12 +113,19 @@ class AppointmentController extends ApiController
         return $this->noData([]);
     }
 
-    public function getByCustomer($customerId)
+    public function getByCustomer($customerId = null)
     {
-        $data = $this->appointmentService->paginateByCustomer($customerId, [
-            'clinic.user',
-            'service'
-        ], $this->countable);
+        if (isCustomer()) {
+            $data = $this->appointmentService->paginateByCustomer(customer()->id, [
+                'clinic.user',
+                'service'
+            ], $this->countable);
+        } else {
+            $data = $this->appointmentService->paginateByCustomer($customerId, [
+                'clinic.user',
+                'service'
+            ], $this->countable);
+        }
 
         if ($data) {
             return $this->apiResponse(
@@ -130,5 +137,20 @@ class AppointmentController extends ApiController
         }
 
         return $this->noData([]);
+    }
+
+    public function cancelAppointment($appointmentId)
+    {
+        $result = $this->appointmentService->cancelAppointment($appointmentId);
+
+        if (!$result) {
+            return $this->noData();
+        }
+
+        return $this->apiResponse(
+            AppointmentResource::make($result),
+            self::STATUS_OK,
+            trans('site.cancelled')
+        );
     }
 }

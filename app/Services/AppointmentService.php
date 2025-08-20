@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Enums\AppointmentStatusEnum;
+use App\Exceptions\Application\MoreThanOneAppointmentWithOneClinic;
 use App\Models\Appointment;
 use App\Repositories\AppointmentLogRepository;
 use App\Repositories\AppointmentRepository;
@@ -23,6 +25,17 @@ class AppointmentService extends BaseService
     public function store(array $data, array $relationships = [], array $countable = []): ?Model
     {
         $data['appointment_sequence'] = $this->calculateAppointmentSequence($data['clinic_id'], $data['date_time']);
+
+        if (!isset($data['status'])) {
+            $data['status'] = AppointmentStatusEnum::PENDING->value;
+        }
+
+        $prevAppointments = $this->repository->getByCustomerAndClinicAndDate($data['customer_id'], $data['clinic_id'], Carbon::parse($data['date_time'])->format('Y-m-d'));;
+
+        if ($prevAppointments->where('status', '!=', AppointmentStatusEnum::CANCELLED->value)->isNotEmpty()) {
+            throw new MoreThanOneAppointmentWithOneClinic();
+        }
+
         $appointment = $this->repository->create($data);
         $appointment->updateTotalCost();
         $this->logAppointment($data, $appointment);
@@ -93,6 +106,17 @@ class AppointmentService extends BaseService
             $data['appointment_sequence'] = $this->calculateAppointmentSequence($appointment->clinic_id, $data['date_time']);
         }
 
+        $prevAppointments = $this->repository
+            ->getByCustomerAndClinicAndDate(
+                $data['customer_id'] ?? $appointment->id,
+                $data['clinic_id'] ?? $appointment->clinic_id,
+                Carbon::parse($data['date_time'] ?? $appointment->date_time)->format('Y-m-d')
+            );
+
+        if ($prevAppointments->where('status', '!=', AppointmentStatusEnum::CANCELLED->value)->where('id', '!=', $appointment->id)->isNotEmpty()) {
+            throw new MoreThanOneAppointmentWithOneClinic();
+        }
+
         $appointment = $this->repository->update($data, $id, $relationships, $countable);
 
         $appointment->updateTotalCost();
@@ -160,7 +184,7 @@ class AppointmentService extends BaseService
         } else {
             AppointmentLogRepository::make()->create([
                 'cancellation_reason' => $data['cancellation_reason'] ?? null,
-                'status' => $data['status'] ?? $appointment->status ,
+                'status' => $data['status'] ?? $appointment->status,
                 'happen_in' => now(),
                 'appointment_id' => $appointment->id,
                 'actor_id' => user()?->id,
@@ -178,5 +202,39 @@ class AppointmentService extends BaseService
     public function paginateByCustomer(int $customerId, array $relations = [], array $countable = []): ?array
     {
         return $this->repository->paginateByCustomer($customerId, $relations, $countable);
+    }
+
+    public function view($id, array $relationships = [], array $countable = []): ?Appointment
+    {
+        $appointment = $this->repository->find($id, $relationships, $countable);
+        if (!$appointment) {
+            return null;
+        }
+
+        if ($appointment->customer_id != customer()?->id && isCustomer()) {
+            return null;
+        }
+
+        return $appointment;
+    }
+
+    public function cancelAppointment(int $appointmentId)
+    {
+        $appointment = $this->repository->find($appointmentId);
+        if (!$appointment) {
+            return null;
+        }
+
+        if (isCustomer() && $appointment->customer_id != customer()?->id) {
+            return null;
+        }
+
+        if ($appointment->status != AppointmentStatusEnum::PENDING->value) {
+            return null;
+        }
+
+        return $this->repository->update([
+            'status' => AppointmentStatusEnum::CANCELLED->value,
+        ], $appointment);
     }
 }

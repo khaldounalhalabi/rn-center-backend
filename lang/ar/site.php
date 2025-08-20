@@ -136,4 +136,6 @@ return [
     'new_comment_on_task' => ':username قام بالتعليق على المهمة (:task_title)',
 
     'dicom_validation' => 'الملف يجب أن يكون ملف DICOM صالحًا.',
+
+    'more_than_one_appointment' => 'لا يمكنك حجز أكثر من موعد مع نفس العيادة في نفس اليوم'
 ];

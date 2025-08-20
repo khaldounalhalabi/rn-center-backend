@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Exceptions\Application\ApplicationException;
 use App\Http\Controllers\ApiController;
 use App\Traits\RestTrait;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -85,6 +86,14 @@ class Handler extends ExceptionHandler
         }
 
         if ($exception instanceof ApprovingPayslipsWithRejectedPayslips) {
+            return $this->apiResponse(
+                null,
+                $exception->getCode(),
+                $exception->getMessage(),
+            );
+        }
+
+        if ($exception instanceof ApplicationException) {
             return $this->apiResponse(
                 null,
                 $exception->getCode(),

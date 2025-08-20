@@ -10,6 +10,7 @@ use App\Repositories\Contracts\BaseRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Exception;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -137,5 +138,13 @@ class AppointmentRepository extends BaseRepository
             ->where('customer_id', $prescription->customer_id)
             ->where('status', AppointmentStatusEnum::BOOKED->value)
             ->delete();
+    }
+
+    public function getByCustomerAndClinicAndDate(int $customerId, int $clinicId, string $date): Collection
+    {
+        return Appointment::where('customer_id', $customerId)
+            ->where('clinic_id', $clinicId)
+            ->whereDate('date_time', $date)
+            ->get();
     }
 }
