@@ -23,3 +23,6 @@ Route::get('/appointments/{appointmentId}', [v1\AppointmentController::class, 's
 Route::get('/prescriptions', [v1\PrescriptionController::class, 'index'])->name('prescriptions.index');
 Route::get('/prescriptions/{prescriptionId}', [v1\PrescriptionController::class, 'show'])->name('prescriptions.show');
 
+Route::get('/medical-records', [v1\MedicalRecordController::class, 'index'])->name('medical.records.index');
+Route::get('/medical-records/{medicalRecordId}', [v1\MedicalRecordController::class, 'show'])->name('medical.records.show');
+

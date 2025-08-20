@@ -22,6 +22,8 @@ class MedicalRecordRepository extends BaseRepository
                 $customer->when(isDoctor(), function (Builder|Customer $customer) {
                     $customer->byClinic(clinic()?->id);
                 });
+            })->when(isCustomer(), function (Builder|MedicalRecord $medicalRecord) {
+                $medicalRecord->where('customer_id', customer()?->id);
             });
     }
 
