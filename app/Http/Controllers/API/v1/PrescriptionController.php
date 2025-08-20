@@ -103,6 +103,7 @@ class PrescriptionController extends ApiController
             'clinic.user',
             'appointment'
         ], $this->countable);
+
         if ($data) {
             return $this->apiResponse(PrescriptionResource::collection($data['data'])->detailed(), self::STATUS_OK, __('site.get_successfully'), $data['pagination_data']);
         }

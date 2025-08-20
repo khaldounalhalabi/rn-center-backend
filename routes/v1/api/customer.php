@@ -20,4 +20,6 @@ Route::post('/appointments', [v1\AppointmentController::class, 'store'])->name('
 Route::get('/appointments', [v1\AppointmentController::class, 'getByCustomer'])->name('appointments.index');
 Route::get('/appointments/{appointmentId}', [v1\AppointmentController::class, 'show'])->name('appointments.show');
 
+Route::get('/prescriptions', [v1\PrescriptionController::class, 'index'])->name('prescriptions.index');
+Route::get('/prescriptions/{prescriptionId}', [v1\PrescriptionController::class, 'show'])->name('prescriptions.show');
 
