@@ -137,5 +137,7 @@ return [
 
     'dicom_validation' => 'The file must be a valid DICOM file.',
 
-    'more_than_one_appointment' => 'You cannot have more than one appointment with the same clinic in the same day'
+    'more_than_one_appointment' => 'You cannot have more than one appointment with the same clinic in the same day',
+
+    'appointment_remaining_time' => "Your appointment with :clinic_name has :remaining left",
 ];

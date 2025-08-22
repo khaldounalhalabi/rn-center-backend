@@ -137,5 +137,7 @@ return [
 
     'dicom_validation' => 'الملف يجب أن يكون ملف DICOM صالحًا.',
 
-    'more_than_one_appointment' => 'لا يمكنك حجز أكثر من موعد مع نفس العيادة في نفس اليوم'
+    'more_than_one_appointment' => 'لا يمكنك حجز أكثر من موعد مع نفس العيادة في نفس اليوم',
+
+    'appointment_remaining_time' => "موعدك مع :clinic_name يتبقى عليه :remaining",
 ];

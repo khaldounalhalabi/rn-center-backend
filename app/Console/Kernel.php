@@ -13,6 +13,22 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
+
+        $schedule->command('app:send-appointment-five-minutes-remaining-notifications')
+            ->withoutOverlapping()
+            ->everyFiveMinutes();
+
+        $schedule->command('app:send-appointment-thirty-minutes-remaining-notifications')
+            ->withoutOverlapping()
+            ->everyThirtyMinutes();
+
+        $schedule->command('app:send-appointment-one-hour-remaining-notifications')
+            ->withoutOverlapping()
+            ->hourly();
+
+        $schedule->command('app:send-appointment-one-day-remaining-notifications')
+            ->withoutOverlapping()
+            ->daily();
     }
 
     /**
