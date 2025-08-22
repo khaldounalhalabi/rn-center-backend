@@ -57,6 +57,10 @@ class Clinic extends Model
                 'gender',
                 'full_name'
             ],
+            'service' => [
+                'name',
+                'description'
+            ]
         ];
     }
 

@@ -57,14 +57,13 @@ Route::prefix('secretary')
         Route::post('/resend-verification-code', 'resendVerificationCode')->name("resend.verification.code");
     });
 
-Route::get('/specialities', [v1\SpecialityController::class, 'getOrderedByClinicsCount'])->name('speciality.index');
+Route::get('/specialities/ranked', [v1\SpecialityController::class, 'getOrderedByClinicsCount'])->name('speciality.ranked');
+Route::get('/specialities', [v1\SpecialityController::class, 'index'])->name('speciality.index');
 Route::get('/service-categories', [v1\ServiceCategoryController::class, 'index'])->name('service.category.index');
 
 Route::get('/clinics/{clinicId}', [v1\ClinicController::class, 'show'])->name('clinics.show');
+Route::get('/clinics', [v1\ClinicController::class, 'index'])->name('clinics.index');
+Route::get('/specialities/{specialityId}/clinics', [v1\ClinicController::class, 'getBySpeciality'])->name('specialities.clinics');
 
-Route::get('/check-role', [v1\BaseAuthController::class, 'checkRole'])->name('check-role');
-
-Route::get('/statistics', [v1\StatisticsController::class, 'landingPage'])->name('statistics.landing.page');
-
-
-Route::get('appointments/{code}/get-by-code', [v1\AppointmentController::class, 'getByCode'])->name('appointments.by.code');
+Route::get('/service-categories', [v1\ServiceCategoryController::class, 'index'])->name('service.categories.index');
+Route::get('/service-categories/{serviceCategoryId}/services', [v1\ServiceController::class, 'getByCategory'])->name('service-categories.services');

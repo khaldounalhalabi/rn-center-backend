@@ -11,4 +11,12 @@ use App\Repositories\Contracts\BaseRepository;
 class ClinicRepository extends BaseRepository
 {
     protected string $modelClass = Clinic::class;
+
+    public function getBySpeciality(int $specialityId, array $relations = [], array $countable = []): ?array
+    {
+        return $this->paginate(
+            $this->globalQuery($relations, $countable)
+                ->whereHas('specialities', fn($query) => $query->where('specialities.id', $specialityId))
+        );
+    }
 }
