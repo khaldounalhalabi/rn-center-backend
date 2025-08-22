@@ -57,6 +57,8 @@ Route::post('/medicines/import', [v1\MedicineController::class, 'import'])->name
 Route::get('/medicines/get-import-example', [v1\MedicineController::class, 'getImportExample'])->name('medicines.get.example');
 Route::apiResource('/medicines', v1\MedicineController::class)->names('medicines');
 
+Route::get('/balance/trend', [v1\BalanceController::class, 'balanceTrend'])->name('balance.trend');;
+
 Route::get('/transactions/balance', [v1\TransactionController::class, 'balance'])->name('transactions.balance');
 Route::apiResource('/transactions', v1\TransactionController::class)->names('transactions');
 
