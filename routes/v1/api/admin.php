@@ -75,6 +75,7 @@ Route::delete('/media/{mediaId}', [v1\MediaController::class, 'delete'])->name('
 
 Route::post('appointments/export', [v1\AppointmentController::class, 'export'])->name('appointments.export');
 Route::put('appointments/change-status', [v1\AppointmentController::class, 'changeAppointmentStatus'])->name('appointments.change.status');
+Route::get('/appointments/today', [v1\AppointmentController::class, 'todayAppointments'])->name('appointments.today');
 Route::get('/clinics/{clinicId}/appointments', [v1\AppointmentController::class, 'getByClinic'])->name('clinics.appointments');
 Route::apiResource('appointments', v1\AppointmentController::class)->except(['destroy'])->names('appointments');
 

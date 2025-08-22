@@ -15,6 +15,7 @@ Route::get('/notifications/unread-count', [v1\NotificationController::class, 'un
 
 Route::name('appointments.')
     ->group(function () {
+        Route::get('/appointments/today', [v1\AppointmentController::class, 'todayAppointments'])->name('appointments.today');
         Route::get('/appointments', [v1\AppointmentController::class, 'index'])->name('index');
         Route::get('/appointments/{appointmentId}', [v1\AppointmentController::class, 'show'])->name('show');
         Route::put('/appointments/{appointmentId}', [v1\AppointmentController::class, 'update'])->name('update');

@@ -16,9 +16,9 @@ class TransactionObserver implements ShouldHandleEventsAfterCommit
     public function created(Transaction $transaction): void
     {
         $latestBalance = BalanceRepository::make()->getBalance()?->balance ?? 0;
-        if ($transaction->isPlus()) {
+        if ($transaction->isIncome()) {
             $balance = $latestBalance + $transaction->amount;
-        } elseif ($transaction->isMinus()) {
+        } elseif ($transaction->isOutcome()) {
             $balance = $latestBalance - $transaction->amount;
         }
 
@@ -46,14 +46,14 @@ class TransactionObserver implements ShouldHandleEventsAfterCommit
         $oldType = $prevTransaction['type'];
         $oldAmount = $prevTransaction['amount'];
         $latestBalance = BalanceRepository::make()->getBalance()?->balance ?? 0;
-        if ($oldType == TransactionTypeEnum::OUTCOME->value && $transaction->isPlus()) {
+        if ($oldType == TransactionTypeEnum::OUTCOME->value && $transaction->isIncome()) {
             $balance = ($latestBalance + $oldAmount) + $transaction->amount;
-        } elseif ($oldType == TransactionTypeEnum::INCOME->value && $transaction->isMinus()) {
+        } elseif ($oldType == TransactionTypeEnum::INCOME->value && $transaction->isOutcome()) {
             $balance = ($latestBalance - $oldAmount) - $transaction->amount;
         } elseif ($oldAmount != $transaction->amount) {
-            if ($transaction->isPlus()) {
+            if ($transaction->isIncome()) {
                 $balance = ($latestBalance - $oldAmount) + $transaction->amount;
-            } elseif ($transaction->isMinus()) {
+            } elseif ($transaction->isOutcome()) {
                 $balance = ($latestBalance + $oldAmount) - $transaction->amount;
             }
         }
@@ -72,9 +72,9 @@ class TransactionObserver implements ShouldHandleEventsAfterCommit
     {
         $latestBalance = BalanceRepository::make()->getBalance()?->balance ?? 0;
 
-        if ($transaction->isPlus()) {
+        if ($transaction->isIncome()) {
             $balance = $latestBalance - $transaction->amount;
-        } elseif ($transaction->isMinus()) {
+        } elseif ($transaction->isOutcome()) {
             $balance = $latestBalance + $transaction->amount;
         }
 

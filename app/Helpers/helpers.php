@@ -92,4 +92,15 @@ if (!function_exists('fakeImage')) {
     }
 }
 
-
+if (!function_exists('paginationData')) {
+    function paginationData($paginator): array
+    {
+        return [
+            'current_page' => $paginator->currentPage(),
+            'per_page' => $paginator->perPage(),
+            'is_first' => $paginator->onFirstPage(),
+            'is_last' => $paginator->onLastPage(),
+            'has_more' => $paginator->hasMorePages(),
+        ];
+    }
+}

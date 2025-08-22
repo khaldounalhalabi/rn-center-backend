@@ -9,6 +9,7 @@ use App\Http\Requests\v1\Appointment\StoreUpdateAppointmentRequest;
 use App\Http\Resources\v1\AppointmentResource;
 use App\Models\Appointment;
 use App\Services\AppointmentService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class AppointmentController extends ApiController
@@ -151,6 +152,22 @@ class AppointmentController extends ApiController
             AppointmentResource::make($result),
             self::STATUS_OK,
             trans('site.cancelled')
+        );
+    }
+
+    public function todayAppointments()
+    {
+        $data = Appointment::whereDate('date_time', now()->format('Y-m-d'))
+            ->when(isDoctor(), fn(Builder $query) => $query->where('clinic_id', clinic()->id))
+            ->with($this->indexRelations)
+            ->withCount($this->countable)
+            ->simplePaginate(request('per_page', 10));
+
+        return $this->apiResponse(
+            AppointmentResource::collection($data),
+            self::STATUS_OK,
+            trans('site.get_successfully'),
+            paginationData($data)
         );
     }
 }

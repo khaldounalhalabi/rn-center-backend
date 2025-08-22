@@ -98,12 +98,12 @@ class Transaction extends Model
         ];
     }
 
-    public function isMinus(): bool
+    public function isOutcome(): bool
     {
         return $this->type == TransactionTypeEnum::OUTCOME->value;
     }
 
-    public function isPlus(): bool
+    public function isIncome(): bool
     {
         return $this->type == TransactionTypeEnum::INCOME->value;
     }

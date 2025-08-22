@@ -14,13 +14,13 @@ class BalanceSeeder extends Seeder
     public function run(): void
     {
         Transaction::orderBy('date')->get()->each(function (Transaction $transaction) {
-            if ($transaction->isPlus()) {
+            if ($transaction->isIncome()) {
                 $latestBalance = Balance::latest()->first()?->balance ?? 0;
                 Balance::create([
                     'balance' => $latestBalance + $transaction->amount,
                 ]);
             }
-            if ($transaction->isMinus()) {
+            if ($transaction->isOutcome()) {
                 $latestBalance = Balance::latest()->first()?->balance ?? 0;
                 Balance::create([
                     'balance' => $latestBalance - $transaction->amount,

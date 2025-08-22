@@ -160,6 +160,7 @@ Route::middleware(['permission:' . PermissionEnum::APPOINTMENT_MANAGEMENT->value
 
         Route::post('appointments/export', [v1\AppointmentController::class, 'export'])->name('appointments.export');
         Route::put('appointments/change-status', [v1\AppointmentController::class, 'changeAppointmentStatus'])->name('appointments.change.status');
+        Route::get('/appointments/today', [v1\AppointmentController::class, 'todayAppointments'])->name('appointments.today');
 
         Route::get('/clinics/{clinicId}/appointments', [v1\AppointmentController::class, 'getByClinic'])
             ->middleware(['permission:' . PermissionEnum::CLINIC_MANAGEMENT->value])
@@ -173,6 +174,10 @@ Route::post('clinics/available-appointments-times', [v1\AvailableAppointmentTime
 
 Route::middleware(['permission:' . PermissionEnum::TRANSACTION_MANAGEMENT->value])
     ->group(function () {
+
+        Route::get('/balance/trend', [v1\BalanceController::class, 'balanceTrend'])->name('balance.trend');;
+        Route::get('/transactions/chart', [v1\TransactionController::class, 'chart'])->name('transactions.chart');
+
         Route::get('/transactions/balance', [v1\TransactionController::class, 'balance'])->name('transactions.balance');
         Route::apiResource('/transactions', v1\TransactionController::class)->names('transactions');
     });
