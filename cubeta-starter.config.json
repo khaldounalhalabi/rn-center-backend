@@ -1584,6 +1584,12 @@
             "table_name": "fcm_tokens",
             "attributes": [],
             "version": "v1"
+        },
+        {
+            "model_name": "Medium",
+            "table_name": "media",
+            "attributes": [],
+            "version": "v1"
         }
     ],
     "frontend_type": "None"

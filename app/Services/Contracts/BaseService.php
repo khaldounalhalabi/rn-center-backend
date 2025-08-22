@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection as RegularCollection;
-use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
@@ -114,5 +113,10 @@ abstract class BaseService
     public function import(): void
     {
         $this->repository->import();
+    }
+
+    public function formatPaginationData(LengthAwarePaginator $paginator): array
+    {
+        return $this->repository->formatPaginateData($paginator);
     }
 }
