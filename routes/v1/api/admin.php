@@ -60,6 +60,7 @@ Route::apiResource('/medicines', v1\MedicineController::class)->names('medicines
 Route::get('/balance/trend', [v1\BalanceController::class, 'balanceTrend'])->name('balance.trend');;
 
 Route::get('/transactions/balance', [v1\TransactionController::class, 'balance'])->name('transactions.balance');
+Route::get('/transactions/chart', [v1\TransactionController::class, 'chart'])->name('transactions.chart');
 Route::apiResource('/transactions', v1\TransactionController::class)->names('transactions');
 
 Route::get('/statistics/index', [v1\StatisticsController::class, 'adminStatistics'])->name('statistics.index');

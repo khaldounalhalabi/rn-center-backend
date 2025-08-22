@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\v1;
 
+use App\Enums\TransactionTypeEnum;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\v1\Transaction\StoreUpdateTransactionRequest;
 use App\Http\Resources\v1\BalanceResource;
@@ -88,5 +89,26 @@ class TransactionController extends ApiController
             self::STATUS_OK,
             trans('site.get_successfully'),
         );
+    }
+
+    public function chart()
+    {
+        $income = Transaction::whereDate('date', '>=', now()->startOfMonth()->format('Y-m-d'))
+            ->whereDate('date', '<=', now()->endOfMonth()->format('Y-m-d'))
+            ->where('type', TransactionTypeEnum::INCOME->value)
+            ->select(['date', 'amount'])
+            ->get();
+
+        $outcome = Transaction::whereDate('date', '<=', now()->startOfMonth()->format('Y-m-d'))
+            ->whereDate('date', '>=', now()->endOfMonth()->format('Y-m-d'))
+            ->where('type', TransactionTypeEnum::OUTCOME->value)
+            ->select(['date', 'amount'])
+            ->get();
+
+
+        return [
+            'income' => $income,
+            'outcome' => $outcome
+        ];
     }
 }
