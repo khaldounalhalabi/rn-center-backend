@@ -97,18 +97,24 @@ class TransactionController extends ApiController
             ->whereDate('date', '<=', now()->endOfMonth()->format('Y-m-d'))
             ->where('type', TransactionTypeEnum::INCOME->value)
             ->select(['date', 'amount'])
+            ->orderBy('date')
             ->get();
 
-        $outcome = Transaction::whereDate('date', '<=', now()->startOfMonth()->format('Y-m-d'))
-            ->whereDate('date', '>=', now()->endOfMonth()->format('Y-m-d'))
+        $outcome = Transaction::whereDate('date', '>=', now()->startOfMonth()->format('Y-m-d'))
+            ->whereDate('date', '<=', now()->endOfMonth()->format('Y-m-d'))
             ->where('type', TransactionTypeEnum::OUTCOME->value)
             ->select(['date', 'amount'])
+            ->orderBy('date')
             ->get();
 
 
-        return [
-            'income' => $income,
-            'outcome' => $outcome
-        ];
+        return $this->apiResponse(
+            [
+                'income' => $income,
+                'outcome' => $outcome
+            ],
+            self::STATUS_OK,
+            trans('site.get_successfully')
+        );
     }
 }

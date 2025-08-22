@@ -12,9 +12,13 @@ class BalanceController extends ApiController
 
     public function balanceTrend()
     {
-        return Balance::where('created_at', '>=', now()->startOfMonth())
-            ->where('created_at', '<=', now()->endOfMonth())
-            ->select(['balance' , 'created_at'])
-            ->get();
+        return $this->apiResponse(
+            Balance::where('created_at', '>=', now()->startOfMonth())
+                ->where('created_at', '<=', now()->endOfMonth())
+                ->select(['balance' , 'created_at'])
+                ->get() ,
+            self::STATUS_OK,
+            trans('site.get_successfully')
+        );
     }
 }
