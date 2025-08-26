@@ -36,7 +36,9 @@ class StoreUpdateAppointmentRequest extends FormRequest
             ];
         }
 
-        if ($this->isPost()) {
+        if (!$this->input('clinic_id') || !$this->input('date_time')) {
+            $availableTimes = collect();
+        } elseif ($this->isPost()) {
             $availableTimes = AvailableAppointmentTimeService::make()->getAvailableTimeSlots(
                 $this->input('clinic_id'),
                 Carbon::parse($this->input('date_time'))?->format('Y-m-d'),
@@ -59,7 +61,7 @@ class StoreUpdateAppointmentRequest extends FormRequest
             }
         }
 
-        if (isCustomer()){
+        if (isCustomer()) {
             return [
                 'customer_id' => ['nullable', Rule::requiredIf($this->isPost()), Rule::excludeIf($this->isPut()), 'numeric', 'exists:customers,id'],
                 'clinic_id' => ['nullable', Rule::requiredIf($this->isPost()), Rule::excludeIf($this->isPut()), 'numeric', 'exists:clinics,id'],
