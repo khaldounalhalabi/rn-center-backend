@@ -146,4 +146,13 @@ class VacationController extends ApiController
 
         return $this->noData([]);
     }
+
+    public function getActiveByClinic($clinicId)
+    {
+        return $this->apiResponse(
+            VacationResource::collection($this->vacationService->getActiveByClinic($clinicId, $this->relations, $this->countable)),
+            self::STATUS_OK,
+            trans('site.get_successfully'),
+        );
+    }
 }

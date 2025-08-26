@@ -28,3 +28,6 @@ Route::get('/medical-records', [v1\MedicalRecordController::class, 'index'])->na
 Route::get('/medical-records/{medicalRecordId}', [v1\MedicalRecordController::class, 'show'])->name('medical.records.show');
 
 Route::get('/attachments', [v1\MediaController::class, 'customerAttachments'])->name('attachments.index');
+Route::get('/holidays/active', [v1\HolidayController::class, 'activeHolidays'])->name('holidays.active');
+
+Route::get('/clinics/{clinicId}/vacations', [v1\VacationController::class, 'getActiveByClinic'])->name('clinics.vacations');

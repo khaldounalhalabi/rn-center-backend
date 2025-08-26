@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Enums\VacationStatusEnum;
+use App\Models\User;
 use App\Models\Vacation;
 use App\Repositories\Contracts\BaseRepository;
 use Carbon\Carbon;
@@ -48,5 +49,17 @@ class VacationRepository extends BaseRepository
             ->where('status', VacationStatusEnum::APPROVED->value)
             ->when(isset($userId), fn(Builder $query) => $query->where('user_id', $userId))
             ->get();
+    }
+
+    public function getActiveByClinic(int $clinicId, array $relations = [], array $countable = []): Collection
+    {
+        return $this->globalQuery($relations, $countable)
+            ->where('from', '>=', now()->format('Y-m-d'))
+            ->where('status', VacationStatusEnum::APPROVED->value)
+            ->whereHas('user', function (User|Builder $user) use ($clinicId) {
+                $user->whereHas('clinic', function (Builder $clinic) use ($clinicId) {
+                    $clinic->where('clinics.id', $clinicId);
+                });
+            })->get();
     }
 }
