@@ -30,7 +30,6 @@ class HolidayRepository extends BaseRepository
     {
         return $this->globalQuery()
             ->where('to', '>=', now()->format('Y-m-d'))
-            ->select('from', 'to')
             ->get();
     }
 }
