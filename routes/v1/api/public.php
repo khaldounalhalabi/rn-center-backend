@@ -68,4 +68,6 @@ Route::get('/specialities/{specialityId}/clinics', [v1\ClinicController::class, 
 Route::get('/service-categories', [v1\ServiceCategoryController::class, 'index'])->name('service.categories.index');
 Route::get('/service-categories/{serviceCategoryId}/services', [v1\ServiceController::class, 'getByCategory'])->name('service-categories.services');
 
+Route::get('/services', [v1\ServiceController::class, 'index'])->name('services.index');
+
 Route::get('/holidays', [v1\HolidayController::class, 'activeHolidays'])->name('holidays.active');
