@@ -15,7 +15,11 @@ class MedicalRecordController extends ApiController
     public function __construct()
     {
         $this->medicalRecordService = MedicalRecordService::make();
-        $this->relations = [];
+        if (isCustomer()) {
+            $this->relations = ['clinic.user'];
+        } else {
+            $this->relations = [];
+        }
     }
 
     public function index()
