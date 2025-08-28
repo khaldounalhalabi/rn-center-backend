@@ -22,6 +22,7 @@ class MedicalRecordResource extends BaseResource
             'diagnosis' => $this->diagnosis,
             'treatment' => $this->treatment,
             'allergies' => $this->allergies,
+            'created_at' => $this->created_at?->format('Y-m-d'),
             'notes' => $this->notes,
             'can_delete' => $this->canDelete(),
             'can_update' => $this->canUpdate(),
