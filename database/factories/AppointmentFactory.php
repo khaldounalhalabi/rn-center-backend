@@ -8,8 +8,8 @@ use App\Models\Appointment;
 use App\Models\AppointmentLog;
 use App\Models\Clinic;
 use App\Models\Customer;
-use App\Models\Service;
 use App\Traits\FileHandler;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -25,20 +25,20 @@ class AppointmentFactory extends Factory
      */
     public function definition(): array
     {
-        $clinic = Clinic::factory()->withSchedules()->create();
-        $service = Service::factory()->create([
-            'clinic_id' => $clinic->id,
-        ]);
+        $clinic = Clinic::inRandomOrder()->withWhereHas('services')->first();
+        $customer = Customer::inRandomOrder()->first();
+        $service = $clinic->services->random();
+        $datetime = Carbon::parse(fake()->dateTimeBetween('-3 days', '+3 days')->format('Y-m-d') . ' ' . $clinic->schedules()->first()?->start_time?->format('H:i'));
         return [
-            'customer_id' => Customer::factory(),
+            'customer_id' => $customer->id,
             'clinic_id' => $clinic->id,
-            'note' => fake()->text(),
+            'note' => null,
             'service_id' => $service->id,
             'extra_fees' => 0,
             'total_cost' => $service->price + $clinic->appointment_cost,
-            'status' => AppointmentStatusEnum::BOOKED->value,
+            'status' => $datetime->isFuture() ? AppointmentStatusEnum::BOOKED->value : AppointmentStatusEnum::CHECKOUT->value,
             'type' => fake()->randomElement(AppointmentTypeEnum::getAllValues()),
-            'date_time' => fake()->dateTimeBetween('-3 days', '+3 days')->format('Y-m-d') . ' ' . $clinic->schedules()->first()?->start_time?->format('H:i'),
+            'date_time' => $datetime->format('Y-m-d H:i:s'),
             'appointment_sequence' => 1,
             'discount' => 0
         ];

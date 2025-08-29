@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Speciality;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class SpecialitySeeder extends Seeder
 {
@@ -12,6 +12,33 @@ class SpecialitySeeder extends Seeder
      */
     public function run(): void
     {
-        Speciality::factory(10)->withMedia()->create();
+        $specialities = [
+            // طب الأطفال
+            ['name' => 'طب حديثي الولادة', 'description' => 'رعاية الأطفال حديثي الولادة والخدّج.',],
+            ['name' => 'طب الأطفال العام', 'description' => 'متابعة نمو وصحة الأطفال بشكل عام.',],
+
+            // أمراض القلب
+            ['name' => 'أمراض القلب التداخلية', 'description' => 'تشخيص وعلاج أمراض القلب بالقسطرة.',],
+            ['name' => 'جراحة القلب', 'description' => 'إجراء العمليات الجراحية للقلب.',],
+            ['name' => 'تصوير القلب بالأشعة الصوتية', 'description' => 'تشخيص أمراض القلب باستخدام الإيكو.',],
+
+            // الأمراض الجلدية
+            ['name' => 'الأمراض الجلدية التجميلية', 'description' => 'علاج مشاكل البشرة والشعر والأظافر لأغراض جمالية.',],
+            ['name' => 'الأمراض الجلدية المناعية', 'description' => 'تشخيص وعلاج الأمراض الجلدية الناتجة عن اضطرابات مناعية.',],
+
+            // جراحة العظام
+            ['name' => 'طب العظام الرياضي', 'description' => 'إصابات الملاعب والإجهاد العضلي.',],
+            ['name' => 'جراحة المفاصل', 'description' => 'إصلاح أو استبدال المفاصل التالفة.',],
+
+            // طب الأعصاب
+            ['name' => 'طب المخ والأعصاب', 'description' => 'تشخيص وعلاج أمراض الجهاز العصبي.',],
+            ['name' => 'جراحة الأعصاب', 'description' => 'إجراء العمليات الجراحية للدماغ والحبل الشوكي.',],
+
+            // النساء والتوليد
+            ['name' => 'علاج العقم وأطفال الأنابيب', 'description' => 'تشخيص وعلاج مشاكل العقم وتأخر الإنجاب.',],
+            ['name' => 'طب الأمومة', 'description' => 'رعاية الأم أثناء الحمل والولادة.',],
+        ];
+
+        DB::table('specialities')->insert($specialities);
     }
 }

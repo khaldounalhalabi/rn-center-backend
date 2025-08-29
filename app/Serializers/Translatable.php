@@ -83,7 +83,7 @@ class Translatable implements JsonSerializable
         $this->data["$name"] = $value;
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return $this->data;
     }

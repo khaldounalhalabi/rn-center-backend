@@ -30,8 +30,8 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'first_name' => fake()->firstName(),
-            'last_name' => fake()->lastName(),
+            'first_name' => fake('ar_SA')->firstName(),
+            'last_name' => fake('ar_SA')->lastName(),
             'email' => fake()->unique()->safeEmail(),
             'password' => '123456789',
             'remember_token' => Str::random(10),

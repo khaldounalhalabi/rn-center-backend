@@ -4,7 +4,8 @@ namespace Database\Seeders;
 
 use App\Enums\RolesPermissionEnum;
 use App\Models\Clinic;
-use App\Models\Formula;
+use App\Models\Customer;
+use App\Models\Speciality;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -15,41 +16,50 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        $specialities = Speciality::all();
         $admin = User::factory()->verified()
             ->create([
                 'phone' => '0936955531',
-                'first_name' => 'Admin',
             ])->assignRole(RolesPermissionEnum::ADMIN['role']);
 
         $doctor = User::factory()->verified()
             ->create([
                 'phone' => '0936955532',
-                'first_name' => 'Doctor',
-                'formula_id' => Formula::inRandomOrder()->first()?->id ?? Formula::factory()->create()?->id,
             ])->assignRole(RolesPermissionEnum::DOCTOR['role']);
 
-        Clinic::factory()
-            ->allRelations()
+        $clinic = Clinic::factory()
+            ->withSchedules()
             ->create([
                 'user_id' => $doctor->id,
             ]);
 
-        $secretary = User::factory()->verified()
+        $clinic->specialities()
+            ->attach($specialities->random(3));
+
+        $secretary = User::factory()
+            ->verified()
             ->secretary()
             ->create([
                 'phone' => '0936955533',
-                'first_name' => 'Secretary',
             ]);
-
 
 
         $patient = User::factory()->verified()
             ->customer()
             ->create([
                 'phone' => '0936955534',
-                'first_name' => 'Patient',
             ])->assignRole(RolesPermissionEnum::CUSTOMER['role']);
 
-        User::factory(5)->secretary()->create();
+        User::factory(5)
+            ->secretary()
+            ->create();
+
+        $clinics = User::factory(5)->clinic()->create()->load(['clinic'])->map->clinic;
+        foreach ($clinics as $clinic) {
+            $clinic->specialities()
+                ->attach($specialities->random(3));
+        }
+
+        Customer::factory(5)->create();
     }
 }

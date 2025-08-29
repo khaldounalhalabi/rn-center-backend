@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Holiday;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class HolidaySeeder extends Seeder
 {
@@ -13,6 +12,26 @@ class HolidaySeeder extends Seeder
      */
     public function run(): void
     {
-        Holiday::factory(10)->create();
+        $holidays = [
+            ['from' => '2025-01-01', 'to' => '2025-01-01', 'reason' => 'رأس السنة الميلادية'],
+            ['from' => '2025-01-02', 'to' => '2025-01-02', 'reason' => 'اليوم الذي يلي رأس السنة'],
+            ['from' => '2025-03-08', 'to' => '2025-03-08', 'reason' => 'يوم الثورة'],
+            ['from' => '2025-03-21', 'to' => '2025-03-21', 'reason' => 'عيد الأم'],
+            ['from' => '2025-03-31', 'to' => '2025-03-31', 'reason' => 'عيد الفطر'],
+            ['from' => '2025-03-31', 'to' => '2025-04-02', 'reason' => 'عطلة عيد الفطر'],
+
+            ['from' => '2025-04-17', 'to' => '2025-04-17', 'reason' => 'عيد الجلاء (يوم الاستقلال)'],
+            ['from' => '2025-04-20', 'to' => '2025-04-20', 'reason' => 'عيد الفصح (غريغوري ويوليوسي)'],
+            ['from' => '2025-05-01', 'to' => '2025-05-01', 'reason' => 'عيد العمال'],
+            ['from' => '2025-05-06', 'to' => '2025-05-06', 'reason' => 'عيد الشهداء'],
+            ['from' => '2025-06-06', 'to' => '2025-06-09', 'reason' => 'عيد الأضحى'],
+            ['from' => '2025-06-27', 'to' => '2025-06-27', 'reason' => 'رأس السنة الهجرية'],
+            ['from' => '2025-09-05', 'to' => '2025-09-05', 'reason' => 'المولد النبوي الشريف'],
+            ['from' => '2025-10-06', 'to' => '2025-10-06', 'reason' => 'يوم تحرير تشرين'],
+            ['from' => '2025-12-08', 'to' => '2025-12-08', 'reason' => 'يوم الثورة (استلام السلطة الجديدة)'],
+            ['from' => '2025-12-25', 'to' => '2025-12-25', 'reason' => 'عيد الميلاد'],
+        ];
+
+        DB::table('holidays')->insert($holidays);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,12 +19,12 @@ class DatabaseSeeder extends Seeder
         $this->call([
             FormulaVariableSeeder::class,
             FormulaSeeder::class,
-            UserSeeder::class,
             SpecialitySeeder::class,
             ServiceCategorySeeder::class,
+            UserSeeder::class,
             ServiceSeeder::class,
-            ClinicSeeder::class,
-            CustomerSeeder::class,
+//            ClinicSeeder::class,
+//            CustomerSeeder::class,
             HolidaySeeder::class,
             AppointmentSeeder::class,
             MedicineSeeder::class,
@@ -35,5 +36,7 @@ class DatabaseSeeder extends Seeder
             AssetSeeder::class,
             UserAssetSeeder::class,
         ]);
+
+        User::role('doctor')->whereDoesntHave('clinic')->delete();
     }
 }
