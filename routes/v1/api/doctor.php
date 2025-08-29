@@ -70,3 +70,7 @@ Route::apiResource('vacations', v1\VacationController::class)->except(['update']
 
 Route::get('/user-assets/mine', [v1\UserAssetController::class, 'assignedToMe'])->name('assets.mine');
 Route::get('/assets/{assetId}', [v1\AssetController::class, 'show'])->name('assets.show');
+
+Route::post('patient-studies', [v1\PatientStudyController::class, 'store'])->name('patient.studies.store');
+Route::delete('patient-studies/{patientStudyId}', [v1\PatientStudyController::class, 'destroy'])->name('patient.studies.destroy');
+

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\MediaTypeEnum;
+use App\Enums\PermissionEnum;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -100,5 +101,17 @@ class Customer extends Model implements HasMedia
     public function patientStudies(): HasMany
     {
         return $this->hasMany(PatientStudy::class);
+    }
+
+    public function canManage(): bool
+    {
+        return isAdmin()
+            || (isSecretary() && can(PermissionEnum::PATIENT_MANAGEMENT))
+            || (isDoctor() && (
+                    $this->appointments()->where('clinic_id', clinic()->id)->exists()
+                    || $this->medicalRecords()->where('clinic_id', clinic()->id)->exists()
+                    || $this->prescriptions()->where('clinic_id', clinic()->id)->exists()
+                ))
+            || (isCustomer() && $this->id == customer()->id);
     }
 }

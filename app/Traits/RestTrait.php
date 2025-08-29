@@ -13,7 +13,7 @@ trait RestTrait
      */
     public function noData(mixed $response = null): JsonResponse
     {
-        return $this->apiResponse($response, ApiController::STATUS_OK, __('site.there_is_no_data'));
+        return $this->apiResponse($response, ApiController::STATUS_NOT_FOUND, __('site.there_is_no_data'));
     }
 
     /**

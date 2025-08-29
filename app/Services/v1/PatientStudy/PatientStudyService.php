@@ -5,6 +5,7 @@ namespace App\Services\v1\PatientStudy;
 use App\Models\PatientStudy;
 use App\Modules\Compressor\Zip;
 use App\Modules\DICOM\DicomModeValidator;
+use App\Repositories\CustomerRepository;
 use App\Repositories\PatientStudyRepository;
 use App\Services\Contracts\BaseService;
 use App\Traits\Makable;
@@ -59,6 +60,12 @@ class PatientStudyService extends BaseService
      */
     public function addStudyToCustomer(array $data): bool
     {
+        $customer = CustomerRepository::make()->find($data['customer_id']);
+
+        if (!$customer->canManage()) {
+            return false;
+        }
+
         DB::beginTransaction();
         try {
             $uuid = Str::uuid();
@@ -178,5 +185,29 @@ class PatientStudyService extends BaseService
         }
 
         return $response->json() ?? [];
+    }
+
+    public function delete($id): ?bool
+    {
+        $study = $this->repository->find($id, ['customer']);
+
+        if (!$study) {
+            return null;
+        }
+
+        if (!$study->customer->canManage()) {
+            return false;
+        }
+
+        $response = HTTP::post('http://localhost:8042/tools/bulk-delete', [
+            'Resources' => [
+                $study->study_uuid
+            ]
+        ]);
+        if (!$response->successful()) {
+            return false;
+        }
+
+        return $this->repository->delete($study);
     }
 }
