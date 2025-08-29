@@ -69,6 +69,7 @@ class PatientStudyService extends BaseService
             } else {
                 Zip::compress($data['dicom_files'], $storePath);
             }
+
             $response = Http::withHeaders([
                 'Content-Type' => 'application/octet-stream'
             ])->withBody(
@@ -80,7 +81,7 @@ class PatientStudyService extends BaseService
                 if (file_exists($storePath)) {
                     unlink($storePath);
                 }
-                throw new Exception("Failed to store study");
+                throw new Exception("Failed to store study , " . json_encode($response->json()));
             }
             $instanceData = $response->json();
 
@@ -141,8 +142,8 @@ class PatientStudyService extends BaseService
             throw new Exception("Failed to get study instance UID");
         }
 
-        $studyDate = $studyData['MainDicomTags']['StudyDate'];
-        $studyTime = $studyData['MainDicomTags']['StudyTime'];
+        $studyDate = $studyData['MainDicomTags']['StudyDate'] ?? now()->format('Ymd');
+        $studyTime = $studyData['MainDicomTags']['StudyTime'] ?? now()->format('His');
         try {
             $studyDateTime = Carbon::createFromFormat('Ymd His', "$studyDate $studyTime");
         } catch (Exception) {
