@@ -103,8 +103,20 @@ class CustomerService extends BaseService
 
         return PDF::viewToPdf(view('pdf.patient-report', [
             'customer' => $customer,
-            'appointments' => isAdmin() || isDoctor() || (isSecretary() && can(PermissionEnum::APPOINTMENT_MANAGEMENT)) ? $appointments : null,
-            'prescriptions' => isAdmin() || isDoctor() || (isSecretary() && can(PermissionEnum::MEDICINE_MANAGEMENT)) ? $prescriptions : null,
+            'appointments' =>
+                isAdmin()
+                || isDoctor()
+                || (isSecretary() && can(PermissionEnum::APPOINTMENT_MANAGEMENT))
+                || (isCustomer() && customer()->id == $customerId)
+                    ? $appointments
+                    : null,
+            'prescriptions' =>
+                isAdmin()
+                || isDoctor()
+                || (isSecretary() && can(PermissionEnum::APPOINTMENT_MANAGEMENT))
+                || (isCustomer() && customer()->id == $customerId)
+                    ? $prescriptions
+                    : null,
             'medicalRecords' => $medicalRecords,
         ]));
     }
