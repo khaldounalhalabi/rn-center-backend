@@ -50,6 +50,8 @@ RUN composer dump-autoload --optimize
 
 RUN php artisan migrate:fresh --seed
 
+RUN php artisan optimize:clear
+
 # Copy Supervisor configuration for Laravel queue and web server
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 

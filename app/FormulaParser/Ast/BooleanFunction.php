@@ -31,4 +31,12 @@ class BooleanFunction extends Expression
     {
         return " ( " . implode(", ", $this->booleanExpressions) . ")";
     }
+
+    public function getVariables(): array
+    {
+        return collect($this->booleanExpressions)
+            ->map(fn(BooleanExpression $expression) => $expression->getVariables())
+            ->flatMap(fn($variable) => $variable)
+            ->toArray();
+    }
 }

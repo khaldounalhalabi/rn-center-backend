@@ -49,4 +49,14 @@ class IFExpression extends Expression
     {
         return "IF($this->condition , $this->then, $this->else)";
     }
+
+    public function getVariables(): array
+    {
+        return [
+            ...$this->variables,
+            ...$this->condition->getVariables(),
+            ...$this->then->getVariables(),
+            ...$this->else->getVariables(),
+        ];
+    }
 }
