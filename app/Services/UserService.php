@@ -319,7 +319,7 @@ class UserService extends BaseService
     {
         $code = $this->generateVerificationCode();
         $sms = SMS::make()
-            ->message(trans('site.verification_code_sent', ['code' => $code]))
+            ->message(trans('site.your_verification_code_is', ['code' => $code]))
             ->to($user->universal_phone)
             ->send();
 
