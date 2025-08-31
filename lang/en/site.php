@@ -140,4 +140,5 @@ return [
     'more_than_one_appointment' => 'You cannot have more than one appointment with the same clinic in the same day',
 
     'appointment_remaining_time' => "Your appointment with :clinic_name has :remaining left",
+    'your_verification_code_is' => 'Your verification code is :code',
 ];

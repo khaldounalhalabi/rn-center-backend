@@ -1,0 +1,16 @@
+# Ignore Git files
+.git
+.gitignore
+
+# Ignore node_modules
+node_modules
+
+# Ignore logs
+*.log
+
+# Ignore environment files
+.env
+
+# Ignore Dockerfile itself (optional)
+Dockerfile
+.dockerignore

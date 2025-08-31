@@ -140,4 +140,6 @@ return [
     'more_than_one_appointment' => 'لا يمكنك حجز أكثر من موعد مع نفس العيادة في نفس اليوم',
 
     'appointment_remaining_time' => "موعدك مع :clinic_name يتبقى عليه :remaining",
+
+    'your_verification_code_is' => 'رمز التحقق الخاص بك هو :code',
 ];

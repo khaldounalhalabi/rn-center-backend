@@ -9,7 +9,6 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
-        "ext-curl": "*",
         "antlr/antlr4-php-runtime": "^0.9.1",
         "capcom6/android-sms-gateway": "^2.0",
         "cubeta/cubeta-starter": "v2.0.1",
@@ -20,8 +19,7 @@
         "laravel/tinker": "^2.8",
         "spatie/laravel-medialibrary": "^11.4",
         "spatie/laravel-permission": "^6.19",
-        "tecnickcom/tcpdf": "^6.10",
-        "ext-zip": "*"
+        "tecnickcom/tcpdf": "^6.10"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
