@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Listeners\DeleteExpiredNotificationTokens;
 use App\Listeners\PermissionsUpdatedListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Notifications\Events\NotificationFailed;
 use Spatie\Permission\Events\PermissionAttached;
 use Spatie\Permission\Events\PermissionDetached;
 
@@ -24,7 +26,10 @@ class EventServiceProvider extends ServiceProvider
         ],
         PermissionDetached::class => [
             PermissionsUpdatedListener::class
-        ]
+        ],
+        NotificationFailed::class => [
+            DeleteExpiredNotificationTokens::class,
+        ],
     ];
 
     /**
