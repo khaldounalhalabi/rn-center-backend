@@ -24,3 +24,4 @@ deploy.sh
 /caddy
 frankenphp
 frankenphp-worker.php
+firebase-settings.json
