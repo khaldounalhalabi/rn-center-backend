@@ -1,7 +1,7 @@
 # Reslan Alnaal Medical Center Management System (Graduation Project)
 
 ## Introduction 
-This is the backend of the project made to seize the bachelor's degree in software engineering at Damascus University.
+This is the backend of a project made to seize the bachelor's degree in software engineering at Damascus University.
 The project is a medical center management system which provides a platform for the management of the center's staff and patients.
 
 ## Prerequisites
