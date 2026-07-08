@@ -36,7 +36,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Set the working directory
 WORKDIR /app
 
-COPY .env.production .env
+COPY .env .env
 
 # Copy the composer.json and install dependencies
 COPY composer.json composer.lock ./
