@@ -52,7 +52,7 @@ RUN php artisan key:generate
 
 RUN php artisan jwt:secret
 
-RUN php artisan migrate:fresh
+RUN php artisan migrate:fresh --seed
 
 RUN php artisan optimize:clear
 

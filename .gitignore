@@ -17,9 +17,6 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-deploy-pom-back.sh
-scripts.sh
-deploy.sh
 
 /caddy
 frankenphp
