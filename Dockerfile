@@ -41,6 +41,7 @@ COPY .env.production .env
 # Copy the composer.json and install dependencies
 COPY composer.json composer.lock ./
 RUN composer install --no-scripts --no-autoloader
+RUN composer run add-tcpdf-fonts
 
 # Copy the rest of the application code
 COPY . .
