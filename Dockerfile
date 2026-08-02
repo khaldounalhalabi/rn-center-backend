@@ -1,69 +1,83 @@
-FROM php:8.2-fpm
+FROM php:8.2-fpm-bookworm
 
-ENV APP_DEBUG=true
-ENV COMPOSER_ALLOW_SUPERUSER=1
+LABEL maintainer="RN Center Backend"
+
+# Prevent interactive prompts during package installation
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    libpng-dev \
-    libicu-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    libonig-dev \
-    libxml2-dev \
-    zip \
-    unzip \
-    libzip-dev \
-    supervisor \
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        ca-certificates \
+        curl \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libonig-dev \
+        libpng-dev \
+        libxml2-dev \
+        libzip-dev \
+        nginx \
+        supervisor \
+        unzip \
+        zip \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
-RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg \
-    && docker-php-ext-install \
-        pdo_mysql \
-        mbstring \
-        gd \
-        zip \
-        intl \
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) \
+        bcmath \
         exif \
-    && docker-php-ext-enable exif zip
+        gd \
+        mbstring \
+        mysqli \
+        pdo_mysql \
+        pcntl \
+        xml \
+        zip \
+    && pecl install redis \
+    && docker-php-ext-enable redis
 
 # Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Set the working directory
-WORKDIR /app
+# Set working directory
+WORKDIR /var/www/html
 
-COPY .env.production .env
-
-# Copy the composer.json and install dependencies
+# Copy composer files first for layer caching
 COPY composer.json composer.lock ./
-RUN composer install --no-scripts --no-autoloader
-RUN composer run add-tcpdf-fonts
 
-# Copy the rest of the application code
+# Install PHP dependencies (production only)
+RUN composer install --no-interaction --optimize-autoloader --no-scripts
+
+# Copy application source
 COPY . .
 
-# Generate the optimized autoloader
-RUN composer dump-autoload --optimize
+# Copy Docker configuration files
+RUN rm -f /etc/nginx/sites-enabled/default /etc/nginx/sites-available/default
+COPY docker/nginx.conf /etc/nginx/sites-enabled/default
+COPY docker/php.ini /usr/local/etc/php/conf.d/99-pom.ini
+COPY docker/www.conf /usr/local/etc/php-fpm.d/www.conf
+COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 
-RUN php artisan key:generate
+# Make entrypoint executable
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
-RUN php artisan jwt:secret
+# Create required application directories and set permissions
+RUN mkdir -p /var/www/html/storage/app/public \
+    && mkdir -p /var/www/html/storage/framework/cache \
+    && mkdir -p /var/www/html/storage/framework/sessions \
+    && mkdir -p /var/www/html/storage/framework/testing \
+    && mkdir -p /var/www/html/storage/framework/views \
+    && mkdir -p /var/www/html/storage/logs \
+    && mkdir -p /var/www/html/bootstrap/cache \
+    && chown -R www-data:www-data /var/www/html \
+    && chmod -R 775 /var/www/html/storage \
+    && chmod -R 775 /var/www/html/bootstrap/cache \
+    && chmod -R 755 /var/www/html
 
-RUN php artisan migrate:fresh
-
-RUN php artisan optimize:clear
-
-# Copy Supervisor configuration for Laravel queue and web server
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-# Expose port 80
+# Expose HTTP port
 EXPOSE 80
 
-COPY php.ini /usr/local/etc/php/conf.d/
-
-# Start Supervisor to run both the queue worker and the web server
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

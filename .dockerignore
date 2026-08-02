@@ -1,16 +1,31 @@
-# Ignore Git files
 .git
+.github
 .gitignore
+.gitattributes
+.idea
+.vscode
+.claude
 
-# Ignore node_modules
 node_modules
+vendor
 
-# Ignore logs
-*.log
-
-# Ignore environment files
 .env
+.env.*.local
 
-# Ignore Dockerfile itself (optional)
-Dockerfile
-.dockerignore
+storage/logs/*
+storage/framework/cache/data/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/framework/testing/*
+bootstrap/cache/*.php
+
+# Never ship the host-side storage symlink: if it is a broken/dangling link
+# it poisons `COPY . .` and nginx cannot serve /storage. The entrypoint
+# recreates it at runtime via `php artisan storage:link`.
+public/storage
+
+.phpunit.result.cache
+
+README.md
+AGENTS.md
+CLAUDE.md

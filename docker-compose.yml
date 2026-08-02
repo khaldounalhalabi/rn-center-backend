@@ -1,0 +1,112 @@
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: rn-center-app:latest
+        container_name: rn-center-app
+        env_file:
+            - .env
+        volumes:
+            - app_storage:/var/www/html/storage
+            - app_bootstrap_cache:/var/www/html/bootstrap/cache
+        networks:
+            - rn-center-internal
+        healthcheck:
+            test: [ "CMD", "curl", "-f", "http://localhost:80/up" ]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+            start_period: 60s
+        restart: unless-stopped
+
+    queue:
+        image: rn-center-app:latest
+        container_name: rn-center-queue
+        env_file:
+            - .env
+        command:
+            - php
+            - artisan
+            - queue:work
+            - --sleep=3
+            - --tries=3
+            - --max-time=3600
+        depends_on:
+            - app
+            - db
+            - redis
+        networks:
+            - rn-center-internal
+        restart: unless-stopped
+
+    scheduler:
+        image: rn-center-app:latest
+        container_name: rn-center-scheduler
+        env_file:
+            - .env
+        command:
+            - sh
+            - -c
+            - 'while true; do php artisan schedule:run; sleep 60; done'
+        depends_on:
+            - app
+            - db
+            - redis
+        networks:
+            - rn-center-internal
+        restart: unless-stopped
+
+    db:
+        image: mariadb:11
+        container_name: rn-center-db
+        env_file:
+            - .env
+        expose:
+            - "3306"
+        volumes:
+            - db_data:/var/lib/mysql
+        networks:
+            - rn-center-internal
+        healthcheck:
+            test: [ "CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "root", "-p${MARIADB_ROOT_PASSWORD}" ]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+            start_period: 30s
+        restart: unless-stopped
+
+    redis:
+        image: redis:7-alpine
+        container_name: rn-center-redis
+        env_file:
+            - .env
+        expose:
+            - "6379"
+        command: >
+            sh -c '
+              if [ -n "${REDIS_PASSWORD}" ]; then
+                redis-server --requirepass "${REDIS_PASSWORD}" --appendonly yes;
+              else
+                redis-server --appendonly yes;
+              fi
+            '
+        volumes:
+            - redis_data:/data
+        networks:
+            - rn-center-internal
+        healthcheck:
+            test: [ "CMD", "redis-cli", "ping" ]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+        restart: unless-stopped
+
+networks:
+    rn-center-internal:
+        driver: bridge
+volumes:
+    app_storage:
+    app_bootstrap_cache:
+    db_data:
+    redis_data:

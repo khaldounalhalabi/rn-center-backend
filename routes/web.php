@@ -12,3 +12,10 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get("/up", function () {
+    return response()->json([
+        'status' => true,
+        'message' => 'OK_HEALTHY',
+    ], 200, [], JSON_PRETTY_PRINT);
+});
