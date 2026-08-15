@@ -63,9 +63,6 @@ RUN composer install \
     --no-interaction \
     --no-scripts
 
-# Install TCPDF Arabic fonts
-RUN composer run add-tcpdf-fonts
-
 # Copy application
 COPY . .
 

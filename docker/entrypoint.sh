@@ -48,6 +48,12 @@ fi
 
 php artisan package:discover --ansi
 
+# --------------------------------------------------
+# Install TCPDF Arabic fonts
+# --------------------------------------------------
+
+composer run add-tcpdf-fonts
+
 
 # --------------------------------------------------
 # Production caches
