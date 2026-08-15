@@ -1,83 +1,109 @@
-FROM php:8.2-fpm-bookworm
+# ============================
+# PHP 8.2 + FrankenPHP + Octane
+# ============================
+FROM dunglas/frankenphp:1.7.0-php8.2-alpine
 
-LABEL maintainer="RN Center Backend"
-
-# Prevent interactive prompts during package installation
-ENV DEBIAN_FRONTEND=noninteractive
-
-# Install system dependencies
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        ca-certificates \
-        curl \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libonig-dev \
-        libpng-dev \
-        libxml2-dev \
-        libzip-dev \
-        nginx \
-        supervisor \
-        unzip \
-        zip \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install PHP extensions
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) \
-        bcmath \
-        exif \
-        gd \
-        mbstring \
-        mysqli \
+# ----------------------------
+# System dependencies + PHP extensions
+# ----------------------------
+RUN apk add --no-cache \
+    libpng-dev \
+    libzip-dev \
+    zip \
+    unzip \
+    git \
+    curl \
+    oniguruma-dev \
+    libxml2-dev \
+    mariadb-client \
+    && docker-php-ext-install \
         pdo_mysql \
+        mbstring \
+        exif \
         pcntl \
-        xml \
+        bcmath \
+        gd \
         zip \
+        opcache \
+        xml
+
+# ----------------------------
+# Composer
+# ----------------------------
+COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
+
+# ----------------------------
+# Redis PHP extension
+# ----------------------------
+RUN apk add --no-cache --virtual .build-deps \
+        autoconf \
+        g++ \
+        make \
     && pecl install redis \
-    && docker-php-ext-enable redis
+    && docker-php-ext-enable redis \
+    && apk del .build-deps
 
-# Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# ----------------------------
+# PHP configuration
+# ----------------------------
+COPY docker/php.ini /usr/local/etc/php/conf.d/99-custom.ini
 
-# Set working directory
-WORKDIR /var/www/html
+# ----------------------------
+# Application
+# ----------------------------
+WORKDIR /var/www
 
-# Copy composer files first for layer caching
+# Copy Composer files first for better layer caching
 COPY composer.json composer.lock ./
 
-# Install PHP dependencies (production only)
-RUN composer install --no-interaction --optimize-autoloader --no-scripts
+RUN composer install \
+    --optimize-autoloader \
+    --no-interaction \
+    --no-scripts
 
-# Copy application source
+# Install TCPDF Arabic fonts
+RUN composer run add-tcpdf-fonts
+
+# Copy application
 COPY . .
 
-# Copy Docker configuration files
-RUN rm -f /etc/nginx/sites-enabled/default /etc/nginx/sites-available/default
-COPY docker/nginx.conf /etc/nginx/sites-enabled/default
-COPY docker/php.ini /usr/local/etc/php/conf.d/99-pom.ini
-COPY docker/www.conf /usr/local/etc/php-fpm.d/www.conf
-COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+# ----------------------------
+# Laravel runtime directories
+# ----------------------------
+RUN mkdir -p \
+    storage/framework/cache/data \
+    storage/framework/sessions \
+    storage/framework/views \
+    storage/app/public \
+    storage/logs \
+    bootstrap/cache \
+    && chown -R www-data:www-data /var/www
 
-# Make entrypoint executable
-RUN chmod +x /usr/local/bin/entrypoint.sh
+# ----------------------------
+# Entrypoint
+# ----------------------------
+COPY --chown=www-data:www-data \
+    docker/entrypoint.sh \
+    /usr/local/bin/entrypoint
 
-# Create required application directories and set permissions
-RUN mkdir -p /var/www/html/storage/app/public \
-    && mkdir -p /var/www/html/storage/framework/cache \
-    && mkdir -p /var/www/html/storage/framework/sessions \
-    && mkdir -p /var/www/html/storage/framework/testing \
-    && mkdir -p /var/www/html/storage/framework/views \
-    && mkdir -p /var/www/html/storage/logs \
-    && mkdir -p /var/www/html/bootstrap/cache \
-    && chown -R www-data:www-data /var/www/html \
-    && chmod -R 775 /var/www/html/storage \
-    && chmod -R 775 /var/www/html/bootstrap/cache \
-    && chmod -R 755 /var/www/html
+USER root
 
-# Expose HTTP port
+RUN chmod +x /usr/local/bin/entrypoint
+
+USER www-data
+
+# ----------------------------
+# FrankenPHP
+# ----------------------------
 EXPOSE 80
 
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+HEALTHCHECK \
+    --interval=30s \
+    --timeout=5s \
+    --start-period=30s \
+    --retries=3 \
+    CMD curl -fsS http://localhost:80/up || exit 1
+
+ENTRYPOINT ["/usr/local/bin/entrypoint"]
+
+CMD ["php", "artisan", "octane:frankenphp", "--port=80"]

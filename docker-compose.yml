@@ -1,30 +1,62 @@
 services:
+
+    # ==================================================
+    # Laravel Web Application
+    # ==================================================
+
     app:
         build:
             context: .
             dockerfile: Dockerfile
+
         image: rn-center-app:latest
+
         container_name: rn-center-app
+
         env_file:
             - .env
+
         volumes:
-            - app_storage:/var/www/html/storage
-            - app_bootstrap_cache:/var/www/html/bootstrap/cache
+            - app_storage:/var/www/storage
+            - app_bootstrap_cache:/var/www/bootstrap/cache
+
         networks:
             - rn-center-internal
+
+        depends_on:
+            db:
+                condition: service_healthy
+            redis:
+                condition: service_healthy
+
         healthcheck:
-            test: [ "CMD", "curl", "-f", "http://localhost:80/up" ]
+            test:
+              [
+                  "CMD",
+                  "curl",
+                  "-f",
+                  "http://localhost:80/up"
+              ]
             interval: 30s
             timeout: 10s
             retries: 3
             start_period: 60s
+
         restart: unless-stopped
+
+
+    # ==================================================
+    # Laravel Queue Worker
+    # ==================================================
 
     queue:
         image: rn-center-app:latest
+
         container_name: rn-center-queue
+
         env_file:
             - .env
+
         command:
             - php
             - artisan
@@ -32,79 +64,149 @@ services:
             - --sleep=3
             - --tries=3
             - --max-time=3600
+
+        volumes:
+            - app_storage:/var/www/storage
+            - app_bootstrap_cache:/var/www/bootstrap/cache
+
         depends_on:
-            - app
-            - db
-            - redis
+            db:
+                condition: service_healthy
+            redis:
+                condition: service_healthy
+
         networks:
             - rn-center-internal
+
         restart: unless-stopped
+
+
+    # ==================================================
+    # Laravel Scheduler
+    # ==================================================
 
     scheduler:
         image: rn-center-app:latest
+
         container_name: rn-center-scheduler
+
         env_file:
             - .env
+
         command:
-            - sh
-            - -c
-            - 'while true; do php artisan schedule:run; sleep 60; done'
+            - php
+            - artisan
+            - schedule:work
+
+        volumes:
+            - app_storage:/var/www/storage
+            - app_bootstrap_cache:/var/www/bootstrap/cache
+
         depends_on:
-            - app
-            - db
-            - redis
+            db:
+                condition: service_healthy
+            redis:
+                condition: service_healthy
+
         networks:
             - rn-center-internal
+
         restart: unless-stopped
+
+
+    # ==================================================
+    # MariaDB
+    # ==================================================
 
     db:
         image: mariadb:11
+
         container_name: rn-center-db
+
         env_file:
             - .env
+
         expose:
             - "3306"
+
         volumes:
             - db_data:/var/lib/mysql
+
         networks:
             - rn-center-internal
+
         healthcheck:
-            test: [ "CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "root", "-p${MARIADB_ROOT_PASSWORD}" ]
+            test:
+              [
+                  "CMD-SHELL",
+                  "mariadb-admin ping -h localhost -u root -p$${MARIADB_ROOT_PASSWORD}"
+              ]
             interval: 10s
             timeout: 5s
-            retries: 5
+            retries: 10
             start_period: 30s
+
         restart: unless-stopped
+
+
+    # ==================================================
+    # Redis
+    # ==================================================
 
     redis:
         image: redis:7-alpine
+
         container_name: rn-center-redis
+
         env_file:
             - .env
+
         expose:
             - "6379"
-        command: >
-            sh -c '
-              if [ -n "${REDIS_PASSWORD}" ]; then
-                redis-server --requirepass "${REDIS_PASSWORD}" --appendonly yes;
-              else
-                redis-server --appendonly yes;
-              fi
-            '
+
+        command:
+            - sh
+            - -c
+            - |
+                if [ -n "$${REDIS_PASSWORD}" ]; then
+                    exec redis-server \
+                        --requirepass "$${REDIS_PASSWORD}" \
+                        --appendonly yes
+                else
+                    exec redis-server \
+                        --appendonly yes
+                fi
+
         volumes:
             - redis_data:/data
+
         networks:
             - rn-center-internal
+
         healthcheck:
-            test: [ "CMD", "redis-cli", "ping" ]
+            test:
+              [
+                  "CMD-SHELL",
+                  "redis-cli -a \"$${REDIS_PASSWORD}\" ping 2>/dev/null | grep PONG"
+              ]
             interval: 10s
             timeout: 5s
-            retries: 5
+            retries: 10
+            start_period: 10s
+
         restart: unless-stopped
+
+# ====================================================
+# Networks
+# ====================================================
 
 networks:
     rn-center-internal:
         driver: bridge
+# ====================================================
+# Persistent volumes
+# ====================================================
+
 volumes:
     app_storage:
     app_bootstrap_cache:
