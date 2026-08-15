@@ -4,28 +4,15 @@
 FROM dunglas/frankenphp:1.7.0-php8.2-alpine
 
 # ----------------------------
-# System dependencies + PHP extensions
+# System tools (not PHP extensions)
 # ----------------------------
 RUN apk add --no-cache \
-    libpng-dev \
-    libzip-dev \
     zip \
     unzip \
     git \
     curl \
-    oniguruma-dev \
-    libxml2-dev \
-    mariadb-client \
-    && docker-php-ext-install \
-        pdo_mysql \
-        mbstring \
-        exif \
-        pcntl \
-        bcmath \
-        gd \
-        zip \
-        opcache \
-        xml
+    mariadb-client
+
 
 # ----------------------------
 # Composer
@@ -42,6 +29,21 @@ RUN apk add --no-cache --virtual .build-deps \
     && pecl install redis \
     && docker-php-ext-enable redis \
     && apk del .build-deps
+
+# ----------------------------
+# PHP extensions via the bundled installer
+# ----------------------------
+RUN install-php-extensions \
+    pdo_mysql \
+    mbstring \
+    exif \
+    pcntl \
+    bcmath \
+    gd \
+    zip \
+    opcache \
+    xml \
+    redis
 
 # ----------------------------
 # PHP configuration
