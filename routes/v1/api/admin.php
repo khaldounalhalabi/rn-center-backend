@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/refresh', [v1\AdminAuthController::class, 'refresh'])->name('refresh.token');
 Route::post('/logout', [v1\AdminAuthController::class, 'logout'])->name('logout');
 Route::post('/update-user-data', [v1\AdminAuthController::class, 'updateUserDetails'])->name('update.user.data');
-Route::get('/me', [v1\AdminAuthController::class, 'userDetails'])->name('user.detSails');
+Route::get('/me', [v1\AdminAuthController::class, 'userDetails'])->name('user.details');
 
 Route::get('/notifications', [v1\NotificationController::class, 'myNotifications'])->name('notifications.index');
 Route::get('/notifications/{notificationId}/read', [v1\NotificationController::class, 'markAsRead'])->name('notifications.read');
@@ -26,7 +26,7 @@ Route::controller(v1\ScheduleController::class)
 
 Route::get('/customers/{customerId}/pdf-report', [v1\CustomerController::class, 'pdfReport'])->name('customers.pdf.report');
 Route::get('/customers/{customerId}/prescriptions', [v1\PrescriptionController::class, 'getByCustomer'])->name('customers.prescriptions');
-Route::get('/customers/{customerId}/appointments', [v1\AppointmentController::class, 'getByCustomer'])->name('clinics.appointments');
+Route::get('/customers/{customerId}/appointments', [v1\AppointmentController::class, 'getByCustomer'])->name('customers.appointments');
 Route::post('/media/customers/attachments', [v1\MediaController::class, 'addCustomerAttachment'])->name('media.customers.attachments.store');
 Route::get('/customers/{customerId}/medical-records', [v1\MedicalRecordController::class, 'getByCustomer'])->name('customers.medical.records');
 Route::get('/customers/recent', [v1\CustomerController::class, 'getRecent'])->name('customers.recent');

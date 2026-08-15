@@ -16,7 +16,6 @@ Route::prefix('/customer')
         Route::post('/reset-password', 'passwordReset')->name("password.reset");
         Route::post('/verify', 'verifyUser')->name("verify");
         Route::post('/resend-verification-code', 'resendVerificationCode')->name("resend.verification.code");
-        Route::post('/resend-verification-code', 'resendVerificationCode')->name("resend.verification.code");
         Route::post('/register', 'register')->name("register");
     });
 
@@ -47,7 +46,7 @@ Route::prefix('doctor')
 
 Route::prefix('secretary')
     ->controller(v1\SecretaryAuthController::class)
-    ->name('doctor.')
+    ->name('secretary.')
     ->group(function () {
         Route::post('/login', 'login')->name("login");
         Route::post('/password-reset-request', 'passwordResetRequest')->name("reset-password-request");

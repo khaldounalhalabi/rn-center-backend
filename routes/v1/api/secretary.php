@@ -143,7 +143,7 @@ Route::middleware(['permission:' . PermissionEnum::PATIENT_MANAGEMENT->value])
         Route::get('/customers/{customerId}/pdf-report', [v1\CustomerController::class, 'pdfReport'])->name('customers.pdf.report');
         Route::get('/customers/{customerId}/appointments', [v1\AppointmentController::class, 'getByCustomer'])
             ->middleware(['permission:' . PermissionEnum::APPOINTMENT_MANAGEMENT->value])
-            ->name('clinics.appointments');
+            ->name('customers.appointments');
         Route::post('/media/customers/attachments', [v1\MediaController::class, 'addCustomerAttachment'])->name('media.customers.attachments.store');
         Route::get('/customers/{customerId}/medical-records', [v1\MedicalRecordController::class, 'getByCustomer'])->name('customers.medical.records');
         Route::get('/customers/recent', [v1\CustomerController::class, 'getRecent'])->name('customers.recent');
