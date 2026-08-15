@@ -19,6 +19,7 @@ services:
         volumes:
             - app_storage:/var/www/storage
             - app_bootstrap_cache:/var/www/bootstrap/cache
+            - ../files/firebase-settings.json:/var/www/firebase-settings.json:ro
 
         networks:
             - rn-center-internal
