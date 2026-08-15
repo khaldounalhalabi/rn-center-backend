@@ -11,24 +11,13 @@ RUN apk add --no-cache \
     unzip \
     git \
     curl \
-    mariadb-client
-
+    mariadb-client \
+    su-exec
 
 # ----------------------------
 # Composer
 # ----------------------------
 COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
-
-# ----------------------------
-# Redis PHP extension
-# ----------------------------
-RUN apk add --no-cache --virtual .build-deps \
-        autoconf \
-        g++ \
-        make \
-    && pecl install redis \
-    && docker-php-ext-enable redis \
-    && apk del .build-deps
 
 # ----------------------------
 # PHP extensions via the bundled installer
@@ -57,7 +46,6 @@ WORKDIR /var/www
 
 # Copy Composer files first for better layer caching
 COPY composer.json composer.lock ./
-
 RUN composer install \
     --optimize-autoloader \
     --no-interaction \
@@ -84,18 +72,14 @@ RUN mkdir -p \
 COPY --chown=www-data:www-data \
     docker/entrypoint.sh \
     /usr/local/bin/entrypoint
-
-USER root
-
 RUN chmod +x /usr/local/bin/entrypoint
-
-USER www-data
+# no USER line here — container starts as root so the entrypoint
+# can chown the mounted volumes, then drops privileges to www-data itself
 
 # ----------------------------
 # FrankenPHP
 # ----------------------------
 EXPOSE 80
-
 HEALTHCHECK \
     --interval=30s \
     --timeout=5s \
@@ -104,5 +88,4 @@ HEALTHCHECK \
     CMD curl -fsS http://localhost:80/up || exit 1
 
 ENTRYPOINT ["/usr/local/bin/entrypoint"]
-
 CMD ["php", "artisan", "octane:frankenphp", "--port=80"]
