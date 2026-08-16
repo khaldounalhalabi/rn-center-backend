@@ -2,20 +2,20 @@
 
 namespace App\Repositories\Contracts;
 
-use App\Enums\MediaTypeEnum;
 use App\Excel\BaseExporter;
 use App\Excel\BaseImporter;
 use App\Traits\FileHandler;
-use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Support\Str;
+use App\Enums\MediaTypeEnum;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Query\Builder as QueryBuilder;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection as RegularCollection;
-use Illuminate\Support\Str;
-use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
@@ -116,6 +116,7 @@ abstract class BaseRepository
 
     /**
      * this function implement already defined filters in the model
+     *
      * @param Builder $query
      * @return Builder|T
      */
@@ -504,7 +505,7 @@ abstract class BaseRepository
     {
         return Excel::download(
             new BaseExporter(collect(), $this->model, null, true),
-            $this->model->getTable() . '-example.xlsx'
+            $this->model->getTable() . '-example.xlsx',
         );
     }
 
@@ -537,14 +538,10 @@ abstract class BaseRepository
     {
         $perPage = request('per_page', $perPage);
         $data = $query->simplePaginate($perPage);
-        if ($data->count()) {
-            return [
-                'data' => $data,
-                'pagination_data' => $this->formatPaginateData($data),
-            ];
-        }
-
-        return null;
+        return [
+            'data' => $data,
+            'pagination_data' => $this->formatPaginateData($data),
+        ];
     }
 
     /**
