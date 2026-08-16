@@ -69,6 +69,7 @@ services:
         volumes:
             - app_storage:/var/www/storage
             - app_bootstrap_cache:/var/www/bootstrap/cache
+            - ../files/firebase-settings.json:/var/www/firebase-settings.json:ro
 
         depends_on:
             db:
@@ -102,6 +103,7 @@ services:
         volumes:
             - app_storage:/var/www/storage
             - app_bootstrap_cache:/var/www/bootstrap/cache
+            - ../files/firebase-settings.json:/var/www/firebase-settings.json:ro
 
         depends_on:
             db:
